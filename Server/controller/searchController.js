@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import Organization from "../models/OrganizationModel.js";
 import Authority from "../models/AuthorityModel.js";
-import Category from "../models/categoryModel.js";
+import Category from "../models/CategoryModel.js";
 
 export const search = async (req, res) => {
   try {
