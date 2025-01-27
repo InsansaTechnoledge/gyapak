@@ -1,55 +1,61 @@
+import express from 'express';
+import cors from 'cors';
+import routes from '../routes/routes.js';
 if(process.env.NODE_ENV !== "production"){
   (await import('dotenv')).config();
-}
-import express from 'express';
-import routes from '../routes/routes.js';
-import cors from 'cors';
 
-const app=express();
+}
+
+const app = express();
 
 app.set('trust proxy', 1);
 
 const allowedOrigins = [
-  process.env.CLIENT_BASE_URL_LOCAL,
-  process.env.CLIENT_BASE_URL_LIVE            // Second front-end URL (local development)
+  process.env.CLIENT_BASE_URL_LOCAL,  
+  process.env.CLIENT_BASE_URL_LIVE,
+  "https://gyapak.vercel.app",
+  "https://gyapak-8ul2.vercel.app"
 ];
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      console.log(`Origin: ${origin}`); // Debug origin
-      if (allowedOrigins.includes(origin) || !origin) {
-        callback(null, true);
-      } else {
-        callback(new Error(`CORS not allowed for origin: ${origin}`), false);
-      }
-    },
-    credentials: true,
-  })
-);
+// CORS configuration
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin) ) { // Allow requests with no origin (e.g., Postman, curl)
+      callback(null, true);
+    } else {
+      callback(new Error('CORS not allowed'), false);
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+  credentials: true,
+};
 
+// Apply CORS middleware globally
+app.use(cors(corsOptions));
 
+// This will handle preflight requests without needing a separate options handler
 app.options('*', (req, res) => {
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin');
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    res.status(204).send();
-  } else {
-    res.status(403).send('CORS not allowed');
-  }
+  res.setHeader('Access-Control-Allow-Origin', "https://gyapak-8ul2.vercel.app" || "https://gyapak.vercel.app");
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.status(204).send();
 });
 
- 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || "https://gyapak-8ul2.vercel.app");
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  next();
+});
 
-
-
+// Parse incoming requests
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Your routes
 routes(app);
-
 
 export default app;
