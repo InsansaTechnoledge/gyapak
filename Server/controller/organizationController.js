@@ -1,6 +1,6 @@
 import Authority from "../models/AuthorityModel.js";
 import Organization from "../models/OrganizationModel.js";
-import Category from "../models/categoryModel.js";
+import Category from "../models/CategoryModel.js";
 import Event from "../models/EventModel.js";
 
 export const getCentralLogos = async (req, res) => {
