@@ -29,7 +29,6 @@ app.use(
 );
 
 
-
 app.options('*', (req, res) => {
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
