@@ -6,7 +6,7 @@ const initializeServer = async () => {
 
     const app = await App();
 
-    
+
     // Test server health
     app.get('/', (req, res) => {
       res.send('Server is running perfectly !!');
@@ -28,4 +28,4 @@ if (process.env.NODE_ENV !== 'serverless') {
 }
 
 // Export app for serverless platforms (e.g., Vercel)
-export default app;
+export default App;
