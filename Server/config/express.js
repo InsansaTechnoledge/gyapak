@@ -41,11 +41,18 @@ app.options('*', (req, res) => {
 // Additional middleware
  
 const corsOptions = {
-  origin: process.env.CLIENT_BASE_URL_LOCAL || process.env.CLIENT_BASE_URL_LIVE || "https://gyapak.vercel.app",
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like Postman, curl, etc.)
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('CORS not allowed'), false);
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
 };
- 
+
 app.use(cors(corsOptions));
  
 
