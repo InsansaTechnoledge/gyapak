@@ -48,12 +48,12 @@ const Footer = () => {
               Insansa Techknowledge Pvt. Ltd.
             </p>
 
-            <div className="flex space-x-6">
+            {/* <div className="flex space-x-6">
               <Twitter className="h-5 w-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />
               <Facebook className="h-5 w-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />
               <Instagram className="h-5 w-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />
               <Linkedin className="h-5 w-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />
-            </div>
+            </div> */}
           </div>
 
           {/* Services */}

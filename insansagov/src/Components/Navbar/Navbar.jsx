@@ -356,6 +356,7 @@ const Navbar = () => {
           {/* Mobile menu button */}
           <div className="xl:hidden">
             <button
+              onBlur={() => (setIsOpen(false))}
               onClick={() => setIsOpen(!isOpen)}
               className={`p-2 rounded-md ${isScrolled ? 'text-gray-900' : 'text-white'}`}
             >
@@ -366,27 +367,29 @@ const Navbar = () => {
       </div>
 
       {/* Mobile menu */}
-      <div className={`xl:hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'} overflow-hidden bg-white`}>
+      <div 
+      
+      className={`xl:hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'} overflow-hidden bg-white`}>
         <div className="px-4 pt-2 pb-3 space-y-1">
-          <a href="#landing-state" className="block px-3 py-2 rounded-md text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-colors">
+          <a onClick={() => (setIsOpen(false))} href="/#landing-state" className="block px-3 py-2 rounded-md text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-colors">
             State Government Authorities
           </a>
-          <a href="#landing-authorities" className="block px-3 py-2 rounded-md text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-colors">
+          <a onClick={() => (setIsOpen(false))} href="/#landing-authorities" className="block px-3 py-2 rounded-md text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-colors">
             Central government Authorities
           </a>
-          <a href="#landing-categories" className="block px-3 py-2 rounded-md text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-colors">
+          <a onClick={() => (setIsOpen(false))} href="/#landing-categories" className="block px-3 py-2 rounded-md text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-colors">
             Top Categories
           </a>
-          <a href="#landing-admit" className="block px-3 py-2 rounded-md text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-colors">
+          <a onClick={() => (setIsOpen(false))} href="/#landing-admit" className="block px-3 py-2 rounded-md text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-colors">
             Latest Admit Cards
           </a>
-          <a href="#landing-result" className="block px-3 py-2 rounded-md text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-colors">
+          <a onClick={() => (setIsOpen(false))} href="/#landing-result" className="block px-3 py-2 rounded-md text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-colors">
             Latest Results
           </a>
-          <a href="#about" className="block px-3 py-2 rounded-md text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-colors">
+          <a onClick={() => (setIsOpen(false))} href="/#about" className="block px-3 py-2 rounded-md text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-colors">
             About
           </a>
-          <a href="#contact" className="block px-3 py-2 rounded-md text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-colors">
+          <a onClick={() => (setIsOpen(false))} href="/#contact" className="block px-3 py-2 rounded-md text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-colors">
             Contact
           </a>
           {/* <button className="w-full mt-4 bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors">

@@ -35,7 +35,7 @@ const Hero = () => {
                 </p>
 
 
-                <div className="max-w-md mx-auto mb-8">
+                <div className="lg:max-w-md max-w-xs mx-auto mb-8">
                     <Suspense fallback={<div className="h-12 bg-white/20 animate-pulse"></div>}>
                         <Search searchHandler={searchHandler} />
                     </Suspense>

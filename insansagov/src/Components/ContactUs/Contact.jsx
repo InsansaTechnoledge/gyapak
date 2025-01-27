@@ -93,11 +93,11 @@ const Contact = () => {
                             <h2 className="text-2xl font-semibold mb-8">Contact Information</h2>
                             <div className="space-y-6">
                                 <div className="flex items-start space-x-4">
-                                    <MapPin className="w-6 h-6 mt-1" />
+                                    <MapPin className="w-12 mt-1" />
                                     <div>
                                         <h3 className="font-semibold mb-1">Our Location</h3>
                                         <p className="text-purple-100">
-                                            B/321 Monalisa Business Center Manjalpur Vadodara Gujarat INDIA 390011
+                                            B/321-322 Monalisa Business Center Manjalpur Vadodara Gujarat INDIA 390011
                                         </p>
                                     </div>
                                 </div>
@@ -105,14 +105,14 @@ const Contact = () => {
                                     <Phone className="w-6 h-6 mt-1" />
                                     <div>
                                         <h3 className="font-semibold mb-1">Phone Number</h3>
-                                        <p className="text-purple-100">+91 9724379123 | 0265-4611836</p>
+                                        <p className="text-purple-100">+91 9724379123 <br /> 0265-4611836</p>
                                     </div>
                                 </div>
                                 <div className="flex items-start space-x-4">
                                     <Mail className="w-6 h-6 mt-1" />
                                     <div>
                                         <h3 className="font-semibold mb-1">Email Address</h3>
-                                        <p className="text-purple-100">talent@insansa.com | sales@insansa.com</p>
+                                        <p className="text-purple-100">talent@insansa.com <br /> sales@insansa.com</p>
                                     </div>
                                 </div>
                                 <div className="flex items-start space-x-4">
