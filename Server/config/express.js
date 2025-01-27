@@ -1,6 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import routes from '../routes/routes.js';
+if(process.env.NODE_ENV !== "production"){
+  (await import('dotenv')).config();
+
+}
 
 const app = express();
 
