@@ -1,379 +1,379 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://localhost:5173/</loc>
+    <loc>https://gyapak-8ul2.vercel.app//</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/about</loc>
+    <loc>https://gyapak-8ul2.vercel.app//about</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/admit-cards</loc>
+    <loc>https://gyapak-8ul2.vercel.app//admit-cards</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/results</loc>
+    <loc>https://gyapak-8ul2.vercel.app//results</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/trending</loc>
+    <loc>https://gyapak-8ul2.vercel.app//trending</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/privacy-policy</loc>
+    <loc>https://gyapak-8ul2.vercel.app//privacy-policy</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
    <url>
-    <loc>http://localhost:5173/category?name=Defense</loc>
+    <loc>https://gyapak-8ul2.vercel.app//category?name=Defense</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/category?name=Engineering</loc>
+    <loc>https://gyapak-8ul2.vercel.app//category?name=Engineering</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/category?name=Banking%20Finance</loc>
+    <loc>https://gyapak-8ul2.vercel.app//category?name=Banking%20Finance</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/category?name=Civil%20Services</loc>
+    <loc>https://gyapak-8ul2.vercel.app//category?name=Civil%20Services</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/category?name=Medical</loc>
+    <loc>https://gyapak-8ul2.vercel.app//category?name=Medical</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/category?name=Statistical%20Economics%20Services</loc>
+    <loc>https://gyapak-8ul2.vercel.app//category?name=Statistical%20Economics%20Services</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/category?name=Academics%20Research</loc>
+    <loc>https://gyapak-8ul2.vercel.app//category?name=Academics%20Research</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/category?name=Railways</loc>
+    <loc>https://gyapak-8ul2.vercel.app//category?name=Railways</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/category?name=Public%20Services</loc>
+    <loc>https://gyapak-8ul2.vercel.app//category?name=Public%20Services</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/category?name=Technical</loc>
+    <loc>https://gyapak-8ul2.vercel.app//category?name=Technical</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/category?name=Higher%20Education%20Specialized%20Exams</loc>
+    <loc>https://gyapak-8ul2.vercel.app//category?name=Higher%20Education%20Specialized%20Exams</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/category?name=Agriculture</loc>
+    <loc>https://gyapak-8ul2.vercel.app//category?name=Agriculture</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/state?name=Gujarat</loc>
+    <loc>https://gyapak-8ul2.vercel.app//state?name=Gujarat</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/state?name=Haryana</loc>
+    <loc>https://gyapak-8ul2.vercel.app//state?name=Haryana</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/state?name=Himachal%20Pradesh</loc>
+    <loc>https://gyapak-8ul2.vercel.app//state?name=Himachal%20Pradesh</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/state?name=Uttar%20Pradesh</loc>
+    <loc>https://gyapak-8ul2.vercel.app//state?name=Uttar%20Pradesh</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/state?name=Madhya%20Pradesh</loc>
+    <loc>https://gyapak-8ul2.vercel.app//state?name=Madhya%20Pradesh</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/state?name=Punjab</loc>
+    <loc>https://gyapak-8ul2.vercel.app//state?name=Punjab</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/state?name=Uttarakhand</loc>
+    <loc>https://gyapak-8ul2.vercel.app//state?name=Uttarakhand</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/state?name=Andhra%20Pradesh</loc>
+    <loc>https://gyapak-8ul2.vercel.app//state?name=Andhra%20Pradesh</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/state?name=Kerala</loc>
+    <loc>https://gyapak-8ul2.vercel.app//state?name=Kerala</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/state?name=Karnataka</loc>
+    <loc>https://gyapak-8ul2.vercel.app//state?name=Karnataka</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/state?name=Tamil%20Nadu</loc>
+    <loc>https://gyapak-8ul2.vercel.app//state?name=Tamil%20Nadu</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/state?name=Maharashtra</loc>
+    <loc>https://gyapak-8ul2.vercel.app//state?name=Maharashtra</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/state?name=Rajasthan</loc>
+    <loc>https://gyapak-8ul2.vercel.app//state?name=Rajasthan</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/state?name=Odisha</loc>
+    <loc>https://gyapak-8ul2.vercel.app//state?name=Odisha</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/state?name=Bihar</loc>
+    <loc>https://gyapak-8ul2.vercel.app//state?name=Bihar</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=UPSC</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=UPSC</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=UGC%20NET</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=UGC%20NET</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=JEE%20Mains</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=JEE%20Mains</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=IIFT</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=IIFT</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=CSIR</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=CSIR</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=IPS</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=IPS</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=NDA</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=NDA</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=BARC</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=BARC</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=BEL</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=BEL</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=BPCL</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=BPCL</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=DRDO</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=DRDO</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=ICMR</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=ICMR</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=GDS</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=GDS</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=IOCL</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=IOCL</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=ISRO</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=ISRO</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=NPCIL</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=NPCIL</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=ONGC</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=ONGC</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=DMRC</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=DMRC</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=RITES</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=RITES</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=RPF</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=RPF</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=KVPY</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=KVPY</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=NTSE</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=NTSE</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=NEET</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=NEET</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=INDIAN%20POST</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=INDIAN%20POST</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=IPPB</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=IPPB</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=NABARD</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=NABARD</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=SBI</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=SBI</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/organization?name=SSC</loc>
+    <loc>https://gyapak-8ul2.vercel.app//organization?name=SSC</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/search</loc>
+    <loc>https://gyapak-8ul2.vercel.app//search</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:5173/opportunity</loc>
+    <loc>https://gyapak-8ul2.vercel.app//opportunity</loc>
     <lastmod>2025-01-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
