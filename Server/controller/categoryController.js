@@ -1,4 +1,4 @@
-import Category from '../models/categoryModel.js';
+import Category from '../models/CategoryModel.js';
 import Organization from '../models/OrganizationModel.js';
 
 export const getCategories = async (req, res) => {
