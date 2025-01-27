@@ -31,10 +31,20 @@ app.use(
 
 
 app.options('*', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || process.env.CLIENT_BASE_URL_LIVE);
+  const origin = req.headers.origin;
+
+  // Check if the origin is in the allowed list or if there's no origin (e.g., Postman, curl)
+  if (allowedOrigins.includes(origin) || !origin) {
+    res.setHeader('Access-Control-Allow-Origin', origin);  // Set the correct origin
+  } else {
+    res.setHeader('Access-Control-Allow-Origin', process.env.CLIENT_BASE_URL_LIVE);  // Fallback if not in the list
+  }
+
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
+  
+  // Respond with a 204 status for OPTIONS (preflight) requests
   res.status(204).send();
 });
  
