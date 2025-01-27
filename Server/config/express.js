@@ -10,8 +10,9 @@ const app=express();
 app.set('trust proxy', 1);
 
 const allowedOrigins = [
-  process.env.CLIENT_BASE_URL_LOCAL,
-  process.env.CLIENT_BASE_URL_LIVE            // Second front-end URL (local development)
+  process.env.CLIENT_BASE_URL_LOCAL,  
+  process.env.CLIENT_BASE_URL_LIVE,
+  "https://gyapak.vercel.app"
 ];
 
 app.use(
@@ -30,13 +31,22 @@ app.use(
 
 
 app.options('*', (req, res) => {
-  console.log(req.headers.origin);
   res.setHeader('Access-Control-Allow-Origin', req.headers.origin || process.env.CLIENT_BASE_URL_LIVE);
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.status(204).send();
 });
+ 
+// Additional middleware
+ 
+const corsOptions = {
+  origin: process.env.CLIENT_BASE_URL_LOCAL || process.env.CLIENT_BASE_URL_LIVE || "https://gyapak.vercel.app",
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+};
+ 
+app.use(cors(corsOptions));
  
 
 
