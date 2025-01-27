@@ -24,37 +24,19 @@ app.use(
       }
     },
     credentials: true, 
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    // allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
-app.options('*', cors()); 
 
-// app.use((req, res, next) => {
-//   res.setHeader('Cross-Origin-Opener-Policy', 'unsafe-none'); 
-//   res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin'); 
-//   next();
-// });
 
-// Handle preflight requests
-app.use((req, res, next) => {
-
-  const origin = req.headers.origin;
-  
-  // Check if the request's origin is in the allowed list
-  if (allowedOrigins.includes(origin) || !origin) {
-    res.header("Access-Control-Allow-Origin", origin); // Allow the origin of the request
-  }
-
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-
-  // Handle preflight (OPTIONS) request
-  if (req.method === "OPTIONS") {
-    return res.status(200).end();
-  }
-
-  next();
+app.options('*', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || 'https://hr-portal-5d6l.vercel.app');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.status(204).send();
 });
+ 
 
 
 
