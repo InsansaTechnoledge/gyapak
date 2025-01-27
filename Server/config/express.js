@@ -41,10 +41,11 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (allowedOrigins.includes(origin) || !origin) { // Allow requests with no origin (e.g., Postman, curl)
+      console.log(`Origin: ${origin}`); // Debug origin
+      if (allowedOrigins.includes(origin) || !origin) {
         callback(null, true);
       } else {
-        callback(new Error('CORS not allowed'), false);
+        callback(new Error(`CORS not allowed for origin: ${origin}`), false);
       }
     },
     credentials: true, 
