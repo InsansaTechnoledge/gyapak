@@ -20,7 +20,7 @@ const allowedOrigins = [
 // CORS configuration
 const corsOptions = {
   origin: (origin, callback) => {
-    if (allowedOrigins.includes(origin) || !origin) { // Allow requests with no origin (e.g., Postman, curl)
+    if (allowedOrigins.includes(origin) ) { // Allow requests with no origin (e.g., Postman, curl)
       callback(null, true);
     } else {
       callback(new Error('CORS not allowed'), false);
@@ -36,7 +36,7 @@ app.use(cors(corsOptions));
 
 // This will handle preflight requests without needing a separate options handler
 app.options('*', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', req.headers.Origin || "https://gyapak-8ul2.vercel.app" || "https://gyapak.vercel.app");
+  res.setHeader('Access-Control-Allow-Origin', "https://gyapak-8ul2.vercel.app" || "https://gyapak.vercel.app");
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
