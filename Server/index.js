@@ -1,8 +1,12 @@
-import app from './app.js';
+import App from './app.js';
 const PORT = process.env.PORT || 5000;
 
 const initializeServer = async () => {
   try {
+
+    const app = await App();
+
+    
     // Test server health
     app.get('/', (req, res) => {
       res.send('Server is running perfectly !!');
