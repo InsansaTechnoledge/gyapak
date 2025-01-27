@@ -1,6 +1,6 @@
 import React, { Suspense, memo, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import HeroBg from '../../assets/Landing/heroBg.webp';
+import HeroBg from '../../assets/Landing/heroBG.webp';
 
 const Search = memo(React.lazy(() => import('../Search/Search')));
 
