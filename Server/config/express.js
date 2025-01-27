@@ -32,7 +32,7 @@ app.use(cors(corsOptions));
 
 // This will handle preflight requests without needing a separate options handler
 app.options('*', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || "https://gyapak-8ul2.vercel.app");
+  res.setHeader('Access-Control-Allow-Origin', req.headers.Origin || "https://gyapak-8ul2.vercel.app");
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
