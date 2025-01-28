@@ -97,7 +97,7 @@ const Contact = () => {
                                     <div>
                                         <h3 className="font-semibold mb-1">Our Location</h3>
                                         <p className="text-purple-100">
-                                            B/321-322 Monalisa Business Center Manjalpur Vadodara Gujarat INDIA 390011
+                                            B/321 Monalisa Business Center Manjalpur Vadodara Gujarat INDIA 390011
                                         </p>
                                     </div>
                                 </div>
