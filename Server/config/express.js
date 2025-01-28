@@ -27,8 +27,9 @@ const backendInstances = [
   // "https://gyapak.vercel.app",
   // "https://gyapak-qngw.vercel.app",
   // "https://gyapak-tkpi.vercel.app",
-  // "https://gyapak-2.onrender.com",
-  "http:localhost:3000"
+  "https://gyapak-2.onrender.com",
+  "https://gyapak.onrender.com",
+  "https://gyapak-3.onrender.com",
 ];
 
 // Round-robin index
