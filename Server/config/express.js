@@ -39,6 +39,7 @@ const loadBalancer = (req, res, next) => {
   req.target = target; // Attach selected instance to the request object
   console.log(`Request routed to: ${target}`); // Debugging log
   next();
+
 };
 
 // CORS configuration
@@ -61,7 +62,9 @@ app.use(cors(corsOptions));
 
 // Handle preflight requests
 app.options('*', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || "https://gyapak-8ul2.vercel.app");
+
+  console.log("😭", req.headers.origin);
+  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || "https://gyapak-1.onrender.com");
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -90,7 +93,7 @@ app.use(
 
 // Additional middleware to set headers for all responses
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || "https://gyapak-8ul2.vercel.app");
+  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || "https://gyapak-1.onrender.com");
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
