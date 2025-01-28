@@ -17,7 +17,8 @@ const allowedOrigins = [
   process.env.CLIENT_BASE_URL_LIVE,
   "https://gyapak.vercel.app",
   "https://gyapak-8ul2.vercel.app",
-  "https://gyapak-1.onrender.com"
+  "https://gyapak-1.onrender.com",
+  "https://gyapak-2.onrender.com"
 ];
 
 // Backend instances for load balancing
