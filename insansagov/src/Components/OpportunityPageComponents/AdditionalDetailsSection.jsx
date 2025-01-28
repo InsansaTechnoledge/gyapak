@@ -15,7 +15,7 @@ const AdditionalDetailsSection = ({ data, existingSections }) => {
   const renderContent = (data) => {
     if (typeof data === "string" || typeof data === "number") {
       return (
-        <div className="p-4 bg-purple-50 border border-purple-200 rounded-lg shadow-sm">
+        <div className="p-2 md:p-4 bg-purple-50 border border-purple-200 rounded-lg shadow-sm">
           <p className="text-gray-700">{data}</p>
         </div>
       );
@@ -25,7 +25,7 @@ const AdditionalDetailsSection = ({ data, existingSections }) => {
       return (
         <ul className="list-disc list-inside space-y-2">
           {data.map((item, index) => (
-            <li key={index} className="pl-4">
+            <li key={index} className="">
               {renderContent(item)}
             </li>
           ))}
@@ -47,7 +47,7 @@ const AdditionalDetailsSection = ({ data, existingSections }) => {
                     {key.replace(/_/g, " ")}
                   </h3>
                   {/* Recursively render nested data */}
-                  <div className="space-y-2 pl-3 border-l-2 border-purple-300">
+                  <div className="space-y-2 ">
                     {renderContent(value)}
                   </div>
                 </div>
@@ -74,7 +74,7 @@ const AdditionalDetailsSection = ({ data, existingSections }) => {
   }
 
   return (
-    <div className="flex-grow lg:col-span-2 bg-white shadow-lg p-8 rounded-2xl">
+    <div className="flex-grow lg:col-span-2 bg-white shadow-lg p-4 md:p-8 rounded-2xl">
       <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
         <PlusCircleIcon className="w-6 h-6 text-purple-500" />
         Additional Details

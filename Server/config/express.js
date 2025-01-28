@@ -18,7 +18,8 @@ const allowedOrigins = [
   "https://gyapak.vercel.app",
   "https://gyapak-8ul2.vercel.app",
   "https://gyapak-1.onrender.com",
-  "https://gyapak-2.onrender.com"
+  "https://gyapak-2.onrender.com",
+  "http://localhost:5173"
 ];
 
 // Backend instances for load balancing
@@ -26,7 +27,8 @@ const backendInstances = [
   // "https://gyapak.vercel.app",
   // "https://gyapak-qngw.vercel.app",
   // "https://gyapak-tkpi.vercel.app",
-  "https://gyapak-2.onrender.com"
+  // "https://gyapak-2.onrender.com",
+  "http:localhost:3000"
 ];
 
 // Round-robin index
