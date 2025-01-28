@@ -184,7 +184,7 @@ const Navbar = () => {
           </a>
 
           {/* Desktop Navigation */}
-          <div className="hidden xl:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-8">
             {/* Categories Dropdown */}
             <div className="relative group">
               <button className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${isScrolled ? 'text-gray-700 hover:bg-purple-50' : 'text-white hover:bg-white/10'} transition-all duration-300`}>
@@ -306,7 +306,7 @@ const Navbar = () => {
           </div>
 
           {/* Mobile menu button */}
-          <div className="xl:hidden">
+          <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
               className={`p-2 rounded-lg ${isScrolled ? 'text-gray-700 hover:bg-purple-50' : 'text-white hover:bg-white/10'} transition-all duration-300`}
