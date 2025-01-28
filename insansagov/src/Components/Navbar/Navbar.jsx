@@ -17,28 +17,8 @@ const categories = [
   { Nameid: 'Public Services', name: 'Public Services', icon: '🏢' },
   { Nameid: 'Technical', name: 'Technical', icon: '💻' },
   { Nameid: 'Higher Education Specialized Exams', name: 'Higher Education & Specialized Exams', icon: '📚' },
-  { Nameid: 'Agriculture', name: 'Agrculture', icon: '🌾' },
+  { Nameid: 'Agriculture', name: 'Agriculture', icon: '🌾' },
 ];
-
-
-
-// const states = [
-//   { id: 'Haryana', name: 'Haryana' },
-//   { id: 'Himachal_Pradesh', name: 'Himachal Pradesh' },
-//   { id: 'Punjab', name: 'Punjab' },
-//   { id: 'Uttar_Pradesh', name: 'Uttar Pradesh' },
-//   { id: 'Uttarakhand', name: 'Uttarakhand' },
-//   { id: 'Andhra_Pradesh', name: 'Andhra Pradesh' },
-//   { id: 'Karnataka', name: 'Karnataka' },
-//   { id: 'Kerala', name: 'Kerala' },
-//   { id: 'Tamil_Nadu', name: 'Tamil Nadu' },
-//   { id: 'Madhya_Pradesh', name: 'Madhya Pradesh' },
-//   { id: 'Maharashtra', name: 'Maharashtra' },
-//   { id: 'Bihar', name: 'Bihar' },
-//   { id: 'Odisha', name: 'Odisha' },
-//   { id: 'Gujarat', name: 'Gujarat' },
-//   { id: 'Rajasthan', name: 'Rajasthan' },
-// ];
 
 const StateIcon = ({ state, index }) => {
   const navigate = useNavigate();
@@ -46,19 +26,19 @@ const StateIcon = ({ state, index }) => {
     <div
       key={index}
       onClick={() => navigate(`/state?name=${encodeURI(state)}`)}
-      className="flex items-center p-3 rounded-lg hover:bg-purple-50 transition-all duration-150 group cursor-pointer"
+      className="flex items-center p-3 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 group cursor-pointer"
     >
-      <div className="h-10 w-10 bg-purple-100 rounded-lg flex items-center justify-center text-xl group-hover:bg-purple-200 transition-colors">
-        <MapPin className="w-5 h-5 text-purple-500 group-hover:text-purple-700" />
+      <div className="h-12 w-12 bg-gradient-to-br from-purple-100 to-blue-100 rounded-xl flex items-center justify-center group-hover:from-purple-200 group-hover:to-blue-200 transition-all duration-300">
+        <MapPin className="w-6 h-6 text-purple-600 group-hover:text-purple-700" />
       </div>
-      <div className="ml-3">
-        <span className="text-sm font-medium text-gray-900 group-hover:text-purple-700">
+      <div className="ml-4">
+        <span className="text-sm font-medium text-gray-800 group-hover:text-purple-700 transition-colors">
           {state}
         </span>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const Navbar = () => {
   const location = useLocation();
@@ -68,20 +48,17 @@ const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [totalCount, setTotalCount] = useState(0);
   const [states, setStates] = useState();
-
-
   const [suggestions, setSuggestions] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
 
+  // Existing useEffects remain the same
   useEffect(() => {
-
     const fetchStates = async () => {
       const response = await axios.get(`${API_BASE_URL}/api/state/list`);
       if (response.status === 200) {
         setStates(response.data);
       }
     }
-
     fetchStates();
   }, []);
 
@@ -118,7 +95,6 @@ const Navbar = () => {
   }, [suggestions]);
 
   const handleSearch = (suggestion) => {
-    // e.preventDefault();
     navigate(`/search/?query=${encodeURI(suggestion)}`);
     setSearchQuery("");
   };
@@ -126,9 +102,8 @@ const Navbar = () => {
   const inputChangeHandler = (val) => {
     setSearchQuery(val);
     fetchSuggestions(val);
-  }
+  };
 
-  // Handle suggestion selection
   const selectSuggestion = (suggestion) => {
     handleSearch(suggestion);
     setSearchQuery(suggestion);
@@ -149,18 +124,16 @@ const Navbar = () => {
     } catch (error) {
       console.error('Error fetching suggestions:', error);
     }
-  }, 600); // 1000ms debounce delay
-
-
+  }, 600);
 
   const SuggestionList = ({ title, items, itemKey }) => {
     if (!items || items.length === 0) return null;
 
     return (
       <div className="mb-2">
-        <div className="flex items-center justify-between text-sm font-semibold text-gray-500 px-3 py-2 bg-gray-50 sticky top-0">
+        <div className="flex items-center justify-between text-sm font-semibold text-gray-600 px-4 py-2 bg-gradient-to-r from-purple-50 to-blue-50">
           <span>{title}</span>
-          <span className="bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full text-xs">
+          <span className="bg-white text-purple-600 px-2 py-0.5 rounded-full text-xs font-bold">
             {items.length}
           </span>
         </div>
@@ -169,7 +142,7 @@ const Navbar = () => {
             <div
               key={index}
               onClick={() => selectSuggestion(item[itemKey])}
-              className="px-4 py-2.5 hover:bg-blue-50 cursor-pointer text-gray-700 text-sm transition-colors duration-150"
+              className="px-4 py-2.5 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 cursor-pointer text-gray-700 text-sm transition-all duration-300"
             >
               {item[itemKey]}
             </div>
@@ -180,39 +153,33 @@ const Navbar = () => {
   };
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-lg' : 'bg-transparent'}`}>
+    <nav className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-lg' : 'bg-transparent'}`}>
       <style>
         {`
           .custom-scrollbar::-webkit-scrollbar {
-            width: 4px; /* Width of the scrollbar */
+            width: 4px;
           }
-
           .custom-scrollbar::-webkit-scrollbar-thumb {
-            background-color: #888; /* Scrollbar thumb color */
-            border-radius: 4px; /* Rounded corners */
+            background-color: #9333ea;
+            border-radius: 4px;
           }
-
           .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background-color: #555; /* Thumb color on hover */
+            background-color: #7e22ce;
           }
-
           .custom-scrollbar::-webkit-scrollbar-track {
-            background: transparent; /* Scrollbar track background */
+            background: transparent;
           }
         `}
       </style>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo and Brand */}
-          <a href='/'>
-            <div className="flex-shrink-0 flex items-center hover:cursor-pointer">
-              <div className="h-10 w-32 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo */}
+          <a href='/' className="group">
+            <div className="flex-shrink-0 flex items-center">
+              <div className="h-12 w-36 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl flex items-center justify-center group-hover:from-purple-700 group-hover:to-blue-700 transition-all duration-300 shadow-md group-hover:shadow-lg">
                 <span className="text-white text-xl font-bold">gyapak.com</span>
               </div>
-              {/* <span className={`ml-3 text-xl font-bold ${isScrolled ? 'text-gray-900' : 'text-white'}`}>
-               gyapak
-              </span> */}
             </div>
           </a>
 
@@ -220,25 +187,25 @@ const Navbar = () => {
           <div className="hidden xl:flex items-center space-x-8">
             {/* Categories Dropdown */}
             <div className="relative group">
-              <button className={`flex items-center space-x-1 ${isScrolled ? 'text-gray-900' : 'text-white'} ${!isScrolled ? 'hover:text-gray-300' : 'hover:text-purple-800'} transition-colors`}>
+              <button className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${isScrolled ? 'text-gray-700 hover:bg-purple-50' : 'text-white hover:bg-white/10'} transition-all duration-300`}>
                 <span>Categories</span>
                 <ChevronDown className="w-4 h-4" />
               </button>
-              <div className="absolute top-full -left-28 mt-2 w-[480px] rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0">
-                <div className="p-4">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">Browse Categories</h3>
-                  <div className="grid grid-cols-2 gap-2">
+              <div className="absolute top-full -left-28 mt-2 w-[480px] rounded-xl shadow-xl bg-white/95 backdrop-blur-sm ring-1 ring-black/5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                <div className="p-6">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Browse Categories</h3>
+                  <div className="grid grid-cols-2 gap-3">
                     {categories.map((category, index) => (
                       <div
                         key={index}
                         onClick={() => navigate(`/category?name=${encodeURI(category.Nameid)}`)}
-                        className="flex items-center p-3 rounded-lg hover:bg-purple-50 transition-all duration-150 group cursor-pointer"
+                        className="flex items-center p-3 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 group cursor-pointer"
                       >
-                        <div className="h-10 w-10 bg-purple-100 rounded-lg flex items-center justify-center text-xl group-hover:bg-purple-200 transition-colors">
+                        <div className="h-12 w-12 bg-gradient-to-br from-purple-100 to-blue-100 rounded-xl flex items-center justify-center text-xl group-hover:from-purple-200 group-hover:to-blue-200 transition-all duration-300">
                           <span>{category.icon}</span>
                         </div>
-                        <div className="ml-3">
-                          <span className="text-sm font-medium text-gray-900 group-hover:text-purple-700">
+                        <div className="ml-4">
+                          <span className="text-sm font-medium text-gray-800 group-hover:text-purple-700 transition-colors">
                             {category.name}
                           </span>
                         </div>
@@ -250,68 +217,61 @@ const Navbar = () => {
             </div>
 
             {/* States Dropdown */}
-            <div
-              className="relative group"
-            >
-              <button
-                className={`flex items-center space-x-1 ${isScrolled ? 'text-gray-900' : 'text-white'} ${!isScrolled ? 'hover:text-gray-300' : 'hover:text-purple-800'} transition-colors`}
-              >
+            <div className="relative group">
+              <button className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${isScrolled ? 'text-gray-700 hover:bg-purple-50' : 'text-white hover:bg-white/10'} transition-all duration-300`}>
                 <span>States</span>
                 <ChevronDown className="w-4 h-4" />
               </button>
-
-              
-              <div className="absolute top-full -left-28 mt-2 w-[480px] rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0">
-                <div className="p-4">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">Browse States</h3>
-                  <div className="grid grid-cols-2 gap-2">
+              <div className="absolute top-full left-1/2 transform -translate-x-[60%] mt-2 w-[700px] rounded-xl shadow-xl bg-white/95 backdrop-blur-sm ring-1 ring-black/5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                <div className="p-6">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Browse States</h3>
+                  <div className="grid grid-cols-3 gap-4">
                     {states && states.map((state, index) => (
-                     <StateIcon key={index} state={state} index={index} />
+                      <StateIcon key={index} state={state} index={index} />
                     ))}
                   </div>
                 </div>
               </div>
-              
             </div>
 
-
-            <a href="/#about" className={`${isScrolled ? 'text-gray-900' : 'text-white'} ${!isScrolled ? 'hover:text-gray-300' : 'hover:text-purple-800'} transition-colors`}>About</a>
-            <a href="/#contact" className={`${isScrolled ? 'text-gray-900' : 'text-white'} ${!isScrolled ? 'hover:text-gray-300' : 'hover:text-purple-800'} transition-colors`}>Contact</a>
+            {/* Navigation Links */}
+            <a href="/#about" className={`px-4 py-2 rounded-lg ${isScrolled ? 'text-gray-700 hover:bg-purple-50' : 'text-white hover:bg-white/10'} transition-all duration-300`}>
+              About
+            </a>
+            <a href="/#contact" className={`px-4 py-2 rounded-lg ${isScrolled ? 'text-gray-700 hover:bg-purple-50' : 'text-white hover:bg-white/10'} transition-all duration-300`}>
+              Contact
+            </a>
 
             {/* Search Bar */}
             {location.pathname !== '/' && (
-              <div>
+              <div className="relative">
                 <form onSubmit={handleSearch} className="relative">
                   <input
                     type="text"
-                    className={`px-3 py-2 text-sm rounded-md ${isScrolled ? 'bg-gray-100 text-gray-900' : 'bg-white text-black'} focus:outline-none focus:ring-2 focus:ring-purple-600`}
+                    className="w-64 px-4 py-2 text-sm rounded-lg bg-gray-100 text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
                     placeholder="Search..."
                     value={searchQuery}
-                    onChange={(e) => {
-                      inputChangeHandler(e.target.value);
-                    }}
+                    onChange={(e) => inputChangeHandler(e.target.value)}
                     autoComplete="off"
-                    onFocus={() => searchQuery && setShowDropdown(true)} // Show dropdown if input exists
-                    onBlur={() => setTimeout(() => setShowDropdown(false), 1000)} // Delay to allow click selectio
+                    onFocus={() => searchQuery && setShowDropdown(true)}
+                    onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
                   />
-
                   <button
                     type="submit"
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-purple-600"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-purple-600 transition-colors duration-300"
                   >
                     <Search className="w-5 h-5" />
                   </button>
                 </form>
+
                 {showDropdown && (
-                  <div className="custom-scrollbar max-h-72 overflow-auto absolute top-full mt-1 bg-white border border-gray-200 rounded shadow-lg z-50">
+                  <div className="custom-scrollbar max-h-72 overflow-auto absolute top-full mt-2 w-full bg-white/95 backdrop-blur-sm border border-gray-200 rounded-xl shadow-xl z-50">
                     {totalCount > 0 && (
-                      <div className="px-3 py-2 bg-gray-100 border-b border-gray-200 text-xs text-gray-500">
+                      <div className="px-4 py-2 bg-gradient-to-r from-purple-50 to-blue-50 border-b border-gray-200 text-xs font-medium text-purple-600">
                         Found {totalCount} total matches
                       </div>
                     )}
-
-                    <div className="">
-
+                    <div>
                       {suggestions.authorities?.length > 0 && (
                         <SuggestionList
                           title="States"
@@ -319,7 +279,6 @@ const Navbar = () => {
                           itemKey="name"
                         />
                       )}
-
                       {suggestions.organizations?.length > 0 && (
                         <SuggestionList
                           title="Organizations"
@@ -327,7 +286,6 @@ const Navbar = () => {
                           itemKey="abbreviation"
                         />
                       )}
-
                       {suggestions.categories?.length > 0 && (
                         <SuggestionList
                           title="Categories"
@@ -335,30 +293,23 @@ const Navbar = () => {
                           itemKey="category"
                         />
                       )}
-
-                      {totalCount === 0
-                        ?
-                        (
-                          <div className="px-4 py-3 text-sm text-gray-500">
-                            No suggestions found
-                          </div>
-                        )
-                        :
-                        null}
+                      {totalCount === 0 && (
+                        <div className="px-4 py-3 text-sm text-gray-500">
+                          No suggestions found
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
               </div>
             )}
-
           </div>
 
           {/* Mobile menu button */}
           <div className="xl:hidden">
             <button
-              onBlur={() => (setIsOpen(false))}
               onClick={() => setIsOpen(!isOpen)}
-              className={`p-2 rounded-md ${isScrolled ? 'text-gray-900' : 'text-white'}`}
+              className={`p-2 rounded-lg ${isScrolled ? 'text-gray-700 hover:bg-purple-50' : 'text-white hover:bg-white/10'} transition-all duration-300`}
             >
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -367,34 +318,79 @@ const Navbar = () => {
       </div>
 
       {/* Mobile menu */}
-      <div 
-      
-      className={`xl:hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'} overflow-hidden bg-white`}>
-        <div className="px-4 pt-2 pb-3 space-y-1">
-          <a onClick={() => (setIsOpen(false))} href="/#landing-state" className="block px-3 py-2 rounded-md text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-colors">
+      <div className={`xl:hidden transition-all duration-500 ease-in-out ${isOpen ? 'max-h-[32rem] opacity-100' : 'max-h-0 opacity-0'} overflow-hidden bg-white/95 backdrop-blur-sm`}>
+        <div className="px-6 pt-4 pb-6 space-y-2">
+          {/* Search Bar for Mobile */}
+          {location.pathname !== '/' && (
+            <div className="mb-4">
+              <form onSubmit={handleSearch} className="relative">
+                <input
+                  type="text"
+                  className="w-full px-4 py-2.5 text-sm rounded-lg bg-gray-100 text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
+                  placeholder="Search..."
+                  value={searchQuery}
+                  onChange={(e) => inputChangeHandler(e.target.value)}
+                />
+                <button
+                  type="submit"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-purple-600 transition-colors duration-300"
+                >
+                  <Search className="w-5 h-5" />
+                </button>
+              </form>
+            </div>
+          )}
+
+          {/* Mobile Menu Items */}
+          <a
+            onClick={() => setIsOpen(false)}
+            href="/#landing-state"
+            className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+          >
             State Government Authorities
           </a>
-          <a onClick={() => (setIsOpen(false))} href="/#landing-authorities" className="block px-3 py-2 rounded-md text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-colors">
-            Central government Authorities
+          <a
+            onClick={() => setIsOpen(false)}
+            href="/#landing-authorities"
+            className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+          >
+            Central Government Authorities
           </a>
-          <a onClick={() => (setIsOpen(false))} href="/#landing-categories" className="block px-3 py-2 rounded-md text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-colors">
+          <a
+            onClick={() => setIsOpen(false)}
+            href="/#landing-categories"
+            className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+          >
             Top Categories
           </a>
-          <a onClick={() => (setIsOpen(false))} href="/#landing-admit" className="block px-3 py-2 rounded-md text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-colors">
+          <a
+            onClick={() => setIsOpen(false)}
+            href="/#landing-admit"
+            className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+          >
             Latest Admit Cards
           </a>
-          <a onClick={() => (setIsOpen(false))} href="/#landing-result" className="block px-3 py-2 rounded-md text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-colors">
+          <a
+            onClick={() => setIsOpen(false)}
+            href="/#landing-result"
+            className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+          >
             Latest Results
           </a>
-          <a onClick={() => (setIsOpen(false))} href="/#about" className="block px-3 py-2 rounded-md text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-colors">
+          <a
+            onClick={() => setIsOpen(false)}
+            href="/#about"
+            className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+          >
             About
           </a>
-          <a onClick={() => (setIsOpen(false))} href="/#contact" className="block px-3 py-2 rounded-md text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-colors">
+          <a
+            onClick={() => setIsOpen(false)}
+            href="/#contact"
+            className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+          >
             Contact
           </a>
-          {/* <button className="w-full mt-4 bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors">
-            SignIn
-          </button> */}
         </div>
       </div>
     </nav>
