@@ -32,7 +32,7 @@ export const updateMail = async (email, name,unsubscribeToken) => {
                 <p>+91 9724379123 | 0265-4611836</p>
                 <br>
                 <a 
-                href="${process.env.CLIENT_BASE_URL}/unsubscribe?token=${unsubscribeToken}"
+                href="${process.env.CLIENT_BASE_URL_LIVE}/unsubscribe?token=${unsubscribeToken}"
                 style="background-color:#b621a8; color: white; padding: 10px 20px; text-decoration: none; border: none; cursor: pointer;">
                     Click here to unsubscribe
                 </a>
@@ -97,7 +97,7 @@ export const subscribeMail = async (email, name, unsubscribeToken) => {
                 <p>+91 9724379123 | 0265-4611836</p>
                 <br>
                 <a 
-                href="${process.env.CLIENT_BASE_URL}/unsubscribe?token=${unsubscribeToken}"
+                href="${process.env.CLIENT_BASE_URL_LIVE}/unsubscribe?token=${unsubscribeToken}"
                 style="background-color:#b621a8; color: white; padding: 10px 20px; text-decoration: none; border: none; cursor: pointer;">
                     Click here to unsubscribe
                 </a>
