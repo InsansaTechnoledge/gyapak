@@ -1,0 +1,80 @@
+[
+  {
+    "name": "Trained Graduate Teachers (TGT) Recruitment 2025",
+    "date_of_notification": "27-12-2024",
+    "date_of_commencement": "27-12-2024",
+    "end_date": "31-01-2025",
+    "event_type":"Exam",
+    "apply_link": "https://www.osssc.gov.in/Public/Pages/Notification.aspx",
+    "document_links": [
+      "https://www.osssc.gov.in/Public/Pages/Notification.aspx"
+    ],
+    "details": {
+      "vacancies": {
+        "total": 2629,
+        "breakdown": {
+          "Hindi": 83,
+          "Sanskrit": 83,
+          "Telugu": 83,
+          "TGT Arts": 1000,
+          "TGT Science (PCM)": 1000,
+          "TGT Science (CBZ)": 83,
+          "Physical Education Teacher": 83,
+          "Tribal Language Teacher": 83
+        }
+      },
+      "eligibility": {
+        "age_limit": "Minimum 21 years and maximum 38 years as on 01-01-2023",
+        "education": "Bachelor's degree in relevant subject with B.Ed. from a recognized institution"
+      },
+      "fee": {
+        "amount": "₹100",
+        "exemptions": ["SC/ST candidates", "PwD candidates"]
+      },
+      "important_dates": {
+        "application_period": "27-12-2024 to 31-01-2025"
+      },
+      "contact_details": {
+        "facilitation_counter": "0674-2597149",
+        "email": "osssc@nic.in",
+        "address": "OSSSC Office, Bhubaneswar, Odisha"
+      }
+    }
+  },
+  {
+    "name": "Sevak/Sevika Recruitment 2025",
+    "date_of_notification": "27-12-2024",
+    "date_of_commencement": "27-12-2024",
+    "end_date": "31-01-2025",
+    "event_type":"Exam",
+    "apply_link": "https://www.osssc.gov.in/Public/Pages/Notification.aspx",
+    "document_links": [
+      "https://www.osssc.gov.in/Public/Pages/Notification.aspx"
+    ],
+    "details": {
+      "vacancies": {
+        "total": 2043,
+        "breakdown": {
+          "Sevak": 1021,
+          "Sevika": 1022
+        }
+      },
+      "eligibility": {
+        "age_limit": "Minimum 21 years and maximum 38 years as on 01-01-2023",
+        "education": "12th pass with C.T./D.L.Ed. training and OTET qualification"
+      },
+      "fee": {
+        "amount": "₹100",
+        "exemptions": ["SC/ST candidates", "PwD candidates"]
+      },
+      "important_dates": {
+        "application_period": "27-12-2024 to 31-01-2025"
+      },
+      "contact_details": {
+        "facilitation_counter": "0674-2597149",
+        "email": "osssc@nic.in",
+        "address": "OSSSC Office, Bhubaneswar, Odisha"
+      }
+    }
+  }
+]

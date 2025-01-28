@@ -1,0 +1,94 @@
+
+  [
+    {
+      "name": "Recruitment of IT Professionals on Contract Basis",
+      "date_of_notification": "13-01-2025",
+      "date_of_commencement": "13-01-2025",
+      "end_date": "26-01-2025",
+      "apply_link": "https://recruit.rites.com/frmRegistration.aspx",
+      "event_type": "Exam",
+      "document_links": [],
+      "details": {
+        "vacancies": {
+          "total": null,
+          "breakdown": null
+        },
+        "eligibility": {
+          "age_limit": null,
+          "education": null,
+          "nationality": null
+        },
+        "fee": {
+          "amount": null,
+          "exemptions": null
+        },
+        "exam_centers": null,
+        "important_dates": {
+          "application_correction_window": null,
+          "results": null,
+          "ssb_interviews": null
+        },
+        "scheme_of_exam": {
+          "subjects": null,
+          "ssb_test": null
+        },
+        "contact_details": {
+          "facilitation_counter": null,
+          "address": null
+        }
+      }
+    },
+    {
+      "name": "Recruitment of Engineering Professionals on Regular Basis",
+      "date_of_notification": "07-01-2025",
+      "date_of_commencement": "07-01-2025",
+      "end_date": null,
+      "apply_link": "https://recruit.rites.com/frmRegistration.aspx",
+      "event_type": "Exam",
+      "document_links": [
+        "https://www.rites.com/Upload/Career/Advertisement_for_RG_01_25_to_RG_07_25_pdf-2025-Jan-07-09-14-55.pdf"
+      ],
+      "details": {
+        "vacancies": {
+          "total": 6,
+          "breakdown": {
+            "Manager / Civil (Transport Planner / Transport Engineer)": 2,
+            "Manager / Civil (Infrastructure Planner)": 1,
+            "Manager / Civil (Urban Designer)": 1,
+            "Joint General Manager / Civil (Geo-Physicist)": 1,
+            "Senior Manager / Civil (Geo-Physicist)": 1
+          }
+        },
+        "eligibility": {
+          "age_limit": {
+            "Manager / Civil": "35 years",
+            "Joint General Manager / Civil": "43 years",
+            "Senior Manager / Civil": "40 years"
+          },
+          "education": "Degree recognized by AICTE from a University incorporated by an Act of Central or State legislature in India",
+          "nationality": null
+        },
+        "fee": {
+          "amount": null,
+          "exemptions": null
+        },
+        "exam_centers": null,
+        "important_dates": {
+          "application_correction_window": null,
+          "results": null,
+          "ssb_interviews": null
+        },
+        "scheme_of_exam": {
+          "subjects": null,
+          "ssb_test": null
+        },
+        "contact_details": {
+          "facilitation_counter": null,
+          "address": null
+        }
+      }
+    }
+  ]
+  
+  
+  

@@ -1,0 +1,30 @@
+[{
+  "name": "Clerk in the Subordinate Courts of Punjab and Chandigarh",
+  "date_of_notification": "January 2025",
+  "date_of_commencement": "Tentative: February 2025",
+  "end_date": "TBA",
+  "event_type":"Exam",
+  "apply_link": "https://sssc.gov.in/",
+  "document_links": [
+    "https://sssc.gov.in/"
+  ],
+  "details": {
+    "vacancies": {
+      "total": 250,
+      "breakdown": {
+        "Punjab": 150,
+        "Chandigarh": 100
+      }
+    },
+    "eligibility": {
+      "education": "Graduation from a recognized university",
+      "age_limit": "18-37 years"
+    },
+    "exam_centers": ["Chandigarh", "Patiala", "Ludhiana"],
+    "important_dates": {
+      "application_start": "01-02-2025",
+      "results": "May 2025"
+    }
+  }
+}
+]  

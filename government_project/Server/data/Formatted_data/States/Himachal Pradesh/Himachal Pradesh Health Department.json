@@ -1,0 +1,56 @@
+[
+  {
+    "name": "Appointment Orders of Junior Office Assistant (IT) on Contract Basis",
+    "date_of_notification": "2024-12-09",
+    "date_of_commencement": "2024-12-09",
+    "end_date": "2025-01-31",
+    "event_type":"Exam",
+    "apply_link": "https://himachal.nic.in/index1.php?lang=1&dpt_id=19&level=0&lid=1777&linkid=673",
+    "document_links": [
+      "https://himachal.nic.in/showfile.php?lang=1&dpt_id=19&level=1&lid=24289&sublinkid=25134"
+    ],
+    "details": {
+      "description": "Appointment orders for Junior Office Assistant (IT) on contract basis through HP Rajya Chayan Aayog.",
+      "contact_details": {
+        "email": "pmis.dhs@gmail.com",
+        "phone": "+91-177-2622050"
+      }
+    }
+  },
+  {
+    "name": "Corrigendum Regarding Essential Drugs List (EDL)",
+    "date_of_notification": "2024-10-09",
+    "date_of_commencement": "2024-10-09",
+    "end_date": "2025-01-31",
+    "event_type":"Exam",
+    "apply_link": "https://himachal.nic.in/index1.php?lang=1&dpt_id=19&level=0&lid=1777&linkid=673",
+    "document_links": [
+      "https://himachal.nic.in/showfile.php?lang=1&dpt_id=19&level=1&lid=23059&sublinkid=22621"
+    ],
+    "details": {
+      "description": "Corrigendum regarding the Essential Drugs List (EDL) for health institutions in Himachal Pradesh.",
+      "contact_details": {
+        "email": "pmis.dhs@gmail.com",
+        "phone": "+91-177-2622050"
+      }
+    }
+  },
+  {
+    "name": "Provisional Seniority List of Block Medical Officers",
+    "date_of_notification": "2023-07-28",
+    "date_of_commencement": "2023-07-28",
+    "end_date": "2025-01-31",
+    "event_type":"Exam",
+    "apply_link": "https://himachal.nic.in/index1.php?lang=1&dpt_id=19&level=0&lid=1777&linkid=673",
+    "document_links": [
+      "https://himachal.nic.in/showfile.php?lang=1&dpt_id=19&level=1&lid=23325&sublinkid=22843"
+    ],
+    "details": {
+      "description": "Provisional seniority list of Block Medical Officers as of 28th July 2023.",
+      "contact_details": {
+        "email": "pmis.dhs@gmail.com",
+        "phone": "+91-177-2622050"
+      }
+    }
+  }
+]

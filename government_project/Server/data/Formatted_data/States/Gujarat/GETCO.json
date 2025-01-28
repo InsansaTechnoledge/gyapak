@@ -1,0 +1,41 @@
+[
+  {
+    "name": "Recruitment for the Post of Vidyut Sahayak (Junior Engineer - Electrical)",
+    "date_of_notification": "15-01-2025",
+    "date_of_commencement": "15-01-2025",
+    "end_date": "15-02-2025",
+    "apply_link": "https://www.getcogujarat.com/getco_newsite/Career.php",
+    "event_type": "Exam",
+    "document_links": [
+      "https://www.getcogujarat.com/getco_newsite/files/rec2021/Notice.pdf"
+    ],
+    "details": {
+      "vacancies": {
+        "total": 100,
+        "breakdown": {
+          "General": 50,
+          "SEBC": 27,
+          "SC": 15,
+          "ST": 8
+        }
+      },
+      "eligibility": {
+        "age_limit": "For Unreserved Category: 35 years; For Reserved Category: 40 years as of 15-01-2025",
+        "education": "Full-time B.E./B.Tech in Electrical Engineering from a recognized university with a minimum of 55% for unreserved category and 50% for reserved category candidates"
+      },
+      "fee": {
+        "amount": "₹500 for UR, SEBC, and EWS candidates; ₹250 for SC/ST candidates",
+        "exemptions": []
+      },
+      "important_dates": {
+        "last_date_to_apply": "15-02-2025",
+        "exam_date": "To be announced"
+      },
+      "contact_details": {
+        "helpline": "0265-2337918",
+        "email": "recruitment.getco@gebmail.com",
+        "address": "Gujarat Energy Transmission Corporation Ltd., Corporate Office, Sardar Patel Vidyut Bhavan, Race Course, Vadodara - 390007"
+      }
+    }
+  }
+]

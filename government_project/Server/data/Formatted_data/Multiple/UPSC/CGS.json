@@ -1,0 +1,50 @@
+[{
+    "name": "Combined Geo-Scientist (Preliminary) Examination, 2025",
+    "date_of_notification": "04-09-2024",
+    "date_of_commencement": "09-02-2025",
+    "end_date": "09-02-2025",
+    "apply_link": "https://upsc.gov.in/examinations/active-exams",
+    "event_type": "Exam",
+    "document_links": [
+      "https://upsc.gov.in/sites/default/files/Notif-CGSPE-25-English-04092024_0.pdf",
+      "https://upsc.gov.in/sites/default/files/TT-CGeoScnstPreExam-25-Engl-071124.pdf"
+    ],
+    "details": {
+      "vacancies": null,
+      "eligibility": null,
+      "fee": null,
+      "exam_centers": null,
+      "important_dates": {
+        "last_date_for_receipt_of_applications": "24-09-2024 6:00 PM",
+        "fictitious_fee_list_publication": "07-10-2024",
+        "examination_time_table_publication": "07-11-2024"
+      },
+      "scheme_of_exam": {
+        "preliminary_exam": {
+          "date": "09-02-2025",
+          "papers": [
+            {
+              "time": "09:30 AM to 11:30 AM",
+              "subject": "General Studies (Paper-I)",
+              "applicable_to": "All Streams"
+            },
+            {
+              "time": "02:00 PM to 04:00 PM",
+              "subject": "Stream-specific Subject (Paper-II)",
+              "applicable_to": [
+                "Geologist Group ‘A’",
+                "Scientist B (Hydrogeology) Group ‘A’",
+                "Assistant Hydrogeologist Group ‘B’",
+                "Geophysicist Group ‘A’",
+                "Scientist ‘B’ (Geophysics) Group ‘A’",
+                "Chemist Group ‘A’",
+                "Scientist ‘B’ (Chemical) Group ‘A’"
+              ]
+            }
+          ]
+        }
+      },
+      "contact_details": null
+    }
+  }
+]

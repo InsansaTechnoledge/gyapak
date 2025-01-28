@@ -1,0 +1,35 @@
+[
+    {
+      "name": "Apprentice Recruitment 2025",
+      "date_of_notification": "01-01-2025",
+      "date_of_commencement": "05-01-2025",
+      "end_date": "20-01-2025",
+      "event_type":"Exam",
+      "apply_link": "https://www.mahadiscom.in/%e0%a4%ad%e0%a4%b0%e0%a4%a4%e0%a5%80-%e0%a4%86%e0%a4%a3%e0%a4%bf-%e0%a4%95%e0%a4%b0%e0%a4%bf%e0%a4%85%e0%a4%b0-%e0%a4%aa%e0%a4%b0%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%af/",
+      "document_links": [
+      ],
+      "details": {
+        "description": "Recruitment for Apprentice positions in various trades.",
+        "eligibility": "Candidates with ITI certification in relevant trades.",
+        "application_process": "Online applications are invited through the official website.",
+        "contact": "MSEDCL Recruitment Cell"
+      }
+    },
+    {
+      "name": "Junior Engineer Recruitment 2025",
+      "date_of_notification": "15-12-2024",
+      "date_of_commencement": "01-01-2025",
+      "end_date": "31-01-2025",
+      "event_type":"Exam",
+      "apply_link": "https://www.mahadiscom.in/%e0%a4%ad%e0%a4%b0%e0%a4%a4%e0%a5%80-%e0%a4%86%e0%a4%a3%e0%a4%bf-%e0%a4%95%e0%a4%b0%e0%a4%bf%e0%a4%85%e0%a4%b0-%e0%a4%aa%e0%a4%b0%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%af/",
+      "document_links": [
+      ],
+      "details": {
+        "description": "Recruitment for Junior Engineer positions in MSEDCL.",
+        "eligibility": "Degree or Diploma in Electrical Engineering.",
+        "application_process": "Online applications are accepted via the official website.",
+        "contact": "MSEDCL Recruitment Cell"
+      }
+    }
+  ]
+  

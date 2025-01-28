@@ -1,0 +1,41 @@
+[
+  {
+    "name": "Legal Superintendent (Junior Duty), Class-2",
+    "date_of_notification": "09-01-2025",
+    "date_of_commencement": "09-01-2025",
+    "end_date": "29-01-2025",
+    "apply_link": "https://gpsc.gujarat.gov.in/AdvertisementDetail?no=1873&tab=Exam",
+    "event_type": "Exam",
+    "document_links": [
+      "https://gpsc.gujarat.gov.in/Documents/AdvertismentDocument/RSY-09-202324.pdf"
+    ],
+    "details": {
+      "vacancies": {
+        "total": 10,
+        "breakdown": {
+          "General": 5,
+          "SEBC": 3,
+          "SC": 1,
+          "ST": 1
+        }
+      },
+      "eligibility": {
+        "age_limit": "Not more than 38 years as of 29-01-2025",
+        "education": "A degree in Law (Special) or Law (General) from a recognized university"
+      },
+      "fee": {
+        "amount": "₹100",
+        "exemptions": ["SC/ST candidates", "Socially and Educationally Backward Classes", "Economically Weaker Section", "Ex-Servicemen", "Physically Disabled Persons"]
+      },
+      "important_dates": {
+        "last_date_to_apply": "29-01-2025",
+        "exam_date": "To be announced"
+      },
+      "contact_details": {
+        "helpline": "079-23258980",
+        "email": "psc-adv@gpsc.gujarat.gov.in",
+        "address": "Gujarat Public Service Commission, Sector 10-A, Near CHH-3 Circle, Gandhinagar - 382010"
+      }
+    }
+  }
+]

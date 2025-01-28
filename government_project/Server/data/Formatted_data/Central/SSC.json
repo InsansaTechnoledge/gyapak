@@ -1,0 +1,35 @@
+[
+  {
+    "name": "Combined Graduate Level Examination (CGL) 2025",
+    "date_of_notification": "01-01-2025",
+    "date_of_commencement": "01-01-2025",
+    "end_date": "31-01-2025",
+    "apply_link": "https://ssc.nic.in/Portal/Apply",
+    "event_type": "Exam",
+    "document_links": [
+    ],
+    "details": null
+  },
+  {
+    "name": "Combined Higher Secondary Level Examination (CHSL) 2025",
+    "date_of_notification": "15-01-2025",
+    "date_of_commencement": "15-01-2025",
+    "end_date": "14-02-2025",
+    "apply_link": "https://ssc.nic.in/Portal/Apply",
+    "event_type": "Exam",
+    "document_links": [
+    ],
+    "details": null
+  },
+  {
+    "name": "Junior Engineer (Civil, Mechanical, Electrical and Quantity Surveying & Contracts) Examination, 2025",
+    "date_of_notification": "20-01-2025",
+    "date_of_commencement": "20-01-2025",
+    "end_date": "19-02-2025",
+    "apply_link": "https://ssc.nic.in/Portal/Apply",
+    "event_type": "Exam",
+    "document_links": [
+    ],
+    "details": null
+  }
+]

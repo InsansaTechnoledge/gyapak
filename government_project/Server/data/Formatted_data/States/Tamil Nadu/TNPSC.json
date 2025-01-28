@@ -1,0 +1,53 @@
+[
+  {
+    "name": "Rashtriya Indian Military College, Dehradun (Jan-2026 Term)",
+    "date_of_notification": "21-01-2025",
+    "date_of_commencement": "21-01-2025",
+    "end_date": "31-03-2025",
+    "apply_link": "https://tnpscexams.in",
+    "event_type": "Exam",
+    "document_links": [],
+    "details": {
+      "date_of_examination": "01-06-2025"
+    }
+  },
+  {
+    "name": "Special Competitive Examination (2024)",
+    "date_of_notification": "25-11-2024",
+    "date_of_commencement": "25-11-2024",
+    "end_date": "24-12-2024",
+    "apply_link": "https://tnpscexams.in",
+    "event_type": "Exam",
+    "document_links": [],
+    "details": {
+      "date_of_examination": "08-02-2025"
+    }
+  },
+  {
+    "name": "Combined Civil Services Examination (Group VA Services)",
+    "date_of_notification": "17-10-2024",
+    "date_of_commencement": "17-10-2024",
+    "end_date": "15-11-2024",
+    "apply_link": "https://tnpscexams.in",
+    "event_type": "Exam",
+    "document_links": [],
+    "details": {
+      "date_of_examination": "04-01-2025"
+    }
+  },
+  {
+    "name": "Assistant Public Prosecutor (Grade II)",
+    "date_of_notification": "13-09-2024",
+    "date_of_commencement": "13-09-2024",
+    "end_date": "12-10-2024",
+    "apply_link": "https://tnpscexams.in",
+    "event_type": "Exam",
+    "document_links": [
+      "https://www.tnpsc.gov.in/Document/english/APP%20GRADE%20II%20ENGLISH_.pdf"
+    ],
+    "details": {
+      "date_of_examination": "14-12-2024",
+      "re_examination_date": "22-02-2025"
+    }
+  }
+]

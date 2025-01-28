@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Regarding Online Admit Cards for February-March 2025 SSC (10th) Examination",
+    "date_of_notification": "2025-01-20",
+    "date_of_commencement": "2025-01-20",
+    "end_date": null,
+    "apply_link": "https://mahahsscboard.in/en",
+    "event_type": "AdmitCard",
+    "document_links": [
+      "https://state-board-strapi-upload.blr1.digitaloceanspaces.com/ssc_online_hall_ticket_850ac96925.pdf"
+    ],
+    "details": {
+      "description": "This notification informs students about the availability of online admit cards for the upcoming SSC examinations scheduled in February-March 2025."
+    }
+  },
+  {
+    "name": "Procedure for Online Submission of Marks and Grades for February-March 2025 HSC (12th) and SSC (10th) Examinations",
+    "date_of_notification": "2025-01-18",
+    "date_of_commencement": "2025-01-18",
+    "end_date": null,
+    "apply_link": "https://mahahsscboard.in/en",
+    "event_type": "Notification",
+    "document_links": [
+      "https://state-board-strapi-upload.blr1.digitaloceanspaces.com/prct_oral_grade_mark_suchana_75fe52e6bb.pdf"
+    ],
+    "details": {
+      "description": "Guidelines for schools and colleges on the online submission process of marks and grades for practicals, orals, internal evaluations, and other categories for the February-March 2025 examinations."
+    }
+  },
+  {
+    "name": "SSC March 2025 Practical Learning Guidelines for Vocational Subjects under NSQF",
+    "date_of_notification": "2025-01-15",
+    "date_of_commencement": "2025-01-15",
+    "end_date": null,
+    "apply_link": "https://mahahsscboard.in/en",
+    "event_type": "Notification",
+    "document_links": [
+      "https://state-board-strapi-upload.blr1.digitaloceanspaces.com/nsqf_letter_bb22a15a58.pdf"
+    ],
+    "details": {
+      "description": "This notification provides practical learning guidelines for vocational subjects X1 91, 92, and 93 under the National Skills Qualifications Framework (NSQF) for the March 2025 SSC examinations."
+    }
+  }
+]

@@ -1,0 +1,86 @@
+[
+    {
+      "name": "Recruitment for the Post of Sub Inspector",
+      "date_of_notification": "2025-01-15",
+      "date_of_commencement": "2025-01-20",
+      "end_date": "2025-02-20",
+      "apply_link": "https://keralapolice.gov.in/recruitment/sub-inspector",
+      "event_type": "Exam",
+      "document_links": [
+      ],
+      "details": {
+        "vacancies": {
+          "total": 100,
+          "breakdown": {
+            "general": 60,
+            "sc_st": 20,
+            "obc": 20
+          }
+        },
+        "eligibility": {
+          "age_limit": "21 to 30 years",
+          "education": "Bachelor's Degree from a recognized university"
+        },
+        "fee": {
+          "amount": "₹500",
+          "exemptions": ["SC/ST candidates"]
+        },
+        "important_dates": {
+          "physical_test": "2025-03-10 to 2025-03-20",
+          "written_exam": "2025-04-15"
+        },
+        "scheme_of_exam": {
+          "physical_test": {
+            "events": ["100m run", "Long jump", "High jump"]
+          },
+          "written_exam": {
+            "subjects": ["General Knowledge", "English", "Quantitative Aptitude"],
+            "duration": "2 hours",
+            "marks": 100
+          }
+        },
+        "contact_details": {
+          "helpline": "0471-2721547",
+          "email": "recruitment@keralapolice.gov.in"
+        }
+      }
+    },
+    {
+      "name": "Admit Card for Constable Written Examination",
+      "date_of_notification": "2025-01-10",
+      "date_of_commencement": null,
+      "end_date": "2025-01-25",
+      "apply_link": "https://keralapolice.gov.in/admitcard/constable",
+      "event_type": "AdmitCard",
+      "document_links": [
+      ],
+      "details": {
+        "exam_date": "2025-02-10",
+        "exam_center": "Various centers across Kerala",
+        "contact_details": {
+          "helpline": "0471-2721547",
+          "email": "admitcard@keralapolice.gov.in"
+        }
+      }
+    },
+    {
+      "name": "Result of Assistant Sub Inspector Examination 2024",
+      "date_of_notification": "2025-01-05",
+      "date_of_commencement": null,
+      "end_date": null,
+      "apply_link": null,
+      "event_type": "Result",
+      "document_links": [
+      ],
+      "details": {
+        "exam_date": "2024-12-15",
+        "total_candidates": 500,
+        "qualified_candidates": 150,
+        "contact_details": {
+          "helpline": "0471-2721547",
+          "email": "results@keralapolice.gov.in"
+        }
+      }
+    }
+  ]
+  

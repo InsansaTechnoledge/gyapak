@@ -1,0 +1,36 @@
+[
+  {
+    "name": "Indian Forest Service (Preliminary) Examination, 2025 through CS(P) Examination 2025",
+    "date_of_notification": "22-01-2025",
+    "date_of_commencement": "25-05-2025",
+    "end_date": "25-05-2025",
+    "apply_link": "https://upsc.gov.in/examinations/active-exams",
+    "event_type": "Exam",
+    "document_links": [
+      "https://upsc.gov.in/sites/default/files/Notice-IFSP-2025-Engl.pdf",
+      "https://upsc.gov.in/sites/default/files/Instructions-IFSP-2025-Engl.pdf"
+    ],
+    "details": {
+      "last_date_for_receipt_of_applications": "11-02-2025 18:00",
+      "duration_of_examination": "One Day"
+    }
+  },
+  {
+    "name": "Indian Forest Service (Main) Examination, 2024 - Written Result",
+    "date_of_notification": "13-01-2025",
+    "date_of_commencement": null,
+    "end_date": null,
+    "apply_link": "https://upsc.gov.in/examinations/active-exams",
+    "event_type": "Result",
+    "document_links": [
+      "https://upsc.gov.in/sites/default/files/WR-IFSM-24-Engl-130125.pdf",
+      "https://upsc.gov.in/sites/default/files/WR-IFSM-24-NameList-Engl-140125.pdf"
+    ],
+    "details": {
+      "result_publication_date": "13-01-2025",
+      "next_step": "Submission of DAF-II",
+      "daf_ii_link": "https://upsconline.gov.in",
+      "daf_ii_availability": "20-01-2025"
+    }
+  }
+]

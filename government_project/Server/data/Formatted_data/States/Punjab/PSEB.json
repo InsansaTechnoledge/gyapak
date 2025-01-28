@@ -1,0 +1,85 @@
+[
+    {
+      "name": "Controller of Examinations Recruitment",
+      "date_of_notification": "Not specified",
+      "date_of_commencement": "Not specified",
+      "end_date": "Not specified",
+      "event_type":"Exam",
+      "apply_link": "https://www.pseb.ac.in/vacancies",
+      "document_links": [
+        "https://psebfiles.s3.ap-south-1.amazonaws.com/uploads/1726030405_chairmanAppoitment.pdf"
+      ],
+      "details": {
+        "vacancies": {
+          "total": "Not specified"
+        },
+        "eligibility": {
+          "education": "As per PSEB norms",
+          "age_limit": "As per PSEB norms"
+        },
+        "fee": {
+          "amount": "Not specified"
+        },
+        "exam_centers": ["Not specified"],
+        "important_dates": {
+          "exam_date": "Not specified"
+        },
+        "scheme_of_exam": {
+          "written_exam": {
+            "subjects": "Not specified",
+            "marks": "Not specified",
+            "duration": "Not specified"
+          },
+          "interview": {
+            "marks": "Not specified"
+          }
+        },
+        "contact_details": {
+          "helpline_number": "Not specified",
+          "email": "Not specified"
+        }
+      }
+    },
+    {
+      "name": "Chairman (PSEB) Recruitment",
+      "date_of_notification": "Not specified",
+      "date_of_commencement": "Not specified",
+      "end_date": "Not specified",
+      "event_type":"Exam",
+      "apply_link": "https://www.pseb.ac.in/vacancies",
+      "document_links": [
+        "https://psebfiles.s3.ap-south-1.amazonaws.com/Chairman_Application_Form.pdf"
+      ],
+      "details": {
+        "vacancies": {
+          "total": "Not specified"
+        },
+        "eligibility": {
+          "education": "As per PSEB norms",
+          "age_limit": "As per PSEB norms"
+        },
+        "fee": {
+          "amount": "Not specified"
+        },
+        "exam_centers": ["Not specified"],
+        "important_dates": {
+          "exam_date": "Not specified"
+        },
+        "scheme_of_exam": {
+          "written_exam": {
+            "subjects": "Not specified",
+            "marks": "Not specified",
+            "duration": "Not specified"
+          },
+          "interview": {
+            "marks": "Not specified"
+          }
+        },
+        "contact_details": {
+          "helpline_number": "Not specified",
+          "email": "Not specified"
+        }
+      }
+    }
+  ]
+  

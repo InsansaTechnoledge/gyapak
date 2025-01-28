@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Post Graduate Diploma in Management Human Resource Development Management",
+    "date_of_notification": "Unknown",
+    "date_of_commencement": "Unknown",
+    "end_date": "05-02-2025",
+    "apply_link": "https://docs.iift.ac.in",
+    "event_type": "Exam",
+    "document_links": [
+      "https://docs.iift.ac.in"
+    ],
+    "details": {
+      "course_duration": "Two Years",
+      "mode": "Full-Time",
+      "location": "Delhi"
+    }
+  },
+  {
+    "name": "Post Graduate Diploma in Management (International Business)",
+    "date_of_notification": "Unknown",
+    "date_of_commencement": "Unknown",
+    "end_date": "05-02-2025",
+    "apply_link": "https://docs.iift.ac.in",
+    "event_type": "Exam",
+    "document_links": [
+      "https://docs.iift.ac.in"
+    ],
+    "details": {
+      "course_duration": "Two Years",
+      "mode": "Full-Time",
+      "location": "Delhi"
+    }
+  },
+  {
+    "name": "Two days MDP program on Procurement of Goods and Services through GeM portal",
+    "date_of_notification": "Unknown",
+    "date_of_commencement": "30-01-2025",
+    "end_date": "31-01-2025",
+    "apply_link": "https://docs.iift.ac.in",
+    "event_type": "Exam",
+    "document_links": [
+      "https://docs.iift.ac.in"
+    ],
+    "details": {
+      "duration": "Two Days",
+      "target_audience": "Procurement officers, supply chain managers",
+      "location": "Delhi Campus"
+    }
+  },
+  {
+    "name": "Four Months Online Certificate Programme on Global Trade Logistics and Port Operations",
+    "date_of_notification": "Unknown",
+    "date_of_commencement": "Unknown",
+    "end_date": "28-02-2025",
+    "apply_link": "https://docs.iift.ac.in",
+    "event_type": "Exam",
+    "document_links": [
+      "https://docs.iift.ac.in"
+    ],
+    "details": {
+      "course_duration": "Four Months",
+      "mode": "Online",
+      "focus": "Trade logistics and port operations"
+    }
+  },
+  {
+    "name": "Four Months Online Certificate Programme on International Trade Law",
+    "date_of_notification": "Unknown",
+    "date_of_commencement": "Unknown",
+    "end_date": "31-03-2025",
+    "apply_link": "https://docs.iift.ac.in",
+    "event_type": "Exam",
+    "document_links": [
+      "https://docs.iift.ac.in"
+    ],
+    "details": {
+      "course_duration": "Four Months",
+      "mode": "Online",
+      "focus": "International trade law"
+    }
+  }
+]

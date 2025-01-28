@@ -1,0 +1,100 @@
+[
+  {
+    "name": "BPSSC Sub-Inspector Recruitment Examination 2025",
+    "date_of_notification": "15-01-2025",
+    "date_of_commencement": "01-02-2025",
+    "end_date": "15-03-2025",
+    "apply_link": "https://bpssc.bih.nic.in/",
+    "event_type": "Exam",
+    "document_links": [
+      "https://bpssc.bihar.gov.in/Notices/NB-2024-04-08-01.pdf"
+    ],
+    "details": {
+      "vacancies": {
+        "total": 2446,
+        "breakdown": {
+          "general": 1234,
+          "obc": 567,
+          "sc": 345,
+          "st": 100,
+          "ews": 200
+        }
+      },
+      "eligibility": {
+        "age_limit": "20 to 37 years as of 01-01-2025",
+        "education": "Bachelor's Degree or equivalent from a recognized university"
+      },
+      "fee": {
+        "amount": "₹700",
+        "exemptions": ["SC/ST candidates of Bihar domicile"]
+      },
+      "exam_centers": ["Patna", "Gaya", "Bhagalpur", "Muzaffarpur", "Darbhanga"],
+      "important_dates": {
+        "last_date_to_apply": "28-02-2025",
+        "preliminary_exam": "15-04-2025",
+        "main_exam": "30-06-2025",
+        "physical_test": "15-08-2025"
+      },
+      "scheme_of_exam": {
+        "preliminary_exam": {
+          "subjects": ["General Knowledge", "Current Affairs"],
+          "duration": "2 hours",
+          "marks": 200
+        },
+        "main_exam": {
+          "paper_1": {
+            "subjects": ["General Hindi"],
+            "duration": "2 hours",
+            "marks": 200
+          },
+          "paper_2": {
+            "subjects": ["General Studies", "General Science", "Civics", "Indian History", "Geography of India", "Mathematics", "Mental Ability Test"],
+            "duration": "2 hours",
+            "marks": 200
+          }
+        },
+        "physical_test": {
+          "details": {
+            "running": {
+              "distance": "1.6 km",
+              "time": "6 minutes"
+            },
+            "high_jump": "3.6 feet",
+            "long_jump": "12 feet",
+            "shot_put": "16 pounds, 14 feet"
+          }
+        }
+      },
+      "contact_details": {
+        "helpline": "0612-2230035",
+        "email": "bpssc.helpdesk@bihar.gov.in",
+        "address": "BPSSC, Sardar Patel Bhawan, Bailey Road, Patna - 800023"
+      }
+    }
+  },
+  {
+    "name": "BPSSC Forest Range Officer Admit Card 2025",
+    "date_of_notification": "20-01-2025",
+    "date_of_commencement": "25-01-2025",
+    "end_date": "10-02-2025",
+    "apply_link": "https://bpssc.bih.nic.in/DownloadAdmitCardFRO2025",
+    "event_type": "AdmitCard",
+    "document_links": [
+      "https://bpssc.bihar.gov.in/Notices/Notice-01-20-12-2022.pdf"
+    ],
+    "details": {
+      "exam_date": "20-02-2025",
+      "exam_center": "Patna",
+      "instructions": [
+        "Carry a printed copy of the admit card.",
+        "Bring a valid photo ID proof.",
+        "Follow COVID-19 guidelines as specified in the notification."
+      ],
+      "contact_details": {
+        "helpline": "0612-2230035",
+        "email": "bpssc.helpdesk@bihar.gov.in",
+        "address": "BPSSC, Sardar Patel Bhawan, Bailey Road, Patna - 800023"
+      }
+    }
+  }
+]

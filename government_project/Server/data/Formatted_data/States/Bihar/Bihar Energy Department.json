@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Recruitment of Assistant Electrical Engineers",
+    "date_of_notification": "15-01-2025",
+    "date_of_commencement": "20-01-2025",
+    "end_date": "20-02-2025",
+    "apply_link": "https://state.bihar.gov.in/energy/SectionInformation.html?editForm&rowId=3958",
+    "event_type": "Exam",
+    "document_links": [
+    ],
+    "details": {
+      "description": "The Energy Department of Bihar invites applications for the position of Assistant Electrical Engineer. Candidates with a degree in Electrical Engineering are eligible to apply.",
+      "eligibility": "Bachelor's degree in Electrical Engineering from a recognized university.",
+      "selection_process": "Written examination followed by an interview."
+    }
+  },
+  {
+    "name": "Recruitment of Junior Electrical Engineers",
+    "date_of_notification": "10-01-2025",
+    "date_of_commencement": "15-01-2025",
+    "end_date": "15-02-2025",
+    "apply_link": "https://state.bihar.gov.in/energy/SectionInformation.html?editForm&rowId=3958",
+    "event_type": "Exam",
+    "document_links": [
+    ],
+    "details": {
+      "description": "The Energy Department of Bihar is hiring Junior Electrical Engineers. Diploma holders in Electrical Engineering are encouraged to apply.",
+      "eligibility": "Diploma in Electrical Engineering from a recognized institution.",
+      "selection_process": "Written test followed by a personal interview."
+    }
+  }
+]

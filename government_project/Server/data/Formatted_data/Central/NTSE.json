@@ -1,0 +1,44 @@
+[{
+    "name": "National Talent Search Examination (NTSE)",
+    "date_of_notification": "August 2024",
+    "date_of_commencement": "September 2024",
+    "end_date": "September 2024",
+    "event_type":"Exam",
+    "apply_link": "https://ncert.nic.in/national-talent-examination.php",
+    "document_links": [
+      "https://ncert.nic.in/national-talent-examination.php"
+    ],
+    "details": {
+      "eligibility": {
+        "class": "Class X students"
+      },
+      "important_dates": {
+        "notification_release": "August 2024",
+        "application_start": "September 2024",
+        "application_end": "September 2024",
+        "admit_card_release": "October-November 2024",
+        "stage_1_exam_date": "November-December 2024",
+        "stage_1_answer_key_release": "December 2024",
+        "stage_1_result_declaration": "February 2025",
+        "stage_2_exam_date": "May 2025",
+        "stage_2_result_declaration": "July 2025"
+      },
+      "application_process": [
+        "Download the NTSE registration form from the official website or collect it from the liaison officer of your state",
+        "Fill in the form with accurate personal and academic details",
+        "Pay the application fee as specified by your state/UT",
+        "Submit the completed form along with required documents to the designated authority"
+      ],
+      "selection_process": [
+        "Stage 1: State-level examination comprising two parts:",
+        "Mental Ability Test (MAT): Assesses logical and analytical reasoning",
+        "Scholastic Aptitude Test (SAT): Evaluates knowledge in subjects like Science, Social Science, and Mathematics",
+        "Stage 2: National-level examination for candidates who qualify Stage 1"
+      ],
+      "benefits": [
+        "Scholarship: Financial assistance for higher studies in Science, Social Science, Engineering, Medicine, and Commerce up to doctoral level",
+        "Recognition: Prestigious award enhancing academic and professional opportunities"
+      ]
+    }
+  }
+]

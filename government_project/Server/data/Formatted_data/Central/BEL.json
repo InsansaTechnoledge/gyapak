@@ -1,0 +1,126 @@
+
+ [
+  {
+    "name": "Probationary Engineer Recruitment 2025",
+    "date_of_notification": "10-01-2025",
+    "date_of_commencement": "10-01-2025",
+    "end_date": "31-01-2025",
+    "apply_link": "https://bel-india.in/job-notifications/",
+    "event_type": "Exam",
+    "document_links": [
+      "https://bel-india.in/wp-content/uploads/2025/01/All-India-External-Ad_EN.pdf"
+    ],
+    "details": {
+      "vacancies": {
+        "total": 350,
+        "breakdown": {
+          "electronics": 200,
+          "mechanical": 150
+        }
+      },
+      "eligibility": {
+        "age_limit": "Maximum 25 years as on 01-01-2025",
+        "education": {
+          "electronics": "BE/B.Tech/B.Sc Engineering in Electronics or equivalent",
+          "mechanical": "BE/B.Tech/B.Sc Engineering in Mechanical or equivalent"
+        },
+        "nationality": [
+          "Indian citizen"
+        ]
+      },
+      "fee": {
+        "amount": "₹1,180 (₹1,000 + 18% GST)",
+        "exemptions": ["SC/ST candidates", "PwBD candidates", "Ex-Servicemen"]
+      },
+      "exam_centers": ["Bangalore", "Ghaziabad", "Pune", "Hyderabad", "Chennai", "Machilipatnam", "Panchkula", "Kotdwara", "Navi Mumbai"],
+      "important_dates": {
+        "computer_based_test": "March 2025 (tentative)",
+        "results": "To be announced"
+      },
+      "scheme_of_exam": {
+        "computer_based_test": {
+          "duration": "120 minutes",
+          "total_questions": 125,
+          "sections": {
+            "technical": {
+              "questions": 100,
+              "marks_per_question": 1
+            },
+            "general_aptitude": {
+              "questions": 25,
+              "marks_per_question": 1
+            }
+          },
+          "negative_marking": "0.25 marks per wrong answer"
+        },
+        "interview": {
+          "weightage": "15% of total assessment"
+        }
+      },
+      "contact_details": {
+        "helpdesk": "+919741729267",
+        "email": "Not provided"
+      }
+    }
+  },
+  {
+    "name": "Written Test for Assistant Manager (Legal) in E-III Grade",
+    "date_of_notification": "Not specified",
+    "date_of_commencement": "Not specified",
+    "end_date": "02-02-2025",
+    "apply_link": "Not specified",
+    "event_type": "AdmitCard",
+    "document_links": [
+      "https://bel-india.in/written-test-shortlists/"
+    ],
+    "details": {
+      "exam_date": "02-02-2025",
+      "admit_card_link": "https://bel-india.in/written-test-shortlists/"
+    }
+  },
+  {
+    "name": "Written Test for Deputy Manager and Manager on Fixed Term Basis for HLS and SCB SBU",
+    "date_of_notification": "Not specified",
+    "date_of_commencement": "Not specified",
+    "end_date": "06-02-2025",
+    "apply_link": "Not specified",
+    "event_type": "AdmitCard",
+    "document_links": [
+      "https://bel-india.in/written-test-shortlists/"
+    ],
+    "details": {
+      "exam_date": "06-02-2025",
+      "admit_card_link": "https://bel-india.in/written-test-shortlists/"
+    }
+  },
+  {
+    "name": "Written Test for Senior Engineer (E-III) of NS(S and CS) SBU",
+    "date_of_notification": "Not specified",
+    "date_of_commencement": "Not specified",
+    "end_date": "06-02-2025",
+    "apply_link": "Not specified",
+    "event_type": "AdmitCard",
+    "document_links": [
+      "https://bel-india.in/written-test-shortlists/"
+    ],
+    "details": {
+      "exam_date": "06-02-2025",
+      "admit_card_link": "https://bel-india.in/written-test-shortlists/"
+    }
+  },
+  {
+    "name": "Written Test for Project Engineer-I of NS(S and CS) SBU",
+    "date_of_notification": "Not specified",
+    "date_of_commencement": "Not specified",
+    "end_date": "01-02-2025",
+    "apply_link": "Not specified",
+    "event_type": "AdmitCard",
+    "document_links": [
+      "https://bel-india.in/written-test-shortlists/"
+    ],
+    "details": {
+      "exam_date": "01-02-2025",
+      "admit_card_link": "https://bel-india.in/written-test-shortlists/"
+    }
+  }
+]

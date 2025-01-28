@@ -1,0 +1,68 @@
+[
+    {
+      "name": "Gujarat",
+      "type": "State_Government"
+    },
+    {
+      "name": "Bihar",
+      "type": "State_Government"
+    },
+    {
+      "name": "Madhya Pradesh",
+      "type": "State_Government"
+    },
+    {
+      "name": "Uttar Pradesh",
+      "type": "State_Government"
+    },
+    {
+      "name": "Punjab",
+      "type": "State_Government"
+    },
+    {
+      "name": "Maharashtra",
+      "type": "State_Government"
+    },
+    {
+      "name": "Tamil Nadu",
+      "type": "State_Government"
+    },
+    {
+      "name": "Kerala",
+      "type": "State_Government"
+    },
+    {
+      "name": "Karnataka",
+      "type": "State_Government"
+    },
+    {
+      "name": "Odisha",
+      "type": "State_Government"
+    },
+    {
+      "name": "Uttarakhand",
+      "type": "State_Government"
+    },
+    {
+      "name": "Himachal Pradesh",
+      "type": "State_Government"
+    },
+    {
+      "name": "Haryana",
+      "type": "State_Government"
+    },
+    {
+      "name": "Rajasthan",
+      "type": "State_Government"
+    },
+    {
+      "name": "Andhra Pradesh",
+      "type": "State_Government"
+    },
+    {
+      "name": "Central",
+      "type": "Central_Government"
+    }
+    
+  ]
+  

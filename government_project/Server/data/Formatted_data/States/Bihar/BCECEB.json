@@ -1,0 +1,106 @@
+  [
+    {
+      "name": "Bihar Combined Entrance Competitive Examination (BCECE) 2025",
+      "date_of_notification": "01-05-2025",
+      "date_of_commencement": "13-07-2025",
+      "end_date": "14-07-2025",
+      "event_type":"Exam",
+      "apply_link": "https://bceceboard.bihar.gov.in/",
+      "document_links": [
+        "https://bceceboard.bihar.gov.in/pdf_Pros/PROS_BC24.pdf"
+      ],
+      "details": {
+        "notification_number": "BCECE-2025",
+        "eligibility": {
+          "education": "10+2 or equivalent with Physics, Chemistry, and Mathematics/Biology",
+          "age_limit": {
+            "minimum": 17,
+            "maximum": 25
+          }
+        },
+        "application_fee": {
+          "general": 1000,
+          "sc_st": 500,
+          "female": 500
+        },
+        "selection_process": [
+          "Written Examination",
+          "Counseling"
+        ],
+        "exam_pattern": {
+          "subjects": [
+            "Physics",
+            "Chemistry",
+            "Mathematics/Biology"
+          ],
+          "marks": 300,
+          "duration": "1 hour 30 minutes per subject"
+        },
+        "important_dates": {
+          "application_start": "01-05-2025",
+          "application_end": "17-05-2025",
+          "admit_card_release": "28-06-2025",
+          "exam_dates": [
+            "13-07-2025",
+            "14-07-2025"
+          ],
+          "result_date": "To Be Announced"
+        },
+        "contact_details": {
+          "email": "bceceboard@bihar.gov.in",
+          "phone": "+91-612-2220230"
+        }
+      }
+    },
+    {
+      "name": "BCECE Lateral Entry (LE) 2025",
+      "date_of_notification": "01-05-2025",
+      "date_of_commencement": "To Be Announced",
+      "end_date": "To Be Announced",
+      "event_type":"Exam",
+      "apply_link": "https://bceceboard.bihar.gov.in/",
+      "document_links": [
+        "https://bceceboard.bihar.gov.in/pdf_Pros/PROS_BLE24.pdf"
+      ],
+      "details": {
+        "notification_number": "BCECE-LE-2025",
+        "eligibility": {
+          "education": "Diploma in Engineering/Technology or B.Sc. degree with Mathematics",
+          "age_limit": {
+            "minimum": 18,
+            "maximum": 30
+          }
+        },
+        "application_fee": {
+          "general": 2200,
+          "sc_st": 1100,
+          "female": 1100
+        },
+        "selection_process": [
+          "Written Examination",
+          "Counseling"
+        ],
+        "exam_pattern": {
+          "subjects": [
+            "Engineering Mathematics",
+            "Engineering Mechanics",
+            "Basic Electrical Engineering"
+          ],
+          "marks": 450,
+          "duration": "2 hours 15 minutes"
+        },
+        "important_dates": {
+          "application_start": "01-05-2025",
+          "application_end": "17-05-2025",
+          "admit_card_release": "28-06-2025",
+          "exam_date": "To Be Announced",
+          "result_date": "To Be Announced"
+        },
+        "contact_details": {
+          "email": "bceceboard@bihar.gov.in",
+          "phone": "+91-612-2220230"
+        }
+      }
+    }
+  ]
+  

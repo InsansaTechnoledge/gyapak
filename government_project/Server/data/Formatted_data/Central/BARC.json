@@ -1,0 +1,90 @@
+[
+  {
+    "name": "Walk-in-interview for Medical Officer Positions",
+    "date_of_notification": "09-01-2025",
+    "date_of_commencement": "20-01-2025",
+    "end_date": "20-01-2025",
+    "apply_link": null,
+    "event_type": "Exam",
+    "document_links": [],
+    "details": {
+      "positions": [
+        "General Duty Medical Officer",
+        "Medical Officer (Dental)",
+        "Medical Officer (Radiology)",
+        "Medical Officer (General Surgery)"
+      ],
+      "type": "Adhoc/Locum",
+      "application_process": "Walk-in-interview",
+      "interview_date": "20-01-2025"
+    }
+  },
+  {
+    "name": "Walk-in-interview for Resident Medical Officer Positions",
+    "date_of_notification": "09-01-2025",
+    "date_of_commencement": "22-01-2025",
+    "end_date": "22-01-2025",
+    "apply_link": null,
+    "event_type": "Exam",
+    "document_links": [],
+    "details": {
+      "positions": [
+        "Post Graduate Resident Medical Officer (PGRMO)",
+        "Junior/Senior Resident Doctor (Non-DNB)",
+        "Resident Medical Officer (Casualty)"
+      ],
+      "application_process": "Walk-in-interview",
+      "interview_date": "22-01-2025"
+    }
+  },
+  {
+    "name": "Recruitment of Scientific Officers through OCES-2025 and DGFS-2025",
+    "date_of_notification": "09-01-2025",
+    "date_of_commencement": "09-01-2025",
+    "end_date": "26-01-2025",
+    "apply_link": "https://www.barcocesexam.in",
+    "event_type": "Exam",
+    "document_links": [
+      "https://www.barc.gov.in/careers/barc_ts_OCES_DGFS_brochure.pdf"
+    ],
+    "details": {
+      "programs": [
+        "Orientation Course for Engineering Graduates and Science Postgraduates (OCES-2025)",
+        "DAE Graduate Fellowship Scheme for Engineering Graduates and Physics Postgraduates (DGFS-2025)"
+      ],
+      "positions": [
+        "Scientific Officers (Group-A post of Government of India)"
+      ],
+      "application_process": "Online",
+      "application_deadline": "26-01-2025"
+    }
+  },
+  {
+    "name": "Admission to DDFS Programme (2025)",
+    "date_of_notification": "09-01-2025",
+    "date_of_commencement": "09-01-2025",
+    "end_date": "26-01-2025",
+    "apply_link": "https://www.barcocesexam.in",
+    "event_type": "Exam",
+    "document_links": [],
+    "details": {
+      "program": "DDFS Programme (2025)",
+      "eligibility": "Engineering Postgraduates",
+      "application_process": "Online",
+      "application_deadline": "26-01-2025"
+    }
+  },
+  {
+    "name": "Re-Engagement of Retired Employees of DAE/DAE Constituent Units",
+    "date_of_notification": "09-01-2025",
+    "date_of_commencement": "09-01-2025",
+    "end_date": "14-02-2025",
+    "apply_link": null,
+    "event_type": "Exam",
+    "document_links": [],
+    "details": {
+      "eligibility": "Retired Employees of DAE/DAE Constituent Units",
+      "application_deadline": "14-02-2025"
+    }
+  }
+]

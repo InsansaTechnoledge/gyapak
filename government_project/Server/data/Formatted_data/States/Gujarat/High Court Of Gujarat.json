@@ -1,0 +1,81 @@
+  [
+  {
+    "name": "Direct Recruitment to the Post of Assistant on the Establishments of the District Judiciary in the State of Gujarat",
+    "date_of_notification": "15-11-2024",
+    "date_of_commencement": "15-11-2024",
+    "end_date": "15-12-2024",
+    "apply_link": "https://gujarathighcourt.nic.in/currentopenings",
+    "event_type": "Exam",
+    "document_links": [
+    ],
+    "details": {
+      "vacancies": {
+        "total": 1856,
+        "breakdown": {
+          "General": 927,
+          "SC": 185,
+          "ST": 371,
+          "SEBC": 278,
+          "EWS": 95
+        }
+      },
+      "eligibility": {
+        "age_limit": "21 to 35 years as of 15-12-2024",
+        "education": "Bachelor's Degree from a recognized university"
+      },
+      "fee": {
+        "amount": "₹500",
+        "exemptions": ["SC/ST/SEBC/EWS/PH candidates"]
+      },
+      "important_dates": {
+        "preliminary_exam_date": "15-01-2025",
+        "main_written_exam_date": "15-02-2025",
+        "skill_test_date": "15-03-2025"
+      },
+      "contact_details": {
+        "helpline": "079-27664601-15",
+        "email": "recruitment@gujarathighcourt.nic.in",
+        "address": "Registrar General, High Court of Gujarat, Sola, Ahmedabad - 380060"
+      }
+    }
+  },
+  {
+    "name": "Direct Recruitment to the Post of English Stenographer Grade - III on the Establishment of the District Judiciary in the State of Gujarat",
+    "date_of_notification": "01-12-2024",
+    "date_of_commencement": "01-12-2024",
+    "end_date": "31-12-2024",
+    "apply_link": "https://gujarathighcourt.nic.in/currentopenings",
+    "event_type": "Exam",
+    "document_links": [
+    ],
+    "details": {
+      "vacancies": {
+        "total": 100,
+        "breakdown": {
+          "General": 50,
+          "SC": 10,
+          "ST": 20,
+          "SEBC": 15,
+          "EWS": 5
+        }
+      },
+      "eligibility": {
+        "age_limit": "21 to 35 years as of 31-12-2024",
+        "education": "Graduate in any discipline from a recognized university and speed of 100 words per minute in English shorthand"
+      },
+      "fee": {
+        "amount": "₹500",
+        "exemptions": ["SC/ST/SEBC/EWS/PH candidates"]
+      },
+      "important_dates": {
+        "stenography_skill_test_date": "15-02-2025",
+        "viva_voce_test_date": "15-03-2025"
+      },
+      "contact_details": {
+        "helpline": "079-27664601-15",
+        "email": "recruitment@gujarathighcourt.nic.in",
+        "address": "Registrar General, High Court of Gujarat, Sola, Ahmedabad - 380060"
+      }
+    }
+  }
+]

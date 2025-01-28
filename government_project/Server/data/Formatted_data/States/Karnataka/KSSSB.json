@@ -1,0 +1,66 @@
+[
+  {
+    "name": "Phase XII/Selection Post/2024 - Document Verification for Laboratory Assistant in CEAH/CFSPTI",
+    "date_of_notification": "2024-12-15",
+    "date_of_commencement": "2025-01-10",
+    "end_date": "2025-01-20",
+    "apply_link": null,
+    "event_type": "AdmitCard",
+    "document_links": [
+    ],
+    "details": {
+      "description": "Admit Card for Document Verification for the post of Laboratory Assistant in CEAH/CFSPTI, Post Category No. KK11024.",
+      "eligibility": null,
+      "important_dates": {
+        "document_verification": "2025-01-15 to 2025-01-20"
+      },
+      "contact_details": {
+        "helpline": "080-25502520",
+        "email": "contact@ssckkr.kar.nic.in"
+      }
+    }
+  },
+  {
+    "name": "Phase XII/Selection Post/2024 - Final Ineligible and Provisional Eligible List for Farm Assistant",
+    "date_of_notification": "2024-12-10",
+    "date_of_commencement": null,
+    "end_date": null,
+    "apply_link": null,
+    "event_type": "Result",
+    "document_links": [
+    ],
+    "details": {
+      "description": "Final Ineligible and Provisional Eligible List for recruitment to the post of Farm Assistant in CFSP&TI, Hessarghatta, Post Category No. KK11524.",
+      "eligibility": null,
+      "important_dates": null,
+      "contact_details": {
+        "helpline": "080-25502520",
+        "email": "contact@ssckkr.kar.nic.in"
+      }
+    }
+  },
+  {
+    "name": "Corrigendum: Extension of Last Date for Young Professional (Legal Consultant)",
+    "date_of_notification": "2024-12-05",
+    "date_of_commencement": null,
+    "end_date": "2025-01-31",
+    "apply_link": null,
+    "event_type": "Exam",
+    "document_links": [
+    ],
+    "details": {
+      "description": "Extension of last date for applications from eligible law graduates for engagement of one Young Professional (Legal Consultant) on short-term contract basis in SSC KKR, Regional Office, Bangalore.",
+      "eligibility": {
+        "education": "Law Graduate",
+        "experience": "Relevant experience in legal consultancy"
+      },
+      "important_dates": {
+        "application_deadline": "2025-01-31"
+      },
+      "contact_details": {
+        "helpline": "080-25502520",
+        "email": "contact@ssckkr.kar.nic.in"
+      }
+    }
+  }
+]

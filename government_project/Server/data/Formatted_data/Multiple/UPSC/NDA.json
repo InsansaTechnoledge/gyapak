@@ -1,0 +1,68 @@
+[{
+    "name": "National Defence Academy and Naval Academy Examination (I), 2025",
+    "date_of_notification": "11-12-2024",
+    "date_of_commencement": "13-04-2025",
+    "end_date": "13-04-2025",
+    "apply_link": "https://upsc.gov.in/examinations/active-exams",
+    "event_type": "Exam",
+    "document_links": [
+      "https://upsc.gov.in/sites/default/files/Notific-NDA-NA-I-2025-Engl-11122024F.pdf"
+    ],
+    "details": {
+      "vacancies": {
+        "total": 413,
+        "breakdown": {
+          "army": 208,
+          "navy": 42,
+          "air_force": {
+            "flying": 92,
+            "ground_duties_technical": 18,
+            "ground_duties_non_technical": 10
+          },
+          "naval_academy": 35
+        }
+      },
+      "eligibility": {
+        "age_limit": "Born between 02-07-2006 and 01-07-2009",
+        "education": {
+          "army": "12th Class pass",
+          "navy_air_force": "12th Class pass with Physics, Chemistry, and Mathematics"
+        },
+        "nationality": [
+          "Indian citizen",
+          "Subject of Nepal",
+          "Person of Indian origin migrated from specified countries"
+        ]
+      },
+      "fee": {
+        "amount": "₹100",
+        "exemptions": ["SC/ST candidates", "Female candidates", "Wards of JCOs/NCOs/ORs"]
+      },
+      "exam_centers": ["Agartala", "Ghaziabad", "Navi Mumbai"],
+      "important_dates": {
+        "application_correction_window": "02-01-2025 to 08-01-2025",
+        "results": "May 2025",
+        "ssb_interviews": "July 2025 to September 2025"
+      },
+      "scheme_of_exam": {
+        "subjects": {
+          "mathematics": {
+            "duration": "2.5 hours",
+            "marks": 300
+          },
+          "general_ability_test": {
+            "duration": "2.5 hours",
+            "marks": 600
+          }
+        },
+        "ssb_test": {
+          "marks": 900
+        }
+      },
+      "contact_details": {
+        "facilitation_counter": "011-23385271, 011-23381125, 011-23098543",
+        "address": "UPSC Office, Gate C, New Delhi"
+      }
+    }
+  }
+]

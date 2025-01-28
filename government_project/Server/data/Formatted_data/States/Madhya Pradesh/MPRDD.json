@@ -1,0 +1,96 @@
+[
+    {
+      "name": "District Coordinator",
+      "date_of_notification": "15-12-2024",
+      "date_of_commencement": "15-12-2024",
+      "end_date": "31-01-2025",
+      "event_type":"Exam",
+      "apply_link": "https://prd.mp.gov.in/Public/Circulars#",
+      "document_links": [],
+      "details": {
+        "vacancies": {
+          "total": "Multiple",
+          "breakdown": "Various districts"
+        },
+        "eligibility": {
+          "education": "Specific qualifications as per official notification",
+          "experience": "Relevant experience as per official notification",
+          "age_limit": "As per official notification"
+        },
+        "fee": {
+          "amount": "As per official notification",
+          "exemptions": "As per official notification"
+        },
+        "important_dates": {
+          "application_start_date": "15-12-2024",
+          "application_end_date": "31-01-2025"
+        },
+        "contact_details": {
+          "official_website": "https://prd.mp.gov.in/Public/Circulars#"
+        }
+      }
+    },
+    {
+      "name": "Block Development Officer",
+      "date_of_notification": "20-12-2024",
+      "date_of_commencement": "20-12-2024",
+      "end_date": "05-02-2025",
+      "event_type":"Exam",
+      "apply_link": "https://prd.mp.gov.in/Public/Circulars#",
+      "document_links": [],
+      "details": {
+        "vacancies": {
+          "total": "Multiple",
+          "breakdown": "Different blocks"
+        },
+        "eligibility": {
+          "education": "Specific qualifications as per official notification",
+          "experience": "Relevant experience as per official notification",
+          "age_limit": "As per official notification"
+        },
+        "fee": {
+          "amount": "As per official notification",
+          "exemptions": "As per official notification"
+        },
+        "important_dates": {
+          "application_start_date": "20-12-2024",
+          "application_end_date": "05-02-2025"
+        },
+        "contact_details": {
+          "official_website": "https://prd.mp.gov.in/Public/Circulars#"
+        }
+      }
+    },
+    {
+      "name": "Program Assistant",
+      "date_of_notification": "25-12-2024",
+      "date_of_commencement": "25-12-2024",
+      "end_date": "10-02-2025",
+      "event_type":"Exam",
+      "apply_link": "https://prd.mp.gov.in/Public/Circulars#",
+      "document_links": [],
+      "details": {
+        "vacancies": {
+          "total": "Various",
+          "breakdown": "Different districts"
+        },
+        "eligibility": {
+          "education": "Specific qualifications as per official notification",
+          "experience": "Relevant experience as per official notification",
+          "age_limit": "As per official notification"
+        },
+        "fee": {
+          "amount": "As per official notification",
+          "exemptions": "As per official notification"
+        },
+        "important_dates": {
+          "application_start_date": "25-12-2024",
+          "application_end_date": "10-02-2025"
+        },
+        "contact_details": {
+          "official_website": "https://prd.mp.gov.in/Public/Circulars#"
+        }
+      }
+    }
+  ]
+  

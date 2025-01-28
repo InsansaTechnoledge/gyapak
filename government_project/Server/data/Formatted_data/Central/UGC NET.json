@@ -1,0 +1,64 @@
+[
+  {
+    "name": "UGC-NET December 2024 Examination",
+    "date_of_notification": "19-11-2024",
+    "date_of_commencement": "21-01-2025",
+    "end_date": "27-01-2025",
+    "apply_link": "https://ugcnet.nta.ac.in/",
+    "event_type": "Exam",
+    "document_links": [
+      "https://ugcnet.nta.ac.in/images/public-notice-for-schedule-of-ugc-net-december-2024-hrvplurnzjd47qa6oja9ksy6m5x6aq.pdf"
+    ],
+    "details": {
+      "eligibility": {
+        "education": "Master’s degree or equivalent in relevant subjects.",
+        "age_limit": "JRF: Not more than 30 years; Assistant Professor: No upper age limit."
+      },
+      "fee": {
+        "amount": "General: ₹1000; OBC-NCL: ₹500; SC/ST/PwD: ₹250",
+        "exemptions": ["Female candidates", "Transgender candidates"]
+      },
+      "exam_centers": ["Various cities across India"],
+      "important_dates": {
+        "application_start_date": "19-11-2024",
+        "application_end_date": "10-12-2024",
+        "exam_dates": "21-01-2025 to 27-01-2025",
+        "results": "To be announced"
+      },
+      "scheme_of_exam": {
+        "papers": {
+          "Paper I": {
+            "duration": "1 hour",
+            "marks": 100,
+            "questions": 50,
+            "topics": "Teaching and Research Aptitude"
+          },
+          "Paper II": {
+            "duration": "2 hours",
+            "marks": 200,
+            "questions": 100,
+            "topics": "Subject-specific"
+          }
+        }
+      },
+      "contact_details": {
+        "helpline": "011-40759000",
+        "email": "ugcnet@nta.ac.in"
+      }
+    }
+  },
+  {
+    "name": "UGC-NET December 2024 Admit Card Release",
+    "date_of_notification": "18-01-2025",
+    "date_of_commencement": null,
+    "end_date": null,
+    "apply_link": null,
+    "event_type": "AdmitCard",
+    "document_links": [
+      "https://ugcnet.nta.ac.in/images/public-notice-admit-card-ugc-net-18-jan-2025.pdf"
+    ],
+    "details": {
+      "description": "Admit cards for the UGC-NET December 2024 examination are now available for download. Candidates can download their admit cards using their application number and date of birth from the official website."
+    }
+  }
+]

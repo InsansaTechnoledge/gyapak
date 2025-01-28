@@ -1,0 +1,82 @@
+[
+    {
+      "name": "Recruitment for the Post of Vidyut Sahayak (Electrical Assistant)",
+      "date_of_notification": "01-01-2025",
+      "date_of_commencement": "01-01-2025",
+      "end_date": "31-01-2025",
+      "apply_link": "https://www.pgvcl.com/jobs/",
+      "event_type": "Exam",
+      "document_links": [
+        "https://www.pgvcl.com/jobs/EA2024/1st%20Provisional%20List%20for%20Receruitment%20of%20VS%20EA%20Provisional%20List.pdf",
+        "https://www.pgvcl.com/jobs/EA2024/2nd%20Provisional%20List%20for%20Receruitment%20of%20VSEA%20Provisional%20List.pdf",
+        "https://www.pgvcl.com/jobs/EA2024/2nd%20Allotment%20for%20web%20site.pdf"
+      ],
+      "details": {
+        "vacancies": {
+          "total": 100,
+          "breakdown": {
+            "General": 50,
+            "SEBC": 27,
+            "SC": 15,
+            "ST": 8
+          }
+        },
+        "eligibility": {
+          "age_limit": "For Unreserved Category: 30 years; For Reserved Category: 35 years as of 01-01-2025",
+          "education": "Full-time B.E./B.Tech in Electrical Engineering from a recognized university with a minimum of 55% for unreserved category and 50% for reserved category candidates"
+        },
+        "fee": {
+          "amount": "₹500 for UR, SEBC, and EWS candidates; ₹250 for SC/ST candidates",
+          "exemptions": []
+        },
+        "important_dates": {
+          "last_date_to_apply": "31-01-2025",
+          "exam_date": "To be announced"
+        },
+        "contact_details": {
+          "helpline": "0281-2380425",
+          "email": "recruitment.pgvcl@gebmail.com",
+          "address": "Paschim Gujarat Vij Seva Sadan, Off. Nana Mava Main Road, Laxminagar, Rajkot-360004"
+        }
+      }
+    },
+    {
+      "name": "Recruitment for the Post of Junior Programmer",
+      "date_of_notification": "15-12-2024",
+      "date_of_commencement": "15-12-2024",
+      "end_date": "15-01-2025",
+      "apply_link": "https://www.pgvcl.com/jobs/",
+      "event_type": "Exam",
+      "document_links": [
+      ],
+      "details": {
+        "vacancies": {
+          "total": 25,
+          "breakdown": {
+            "General": 13,
+            "SEBC": 6,
+            "SC": 4,
+            "ST": 2
+          }
+        },
+        "eligibility": {
+          "age_limit": "For Unreserved Category: 35 years; For Reserved Category: 40 years as of 15-12-2024",
+          "education": "Full-time B.E./B.Tech in Computer Science/Information Technology or MCA from a recognized university with a minimum of 55% for unreserved category and 50% for reserved category candidates"
+        },
+        "fee": {
+          "amount": "₹500 for UR, SEBC, and EWS candidates; ₹250 for SC/ST candidates",
+          "exemptions": []
+        },
+        "important_dates": {
+          "last_date_to_apply": "15-01-2025",
+          "exam_date": "To be announced"
+        },
+        "contact_details": {
+          "helpline": "0281-2380425",
+          "email": "recruitment.pgvcl@gebmail.com",
+          "address": "Paschim Gujarat Vij Seva Sadan, Off. Nana Mava Main Road, Laxminagar, Rajkot-360004"
+        }
+      }
+    }
+  ]
+  

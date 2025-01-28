@@ -1,0 +1,41 @@
+[
+    {
+        "name": "Uttarakhand Jal Vidyut Nigam Limited Recruitment",
+        "date_of_notification": "12-12-2024",
+        "date_of_commencement": "12-12-2024",
+        "end_date": "10-01-2025",
+        "event_type":"Exam",
+        "apply_link": "https://ujvnl.com/recruitments.php",
+        "document_links": [
+          "https://ujvnl.com/recruitments/rec_1928043-vigyapti__application_form__tg_1_cabil_jtr.pdf"
+        ],
+        "details": {
+          "vacancies": {
+            "total": 4,
+            "breakdown": {
+              "TG 1(E)": 1,
+              "TG 1(M)": 1,
+              "TG 1(L)": 1,
+              "Cable Jointer": 1
+            }
+          },
+          "eligibility": {
+            "age_limit": "As per notification",
+            "education": "ITI or equivalent in related trade"
+          },
+          "fee": {
+            "amount": "Not specified",
+            "exemptions": []
+          },
+          "important_dates": {
+            "application_period": "12-12-2024 to 10-01-2025"
+          },
+          "contact_details": {
+            "facilitation_counter": "05946-200000",
+            "email": "info@ujvnl.com",
+            "website": "https://ujvnl.com/"
+          }
+        }
+      }
+      
+]

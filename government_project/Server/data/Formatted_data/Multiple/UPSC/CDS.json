@@ -1,0 +1,217 @@
+[
+  {
+    "name": "Combined Defence Services Examination (I), 2025",
+    "date_of_notification": "11-12-2024",
+    "date_of_commencement": "13-04-2025",
+    "end_date": "13-04-2025",
+    "apply_link": "https://upsc.gov.in/examinations/Combined%20Defence%20Services%20Examination%20%28I%29%2C%202025",
+    "event_type": "Exam",
+    "document_links": [
+      "https://upsc.gov.in/sites/default/files/Notifi-CDSE-I-2025-Engl-11122024F.pdf"
+    ],
+    "details": {
+      "vacancies": {
+        "total": "Not specified",
+        "breakdown": {}
+      },
+      "eligibility": {
+        "age_limit": "Refer to official notification",
+        "education": {
+          "IMA": "Degree from a recognized University or equivalent",
+          "INA": "Degree in Engineering from a recognized University or equivalent",
+          "AFA": "Degree of a recognized University (with Physics and Mathematics at 10+2 level) or Bachelor of Engineering",
+          "OTA": "Degree from a recognized University or equivalent"
+        },
+        "nationality": [
+          "Indian citizen",
+          "Subject of Nepal",
+          "Person of Indian origin migrated from specified countries"
+        ]
+      },
+      "fee": {
+        "amount": "₹200",
+        "exemptions": [
+          "Female candidates",
+          "SC/ST candidates"
+        ]
+      },
+      "exam_centers": "Refer to official notification",
+      "important_dates": {
+        "application_correction_window": "Not specified",
+        "results": "To be announced",
+        "ssb_interviews": "To be announced"
+      },
+      "scheme_of_exam": {
+        "IMA_INA_AFA": {
+          "subjects": {
+            "English": {
+              "duration": "2 hours",
+              "marks": 100
+            },
+            "General Knowledge": {
+              "duration": "2 hours",
+              "marks": 100
+            },
+            "Elementary Mathematics": {
+              "duration": "2 hours",
+              "marks": 100
+            }
+          }
+        },
+        "OTA": {
+          "subjects": {
+            "English": {
+              "duration": "2 hours",
+              "marks": 100
+            },
+            "General Knowledge": {
+              "duration": "2 hours",
+              "marks": 100
+            }
+          }
+        },
+        "ssb_test": {
+          "marks": "300 for OTA, 200 for others"
+        }
+      },
+      "contact_details": {
+        "facilitation_counter": "011-23385271, 011-23381125, 011-23098543",
+        "address": "UPSC Office, Gate C, New Delhi"
+      }
+    }
+  },
+  {
+    "name": "Combined Defence Services Examination (I), 2025",
+    "date_of_notification": "11-12-2024",
+    "date_of_commencement": "13-04-2025",
+    "end_date": "13-04-2025",
+    "apply_link": "https://upsconline.gov.in",
+    "event_type": "Exam",
+    "document_links": [
+      "https://upsc.gov.in/sites/default/files/Notifi-CDSE-I-2025-Engl-11122024F.pdf"
+    ],
+    "details": {
+      "vacancies": {
+        "total": null,
+        "breakdown": {
+          "ima": null,
+          "ina": null,
+          "afa": null,
+          "ota": null
+        }
+      },
+      "eligibility": {
+        "age_limit": {
+          "ima": "Unmarried male candidates born not earlier than 2nd January, 2001 and not later than 1st January, 2006",
+          "ina": "Unmarried male candidates born not earlier than 2nd January, 2001 and not later than 1st January, 2006",
+          "afa": "20 to 24 years as on 1st January, 2026 (born not earlier than 2nd January, 2001 and not later than 1st January, 2005)",
+          "ota": "Unmarried male and female candidates born not earlier than 2nd January, 2000 and not later than 1st January, 2006"
+        },
+        "education": {
+          "ima": "Degree of a recognised University or equivalent",
+          "ina": "Degree in Engineering from a recognised University/Institution",
+          "afa": "Degree of a recognised University (with Physics and Mathematics at 10+2 level) or Bachelor of Engineering",
+          "ota": "Degree of a recognised University or equivalent"
+        },
+        "nationality": [
+          "Indian citizen",
+          "Subject of Nepal",
+          "Person of Indian origin who has migrated from specified countries"
+        ]
+      },
+      "fee": {
+        "amount": "₹200",
+        "exemptions": [
+          "Female candidates",
+          "SC/ST candidates"
+        ]
+      },
+      "exam_centers": [
+        "Agartala",
+        "Ahmedabad",
+        "Aizawl",
+        "Allahabad",
+        "Bengaluru",
+        "Bareilly",
+        "Bhopal",
+        "Chandigarh",
+        "Chennai",
+        "Cuttack",
+        "Dehradun",
+        "Delhi",
+        "Dharwad",
+        "Dispur",
+        "Gangtok",
+        "Hyderabad",
+        "Imphal",
+        "Itanagar",
+        "Jaipur",
+        "Jammu",
+        "Jorhat",
+        "Kochi",
+        "Kohima",
+        "Kolkata",
+        "Lucknow",
+        "Madurai",
+        "Mumbai",
+        "Nagpur",
+        "Panaji (Goa)",
+        "Patna",
+        "Port Blair",
+        "Raipur",
+        "Ranchi",
+        "Sambalpur",
+        "Shillong",
+        "Shimla",
+        "Srinagar",
+        "Thiruvananthapuram",
+        "Tirupati",
+        "Udaipur",
+        "Visakhapatnam"
+      ],
+      "important_dates": {
+        "last_date_for_receipt_of_applications": "01-01-2025",
+        "application_correction_window": null,
+        "results": null,
+        "ssb_interviews": null
+      },
+      "scheme_of_exam": {
+        "ima_ina_afa": {
+          "subjects": {
+            "english": {
+              "duration": "2 hours",
+              "marks": 100
+            },
+            "general_knowledge": {
+              "duration": "2 hours",
+              "marks": 100
+            },
+            "elementary_mathematics": {
+              "duration": "2 hours",
+              "marks": 100
+            }
+          }
+        },
+        "ota": {
+          "subjects": {
+            "english": {
+              "duration": "2 hours",
+              "marks": 100
+            },
+            "general_knowledge": {
+              "duration": "2 hours",
+              "marks": 100
+            }
+          }
+        },
+        "ssb_test": {
+          "marks": "300 for IMA/INA/AFA, 200 for OTA"
+        }
+      },
+      "contact_details": {
+        "facilitation_counter": "011-23385271, 011-23381125, 011-23098543",
+        "address": "UPSC Office, Gate C, New Delhi"
+      }
+    }
+  }
+]

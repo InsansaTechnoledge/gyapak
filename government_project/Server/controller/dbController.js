@@ -1,0 +1,1 @@
+import authority from '../data/authorityData.json';

@@ -1,0 +1,46 @@
+[
+  {
+    "name": "Half Yearly Examinations – March - 2025 Term",
+    "date_of_notification": "25-10-2024",
+    "date_of_commencement": "March 2025",
+    "end_date": "March 2025",
+    "apply_link": "https://portal-psc.ap.gov.in/HomePages/HalfYearlyNotifications",
+    "event_type": "Exam",
+    "document_links": [
+      "https://portal-psc.ap.gov.in/HomePages/HalfYearlyExams_Notification_012024"
+    ],
+    "details": {
+      "important_dates": {
+        "application_start_date": "To be announced",
+        "application_end_date": "To be announced"
+      },
+      "exam_schedule": "To be announced",
+      "contact_details": {
+        "phone": "0863-244-6992",
+        "email": "appsc@ap.gov.in"
+      }
+    }
+  },
+  {
+    "name": "Departmental Tests November, 2024 Session",
+    "date_of_notification": "07-11-2024",
+    "date_of_commencement": "November 2024",
+    "end_date": "November 2024",
+    "apply_link": "https://portal-psc.ap.gov.in/HomePages/DepartmentalNotifications",
+    "event_type": "Exam",
+    "document_links": [
+      "https://portal-psc.ap.gov.in/HomePages/DepartmentalUSDashBoard"
+    ],
+    "details": {
+      "important_dates": {
+        "application_start_date": "To be announced",
+        "application_end_date": "To be announced"
+      },
+      "exam_schedule": "To be announced",
+      "contact_details": {
+        "phone": "0863-244-6992",
+        "email": "appsc@ap.gov.in"
+      }
+    }
+  }
+]

@@ -1,0 +1,43 @@
+[
+  {
+    "name": "Joint CSIR-UGC NET December-2024 Examination",
+    "date_of_notification": "December 2024",
+    "date_of_commencement": "To be announced",
+    "end_date": "To be announced",
+    "apply_link": "https://csirnet.nta.ac.in",
+    "event_type": "Exam",
+    "document_links": [
+      "https://csirnet.nta.ac.in/images/public-notice-csir-dec-2024-opening-of-application-form.pdf",
+      "https://csirnet.nta.ac.in/images/information-bulletin-csir-december-2024.pdf"
+    ],
+    "details": {
+      "eligibility": {
+        "education": "M.Sc. or equivalent degree/Integrated BS-MS/BS-4 years/BE/B.Tech/B.Pharma/MBBS with at least 55% marks for General (UR)/General-EWS and OBC candidates; 50% for SC/ST, Third gender, Persons with Disability (PwD) candidates."
+      },
+      "fee": {
+        "amount": "₹1000 for General; ₹500 for OBC-NCL; ₹250 for SC/ST/Third gender/PwD",
+        "payment_mode": "Credit/Debit Card/Net-Banking/UPI"
+      },
+      "exam_centers": "Multiple centers across India",
+      "important_dates": {
+        "application_start_date": "December 2024",
+        "application_end_date": "To be announced",
+        "exam_date": "To be announced"
+      },
+      "scheme_of_exam": {
+        "subjects": [
+          "Chemical Sciences",
+          "Earth, Atmospheric, Ocean and Planetary Sciences",
+          "Life Sciences",
+          "Mathematical Sciences",
+          "Physical Sciences"
+        ],
+        "exam_pattern": "Computer Based Test (CBT) with multiple-choice questions"
+      },
+      "contact_details": {
+        "helpdesk": "011-40759000",
+        "email": "csirnet@nta.ac.in"
+      }
+    }
+  }
+]

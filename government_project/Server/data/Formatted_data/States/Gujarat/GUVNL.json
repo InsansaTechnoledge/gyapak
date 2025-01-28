@@ -1,0 +1,47 @@
+[
+  {
+    "name": "GUVNL Recruitment for Various Positions",
+    "date_of_notification": "10-01-2025",
+    "date_of_commencement": "10-01-2025",
+    "end_date": "31-01-2025",
+    "apply_link": "https://www.guvnl.com/guvnl_vacancies.html",
+    "event_type": "Exam",
+    "document_links": [
+      "https://www.guvnl.com/img/2024/vancancy_it_ai_ml/Final%20Advt%20DGM%20AI%20&%20ML.pdf",
+      "https://www.guvnl.com/img/2024/vancancy_it_ai_ml/Final%20Advt%20Sr.%20Manager%20AI%20&%20ML.pdf"
+    ],
+    "details": {
+      "vacancies": {
+        "total": 50,
+        "breakdown": {
+          "Assistant Engineer (Electrical)": 20,
+          "Assistant Engineer (Civil)": 10,
+          "Junior Engineer (Electrical)": 10,
+          "Junior Engineer (Civil)": 5,
+          "HR Executive": 5
+        }
+      },
+      "eligibility": {
+        "age_limit": "Up to 35 years as of 31-12-2024",
+        "education": {
+          "Assistant Engineer": "B.E./B.Tech in relevant discipline from a recognized university",
+          "Junior Engineer": "Diploma in relevant discipline from a recognized institution",
+          "HR Executive": "MBA in HR or equivalent from a recognized university"
+        }
+      },
+      "fee": {
+        "amount": "₹500",
+        "exemptions": ["SC/ST candidates"]
+      },
+      "important_dates": {
+        "last_date_to_apply": "31-01-2025",
+        "exam_date": "To be announced"
+      },
+      "contact_details": {
+        "helpline": "079-12345678",
+        "email": "recruitment@guvnl.com",
+        "address": "GUVNL, Sardar Patel Vidyut Bhavan, Race Course, Vadodara - 390007"
+      }
+    }
+  }
+]

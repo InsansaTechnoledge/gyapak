@@ -1,0 +1,65 @@
+[
+    {
+      "name": "Recruitment for the Post of Assistant Engineer (Civil) in Water Resources Department",
+      "date_of_notification": "2024-12-15",
+      "date_of_commencement": "2024-12-15",
+      "end_date": "2025-01-15",
+      "event_type":"Exam",
+      "apply_link": "https://www.kpsc.kar.nic.in/",
+      "document_links": [
+      ],
+      "details": {
+        "positions": [
+          "Assistant Engineer (Civil)"
+        ],
+        "eligibility": {
+          "education": "Bachelor's Degree in Civil Engineering from a recognized university",
+          "age_limit": "Between 21 and 35 years as of 2024-12-15"
+        },
+        "fee": {
+          "amount": "₹600 for General category; ₹300 for SC/ST/OBC candidates",
+          "payment_mode": "Online through the official website"
+        },
+        "important_dates": {
+          "last_date_to_apply": "2025-01-15",
+          "exam_date": "To be announced"
+        },
+        "contact_details": {
+          "email": "kpsc-ka@nic.in",
+          "phone": "+91-80-30574957"
+        }
+      }
+    },
+    {
+      "name": "Recruitment for the Post of Assistant Engineer (Civil) in Public Works Department",
+      "date_of_notification": "2024-12-10",
+      "date_of_commencement": "2024-12-10",
+      "end_date": "2025-01-10",
+      "event_type":"Exam",
+      "apply_link": "https://www.kpsc.kar.nic.in/",
+      "document_links": [
+      ],
+      "details": {
+        "positions": [
+          "Assistant Engineer (Civil)"
+        ],
+        "eligibility": {
+          "education": "Bachelor's Degree in Civil Engineering from a recognized university",
+          "age_limit": "Between 21 and 35 years as of 2024-12-10"
+        },
+        "fee": {
+          "amount": "₹600 for General category; ₹300 for SC/ST/OBC candidates",
+          "payment_mode": "Online through the official website"
+        },
+        "important_dates": {
+          "last_date_to_apply": "2025-01-10",
+          "exam_date": "To be announced"
+        },
+        "contact_details": {
+          "email": "kpsc-ka@nic.in",
+          "phone": "+91-80-30574957"
+        }
+      }
+    }
+  ]
+  

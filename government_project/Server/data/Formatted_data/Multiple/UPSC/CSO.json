@@ -1,0 +1,33 @@
+[{
+    "name": "Combined Section Officer (Grade-B) LDCE, 2024",
+    "date_of_notification": "13-11-2024",
+    "date_of_commencement": "11-01-2025",
+    "end_date": "12-01-2025",
+    "apply_link": "https://upsc.gov.in/examinations/active-exams",
+    "event_type": "Exam",
+    "document_links": [
+      "https://upsc.gov.in/sites/default/files/Notif-Instr-CSO-GrB-LDCE-24-Engl-131124.pdf",
+      "https://upsc.gov.in/sites/default/files/Instructions-SO-LDCE-24-Engl-021224.pdf",
+      "https://upsc.gov.in/sites/default/files/TimeTable-SO-LDCE-2024-Eng-171224.pdf"
+    ],
+    "details": {
+      "important_dates": {
+        "last_date_for_receipt_of_applications": "03-12-2024",
+        "e_admit_card_release": "03-01-2025"
+      },
+      "exam_schedule": {
+        "duration": "2 Days",
+        "time_table": "https://upsc.gov.in/sites/default/files/TimeTable-SO-LDCE-2024-Eng-171224.pdf"
+      },
+      "instructions": "https://upsc.gov.in/sites/default/files/Instructions-SO-LDCE-24-Engl-021224.pdf",
+      "question_papers": [
+        "https://upsc.gov.in/sites/default/files/Paper-I.pdf",
+        "https://upsc.gov.in/sites/default/files/Paper-II-Cat-I-VIII.pdf",
+        "https://upsc.gov.in/sites/default/files/Paper-II-Cat-II.pdf",
+        "https://upsc.gov.in/sites/default/files/Paper-II-Cat-III.pdf",
+        "https://upsc.gov.in/sites/default/files/Paper-II-Cat-X.pdf",
+        "https://upsc.gov.in/sites/default/files/Paper-III.pdf"
+      ]
+    }
+  }
+]
