@@ -77,7 +77,7 @@ app.options('*', (req, res) => {
 
 // Additional middleware to set headers for all responses
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || "https://gyapak-1.onrender.com" || "https://insansa.com/");
+  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || "https://gyapak-1.onrender.com" || "https://insansa.com");
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
