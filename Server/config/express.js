@@ -17,7 +17,8 @@ const allowedOrigins = [
   process.env.CLIENT_BASE_URL_LIVE,
   "https://gyapak.vercel.app",
   "https://gyapak-8ul2.vercel.app",
-  "https://gyapak-1.onrender.com"
+  "https://gyapak-1.onrender.com",
+  "https://gyapak-2.onrender.com"
 ];
 
 // Backend instances for load balancing
@@ -38,6 +39,7 @@ const loadBalancer = (req, res, next) => {
   req.target = target; // Attach selected instance to the request object
   console.log(`Request routed to: ${target}`); // Debugging log
   next();
+
 };
 
 // CORS configuration
