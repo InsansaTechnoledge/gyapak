@@ -19,7 +19,7 @@ const routes = (app) => {
     app.use('/api/admitCard', admitCardRoute);
     app.use('/api/result', resultRoute);
     app.use('/api/subscriber', subscriber);
-    app.use('/api', (req,res) => {
+    app.get('/api', (req,res) => {
         res.send("Till API");
     });
 
