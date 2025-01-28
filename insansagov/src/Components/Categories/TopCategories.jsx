@@ -49,14 +49,18 @@ const TopCategories = (props) => {
                 </h1>
             )}
             <div className="grid grid-cols-2 lg:grid-cols-4 mb-5 gap-4">
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={<div><div className='w-full h-screen flex justify-center'>
+      <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
+    </div></div>}>
                     {filteredCategories.map((category, key) => (
                         <TopCategoriesCard key={key} name={category.category} logo={category.logo} id={category._id} />
                     ))}
                 </Suspense>
             </div>
             <div className="flex justify-center gap-4 mb-20">
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={<div><div className='w-full h-screen flex justify-center'>
+      <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
+    </div></div>}>
                     <ViewMoreButton
                         content={isExpanded ? 'Close All ▲' : 'View More ▼'}
                         onClick={handleToggle}

@@ -4,6 +4,7 @@ import API_BASE_URL from '../../Pages/config';
 const TopAuthoritiesCard = lazy(() => import('./TopAuthoritiesCard'));
 const ViewMoreButton = lazy(() => import('../Buttons/ViewMoreButton'));
 import { RingLoader } from 'react-spinners';
+import RelatedStatesCard from '../States/RelatedStatesCard';
 
 const MoreAuthorities = ({ currentAuthority }) => {
     const [moreAuthorities, setMoreAuthorities] = useState();
@@ -52,17 +53,21 @@ const MoreAuthorities = ({ currentAuthority }) => {
             More Authorities
         </h1>
             <div className='grid grid-cols-4 mb-5 gap-4'>
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={<div><div className='w-full h-screen flex justify-center'>
+      <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
+    </div></div>}>
                     {
                         moreAuthorities.slice(0, displayCount).map((auth, key) => (
-                            <TopAuthoritiesCard key={key} name={auth.name} logo={auth.logo} id={auth._id} />
+                            <RelatedStatesCard key={key} name={auth.name} logo={auth.logo} id={auth._id} />
                         ))
                     }
                 </Suspense>
             </div>
             <div className='flex justify-center gap-4 mb-20'>
                 {/* Show "View More" button only if there are more items to load */}
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={<div><div className='w-full h-screen flex justify-center'>
+      <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
+    </div></div>}>
                     {displayCount < moreAuthorities.length && (
                         <ViewMoreButton
                             content="View More ▼"

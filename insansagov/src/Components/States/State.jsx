@@ -5,6 +5,7 @@ import { debounce } from "lodash";
 import axios from "axios";
 import API_BASE_URL from "../../Pages/config";
 import moment from "moment";
+import { RingLoader } from "react-spinners";
 const StateCard = lazy(() => import('./StateCard'));
 
 const StateComponent = () => {
@@ -311,7 +312,9 @@ const StateComponent = () => {
 
                     {/* States Grid */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-                        <Suspense fallback={<div>Loading...</div>}>
+                        <Suspense fallback={<div><div className='w-full h-screen flex justify-center'>
+      <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
+    </div></div>}>
                             {activeRegion
                                 ? statesByRegion[activeRegion].map((state, index) => (
                                     <StateCard key={index} state={state} />

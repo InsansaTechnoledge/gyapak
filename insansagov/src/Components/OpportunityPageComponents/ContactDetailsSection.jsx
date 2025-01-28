@@ -7,7 +7,7 @@ const RenderDetails = ({ data, inner }) => {
   }
 
   return (
-    <div className="flex space-x-5">
+    <div className="flex flex-col space-y-5 sm:flex-row sm:space-x-5 sm:space-y-0">
       {Object.entries(data).map(([key, value]) => (
         <div key={key} className={`flex-grow p-4 bg-purple-50 rounded-lg ${inner ? 'border border-purple-500' : ''}`}>
           <p className="text-sm text-purple-500 mb-1">

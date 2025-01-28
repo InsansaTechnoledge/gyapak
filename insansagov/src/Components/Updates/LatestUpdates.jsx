@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback, Suspense, lazy } from 'react';
 import axios from 'axios';
 import API_BASE_URL from '../../Pages/config';
+import { RingLoader } from 'react-spinners';
 
 // Lazy load the components
 const LatestUpdateCard = lazy(() => import('./LatestUpdateCard'));
@@ -12,12 +13,11 @@ const LatestUpdates = ({ titleHidden }) => {
   const [filteredLatestUpdates, setFilteredLatestUpdates] = useState([]);
 
   // Toggle View More/View Less
-  const handleToggle = useCallback(() => {
-    setIsExpanded((prev) => !prev);
-    setFilteredLatestUpdates((prevIsExpanded) =>
-      !prevIsExpanded ? latestUpdates : latestUpdates.slice(0, 2)
+  const handleToggle = (() => {
+    setFilteredLatestUpdates(!isExpanded ? latestUpdates : latestUpdates.slice(0, 2)
     );
-  }, [latestUpdates]);
+    setIsExpanded(!isExpanded);
+  });
 
   // Fetch latest updates from API
   useEffect(() => {
@@ -46,11 +46,22 @@ const LatestUpdates = ({ titleHidden }) => {
     <>
       <div className="flex justify-between mb-5">
         <div className="font-bold text-2xl flex items-center">Latest Updates</div>
-        <Suspense fallback={<div>Loading...</div>}>
-          <ViewMoreButton
-            content={isExpanded ? 'View Less ▲' : 'View More ▼'}
-            onClick={handleToggle}
-          />
+        <Suspense fallback={<div><div className='w-full h-screen flex justify-center'>
+          <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
+        </div></div>}>
+          {
+            latestUpdates && latestUpdates.length > 2
+              ?
+              <>
+                {console.log(latestUpdates.length)}
+                <ViewMoreButton
+                  content={isExpanded ? 'View Less ▲' : 'View More ▼'}
+                  onClick={handleToggle}
+                />
+              </>
+              :
+              null
+          }
         </Suspense>
       </div>
 
