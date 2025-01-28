@@ -10,6 +10,7 @@ import RelatedStates from '../../Components/States/RelatedStates'
 import MoreAuthorities from '../../Components/Authority/MoreAuthorities'
 import MoreOrganizations from '../../Components/Authority/MoreOrganizations'
 import MoreCategories from '../../Components/Authority/MoreCategories'
+import { RingLoader } from 'react-spinners'
 
 const SearchPage = () => {
   const location = useLocation();
@@ -36,6 +37,12 @@ const SearchPage = () => {
   const searchHandler = (input) => {
     navigate(`/search?query=${encodeURIComponent(input)}`);
 }
+
+  if(!searchData){
+    return <div className='w-full h-screen flex justify-center'>
+    <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
+  </div>
+  }
 
   return (
     <div className='pt-28'>
