@@ -70,9 +70,9 @@ const LatestUpdateCard = (props) => {
               <span className="inline-flex items-center rounded-full bg-purple-100 px-2.5 py-0.5 text-xs font-medium text-purple-800">
                 New
               </span>
-              <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
+              {/* <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
                 Important
-              </span>
+              </span> */}
             </div>
           </div>
         <div className="absolute inset-0 border-2 border-transparent group-hover:border-purple-600 rounded-xl transition-colors" />

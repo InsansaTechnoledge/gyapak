@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import Credits from './Pages/PrivacyPolicy/Credits';
+import { RingLoader } from 'react-spinners';
 
 // Lazy load the components
 const Landing = lazy(() => import('./Pages/Landing/landing'));
@@ -30,7 +31,9 @@ const SecondRoutes = () => {
 
     return (
         <div className='px-5 xl:px-64'>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div><div className='w-full h-screen flex justify-center'>
+      <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
+    </div></div>}>
                 <Routes>
                     <Route path='/opportunity' element={<Opportunities />} />
                     <Route path='/search' element={<SearchPage />} />
@@ -53,7 +56,9 @@ const SecondRoutes = () => {
 const PageLinks = () => {
     return (
         <Router>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div><div className='w-full h-screen flex justify-center'>
+      <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
+    </div></div>}>
                 <Routes>
                     <Route path='/cover' element={<PortalCoverPage />} />
                 </Routes>

@@ -10,7 +10,7 @@ const EducationSection = ({data,existingSections}) => {
     }
 
     return (
-        <div className="flex-grow lg:col-span-2 bg-white shadow-lg p-8 rounded-2xl">
+        <div className="flex-grow lg:col-span-2 bg-white shadow-lg p-4 md:p-8 rounded-2xl">
           <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
             <BookOpen className="w-6 h-6 text-purple-500" />
             Educational Qualifications

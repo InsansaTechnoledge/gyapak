@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowUp } from 'lucide-react';
+import { ArrowDown, ArrowUp, ChevronDown, ChevronsUp, ChevronUp } from 'lucide-react';
 import React from 'react';
 // import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
 
@@ -10,11 +10,11 @@ const ViewMoreButton = ({ content, onClick }) => {
     >
       {content.includes("▲") ? (
         <>
-          View Less <ArrowUp/>
+          View Less <ChevronUp/>
         </>
       ) : (
         <>
-          View More <ArrowDown/>
+          View More <ChevronDown/>
         </>
       )}
     </button>

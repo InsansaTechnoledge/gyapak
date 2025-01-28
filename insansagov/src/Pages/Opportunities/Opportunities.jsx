@@ -145,7 +145,7 @@ const ModernExamDetailsPage = () => {
       <FloatingOrbsBackground />
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto relative">
+      <div className="max-w-7xl relative">
         {/* Hero Section */}
         <HeroSection data={data} organization={organization} />
 
@@ -226,8 +226,10 @@ const ModernExamDetailsPage = () => {
           {
             <ContactDetailsSection data={data} existingSections={existingSections} />
           }
+          <div className="flex-grow">
           {/* Important Links */}
           <AdditionalDetailsSection data={data.details} existingSections={existingSections} />
+          </div>
           {data.document_links.length > 0
           ?
           <ImportantLinksSection data={data} />

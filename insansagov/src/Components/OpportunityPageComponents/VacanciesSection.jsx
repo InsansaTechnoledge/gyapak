@@ -50,7 +50,7 @@ const VacanciesSection = ({ data, existingSections }) => {
 
       {/* Render total vacancies if available */}
       {total && (
-        <div className="text-center text-2xl font-bold text-purple-500">
+        <div className="text-center text-2xl font-bold text-purple-500 mt-5">
           Total Vacancies: {total}
         </div>
       )}

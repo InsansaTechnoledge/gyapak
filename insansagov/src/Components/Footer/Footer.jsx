@@ -84,7 +84,7 @@ const Footer = () => {
             </h3>
             <ul className="space-y-3">
                 <li>
-                  <a href="#about" className="text-gray-400 hover:text-white transition-colors">
+                  <a href="/#about" className="text-gray-400 hover:text-white transition-colors">
                     About 
                   </a>
                 </li>
@@ -94,7 +94,7 @@ const Footer = () => {
                   </a>
                 </li> */}
                 <li>
-                  <a href="#contact" className="text-gray-400 hover:text-white transition-colors">
+                  <a href="/#contact" className="text-gray-400 hover:text-white transition-colors">
                     Contact
                   </a>
                 </li>
