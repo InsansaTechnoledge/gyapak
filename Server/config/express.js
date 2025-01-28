@@ -71,6 +71,24 @@ app.options('*', (req, res) => {
   res.status(204).send();
 });
 
+
+
+// Additional middleware to set headers for all responses
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || "https://gyapak-1.onrender.com");
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  next();
+});
+
+// Parse incoming requests
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Your routes
+routes(app);
+
 // Apply load balancer middleware
 app.use(loadBalancer);
 
@@ -90,21 +108,5 @@ app.use(
     },
   })
 );
-
-// Additional middleware to set headers for all responses
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || "https://gyapak-1.onrender.com");
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  next();
-});
-
-// Parse incoming requests
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Your routes
-routes(app);
 
 export default app;
