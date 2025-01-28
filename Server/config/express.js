@@ -2,13 +2,16 @@ import express from 'express';
 import cors from 'cors';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import routes from '../routes/routes.js';
+import dotenv from 'dotenv';
 
+// Load environment variables
 if (process.env.NODE_ENV !== "production") {
-  (await import('dotenv')).config();
+  dotenv.config();
 }
 
 const app = express();
 
+// Trust first proxy
 app.set('trust proxy', 1);
 
 // Allowed frontend origins
@@ -19,13 +22,10 @@ const allowedOrigins = [
   "https://gyapak-8ul2.vercel.app",
   "https://gyapak-1.onrender.com",
   "https://gyapak-2.onrender.com"
-];
+].filter(Boolean); // Remove any undefined values
 
 // Backend instances for load balancing
 const backendInstances = [
-  // "https://gyapak.vercel.app",
-  // "https://gyapak-qngw.vercel.app",
-  // "https://gyapak-tkpi.vercel.app",
   "https://gyapak-2.onrender.com"
 ];
 
@@ -34,77 +34,83 @@ let currentIndex = 0;
 
 // Load balancing middleware
 const loadBalancer = (req, res, next) => {
+  if (backendInstances.length === 0) {
+    return res.status(503).send('No backend instances available');
+  }
+  
   const target = backendInstances[currentIndex];
-  currentIndex = (currentIndex + 1) % backendInstances.length; // Move to the next backend instance
-  req.target = target; // Attach selected instance to the request object
-  console.log(`Request routed to: ${target}`); // Debugging log
+  currentIndex = (currentIndex + 1) % backendInstances.length;
+  req.target = target;
+  console.log(`Request routed to: ${target}`);
   next();
-
 };
 
-// CORS configuration
+// Single CORS configuration
 const corsOptions = {
   origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       console.error(`CORS denied for origin: ${origin}`);
-      callback(new Error('CORS not allowed'), false);
+      callback(new Error('CORS not allowed'));
     }
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
   credentials: true,
+  maxAge: 86400 // CORS preflight cache time (24 hours)
 };
 
-// Apply CORS middleware globally
+// Apply CORS middleware
 app.use(cors(corsOptions));
 
-// Handle preflight requests
-app.options('*', (req, res) => {
-
-  console.log("😭", req.headers.origin);
-  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || "https://gyapak-1.onrender.com");
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.status(204).send();
-});
+// Parse incoming requests before routing
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Apply load balancer middleware
 app.use(loadBalancer);
 
-// Proxy middleware to forward requests to the selected backend instance
-app.use(
-  '/api', // Forward only API routes
-  createProxyMiddleware({
-    target: backendInstances[0], // Default target (required but overridden by `req.target`)
-    changeOrigin: true,
-    router: (req) => req.target, // Use the target selected by the load balancer
-    onProxyReq: (proxyReq, req) => {
-      console.log(`Proxying request to: ${req.target}${req.url}`);
-    },
-    onError: (err, req, res) => {
-      console.error(`Error proxying request to backend: ${err.message}`);
-      res.status(500).send('Proxy error');
-    },
-  })
-);
+// Proxy middleware configuration
+const proxyOptions = {
+  target: backendInstances[0],
+  changeOrigin: true,
+  router: (req) => req.target,
+  onProxyReq: (proxyReq, req) => {
+    // If the request has a body, you might need to restream it
+    if (req.body) {
+      const bodyData = JSON.stringify(req.body);
+      proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
+      proxyReq.write(bodyData);
+    }
+    console.log(`Proxying request to: ${req.target}${req.url}`);
+  },
+  onError: (err, req, res) => {
+    console.error(`Proxy error: ${err.message}`);
+    res.status(500).json({
+      message: 'Proxy error occurred',
+      error: process.env.NODE_ENV === 'development' ? err.message : 'Internal server error'
+    });
+  },
+  pathRewrite: {
+    '^/api': '', // Remove /api prefix when forwarding
+  }
+};
 
-// Additional middleware to set headers for all responses
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || "https://gyapak-1.onrender.com");
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  next();
-});
+// Apply proxy middleware
+app.use('/api', createProxyMiddleware(proxyOptions));
 
-// Parse incoming requests
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Your routes
+// Apply routes
 routes(app);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({
+    message: 'Something went wrong!',
+    error: process.env.NODE_ENV === 'development' ? err.message : 'Internal server error'
+  });
+});
 
 export default app;
