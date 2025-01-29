@@ -6,7 +6,7 @@
     "end_date": null,
     "apply_link": "https://www.hssc.gov.in/Advertisements",
     "event_type": "Exam",
-    "document_links": [],
+    "document_links": ["https://www.hssc.gov.in/Advertisements"],
     "details": {
       "vacancies": null,
       "eligibility": null,
@@ -22,7 +22,7 @@
     "end_date": null,
     "apply_link": "https://www.hssc.gov.in/Advertisements",
     "event_type": "Exam",
-    "document_links": [],
+    "document_links": ["https://www.hssc.gov.in/Advertisements"],
     "details": {
       "vacancies": null,
       "eligibility": null,
@@ -36,9 +36,9 @@
     "date_of_notification": "16-08-2024",
     "date_of_commencement": "16-08-2024",
     "end_date": null,
-    "apply_link": "https://adv132024.hryssc.com",
+    "apply_link": "https://www.hssc.gov.in/Advertisements",
     "event_type": "Exam",
-    "document_links": [],
+    "document_links": ["https://www.hssc.gov.in/Advertisements"],
     "details": {
       "vacancies": null,
       "eligibility": null,
@@ -54,7 +54,7 @@
     "end_date": null,
     "apply_link": "https://www.hssc.gov.in/Advertisements",
     "event_type": "Exam",
-    "document_links": [],
+    "document_links": ["https://www.hssc.gov.in/Advertisements"],
     "details": {
       "vacancies": null,
       "eligibility": null,

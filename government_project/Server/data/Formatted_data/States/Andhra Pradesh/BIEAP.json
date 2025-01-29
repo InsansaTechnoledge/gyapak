@@ -4,9 +4,9 @@
     "date_of_notification": "15-01-2025",
     "date_of_commencement": "27-03-2025",
     "end_date": "16-04-2025",
-    "apply_link": "https://bie.ap.gov.in",
+    "apply_link": "https://bie.ap.gov.in/ViewandDownloadApplication",
     "event_type": "Exam",
-    "document_links": [
+    "document_links": ["https://jnanabhumi.ap.gov.in/Uploads/Circulars/Circular-1734327375777.pdf"
     ],
     "details": {
       "important_dates": {
