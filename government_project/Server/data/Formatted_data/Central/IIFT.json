@@ -4,12 +4,13 @@
     "date_of_notification": "Unknown",
     "date_of_commencement": "Unknown",
     "end_date": "05-02-2025",
-    "apply_link": "https://docs.iift.ac.in",
+    "apply_link": "https://docs.iift.ac.in/pilotweb/pgdmhrdm/",
     "event_type": "Exam",
     "document_links": [
-      "https://docs.iift.ac.in"
+      "https://docs.iift.ac.in/pilotweb/pgdmhrdm/brochure.pdf"
     ],
     "details": {
+      "fees payment":"https://forms.eduqfix.com/iiftpgdm/add",
       "course_duration": "Two Years",
       "mode": "Full-Time",
       "location": "Delhi"
@@ -20,12 +21,13 @@
     "date_of_notification": "Unknown",
     "date_of_commencement": "Unknown",
     "end_date": "05-02-2025",
-    "apply_link": "https://docs.iift.ac.in",
+    "apply_link": "https://docs.iift.ac.in/pilotweb/pgdmib/",
     "event_type": "Exam",
     "document_links": [
-      "https://docs.iift.ac.in"
+      "https://docs.iift.ac.in/pilotweb/pgdmib/brochure.pdf"
     ],
     "details": {
+      "fees payment":"https://forms.eduqfix.com/iiftpgdm/add",
       "course_duration": "Two Years",
       "mode": "Full-Time",
       "location": "Delhi"
@@ -36,10 +38,10 @@
     "date_of_notification": "Unknown",
     "date_of_commencement": "30-01-2025",
     "end_date": "31-01-2025",
-    "apply_link": "https://docs.iift.ac.in",
+    "apply_link": "https://www.iift.ac.in/iift/docs/LatestUpdates/Nomination_Form.pdf",
     "event_type": "Exam",
     "document_links": [
-      "https://docs.iift.ac.in"
+      "https://www.iift.ac.in/iift/docs/LatestUpdates/2_Days_MDP_on_GeM_and_GFR.pdf"
     ],
     "details": {
       "duration": "Two Days",
@@ -52,12 +54,13 @@
     "date_of_notification": "Unknown",
     "date_of_commencement": "Unknown",
     "end_date": "28-02-2025",
-    "apply_link": "https://docs.iift.ac.in",
+    "apply_link": "https://docs.iift.ac.in/pilotweb/OCPGTLPO/",
     "event_type": "Exam",
     "document_links": [
-      "https://docs.iift.ac.in"
+      "https://docs.iift.ac.in/pilotweb/OCPGTLPO/brochure.pdf"
     ],
     "details": {
+      "fees payment":"https://forms.eduqfix.com/iiftolform/add",
       "course_duration": "Four Months",
       "mode": "Online",
       "focus": "Trade logistics and port operations"
@@ -68,12 +71,13 @@
     "date_of_notification": "Unknown",
     "date_of_commencement": "Unknown",
     "end_date": "31-03-2025",
-    "apply_link": "https://docs.iift.ac.in",
+    "apply_link": "https://docs.iift.ac.in/Pilotweb/OCPITL/",
     "event_type": "Exam",
     "document_links": [
-      "https://docs.iift.ac.in"
+      "https://docs.iift.ac.in/Pilotweb/OCPITL/brochure.pdf"
     ],
     "details": {
+      "fees payment":"https://forms.eduqfix.com/iiftolform/add",
       "course_duration": "Four Months",
       "mode": "Online",
       "focus": "International trade law"

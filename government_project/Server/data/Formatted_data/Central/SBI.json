@@ -5,7 +5,7 @@
     "date_of_commencement": "22-01-2025",
     "end_date": "13-02-2025",
     "apply_link": "https://recruitment.bank.sbi/crpd-sco-2024-25-28/apply",
-    "event_type": "Recruitment",
+    "event_type": "Exam",
     "document_links": [
         "https://sbi.co.in/documents/77530/43947057/ADVERTISEMENT+VP+INVESTOR+RELATION_2024-25_28.pdf/e2b2687b-eb33-a25c-7bdf-18cf8f729f29?t=1737538808786"
     ],
@@ -16,22 +16,27 @@
     "date_of_notification": null,
     "date_of_commencement": null,
     "end_date": "03-02-2025",
-    "apply_link": "https://recruitment.bank.sbi/crpd-sco-2024-25-21/apply",
-    "event_type": "Recruitment",
+    "apply_link": "hhttps://recruitment.bank.sbi/crpd-sco-2024-25-21/apply",
+    "event_type": "Exam",
     "document_links": [
-     "https://sbi.co.in/documents/77530/43947057/03012025_ADV_CRPD_+SCO_2024-25+_+21_+Archivist.pdf/d8be1686-513a-fbd8-3dac-634f194a3b15?t=1735882836856"
+     "https://sbi.co.in/documents/77530/43947057/03012025_ADV_CRPD_+SCO_2024-25+_+21_+Archivist.pdf/d8be1686-513a-fbd8-3dac-634f194a3b15?t=1735882836856",
+     "https://sbi.co.in/documents/77530/43947057/03012025_BIODATA_ONLINE+APPLICATION+ARCHIVIST.pdf/f27da06c-9a02-4ba8-2fa3-9fd5f9a187fc?t=1735882889244"
     ],
     "details": null
   },
   {
-    "name": "Recruitment of Specialist Cadre Officer on Contract Basis",
+    "name": "Recruitment of Specialist Cadre Officer on Regular Basis",
     "date_of_notification": null,
     "date_of_commencement": null,
     "end_date": "03-02-2025",
-    "apply_link": "https://recruitment.bank.sbi",
-    "event_type": "Recruitment",
+    "apply_link": "https://recruitment.bank.sbi/crpd-sco-2024-25-26/apply",
+    "event_type": "Exam",
     "document_links": [
-  "https://sbi.co.in/documents/77530/43947057/03012025_ADV_CRPD_+SCO_2024-25+_+21_+Archivist.pdf/d8be1686-513a-fbd8-3dac-634f194a3b15?t=1735882836856"    ],
+  "https://sbi.co.in/documents/77530/43947057/03012025_ADV_CRPD_SC0_2024-25_26.pdf/1dea423f-9f7d-2fa9-75eb-244f0cada7fe?t=1735882031450" ,
+"https://sbi.co.in/documents/77530/43947057/03012025_BIODATA_CRPD_SCO_202425_26.pdf/0bc5ca19-a945-d522-b318-03ce6f703e80?t=1735882069791",
+"https://sbi.co.in/documents/77530/43947057/03012025_UNDERTAKING+TO+BE+UPLOADED.pdf/273bbbe6-f712-572f-30b1-ad0f30a73afa?t=1735882109888"
+
+   ],
     "details": null
   }
 ]

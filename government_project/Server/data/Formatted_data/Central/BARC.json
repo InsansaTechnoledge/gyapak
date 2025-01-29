@@ -4,9 +4,9 @@
     "date_of_notification": "09-01-2025",
     "date_of_commencement": "20-01-2025",
     "end_date": "20-01-2025",
-    "apply_link": null,
+    "apply_link": "https://www.barc.gov.in/careers/recruitment.html",
     "event_type": "Exam",
-    "document_links": [],
+    "document_links": ["https://www.barc.gov.in/careers/vacancy4.pdf"],
     "details": {
       "positions": [
         "General Duty Medical Officer",
@@ -24,9 +24,9 @@
     "date_of_notification": "09-01-2025",
     "date_of_commencement": "22-01-2025",
     "end_date": "22-01-2025",
-    "apply_link": null,
+    "apply_link": "https://www.barc.gov.in/careers/recruitment.html",
     "event_type": "Exam",
-    "document_links": [],
+    "document_links": ["https://www.barc.gov.in/careers/vacancy3.pdf"],
     "details": {
       "positions": [
         "Post Graduate Resident Medical Officer (PGRMO)",
@@ -42,10 +42,10 @@
     "date_of_notification": "09-01-2025",
     "date_of_commencement": "09-01-2025",
     "end_date": "26-01-2025",
-    "apply_link": "https://www.barcocesexam.in",
+    "apply_link": "https://barcocesexam.in/",
     "event_type": "Exam",
     "document_links": [
-      "https://www.barc.gov.in/careers/barc_ts_OCES_DGFS_brochure.pdf"
+      "https://www.barc.gov.in/careers/vacancy1.pdf"
     ],
     "details": {
       "programs": [
@@ -64,9 +64,9 @@
     "date_of_notification": "09-01-2025",
     "date_of_commencement": "09-01-2025",
     "end_date": "26-01-2025",
-    "apply_link": "https://www.barcocesexam.in",
+    "apply_link": "https://barcocesexam.in/",
     "event_type": "Exam",
-    "document_links": [],
+    "document_links": ["https://www.barc.gov.in/careers/vacancy2.pdf"],
     "details": {
       "program": "DDFS Programme (2025)",
       "eligibility": "Engineering Postgraduates",
@@ -79,9 +79,9 @@
     "date_of_notification": "09-01-2025",
     "date_of_commencement": "09-01-2025",
     "end_date": "14-02-2025",
-    "apply_link": null,
+    "apply_link": "https://www.barc.gov.in/careers/recruitment.html",
     "event_type": "Exam",
-    "document_links": [],
+    "document_links": ["https://www.barc.gov.in/careers/vacancy5.pdf"],
     "details": {
       "eligibility": "Retired Employees of DAE/DAE Constituent Units",
       "application_deadline": "14-02-2025"

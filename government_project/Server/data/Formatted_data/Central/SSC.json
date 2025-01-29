@@ -1,35 +1,44 @@
 [
   {
-    "name": "Combined Graduate Level Examination (CGL) 2025",
-    "date_of_notification": "01-01-2025",
-    "date_of_commencement": "01-01-2025",
-    "end_date": "31-01-2025",
-    "apply_link": "https://ssc.nic.in/Portal/Apply",
+    "name": "Combined Graduate Level Examination (Tier-I), 2024 – Allowing Additional Candidates to Appear in Tier-II Examination in Compliance with Court Orders",
+    "date_of_notification": "2025-01-25",
+    "date_of_commencement": null,
+    "end_date": null,
+    "apply_link": null,
     "event_type": "Exam",
     "document_links": [
+      "https://ssc.gov.in/api/attachment/uploads/masterData/NoticeBoards/Notice_%20CTGD_25012025.pdf"
     ],
-    "details": null
+    "details": {
+      "description": "In compliance with court orders, the SSC is allowing additional candidates to appear in the Tier-II examination of the Combined Graduate Level Examination (Tier-I), 2024.",
+      "important_dates": {
+        "tier_ii_exam_date": "To be announced"
+      },
+      "contact_details": {
+        "email": null,
+        "phone": null
+      }
+    }
   },
   {
-    "name": "Combined Higher Secondary Level Examination (CHSL) 2025",
-    "date_of_notification": "15-01-2025",
-    "date_of_commencement": "15-01-2025",
-    "end_date": "14-02-2025",
-    "apply_link": "https://ssc.nic.in/Portal/Apply",
+    "name": "Important Notice: Schedule of Examinations – 2025",
+    "date_of_notification": "2025-01-20",
+    "date_of_commencement": null,
+    "end_date": null,
+    "apply_link": "https://ssc.gov.in/home/notice-board",
     "event_type": "Exam",
     "document_links": [
+      "https://ssc.gov.in/api/attachment/uploads/masterData/NoticeBoards/CGLE_reschedule_20012025.pdf"
     ],
-    "details": null
-  },
-  {
-    "name": "Junior Engineer (Civil, Mechanical, Electrical and Quantity Surveying & Contracts) Examination, 2025",
-    "date_of_notification": "20-01-2025",
-    "date_of_commencement": "20-01-2025",
-    "end_date": "19-02-2025",
-    "apply_link": "https://ssc.nic.in/Portal/Apply",
-    "event_type": "Exam",
-    "document_links": [
-    ],
-    "details": null
+    "details": {
+      "description": "The Staff Selection Commission has released the schedule of examinations for the year 2025. Candidates are advised to refer to the official notice for detailed information on examination dates and related instructions.",
+      "important_dates": {
+        "schedule_release_date": "2025-01-20"
+      },
+      "contact_details": {
+        "email": null,
+        "phone": null
+      }
+    }
   }
 ]

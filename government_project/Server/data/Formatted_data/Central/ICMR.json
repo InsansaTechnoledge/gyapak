@@ -1,72 +1,84 @@
 [
   {
-    "name": "ICMR-Emeritus Scientist Program 2025",
-    "date_of_notification": "January 23, 2025",
-    "date_of_commencement": "January 23, 2025",
+    "name": "Applications are invited for the position to be filled upon purely time-bound contractual basis for a period of one year at ICMR Bioethics Unit, Bengaluru.",
+    "date_of_notification": "January 24, 2025",
+    "date_of_commencement": null,
+    "end_date": "February 7, 2025",
+    "apply_link": "https://www.icmr.gov.in/employment-opportunities",
+    "event_type": "Exam",
+    "document_links": [
+      "https://www.icmr.gov.in/icmrobject/uploads/Recruitment/1737624797_advtofconsultantypiiapproved.pdf",
+      "https://www.icmr.gov.in/icmrobject/uploads/Recruitment/1737625646_applicationformatyoungprofessionaliitechnical-scientific.pdf",
+      "https://www.icmr.gov.in/icmrobject/uploads/Recruitment/1737625634_applicationformatyoungprofessionaliiadmin.pdf"
+    ],
+    "details": {
+      "location": "Bengaluru"
+    }
+  },
+  {
+    "name": "Notice for Cancellation of Advertisement for one vacancy of Director ICMR-NIRT Chennai",
+    "date_of_notification": "January 24, 2025",
+    "date_of_commencement": null,
+    "end_date": null,
+    "apply_link": "https://www.icmr.gov.in/employment-opportunities",
+    "event_type": "Exam",
+    "document_links": [
+      "https://www.icmr.gov.in/icmrobject/uploads/Recruitment/1736830549_noticeforcancellationofadvdirectornirtchennai.pdf"
+    ],
+    "details": {
+      "location": "Chennai",
+      "vacancies": {
+        "total": "1"
+        
+      }
+    }
+  },
+  {
+    "name": "Walk-in interview for the position of Consultant (Admin) and Consultant (Legal)",
+    "date_of_notification": "January 24, 2025",
+    "date_of_commencement": null,
+    "end_date": "January 31, 2025",
+    "apply_link": "https://www.icmr.gov.in/employment-opportunities",
+    "event_type": "Exam",
+    "document_links": [
+      "https://www.icmr.gov.in/icmrobject/uploads/Recruitment/1736517503_consultant.pdf"
+    ],
+    "details": {
+      "location": "New Delhi"
+    }
+  },
+  {
+    "name": "Online applications are invited for the post of Additional Director General (Scientist H)",
+    "date_of_notification": "January 24, 2025",
+    "date_of_commencement": null,
+    "end_date": "February 24, 2025",
+    "apply_link": "https://recruit.icmr.org.in",
+    "event_type": "Exam",
+    "document_links": [
+      "https://www.icmr.gov.in/icmrobject/uploads/Recruitment/1736149004_advwebsite-addldgemicmrlastdate24-2-2025.pdf"
+    ],
+    "details": {
+      "location": "New Delhi"
+    }
+  },
+  {
+    "name": "Online applications are invited for the post of Director at ICMR-NICHDR, New Delhi",
+    "date_of_notification": "January 24, 2025",
+    "date_of_commencement": null,
     "end_date": "February 17, 2025",
-    "apply_link": "https://www.icmr.gov.in/employment-opportunities",
+    "apply_link": "https://recruit.icmr.org.in",
     "event_type": "Exam",
-    "document_links": [],
-    "details": {}
-  },
-  {
-    "name": "Expression of Interest for Development and Manufacturing of a Lateral Flow based Point of Care device for serum ferritin quantification",
-    "date_of_notification": "January 23, 2025",
-    "date_of_commencement": "January 23, 2025",
-    "end_date": "February 28, 2025",
-    "apply_link": "https://www.icmr.gov.in/employment-opportunities",
-    "event_type": "Exam",
-    "document_links": [],
-    "details": {}
-  },
-  {
-    "name": "DHR-Fellowship Program for Achievements in Biomedical Research (FAB) 2024-25",
-    "date_of_notification": "January 23, 2025",
-    "date_of_commencement": "January 23, 2025",
-    "end_date": "February 13, 2025",
-    "apply_link": "https://www.icmr.gov.in/employment-opportunities",
-    "event_type": "Exam",
-    "document_links": [],
-    "details": {}
-  },
-  {
-    "name": "Call for Investigator-Initiated Research Proposals for Intermediate Extramural Grants (2025)",
-    "date_of_notification": "January 23, 2025",
-    "date_of_commencement": "January 23, 2025",
-    "end_date": "April 8, 2025",
-    "apply_link": "https://www.icmr.gov.in/employment-opportunities",
-    "event_type": "Exam",
-    "document_links": [],
-    "details": {}
-  },
-  {
-    "name": "Call for Investigator-Initiated Research Proposals for Small Extramural Grants (2025)",
-    "date_of_notification": "January 23, 2025",
-    "date_of_commencement": "January 23, 2025",
-    "end_date": "April 1, 2025",
-    "apply_link": "https://www.icmr.gov.in/employment-opportunities",
-    "event_type": "Exam",
-    "document_links": [],
-    "details": {}
-  },
-  {
-    "name": "Comments on Standard IVD Evaluation Protocols",
-    "date_of_notification": "January 23, 2025",
-    "date_of_commencement": "January 23, 2025",
-    "end_date": "February 15, 2025",
-    "apply_link": "https://www.icmr.gov.in/employment-opportunities",
-    "event_type": "Exam",
-    "document_links": [],
-    "details": {}
-  },
-  {
-    "name": "DHR-HRD Research Proposals under 'Start-Up Grant for induction into Biomedical & Health Research' 2024-25",
-    "date_of_notification": "January 23, 2025",
-    "date_of_commencement": "January 23, 2025",
-    "end_date": "January 30, 2025",
-    "apply_link": "https://www.icmr.gov.in/employment-opportunities",
-    "event_type": "Exam",
-    "document_links": [],
-    "details": {}
+    "document_links": [
+      "https://www.icmr.gov.in/icmrobject/uploads/Recruitment/1735213365_finaladvwebsite-directornichdr.pdf"
+    ],
+    "details": {
+      "location": "New Delhi",
+      "vacancies": {
+        "total": "1"
+        
+      }
+    }
   }
 ]
+
+

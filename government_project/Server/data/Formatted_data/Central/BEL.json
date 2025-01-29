@@ -5,7 +5,7 @@
     "date_of_notification": "10-01-2025",
     "date_of_commencement": "10-01-2025",
     "end_date": "31-01-2025",
-    "apply_link": "https://bel-india.in/job-notifications/",
+    "apply_link": "https://test.cbexams.com/EDPSU/BEL/Apps/Registration/RegStep.aspx",
     "event_type": "Exam",
     "document_links": [
       "https://bel-india.in/wp-content/uploads/2025/01/All-India-External-Ad_EN.pdf"
@@ -68,29 +68,29 @@
     "date_of_notification": "Not specified",
     "date_of_commencement": "Not specified",
     "end_date": "02-02-2025",
-    "apply_link": "Not specified",
+    "apply_link": "https://jobapply.in/bel2024ccbng/BEL2024CCBNGAdmitCard.aspx",
     "event_type": "AdmitCard",
     "document_links": [
       "https://bel-india.in/written-test-shortlists/"
     ],
     "details": {
-      "exam_date": "02-02-2025",
-      "admit_card_link": "https://bel-india.in/written-test-shortlists/"
+      "exam_date": "02-02-2025"
+  
     }
   },
   {
     "name": "Written Test for Deputy Manager and Manager on Fixed Term Basis for HLS and SCB SBU",
     "date_of_notification": "Not specified",
-    "date_of_commencement": "Not specified",
+    "date_of_commencement": "06-02-2025",
     "end_date": "06-02-2025",
-    "apply_link": "Not specified",
+    "apply_link": "https://bel-india.in/wp-content/uploads/2025/01/WT-Shrotlisted-List-to-Upload.pdf",
     "event_type": "AdmitCard",
     "document_links": [
-      "https://bel-india.in/written-test-shortlists/"
+      "https://bel-india.in/wp-content/uploads/2025/01/WT-Shrotlisted-List-to-Upload.pdf"
     ],
     "details": {
-      "exam_date": "06-02-2025",
-      "admit_card_link": "https://bel-india.in/written-test-shortlists/"
+      "exam_date": "06-02-2025"
+     
     }
   },
   {
@@ -98,14 +98,14 @@
     "date_of_notification": "Not specified",
     "date_of_commencement": "Not specified",
     "end_date": "06-02-2025",
-    "apply_link": "Not specified",
+    "apply_link": "https://bel-india.in/wp-content/uploads/2025/01/SE-liost-for-WT-06022025.pdf",
     "event_type": "AdmitCard",
     "document_links": [
       "https://bel-india.in/written-test-shortlists/"
     ],
     "details": {
-      "exam_date": "06-02-2025",
-      "admit_card_link": "https://bel-india.in/written-test-shortlists/"
+      "exam_date": "06-02-2025"
+    
     }
   },
   {
@@ -113,14 +113,14 @@
     "date_of_notification": "Not specified",
     "date_of_commencement": "Not specified",
     "end_date": "01-02-2025",
-    "apply_link": "Not specified",
+    "apply_link": "https://bel-india.in/wp-content/uploads/2025/01/PE-I-WT-call-letterpdf.pdf",
     "event_type": "AdmitCard",
     "document_links": [
-      "https://bel-india.in/written-test-shortlists/"
+      "https://bel-india.in/wp-content/uploads/2025/01/PRE-shortlisted-for-WT-01022025.pdf"
     ],
     "details": {
-      "exam_date": "01-02-2025",
-      "admit_card_link": "https://bel-india.in/written-test-shortlists/"
+      "exam_date": "01-02-2025"
+      
     }
   }
 ]

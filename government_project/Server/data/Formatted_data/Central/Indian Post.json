@@ -1,62 +1,26 @@
 [
   {
-    "name": "Corrigendum to Expression of Interest (EOI) on 'Consultancy Services for Development of the Strategic Roadmap to transform India Post from a Cost Centre to Profit Centre'",
-    "date_of_notification": "17-01-2025",
-    "date_of_commencement": null,
-    "end_date": null,
-    "apply_link": null,
-    "event_type": "Tender",
+    "name": "Deputation/Absorption of Staff Car Driver (Tamil Nadu Circle)",
+    "date_of_notification": "10-Jan-2024",
+    "date_of_commencement": "N/A",
+    "end_date": "N/A",
+    "apply_link": "https://www.indiapost.gov.in/vas/Pages/IndiaPostHome.aspx",
+    "event_type": "Exam",
     "document_links": [
-      "https://www.indiapost.gov.in/VAS/Pages/Tenders/IP_17012024_Corrigendum.pdf"
+      "https://www.indiapost.gov.in/VAS/Pages/News/IP_13012024_Driver.pdf"
     ],
-    "details": null
+    "details": {}
   },
   {
-    "name": "Outsourcing of Manpower for Delivery of Articles at Lucknow Division",
-    "date_of_notification": "16-01-2025",
-    "date_of_commencement": null,
-    "end_date": null,
-    "apply_link": null,
-    "event_type": "Tender",
+    "name": "Online Recruitment of Meritorious Sportspersons (Karnataka Circle)",
+    "date_of_notification": "6-Dec-2023",
+    "date_of_commencement": "N/A",
+    "end_date": "N/A",
+    "apply_link": "https://www.indiapost.gov.in/vas/Pages/IndiaPostHome.aspx",
+    "event_type": "Result",
     "document_links": [
-        "https://www.indiapost.gov.in/VAS/Pages/Tenders/IP_16012024_Tender1.pdf"
+      "https://www.indiapost.gov.in/VAS/Pages/Recruitment/IP_16122024_Sportsrecruitment_English.pdf"
     ],
-    "details": null
-  },
-  {
-    "name": "Hiring of Commercial Vehicle under Gautam Buddha Nagar Division",
-    "date_of_notification": "16-01-2025",
-    "date_of_commencement": null,
-    "end_date": null,
-    "apply_link": null,
-    "event_type": "Tender",
-    "document_links": [
-        "https://www.indiapost.gov.in/VAS/Pages/Tenders/IP_16012024_Tender1.pdf"
-    ],
-    "details": null
-  },
-  {
-    "name": "Cycle/Scooter/Car Parking Stand at Lucknow GPO",
-    "date_of_notification": "13-01-2025",
-    "date_of_commencement": null,
-    "end_date": null,
-    "apply_link": null,
-    "event_type": "Tender",
-    "document_links": [
-        "https://www.indiapost.gov.in/VAS/Pages/Tenders/IP_15012024_Tender_English.pdf"
-    ],
-    "details": null
-  },
-  {
-    "name": "Extension of Submission of Online Bid for Selection of Firm for Execution of Modernization, Upgradation, Expansion of National Philatelic Museum into a National Postal Museum",
-    "date_of_notification": "22-01-2025",
-    "date_of_commencement": null,
-    "end_date": null,
-    "apply_link": null,
-    "event_type": "Tender",
-    "document_links": [
-        "https://www.indiapost.gov.in/VAS/Pages/Tenders/IP_22012024_Ext.pdf"
-    ],
-    "details": null
+    "details": {}
   }
 ]

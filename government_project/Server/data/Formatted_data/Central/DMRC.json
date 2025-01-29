@@ -1,61 +1,31 @@
 [
-    {
-      "name": "Recruitment of Assistant Manager (Electrical) and Assistant Manager (S&T)",
-      "date_of_notification": "15-12-2024",
-      "date_of_commencement": "15-12-2024",
-      "end_date": "15-01-2025",
-      "event_type":"Exam",
-      "apply_link": "https://delhimetrorail.com/",
-      "document_links": [
-        "https://delhimetrorail.com/"
-      ],
-      "details": {
-        "positions": "Assistant Manager (Electrical), Assistant Manager (S&T)",
-        "location": "Delhi",
-        "vacancies": "Not specified",
-        "eligibility": {
-          "education": "B.E./B.Tech in relevant discipline",
-          "age_limit": "As per DMRC norms"
-        },
-        "selection_process": "Written test and interview",
-        "salary": "As per DMRC norms"
-      }
-    },
-    {
-      "name": "Requirement of Senior Manager (Operations) on Contract Basis",
-      "date_of_notification": "13-01-2025",
-      "date_of_commencement": "15-01-2025",
-      "end_date": "30-01-2025",
-      "apply_link": "https://delhimetrorail.com/recruitment",
-      "event_type": "Exam",
-      "document_links": [
-        "https://backend.delhimetrorail.com/documents/7834/Advt-187-Sr-Manager-Ops_-_Contract.pdf"
-      ],
-      "details": {
-        "vacancies": {
-          "total": 1
-        },
-        "eligibility": {
-          "experience": "Minimum 15 years in Metro Operations",
-          "education": "Bachelor's Degree in any discipline"
-        },
-        "fee": {
-          "amount": "₹500",
-          "exemptions": ["SC/ST candidates", "Female candidates"]
-        },
-        "exam_centers": ["Delhi"],
-        "important_dates": {
-          "interview_date": "05-02-2025"
-        },
-        "scheme_of_exam": {
-          "interview_weightage": "100%"
-        },
-        "contact_details": {
-          "email": "career@dmrc.org",
-          "phone": "011-23417910"
+  {
+    "name": "Requirement of Supervisor (PST) for DMRC O&M work of Mumbai Metro Line-3",
+    "date_of_notification": "28-08-2024",
+    "date_of_commencement": null,
+    "end_date": "08-11-2024",
+    "apply_link": "https://delhimetrorail.com/pages/en/career",
+    "event_type": "Exam",
+    "document_links": [
+      "https://backend.delhimetrorail.com/documents/7834/Advt-187-Sr-Manager-Ops_-_Contract.pdf"
+    ],
+    "details": {
+      "vacancies": {
+        "total": 4,
+        "breakdown": {
+          "UR": 3,
+          "OBC": 1
         }
+      },
+      "eligibility": {
+        "education": "Three years regular Engineering Diploma in Electrical from a Govt. recognized University/Institute",
+        "experience": "Experience in construction/maintenance of 25 kV Flexible/Rigid OHE or 25 kV AC Traction Substation"
+      },
+      "location": "Mumbai",
+      "contact_details": {
+        "email": "career@dmrc.org",
+        "address": "Executive Director (HR), Delhi Metro Rail Corporation Ltd., Metro Bhawan, Fire Brigade Lane, Barakhamba Road, New Delhi"
       }
     }
-  
-  ]
-  
+  }
+]
