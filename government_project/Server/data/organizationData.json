@@ -1,957 +1,964 @@
 [
-    {
-      "name": "University Grants Commission National Eligibility Test",
-      "abbreviation": "UGC NET",
-      "description": "A national-level exam conducted in India to determine eligibility for the roles of assistant professor and Junior Research Fellowship (JRF). It aims to ensure minimum standards for teaching and research positions. The exam is organized by the University Grants Commission (UGC).",
-      "category": "Academics Research",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "Joint Entrance Examination Mains",
-      "abbreviation": "JEE Mains",
-      "description": "An all-India entrance exam for admission to undergraduate engineering programs at NITs, IIITs, and other institutions. It also serves as a qualifier for JEE Advanced, the gateway to IITs. The exam assesses candidates' knowledge in physics, chemistry, and mathematics.",
-      "category": "Engineering",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "Indian Institute of Foreign Trade",
-      "abbreviation": "IIFT",
-      "description": "An autonomous institute in India specializing in international business and trade education. It offers MBA programs and conducts its own entrance exam for admissions. The institute is known for its focus on global trade and economics.",
-      "category": "Higher Education Specialized Exams",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "Council of Scientific and Industrial Research",
-      "abbreviation": "CSIR",
-      "description": "The Council of Scientific and Industrial Research is a premier R&D organization in India. It conducts innovative research in various scientific domains such as aerospace, energy, and healthcare. CSIR also conducts the NET exam for science disciplines.",
-      "category": "Academics Research",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "Indian Police Service",
-      "abbreviation": "IPS",
-      "description": "The Indian Police Service is one of the three All India Services responsible for public safety and order. IPS officers serve in various capacities, including crime prevention, traffic control, and disaster management. They are recruited through the Civil Services Examination.",
-      "category": "Civil Services",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "National Defence Academy",
-      "abbreviation": "NDA",
-      "description": "The National Defence Academy is a joint military academy in India training cadets for the Army, Navy, and Air Force. It provides rigorous physical, academic, and leadership training. Admission is through a competitive national-level exam.",
-      "category": "Defense",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "Bhabha Atomic Research Centre",
-      "abbreviation": "BARC",
-      "description": "The Bhabha Atomic Research Centre is India's leading nuclear research and development institution. It works on advanced atomic science, nuclear reactors, and radiation technology. BARC also plays a vital role in India's nuclear energy program.",
-      "category": "Technical",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "Bharat Electronics Limited",
-      "abbreviation": "BEL",
-      "description": "Bharat Electronics Limited is a state-owned enterprise specializing in electronic equipment for defense and civilian use. It produces advanced radar systems, communication devices, and weapons systems. BEL also contributes to space and healthcare technologies.",
-      "category": "Technical",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "Bharat Petroleum Corporation Limited",
-      "abbreviation": "BPCL",
-      "description": "Bharat Petroleum Corporation Limited is a government-owned oil and gas company in India. It is involved in refining, marketing, and distributing petroleum products. BPCL plays a crucial role in ensuring the country's energy security.",
-      "category": "Technical",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "Defence Research and Development Organisation",
-      "abbreviation": "DRDO",
-      "description": "The Defence Research and Development Organisation develops advanced technologies for India's defense forces. It works on missile systems, radar, and combat vehicles. DRDO's innovations strengthen the country's strategic and operational capabilities.",
-      "category": "Technical",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "Indian Council of Medical Research",
-      "abbreviation": "ICMR",
-      "description": "The Indian Council of Medical Research is the apex body for biomedical research in India. It focuses on health research to address public health challenges. ICMR promotes evidence-based policies and innovations in medicine.",
-      "category": "Medical",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "Gramin Dak Sevak",
-      "abbreviation": "GDS",
-      "description": "Gramin Dak Sevak positions are part of the rural postal network under India Post. GDS personnel manage postal operations in villages, including mail delivery and financial services. They play a vital role in connecting rural areas to the postal system.",
-      "category": "Public Services",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "Indian Oil Corporation Limited",
-      "abbreviation": "IOCL",
-      "description": "Indian Oil Corporation Limited is India's largest government-owned oil corporation. It refines crude oil, produces petroleum products, and markets them across the country. IOCL also explores renewable energy solutions and petrochemicals.",
-      "category": "Technical",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "Indian Space Research Organisation",
-      "abbreviation": "ISRO",
-      "description": "The Indian Space Research Organisation is India's national space agency, pioneering space exploration and satellite technology. It conducts satellite launches, planetary missions, and space research. ISRO contributes significantly to communication, navigation, and earth observation.",
-      "category": "Technical",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "Nuclear Power Corporation of India Limited",
-      "abbreviation": "NPCIL",
-      "description": "The Nuclear Power Corporation of India Limited manages nuclear power generation in the country. It designs, constructs, and operates nuclear reactors. NPCIL ensures the safe and efficient use of nuclear energy for electricity generation.",
-      "category": "Technical",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "Oil and Natural Gas Corporation",
-      "abbreviation": "ONGC",
-      "description": "Oil and Natural Gas Corporation is a government-owned company exploring and producing oil and gas in India. It plays a key role in meeting the country's energy demands. ONGC also invests in renewable energy and petrochemical production.",
-      "category": "Technical",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "Delhi Metro Rail Corporation",
-      "abbreviation": "DMRC",
-      "description": "The Delhi Metro Rail Corporation is responsible for constructing and operating the metro rail system in Delhi and NCR. It provides a safe, reliable, and eco-friendly public transport system. DMRC is known for its advanced technology and efficient operations.",
-      "category": "Railways",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "Rail India Technical and Economic Service",
-      "abbreviation": "RITES",
-      "description": "Rail India Technical and Economic Service is a government enterprise offering technical consultancy for transportation infrastructure. It specializes in railways, highways, and urban transport. RITES also provides project management and export services.",
-      "category": "Railways",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "Railway Protection Force",
-      "abbreviation": "RPF",
-      "description": "The Railway Protection Force ensures the safety of railway passengers, assets, and property in India. It handles crime prevention, disaster management, and rescue operations on railway premises. RPF personnel maintain law and order in the railway network.",
-      "category": "Public Services",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "Kishore Vaigyanik Protsahan Yojana",
-      "abbreviation": "KVPY",
-      "description": "The Kishore Vaigyanik Protsahan Yojana is a scholarship program encouraging students to pursue careers in science and research. It identifies talented young minds through an aptitude test and interviews. Selected students receive financial support for their education.",
-      "category": "Academics Research",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "National Talent Search Examination",
-      "abbreviation": "NTSE",
-      "description": "The National Talent Search Examination is a scholarship program identifying and nurturing academically talented students in India. It is conducted in two stages and evaluates reasoning and scholastic skills. Successful candidates receive scholarships for higher studies.",
-      "category": "Academics Research",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "National Eligibility cum Entrance Test",
-      "abbreviation": "NEET",
-      "description": "The National Eligibility cum Entrance Test is a medical entrance exam in India for admissions to MBBS, BDS, and other medical courses. It assesses candidates' knowledge in physics, chemistry, and biology. NEET is the gateway to medical colleges across the country.",
-      "category": "Medical",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "Indian Post",
-      "abbreviation": "Indian Post",
-      "description": "India Post is the country's postal system providing mail and financial services. It connects urban and rural areas through its vast network of post offices. Services include mail delivery, savings accounts, and remittance facilities.",
-      "category": "Public Services",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "India Post Payments Bank",
-      "abbreviation": "IPPB",
-      "description": "India Post Payments Bank is a government-owned bank offering digital and financial services through the postal network. It aims to promote financial inclusion in rural and semi-urban areas. IPPB provides services like savings accounts, bill payments, and remittances.",
-      "category": "Banking Finance",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "National Bank for Agriculture and Rural Development",
-      "abbreviation": "NABARD",
-      "description": "The National Bank for Agriculture and Rural Development supports rural development and agriculture in India. It provides credit facilities, infrastructure development, and policy guidance. NABARD also promotes self-help groups and sustainable development.",
-      "category": "Banking Finance",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "State Bank of India",
-      "abbreviation": "SBI",
-      "description": "The State Bank of India is the largest public sector bank in India, offering banking and financial services. It provides personal and corporate banking, loans, and investment solutions. SBI also has an extensive global presence.",
-      "category": "Banking Finance",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "Staff Selection Commission",
-      "abbreviation": "SSC",
-      "description": "The Staff Selection Commission conducts exams to recruit candidates for various government posts. It organizes exams like SSC CGL, CHSL, and MTS. SSC plays a crucial role in the selection of skilled professionals for ministries and departments.",
-      "category": "Public Services",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "Central Industrial Security Force",
-      "abbreviation": "CISF",
-      "description": "The Central Industrial Security Force is a central armed police force in India responsible for the security of industrial establishments, government buildings, and critical infrastructure. It plays a vital role in disaster management and provides VIP security.",
-      "category": "Public Services",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "Central Armed Police Forces (Assistant Commandants) Examination",
-      "abbreviation": "CAPF",
-      "description": "The Central Armed Police Forces (Assistant Commandants) Examination is a recruitment exam for entry-level officer positions in India's paramilitary forces. It evaluates leadership, physical fitness, and analytical abilities.",
-      "category": "Public Services",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "Union Public Service Commission",
-      "abbreviation": "UPSC",
-      "description": "The Union Public Service Commission is responsible for conducting exams for civil services in India. It conducts the Civil Services Examination for selecting IAS, IFS, IPS officers and other central government services.",
-      "category": "Civil Services",
-      "parent_organization": "Central"
-    },
-    {
-      "name": "Andhra Pradesh Public Service Commission",
-      "abbreviation": "APPSC",
-      "description": "Andhra Pradesh Public Commission is the state government agency responsible for conducting recruitment exams and selecting candidates for civil service roles and other state government positions.",
-      "category": "Civil Services",
-      "parent_organization": "Andhra Pradesh"
-    },
-    {
-      "name": "Andhra Pradesh State Level Police Recruitment Board",
-      "abbreviation": "APSLPRB",
-      "description": "Andhra Pradesh State Level Police Recruitment Board handles recruitment for police department roles in Andhra Pradesh. It conducts exams and physical tests for positions like constables, sub-inspectors, and other police staff.",
-      "category": "Public Services",
-      "parent_organization": "Andhra Pradesh"
-    },
-    {
-      "name": "Board of Intermediate Education Andhra Pradesh",
-      "abbreviation": "BIEAP",
-      "description": "The Board of Intermediate Education Andhra Pradesh regulates and supervises intermediate education in the state. It is responsible for setting the syllabus, conducting exams, and managing admissions to junior colleges.",
-      "category": "Higher Education Specialized Exams",
-      "parent_organization": "Andhra Pradesh"
-    },
-    {
-      "name": "Directorate of Medical Education Andhra Pradesh",
-      "abbreviation": "DMEAP",
-      "description": "The Directorate of Medical Education Andhra Pradesh oversees medical education, training, and research in the state. It manages medical colleges, nursing schools, and paramedical institutions, ensuring quality standards in healthcare education.",
-      "category": "Medical",
-      "parent_organization": "Andhra Pradesh"
-    },
-    {
-      "name": "Bihar Public Service Commission",
-      "abbreviation": "BPSC",
-      "description": "Bihar Public Service Commission is a state agency responsible for conducting competitive exams and selecting candidates for various administrative and civil service posts in Bihar government departments.",
-      "category": "Civil Services",
-      "parent_organization": "Bihar"
-    },
-    {
-      "name": "Bihar Staff Selection Commission",
-      "abbreviation": "BSSC",
-      "description": "Bihar Staff Selection Commission is tasked with recruiting eligible candidates for non-gazetted positions in various state government departments through competitive exams and selection processes.",
-      "category": "Public Services",
-      "parent_organization": "Bihar"
-    },
-    {
-      "name": "Bihar Police Subordinate Services Commission",
-      "abbreviation": "BPSSC",
-      "description": "Bihar Police Subordinate Services Commission conducts recruitment exams for police-related posts, such as sub-inspectors and other subordinate roles in the Bihar Police Department.",
-      "category": "Public Services",
-      "parent_organization": "Bihar"
-    },
-    {
-      "name": "Bihar Combined Entrance Competitive Examination Board",
-      "abbreviation": "BCECEB",
-      "description": "Bihar Combined Entrance Competitive Examination Board conducts entrance exams for admission into professional courses such as engineering, medical, and agricultural programs in Bihar.",
-      "category": "Engineering",
-      "parent_organization": "Bihar"
-    },
-    {
-      "name": "Bihar State Cooperative Bank",
-      "abbreviation": "BSCB",
-      "description": "Bihar State Cooperative Bank manages recruitment for roles in cooperative banks across the state and oversees the cooperative banking sector's operational and administrative needs.",
-      "category": "Banking Finance",
-      "parent_organization": "Bihar"
-    },
-    {
-      "name": "Bihar School Examination Board",
-      "abbreviation": "BSEB",
-      "description": "Bihar School Examination Board organizes secondary and senior secondary school examinations in Bihar, along with entrance exams for teacher eligibility and other educational activities.",
-      "category": "Academics Research",
-      "parent_organization": "Bihar"
-    },
-    {
-      "name": "Public Health Engineering Department",
-      "abbreviation": "PHED",
-      "description": "The Public Health Engineering Department in Bihar is responsible for planning, designing, and executing water supply and sanitation projects to ensure safe drinking water and proper hygiene in rural and urban areas.",
-      "category": "Public Services",
-      "parent_organization": "Bihar"
-    },
-    {
-      "name": "Bihar Technical Service Commission",
-      "abbreviation": "BTSC",
-      "description": "Bihar Technical Service Commission handles recruitment for technical and specialized posts in state government departments, such as engineers, medical professionals, and other technical roles.",
-      "category": "Technical",
-      "parent_organization": "Bihar"
-    },
-    {
-      "name": "Bihar Energy Department",
-      "abbreviation": "Bihar Energy Department",
-      "description": "The Energy Department of Bihar oversees power generation, distribution, and policies related to electricity in the state. It focuses on ensuring reliable energy supply and managing renewable energy initiatives.",
-      "category": "Technical",
-      "parent_organization": "Bihar"
-    },
-    {
-      "name": "High Court of Gujarat",
-      "abbreviation": "High Court Of Gujarat",
-      "description": "The High Court of Gujarat is the highest judicial authority in the state of Gujarat. It oversees legal matters, including the recruitment of judicial officers and administrative staff within the judicial system.",
-      "category": "Public Services",
-      "parent_organization": "Gujarat"
-    },
-    {
-      "name": "Gujarat Public Service Commission",
-      "abbreviation": "GPSC",
-      "description": "The Gujarat Public Service Commission is responsible for conducting competitive exams to recruit candidates for various administrative services, including civil services, engineering, and educational positions in the state government.",
-      "category": "Civil Services",
-      "parent_organization": "Gujarat"
-    },
-    {
-      "name": "Gujarat Urja Vikas Nigam Limited",
-      "abbreviation": "GUVNL",
-      "description": "Gujarat Urja Vikas Nigam Limited is the state-owned company responsible for the transmission and distribution of electricity in Gujarat. It also manages the recruitment of various roles within the state's energy sector.",
-      "category": "Technical",
-      "parent_organization": "Gujarat"
-    },
-    {
-      "name": "Paschim Gujarat Vij Company Limited",
-      "abbreviation": "PGVCL",
-      "description": "Paschim Gujarat Vij Company Limited is a subsidiary of GUVNL, responsible for the distribution of electricity in the western regions of Gujarat. It oversees the recruitment of staff for its operations and customer service functions.",
-      "category": "Technical",
-      "parent_organization": "Gujarat"
-    },
-    {
-      "name": "Madhya Gujarat Vij Company Limited",
-      "abbreviation": "MGVCL",
-      "description": "Madhya Gujarat Vij Company Limited is another subsidiary of GUVNL, responsible for power distribution in central Gujarat. It handles the recruitment of employees for various roles in the electricity distribution process.",
-      "category": "Technical",
-      "parent_organization": "Gujarat"
-    },
-    {
-      "name": "Uttar Gujarat Vij Company Limited",
-      "abbreviation": "UGVCL",
-      "description": "Uttar Gujarat Vij Company Limited is responsible for electricity distribution in northern Gujarat. It works under GUVNL and manages recruitment for technical and administrative roles within the electricity distribution sector.",
-      "category": "Technical",
-      "parent_organization": "Gujarat"
-    },
-    {
-      "name": "Gujarat Energy Transmission Corporation Limited",
-      "abbreviation": "GETCO",
-      "description": "Gujarat Energy Transmission Corporation Limited is responsible for the transmission of electricity in Gujarat. It recruits professionals for various roles related to energy transmission, grid maintenance, and operations.",
-      "category": "Technical",
-      "parent_organization": "Gujarat"
-    },
-    {
-      "name": "Gujarat State Electricity Corporation Limited",
-      "abbreviation": "GSECL",
-      "description": "Gujarat State Electricity Corporation Limited is a state-owned power generation company in Gujarat. It is involved in the recruitment of engineers, technicians, and other professionals for the generation of electricity.",
-      "category": "Technical",
-      "parent_organization": "Gujarat"
-    },
-    {
-      "name": "Bank of Baroda",
-      "abbreviation": "Bank Of Baroda",
-      "description": "Bank of Baroda is one of India's leading public sector banks, headquartered in Gujarat. It recruits for various banking roles, including clerks, officers, and managers across its nationwide branches.",
-      "category": "Banking Finance",
-      "parent_organization": "Gujarat"
-    },
-    {
-      "name": "Haryana Public Service Commission",
-      "abbreviation": "HPSC",
-      "description": "Haryana Public Service Commission is the state agency responsible for conducting recruitment exams and selecting candidates for administrative and civil service posts in Haryana government departments.",
-      "category": "Civil Services",
-      "parent_organization": "Haryana"
-    },
-    {
-      "name": "Haryana Staff Selection Commission",
-      "abbreviation": "HSSC",
-      "description": "Haryana Staff Selection Commission conducts recruitment exams for various posts in Haryana's government departments, including clerical, technical, and officer-level positions.",
-      "category": "Public Services",
-      "parent_organization": "Haryana"
-    },
-    {
-      "name": "Board of School Education Haryana",
-      "abbreviation": "BSEH",
-      "description": "Board of School Education Haryana is responsible for conducting secondary and senior secondary examinations in Haryana. It also manages teacher eligibility tests and other education-related functions in the state.",
-      "category": "Academics Research",
-      "parent_organization": "Haryana"
-    },
-    {
-      "name": "Haryana Health Department",
-      "abbreviation": "Haryana Health Department",
-      "description": "The Health Department of Haryana oversees public health initiatives, including the recruitment of medical professionals, health workers, and administrative staff for the state's healthcare system.",
-      "category": "Medical",
-      "parent_organization": "Haryana"
-    },
-    {
-      "name": "Haryana State Electronics Development Corporation Limited",
-      "abbreviation": "HARTRON",
-      "description": "Haryana State Electronics Development Corporation Limited (HARTRON) focuses on promoting IT services and infrastructure in Haryana. It is involved in recruitment for IT and technical roles in government sectors and projects.",
-      "category": "Technical",
-      "parent_organization": "Haryana"
-    },
-    {
-      "name": "Haryana Technical Education",
-      "abbreviation": "HTE",
-      "description": "Haryana Tourism Corporation (HTE) is responsible for the development of tourism in Haryana, including the recruitment of personnel for its tourism promotion, hospitality, and administrative functions.",
-      "category": "Public Services",
-      "parent_organization": "Haryana"
-    },
-    {
-      "name": "Himachal Pradesh Public Service Commission",
-      "abbreviation": "HPPSC",
-      "description": "Himachal Pradesh Public Service Commission conducts competitive exams to recruit candidates for various administrative and civil services in the Himachal Pradesh government, including officers and staff in multiple departments.",
-      "category": "Civil Services",
-      "parent_organization": "Himachal Pradesh"
-    },
-    {
-      "name": "Himachal Pradesh Education Department",
-      "abbreviation": "Himachal Pradesh Education Department",
-      "description": "The Education Department of Himachal Pradesh is responsible for managing and regulating the state's educational system, including the recruitment of teachers, school administrators, and education officers.",
-      "category": "Academics Research",
-      "parent_organization": "Himachal Pradesh"
-    },
-    {
-      "name": "High Court of Himachal Pradesh",
-      "abbreviation": "High Court Of Himachal Pradesh",
-      "description": "The High Court of Himachal Pradesh is the highest judicial authority in the state, overseeing legal matters, including the recruitment of judicial officers and staff for the judicial system.",
-      "category": "Public Services",
-      "parent_organization": "Himachal Pradesh"
-    },
-    {
-      "name": "Himachal Pradesh Health Department",
-      "abbreviation": "Himachal Pradesh Health Department",
-      "description": "The Health Department of Himachal Pradesh is responsible for providing medical services and overseeing healthcare policies in the state. It recruits medical professionals, health workers, and administrative staff for its healthcare programs.",
-      "category": "Medical",
-      "parent_organization": "Himachal Pradesh"
-    },
-    {
-      "name": "Himachal Pradesh Public Works Department",
-      "abbreviation": "HPPWD",
-      "description": "Himachal Pradesh Public Works Department is responsible for the construction and maintenance of public infrastructure such as roads, bridges, and buildings. It also handles the recruitment of engineers and staff for its operations.",
-      "category": "Technical",
-      "parent_organization": "Himachal Pradesh"
-    },
-    {
-      "name": "Karnataka Public Service Commission",
-      "abbreviation": "KPSC",
-      "description": "Karnataka Public Service Commission is the state agency responsible for conducting competitive exams and selecting candidates for various civil services and administrative positions in the Karnataka government.",
-      "category": "Civil Services",
-      "parent_organization": "Karnataka"
-    },
-    {
-      "name": "Karnataka State Police",
-      "abbreviation": "KSP",
-      "description": "Karnataka State Police is responsible for maintaining law and order in the state. It recruits candidates for various police roles, including constables, sub-inspectors, and officers through competitive exams and physical tests.",
-      "category": "Public Services",
-      "parent_organization": "Karnataka"
-    },
-    {
-      "name": "Karnataka Examinations Authority",
-      "abbreviation": "KEA",
-      "description": "Karnataka Examinations Authority conducts various entrance exams for admission to professional courses such as engineering, medical, and agricultural programs in Karnataka.",
-      "category": "Engineering",
-      "parent_organization": "Karnataka"
-    },
-    {
-      "name": "Karnataka State Staff Selection Commission",
-      "abbreviation": "KSSSB",
-      "description": "Karnataka State Staff Selection Commission conducts recruitment exams for filling non-gazetted posts in the state government. It assesses candidates for various administrative and technical positions.",
-      "category": "Public Services",
-      "parent_organization": "Karnataka"
-    },
-    {
-      "name": "Karnataka Education Department",
-      "abbreviation": "Karnataka Education Department",
-      "description": "The Education Department of Karnataka manages and regulates the educational system, including schools, colleges, and universities in the state. It recruits teachers, principals, and education officers.",
-      "category": "Academics Research",
-      "parent_organization": "Karnataka"
-    },
-    {
-      "name": "High Court of Karnataka",
-      "abbreviation": "High Court Of Karnataka",
-      "description": "The High Court of Karnataka is the highest judicial body in the state. It oversees legal matters and conducts recruitment for judicial officers, clerks, and other staff within the judiciary.",
-      "category": "Public Services",
-      "parent_organization": "Karnataka"
-    },
-    {
-      "name": "Karnataka Health Department",
-      "abbreviation": "Karnataka Health Department",
-      "description": "The Health Department of Karnataka is responsible for managing public health services, implementing health policies, and overseeing healthcare facilities. It recruits medical professionals and healthcare staff for various state hospitals and health programs.",
-      "category": "Medical",
-      "parent_organization": "Karnataka"
-    },
-    {
-      "name": "Kerala Public Service Commission",
-      "abbreviation": "KERALAPSC",
-      "description": "Kerala Public Service Commission conducts recruitment exams for various civil services and administrative posts in the Kerala state government, including officers and staff in multiple government departments.",
-      "category": "Civil Services",
-      "parent_organization": "Kerala"
-    },
-    {
-      "name": "Kerala Police Recruitment Board",
-      "abbreviation": "KPRB",
-      "description": "Kerala Police Recruitment Board is responsible for conducting recruitment exams and selection processes for various police positions in the Kerala Police Department, including constables and sub-inspectors.",
-      "category": "Public Services",
-      "parent_organization": "Kerala"
-    },
-    {
-      "name": "Kerala State Electricity Board",
-      "abbreviation": "Kerala Electricity Board",
-      "description": "Kerala State Electricity Board is responsible for the generation, transmission, and distribution of electricity in Kerala. It recruits technical, administrative, and customer service staff for the state's electricity operations.",
-      "category": "Technical",
-      "parent_organization": "Kerala"
-    },
-    {
-      "name": "High Court of Kerala",
-      "abbreviation": "High Court Of Kerala",
-      "description": "The High Court of Kerala is the highest judicial authority in the state of Kerala. It handles legal matters and manages the recruitment of judicial officers and other staff within the state judiciary.",
-      "category": "Public Services",
-      "parent_organization": "Kerala"
-    },
-    {
-      "name": "Maharashtra Public Service Commission",
-      "abbreviation": "MPSC",
-      "description": "Maharashtra Public Service Commission conducts recruitment exams for various civil services and administrative positions in the Maharashtra state government, including officers and staff in different departments.",
-      "category": "Civil Services",
-      "parent_organization": "Maharashtra"
-    },
-    {
-      "name": "Maharashtra State Board of Secondary and Higher Secondary Education",
-      "abbreviation": "Maharashtra Education Board",
-      "description": "The Maharashtra State Board of Secondary and Higher Secondary Education regulates and supervises secondary and higher secondary education in Maharashtra, conducting exams and overseeing educational institutions.",
-      "category": "Academics Research",
-      "parent_organization": "Maharashtra"
-    },
-    {
-      "name": "Maharashtra State Electricity Distribution Company Limited",
-      "abbreviation": "MSEDCL",
-      "description": "Maharashtra State Electricity Distribution Company Limited is responsible for the distribution of electricity in Maharashtra. It recruits staff for various roles in the electricity distribution sector, including technical and customer service positions.",
-      "category": "Technical",
-      "parent_organization": "Maharashtra"
-    },
-    {
-      "name": "Maharashtra Zilla Parishad",
-      "abbreviation": "Maharashtra Zilla Parishad",
-      "description": "Maharashtra Zilla Parishad is a local governing body that manages the administration of districts in Maharashtra. It oversees various public services and recruits staff for positions in rural development, health, education, and other sectors.",
-      "category": "Public Services",
-      "parent_organization": "Maharashtra"
-    },
-    {
-      "name": "Madhya Pradesh Public Service Commission",
-      "abbreviation": "MPPSC",
-      "description": "Madhya Pradesh Public Service Commission conducts recruitment exams for various civil services and administrative positions in the Madhya Pradesh state government, including officers and staff in various departments.",
-      "category": "Civil Services",
-      "parent_organization": "Madhya Pradesh"
-    },
-    {
-      "name": "Madhya Pradesh Professional Examination Board",
-      "abbreviation": "MPPEB",
-      "description": "Madhya Pradesh Professional Examination Board conducts competitive exams for recruitment to various state government roles, including teaching, police, and other professional positions in Madhya Pradesh.",
-      "category": "Public Services",
-      "parent_organization": "Madhya Pradesh"
-    },
-    {
-      "name": "Madhya Pradesh State Election Commission",
-      "abbreviation": "MPSEC",
-      "description": "Madhya Pradesh State Election Commission is responsible for conducting elections for local bodies, including urban and rural areas, and recruits staff for election-related duties in the state.",
-      "category": "Public Services",
-      "parent_organization": "Madhya Pradesh"
-    },
-    {
-      "name": "Madhya Pradesh Police",
-      "abbreviation": "MPP",
-      "description": "Madhya Pradesh Police is responsible for maintaining law and order in the state. It recruits candidates for various police roles, including constables, sub-inspectors, and officers through competitive exams and physical tests.",
-      "category": "Public Services",
-      "parent_organization": "Madhya Pradesh"
-    },
-    {
-      "name": "Madhya Pradesh High Court",
-      "abbreviation": "MPHC",
-      "description": "Madhya Pradesh High Court is the highest judicial authority in the state. It oversees legal matters and conducts recruitment for judicial officers, clerks, and other staff within the judiciary.",
-      "category": "Public Services",
-      "parent_organization": "Madhya Pradesh"
-    },
-    {
-      "name": "Madhya Pradesh Power Generation Company Limited",
-      "abbreviation": "MPPGCL",
-      "description": "Madhya Pradesh Power Generation Company Limited is responsible for power generation in the state. It recruits engineers, technicians, and other professionals to support the state's electricity generation operations.",
-      "category": "Technical",
-      "parent_organization": "Madhya Pradesh"
-    },
-    {
-      "name": "Madhya Pradesh Road Development Corporation",
-      "abbreviation": "MPRDC",
-      "description": "Madhya Pradesh Road Development Corporation focuses on the development and maintenance of roads and highways in the state. It recruits staff for roles related to infrastructure development and maintenance.",
-      "category": "Public Services",
-      "parent_organization": "Madhya Pradesh"
-    },
-    {
-      "name": "Madhya Pradesh Rural Development Department",
-      "abbreviation": "MPRDD",
-      "description": "Madhya Pradesh Rural Development Department is responsible for rural development projects, including the implementation of welfare schemes. It recruits staff for roles in rural development and administration.",
-      "category": "Public Services",
-      "parent_organization": "Madhya Pradesh"
-    },
-    {
-      "name": "Madhya Pradesh Commercial Taxes Department",
-      "abbreviation": "MPCD",
-      "description": "Madhya Pradesh Civil Defence is responsible for managing emergency services and disaster response in the state. It recruits personnel for civil defence and emergency management roles.",
-      "category": "Public Services",
-      "parent_organization": "Madhya Pradesh"
-    },
-    {
-      "name": "Madhya Pradesh Housing Board",
-      "abbreviation": "MPHB",
-      "description": "Madhya Pradesh Housing Board is responsible for planning, developing, and managing housing projects in the state. It recruits employees for construction, administration, and management positions.",
-      "category": "Public Services",
-      "parent_organization": "Madhya Pradesh"
-    },
-    {
-      "name": "Madhya Pradesh Agriculture Department",
-      "abbreviation": "MPAD",
-      "description": "Madhya Pradesh Agriculture Department focuses on promoting agricultural development and welfare programs in the state. It recruits staff for agricultural research, extension, and administration roles.",
-      "category": "Agriculture",
-      "parent_organization": "Madhya Pradesh"
-    },
-    {
-      "name": "Madhya Pradesh State Road Transport Corporation",
-      "abbreviation": "MPSRTC",
-      "description": "Madhya Pradesh State Road Transport Corporation is responsible for providing public transportation services in the state. It recruits drivers, conductors, and other staff for its bus and transport operations.",
-      "category": "Public Services",
-      "parent_organization": "Madhya Pradesh"
-    },
-    {
-      "name": "Madhya Pradesh Pollution Control Board",
-      "abbreviation": "MPPCB",
-      "description": "Madhya Pradesh Pollution Control Board is responsible for monitoring and regulating pollution levels in the state. It recruits professionals for environmental protection, monitoring, and enforcement roles.",
-      "category": "Technical",
-      "parent_organization": "Madhya Pradesh"
-    },
-    {
-      "name": "Odisha Public Service Commission",
-      "abbreviation": "OPSC",
-      "description": "Odisha Public Service Commission conducts recruitment exams for various administrative, civil services, and technical positions in the Odisha state government, including officers and staff in different departments.",
-      "category": "Civil Services",
-      "parent_organization": "Odisha"
-    },
-    {
-      "name": "Odisha Staff Selection Commission",
-      "abbreviation": "OSSC",
-      "description": "Odisha Staff Selection Commission conducts recruitment exams for non-gazetted posts in the Odisha state government. It selects candidates for various administrative, clerical, and technical positions across government departments.",
-      "category": "Public Services",
-      "parent_organization": "Odisha"
-    },
-    {
-      "name": "Odisha Sub-ordinate Staff Selection Commission",
-      "abbreviation": "OSSSC",
-      "description": "Odisha Sub-ordinate Staff Selection Commission conducts recruitment exams for subordinate level positions in the state government, including clerks, assistants, and other support staff roles.",
-      "category": "Public Services",
-      "parent_organization": "Odisha"
-    },
-    {
-      "name": "Odisha Police",
-      "abbreviation": "Odisha Police",
-      "description": "Odisha Police is responsible for maintaining law and order in the state. It recruits candidates for various police roles, including constables, sub-inspectors, and officers through competitive exams and physical tests.",
-      "category": "Public Services",
-      "parent_organization": "Odisha"
-    },
-    {
-      "name": "High Court of Orissa",
-      "abbreviation": "High Court Of Odisha",
-      "description": "The High Court of Orissa is the highest judicial body in the state of Odisha. It oversees legal matters and conducts recruitment for judicial officers, clerks, and other staff within the judiciary.",
-      "category": "Public Services",
-      "parent_organization": "Odisha"
-    },
-    {
-      "name": "Odisha State Medical Corporation",
-      "abbreviation": "OSMC",
-      "description": "Odisha State Medical Corporation is responsible for the procurement and supply of medicines and medical equipment in government-run health facilities. It recruits staff for administrative and medical-related roles.",
-      "category": "Medical",
-      "parent_organization": "Odisha"
-    },
-    {
-      "name": "Odisha Power Transmission Corporation Limited",
-      "abbreviation": "OPTCL",
-      "description": "Odisha Power Transmission Corporation Limited is responsible for the transmission of electricity across Odisha. It recruits engineers, technicians, and other professionals for the transmission and distribution of power in the state.",
-      "category": "Technical",
-      "parent_organization": "Odisha"
-    },
-    {
-      "name": "Punjab Public Service Commission",
-      "abbreviation": "PPSC",
-      "description": "Punjab Public Service Commission conducts recruitment exams for various civil services and administrative posts in the Punjab state government, including officers and staff in different departments.",
-      "category": "Civil Services",
-      "parent_organization": "Punjab"
-    },
-    {
-      "name": "Punjab Subordinate Service Selection Board",
-      "abbreviation": "PSSSB",
-      "description": "Punjab Subordinate Service Selection Board is responsible for conducting recruitment exams for various subordinate level positions in the Punjab state government, such as clerks, assistants, and other staff roles.",
-      "category": "Public Services",
-      "parent_organization": "Punjab"
-    },
-    {
-      "name": "Punjab School Education Board",
-      "abbreviation": "PSEB",
-      "description": "Punjab School Education Board manages school education in the state of Punjab, conducting exams for secondary and higher secondary education, and overseeing the recruitment of teachers and education officers.",
-      "category": "Academics Research",
-      "parent_organization": "Punjab"
-    },
-    {
-      "name": "Punjab Police Recruitment Board",
-      "abbreviation": "PPRB",
-      "description": "Punjab Police Recruitment Board is responsible for the recruitment process in the Punjab Police Department, conducting exams for police constables, sub-inspectors, and other police personnel.",
-      "category": "Public Services",
-      "parent_organization": "Punjab"
-    },
-    {
-      "name": "Punjab and Haryana High Court",
-      "abbreviation": "PHHC",
-      "description": "Punjab and Haryana High Court is the highest judicial authority for the states of Punjab and Haryana. It oversees legal matters and manages the recruitment of judicial officers, clerks, and staff within the judiciary.",
-      "category": "Public Services",
-      "parent_organization": "Punjab"
-    },
-    {
-      "name": "Punjab State Cooperative Bank",
-      "abbreviation": "PSCB",
-      "description": "Punjab State Cooperative Bank is responsible for providing banking services and financial support to cooperatives in Punjab. It recruits staff for various positions in banking, administration, and customer service.",
-      "category": "Banking Finance",
-      "parent_organization": "Punjab"
-    },
-    {
-      "name": "Punjab State Transport Department",
-      "abbreviation": "PSTD",
-      "description": "Punjab State Transmission Development is responsible for the transmission of electricity in Punjab. It recruits technical and administrative staff to support its power transmission operations across the state.",
-      "category": "Public Services",
-      "parent_organization": "Punjab"
-    },
-    {
-      "name": "Tamil Nadu Public Service Commission",
-      "abbreviation": "TNPSC",
-      "description": "Tamil Nadu Public Service Commission conducts recruitment exams for various administrative, civil services, and technical positions in the Tamil Nadu state government, including officers and staff in various departments.",
-      "category": "Civil Services",
-      "parent_organization": "Tamil Nadu"
-    },
-    {
-      "name": "Tamil Nadu Uniformed Services Recruitment Board",
-      "abbreviation": "TNUSRB",
-      "description": "Tamil Nadu Uniformed Services Recruitment Board is responsible for the recruitment of uniformed services personnel such as police constables, sub-inspectors, and other security-related roles in Tamil Nadu.",
-      "category": "Public Services",
-      "parent_organization": "Tamil Nadu"
-    },
-    {
-      "name": "Uttar Pradesh Public Service Commission",
-      "abbreviation": "UPPSC",
-      "description": "Uttar Pradesh Public Service Commission conducts recruitment exams for various administrative and civil services positions in the Uttar Pradesh state government, including officers and staff in various departments.",
-      "category": "Civil Services",
-      "parent_organization": "Uttar Pradesh"
-    },
-    {
-      "name": "Uttar Pradesh Subordinate Services Selection Commission",
-      "abbreviation": "UPSSSC",
-      "description": "Uttar Pradesh Subordinate Services Selection Commission conducts recruitment exams for subordinate level posts in the Uttar Pradesh state government, including clerks, assistants, and other support staff roles.",
-      "category": "Public Services",
-      "parent_organization": "Uttar Pradesh"
-    },
-    {
-      "name": "Uttar Pradesh Police Recruitment and Promotion Board",
-      "abbreviation": "UPPRPB",
-      "description": "Uttar Pradesh Police Recruitment and Promotion Board is responsible for conducting recruitment exams for police personnel in Uttar Pradesh, including constables, sub-inspectors, and officers.",
-      "category": "Public Services",
-      "parent_organization": "Uttar Pradesh"
-    },
-    {
-      "name": "Uttar Pradesh Basic Education Board",
-      "abbreviation": "UPBEB",
-      "description": "Uttar Pradesh Basic Education Board is responsible for conducting exams for primary and upper-primary school teacher recruitment in the state. It ensures the eligibility of candidates for teaching positions.",
-      "category": "Academics Research",
-      "parent_organization": "Uttar Pradesh"
-    },
-    {
-      "name": "Uttar Pradesh Higher Education Service Commission",
-      "abbreviation": "UPHESC",
-      "description": "Uttar Pradesh Higher Education Service Commission recruits faculty members and administrative staff for state universities and higher educational institutions across Uttar Pradesh.",
-      "category": "Academics Research",
-      "parent_organization": "Uttar Pradesh"
-    },
-    {
-      "name": "Uttar Pradesh Power Corporation Limited",
-      "abbreviation": "UPPCL",
-      "description": "Uttar Pradesh Power Corporation Limited is responsible for the distribution of electricity in Uttar Pradesh. It recruits engineers, technicians, and other professionals for power distribution and management roles.",
-      "category": "Technical",
-      "parent_organization": "Uttar Pradesh"
-    },
-    {
-      "name": "Uttar Pradesh State Road Transport Corporation",
-      "abbreviation": "UPSRTC",
-      "description": "Uttar Pradesh State Road Transport Corporation provides public transportation services in Uttar Pradesh. It recruits drivers, conductors, and staff for various roles in its bus and transport services.",
-      "category": "Public Services",
-      "parent_organization": "Uttar Pradesh"
-    },
-    {
-      "name": "Uttar Pradesh Medical and Health Services Recruitment Board",
-      "abbreviation": "UPMSRB",
-      "description": "Uttar Pradesh Medical and Health Services Recruitment Board is responsible for recruiting healthcare professionals and administrative staff for medical and health services in Uttar Pradesh.",
-      "category": "Medical",
-      "parent_organization": "Uttar Pradesh"
-    },
-    {
-      "name": "Board of Revenue Uttar Pradesh",
-      "abbreviation": "BOR",
-      "description": "Board of Revenue Uttar Pradesh is responsible for land revenue and management in the state. It conducts recruitment for various administrative and clerical positions related to land revenue and settlement.",
-      "category": "Public Services",
-      "parent_organization": "Uttar Pradesh"
-    },
-    {
-      "name": "Uttar Pradesh State Agricultural Department",
-      "abbreviation": "UPSAD",
-      "description": "Uttar Pradesh State Agricultural Department focuses on promoting agriculture and rural development in the state. It recruits staff for roles related to agricultural research, extension, and administration.",
-      "category": "Agriculture",
-      "parent_organization": "Uttar Pradesh"
-    },
-    {
-      "name": "Uttar Pradesh Pollution Control Board",
-      "abbreviation": "UPPCB",
-      "description": "Uttar Pradesh Pollution Control Board is responsible for monitoring and regulating pollution levels in the state. It recruits staff for environmental protection, monitoring, and enforcement roles.",
-      "category": "Technical",
-      "parent_organization": "Uttar Pradesh"
-    },
-    {
-      "name": "Uttarakhand Public Service Commission",
-      "abbreviation": "UKPSC",
-      "description": "Uttarakhand Public Service Commission conducts recruitment exams for various administrative and civil services positions in the Uttarakhand state government, including officers and staff in various departments.",
-      "category": "Civil Services",
-      "parent_organization": "Uttarakhand"
-    },
-    {
-      "name": "Uttarakhand Subordinate Service Selection Commission",
-      "abbreviation": "UKSSSC",
-      "description": "Uttarakhand Subordinate Service Selection Commission is responsible for conducting recruitment exams for subordinate level positions in the Uttarakhand state government, such as clerks, assistants, and other staff roles.",
-      "category": "Public Services",
-      "parent_organization": "Uttarakhand"
-    },
-    {
-      "name": "Uttarakhand Jal Vidyut Nigam Limited",
-      "abbreviation": "UJVNL",
-      "description": "Uttarakhand Jal Vidyut Nigam Limited is responsible for generating and distributing hydroelectric power in Uttarakhand. It recruits engineers, technicians, and professionals for the management of water resources and power production.",
-      "category": "Technical",
-      "parent_organization": "Uttarakhand"
-    },
-    {
-      "name": "Rajasthan Public Service Commission",
-      "abbreviation": "RPSC",
-      "description": "Rajasthan Public Service Commission conducts recruitment exams for various administrative and civil services positions in the Rajasthan state government, including officers and staff in various departments.",
-      "category": "Civil Services",
-      "parent_organization": "Rajasthan"
-    },
-    {
-      "name": "Rajasthan Staff Selection Board",
-      "abbreviation": "RSSB",
-      "description": "Rajasthan Staff Selection Board conducts recruitment exams for non-gazetted posts in the Rajasthan state government, including clerks, assistants, and other support staff roles.",
-      "category": "Civil Services",
-      "parent_organization": "Rajasthan"
-    },
-    {
-      "name": "Rajasthan Police Force",
-      "abbreviation": "Rajasthan Police Force",
-      "description": "Rajasthan Police Force is responsible for maintaining law and order, preventing crimes, and ensuring public safety across the state. It recruits candidates for various roles, including constables, sub-inspectors, and officers.",
-      "category": "Public Services",
-      "parent_organization": "Rajasthan"
-    },
-    {
-      "name": "High Court of Rajasthan",
-      "abbreviation": "HCRAJ",
-      "description": "Rajasthan High Court is the highest judicial authority in the state of Rajasthan. It handles legal matters and manages recruitment for judicial officers, clerks, and other staff within the judiciary.",
-      "category": "Civil Services",
-      "parent_organization": "Rajasthan"
-    },
-    {
-      "name": "Rajasthan Eligibility Examination for Teachers",
-      "abbreviation": "REET",
-      "description": "Rajasthan Eligibility Examination for Teachers is conducted for the recruitment of teachers in Rajasthan for both primary and upper-primary school levels. It assesses candidates' eligibility for teaching positions.",
-      "category": "Academics Research",
-      "parent_organization": "Rajasthan"
-    },
-    {
-      "name": "Central Recruitment Board",
-      "abbreviation": "CRB",
-      "description": "Central Recruitment Board is responsible for conducting recruitment exams for various positions in the central government and public sector enterprises in India.",
-      "category": "Civil Services",
-      "parent_organization": "Rajasthan"
-    },
-    {
-      "name": "Department of Medical, Health and Family Welfare",
-      "abbreviation": "DMHFW",
-      "description": "Directorate of Medical, Health, and Family Welfare is responsible for public health services, medical education, and family welfare programs in Rajasthan. It recruits healthcare professionals and administrative staff.",
-      "category": "Medical",
-      "parent_organization": "Rajasthan"
-    },
-    {
-      "name": "Rajasthan State Road Transport Corporation",
-      "abbreviation": "RSRTC",
-      "description": "Rajasthan State Road Transport Corporation is responsible for providing public transportation services in Rajasthan. It recruits staff for various roles, including drivers, conductors, and technical staff for its operations.",
-      "category": "Public Services",
-      "parent_organization": "Rajasthan"
-    },
-    {
-      "name": "Rajasthan Agriculture Department",
-      "abbreviation": "AGRI",
-      "description": "Agriculture Department of Rajasthan focuses on promoting agricultural development, including welfare schemes for farmers. It recruits staff for agricultural research, extension, and administration roles.",
-      "category": "Technical",
-      "parent_organization": "Rajasthan"
-    },
-    {
-      "name": "Rajasthan Forest Department",
-      "abbreviation": "Rajasthan Forest",
-      "description": "Rajasthan Forest Department is responsible for the conservation and management of forests and wildlife in the state. It recruits forest officers, rangers, and other staff for the preservation and management of natural resources.",
-      "category": "Public Services",
-      "parent_organization": "Rajasthan"
-    },
-    {
-      "name": "Rajasthan Environment and Climate Change Department",
-      "abbreviation": "Rajasthan Environment",
-      "description": "Rajasthan Environment Department is responsible for environmental conservation and regulation of pollution levels in the state. It recruits staff for environmental monitoring, policy implementation, and sustainable development.",
-      "category": "Technical",
-      "parent_organization": "Rajasthan"
-    },
-    {
-      "name": "Rajasthan Transport Department",
-      "abbreviation": "RTO",
-      "description": "Regional Transport Office is responsible for vehicle registration, driver licensing, and road transport management in the state. It recruits staff for administrative, technical, and enforcement roles in the transport sector.",
-      "category": "Public Services",
-      "parent_organization": "Rajasthan"
-    },
-    {
-      "name": "Common Entrance Test",
-      "abbreviation": "CET",
-      "description": "Common Entrance Test is a standardized exam conducted for admissions to various undergraduate and postgraduate courses in different fields such as engineering, medical, and management in Rajasthan.",
-      "category": "Academics Research",
-      "parent_organization": "Rajasthan"
-    },
-    {
-      "name": "Rajasthan State Electricity Board",
-      "abbreviation": "RSEB",
-      "description": "Rajasthan State Electricity Board is responsible for electricity generation, transmission, and distribution in Rajasthan. It recruits staff for technical and administrative roles in the power sector.",
-      "category": "Technical",
-      "parent_organization": "Rajasthan"
-    },
-    {
-    "name": "Rajasthan State Livelihoods Development Corporation (RSLDC)",
-    "abbreviation": "RSLDC",
-    "description": "Rajasthan State Livelihoods Development Corporation (RSLDC) is an initiative by the Government of Rajasthan aimed at providing employment and skill development opportunities to the youth of Rajasthan through various training and livelihood programs.",
+  {
+    "name": "University Grants Commission National Eligibility Test",
+    "abbreviation": "UGC NET",
+    "description": "A national-level exam conducted in India to determine eligibility for the roles of assistant professor and Junior Research Fellowship (JRF). It aims to ensure minimum standards for teaching and research positions. The exam is organized by the University Grants Commission (UGC).",
+    "category": "Academics Research",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "Joint Entrance Examination Mains",
+    "abbreviation": "JEE Mains",
+    "description": "An all-India entrance exam for admission to undergraduate engineering programs at NITs, IIITs, and other institutions. It also serves as a qualifier for JEE Advanced, the gateway to IITs. The exam assesses candidates' knowledge in physics, chemistry, and mathematics.",
+    "category": "Engineering",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "Indian Institute of Foreign Trade",
+    "abbreviation": "IIFT",
+    "description": "An autonomous institute in India specializing in international business and trade education. It offers MBA programs and conducts its own entrance exam for admissions. The institute is known for its focus on global trade and economics.",
+    "category": "Higher Education Specialized Exams",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "Council of Scientific and Industrial Research",
+    "abbreviation": "CSIR",
+    "description": "The Council of Scientific and Industrial Research is a premier R&D organization in India. It conducts innovative research in various scientific domains such as aerospace, energy, and healthcare. CSIR also conducts the NET exam for science disciplines.",
+    "category": "Academics Research",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "Indian Police Service",
+    "abbreviation": "IPS",
+    "description": "The Indian Police Service is one of the three All India Services responsible for public safety and order. IPS officers serve in various capacities, including crime prevention, traffic control, and disaster management. They are recruited through the Civil Services Examination.",
+    "category": "Civil Services",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "National Defence Academy",
+    "abbreviation": "NDA",
+    "description": "The National Defence Academy is a joint military academy in India training cadets for the Army, Navy, and Air Force. It provides rigorous physical, academic, and leadership training. Admission is through a competitive national-level exam.",
+    "category": "Defense",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "Bhabha Atomic Research Centre",
+    "abbreviation": "BARC",
+    "description": "The Bhabha Atomic Research Centre is India's leading nuclear research and development institution. It works on advanced atomic science, nuclear reactors, and radiation technology. BARC also plays a vital role in India's nuclear energy program.",
+    "category": "Technical",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "Bharat Electronics Limited",
+    "abbreviation": "BEL",
+    "description": "Bharat Electronics Limited is a state-owned enterprise specializing in electronic equipment for defense and civilian use. It produces advanced radar systems, communication devices, and weapons systems. BEL also contributes to space and healthcare technologies.",
+    "category": "Technical",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "Bharat Petroleum Corporation Limited",
+    "abbreviation": "BPCL",
+    "description": "Bharat Petroleum Corporation Limited is a government-owned oil and gas company in India. It is involved in refining, marketing, and distributing petroleum products. BPCL plays a crucial role in ensuring the country's energy security.",
+    "category": "Technical",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "Defence Research and Development Organisation",
+    "abbreviation": "DRDO",
+    "description": "The Defence Research and Development Organisation develops advanced technologies for India's defense forces. It works on missile systems, radar, and combat vehicles. DRDO's innovations strengthen the country's strategic and operational capabilities.",
+    "category": "Technical",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "Indian Council of Medical Research",
+    "abbreviation": "ICMR",
+    "description": "The Indian Council of Medical Research is the apex body for biomedical research in India. It focuses on health research to address public health challenges. ICMR promotes evidence-based policies and innovations in medicine.",
+    "category": "Medical",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "Gramin Dak Sevak",
+    "abbreviation": "GDS",
+    "description": "Gramin Dak Sevak positions are part of the rural postal network under India Post. GDS personnel manage postal operations in villages, including mail delivery and financial services. They play a vital role in connecting rural areas to the postal system.",
+    "category": "Public Services",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "Indian Oil Corporation Limited",
+    "abbreviation": "IOCL",
+    "description": "Indian Oil Corporation Limited is India's largest government-owned oil corporation. It refines crude oil, produces petroleum products, and markets them across the country. IOCL also explores renewable energy solutions and petrochemicals.",
+    "category": "Technical",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "Indian Space Research Organisation",
+    "abbreviation": "ISRO",
+    "description": "The Indian Space Research Organisation is India's national space agency, pioneering space exploration and satellite technology. It conducts satellite launches, planetary missions, and space research. ISRO contributes significantly to communication, navigation, and earth observation.",
+    "category": "Technical",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "Nuclear Power Corporation of India Limited",
+    "abbreviation": "NPCIL",
+    "description": "The Nuclear Power Corporation of India Limited manages nuclear power generation in the country. It designs, constructs, and operates nuclear reactors. NPCIL ensures the safe and efficient use of nuclear energy for electricity generation.",
+    "category": "Technical",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "Oil and Natural Gas Corporation",
+    "abbreviation": "ONGC",
+    "description": "Oil and Natural Gas Corporation is a government-owned company exploring and producing oil and gas in India. It plays a key role in meeting the country's energy demands. ONGC also invests in renewable energy and petrochemical production.",
+    "category": "Technical",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "Delhi Metro Rail Corporation",
+    "abbreviation": "DMRC",
+    "description": "The Delhi Metro Rail Corporation is responsible for constructing and operating the metro rail system in Delhi and NCR. It provides a safe, reliable, and eco-friendly public transport system. DMRC is known for its advanced technology and efficient operations.",
+    "category": "Railways",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "Rail India Technical and Economic Service",
+    "abbreviation": "RITES",
+    "description": "Rail India Technical and Economic Service is a government enterprise offering technical consultancy for transportation infrastructure. It specializes in railways, highways, and urban transport. RITES also provides project management and export services.",
+    "category": "Railways",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "Railway Protection Force",
+    "abbreviation": "RPF",
+    "description": "The Railway Protection Force ensures the safety of railway passengers, assets, and property in India. It handles crime prevention, disaster management, and rescue operations on railway premises. RPF personnel maintain law and order in the railway network.",
+    "category": "Public Services",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "Kishore Vaigyanik Protsahan Yojana",
+    "abbreviation": "KVPY",
+    "description": "The Kishore Vaigyanik Protsahan Yojana is a scholarship program encouraging students to pursue careers in science and research. It identifies talented young minds through an aptitude test and interviews. Selected students receive financial support for their education.",
+    "category": "Academics Research",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "National Talent Search Examination",
+    "abbreviation": "NTSE",
+    "description": "The National Talent Search Examination is a scholarship program identifying and nurturing academically talented students in India. It is conducted in two stages and evaluates reasoning and scholastic skills. Successful candidates receive scholarships for higher studies.",
+    "category": "Academics Research",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "National Eligibility cum Entrance Test",
+    "abbreviation": "NEET",
+    "description": "The National Eligibility cum Entrance Test is a medical entrance exam in India for admissions to MBBS, BDS, and other medical courses. It assesses candidates' knowledge in physics, chemistry, and biology. NEET is the gateway to medical colleges across the country.",
+    "category": "Medical",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "Indian Post",
+    "abbreviation": "Indian Post",
+    "description": "India Post is the country's postal system providing mail and financial services. It connects urban and rural areas through its vast network of post offices. Services include mail delivery, savings accounts, and remittance facilities.",
+    "category": "Public Services",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "India Post Payments Bank",
+    "abbreviation": "IPPB",
+    "description": "India Post Payments Bank is a government-owned bank offering digital and financial services through the postal network. It aims to promote financial inclusion in rural and semi-urban areas. IPPB provides services like savings accounts, bill payments, and remittances.",
+    "category": "Banking Finance",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "National Bank for Agriculture and Rural Development",
+    "abbreviation": "NABARD",
+    "description": "The National Bank for Agriculture and Rural Development supports rural development and agriculture in India. It provides credit facilities, infrastructure development, and policy guidance. NABARD also promotes self-help groups and sustainable development.",
+    "category": "Banking Finance",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "State Bank of India",
+    "abbreviation": "SBI",
+    "description": "The State Bank of India is the largest public sector bank in India, offering banking and financial services. It provides personal and corporate banking, loans, and investment solutions. SBI also has an extensive global presence.",
+    "category": "Banking Finance",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "Staff Selection Commission",
+    "abbreviation": "SSC",
+    "description": "The Staff Selection Commission conducts exams to recruit candidates for various government posts. It organizes exams like SSC CGL, CHSL, and MTS. SSC plays a crucial role in the selection of skilled professionals for ministries and departments.",
+    "category": "Public Services",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "Central Industrial Security Force",
+    "abbreviation": "CISF",
+    "description": "The Central Industrial Security Force is a central armed police force in India responsible for the security of industrial establishments, government buildings, and critical infrastructure. It plays a vital role in disaster management and provides VIP security.",
+    "category": "Public Services",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "Central Armed Police Forces (Assistant Commandants) Examination",
+    "abbreviation": "CAPF",
+    "description": "The Central Armed Police Forces (Assistant Commandants) Examination is a recruitment exam for entry-level officer positions in India's paramilitary forces. It evaluates leadership, physical fitness, and analytical abilities.",
+    "category": "Public Services",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "Union Public Service Commission",
+    "abbreviation": "UPSC",
+    "description": "The Union Public Service Commission is responsible for conducting exams for civil services in India. It conducts the Civil Services Examination for selecting IAS, IFS, IPS officers and other central government services.",
+    "category": "Civil Services",
+    "parent_organization": "Central"
+  },
+  {
+    "name": "Andhra Pradesh Public Service Commission",
+    "abbreviation": "APPSC",
+    "description": "Andhra Pradesh Public Commission is the state government agency responsible for conducting recruitment exams and selecting candidates for civil service roles and other state government positions.",
+    "category": "Civil Services",
+    "parent_organization": "Andhra Pradesh"
+  },
+  {
+    "name": "Andhra Pradesh State Level Police Recruitment Board",
+    "abbreviation": "APSLPRB",
+    "description": "Andhra Pradesh State Level Police Recruitment Board handles recruitment for police department roles in Andhra Pradesh. It conducts exams and physical tests for positions like constables, sub-inspectors, and other police staff.",
+    "category": "Public Services",
+    "parent_organization": "Andhra Pradesh"
+  },
+  {
+    "name": "Board of Intermediate Education Andhra Pradesh",
+    "abbreviation": "BIEAP",
+    "description": "The Board of Intermediate Education Andhra Pradesh regulates and supervises intermediate education in the state. It is responsible for setting the syllabus, conducting exams, and managing admissions to junior colleges.",
+    "category": "Higher Education Specialized Exams",
+    "parent_organization": "Andhra Pradesh"
+  },
+  {
+    "name": "Directorate of Medical Education Andhra Pradesh",
+    "abbreviation": "DMEAP",
+    "description": "The Directorate of Medical Education Andhra Pradesh oversees medical education, training, and research in the state. It manages medical colleges, nursing schools, and paramedical institutions, ensuring quality standards in healthcare education.",
+    "category": "Medical",
+    "parent_organization": "Andhra Pradesh"
+  },
+  {
+    "name": "Bihar Public Service Commission",
+    "abbreviation": "BPSC",
+    "description": "Bihar Public Service Commission is a state agency responsible for conducting competitive exams and selecting candidates for various administrative and civil service posts in Bihar government departments.",
+    "category": "Civil Services",
+    "parent_organization": "Bihar"
+  },
+  {
+    "name": "Bihar Staff Selection Commission",
+    "abbreviation": "BSSC",
+    "description": "Bihar Staff Selection Commission is tasked with recruiting eligible candidates for non-gazetted positions in various state government departments through competitive exams and selection processes.",
+    "category": "Public Services",
+    "parent_organization": "Bihar"
+  },
+  {
+    "name": "Bihar Police Subordinate Services Commission",
+    "abbreviation": "BPSSC",
+    "description": "Bihar Police Subordinate Services Commission conducts recruitment exams for police-related posts, such as sub-inspectors and other subordinate roles in the Bihar Police Department.",
+    "category": "Public Services",
+    "parent_organization": "Bihar"
+  },
+  {
+    "name": "Bihar Combined Entrance Competitive Examination Board",
+    "abbreviation": "BCECEB",
+    "description": "Bihar Combined Entrance Competitive Examination Board conducts entrance exams for admission into professional courses such as engineering, medical, and agricultural programs in Bihar.",
+    "category": "Engineering",
+    "parent_organization": "Bihar"
+  },
+  {
+    "name": "Bihar State Cooperative Bank",
+    "abbreviation": "BSCB",
+    "description": "Bihar State Cooperative Bank manages recruitment for roles in cooperative banks across the state and oversees the cooperative banking sector's operational and administrative needs.",
+    "category": "Banking Finance",
+    "parent_organization": "Bihar"
+  },
+  {
+    "name": "Bihar School Examination Board",
+    "abbreviation": "BSEB",
+    "description": "Bihar School Examination Board organizes secondary and senior secondary school examinations in Bihar, along with entrance exams for teacher eligibility and other educational activities.",
+    "category": "Academics Research",
+    "parent_organization": "Bihar"
+  },
+  {
+    "name": "Public Health Engineering Department",
+    "abbreviation": "PHED",
+    "description": "The Public Health Engineering Department in Bihar is responsible for planning, designing, and executing water supply and sanitation projects to ensure safe drinking water and proper hygiene in rural and urban areas.",
+    "category": "Public Services",
+    "parent_organization": "Bihar"
+  },
+  {
+    "name": "Bihar Technical Service Commission",
+    "abbreviation": "BTSC",
+    "description": "Bihar Technical Service Commission handles recruitment for technical and specialized posts in state government departments, such as engineers, medical professionals, and other technical roles.",
+    "category": "Technical",
+    "parent_organization": "Bihar"
+  },
+  {
+    "name": "Bihar Energy Department",
+    "abbreviation": "Bihar Energy Department",
+    "description": "The Energy Department of Bihar oversees power generation, distribution, and policies related to electricity in the state. It focuses on ensuring reliable energy supply and managing renewable energy initiatives.",
+    "category": "Technical",
+    "parent_organization": "Bihar"
+  },
+  {
+    "name": "High Court of Gujarat",
+    "abbreviation": "High Court Of Gujarat",
+    "description": "The High Court of Gujarat is the highest judicial authority in the state of Gujarat. It oversees legal matters, including the recruitment of judicial officers and administrative staff within the judicial system.",
+    "category": "Public Services",
+    "parent_organization": "Gujarat"
+  },
+  {
+    "name": "Gujarat Public Service Commission",
+    "abbreviation": "GPSC",
+    "description": "The Gujarat Public Service Commission is responsible for conducting competitive exams to recruit candidates for various administrative services, including civil services, engineering, and educational positions in the state government.",
+    "category": "Civil Services",
+    "parent_organization": "Gujarat"
+  },
+  {
+    "name": "Gujarat Urja Vikas Nigam Limited",
+    "abbreviation": "GUVNL",
+    "description": "Gujarat Urja Vikas Nigam Limited is the state-owned company responsible for the transmission and distribution of electricity in Gujarat. It also manages the recruitment of various roles within the state's energy sector.",
+    "category": "Technical",
+    "parent_organization": "Gujarat"
+  },
+  {
+    "name": "Paschim Gujarat Vij Company Limited",
+    "abbreviation": "PGVCL",
+    "description": "Paschim Gujarat Vij Company Limited is a subsidiary of GUVNL, responsible for the distribution of electricity in the western regions of Gujarat. It oversees the recruitment of staff for its operations and customer service functions.",
+    "category": "Technical",
+    "parent_organization": "Gujarat"
+  },
+  {
+    "name": "Madhya Gujarat Vij Company Limited",
+    "abbreviation": "MGVCL",
+    "description": "Madhya Gujarat Vij Company Limited is another subsidiary of GUVNL, responsible for power distribution in central Gujarat. It handles the recruitment of employees for various roles in the electricity distribution process.",
+    "category": "Technical",
+    "parent_organization": "Gujarat"
+  },
+  {
+    "name": "Uttar Gujarat Vij Company Limited",
+    "abbreviation": "UGVCL",
+    "description": "Uttar Gujarat Vij Company Limited is responsible for electricity distribution in northern Gujarat. It works under GUVNL and manages recruitment for technical and administrative roles within the electricity distribution sector.",
+    "category": "Technical",
+    "parent_organization": "Gujarat"
+  },
+  {
+    "name": "Gujarat Energy Transmission Corporation Limited",
+    "abbreviation": "GETCO",
+    "description": "Gujarat Energy Transmission Corporation Limited is responsible for the transmission of electricity in Gujarat. It recruits professionals for various roles related to energy transmission, grid maintenance, and operations.",
+    "category": "Technical",
+    "parent_organization": "Gujarat"
+  },
+  {
+    "name": "Gujarat State Electricity Corporation Limited",
+    "abbreviation": "GSECL",
+    "description": "Gujarat State Electricity Corporation Limited is a state-owned power generation company in Gujarat. It is involved in the recruitment of engineers, technicians, and other professionals for the generation of electricity.",
+    "category": "Technical",
+    "parent_organization": "Gujarat"
+  },
+  {
+    "name": "Bank of Baroda",
+    "abbreviation": "Bank Of Baroda",
+    "description": "Bank of Baroda is one of India's leading public sector banks, headquartered in Gujarat. It recruits for various banking roles, including clerks, officers, and managers across its nationwide branches.",
+    "category": "Banking Finance",
+    "parent_organization": "Gujarat"
+  },
+  {
+    "name": "Haryana Public Service Commission",
+    "abbreviation": "HPSC",
+    "description": "Haryana Public Service Commission is the state agency responsible for conducting recruitment exams and selecting candidates for administrative and civil service posts in Haryana government departments.",
+    "category": "Civil Services",
+    "parent_organization": "Haryana"
+  },
+  {
+    "name": "Haryana Staff Selection Commission",
+    "abbreviation": "HSSC",
+    "description": "Haryana Staff Selection Commission conducts recruitment exams for various posts in Haryana's government departments, including clerical, technical, and officer-level positions.",
+    "category": "Public Services",
+    "parent_organization": "Haryana"
+  },
+  {
+    "name": "Board of School Education Haryana",
+    "abbreviation": "BSEH",
+    "description": "Board of School Education Haryana is responsible for conducting secondary and senior secondary examinations in Haryana. It also manages teacher eligibility tests and other education-related functions in the state.",
+    "category": "Academics Research",
+    "parent_organization": "Haryana"
+  },
+  {
+    "name": "Haryana Health Department",
+    "abbreviation": "Haryana Health Department",
+    "description": "The Health Department of Haryana oversees public health initiatives, including the recruitment of medical professionals, health workers, and administrative staff for the state's healthcare system.",
+    "category": "Medical",
+    "parent_organization": "Haryana"
+  },
+  {
+    "name": "Haryana State Electronics Development Corporation Limited",
+    "abbreviation": "HARTRON",
+    "description": "Haryana State Electronics Development Corporation Limited (HARTRON) focuses on promoting IT services and infrastructure in Haryana. It is involved in recruitment for IT and technical roles in government sectors and projects.",
+    "category": "Technical",
+    "parent_organization": "Haryana"
+  },
+  {
+    "name": "Haryana Technical Education",
+    "abbreviation": "HTE",
+    "description": "Haryana Tourism Corporation (HTE) is responsible for the development of tourism in Haryana, including the recruitment of personnel for its tourism promotion, hospitality, and administrative functions.",
+    "category": "Public Services",
+    "parent_organization": "Haryana"
+  },
+  {
+    "name": "Himachal Pradesh Public Service Commission",
+    "abbreviation": "HPPSC",
+    "description": "Himachal Pradesh Public Service Commission conducts competitive exams to recruit candidates for various administrative and civil services in the Himachal Pradesh government, including officers and staff in multiple departments.",
+    "category": "Civil Services",
+    "parent_organization": "Himachal Pradesh"
+  },
+  {
+    "name": "Himachal Pradesh Education Department",
+    "abbreviation": "Himachal Pradesh Education Department",
+    "description": "The Education Department of Himachal Pradesh is responsible for managing and regulating the state's educational system, including the recruitment of teachers, school administrators, and education officers.",
+    "category": "Academics Research",
+    "parent_organization": "Himachal Pradesh"
+  },
+  {
+    "name": "High Court of Himachal Pradesh",
+    "abbreviation": "High Court Of Himachal Pradesh",
+    "description": "The High Court of Himachal Pradesh is the highest judicial authority in the state, overseeing legal matters, including the recruitment of judicial officers and staff for the judicial system.",
+    "category": "Public Services",
+    "parent_organization": "Himachal Pradesh"
+  },
+  {
+    "name": "Himachal Pradesh Health Department",
+    "abbreviation": "Himachal Pradesh Health Department",
+    "description": "The Health Department of Himachal Pradesh is responsible for providing medical services and overseeing healthcare policies in the state. It recruits medical professionals, health workers, and administrative staff for its healthcare programs.",
+    "category": "Medical",
+    "parent_organization": "Himachal Pradesh"
+  },
+  {
+    "name": "Himachal Pradesh Public Works Department",
+    "abbreviation": "HPPWD",
+    "description": "Himachal Pradesh Public Works Department is responsible for the construction and maintenance of public infrastructure such as roads, bridges, and buildings. It also handles the recruitment of engineers and staff for its operations.",
+    "category": "Technical",
+    "parent_organization": "Himachal Pradesh"
+  },
+  {
+    "name": "Karnataka Public Service Commission",
+    "abbreviation": "KPSC",
+    "description": "Karnataka Public Service Commission is the state agency responsible for conducting competitive exams and selecting candidates for various civil services and administrative positions in the Karnataka government.",
+    "category": "Civil Services",
+    "parent_organization": "Karnataka"
+  },
+  {
+    "name": "Karnataka State Police",
+    "abbreviation": "KSP",
+    "description": "Karnataka State Police is responsible for maintaining law and order in the state. It recruits candidates for various police roles, including constables, sub-inspectors, and officers through competitive exams and physical tests.",
+    "category": "Public Services",
+    "parent_organization": "Karnataka"
+  },
+  {
+    "name": "Karnataka Examinations Authority",
+    "abbreviation": "KEA",
+    "description": "Karnataka Examinations Authority conducts various entrance exams for admission to professional courses such as engineering, medical, and agricultural programs in Karnataka.",
+    "category": "Engineering",
+    "parent_organization": "Karnataka"
+  },
+  {
+    "name": "Karnataka State Staff Selection Commission",
+    "abbreviation": "KSSSB",
+    "description": "Karnataka State Staff Selection Commission conducts recruitment exams for filling non-gazetted posts in the state government. It assesses candidates for various administrative and technical positions.",
+    "category": "Public Services",
+    "parent_organization": "Karnataka"
+  },
+  {
+    "name": "Karnataka Education Department",
+    "abbreviation": "Karnataka Education Department",
+    "description": "The Education Department of Karnataka manages and regulates the educational system, including schools, colleges, and universities in the state. It recruits teachers, principals, and education officers.",
+    "category": "Academics Research",
+    "parent_organization": "Karnataka"
+  },
+  {
+    "name": "High Court of Karnataka",
+    "abbreviation": "High Court Of Karnataka",
+    "description": "The High Court of Karnataka is the highest judicial body in the state. It oversees legal matters and conducts recruitment for judicial officers, clerks, and other staff within the judiciary.",
+    "category": "Public Services",
+    "parent_organization": "Karnataka"
+  },
+  {
+    "name": "Karnataka Health Department",
+    "abbreviation": "Karnataka Health Department",
+    "description": "The Health Department of Karnataka is responsible for managing public health services, implementing health policies, and overseeing healthcare facilities. It recruits medical professionals and healthcare staff for various state hospitals and health programs.",
+    "category": "Medical",
+    "parent_organization": "Karnataka"
+  },
+  {
+    "name": "Kerala Public Service Commission",
+    "abbreviation": "KERALAPSC",
+    "description": "Kerala Public Service Commission conducts recruitment exams for various civil services and administrative posts in the Kerala state government, including officers and staff in multiple government departments.",
+    "category": "Civil Services",
+    "parent_organization": "Kerala"
+  },
+  {
+    "name": "Kerala Police Recruitment Board",
+    "abbreviation": "KPRB",
+    "description": "Kerala Police Recruitment Board is responsible for conducting recruitment exams and selection processes for various police positions in the Kerala Police Department, including constables and sub-inspectors.",
+    "category": "Public Services",
+    "parent_organization": "Kerala"
+  },
+  {
+    "name": "Kerala State Electricity Board",
+    "abbreviation": "Kerala Electricity Board",
+    "description": "Kerala State Electricity Board is responsible for the generation, transmission, and distribution of electricity in Kerala. It recruits technical, administrative, and customer service staff for the state's electricity operations.",
+    "category": "Technical",
+    "parent_organization": "Kerala"
+  },
+  {
+    "name": "High Court of Kerala",
+    "abbreviation": "High Court Of Kerala",
+    "description": "The High Court of Kerala is the highest judicial authority in the state of Kerala. It handles legal matters and manages the recruitment of judicial officers and other staff within the state judiciary.",
+    "category": "Public Services",
+    "parent_organization": "Kerala"
+  },
+  {
+    "name": "Maharashtra Public Service Commission",
+    "abbreviation": "MPSC",
+    "description": "Maharashtra Public Service Commission conducts recruitment exams for various civil services and administrative positions in the Maharashtra state government, including officers and staff in different departments.",
+    "category": "Civil Services",
+    "parent_organization": "Maharashtra"
+  },
+  {
+    "name": "Maharashtra State Board of Secondary and Higher Secondary Education",
+    "abbreviation": "Maharashtra Education Board",
+    "description": "The Maharashtra State Board of Secondary and Higher Secondary Education regulates and supervises secondary and higher secondary education in Maharashtra, conducting exams and overseeing educational institutions.",
+    "category": "Academics Research",
+    "parent_organization": "Maharashtra"
+  },
+  {
+    "name": "Maharashtra State Electricity Distribution Company Limited",
+    "abbreviation": "MSEDCL",
+    "description": "Maharashtra State Electricity Distribution Company Limited is responsible for the distribution of electricity in Maharashtra. It recruits staff for various roles in the electricity distribution sector, including technical and customer service positions.",
+    "category": "Technical",
+    "parent_organization": "Maharashtra"
+  },
+  {
+    "name": "Maharashtra Zilla Parishad",
+    "abbreviation": "Maharashtra Zilla Parishad",
+    "description": "Maharashtra Zilla Parishad is a local governing body that manages the administration of districts in Maharashtra. It oversees various public services and recruits staff for positions in rural development, health, education, and other sectors.",
+    "category": "Public Services",
+    "parent_organization": "Maharashtra"
+  },
+  {
+    "name": "Madhya Pradesh Public Service Commission",
+    "abbreviation": "MPPSC",
+    "description": "Madhya Pradesh Public Service Commission conducts recruitment exams for various civil services and administrative positions in the Madhya Pradesh state government, including officers and staff in various departments.",
+    "category": "Civil Services",
+    "parent_organization": "Madhya Pradesh"
+  },
+  {
+    "name": "Madhya Pradesh Professional Examination Board",
+    "abbreviation": "MPPEB",
+    "description": "Madhya Pradesh Professional Examination Board conducts competitive exams for recruitment to various state government roles, including teaching, police, and other professional positions in Madhya Pradesh.",
+    "category": "Public Services",
+    "parent_organization": "Madhya Pradesh"
+  },
+  {
+    "name": "Madhya Pradesh State Election Commission",
+    "abbreviation": "MPSEC",
+    "description": "Madhya Pradesh State Election Commission is responsible for conducting elections for local bodies, including urban and rural areas, and recruits staff for election-related duties in the state.",
+    "category": "Public Services",
+    "parent_organization": "Madhya Pradesh"
+  },
+  {
+    "name": "Madhya Pradesh Police",
+    "abbreviation": "MPP",
+    "description": "Madhya Pradesh Police is responsible for maintaining law and order in the state. It recruits candidates for various police roles, including constables, sub-inspectors, and officers through competitive exams and physical tests.",
+    "category": "Public Services",
+    "parent_organization": "Madhya Pradesh"
+  },
+  {
+    "name": "Madhya Pradesh High Court",
+    "abbreviation": "MPHC",
+    "description": "Madhya Pradesh High Court is the highest judicial authority in the state. It oversees legal matters and conducts recruitment for judicial officers, clerks, and other staff within the judiciary.",
+    "category": "Public Services",
+    "parent_organization": "Madhya Pradesh"
+  },
+  {
+    "name": "Madhya Pradesh Power Generation Company Limited",
+    "abbreviation": "MPPGCL",
+    "description": "Madhya Pradesh Power Generation Company Limited is responsible for power generation in the state. It recruits engineers, technicians, and other professionals to support the state's electricity generation operations.",
+    "category": "Technical",
+    "parent_organization": "Madhya Pradesh"
+  },
+  {
+    "name": "Madhya Pradesh Road Development Corporation",
+    "abbreviation": "MPRDC",
+    "description": "Madhya Pradesh Road Development Corporation focuses on the development and maintenance of roads and highways in the state. It recruits staff for roles related to infrastructure development and maintenance.",
+    "category": "Public Services",
+    "parent_organization": "Madhya Pradesh"
+  },
+  {
+    "name": "Madhya Pradesh Rural Development Department",
+    "abbreviation": "MPRDD",
+    "description": "Madhya Pradesh Rural Development Department is responsible for rural development projects, including the implementation of welfare schemes. It recruits staff for roles in rural development and administration.",
+    "category": "Public Services",
+    "parent_organization": "Madhya Pradesh"
+  },
+  {
+    "name": "Madhya Pradesh Commercial Taxes Department",
+    "abbreviation": "MPCD",
+    "description": "Madhya Pradesh Civil Defence is responsible for managing emergency services and disaster response in the state. It recruits personnel for civil defence and emergency management roles.",
+    "category": "Public Services",
+    "parent_organization": "Madhya Pradesh"
+  },
+  {
+    "name": "Madhya Pradesh Housing Board",
+    "abbreviation": "MPHB",
+    "description": "Madhya Pradesh Housing Board is responsible for planning, developing, and managing housing projects in the state. It recruits employees for construction, administration, and management positions.",
+    "category": "Public Services",
+    "parent_organization": "Madhya Pradesh"
+  },
+  {
+    "name": "Madhya Pradesh Agriculture Department",
+    "abbreviation": "MPAD",
+    "description": "Madhya Pradesh Agriculture Department focuses on promoting agricultural development and welfare programs in the state. It recruits staff for agricultural research, extension, and administration roles.",
+    "category": "Agriculture",
+    "parent_organization": "Madhya Pradesh"
+  },
+  {
+    "name": "Madhya Pradesh State Road Transport Corporation",
+    "abbreviation": "MPSRTC",
+    "description": "Madhya Pradesh State Road Transport Corporation is responsible for providing public transportation services in the state. It recruits drivers, conductors, and other staff for its bus and transport operations.",
+    "category": "Public Services",
+    "parent_organization": "Madhya Pradesh"
+  },
+  {
+    "name": "Madhya Pradesh Pollution Control Board",
+    "abbreviation": "MPPCB",
+    "description": "Madhya Pradesh Pollution Control Board is responsible for monitoring and regulating pollution levels in the state. It recruits professionals for environmental protection, monitoring, and enforcement roles.",
+    "category": "Technical",
+    "parent_organization": "Madhya Pradesh"
+  },
+  {
+    "name": "Odisha Public Service Commission",
+    "abbreviation": "OPSC",
+    "description": "Odisha Public Service Commission conducts recruitment exams for various administrative, civil services, and technical positions in the Odisha state government, including officers and staff in different departments.",
+    "category": "Civil Services",
+    "parent_organization": "Odisha"
+  },
+  {
+    "name": "Odisha Staff Selection Commission",
+    "abbreviation": "OSSC",
+    "description": "Odisha Staff Selection Commission conducts recruitment exams for non-gazetted posts in the Odisha state government. It selects candidates for various administrative, clerical, and technical positions across government departments.",
+    "category": "Public Services",
+    "parent_organization": "Odisha"
+  },
+  {
+    "name": "Odisha Sub-ordinate Staff Selection Commission",
+    "abbreviation": "OSSSC",
+    "description": "Odisha Sub-ordinate Staff Selection Commission conducts recruitment exams for subordinate level positions in the state government, including clerks, assistants, and other support staff roles.",
+    "category": "Public Services",
+    "parent_organization": "Odisha"
+  },
+  {
+    "name": "Odisha Police",
+    "abbreviation": "Odisha Police",
+    "description": "Odisha Police is responsible for maintaining law and order in the state. It recruits candidates for various police roles, including constables, sub-inspectors, and officers through competitive exams and physical tests.",
+    "category": "Public Services",
+    "parent_organization": "Odisha"
+  },
+  {
+    "name": "High Court of Orissa",
+    "abbreviation": "High Court Of Odisha",
+    "description": "The High Court of Orissa is the highest judicial body in the state of Odisha. It oversees legal matters and conducts recruitment for judicial officers, clerks, and other staff within the judiciary.",
+    "category": "Public Services",
+    "parent_organization": "Odisha"
+  },
+  {
+    "name": "Odisha State Medical Corporation",
+    "abbreviation": "OSMC",
+    "description": "Odisha State Medical Corporation is responsible for the procurement and supply of medicines and medical equipment in government-run health facilities. It recruits staff for administrative and medical-related roles.",
+    "category": "Medical",
+    "parent_organization": "Odisha"
+  },
+  {
+    "name": "Odisha Power Transmission Corporation Limited",
+    "abbreviation": "OPTCL",
+    "description": "Odisha Power Transmission Corporation Limited is responsible for the transmission of electricity across Odisha. It recruits engineers, technicians, and other professionals for the transmission and distribution of power in the state.",
+    "category": "Technical",
+    "parent_organization": "Odisha"
+  },
+  {
+    "name": "Punjab Public Service Commission",
+    "abbreviation": "PPSC",
+    "description": "Punjab Public Service Commission conducts recruitment exams for various civil services and administrative posts in the Punjab state government, including officers and staff in different departments.",
+    "category": "Civil Services",
+    "parent_organization": "Punjab"
+  },
+  {
+    "name": "Punjab Subordinate Service Selection Board",
+    "abbreviation": "PSSSB",
+    "description": "Punjab Subordinate Service Selection Board is responsible for conducting recruitment exams for various subordinate level positions in the Punjab state government, such as clerks, assistants, and other staff roles.",
+    "category": "Public Services",
+    "parent_organization": "Punjab"
+  },
+  {
+    "name": "Punjab School Education Board",
+    "abbreviation": "PSEB",
+    "description": "Punjab School Education Board manages school education in the state of Punjab, conducting exams for secondary and higher secondary education, and overseeing the recruitment of teachers and education officers.",
+    "category": "Academics Research",
+    "parent_organization": "Punjab"
+  },
+  {
+    "name": "Punjab Police Recruitment Board",
+    "abbreviation": "PPRB",
+    "description": "Punjab Police Recruitment Board is responsible for the recruitment process in the Punjab Police Department, conducting exams for police constables, sub-inspectors, and other police personnel.",
+    "category": "Public Services",
+    "parent_organization": "Punjab"
+  },
+  {
+    "name": "Punjab and Haryana High Court",
+    "abbreviation": "PHHC",
+    "description": "Punjab and Haryana High Court is the highest judicial authority for the states of Punjab and Haryana. It oversees legal matters and manages the recruitment of judicial officers, clerks, and staff within the judiciary.",
+    "category": "Public Services",
+    "parent_organization": "Punjab"
+  },
+  {
+    "name": "Punjab State Cooperative Bank",
+    "abbreviation": "PSCB",
+    "description": "Punjab State Cooperative Bank is responsible for providing banking services and financial support to cooperatives in Punjab. It recruits staff for various positions in banking, administration, and customer service.",
+    "category": "Banking Finance",
+    "parent_organization": "Punjab"
+  },
+  {
+    "name": "Punjab State Transport Department",
+    "abbreviation": "PSTD",
+    "description": "Punjab State Transmission Development is responsible for the transmission of electricity in Punjab. It recruits technical and administrative staff to support its power transmission operations across the state.",
+    "category": "Public Services",
+    "parent_organization": "Punjab"
+  },
+  {
+    "name": "Tamil Nadu Public Service Commission",
+    "abbreviation": "TNPSC",
+    "description": "Tamil Nadu Public Service Commission conducts recruitment exams for various administrative, civil services, and technical positions in the Tamil Nadu state government, including officers and staff in various departments.",
+    "category": "Civil Services",
+    "parent_organization": "Tamil Nadu"
+  },
+  {
+    "name": "Tamil Nadu Uniformed Services Recruitment Board",
+    "abbreviation": "TNUSRB",
+    "description": "Tamil Nadu Uniformed Services Recruitment Board is responsible for the recruitment of uniformed services personnel such as police constables, sub-inspectors, and other security-related roles in Tamil Nadu.",
+    "category": "Public Services",
+    "parent_organization": "Tamil Nadu"
+  },
+  {
+    "name": "Uttar Pradesh Public Service Commission",
+    "abbreviation": "UPPSC",
+    "description": "Uttar Pradesh Public Service Commission conducts recruitment exams for various administrative and civil services positions in the Uttar Pradesh state government, including officers and staff in various departments.",
+    "category": "Civil Services",
+    "parent_organization": "Uttar Pradesh"
+  },
+  {
+    "name": "Uttar Pradesh Subordinate Services Selection Commission",
+    "abbreviation": "UPSSSC",
+    "description": "Uttar Pradesh Subordinate Services Selection Commission conducts recruitment exams for subordinate level posts in the Uttar Pradesh state government, including clerks, assistants, and other support staff roles.",
+    "category": "Public Services",
+    "parent_organization": "Uttar Pradesh"
+  },
+  {
+    "name": "Uttar Pradesh Police Recruitment and Promotion Board",
+    "abbreviation": "UPPRPB",
+    "description": "Uttar Pradesh Police Recruitment and Promotion Board is responsible for conducting recruitment exams for police personnel in Uttar Pradesh, including constables, sub-inspectors, and officers.",
+    "category": "Public Services",
+    "parent_organization": "Uttar Pradesh"
+  },
+  {
+    "name": "Uttar Pradesh Basic Education Board",
+    "abbreviation": "UPBEB",
+    "description": "Uttar Pradesh Basic Education Board is responsible for conducting exams for primary and upper-primary school teacher recruitment in the state. It ensures the eligibility of candidates for teaching positions.",
+    "category": "Academics Research",
+    "parent_organization": "Uttar Pradesh"
+  },
+  {
+    "name": "Uttar Pradesh Higher Education Service Commission",
+    "abbreviation": "UPHESC",
+    "description": "Uttar Pradesh Higher Education Service Commission recruits faculty members and administrative staff for state universities and higher educational institutions across Uttar Pradesh.",
+    "category": "Academics Research",
+    "parent_organization": "Uttar Pradesh"
+  },
+  {
+    "name": "Uttar Pradesh Power Corporation Limited",
+    "abbreviation": "UPPCL",
+    "description": "Uttar Pradesh Power Corporation Limited is responsible for the distribution of electricity in Uttar Pradesh. It recruits engineers, technicians, and other professionals for power distribution and management roles.",
+    "category": "Technical",
+    "parent_organization": "Uttar Pradesh"
+  },
+  {
+    "name": "Uttar Pradesh State Road Transport Corporation",
+    "abbreviation": "UPSRTC",
+    "description": "Uttar Pradesh State Road Transport Corporation provides public transportation services in Uttar Pradesh. It recruits drivers, conductors, and staff for various roles in its bus and transport services.",
+    "category": "Public Services",
+    "parent_organization": "Uttar Pradesh"
+  },
+  {
+    "name": "Uttar Pradesh Medical and Health Services Recruitment Board",
+    "abbreviation": "UPMSRB",
+    "description": "Uttar Pradesh Medical and Health Services Recruitment Board is responsible for recruiting healthcare professionals and administrative staff for medical and health services in Uttar Pradesh.",
+    "category": "Medical",
+    "parent_organization": "Uttar Pradesh"
+  },
+  {
+    "name": "Board of Revenue Uttar Pradesh",
+    "abbreviation": "BOR",
+    "description": "Board of Revenue Uttar Pradesh is responsible for land revenue and management in the state. It conducts recruitment for various administrative and clerical positions related to land revenue and settlement.",
+    "category": "Public Services",
+    "parent_organization": "Uttar Pradesh"
+  },
+  {
+    "name": "Uttar Pradesh State Agricultural Department",
+    "abbreviation": "UPSAD",
+    "description": "Uttar Pradesh State Agricultural Department focuses on promoting agriculture and rural development in the state. It recruits staff for roles related to agricultural research, extension, and administration.",
+    "category": "Agriculture",
+    "parent_organization": "Uttar Pradesh"
+  },
+  {
+    "name": "Uttar Pradesh Pollution Control Board",
+    "abbreviation": "UPPCB",
+    "description": "Uttar Pradesh Pollution Control Board is responsible for monitoring and regulating pollution levels in the state. It recruits staff for environmental protection, monitoring, and enforcement roles.",
+    "category": "Technical",
+    "parent_organization": "Uttar Pradesh"
+  },
+  {
+    "name": "Uttarakhand Public Service Commission",
+    "abbreviation": "UKPSC",
+    "description": "Uttarakhand Public Service Commission conducts recruitment exams for various administrative and civil services positions in the Uttarakhand state government, including officers and staff in various departments.",
+    "category": "Civil Services",
+    "parent_organization": "Uttarakhand"
+  },
+  {
+    "name": "Uttarakhand Subordinate Service Selection Commission",
+    "abbreviation": "UKSSSC",
+    "description": "Uttarakhand Subordinate Service Selection Commission is responsible for conducting recruitment exams for subordinate level positions in the Uttarakhand state government, such as clerks, assistants, and other staff roles.",
+    "category": "Public Services",
+    "parent_organization": "Uttarakhand"
+  },
+  {
+    "name": "Uttarakhand Jal Vidyut Nigam Limited",
+    "abbreviation": "UJVNL",
+    "description": "Uttarakhand Jal Vidyut Nigam Limited is responsible for generating and distributing hydroelectric power in Uttarakhand. It recruits engineers, technicians, and professionals for the management of water resources and power production.",
+    "category": "Technical",
+    "parent_organization": "Uttarakhand"
+  },
+  {
+    "name": "Rajasthan Public Service Commission",
+    "abbreviation": "RPSC",
+    "description": "Rajasthan Public Service Commission conducts recruitment exams for various administrative and civil services positions in the Rajasthan state government, including officers and staff in various departments.",
+    "category": "Civil Services",
+    "parent_organization": "Rajasthan"
+  },
+  {
+    "name": "Rajasthan Staff Selection Board",
+    "abbreviation": "RSSB",
+    "description": "Rajasthan Staff Selection Board conducts recruitment exams for non-gazetted posts in the Rajasthan state government, including clerks, assistants, and other support staff roles.",
+    "category": "Civil Services",
+    "parent_organization": "Rajasthan"
+  },
+  {
+    "name": "Rajasthan Police Force",
+    "abbreviation": "Rajasthan Police Force",
+    "description": "Rajasthan Police Force is responsible for maintaining law and order, preventing crimes, and ensuring public safety across the state. It recruits candidates for various roles, including constables, sub-inspectors, and officers.",
     "category": "Public Services",
     "parent_organization": "Rajasthan"
-  }
-  
-  ]
-  
-  
+  },
+  {
+    "name": "High Court of Rajasthan",
+    "abbreviation": "HCRAJ",
+    "description": "Rajasthan High Court is the highest judicial authority in the state of Rajasthan. It handles legal matters and manages recruitment for judicial officers, clerks, and other staff within the judiciary.",
+    "category": "Civil Services",
+    "parent_organization": "Rajasthan"
+  },
+  {
+    "name": "Rajasthan Eligibility Examination for Teachers",
+    "abbreviation": "REET",
+    "description": "Rajasthan Eligibility Examination for Teachers is conducted for the recruitment of teachers in Rajasthan for both primary and upper-primary school levels. It assesses candidates' eligibility for teaching positions.",
+    "category": "Academics Research",
+    "parent_organization": "Rajasthan"
+  },
+  {
+    "name": "Central Recruitment Board",
+    "abbreviation": "CRB",
+    "description": "Central Recruitment Board is responsible for conducting recruitment exams for various positions in the central government and public sector enterprises in India.",
+    "category": "Civil Services",
+    "parent_organization": "Rajasthan"
+  },
+  {
+    "name": "Department of Medical, Health and Family Welfare",
+    "abbreviation": "DMHFW",
+    "description": "Directorate of Medical, Health, and Family Welfare is responsible for public health services, medical education, and family welfare programs in Rajasthan. It recruits healthcare professionals and administrative staff.",
+    "category": "Medical",
+    "parent_organization": "Rajasthan"
+  },
+  {
+    "name": "Rajasthan State Road Transport Corporation",
+    "abbreviation": "RSRTC",
+    "description": "Rajasthan State Road Transport Corporation is responsible for providing public transportation services in Rajasthan. It recruits staff for various roles, including drivers, conductors, and technical staff for its operations.",
+    "category": "Public Services",
+    "parent_organization": "Rajasthan"
+  },
+  {
+    "name": "Rajasthan Agriculture Department",
+    "abbreviation": "AGRI",
+    "description": "Agriculture Department of Rajasthan focuses on promoting agricultural development, including welfare schemes for farmers. It recruits staff for agricultural research, extension, and administration roles.",
+    "category": "Technical",
+    "parent_organization": "Rajasthan"
+  },
+  {
+    "name": "Rajasthan Forest Department",
+    "abbreviation": "Rajasthan Forest",
+    "description": "Rajasthan Forest Department is responsible for the conservation and management of forests and wildlife in the state. It recruits forest officers, rangers, and other staff for the preservation and management of natural resources.",
+    "category": "Public Services",
+    "parent_organization": "Rajasthan"
+  },
+  {
+    "name": "Rajasthan Environment and Climate Change Department",
+    "abbreviation": "Rajasthan Environment",
+    "description": "Rajasthan Environment Department is responsible for environmental conservation and regulation of pollution levels in the state. It recruits staff for environmental monitoring, policy implementation, and sustainable development.",
+    "category": "Technical",
+    "parent_organization": "Rajasthan"
+  },
+  {
+    "name": "Rajasthan Transport Department",
+    "abbreviation": "RTO",
+    "description": "Regional Transport Office is responsible for vehicle registration, driver licensing, and road transport management in the state. It recruits staff for administrative, technical, and enforcement roles in the transport sector.",
+    "category": "Public Services",
+    "parent_organization": "Rajasthan"
+  },
+  {
+    "name": "Common Entrance Test",
+    "abbreviation": "CET",
+    "description": "Common Entrance Test is a standardized exam conducted for admissions to various undergraduate and postgraduate courses in different fields such as engineering, medical, and management in Rajasthan.",
+    "category": "Academics Research",
+    "parent_organization": "Rajasthan"
+  },
+  {
+    "name": "Rajasthan State Electricity Board",
+    "abbreviation": "RSEB",
+    "description": "Rajasthan State Electricity Board is responsible for electricity generation, transmission, and distribution in Rajasthan. It recruits staff for technical and administrative roles in the power sector.",
+    "category": "Technical",
+    "parent_organization": "Rajasthan"
+  },
+  {
+  "name": "Rajasthan State Livelihoods Development Corporation (RSLDC)",
+  "abbreviation": "RSLDC",
+  "description": "Rajasthan State Livelihoods Development Corporation (RSLDC) is an initiative by the Government of Rajasthan aimed at providing employment and skill development opportunities to the youth of Rajasthan through various training and livelihood programs.",
+  "category": "Public Services",
+  "parent_organization": "Rajasthan"
+},
+{
+"name": "Online Job Application System",
+"abbreviation": "OJAS",
+"description": "Online Job Application System (OJAS) is a portal managed by the Gujarat government for online applications, recruitment notifications, and exam details for various government jobs in Gujarat state. It provides services such as application submission, hall ticket download, and result announcements.",
+"category": "Public Services",
+"parent_organization": "Gujarat"
+}
+
+
+]
+

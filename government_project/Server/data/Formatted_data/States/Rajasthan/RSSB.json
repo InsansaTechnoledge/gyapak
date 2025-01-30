@@ -5,7 +5,7 @@
     "date_of_commencement": null,
     "end_date": null,
     "apply_link": "https://rssb.org/announce.html",
-    "event_type": "Document Verification",
+    "event_type": "Exam",
     "document_links": [],
     "details": {
       "description": "Press Note for Document Verification & Schedule."
@@ -29,7 +29,7 @@
     "date_of_commencement": null,
     "end_date": null,
     "apply_link": "https://rssb.org/announce.html",
-    "event_type": "Admit Card",
+    "event_type": "AdmitCard",
     "document_links": [],
     "details": {
       "description": "Important Instructions regarding Provisional E-Admit Card."
