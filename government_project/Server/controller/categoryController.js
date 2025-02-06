@@ -15,7 +15,7 @@ export const createOrUpadateCategory = async (names) => {
     for (let name of names) {
       const imagePath = path.resolve(__dirname, `../data/CategoryLogos/${name}.png`);
       console.log(`Processing category: ${name}, logo path: ${imagePath}`);
-      logo = null;
+      let logo = null;
 
       if (fs.existsSync(imagePath)) {
         try{
@@ -75,7 +75,7 @@ export const createCategoryFunction=async()=>{
       return [];
     }
     const data=fs.readFileSync(filePath,'utf-8');
-    const categories=await createOrUpadateCategory(JSON.parse(data));
+    const categories=await createOrUpadateCategory(JSON.parse(data).names);
     console.log("Categories processed successfully from file.");
     return categories;
   }catch(error){

@@ -1,14 +1,10 @@
 import express from 'express';
-// import { createOrganization ,processOrganizationFiles,updateLogos} from '../controller/organizationController.js';
-// import {processOrganizationFiles,update, updateLogos} from '../controller/organizationController.js';
+import { createOrganizations, updateOrganization, updateOrganizationCategory } from '../controller/organizationController.js';
 
 const router=express.Router();
 
-
-// router.post ('/process-data' , processOrganizationFiles);
-
-// router.put('/updatelogos', updateLogos);
-
-// router.post('/create',createOrganization);
+router.post('/createOrganizations',createOrganizations);
+router.post('/updateOrganization',updateOrganization);
+router.post('/updateOrganizationCategory',updateOrganizationCategory);
 
 export default router;
