@@ -77,6 +77,7 @@ const Credits = () => {
         'MPPSC': 'https://164.100.196.21/mppsc//assets/img/logo.png',
         'MPPEB': 'https://sharmajobs.com/wp-content/uploads/2018/09/PEB.jpg',
         'MPSEC': 'https://mplocalelection.gov.in/images/logo%20Latest2%20copy(1).png',
+        'MPCD':"https://cooperatives.mp.gov.in/sites/default/files/inline-images/mp-logo.png",
         'Madhya Pradesh High Court': 'https://yt3.googleusercontent.com/ytc/AIdro_npfwsYw4bjqKYbdzQBaht6GOr1yRzRJrHuzrwiKDDs4g=s900-c-k-c0x00ffffff-no-rj',
         'MPPGCL': 'https://media.licdn.com/dms/image/v2/C4E0BAQHOniyfOgin9Q/company-logo_200_200/company-logo_200_200/0/1630638895194?e=2147483647&v=beta&t=uBMd7jrbizGflkMsDi2ZQsPYDFgQlI2O_-825mTtI_M',
         'MPRDC': 'https://www.developmentaid.org/files/organizationLogos/madhya-pradesh-road-development-corporation-limited-144722.jpg',
@@ -142,7 +143,14 @@ const Credits = () => {
         'Rajasthan': 'https://i.ytimg.com/vi/i7dEiZO-IlA/sddefault.jpg',
         'Tamil Nadu': 'https://i.pinimg.com/736x/97/1d/b8/971db8afe08c9fcc56e1e5f479d7e3aa.jpg',
         'Uttar Pradesh': 'https://media.istockphoto.com/id/1062548812/vector/uttar-pradesh-map-vector.jpg?s=612x612&w=0&k=20&c=Wss-zsceuJJ96vA5tZkqnEvUreJAzEu88MJaQpatYPk=',
-        'Uttarakhand': 'https://wheremaps.com/wp-content/uploads/2023/06/uttarakhand-outline-map.jpg'
+        'Uttarakhand': 'https://wheremaps.com/wp-content/uploads/2023/06/uttarakhand-outline-map.jpg',
+        'HTE':"https://www.techeduhry.gov.in/sites/default/files/1_DTE_IT%20Cell%20/Image/Haryana%20Logo.jpg",
+        'SSC':"https://www.kindpng.com/picc/m/129-1298591_ssc-logo-staff-selection-commission-png-staff-selection.png",
+        'MPSRTC':"https://transport.mp.gov.in/sites/default/files/mp_logo_13.png",
+        'Bihar Energy Department':"https://state.bihar.gov.in/energy/cache/1/SLIDER/bihar-logo-red.png",
+        'BOR':"https://bor.up.nic.in/borlogo.jpeg",
+        'UPPCB':"https://uppcb.up.gov.in/downloadmedia/siteContent/202312191258465018new-logo01.jpg",
+        'RSEB':"https://rajeduboard.rajasthan.gov.in/Images/logo-bw.jpg"
     }
 
 
