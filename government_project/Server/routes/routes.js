@@ -10,5 +10,6 @@ const routes=(app)=>{
     app.use('/api/category',categoryRoutes);
     app.use('/api/events',eventRoutes);
     app.get('/db',createDb);
+
 };
 export default routes;
