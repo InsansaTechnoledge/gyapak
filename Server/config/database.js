@@ -22,17 +22,17 @@ const connectDB = async () => {
 
         const db = mongoose.connection.db;
 
-        // Check if index exists before dropping
-        await checkAndDropIndex(db.collection("organizations"), "abbreviation_text");
-        await checkAndDropIndex(db.collection("authorities"), "name_text");
-        await checkAndDropIndex(db.collection("categories"), "category_text");
+        // // Check if index exists before dropping
+        // await checkAndDropIndex(db.collection("organizations"), "abbreviation_text");
+        // await checkAndDropIndex(db.collection("authorities"), "name_text");
+        // await checkAndDropIndex(db.collection("categories"), "category_text");
 
-        // Create new indexes
-        await db.collection("authorities").createIndex({ name: "text" });
+        // // Create new indexes
+        // await db.collection("authorities").createIndex({ name: "text" });
 
-        await db.collection("organizations").createIndex({ abbreviation: "text" });
+        // await db.collection("organizations").createIndex({ abbreviation: "text" });
 
-        await db.collection("categories").createIndex({ category: "text" });
+        // await db.collection("categories").createIndex({ category: "text" });
 
     } catch (err) {
         console.error('Database connection failed. Error:', err);

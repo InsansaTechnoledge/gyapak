@@ -31,7 +31,7 @@ const Hero = () => {
                     gyapak
                 </h1>
                 <p className="text-xl font-semibold text-center text-gray-300 opacity-90 mb-6 tracking-wide">
-                    gyapak: Dates You Need to Crack Government Exams
+                    Dates You Need to Crack Government Exams
                 </p>
 
 

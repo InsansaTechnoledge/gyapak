@@ -2,19 +2,23 @@ import Event from "../models/EventModel.js";
 import EventType from "../models/EventTypeModel.js";
 
 export const getAllResults = async (req, res) => {
-    const ResultType = await EventType.findOne({type: "Result"});
+    try{
 
-    const ResultIds = ResultType.events;
-
-    const results = await Event.aggregate([
-        {
-            $match: {
-                _id: { $in: ResultIds },
+        const ResultType = await EventType.findOne({type: "Result"});
+        if(!ResultType){
+            return res.status(201).json({'results':[]});
+        }
+        const ResultIds = ResultType.events;
+        
+        const results = await Event.aggregate([
+            {
+                $match: {
+                    _id: { $in: ResultIds },
+                },
             },
-        },
-        {
-            $lookup: {
-                from: 'organizations', // The name of the organization collection
+            {
+                $lookup: {
+                    from: 'organizations', // The name of the organization collection
                 localField: 'organization_id', // Field in the Event collection
                 foreignField: '_id', // Field in the Organization collection
                 as: 'organizationDetails', // The resulting array field
@@ -50,6 +54,11 @@ export const getAllResults = async (req, res) => {
             },
         },
     ]);
-
+    
     res.status(201).json(results);    
+    }
+    catch(err){
+        console.log(err);
+        res.json({'message':err})
+    }
 }

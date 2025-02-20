@@ -3,6 +3,9 @@ import Event from '../models/EventModel.js'
 
 export const getAdmitCards = async (req,res) => {
     const admitCardType = await EventType.findOne({type: "AdmitCard"});
+    if(!admitCardType){
+        return res.status(201).json({'admitCards':[]});
+    }
 
     const admitCardIds = admitCardType.events;
     const admitCards = await Event.aggregate([
