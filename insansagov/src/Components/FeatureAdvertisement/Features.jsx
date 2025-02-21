@@ -9,101 +9,81 @@ import {
 } from 'lucide-react';
 
 const FeaturePage = () => {
-    return (
-        <div>
-            
-          
+    const features = [
+        {
+            icon: Calendar,
+            title: "Accurate Dates",
+            description: "Get reliable and updated information on all government exam schedules.",
+            color: "bg-blue-100",
+            iconColor: "text-blue-600"
+        },
+        {
+            icon: Shield,
+            title: "Secure Information",
+            description: "Access verified and trustworthy data with complete peace of mind.",
+            color: "bg-purple-100",
+            iconColor: "text-purple-600"
+        },
+        {
+            icon: Smartphone,
+            title: "Mobile Friendly",
+            description: "Check exam dates anytime, anywhere with our responsive design.",
+            color: "bg-green-100",
+            iconColor: "text-green-600"
+        },
+        {
+            icon: Globe,
+            title: "National Coverage",
+            description: "Stay updated with exam dates from all over the country.",
+            color: "bg-orange-100",
+            iconColor: "text-orange-600"
+        },
+        {
+            icon: Star,
+            title: "User-Friendly Interface",
+            description: "Navigate effortlessly through our intuitive and simple platform.",
+            color: "bg-teal-100",
+            iconColor: "text-teal-600"
+        }
+    ];
 
-            {/* Main Features Section */}
-            <div className="max-w-7xl mx-auto py-20 xl:grid xl:grid-cols-10 xl:gap-x-10">
-                <div className="text-center flex flex-col justify-center col-span-3">
-                    <h2 className="text-4xl font-bold text-gray-900  mb-10">
+    return (
+        <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+                {/* Hero Section */}
+                <div className="text-center mb-20">
+                    <h1 className="text-5xl font-bold text-gray-900 mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
                         Features Designed for Your Success
-                    </h2>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                        Simplify your exam preparation journey with these powerful tools.
+                    </h1>
+                    <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                        Simplify your exam preparation journey with these powerful tools designed to maximize your potential.
                     </p>
                 </div>
 
-                <div className="grid gap-10 sm:grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 col-span-7">
-                    {/* Feature 1 */}
-                    <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow flex items-center space-x-4">
-                        <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600">
-                            <Calendar className="w-12 h-6" />
-                        </div>
-                        <div>
-                            <h3 className="text-xl font-semibold text-gray-900">Accurate Dates</h3>
-                            <p className="text-gray-600">
-                                Get reliable and updated information on all government exam schedules.
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Feature 2 */}
-                    <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow flex items-center space-x-4">
-                        <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600">
-                            <Shield className="w-12 h-6" />
-                        </div>
-                        <div>
-                            <h3 className="text-xl font-semibold text-gray-900">Secure Information</h3>
-                            <p className="text-gray-600">
-                                Access verified and trustworthy data with complete peace of mind.
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Feature 3 */}
-                    <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow flex items-center space-x-4">
-                        <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600">
-                            <Smartphone className="w-12 h-6" />
-                        </div>
-                        <div>
-                            <h3 className="text-xl font-semibold text-gray-900">Mobile Friendly</h3>
-                            <p className="text-gray-600">
-                                Check exam dates anytime, anywhere with our responsive design.
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Feature 4 */}
-                    <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow flex items-center space-x-4">
-                        <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600">
-                            <Globe className="w-12 h-6" />
-                        </div>
-                        <div>
-                            <h3 className="text-xl font-semibold text-gray-900">National Coverage</h3>
-                            <p className="text-gray-600">
-                                Stay updated with exam dates from all over the country.
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Feature 5 */}
-                    <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow flex items-center space-x-4">
-                        <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600">
-                            <Users className="w-12 h-6" />
-                        </div>
-                        <div>
-                            <h3 className="text-xl font-semibold text-gray-900">Personalized Reminders</h3>
-                            <p className="text-gray-600">
-                                Set custom notifications to never miss a deadline.
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Feature 6 */}
-                    <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow flex items-center space-x-4">
-                        <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600">
-                            <Star className="w-12 h-6" />
-                        </div>
-                        <div>
-                            <h3 className="text-xl font-semibold text-gray-900">User-Friendly Interface</h3>
-                            <p className="text-gray-600">
-                                Navigate effortlessly through our intuitive and simple platform.
-                            </p>
-                        </div>
-                    </div>
+                {/* Features Grid */}
+                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    {features.map((feature, index) => {
+                        const Icon = feature.icon;
+                        return (
+                            <div
+                                key={index}
+                                className="group relative bg-white rounded-2xl p-8 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                            >
+                                <div className={`${feature.color} w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                                    <Icon className={`w-8 h-8 ${feature.iconColor}`} />
+                                </div>
+                                <h3 className="text-2xl font-semibold text-gray-900 mb-4">
+                                    {feature.title}
+                                </h3>
+                                <p className="text-gray-600 leading-relaxed">
+                                    {feature.description}
+                                </p>
+                                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-transparent to-transparent group-hover:via-blue-500 transition-all duration-300 rounded-b-2xl"></div>
+                            </div>
+                        );
+                    })}
                 </div>
+
             </div>
         </div>
     );
