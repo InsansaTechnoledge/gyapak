@@ -15,7 +15,7 @@ const ImportantDatesSection = ({ data, existingSections }) => {
       </h2>
       <div className="space-y-4">
         {
-          typeof (data.details.important_dates === 'string' || data.details.important_dates === 'date')
+          typeof (data.details.important_dates) == 'string' || typeof(data.details.important_dates) == 'date'
             ?
             <div className="p-4 bg-purple-50 rounded-lg">
               <p>{data.details.important_dates}</p>
