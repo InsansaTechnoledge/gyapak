@@ -163,7 +163,7 @@ const PrivacyPolicy = () => {
                             </h3>
                             <p className="text-gray-600">
                                 Find the complete list of credits for all logos and backgrounds used in our website{' '}
-                                <span onClick={()=>navigate("/credits")} className="text-blue-600 hover:text-blue-800 underline">here</span>.
+                                <span onClick={()=>navigate("/credits")} className="text-blue-600 hover:text-blue-800 underline hover:cursor-pointer">here</span>.
                             </p>
                         </div>
 
