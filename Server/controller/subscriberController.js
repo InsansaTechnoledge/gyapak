@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import { transporter } from './contactController.js';
 import Subscriber from '../models/SubscriberModel.js';
+const emailSentCache = new Set(); // Example if using a Map for caching
 
 
 // subscribed user mailing list
@@ -22,13 +23,13 @@ export const updateMail = async (email, name,unsubscribeToken) => {
             html: `
                 <p>Dear ${name},</p>
                 <p>We wanted to let you know that there are new updates available on our website!</p>
-                <p>Visit <a href="https://yourwebsite.com" target="_blank">YourWebsite.com</a> to explore the latest updates and new data.</p>
+                <p>Visit <a href="https://gyapak.in/" target="_blank">gyapak.in</a> to explore the latest updates and new data.</p>
                 <p>If you have any questions or need assistance, please feel free to reply to this email or contact us directly.</p>
                 <p>Thank you for staying with us!</p>
                 <br>
                 <p>Warm regards,</p>
                 <p><b>Insansa Techknowledge Pvt. Ltd.</b></p>
-                <p>insansa.com</p>
+                <p><a href="https://insansa.com/" target="_blank">insansa.com</a></p>
                 <p>+91 9724379123 | 0265-4611836</p>
                 <br>
                 <a 
@@ -92,8 +93,8 @@ export const subscribeMail = async (email, name, unsubscribeToken) => {
                 <p>If you have any questions or need assistance, feel free to reply to this email or contact us anytime.</p>
                 <br>
                 <p>Warm regards,</p>
-                <p><b>Insansa Techknowledge Pvt. Ltd.</b></p>
-                <p>MyWebsite.com</p>
+                <p><b>"<a href="https://insansa.com/" target="_blank">Insansa Techknowledge Pvt. Ltd.</b></p>
+                <p><a href="https://gyapak.in/" target="_blank">gyapak.in</a></p>
                 <p>+91 9724379123 | 0265-4611836</p>
                 <br>
                 <a 
