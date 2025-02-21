@@ -146,7 +146,7 @@ const Footer = () => {
               {/* <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
                 Terms
               </a> */}
-              <div onClick={()=>navigate("/privacy-policy")} className="text-gray-400 hover:text-white text-sm transition-colors">
+              <div onClick={()=>navigate("/privacy-policy")} className="text-gray-400 hover:text-white text-sm transition-colors hover:cursor-pointer">
                 Privacy Policy
               </div>
               {/* <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
