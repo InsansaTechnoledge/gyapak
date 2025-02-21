@@ -92,6 +92,9 @@ export const getEvent = async (req, res) => {
 export const lastupdated = async (req, res) => {
   try{
     const update=await EventType.findOne({type:"update"});
+    if(!update){
+      return res.status(201).json({data:new Date()});
+    }
     res.status(201).json({data:update.lastUpdated});
   }catch(err){
     console.log("error occured in fetching last updated date:",err);

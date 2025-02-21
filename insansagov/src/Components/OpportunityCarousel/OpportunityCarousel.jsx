@@ -47,7 +47,7 @@ const OpportunityCarousel = () => {
       </div>
 
       <div className='relative'>
-        <div className='grid grid-cols-1 xl:grid-cols-3 gap-6 mb-8'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mb-8'>
           {currentItems.map((item, index) => (
             <OpportunityCarouselCard key={index} item={item} authority={item.authority} />
           ))}

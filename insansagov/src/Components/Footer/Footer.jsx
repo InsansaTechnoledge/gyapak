@@ -143,9 +143,15 @@ const Footer = () => {
               © {new Date().getFullYear()} gyapak.in, All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="/privacy-policy" className="text-gray-400 hover:text-white text-sm transition-colors">
+              {/* <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
+                Terms
+              </a> */}
+              <div onClick={()=>navigate("/privacy-policy")} className="text-gray-400 hover:text-white text-sm transition-colors hover:cursor-pointer">
                 Privacy Policy
-              </a>
+              </div>
+              {/* <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
+                Cookies
+              </a> */}
             </div>
           </div>
         </div>

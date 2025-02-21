@@ -30,7 +30,7 @@ const SecondRoutes = () => {
     }
 
     return (
-        <div className='px-5 xl:px-64'>
+        <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
             <Suspense fallback={<div><div className='w-full h-screen flex justify-center'>
       <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
     </div></div>}>

@@ -7,7 +7,7 @@ import { RingLoader } from 'react-spinners';
 import { debounce } from 'lodash';
 
 const TopAuthorities = (props) => {
-    const [organizations, setOrganizations] = useState();
+    const [organizations, setOrganizations] = useState([]);
     const [displayCount, setDisplayCount] = useState(8); // Initial count of displayed items
 
     // Fetch data from API
@@ -58,7 +58,7 @@ const TopAuthorities = (props) => {
       <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
     </div></div>}>
                 {
-                    organizations.slice(0, displayCount).map((org, key) => (
+                    organizations.length>0 && organizations.slice(0, displayCount).map((org, key) => (
                         <TopAuthoritiesCard key={key} name={org.abbreviation} logo={org.logo} id={org._id} />
                     ))
                 }

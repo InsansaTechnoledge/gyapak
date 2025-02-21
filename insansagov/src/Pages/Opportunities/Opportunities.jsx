@@ -154,53 +154,53 @@ const ModernExamDetailsPage = () => {
 
         {
           data.details
-          ?
-          <>
+            ?
+            <>
 
-        {<VacanciesSection data={data} existingSections={existingSections} />}
-        <div className="flex w-full flex-wrap gap-10">
+              {<VacanciesSection data={data} existingSections={existingSections} />}
+              <div className="flex w-full flex-wrap gap-10">
 
-          {/* Vacancies Section */}
-
-
-          {/* Eligibility Grid */}
-
-          {/* Nationality */}
-          {<NationalitySection data={data} existingSections={existingSections} />}
+                {/* Vacancies Section */}
 
 
-          {/* Age Limits */}
-          {
-            <AgeLimitSection data={data} existingSections={existingSections} />
-          }
+                {/* Eligibility Grid */}
 
-          {/* Education & Fee Details */}
-          {/* Education */}
-          {
-            <EducationSection data={data} existingSections={existingSections} />
-          }
-          <LocationSection data={data} existingSections={existingSections} />
-          <PositionSection data={data} existingSections={existingSections} />
-          <SalarySection data={data} existingSections={existingSections} />
-          <SelectionSection data={data} existingSections={existingSections} />
-
-          {/* Fee Details */}
-          {<FeeDetailsSection data={data} existingSections={existingSections} />}
+                {/* Nationality */}
+                {<NationalitySection data={data} existingSections={existingSections} />}
 
 
-          {/* Important Dates and Exam Centers */}
-          {/* Important Dates */}
-          {
-            <ImportantDatesSection data={data} existingSections={existingSections} />
-          }
+                {/* Age Limits */}
+                {
+                  <AgeLimitSection data={data} existingSections={existingSections} />
+                }
+
+                {/* Education & Fee Details */}
+                {/* Education */}
+                {
+                  <EducationSection data={data} existingSections={existingSections} />
+                }
+                <LocationSection data={data} existingSections={existingSections} />
+                <PositionSection data={data} existingSections={existingSections} />
+                <SalarySection data={data} existingSections={existingSections} />
+                <SelectionSection data={data} existingSections={existingSections} />
+
+                {/* Fee Details */}
+                {<FeeDetailsSection data={data} existingSections={existingSections} />}
 
 
-          {/* Exam Centers */}
-          {<ExamCentresSection data={data} existingSections={existingSections} />}
+                {/* Important Dates and Exam Centers */}
+                {/* Important Dates */}
+                {
+                  <ImportantDatesSection data={data} existingSections={existingSections} />
+                }
 
 
-          {/* Scheme of Examination */}
-          {/* {
+                {/* Exam Centers */}
+                {<ExamCentresSection data={data} existingSections={existingSections} />}
+
+
+                {/* Scheme of Examination */}
+                {/* {
             data.details.scheme_of_exam
               ?
               <div className="flex flex-col flex-grow bg-white shadow-lg p-8 rounded-2xl mb-20">
@@ -222,33 +222,33 @@ const ModernExamDetailsPage = () => {
               null
           } */}
 
-          {/* Contact Details */}
-          {
-            <ContactDetailsSection data={data} existingSections={existingSections} />
-          }
-          <div className="flex-grow">
-          {/* Important Links */}
-          <AdditionalDetailsSection data={data.details} existingSections={existingSections} />
-          </div>
-          {data.document_links.length > 0
-          ?
-          <ImportantLinksSection data={data} />
-          
-          :
-          null
-          }
-        </div>
-          </>
-          :
-          <>
-          {data.document_links.length > 0
-            ?
-            <ImportantLinksSection data={data} />
+                {/* Contact Details */}
+                {
+                  <ContactDetailsSection data={data} existingSections={existingSections} />
+                }
+                <div className="flex-grow">
+                  {/* Important Links */}
+                  <AdditionalDetailsSection data={data.details} existingSections={existingSections} />
+                </div>
+                {data.document_links.length > 0
+                  ?
+                  <ImportantLinksSection data={data} />
+
+                  :
+                  null
+                }
+              </div>
+            </>
             :
-            null
-          }
-          </>
-          }
+            <>
+              {data.document_links.length > 0
+                ?
+                <ImportantLinksSection data={data} />
+                :
+                null
+              }
+            </>
+        }
 
       </div>
     </div>

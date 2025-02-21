@@ -13,7 +13,7 @@ const RenderDetails = ({ data, inner }) => {
           <p className="text-sm text-purple-500 mb-1">
             {key.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase())}
           </p>
-          <RenderDetails data={value} inner={true}/> {/* Recursive call for nested objects */}
+          <RenderDetails data={value} inner={true} /> {/* Recursive call for nested objects */}
         </div>
       ))}
     </div>
@@ -34,8 +34,16 @@ const ContactDetailsSection = ({ data, existingSections }) => {
         <Phone className="w-6 h-6 text-purple-500" />
         Contact Details
       </h2>
+      {
+        typeof (data.details.contact_details) === 'string'
+          ?
+          <div className="p-4 bg-purple-50 rounded-lg">
+            <p>{data.details.contact_details}</p>
+          </div>
+          :
 
-      <RenderDetails data={data.details.contact_details} />
+          <RenderDetails data={data.details.contact_details} />
+      }
 
 
     </div>

@@ -8,6 +8,9 @@ export const getCentralLogos = async (req, res) => {
     
     const centralAuthority = await Authority.findOne({type: "Central_Government"})
 
+    if(!centralAuthority){
+      return res.status(200).json({'centralOrganizations':[]});
+    }
     const centralOrganizationIds = centralAuthority.organizations;
 
     const centralOrganizations = await Organization.find(
