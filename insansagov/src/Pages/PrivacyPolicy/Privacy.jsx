@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronRight, ChevronDown, ArrowUp } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const PrivacyPolicy = () => {
     const [activeSection, setActiveSection] = useState(null);
     const [showScrollTop, setShowScrollTop] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -161,7 +163,7 @@ const PrivacyPolicy = () => {
                             </h3>
                             <p className="text-gray-600">
                                 Find the complete list of credits for all logos and backgrounds used in our website{' '}
-                                <a href="/credits" className="text-blue-600 hover:text-blue-800 underline">here</a>.
+                                <span onClick={()=>navigate("/credits")} className="text-blue-600 hover:text-blue-800 underline">here</span>.
                             </p>
                         </div>
 
