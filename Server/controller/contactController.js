@@ -74,8 +74,8 @@ export const sendMailtoUser = async (req, res) => {
         <p>We value your interest and look forward to assisting you!</p>
 
         <p>Warm regards,</p>
-        <p><b>Insansa Techknowledge Pvt. Ltd.</b></p>
-        <p>MyWebsite.com</p>
+        <p><b>"<a href="https://insansa.com/" target="_blank">Insansa Techknowledge Pvt. Ltd.</b></p>
+        <p><a href="https://gyapak.in/" target="_blank">gyapak.in</a></p>
         <p>+91 9724379123 | 0265-4611836</p>
       `,
     };
