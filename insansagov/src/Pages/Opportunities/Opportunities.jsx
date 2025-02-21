@@ -116,7 +116,7 @@ const ModernExamDetailsPage = () => {
   const examId = queryParams.get("id");
   const [data, setData] = useState();
   const [organization, setOrganization] = useState();
-  const existingSections = ['document_links']
+  const existingSections = ['document_links','vacancies']
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -145,7 +145,7 @@ const ModernExamDetailsPage = () => {
       <FloatingOrbsBackground />
 
       {/* Main Content */}
-      <div className="max-w-7xl relative">
+      <div className="max-w-7xl relative mx-auto">
         {/* Hero Section */}
         <HeroSection data={data} organization={organization} />
 
@@ -199,56 +199,29 @@ const ModernExamDetailsPage = () => {
                 {<ExamCentresSection data={data} existingSections={existingSections} />}
 
 
-                {/* Scheme of Examination */}
-                {/* {
-            data.details.scheme_of_exam
-              ?
-              <div className="flex flex-col flex-grow bg-white shadow-lg p-8 rounded-2xl mb-20">
-                <h2 className="text-2xl font-bold mb-8 flex items-center gap-3">
-                  <BookOpen className="w-6 h-6 text-purple-500" />
-                  Scheme of Examination
-                </h2>
-                <div className="flex flex-col gap-y-5 xl:space-x-5  xl:flex-row xl:space-y-0">
-                  {<SchemeOfExamSection1 data={data} existingSections={existingSections} />}
-
-
-
-                  {
-                    <SchemeOfExamSection2 data={data} existingSections={existingSections} />
-                  }
-                </div>
-              </div>
-              :
-              null
-          } */}
-
                 {/* Contact Details */}
                 {
                   <ContactDetailsSection data={data} existingSections={existingSections} />
                 }
-                <div className="flex-grow">
-                  {/* Important Links */}
-                  <AdditionalDetailsSection data={data.details} existingSections={existingSections} />
-                </div>
-                {data.document_links.length > 0
-                  ?
-                  <ImportantLinksSection data={data} />
 
-                  :
-                  null
-                }
+
               </div>
             </>
             :
-            <>
-              {data.document_links.length > 0
-                ?
-                <ImportantLinksSection data={data} />
-                :
-                null
-              }
-            </>
+            null
         }
+        <>
+          <div className="flex flex-grow mt-10">
+            {/* Important Links */}
+            <AdditionalDetailsSection data={data.details} existingSections={existingSections} />
+          </div>
+          {data.document_links.length > 0
+            ?
+            <ImportantLinksSection data={data} />
+            :
+            null
+          }
+        </>
 
       </div>
     </div>

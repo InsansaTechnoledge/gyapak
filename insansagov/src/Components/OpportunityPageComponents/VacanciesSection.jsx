@@ -8,7 +8,8 @@ const VacanciesSection = ({ data, existingSections }) => {
 
   // Safely update existingSections without mutating the original array
   if (!existingSections.includes("vacancies")) {
-    existingSections = [...existingSections, "vacancies"];
+    existingSections = [...existingSections, "vacancies"];  
+    console.log("Gg");
   }
 
   const { total, breakdown } = data.details.vacancies;
