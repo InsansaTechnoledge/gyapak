@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ChevronDown, Search, MapPin } from 'lucide-react';
+import { Menu, X, ChevronDown, Search, MapPin, AlertTriangle } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
 import axios from 'axios';
@@ -95,6 +95,7 @@ const Navbar = () => {
   }, [suggestions]);
 
   const handleSearch = (suggestion) => {
+    // preventDefault();
     navigate(`/search/?query=${encodeURI(suggestion)}`);
     setSearchQuery("");
   };
@@ -230,8 +231,15 @@ const Navbar = () => {
                       <StateIcon key={index} state={state} index={index} />
                     ))}
                   </div>
+                  <div className="mt-4 flex items-start justify-center space-x-3 bg-purple-700 p-4 rounded-lg border border-amber-500/50 hover:border-amber-500 transition-colors duration-300 backdrop-blur-sm">
+                    <AlertTriangle className="h-5 w-5 text-purple-50 flex-shrink-0 mt-1 animate-pulse" />
+                    <p className="text-gray-200 text-sm leading-relaxed">
+                      Remaining states would be available soon!
+                    </p>
+                  </div>
                 </div>
               </div>
+
             </div>
 
             {/* Navigation Links */}
@@ -245,7 +253,7 @@ const Navbar = () => {
             {/* Search Bar */}
             {location.pathname !== '/' && (
               <div className="relative">
-                <form onSubmit={handleSearch} className="relative">
+                <form className="relative">
                   <input
                     type="text"
                     className="w-64 px-4 py-2 text-sm rounded-lg bg-gray-100 text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"

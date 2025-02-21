@@ -108,7 +108,7 @@ const Hero = () => {
                             </span>
                             <span className="block xs:inline-block px-2">for</span>
                             <motion.span
-                                className="inline-block bg-gradient-to-r from-indigo-600 to-purple-500 px-4 py-2 rounded-lg text-white shadow-xl"
+                                className="mt-3 sm:mt-0 inline-block bg-gradient-to-r from-indigo-600 to-purple-500 px-4 py-2 rounded-lg text-white shadow-xl"
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                             >

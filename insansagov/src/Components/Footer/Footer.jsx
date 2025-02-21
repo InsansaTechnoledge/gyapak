@@ -86,12 +86,12 @@ const Footer = () => {
                 <li key={item}>
                   <Link
                     to={``}
-                    className="text-gray-400 hover:text-white transition-all duration-300 flex items-center group"
+                    className="text-gray-400  transition-all duration-300 flex items-center group hover:cursor-default"
                   >
-                    <span className="w-0 group-hover:w-4 overflow-hidden transition-all duration-300 flex items-center">
+                    <span className="w-0  overflow-hidden transition-all duration-300 flex items-center">
                       <ArrowRight className="h-4 w-4 text-purple-500" />
                     </span>
-                    <span className="group-hover:translate-x-2 transition-transform duration-300">{item}</span>
+                    <span className=" transition-transform duration-300">{item}</span>
                   </Link>
                 </li>
               ))}
