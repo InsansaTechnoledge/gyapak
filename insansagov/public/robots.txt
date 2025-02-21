@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://gyapak-8ul2.vercel.app//sitemap.xml
+Sitemap: https://gyapak.in/sitemap.xml

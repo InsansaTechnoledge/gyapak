@@ -42,9 +42,18 @@ const Footer = () => {
               <p className="text-sm text-gray-400">
                 Developed and brought to you by
               </p>
+
+              <a
+                href="https://insansa.com"
+                className="group"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
               <p className="text-lg text-gray-200 font-semibold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
                 Insansa Techknowledge Pvt. Ltd.
               </p>
+              </a>
+
             </div>
             <div className="flex space-x-4">
               <a
