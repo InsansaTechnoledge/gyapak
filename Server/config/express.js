@@ -29,7 +29,7 @@ const backendInstances = [
   // "https://gyapak-qngw.vercel.app",
   // "https://gyapak-tkpi.vercel.app",
   "https://gyapak-2.onrender.com",
-  "https://gyapak.onrender.com",
+  // "https://gyapak.onrender.com",
   "https://gyapak-3.onrender.com",
 ];
 
