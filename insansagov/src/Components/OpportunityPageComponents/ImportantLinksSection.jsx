@@ -1,6 +1,7 @@
 import React from "react";
 
 const ImportantLinksSection = ({ data }) => {
+  
   return (
     <footer className="flex-grow lg:col-span-2 bg-white shadow-lg p-8 rounded-2xl">
       <h2 className="text-2xl font-bold mb-6">Important Links</h2>

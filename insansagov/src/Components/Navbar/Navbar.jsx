@@ -253,7 +253,7 @@ const Navbar = () => {
             {/* Search Bar */}
             {location.pathname !== '/' && (
               <div className="relative">
-                <form className="relative">
+                <div className="relative">
                   <input
                     type="text"
                     className="w-64 px-4 py-2 text-sm rounded-lg bg-gray-100 text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
@@ -263,14 +263,20 @@ const Navbar = () => {
                     autoComplete="off"
                     onFocus={() => searchQuery && setShowDropdown(true)}
                     onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
+                    onKeyDown={(e)=>{
+                      if(e.key==='Enter'){
+                        navigate(`/search?query=${encodeURI(searchQuery)}`)
+                      }
+                      console.log(e)
+                    }}
                   />
                   <button
-                    type="submit"
+                    type="button"
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-purple-600 transition-colors duration-300"
                   >
                     <Search className="w-5 h-5" />
                   </button>
-                </form>
+                </div>
 
                 {showDropdown && (
                   <div className="custom-scrollbar max-h-72 overflow-auto absolute top-full mt-2 w-full bg-white/95 backdrop-blur-sm border border-gray-200 rounded-xl shadow-xl z-50">

@@ -34,7 +34,7 @@ const AdditionalDetailsSection = ({ data, existingSections }) => {
     }
 
     if (typeof data === "object" && data !== null) {
-      
+
       return (
         <div className="gap-4 flex flex-wrap flex-grow">
           {Object.entries(data).map(([key, value]) => {
@@ -48,9 +48,15 @@ const AdditionalDetailsSection = ({ data, existingSections }) => {
                     {key.replace(/_/g, " ")}
                   </h3>
                   {/* Recursively render nested data */}
-                  <div className="space-y-2 flex flex-grow flex-wrap">
-                    {renderContent(value)}
-                  </div>
+                  {
+                    value
+                      ?
+                      <div className="space-y-2 flex flex-grow flex-wrap">
+                        {renderContent(value)}
+                      </div>
+                      :
+                      null
+                  }
                 </div>
               );
             }
