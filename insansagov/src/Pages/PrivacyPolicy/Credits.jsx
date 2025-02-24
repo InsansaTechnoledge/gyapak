@@ -145,15 +145,15 @@ const Credits = () => {
         'Tamil Nadu': 'https://i.pinimg.com/736x/97/1d/b8/971db8afe08c9fcc56e1e5f479d7e3aa.jpg',
         'Uttar Pradesh': 'https://media.istockphoto.com/id/1062548812/vector/uttar-pradesh-map-vector.jpg?s=612x612&w=0&k=20&c=Wss-zsceuJJ96vA5tZkqnEvUreJAzEu88MJaQpatYPk=',
         'Uttarakhand': 'https://wheremaps.com/wp-content/uploads/2023/06/uttarakhand-outline-map.jpg',
-        'HTE':"https://www.techeduhry.gov.in/sites/default/files/1_DTE_IT%20Cell%20/Image/Haryana%20Logo.jpg",
-        'SSC':"https://www.kindpng.com/picc/m/129-1298591_ssc-logo-staff-selection-commission-png-staff-selection.png",
-        'MPSRTC':"https://transport.mp.gov.in/sites/default/files/mp_logo_13.png",
-        'Bihar Energy Department':"https://state.bihar.gov.in/energy/cache/1/SLIDER/bihar-logo-red.png",
-        'BOR':"https://bor.up.nic.in/borlogo.jpeg",
-        'UPPCB':"https://uppcb.up.gov.in/downloadmedia/siteContent/202312191258465018new-logo01.jpg",
-        'RSEB':"https://rajeduboard.rajasthan.gov.in/Images/logo-bw.jpg",
-        "Search Results Not Found":"https://img.freepik.com/free-vector/search-concept-landing-page_52683-13620.jpg?ga=GA1.1.1723539104.1734412094&semt=ais_hybrid",
-        "Data Not Found":"https://img.freepik.com/free-vector/postponed-concept_23-2148489217.jpg?ga=GA1.1.1723539104.1734412094&semt=ais_hybrid"
+        'HTE': "https://www.techeduhry.gov.in/sites/default/files/1_DTE_IT%20Cell%20/Image/Haryana%20Logo.jpg",
+        'SSC': "https://www.kindpng.com/picc/m/129-1298591_ssc-logo-staff-selection-commission-png-staff-selection.png",
+        'MPSRTC': "https://transport.mp.gov.in/sites/default/files/mp_logo_13.png",
+        'Bihar Energy Department': "https://state.bihar.gov.in/energy/cache/1/SLIDER/bihar-logo-red.png",
+        'BOR': "https://bor.up.nic.in/borlogo.jpeg",
+        'UPPCB': "https://uppcb.up.gov.in/downloadmedia/siteContent/202312191258465018new-logo01.jpg",
+        'RSEB': "https://rajeduboard.rajasthan.gov.in/Images/logo-bw.jpg",
+        "Search Results Not Found": "https://img.freepik.com/free-vector/search-concept-landing-page_52683-13620.jpg?ga=GA1.1.1723539104.1734412094&semt=ais_hybrid",
+        "Data Not Found": "https://img.freepik.com/free-vector/postponed-concept_23-2148489217.jpg?ga=GA1.1.1723539104.1734412094&semt=ais_hybrid"
     }
 
 

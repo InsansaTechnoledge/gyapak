@@ -46,7 +46,7 @@ const Hero = () => {
             <HelmetProvider >
                 <title>gyapak</title>
                 <meta name="description" content="gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
-        <meta name="keywords" content="government exams, exam dates, admit cards, results, central government jobs, state government jobs, competitive exams, government jobs" />
+                <meta name="keywords" content="government exams, exam dates, admit cards, results, central government jobs, state government jobs, competitive exams, government jobs" />
                 <link rel="canonical" href="https://gyapak.in" />
             </HelmetProvider>
 

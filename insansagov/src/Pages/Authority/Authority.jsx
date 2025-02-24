@@ -100,58 +100,58 @@ const Authority = () => {
                 <meta name="keywords" content="government exams, exam dates, admit cards, results, central government jobs, state government jobs, competitive exams, government jobs" />
                 <meta property="og:title" content="gyapak" />
                 <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
-              </Helmet>
-        <div className='pt-28'>
-            <div className='flex flex-col justify-center mb-20'>
-                <img src={`data:image/png;base64,${organization.logo}`} className='w-32 self-center mb-5' />
-                <h1 className='text-3xl self-center font-bold mb-5'>{organization.name}</h1>
-                <div className='self-center text-center'>{organization.description}</div>
+            </Helmet>
+            <div className='pt-28'>
+                <div className='flex flex-col justify-center mb-20'>
+                    <img src={`data:image/png;base64,${organization.logo}`} className='w-32 self-center mb-5' />
+                    <h1 className='text-3xl self-center font-bold mb-5'>{organization.name}</h1>
+                    <div className='self-center text-center'>{organization.description}</div>
+                </div>
+
+                {
+                    filteredEvents.length > 0
+                        ?
+                        <>
+                            <AuthorityLatestUpdates latestUpdates={latestUpdates} name={organization.abbreviation} />
+                            <div className='font-bold text-2xl flex items-center mb-5'>Events under {organization.name}</div>
+                            <div className='grid grid-cols-1 md:grid-cols-3 gap-7 mb-10'>
+                                {filteredEvents && filteredEvents.map((item, index) => (
+                                    <OpportunityCarouselCard index={index} item={item} authority={organization.abbreviation} />
+                                ))}
+                            </div>
+                            {
+                                events.length > 6
+                                    ?
+                                    <div className='flex justify-center mb-20'>
+                                        <ViewMoreButton content={isExpanded ? "view less ▲" : "View More ▼"}
+                                            onClick={handleToggle} />
+                                    </div>
+                                    :
+                                    null
+                            }
+                        </>
+                        :
+                        <>
+                            <h3 className='text-center font-bold text-lg mb-5'>No Active events right now!</h3>
+                            <img src={no_data_image} className='w-5/12 mx-auto' />
+                        </>
+                }
+
+                {
+                    relatedOrganizations && relatedOrganizations.length > 0
+                        ?
+                        <>
+                            <h1 className='text-2xl xl:text-3xl font-bold text-gray-900 mb-5'>
+                                Related Authorities
+                            </h1>
+                            <RelatedAuthorities organizations={relatedOrganizations} />
+                        </>
+                        :
+                        null
+                }
+                {/* <TopAuthorities titleHidden={true} /> */}
             </div>
-
-            {
-                filteredEvents.length > 0
-                    ?
-                    <>
-                        <AuthorityLatestUpdates latestUpdates={latestUpdates} name={organization.abbreviation} />
-                        <div className='font-bold text-2xl flex items-center mb-5'>Events under {organization.name}</div>
-                        <div className='grid grid-cols-1 md:grid-cols-3 gap-7 mb-10'>
-                            {filteredEvents && filteredEvents.map((item, index) => (
-                                <OpportunityCarouselCard index={index} item={item} authority={organization.abbreviation} />
-                            ))}
-                        </div>
-                        {
-                            events.length > 6
-                                ?
-                                <div className='flex justify-center mb-20'>
-                                    <ViewMoreButton content={isExpanded ? "view less ▲" : "View More ▼"}
-                                        onClick={handleToggle} />
-                                </div>
-                                :
-                                null
-                        }
-                    </>
-                    :
-                    <>
-                        <h3 className='text-center font-bold text-lg mb-5'>No Active events right now!</h3>
-                        <img src={no_data_image} className='w-5/12 mx-auto'/>
-                    </>
-            }
-
-            {
-                relatedOrganizations && relatedOrganizations.length > 0
-                ?
-                <>
-                <h1 className='text-2xl xl:text-3xl font-bold text-gray-900 mb-5'>
-                    Related Authorities
-                </h1>
-                <RelatedAuthorities organizations={relatedOrganizations} />
-                </>
-                :
-                null
-            }
-            {/* <TopAuthorities titleHidden={true} /> */}
-        </div>
-</>
+        </>
     )
 }
 

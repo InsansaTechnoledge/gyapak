@@ -21,7 +21,7 @@ import SelectionSection from "../../Components/OpportunityPageComponents/Selecti
 import AdditionalDetailsSection from "../../Components/OpportunityPageComponents/AdditionalDetailsSection";
 import { RingLoader } from "react-spinners";
 import { Helmet } from "react-helmet-async";
- 
+
 const ModernExamDetailsPage = () => {
   // const data = {
   //   name: "Combined Defence Services Examination (I), 2025",
@@ -110,136 +110,136 @@ const ModernExamDetailsPage = () => {
   //     },
   //   },
   // };
- 
+
   const location = useLocation();
   // Parse the query parameters
   const queryParams = new URLSearchParams(location.search);
   const examId = queryParams.get("id");
   const [data, setData] = useState();
   const [organization, setOrganization] = useState();
-  const existingSections = ['document_links','vacancies']
- 
+  const existingSections = ['document_links', 'vacancies']
+
   useEffect(() => {
     const fetchEvent = async () => {
       const response = await axios.get(`${API_BASE_URL}/api/event/${examId}`);
- 
+
       if (response.status === 200) {
         console.log(response.data);
         setData(response.data.exam);
         setOrganization(response.data.organization.name);
       }
     }
- 
+
     fetchEvent();
   }, [])
- 
+
   if (!data && !organization) {
     return <div className='w-full h-screen flex justify-center'>
       <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
     </div>
   }
- 
- 
+
+
   return (
     <>
-    <Helmet>
-            <title>Gyapak</title>
-            <meta name="description" content="Gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
-            <meta name="keywords" content="government exams, exam dates, admit cards, results, central government jobs, state government jobs, competitive exams, government jobs" />
-            <meta property="og:title" content="Gyapak" />
-            <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
-          </Helmet>
-    <div className="min-h-screen bg-white text-gray-900 py-20 px-4">
-      {/* Floating Orbs Background */}
-      <FloatingOrbsBackground />
- 
-      {/* Main Content */}
-      <div className="max-w-7xl relative mx-auto">
-        {/* Hero Section */}
-        <HeroSection data={data} organization={organization} />
- 
-        {/* Quick Apply Button */}
-        <QuickApplyButton data={data} />
- 
-        {
-          data.details
-            ?
-            <>
- 
-              {<VacanciesSection data={data} existingSections={existingSections} />}
-              <div className="flex w-full flex-wrap gap-10">
- 
-                {/* Vacancies Section */}
- 
- 
-                {/* Eligibility Grid */}
- 
-                {/* Nationality */}
-                {<NationalitySection data={data} existingSections={existingSections} />}
- 
- 
-                {/* Age Limits */}
-                {
-                  <AgeLimitSection data={data} existingSections={existingSections} />
-                }
- 
-                {/* Education & Fee Details */}
-                {/* Education */}
-                {
-                  <EducationSection data={data} existingSections={existingSections} />
-                }
-                <LocationSection data={data} existingSections={existingSections} />
-                <PositionSection data={data} existingSections={existingSections} />
-                <SalarySection data={data} existingSections={existingSections} />
-                <SelectionSection data={data} existingSections={existingSections} />
- 
-                {/* Fee Details */}
-                {/* {<FeeDetailsSection data={data} existingSections={existingSections} />} */}
- 
- 
-                {/* Important Dates and Exam Centers */}
-                {/* Important Dates */}
-                {
-                  <ImportantDatesSection data={data} existingSections={existingSections} />
-                }
- 
- 
-                {/* Exam Centers */}
-                {<ExamCentresSection data={data} existingSections={existingSections} />}
- 
- 
-                {/* Contact Details */}
-                {
-                  <ContactDetailsSection data={data} existingSections={existingSections} />
-                }
- 
- 
-              </div>
-            </>
-            :
-            null
-        }
-        <>
-          <div className="flex flex-grow mt-10">
-            {/* Important Links */}
-            <AdditionalDetailsSection data={data.details} existingSections={existingSections} />
-          </div>
-          {data.document_links && data.document_links.length > 0
-            ?
-            <ImportantLinksSection data={data} />
-            :
-            null
+      <Helmet>
+        <title>gyapak</title>
+        <meta name="description" content="gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
+        <meta name="keywords" content="government exams, exam dates, admit cards, results, central government jobs, state government jobs, competitive exams, government jobs" />
+        <meta property="og:title" content="gyapak" />
+        <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
+      </Helmet>
+      <div className="min-h-screen bg-white text-gray-900 py-20 px-4">
+        {/* Floating Orbs Background */}
+        <FloatingOrbsBackground />
+
+        {/* Main Content */}
+        <div className="max-w-7xl relative mx-auto">
+          {/* Hero Section */}
+          <HeroSection data={data} organization={organization} />
+
+          {/* Quick Apply Button */}
+          <QuickApplyButton data={data} />
+
+          {
+            data.details
+              ?
+              <>
+
+                {<VacanciesSection data={data} existingSections={existingSections} />}
+                <div className="flex w-full flex-wrap gap-10">
+
+                  {/* Vacancies Section */}
+
+
+                  {/* Eligibility Grid */}
+
+                  {/* Nationality */}
+                  {<NationalitySection data={data} existingSections={existingSections} />}
+
+
+                  {/* Age Limits */}
+                  {
+                    <AgeLimitSection data={data} existingSections={existingSections} />
+                  }
+
+                  {/* Education & Fee Details */}
+                  {/* Education */}
+                  {
+                    <EducationSection data={data} existingSections={existingSections} />
+                  }
+                  <LocationSection data={data} existingSections={existingSections} />
+                  <PositionSection data={data} existingSections={existingSections} />
+                  <SalarySection data={data} existingSections={existingSections} />
+                  <SelectionSection data={data} existingSections={existingSections} />
+
+                  {/* Fee Details */}
+                  {/* {<FeeDetailsSection data={data} existingSections={existingSections} />} */}
+
+
+                  {/* Important Dates and Exam Centers */}
+                  {/* Important Dates */}
+                  {
+                    <ImportantDatesSection data={data} existingSections={existingSections} />
+                  }
+
+
+                  {/* Exam Centers */}
+                  {<ExamCentresSection data={data} existingSections={existingSections} />}
+
+
+                  {/* Contact Details */}
+                  {
+                    <ContactDetailsSection data={data} existingSections={existingSections} />
+                  }
+
+
+                </div>
+              </>
+              :
+              null
           }
-        </>
- 
+          <>
+            <div className="flex flex-grow mt-10">
+              {/* Important Links */}
+              <AdditionalDetailsSection data={data.details} existingSections={existingSections} />
+            </div>
+            {data.document_links && data.document_links.length > 0
+              ?
+              <ImportantLinksSection data={data} />
+              :
+              null
+            }
+          </>
+
+        </div>
       </div>
-    </div>
     </>
   );
- 
- 
- 
- 
+
+
+
+
 };
- 
+
 export default ModernExamDetailsPage;
