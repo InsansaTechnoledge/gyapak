@@ -44,10 +44,10 @@ const Hero = () => {
     return (
         <>
             <HelmetProvider >
-                <title>Gyapak - Your Ultimate Resource for Government Exam Dates</title>
-                <meta name="description" content="Find important dates and schedules for UPSC, SSC, Banking, and other government exams. Stay updated with the latest exam calendars and notifications." />
-                <meta name="keywords" content="government exams, UPSC dates, SSC calendar, bank exam schedule, NDA exam dates" />
-                <link rel="canonical" href="https://gyapak.com" />
+                <title>Gyapak</title>
+                <meta name="description" content="Gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
+        <meta name="keywords" content="government exams, exam dates, admit cards, results, central government jobs, state government jobs, competitive exams, government jobs" />
+                <link rel="canonical" href="https://gyapak.in" />
             </HelmetProvider>
 
             <motion.div
