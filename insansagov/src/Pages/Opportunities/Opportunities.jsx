@@ -117,7 +117,7 @@ const ModernExamDetailsPage = () => {
   const examId = queryParams.get("id");
   const [data, setData] = useState();
   const [organization, setOrganization] = useState();
-  const existingSections = ['document_links','vacancies']
+  const existingSections = ['document_links', 'vacancies']
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -142,98 +142,98 @@ const ModernExamDetailsPage = () => {
 
   return (
     <>
-    <Helmet>
-            <title>Gyapak</title>
-            <meta name="description" content="Gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
-            <meta name="keywords" content="government exams, exam dates, admit cards, results, central government jobs, state government jobs, competitive exams, government jobs" />
-            <meta property="og:title" content="Gyapak" />
-            <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
-          </Helmet>
-    <div className="min-h-screen bg-white text-gray-900 py-20 px-4">
-      {/* Floating Orbs Background */}
-      <FloatingOrbsBackground />
+      <Helmet>
+        <title>gyapak</title>
+        <meta name="description" content="gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
+        <meta name="keywords" content="government exams, exam dates, admit cards, results, central government jobs, state government jobs, competitive exams, government jobs" />
+        <meta property="og:title" content="gyapak" />
+        <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
+      </Helmet>
+      <div className="min-h-screen bg-white text-gray-900 py-20 px-4">
+        {/* Floating Orbs Background */}
+        <FloatingOrbsBackground />
 
-      {/* Main Content */}
-      <div className="max-w-7xl relative mx-auto">
-        {/* Hero Section */}
-        <HeroSection data={data} organization={organization} />
+        {/* Main Content */}
+        <div className="max-w-7xl relative mx-auto">
+          {/* Hero Section */}
+          <HeroSection data={data} organization={organization} />
 
-        {/* Quick Apply Button */}
-        <QuickApplyButton data={data} />
+          {/* Quick Apply Button */}
+          <QuickApplyButton data={data} />
 
-        {
-          data.details
-            ?
-            <>
+          {
+            data.details
+              ?
+              <>
 
-              {<VacanciesSection data={data} existingSections={existingSections} />}
-              <div className="flex w-full flex-wrap gap-10">
+                {<VacanciesSection data={data} existingSections={existingSections} />}
+                <div className="flex w-full flex-wrap gap-10">
 
-                {/* Vacancies Section */}
-
-
-                {/* Eligibility Grid */}
-
-                {/* Nationality */}
-                {<NationalitySection data={data} existingSections={existingSections} />}
+                  {/* Vacancies Section */}
 
 
-                {/* Age Limits */}
-                {
-                  <AgeLimitSection data={data} existingSections={existingSections} />
-                }
+                  {/* Eligibility Grid */}
 
-                {/* Education & Fee Details */}
-                {/* Education */}
-                {
-                  <EducationSection data={data} existingSections={existingSections} />
-                }
-                <LocationSection data={data} existingSections={existingSections} />
-                <PositionSection data={data} existingSections={existingSections} />
-                <SalarySection data={data} existingSections={existingSections} />
-                <SelectionSection data={data} existingSections={existingSections} />
-
-                {/* Fee Details */}
-                {<FeeDetailsSection data={data} existingSections={existingSections} />}
+                  {/* Nationality */}
+                  {<NationalitySection data={data} existingSections={existingSections} />}
 
 
-                {/* Important Dates and Exam Centers */}
-                {/* Important Dates */}
-                {
-                  <ImportantDatesSection data={data} existingSections={existingSections} />
-                }
+                  {/* Age Limits */}
+                  {
+                    <AgeLimitSection data={data} existingSections={existingSections} />
+                  }
+
+                  {/* Education & Fee Details */}
+                  {/* Education */}
+                  {
+                    <EducationSection data={data} existingSections={existingSections} />
+                  }
+                  <LocationSection data={data} existingSections={existingSections} />
+                  <PositionSection data={data} existingSections={existingSections} />
+                  <SalarySection data={data} existingSections={existingSections} />
+                  <SelectionSection data={data} existingSections={existingSections} />
+
+                  {/* Fee Details */}
+                  {<FeeDetailsSection data={data} existingSections={existingSections} />}
 
 
-                {/* Exam Centers */}
-                {<ExamCentresSection data={data} existingSections={existingSections} />}
+                  {/* Important Dates and Exam Centers */}
+                  {/* Important Dates */}
+                  {
+                    <ImportantDatesSection data={data} existingSections={existingSections} />
+                  }
 
 
-                {/* Contact Details */}
-                {
-                  <ContactDetailsSection data={data} existingSections={existingSections} />
-                }
+                  {/* Exam Centers */}
+                  {<ExamCentresSection data={data} existingSections={existingSections} />}
 
 
-              </div>
-            </>
-            :
-            null
-        }
-        <>
-          <div className="flex flex-grow mt-10">
-            {/* Important Links */}
-            <AdditionalDetailsSection data={data.details} existingSections={existingSections} />
-          </div>
-          {data.document_links.length > 0
-            ?
-            <ImportantLinksSection data={data} />
-            :
-            null
+                  {/* Contact Details */}
+                  {
+                    <ContactDetailsSection data={data} existingSections={existingSections} />
+                  }
+
+
+                </div>
+              </>
+              :
+              null
           }
-        </>
+          <>
+            <div className="flex flex-grow mt-10">
+              {/* Important Links */}
+              <AdditionalDetailsSection data={data.details} existingSections={existingSections} />
+            </div>
+            {data.document_links.length > 0
+              ?
+              <ImportantLinksSection data={data} />
+              :
+              null
+            }
+          </>
 
+        </div>
       </div>
-    </div>
     </>
   );
 

@@ -78,7 +78,7 @@ const Credits = () => {
         'MPPSC': 'https://164.100.196.21/mppsc//assets/img/logo.png',
         'MPPEB': 'https://sharmajobs.com/wp-content/uploads/2018/09/PEB.jpg',
         'MPSEC': 'https://mplocalelection.gov.in/images/logo%20Latest2%20copy(1).png',
-        'MPCD':"https://cooperatives.mp.gov.in/sites/default/files/inline-images/mp-logo.png",
+        'MPCD': "https://cooperatives.mp.gov.in/sites/default/files/inline-images/mp-logo.png",
         'Madhya Pradesh High Court': 'https://yt3.googleusercontent.com/ytc/AIdro_npfwsYw4bjqKYbdzQBaht6GOr1yRzRJrHuzrwiKDDs4g=s900-c-k-c0x00ffffff-no-rj',
         'MPPGCL': 'https://media.licdn.com/dms/image/v2/C4E0BAQHOniyfOgin9Q/company-logo_200_200/company-logo_200_200/0/1630638895194?e=2147483647&v=beta&t=uBMd7jrbizGflkMsDi2ZQsPYDFgQlI2O_-825mTtI_M',
         'MPRDC': 'https://www.developmentaid.org/files/organizationLogos/madhya-pradesh-road-development-corporation-limited-144722.jpg',
@@ -145,13 +145,13 @@ const Credits = () => {
         'Tamil Nadu': 'https://i.pinimg.com/736x/97/1d/b8/971db8afe08c9fcc56e1e5f479d7e3aa.jpg',
         'Uttar Pradesh': 'https://media.istockphoto.com/id/1062548812/vector/uttar-pradesh-map-vector.jpg?s=612x612&w=0&k=20&c=Wss-zsceuJJ96vA5tZkqnEvUreJAzEu88MJaQpatYPk=',
         'Uttarakhand': 'https://wheremaps.com/wp-content/uploads/2023/06/uttarakhand-outline-map.jpg',
-        'HTE':"https://www.techeduhry.gov.in/sites/default/files/1_DTE_IT%20Cell%20/Image/Haryana%20Logo.jpg",
-        'SSC':"https://www.kindpng.com/picc/m/129-1298591_ssc-logo-staff-selection-commission-png-staff-selection.png",
-        'MPSRTC':"https://transport.mp.gov.in/sites/default/files/mp_logo_13.png",
-        'Bihar Energy Department':"https://state.bihar.gov.in/energy/cache/1/SLIDER/bihar-logo-red.png",
-        'BOR':"https://bor.up.nic.in/borlogo.jpeg",
-        'UPPCB':"https://uppcb.up.gov.in/downloadmedia/siteContent/202312191258465018new-logo01.jpg",
-        'RSEB':"https://rajeduboard.rajasthan.gov.in/Images/logo-bw.jpg"
+        'HTE': "https://www.techeduhry.gov.in/sites/default/files/1_DTE_IT%20Cell%20/Image/Haryana%20Logo.jpg",
+        'SSC': "https://www.kindpng.com/picc/m/129-1298591_ssc-logo-staff-selection-commission-png-staff-selection.png",
+        'MPSRTC': "https://transport.mp.gov.in/sites/default/files/mp_logo_13.png",
+        'Bihar Energy Department': "https://state.bihar.gov.in/energy/cache/1/SLIDER/bihar-logo-red.png",
+        'BOR': "https://bor.up.nic.in/borlogo.jpeg",
+        'UPPCB': "https://uppcb.up.gov.in/downloadmedia/siteContent/202312191258465018new-logo01.jpg",
+        'RSEB': "https://rajeduboard.rajasthan.gov.in/Images/logo-bw.jpg"
     }
 
 
@@ -200,138 +200,138 @@ const Credits = () => {
 
     return (
         <>
-        <Helmet>
-                <title>Gyapak</title>
-                <meta name="description" content="Gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
+            <Helmet>
+                <title>gyapak</title>
+                <meta name="description" content="gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
                 <meta name="keywords" content="government exams, exam dates, admit cards, results, central government jobs, state government jobs, competitive exams, government jobs" />
-                <meta property="og:title" content="Gyapak" />
+                <meta property="og:title" content="gyapak" />
                 <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
-              </Helmet>
-        <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-6xl mx-auto mt-8 sm:mt-16 bg-white rounded-lg shadow">
-                {/* Header */}
-                <div className="border-b border-gray-200">
-                    <div className="px-4 py-4 sm:px-6 flex items-center justify-between">
-                        <button
-                            onClick={() => window.history.back()}
-                            className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
-                        >
-                            <ChevronLeft className="w-5 h-5" />
-                            <span className="ml-1">Back</span>
-                        </button>
-                        <h1 className="text-xl sm:text-2xl font-bold text-center text-gray-800">
-                            Credits for Logos and Background
-                        </h1>
-                        <div className="w-20"></div> {/* Spacer for centering */}
-                    </div>
-                </div>
-
-                <div className="p-4 sm:p-6">
-                    {/* Search Bar */}
-                    <div className="mb-6 relative">
-                        <input
-                            type="text"
-                            placeholder="Search credits..."
-                            className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
-                            onChange={(e) => {
-                                setSearchTerm(e.target.value);
-                                setCurrentPage(1);
-                            }}
-                        />
-                        <Search className="absolute left-3 top-3.5 text-gray-400 w-5 h-5" />
-                    </div>
-
-                    {/* Table */}
-                    <div className="table-container overflow-x-auto rounded-lg border border-gray-200">
-                        <table className="w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
-                                <tr>
-                                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600 border-b">
-                                        Logo
-                                    </th>
-                                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600 border-b">
-                                        Source
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                                {currentData.map(([key, value], index) => (
-                                    <tr key={index} className="hover:bg-gray-50 transition-colors">
-                                        <td className="px-4 py-3 text-sm font-medium text-gray-900 whitespace-nowrap">
-                                            {key}
-                                        </td>
-                                        <td className="px-4 py-3">
-                                            <a
-                                                href={value}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="text-blue-600 hover:text-blue-800 hover:underline text-sm"
-                                            >
-                                                View Source
-                                            </a>
-                                        </td>
-                                    </tr>
-                                ))}
-                                {currentData.length === 0 && (
-                                    <tr>
-                                        <td colSpan={2} className="px-4 py-8 text-center text-gray-500">
-                                            No results found
-                                        </td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
-
-                    {/* Pagination */}
-                    <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <div className="text-sm text-gray-600">
-                            Showing {(currentPage - 1) * itemsPerPage + 1} to{' '}
-                            {Math.min(currentPage * itemsPerPage, filteredData.length)} of{' '}
-                            {filteredData.length} results
-                        </div>
-
-                        <div className="flex items-center space-x-2">
+            </Helmet>
+            <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-6xl mx-auto mt-8 sm:mt-16 bg-white rounded-lg shadow">
+                    {/* Header */}
+                    <div className="border-b border-gray-200">
+                        <div className="px-4 py-4 sm:px-6 flex items-center justify-between">
                             <button
-                                onClick={() => handlePageChange(currentPage - 1)}
-                                disabled={currentPage === 1}
-                                className="p-2 rounded-md border border-gray-300 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                                aria-label="Previous page"
+                                onClick={() => window.history.back()}
+                                className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
                             >
                                 <ChevronLeft className="w-5 h-5" />
+                                <span className="ml-1">Back</span>
                             </button>
+                            <h1 className="text-xl sm:text-2xl font-bold text-center text-gray-800">
+                                Credits for Logos and Background
+                            </h1>
+                            <div className="w-20"></div> {/* Spacer for centering */}
+                        </div>
+                    </div>
 
-                            <div className="flex space-x-1">
-                                {getVisiblePages().map((page, index) => (
-                                    <button
-                                        key={index}
-                                        onClick={() => typeof page === 'number' && handlePageChange(page)}
-                                        className={`px-3 py-1 rounded-md transition-colors ${page === currentPage
+                    <div className="p-4 sm:p-6">
+                        {/* Search Bar */}
+                        <div className="mb-6 relative">
+                            <input
+                                type="text"
+                                placeholder="Search credits..."
+                                className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
+                                onChange={(e) => {
+                                    setSearchTerm(e.target.value);
+                                    setCurrentPage(1);
+                                }}
+                            />
+                            <Search className="absolute left-3 top-3.5 text-gray-400 w-5 h-5" />
+                        </div>
+
+                        {/* Table */}
+                        <div className="table-container overflow-x-auto rounded-lg border border-gray-200">
+                            <table className="w-full divide-y divide-gray-200">
+                                <thead className="bg-gray-50">
+                                    <tr>
+                                        <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600 border-b">
+                                            Logo
+                                        </th>
+                                        <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600 border-b">
+                                            Source
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody className="bg-white divide-y divide-gray-200">
+                                    {currentData.map(([key, value], index) => (
+                                        <tr key={index} className="hover:bg-gray-50 transition-colors">
+                                            <td className="px-4 py-3 text-sm font-medium text-gray-900 whitespace-nowrap">
+                                                {key}
+                                            </td>
+                                            <td className="px-4 py-3">
+                                                <a
+                                                    href={value}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-blue-600 hover:text-blue-800 hover:underline text-sm"
+                                                >
+                                                    View Source
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                    {currentData.length === 0 && (
+                                        <tr>
+                                            <td colSpan={2} className="px-4 py-8 text-center text-gray-500">
+                                                No results found
+                                            </td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {/* Pagination */}
+                        <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                            <div className="text-sm text-gray-600">
+                                Showing {(currentPage - 1) * itemsPerPage + 1} to{' '}
+                                {Math.min(currentPage * itemsPerPage, filteredData.length)} of{' '}
+                                {filteredData.length} results
+                            </div>
+
+                            <div className="flex items-center space-x-2">
+                                <button
+                                    onClick={() => handlePageChange(currentPage - 1)}
+                                    disabled={currentPage === 1}
+                                    className="p-2 rounded-md border border-gray-300 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                    aria-label="Previous page"
+                                >
+                                    <ChevronLeft className="w-5 h-5" />
+                                </button>
+
+                                <div className="flex space-x-1">
+                                    {getVisiblePages().map((page, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => typeof page === 'number' && handlePageChange(page)}
+                                            className={`px-3 py-1 rounded-md transition-colors ${page === currentPage
                                                 ? 'bg-blue-600 text-white'
                                                 : page === '...'
                                                     ? 'cursor-default'
                                                     : 'hover:bg-gray-100 border border-gray-300'
-                                            }`}
-                                        disabled={page === '...'}
-                                    >
-                                        {page}
-                                    </button>
-                                ))}
-                            </div>
+                                                }`}
+                                            disabled={page === '...'}
+                                        >
+                                            {page}
+                                        </button>
+                                    ))}
+                                </div>
 
-                            <button
-                                onClick={() => handlePageChange(currentPage + 1)}
-                                disabled={currentPage === pageCount}
-                                className="p-2 rounded-md border border-gray-300 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                                aria-label="Next page"
-                            >
-                                <ChevronRight className="w-5 h-5" />
-                            </button>
+                                <button
+                                    onClick={() => handlePageChange(currentPage + 1)}
+                                    disabled={currentPage === pageCount}
+                                    className="p-2 rounded-md border border-gray-300 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                    aria-label="Next page"
+                                >
+                                    <ChevronRight className="w-5 h-5" />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         </>
     );
 };

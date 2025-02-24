@@ -11,7 +11,7 @@ import MoreAuthorities from '../../Components/Authority/MoreAuthorities'
 import MoreOrganizations from '../../Components/Authority/MoreOrganizations'
 import MoreCategories from '../../Components/Authority/MoreCategories'
 import { RingLoader } from 'react-spinners'
-import {Helmet} from 'react-helmet-async'
+import { Helmet } from 'react-helmet-async'
 
 const SearchPage = () => {
   const location = useLocation();
@@ -20,114 +20,114 @@ const SearchPage = () => {
   const [searchData, setSearchData] = useState();
   const navigate = useNavigate();
 
-  useEffect(()=>{
+  useEffect(() => {
     const fetchSearch = async () => {
       const queryData = queryParams.get("query");
       setQuery(queryData);
       const response = await axios.get(`${API_BASE_URL}/api/search/result/${queryData}`);
 
-      if(response.status===200){
+      if (response.status === 200) {
         console.log(response.data);
         setSearchData(response.data);
       }
     }
 
     fetchSearch();
-  },[location])
+  }, [location])
 
   const searchHandler = (input) => {
     navigate(`/search?query=${encodeURIComponent(input)}`);
-}
+  }
 
-  if(!searchData){
+  if (!searchData) {
     return <div className='w-full h-screen flex justify-center'>
-    <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
-  </div>
+      <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
+    </div>
   }
 
   return (
     <>
-    <Helmet>
-        <title>Gyapak</title>
-        <meta name="description" content="Gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
+      <Helmet>
+        <title>gyapak</title>
+        <meta name="description" content="gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
         <meta name="keywords" content="government exams, exam dates, admit cards, results, central government jobs, state government jobs, competitive exams, government jobs" />
-        <meta property="og:title" content="Gyapak" />
+        <meta property="og:title" content="gyapak" />
         <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
       </Helmet>
-    <div className='pt-28'>
-      <div className='flex justify-center mb-10'>
-        <Search input={query} searchHandler={searchHandler}/>
-      </div>
+      <div className='pt-28'>
+        <div className='flex justify-center mb-10'>
+          <Search input={query} searchHandler={searchHandler} />
+        </div>
 
-      <div className='text-2xl xl:text-3xl font-bold text-gray-900 mb-5'>Your search result for "{query}"</div>
-      {
-        searchData && searchData.authorities && searchData.authorities.length>0
-        ?
-        <>
-          <h1 className='text-lg mb-3'>States</h1>
-          <RelatedStates states={searchData.authorities}/>
-        </>
-        :
-        null
-      }
-      {
-        searchData && searchData.organizations && searchData.organizations.length>0
-        ?
-        (
-          <>
-            <h1 className='text-lg mb-3'>Organizations</h1>
-            <RelatedAuthorities organizations={searchData.organizations}/>
-          </>
-        )
-        :
-        null
-      }
-      {
-        searchData && searchData.categories && searchData.categories.length>0
-        ?
-        <>
-          <h1 className='text-lg mb-3'>Categories</h1>
-          <RelatedCategories categories={searchData.categories}/>
-        </>
-        :
+        <div className='text-2xl xl:text-3xl font-bold text-gray-900 mb-5'>Your search result for "{query}"</div>
+        {
+          searchData && searchData.authorities && searchData.authorities.length > 0
+            ?
+            <>
+              <h1 className='text-lg mb-3'>States</h1>
+              <RelatedStates states={searchData.authorities} />
+            </>
+            :
+            null
+        }
+        {
+          searchData && searchData.organizations && searchData.organizations.length > 0
+            ?
+            (
+              <>
+                <h1 className='text-lg mb-3'>Organizations</h1>
+                <RelatedAuthorities organizations={searchData.organizations} />
+              </>
+            )
+            :
+            null
+        }
+        {
+          searchData && searchData.categories && searchData.categories.length > 0
+            ?
+            <>
+              <h1 className='text-lg mb-3'>Categories</h1>
+              <RelatedCategories categories={searchData.categories} />
+            </>
+            :
 
-        null
-      }
-      
-      {/* <OpportunityCarousel>
+            null
+        }
+
+        {/* <OpportunityCarousel>
         <OpportunityCarouselCard/>
         <OpportunityCarouselCard/>
         <OpportunityCarouselCard/>
       </OpportunityCarousel> */}
 
-      {
-        searchData && searchData.authorities && searchData.authorities.length>0
-        ?
-        <>
-        <MoreAuthorities currentAuthority={searchData.authorities[0]}/>
-        
-        </>
-        :
-        searchData && searchData.organizations && searchData.organizations.length>0
-        ?
-        <>
-        {/* {getMoreOrganizations(searchData.organizations[0].category)} */}
-        <MoreOrganizations currentOrganization={searchData.organizations[0]} />
-        
-        </>
-        :
-        searchData && searchData.categories && searchData.categories.length>0
-        ?
-        <>
-        
-        <MoreCategories currentCategory={searchData.categories[0]} />
+        {
+          searchData && searchData.authorities && searchData.authorities.length > 0
+            ?
+            <>
+              <MoreAuthorities currentAuthority={searchData.authorities[0]} />
 
-        </>
-        :
-        null
-      }
-      {/* <TopAuthorities titleHidden={true}/> */}
-    </div>
+            </>
+            :
+            searchData && searchData.organizations && searchData.organizations.length > 0
+              ?
+              <>
+                {/* {getMoreOrganizations(searchData.organizations[0].category)} */}
+                <MoreOrganizations currentOrganization={searchData.organizations[0]} />
+
+              </>
+              :
+              searchData && searchData.categories && searchData.categories.length > 0
+                ?
+                <>
+
+                  <MoreCategories currentCategory={searchData.categories[0]} />
+
+                </>
+                :
+                null
+        }
+        {/* <TopAuthorities titleHidden={true}/> */}
+      </div>
     </>
   )
 }

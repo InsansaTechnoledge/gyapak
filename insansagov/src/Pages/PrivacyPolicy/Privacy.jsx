@@ -138,62 +138,62 @@ const PrivacyPolicy = () => {
 
     return (
         <>
-        <Helmet>
-                <title>Gyapak</title>
-                <meta name="description" content="Gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
+            <Helmet>
+                <title>gyapak</title>
+                <meta name="description" content="gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
                 <meta name="keywords" content="government exams, exam dates, admit cards, results, central government jobs, state government jobs, competitive exams, government jobs" />
-                <meta property="og:title" content="Gyapak" />
+                <meta property="og:title" content="gyapak" />
                 <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
-              </Helmet>
-        <div className="min-h-screen ">
-            <div className="max-w-4xl mx-auto px-4 py-12">
-                <header className="mb-12 text-center mt-20">
-                    <h1 className="text-4xl font-bold text-gray-900 mb-3">Privacy Policy</h1>
-                    <p className="text-gray-500">Last updated: January 21, 2025</p>
-                </header>
+            </Helmet>
+            <div className="min-h-screen ">
+                <div className="max-w-4xl mx-auto px-4 py-12">
+                    <header className="mb-12 text-center mt-20">
+                        <h1 className="text-4xl font-bold text-gray-900 mb-3">Privacy Policy</h1>
+                        <p className="text-gray-500">Last updated: January 21, 2025</p>
+                    </header>
 
-                <div className="grid xl:grid-cols-4 gap-8">
-                    <div className="xl:col-span-1">
-                        <div className="sticky top-24">
-                            <TableOfContents />
-                        </div>
-                    </div>
-
-                    <div className="xl:col-span-3">
-                        <div className="bg-white rounded-xl shadow-sm p-8">
-                            {sections.map(section => (
-                                <Section key={section.id} section={section} />
-                            ))}
+                    <div className="grid xl:grid-cols-4 gap-8">
+                        <div className="xl:col-span-1">
+                            <div className="sticky top-24">
+                                <TableOfContents />
+                            </div>
                         </div>
 
-                        <div className="mt-8 p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
-                            <h3 className="font-semibold text-gray-800 mb-2">
-                                Looking for logo credits?
-                            </h3>
-                            <p className="text-gray-600">
-                                Find the complete list of credits for all logos and backgrounds used in our website{' '}
-                                <span onClick={()=>navigate("/credits")} className="text-blue-600 hover:text-blue-800 underline hover:cursor-pointer">here</span>.
-                            </p>
-                        </div>
+                        <div className="xl:col-span-3">
+                            <div className="bg-white rounded-xl shadow-sm p-8">
+                                {sections.map(section => (
+                                    <Section key={section.id} section={section} />
+                                ))}
+                            </div>
 
-                        <footer className="mt-12 text-center text-gray-600">
-                            <p className="mb-2">For questions about this Privacy Policy, please contact us at:</p>
-                            <p className="font-medium">query.insansa@gmail.com</p>
-                        </footer>
+                            <div className="mt-8 p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
+                                <h3 className="font-semibold text-gray-800 mb-2">
+                                    Looking for logo credits?
+                                </h3>
+                                <p className="text-gray-600">
+                                    Find the complete list of credits for all logos and backgrounds used in our website{' '}
+                                    <span onClick={() => navigate("/credits")} className="text-blue-600 hover:text-blue-800 underline hover:cursor-pointer">here</span>.
+                                </p>
+                            </div>
+
+                            <footer className="mt-12 text-center text-gray-600">
+                                <p className="mb-2">For questions about this Privacy Policy, please contact us at:</p>
+                                <p className="font-medium">query.insansa@gmail.com</p>
+                            </footer>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            {showScrollTop && (
-                <button
-                    onClick={scrollToTop}
-                    className="fixed bottom-8 right-8 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors"
-                    aria-label="Scroll to top"
-                >
-                    <ArrowUp className="w-5 h-5" />
-                </button>
-            )}
-        </div>
+                {showScrollTop && (
+                    <button
+                        onClick={scrollToTop}
+                        className="fixed bottom-8 right-8 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors"
+                        aria-label="Scroll to top"
+                    >
+                        <ArrowUp className="w-5 h-5" />
+                    </button>
+                )}
+            </div>
         </>
     );
 };
