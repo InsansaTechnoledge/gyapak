@@ -12,7 +12,7 @@ import MoreOrganizations from '../../Components/Authority/MoreOrganizations'
 import MoreCategories from '../../Components/Authority/MoreCategories'
 import { RingLoader } from 'react-spinners'
 import no_search_image from '../../assets/Landing/no_search.jpg'
-import {Helmet} from 'react-helmet-async'
+import { Helmet } from 'react-helmet-async'
 
 const SearchPage = () => {
   const location = useLocation();
@@ -48,89 +48,89 @@ const SearchPage = () => {
 
   return (
     <>
-    <Helmet>
-        <title>Gyapak</title>
-        <meta name="description" content="Gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
+      <Helmet>
+        <title>gyapak</title>
+        <meta name="description" content="gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
         <meta name="keywords" content="government exams, exam dates, admit cards, results, central government jobs, state government jobs, competitive exams, government jobs" />
-        <meta property="og:title" content="Gyapak" />
+        <meta property="og:title" content="gyapak" />
         <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
       </Helmet>
-    <div className='pt-28'>
-      <div className='flex justify-center mb-10'>
-        <Search input={query} searchHandler={searchHandler} />
-      </div>
-      {
-        searchData && searchData.authorities.length == 0 && searchData.categories.length == 0 && searchData.organizations.length == 0
-          ?
-          <>
-            <h3 className='font-bold text-center text-2xl'>No match found for "{query}"</h3>
-            <img src={no_search_image} className='w-5/12 mx-auto'/>
-          </>
-          :
-          <div className='text-2xl xl:text-3xl font-bold text-gray-900 mb-5'>Your search result for "{query}"</div>
-
-      }
-      {
-        searchData && searchData.authorities && searchData.authorities.length > 0
-          ?
-          <>
-            <h1 className='text-lg mb-3'>States</h1>
-            <RelatedStates states={searchData.authorities} />
-          </>
-          :
-          null
-      }
-      {
-        searchData && searchData.organizations && searchData.organizations.length > 0
-          ?
-          (
-            <>
-              <h1 className='text-lg mb-3'>Organizations</h1>
-              <RelatedAuthorities organizations={searchData.organizations} />
-            </>
-          )
-          :
-          null
-      }
-      {
-        searchData && searchData.categories && searchData.categories.length > 0
-          ?
-          <>
-            <h1 className='text-lg mb-3'>Categories</h1>
-            <RelatedCategories categories={searchData.categories} />
-          </>
-          :
-
-          null
-      }
-      {
-        searchData && searchData.authorities && searchData.authorities.length > 0
-          ?
-          <>
-            <MoreAuthorities currentAuthority={searchData.authorities[0]} />
-
-          </>
-          :
-          searchData && searchData.organizations && searchData.organizations.length > 0
+      <div className='pt-28'>
+        <div className='flex justify-center mb-10'>
+          <Search input={query} searchHandler={searchHandler} />
+        </div>
+        {
+          searchData && searchData.authorities.length == 0 && searchData.categories.length == 0 && searchData.organizations.length == 0
             ?
             <>
-              {/* {getMoreOrganizations(searchData.organizations[0].category)} */}
-              <MoreOrganizations currentOrganization={searchData.organizations[0]} />
+              <h3 className='font-bold text-center text-2xl'>No match found for "{query}"</h3>
+              <img src={no_search_image} className='w-5/12 mx-auto' />
+            </>
+            :
+            <div className='text-2xl xl:text-3xl font-bold text-gray-900 mb-5'>Your search result for "{query}"</div>
+
+        }
+        {
+          searchData && searchData.authorities && searchData.authorities.length > 0
+            ?
+            <>
+              <h1 className='text-lg mb-3'>States</h1>
+              <RelatedStates states={searchData.authorities} />
+            </>
+            :
+            null
+        }
+        {
+          searchData && searchData.organizations && searchData.organizations.length > 0
+            ?
+            (
+              <>
+                <h1 className='text-lg mb-3'>Organizations</h1>
+                <RelatedAuthorities organizations={searchData.organizations} />
+              </>
+            )
+            :
+            null
+        }
+        {
+          searchData && searchData.categories && searchData.categories.length > 0
+            ?
+            <>
+              <h1 className='text-lg mb-3'>Categories</h1>
+              <RelatedCategories categories={searchData.categories} />
+            </>
+            :
+
+            null
+        }
+        {
+          searchData && searchData.authorities && searchData.authorities.length > 0
+            ?
+            <>
+              <MoreAuthorities currentAuthority={searchData.authorities[0]} />
 
             </>
             :
-            searchData && searchData.categories && searchData.categories.length > 0
+            searchData && searchData.organizations && searchData.organizations.length > 0
               ?
               <>
-
-                <MoreCategories currentCategory={searchData.categories[0]} />
+                {/* {getMoreOrganizations(searchData.organizations[0].category)} */}
+                <MoreOrganizations currentOrganization={searchData.organizations[0]} />
 
               </>
               :
-              null
-      }
-      {/* <TopAuthorities titleHidden={true}/> */}
-    </div>
+              searchData && searchData.categories && searchData.categories.length > 0
+                ?
+                <>
+
+                  <MoreCategories currentCategory={searchData.categories[0]} />
+
+                </>
+                :
+                null
+        }
+        {/* <TopAuthorities titleHidden={true}/> */}
+      </div>
     </>
   )
 }

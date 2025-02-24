@@ -54,7 +54,7 @@ const ResultsDashboard = React.lazy(() => import('../../Components/ResultCompone
 const StateComponent = React.lazy(() => import('../../Components/States/State'));
 
 // Enhanced LazyRender with loading states and error boundary
-const LazyRender = ({ children, height = "h-64", priority = false, id}) => {
+const LazyRender = ({ children, height = "h-64", priority = false, id }) => {
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -80,88 +80,88 @@ const LazyRender = ({ children, height = "h-64", priority = false, id}) => {
 };
 
 const Landing = () => {
-  
+
 
   return (
     <>
-    <Helmet>
-            <title>Gyapak</title>
-            <meta name="description" content="Gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
-            <meta name="keywords" content="government exams, exam dates, admit cards, results, central government jobs, state government jobs, competitive exams, government jobs" />
-            <meta property="og:title" content="Gyapak" />
-            <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
-          </Helmet>
-    <div className="min-h-screen">
-      {/* Hero section loads immediately with high priority */}
-      <LazyRender height="h-screen" priority={true}>
-        <Hero />
-      </LazyRender>
-
-      <div className="px-4 md:px-16 lg:px-64 space-y-16">
-        {/* Latest updates and state components load next */}
-        <LazyRender height="h-96">
-          <LatestUpdates />
+      <Helmet>
+        <title>gyapak</title>
+        <meta name="description" content="gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
+        <meta name="keywords" content="government exams, exam dates, admit cards, results, central government jobs, state government jobs, competitive exams, government jobs" />
+        <meta property="og:title" content="gyapak" />
+        <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
+      </Helmet>
+      <div className="min-h-screen">
+        {/* Hero section loads immediately with high priority */}
+        <LazyRender height="h-screen" priority={true}>
+          <Hero />
         </LazyRender>
 
-        <LazyRender height="h-80" id={"landing-state"}>
-          <StateComponent />
-        </LazyRender>
-
-        <div className="grid md:grid-cols-1 gap-8">
-          <LazyRender height="h-72" id={"landing-authorities"}>
-            <TopAuthorities />
+        <div className="px-4 md:px-16 lg:px-64 space-y-16">
+          {/* Latest updates and state components load next */}
+          <LazyRender height="h-96">
+            <LatestUpdates />
           </LazyRender>
 
-          <LazyRender height="h-72" id={"landing-categories"}>
-            <TopCategories />
+          <LazyRender height="h-80" id={"landing-state"}>
+            <StateComponent />
+          </LazyRender>
+
+          <div className="grid md:grid-cols-1 gap-8">
+            <LazyRender height="h-72" id={"landing-authorities"}>
+              <TopAuthorities />
+            </LazyRender>
+
+            <LazyRender height="h-72" id={"landing-categories"}>
+              <TopCategories />
+            </LazyRender>
+          </div>
+
+          <LazyRender height="h-96" id={"landing-admit"}>
+            <AdmitCardDashboard />
+          </LazyRender>
+
+          <LazyRender height="h-96" id={"landing-result"}>
+            <ResultsDashboard />
+          </LazyRender>
+
+
+        </div>
+
+        <img
+          height={40}
+          width={600}
+          className="w-full mb-20 mt-20"
+          src={curvLine}
+          alt=""
+          loading="lazy"
+        />
+
+        <div id="about">
+          <LazyRender height="h-48">
+            <FeatureBand />
           </LazyRender>
         </div>
 
-        <LazyRender height="h-96" id={"landing-admit"}>
-          <AdmitCardDashboard />
-        </LazyRender>
 
-        <LazyRender height="h-96" id={"landing-result"}>
-          <ResultsDashboard />
-        </LazyRender>
+        <div className="px-4 md:px-16 lg:px-64 space-y-16">
 
-
-      </div>
-
-      <img
-        height={40}
-        width={600}
-        className="w-full mb-20 mt-20"
-        src={curvLine}
-        alt=""
-        loading="lazy"
-      />
-
-      <div id="about">
-        <LazyRender height="h-48">
-          <FeatureBand />
-        </LazyRender>
-      </div>
-
-
-      <div className="px-4 md:px-16 lg:px-64 space-y-16">
-        
-        <LazyRender height="h-96">
-          <FeaturePage />
-        </LazyRender>
-
-        {/* Contact section */}
-        <div id="contact">
-          <LazyRender height="h-80">
-            <Contact />
+          <LazyRender height="h-96">
+            <FeaturePage />
           </LazyRender>
+
+          {/* Contact section */}
+          <div id="contact">
+            <LazyRender height="h-80">
+              <Contact />
+            </LazyRender>
+          </div>
         </div>
+
+
+
+
       </div>
-
-
-
-
-    </div>
     </>
   );
 };

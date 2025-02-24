@@ -67,56 +67,56 @@ const UnsubscribePage = () => {
 
     return (
         <>
-        <Helmet>
-        <title>Gyapak</title>
-        <meta name="description" content="Gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
-        <meta name="keywords" content="government exams, exam dates, admit cards, results, central government jobs, state government jobs, competitive exams, government jobs" />
-        <meta property="og:title" content="Gyapak" />
-        <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
-      </Helmet>
-        <div className="flex flex-col items-center justify-center min-h-screen bg-white text-gray-800">
-            <h1 className="text-6xl font-bold text-purple-500 mb-4">Unsubscribe</h1>
+            <Helmet>
+                <title>gyapak</title>
+                <meta name="description" content="gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
+                <meta name="keywords" content="government exams, exam dates, admit cards, results, central government jobs, state government jobs, competitive exams, government jobs" />
+                <meta property="og:title" content="gyapak" />
+                <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
+            </Helmet>
+            <div className="flex flex-col items-center justify-center min-h-screen bg-white text-gray-800">
+                <h1 className="text-6xl font-bold text-purple-500 mb-4">Unsubscribe</h1>
 
-            {unsubscribedmsg ? (
-                <>
-                    <h2 className="text-2xl font-semibold mb-4">{unsubscribedmsg}</h2>
-                    <p className="text-lg mb-6">You will no longer receive updates.</p>
-                </>
-            ) : (
-                <>
-                    {errorMessage ? (
-                        <>
-                            <h2 className="text-2xl font-semibold mb-4 text-red-500">Error</h2>
-                            <p className="text-lg mb-6 text-red-500">{errorMessage}</p>
-                        </>
-                    ) : (
-                        <p className="text-lg mb-6">Click the button below to confirm your unsubscribe request.</p>
-                    )}
+                {unsubscribedmsg ? (
+                    <>
+                        <h2 className="text-2xl font-semibold mb-4">{unsubscribedmsg}</h2>
+                        <p className="text-lg mb-6">You will no longer receive updates.</p>
+                    </>
+                ) : (
+                    <>
+                        {errorMessage ? (
+                            <>
+                                <h2 className="text-2xl font-semibold mb-4 text-red-500">Error</h2>
+                                <p className="text-lg mb-6 text-red-500">{errorMessage}</p>
+                            </>
+                        ) : (
+                            <p className="text-lg mb-6">Click the button below to confirm your unsubscribe request.</p>
+                        )}
 
-                    {!unsubscribedmsg && (
-                        <button
-                            onClick={handleUnsubscribe}
-                            disabled={isProcessing}
-                            className={`px-4 py-2 ${isProcessing
+                        {!unsubscribedmsg && (
+                            <button
+                                onClick={handleUnsubscribe}
+                                disabled={isProcessing}
+                                className={`px-4 py-2 ${isProcessing
                                     ? 'bg-gray-500 cursor-not-allowed'
                                     : 'bg-purple-500 hover:bg-purple-600'
-                                } text-white rounded-lg transition-all`}
-                        >
-                            {isProcessing ? 'Processing...' : 'Unsubscribe'}
-                        </button>
-                    )}
-                </>
-            )}
+                                    } text-white rounded-lg transition-all`}
+                            >
+                                {isProcessing ? 'Processing...' : 'Unsubscribe'}
+                            </button>
+                        )}
+                    </>
+                )}
 
-            <div className="flex space-x-4 mt-6">
-                <button
-                    onClick={handleGoHome}
-                    className="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg transition-all"
-                >
-                    Go to Home
-                </button>
+                <div className="flex space-x-4 mt-6">
+                    <button
+                        onClick={handleGoHome}
+                        className="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg transition-all"
+                    >
+                        Go to Home
+                    </button>
+                </div>
             </div>
-        </div>
         </>
     );
 };

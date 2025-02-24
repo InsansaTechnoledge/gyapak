@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import BackButton from "../../Components/BackButton/BackButton";
 import API_BASE_URL from "../config";
-import {Helmet } from "react-helmet-async";
+import { Helmet } from "react-helmet-async";
 
 const TrendingPage = ({ trendingItems = [] }) => {
     const [searchQuery, setSearchQuery] = React.useState("");
@@ -201,122 +201,122 @@ const TrendingPage = ({ trendingItems = [] }) => {
 
     return (
         <>
-        <Helmet>
-        <title>Gyapak</title>
-        <meta name="description" content="Gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
-        <meta name="keywords" content="government exams, exam dates, admit cards, results, central government jobs, state government jobs, competitive exams, government jobs" />
-        <meta property="og:title" content="Gyapak" />
-        <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
-      </Helmet>
-              <div className="min-h-screen bg-gray-50/50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-32 space-y-6">
-                <BackButton />
-                <div className="bg-white shadow-md rounded-lg overflow-hidden p-6">
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-8">
-                        <div className="space-y-2">
-                            <div className="flex items-center gap-2">
-                                <div className="bg-purple-100 p-2 rounded-lg">
-                                    <Building2 className="h-6 w-6 text-purple-600" />
+            <Helmet>
+                <title>gyapak</title>
+                <meta name="description" content="gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
+                <meta name="keywords" content="government exams, exam dates, admit cards, results, central government jobs, state government jobs, competitive exams, government jobs" />
+                <meta property="og:title" content="gyapak" />
+                <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
+            </Helmet>
+            <div className="min-h-screen bg-gray-50/50">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-32 space-y-6">
+                    <BackButton />
+                    <div className="bg-white shadow-md rounded-lg overflow-hidden p-6">
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-8">
+                            <div className="space-y-2">
+                                <div className="flex items-center gap-2">
+                                    <div className="bg-purple-100 p-2 rounded-lg">
+                                        <Building2 className="h-6 w-6 text-purple-600" />
+                                    </div>
+                                    <h1 className="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-800">
+                                        Trending Updates
+                                    </h1>
                                 </div>
-                                <h1 className="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-800">
-                                    Trending Updates
-                                </h1>
+                                <p className="text-gray-600 text-sm sm:text-base">
+                                    Stay updated with the latest announcements from top organizations
+                                </p>
                             </div>
-                            <p className="text-gray-600 text-sm sm:text-base">
-                                Stay updated with the latest announcements from top organizations
-                            </p>
-                        </div>
-                        <button
-                            onClick={handleRefresh}
-                            className="flex items-center gap-2 px-4 py-2 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-all duration-200 font-medium"
-                        >
-                            <RefreshCcw className="h-4 w-4" />
-                            Refresh Updates
-                        </button>
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row gap-4">
-                        <div className="flex-1 relative">
-                            <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                                <Search className="h-4 w-4 text-gray-400" />
-                            </div>
-                            <input
-                                type="text"
-                                placeholder="Search by organization or exam name..."
-                                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white placeholder-gray-400"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                            />
-                        </div>
-                        <select
-                            className="w-full sm:w-[220px] px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white cursor-pointer"
-                            value={selectedOrg}
-                            onChange={(e) => setSelectedOrg(e.target.value)}
-                        >
-                            <option value="all">All Organizations</option>
-                            {organizations.map((org) => (
-                                <option key={org} value={org}>
-                                    {org}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
-
-                <div className="bg-white shadow-md rounded-lg overflow-hidden p-6">
-                    <div className="flex flex-wrap gap-2 mb-8 border-b">
-                        {tabs.map((tab) => (
                             <button
-                                key={tab.id}
-                                onClick={() => setActiveTab(tab.id)}
-                                className={`flex items-center gap-2 px-4 py-3 font-medium transition-all duration-200 relative
-                                    ${activeTab === tab.id
-                                        ? "text-purple-800 border-b-2 border-purple-600"
-                                        : "text-gray-600 hover:text-gray-900"
-                                    }`}
+                                onClick={handleRefresh}
+                                className="flex items-center gap-2 px-4 py-2 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-all duration-200 font-medium"
                             >
-                                <tab.icon className="h-4 w-4" />
-                                {tab.label}
+                                <RefreshCcw className="h-4 w-4" />
+                                Refresh Updates
                             </button>
-                        ))}
+                        </div>
+
+                        <div className="flex flex-col sm:flex-row gap-4">
+                            <div className="flex-1 relative">
+                                <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                                    <Search className="h-4 w-4 text-gray-400" />
+                                </div>
+                                <input
+                                    type="text"
+                                    placeholder="Search by organization or exam name..."
+                                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white placeholder-gray-400"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                />
+                            </div>
+                            <select
+                                className="w-full sm:w-[220px] px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white cursor-pointer"
+                                value={selectedOrg}
+                                onChange={(e) => setSelectedOrg(e.target.value)}
+                            >
+                                <option value="all">All Organizations</option>
+                                {organizations.map((org) => (
+                                    <option key={org} value={org}>
+                                        {org}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {activeTab === "all" && filteredItems.map((item, index) => (
-                            <UpdateCard
-                                key={item._id || `all-${index}`}
-                                item={item}
-                                colorScheme={getColorScheme(item.type)}
-                            />
-                        ))}
+                    <div className="bg-white shadow-md rounded-lg overflow-hidden p-6">
+                        <div className="flex flex-wrap gap-2 mb-8 border-b">
+                            {tabs.map((tab) => (
+                                <button
+                                    key={tab.id}
+                                    onClick={() => setActiveTab(tab.id)}
+                                    className={`flex items-center gap-2 px-4 py-3 font-medium transition-all duration-200 relative
+                                    ${activeTab === tab.id
+                                            ? "text-purple-800 border-b-2 border-purple-600"
+                                            : "text-gray-600 hover:text-gray-900"
+                                        }`}
+                                >
+                                    <tab.icon className="h-4 w-4" />
+                                    {tab.label}
+                                </button>
+                            ))}
+                        </div>
 
-                        {activeTab === "results" && getFilteredItemsByType("result").map((item, index) => (
-                            <UpdateCard
-                                key={item._id || `result-${index}`}
-                                item={item}
-                                colorScheme={greenColorScheme}
-                            />
-                        ))}
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {activeTab === "all" && filteredItems.map((item, index) => (
+                                <UpdateCard
+                                    key={item._id || `all-${index}`}
+                                    item={item}
+                                    colorScheme={getColorScheme(item.type)}
+                                />
+                            ))}
 
-                        {activeTab === "admitCards" && getFilteredItemsByType("admitCard").map((item, index) => (
-                            <UpdateCard
-                                key={item._id || `admitCard-${index}`}
-                                item={item}
-                                colorScheme={blueColorScheme}
-                            />
-                        ))}
+                            {activeTab === "results" && getFilteredItemsByType("result").map((item, index) => (
+                                <UpdateCard
+                                    key={item._id || `result-${index}`}
+                                    item={item}
+                                    colorScheme={greenColorScheme}
+                                />
+                            ))}
 
-                        {activeTab === "examDates" && getFilteredItemsByType("examDate").map((item, index) => (
-                            <UpdateCard
-                                key={item._id || `examDate-${index}`}
-                                item={item}
-                                colorScheme={yellowColorScheme}
-                            />
-                        ))}
+                            {activeTab === "admitCards" && getFilteredItemsByType("admitCard").map((item, index) => (
+                                <UpdateCard
+                                    key={item._id || `admitCard-${index}`}
+                                    item={item}
+                                    colorScheme={blueColorScheme}
+                                />
+                            ))}
+
+                            {activeTab === "examDates" && getFilteredItemsByType("examDate").map((item, index) => (
+                                <UpdateCard
+                                    key={item._id || `examDate-${index}`}
+                                    item={item}
+                                    colorScheme={yellowColorScheme}
+                                />
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         </>
     );
 };
