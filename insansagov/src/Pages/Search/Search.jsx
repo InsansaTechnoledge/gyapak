@@ -11,6 +11,7 @@ import MoreAuthorities from '../../Components/Authority/MoreAuthorities'
 import MoreOrganizations from '../../Components/Authority/MoreOrganizations'
 import MoreCategories from '../../Components/Authority/MoreCategories'
 import { RingLoader } from 'react-spinners'
+import no_search_image from '../../assets/Landing/no_search.jpg'
 
 const SearchPage = () => {
   const location = useLocation();
@@ -19,103 +20,105 @@ const SearchPage = () => {
   const [searchData, setSearchData] = useState();
   const navigate = useNavigate();
 
-  useEffect(()=>{
+  useEffect(() => {
     const fetchSearch = async () => {
       const queryData = queryParams.get("query");
       setQuery(queryData);
       const response = await axios.get(`${API_BASE_URL}/api/search/result/${queryData}`);
 
-      if(response.status===200){
+      if (response.status === 200) {
         console.log(response.data);
         setSearchData(response.data);
       }
     }
 
     fetchSearch();
-  },[location])
+  }, [location])
 
   const searchHandler = (input) => {
     navigate(`/search?query=${encodeURIComponent(input)}`);
-}
+  }
 
-  if(!searchData){
+  if (!searchData) {
     return <div className='w-full h-screen flex justify-center'>
-    <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
-  </div>
+      <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
+    </div>
   }
 
   return (
     <div className='pt-28'>
       <div className='flex justify-center mb-10'>
-        <Search input={query} searchHandler={searchHandler}/>
+        <Search input={query} searchHandler={searchHandler} />
       </div>
-
-      <div className='text-2xl xl:text-3xl font-bold text-gray-900 mb-5'>Your search result for "{query}"</div>
       {
-        searchData && searchData.authorities && searchData.authorities.length>0
-        ?
-        <>
-          <h1 className='text-lg mb-3'>States</h1>
-          <RelatedStates states={searchData.authorities}/>
-        </>
-        :
-        null
-      }
-      {
-        searchData && searchData.organizations && searchData.organizations.length>0
-        ?
-        (
+        searchData && searchData.authorities.length == 0 && searchData.categories.length == 0 && searchData.organizations.length == 0
+          ?
           <>
-            <h1 className='text-lg mb-3'>Organizations</h1>
-            <RelatedAuthorities organizations={searchData.organizations}/>
+            <h3 className='font-bold text-center text-2xl'>No match found for "{query}"</h3>
+            <img src={no_search_image} className='w-5/12 mx-auto'/>
           </>
-        )
-        :
-        null
+          :
+          <div className='text-2xl xl:text-3xl font-bold text-gray-900 mb-5'>Your search result for "{query}"</div>
+
       }
       {
-        searchData && searchData.categories && searchData.categories.length>0
-        ?
-        <>
-          <h1 className='text-lg mb-3'>Categories</h1>
-          <RelatedCategories categories={searchData.categories}/>
-        </>
-        :
-
-        null
+        searchData && searchData.authorities && searchData.authorities.length > 0
+          ?
+          <>
+            <h1 className='text-lg mb-3'>States</h1>
+            <RelatedStates states={searchData.authorities} />
+          </>
+          :
+          null
       }
-      
-      {/* <OpportunityCarousel>
-        <OpportunityCarouselCard/>
-        <OpportunityCarouselCard/>
-        <OpportunityCarouselCard/>
-      </OpportunityCarousel> */}
-
       {
-        searchData && searchData.authorities && searchData.authorities.length>0
-        ?
-        <>
-        <MoreAuthorities currentAuthority={searchData.authorities[0]}/>
-        
-        </>
-        :
-        searchData && searchData.organizations && searchData.organizations.length>0
-        ?
-        <>
-        {/* {getMoreOrganizations(searchData.organizations[0].category)} */}
-        <MoreOrganizations currentOrganization={searchData.organizations[0]} />
-        
-        </>
-        :
-        searchData && searchData.categories && searchData.categories.length>0
-        ?
-        <>
-        
-        <MoreCategories currentCategory={searchData.categories[0]} />
+        searchData && searchData.organizations && searchData.organizations.length > 0
+          ?
+          (
+            <>
+              <h1 className='text-lg mb-3'>Organizations</h1>
+              <RelatedAuthorities organizations={searchData.organizations} />
+            </>
+          )
+          :
+          null
+      }
+      {
+        searchData && searchData.categories && searchData.categories.length > 0
+          ?
+          <>
+            <h1 className='text-lg mb-3'>Categories</h1>
+            <RelatedCategories categories={searchData.categories} />
+          </>
+          :
 
-        </>
-        :
-        null
+          null
+      }
+      {
+        searchData && searchData.authorities && searchData.authorities.length > 0
+          ?
+          <>
+            <MoreAuthorities currentAuthority={searchData.authorities[0]} />
+
+          </>
+          :
+          searchData && searchData.organizations && searchData.organizations.length > 0
+            ?
+            <>
+              {/* {getMoreOrganizations(searchData.organizations[0].category)} */}
+              <MoreOrganizations currentOrganization={searchData.organizations[0]} />
+
+            </>
+            :
+            searchData && searchData.categories && searchData.categories.length > 0
+              ?
+              <>
+
+                <MoreCategories currentCategory={searchData.categories[0]} />
+
+              </>
+              :
+              null
       }
       {/* <TopAuthorities titleHidden={true}/> */}
     </div>

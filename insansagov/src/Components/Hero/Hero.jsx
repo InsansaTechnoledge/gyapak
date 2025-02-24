@@ -119,11 +119,10 @@ const Hero = () => {
                         {/* Enhanced Search Container */}
                         <div className="w-full max-w-xl mx-auto mb-10 relative">
                             <motion.div
-                                className="relative rounded-xl overflow-hidden"
+                                className="relative rounded-xl overflows"
                                 whileHover={{ scale: 1.02 }}
                                 transition={{ type: "spring", stiffness: 300 }}
                             >
-                                <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 animate-gradient-x"></div>
                                 <div className="relative m-[2px] bg-black/80 rounded-lg p-1">
                                     <Suspense fallback={
                                         <div className="h-14 bg-black/50 rounded-lg flex items-center justify-center">
@@ -146,13 +145,15 @@ const Hero = () => {
                                             </div>
                                         </div>
                                     }>
+                                        <div className="overflow-auto rounded-md absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 animate-gradient-x"></div>
+
                                         <Search searchHandler={searchHandler} />
                                     </Suspense>
                                 </div>
                             </motion.div>
 
                             {/* Dynamic Search Tips */}
-                            <AnimatePresence mode="wait">
+                            <AnimatePresence mode="wait" className="mt-2">
                                 <motion.div
                                     key={currentSearchTip}
                                     initial={{ opacity: 0, y: 20 }}

@@ -7,6 +7,7 @@ import API_BASE_URL from '../config';
 import AuthorityLatestUpdates from '../../Components/Authority/AuthorityLatesUpdate';
 import RelatedAuthorities from '../../Components/Authority/RelatedAuthorities';
 import { RingLoader } from 'react-spinners';
+import no_data_image from '../../assets/Landing/no_data.jpg'
 
 const cards = [
     { title: 'Exam Schedule 2025', authority: 'Education Board', latestUpdate: '1/1/2025' },
@@ -92,7 +93,7 @@ const Authority = () => {
 
     return (
         <div className='pt-28'>
-            <div className='flex flex-col justify-center mb-28'>
+            <div className='flex flex-col justify-center mb-20'>
                 <img src={`data:image/png;base64,${organization.logo}`} className='w-32 self-center mb-5' />
                 <h1 className='text-3xl self-center font-bold mb-5'>{organization.name}</h1>
                 <div className='self-center text-center'>{organization.description}</div>
@@ -121,7 +122,10 @@ const Authority = () => {
                         }
                     </>
                     :
-                    <div className='text-center mb-2'>No active events right now :) </div>
+                    <>
+                        <h3 className='text-center font-bold text-lg mb-5'>No Active events right now!</h3>
+                        <img src={no_data_image} className='w-5/12 mx-auto'/>
+                    </>
             }
 
             {

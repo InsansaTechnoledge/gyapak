@@ -185,7 +185,7 @@ const ModernExamDetailsPage = () => {
                 <SelectionSection data={data} existingSections={existingSections} />
 
                 {/* Fee Details */}
-                {<FeeDetailsSection data={data} existingSections={existingSections} />}
+                {/* {<FeeDetailsSection data={data} existingSections={existingSections} />} */}
 
 
                 {/* Important Dates and Exam Centers */}
@@ -215,7 +215,7 @@ const ModernExamDetailsPage = () => {
             {/* Important Links */}
             <AdditionalDetailsSection data={data.details} existingSections={existingSections} />
           </div>
-          {data.document_links.length > 0
+          {data.document_links && data.document_links.length > 0
             ?
             <ImportantLinksSection data={data} />
             :

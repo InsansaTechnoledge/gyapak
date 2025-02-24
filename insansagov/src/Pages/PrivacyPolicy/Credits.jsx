@@ -150,7 +150,9 @@ const Credits = () => {
         'Bihar Energy Department':"https://state.bihar.gov.in/energy/cache/1/SLIDER/bihar-logo-red.png",
         'BOR':"https://bor.up.nic.in/borlogo.jpeg",
         'UPPCB':"https://uppcb.up.gov.in/downloadmedia/siteContent/202312191258465018new-logo01.jpg",
-        'RSEB':"https://rajeduboard.rajasthan.gov.in/Images/logo-bw.jpg"
+        'RSEB':"https://rajeduboard.rajasthan.gov.in/Images/logo-bw.jpg",
+        "Search Results Not Found":"https://img.freepik.com/free-vector/search-concept-landing-page_52683-13620.jpg?ga=GA1.1.1723539104.1734412094&semt=ais_hybrid",
+        "Data Not Found":"https://img.freepik.com/free-vector/postponed-concept_23-2148489217.jpg?ga=GA1.1.1723539104.1734412094&semt=ais_hybrid"
     }
 
 

@@ -13,7 +13,13 @@ const RenderDetails = ({ data, inner }) => {
           <p className="text-sm text-purple-500 mb-1">
             {key.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase())}
           </p>
-          <RenderDetails data={value} inner={true} /> {/* Recursive call for nested objects */}
+          {
+            value
+            ?
+            <RenderDetails data={value} inner={true} /> 
+            :
+            null
+          }
         </div>
       ))}
     </div>
