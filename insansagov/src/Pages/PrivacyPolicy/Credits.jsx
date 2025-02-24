@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Search, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 
 const Credits = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -200,6 +201,14 @@ const Credits = () => {
     };
 
     return (
+        <>
+        <Helmet>
+                <title>Gyapak</title>
+                <meta name="description" content="Gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
+                <meta name="keywords" content="government exams, exam dates, admit cards, results, central government jobs, state government jobs, competitive exams, government jobs" />
+                <meta property="og:title" content="Gyapak" />
+                <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
+              </Helmet>
         <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-6xl mx-auto mt-8 sm:mt-16 bg-white rounded-lg shadow">
                 {/* Header */}
@@ -325,6 +334,7 @@ const Credits = () => {
                 </div>
             </div>
         </div>
+        </>
     );
 };
 

@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
 import { ChevronRight, GraduationCap, Briefcase } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 
 const PortalCoverPage = () => {
     const [activeSection, setActiveSection] = useState(null);
 
     return (
+        <>
+        <Helmet>
+                <title>Gyapak</title>
+                <meta name="description" content="Gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
+                <meta name="keywords" content="government exams, exam dates, admit cards, results, central government jobs, state government jobs, competitive exams, government jobs" />
+                <meta property="og:title" content="Gyapak" />
+                <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
+              </Helmet>
         <div className="min-h-screen w-full flex overflow-hidden">
             <div
                 className={`w-1/2 h-screen flex flex-col justify-center items-center 
@@ -62,6 +71,7 @@ const PortalCoverPage = () => {
                 </button>
             </div>
         </div>
+        </>
     );
 };
 

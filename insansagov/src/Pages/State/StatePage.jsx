@@ -6,6 +6,7 @@ import RelatedAuthorities from '../../Components/Authority/RelatedAuthorities';
 import BackButton from '../../Components/BackButton/BackButton';
 import { RingLoader } from 'react-spinners';
 import no_data_image from '../../assets/Landing/no_data.jpg';
+import {Helmet} from 'react-helmet-async';
 
 const StatePage = () => {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -45,6 +46,14 @@ const StatePage = () => {
     }
 
     return (
+        <>
+        <Helmet>
+        <title>Gyapak</title>
+        <meta name="description" content="Gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
+        <meta name="keywords" content="government exams, exam dates, admit cards, results, central government jobs, state government jobs, competitive exams, government jobs" />
+        <meta property="og:title" content="Gyapak" />
+        <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
+      </Helmet>
         <div className='pt-28'>
             <BackButton />
             <div className='flex flex-col justify-center mb-20'>
@@ -66,6 +75,7 @@ const StatePage = () => {
                     </>
             }
         </div>
+        </>
     );
 };
 

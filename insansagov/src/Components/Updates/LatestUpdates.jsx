@@ -53,7 +53,6 @@ const LatestUpdates = ({ titleHidden }) => {
             latestUpdates && latestUpdates.length > 2
               ?
               <>
-                {console.log(latestUpdates.length)}
                 <ViewMoreButton
                   content={isExpanded ? 'View Less ▲' : 'View More ▼'}
                   onClick={handleToggle}
