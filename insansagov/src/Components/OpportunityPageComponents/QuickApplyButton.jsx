@@ -2,6 +2,10 @@ import React from 'react';
 import { ArrowRight } from 'lucide-react';
 
 const QuickApplyButton = ({ data }) => {
+  if (!data.apply_link){
+    return null
+  }
+
   return (
     <div className="text-center mb-20">
       <a

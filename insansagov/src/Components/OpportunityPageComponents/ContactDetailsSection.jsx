@@ -2,7 +2,7 @@ import React from 'react'
 import { Phone } from 'lucide-react'
 
 const RenderDetails = ({ data, inner }) => {
-  if (typeof data !== 'object' || data === null) {
+  if (data && typeof data !== 'object' || data === null) {
     return <p className="font-medium">{data}</p>; // Base case: render single value
   }
 
