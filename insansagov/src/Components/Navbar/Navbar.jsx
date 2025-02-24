@@ -50,6 +50,7 @@ const Navbar = () => {
   const [states, setStates] = useState();
   const [suggestions, setSuggestions] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [logoVisible, setLogoVisible] = useState(false);
 
   // Existing useEffects remain the same
   useEffect(() => {
@@ -68,6 +69,13 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setLogoVisible(true);
+      }
+      else{
+        setLogoVisible(false);
+      }
+
       if (location.pathname === '/') {
         setIsScrolled(window.scrollY > 20);
       }
@@ -176,13 +184,33 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href='/' className="group">
-            <div className="flex-shrink-0 flex items-center">
-              <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl flex items-center justify-center group-hover:from-purple-700 group-hover:to-blue-700 transition-all duration-300 shadow-md group-hover:shadow-lg">
-                <span className="text-white text-xl pt-3 pb-4 px-4 font-bold">gyapak.in</span>
+            {/* Desktop Component (Visible on sm and larger) */}
+            <a href="/" className="group hidden sm:block">
+              <div className="flex-shrink-0 flex items-center">
+                <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl flex items-center justify-center group-hover:from-purple-700 group-hover:to-blue-700 transition-all duration-300 shadow-md group-hover:shadow-lg">
+                  <span className="text-white text-xl pt-3 pb-4 px-4 font-bold">gyapak.in</span>
+                </div>
               </div>
-            </div>
-          </a>
+            </a>
+        
+            {/* Mobile Component (Visible only on small screens) */}
+            {
+              logoVisible
+              ?
+              <div>
+              <a href="/" className="group block sm:hidden">
+                <div className="flex items-center">
+                  <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl flex items-center justify-center group-hover:from-purple-700 group-hover:to-blue-700 transition-all duration-300 shadow-md group-hover:shadow-lg">
+                    <span className="text-white text-xl pt-3 pb-4 px-4 font-bold">gyapak.in</span>
+                  </div>
+                </div>
+              </a>
+              </div>
+              :
+              null
+            }
+
+
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-8">
@@ -263,8 +291,8 @@ const Navbar = () => {
                     autoComplete="off"
                     onFocus={() => searchQuery && setShowDropdown(true)}
                     onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
-                    onKeyDown={(e)=>{
-                      if(e.key==='Enter'){
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
                         navigate(`/search?query=${encodeURI(searchQuery)}`)
                       }
                       console.log(e)
