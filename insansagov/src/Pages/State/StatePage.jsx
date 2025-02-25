@@ -7,6 +7,7 @@ import { RingLoader } from 'react-spinners';
 import no_data_image from '../../assets/Landing/no_data.jpg';
 import { Helmet } from 'react-helmet-async';
 import { useApi } from '../../Context/ApiContext';
+import { useQuery } from '@tanstack/react-query';
 
 const StatePage = () => {
     const { apiBaseUrl } = useApi();
@@ -19,22 +20,41 @@ const StatePage = () => {
     const queryParams = new URLSearchParams(location.search);
     const state = queryParams.get("name");
 
-    useEffect(() => {
-        const fetchStateData = async () => {
-            try {
-                const response = await axios.get(`${apiBaseUrl}/api/state/name/${state}`);
-                if (response.status === 201) {
-                    // console.log(response.data);
-                    setLogo(response.data.stateData.logo);
-                    setOrganizations(response.data.organizations);
-                }
-            } catch (error) {
-                console.error('Error fetching state data:', error);
+    const fetchStateData = async () => {
+        try {
+            const response = await axios.get(`${apiBaseUrl}/api/state/name/${state}`);
+            if (response.status === 201) {
+                // console.log(response.data);
+                setLogo(response.data.stateData.logo);
+                setOrganizations(response.data.organizations);
+                return response.data;
             }
-        };
+        } catch (error) {
+            console.error('Error fetching state data:', error);
+        }
+    };
 
-        fetchStateData();
-    }, [location]);
+    const { data: data, isLoading } = useQuery({
+        queryKey: ["fetchStateData/" + state],
+        queryFn: fetchStateData,
+        staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
+        cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
+        refetchOnMount: true, // ✅ Prevents refetch when component mounts again
+        refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+    })
+
+    useEffect(() => {
+        if(data){
+            setLogo(data.stateData.logo);
+            setOrganizations(data.organizations);
+        }
+    },[data])
+
+    // useEffect(() => {
+
+
+    //     fetchStateData();
+    // }, [location]);
 
     const handleToggle = () => {
         setIsExpanded(!isExpanded);

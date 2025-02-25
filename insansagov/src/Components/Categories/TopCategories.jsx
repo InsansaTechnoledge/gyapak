@@ -4,11 +4,12 @@ const ViewMoreButton = lazy(() => import('../Buttons/ViewMoreButton'));
 import axios from 'axios';
 import { RingLoader } from 'react-spinners';
 import { debounce } from 'lodash';
+import { useQuery } from '@tanstack/react-query';
 import { useApi } from '../../Context/ApiContext';
 
 const TopCategories = (props) => {
     const { apiBaseUrl } = useApi();
-    const [categories, setCategories] = useState();
+    // const [categories, setCategories] = useState();
     const [filteredCategories, setFilteredCategories] = useState([]);
     const [isExpanded, setIsExpanded] = useState(false);
 
@@ -17,22 +18,39 @@ const TopCategories = (props) => {
         setFilteredCategories(isExpanded ? categories.slice(0, 4) : categories);
     };
 
-    useEffect(() => {
-        const fetchCategories = debounce(async () => {
-            try {
-                const response = await axios.get(`${apiBaseUrl}/api/category/getCategories`);
-                if (response.status === 201) {
-                    setCategories(response.data);
-                    setFilteredCategories(response.data.slice(0, 4));
-                }
-            } catch (error) {
-                console.error('Error fetching categories:', error);
+    const fetchCategories = async () => {
+        try {
+            const response = await axios.get(`${apiBaseUrl}/api/category/getCategories`);
+            if (response.status === 201) {
+                // setCategories(response.data);
+                setFilteredCategories(response.data.slice(0, 4));
+                return response.data;
             }
-        }, 1000);
-        fetchCategories();
-    }, []);
+        } catch (error) {
+            console.error('Error fetching categories:', error);
+        }
+    };
 
-    if (!categories) {
+    const { data: categories, isLoading } = useQuery({
+        queryKey: ["fetchCategories"],
+        queryFn: fetchCategories,
+        staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
+        cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
+        refetchOnMount: true, // ✅ Prevents refetch when component mounts again
+        refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+    });
+
+    useEffect(() => {
+        if(categories){
+            setFilteredCategories(categories.slice(0,4));
+        }
+    },[categories])
+
+    // useEffect(() => {
+    //     fetchCategories();
+    // }, []);
+
+    if (isLoading || !categories) {
         return <div className='w-full flex flex-col justify-center mb-10'>
             <h1 className='flex text-center text-2xl justify-center mb-5 font-bold'>Top Categories</h1>
             <div className='flex justify-center'>

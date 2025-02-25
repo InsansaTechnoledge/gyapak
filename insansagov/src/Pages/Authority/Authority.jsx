@@ -9,6 +9,7 @@ import { RingLoader } from 'react-spinners';
 import no_data_image from '../../assets/Landing/no_data.jpg'
 import { Helmet } from 'react-helmet-async';
 import { useApi } from '../../Context/ApiContext';
+import { useQuery } from '@tanstack/react-query';
 
 const cards = [
     { title: 'Exam Schedule 2025', authority: 'Education Board', latestUpdate: '1/1/2025' },
@@ -40,38 +41,73 @@ const Authority = () => {
     const queryParams = new URLSearchParams(location.search);
     const name = queryParams.get("name"); // Access the 'name' parameter
 
-    useEffect(() => {
+    const fetchOrganization = async () => {
+        const response = await axios.get(`${apiBaseUrl}/api/organization/${name}`);
+        console.log("JEE");
+        if (response.status === 201) {
+            setOrganization(response.data.organization);
+            setRelatedOrganizations(response.data.relatedOrganizations.filter(org => org._id !== response.data.organization._id));
 
-        const fetchOrganization = async () => {
-            const response = await axios.get(`${apiBaseUrl}/api/organization/${name}`);
+            const sortedUpdates = response.data.events.sort((a, b) => {
+                const dateA = new Date(a.notificationDate);
+                const dateB = new Date(b.notificationDate);
 
-            if (response.status === 201) {
-                setOrganization(response.data.organization);
-                setRelatedOrganizations(response.data.relatedOrganizations.filter(org => org._id !== response.data.organization._id));
+                // Check if the dates are valid, in case some of the dates are 'Not specified'
+                if (isNaN(dateA) || isNaN(dateB)) {
+                    return 0; // Leave invalid dates in their original order
+                }
 
-                const sortedUpdates = response.data.events.sort((a, b) => {
-                    const dateA = new Date(a.notificationDate);
-                    const dateB = new Date(b.notificationDate);
+                return dateB - dateA; // Descending order
+            });
 
-                    // Check if the dates are valid, in case some of the dates are 'Not specified'
-                    if (isNaN(dateA) || isNaN(dateB)) {
-                        return 0; // Leave invalid dates in their original order
-                    }
+            setLatestUpdates(sortedUpdates);
+            setEvents(sortedUpdates);
+            setFilteredEvents(sortedUpdates.slice(0, 6));
+            return response.data;
 
-                    return dateB - dateA; // Descending order
-                });
-
-                setLatestUpdates(sortedUpdates);
-                setEvents(sortedUpdates);
-                setFilteredEvents(sortedUpdates.slice(0, 6));
-
-
-
-            }
         }
+    }
 
-        fetchOrganization();
-    }, [location])
+    const { data: data, isLoading } = useQuery({
+        queryKey: ["fetchOrganization/"+name],
+        queryFn: fetchOrganization,
+        staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
+        cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
+        refetchOnMount: true, // ✅ Prevents refetch when component mounts again
+        refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+    });
+
+    useEffect(() => {
+        if(data){
+            console.log(data);
+            setRelatedOrganizations(data.relatedOrganizations.filter(org => org._id !== data.organization._id));
+            
+            const sortedUpdates = data.events.sort((a, b) => {
+                const dateA = new Date(a.notificationDate);
+                const dateB = new Date(b.notificationDate);
+                
+                // Check if the dates are valid, in case some of the dates are 'Not specified'
+                if (isNaN(dateA) || isNaN(dateB)) {
+                    return 0; // Leave invalid dates in their original order
+                }
+                
+                return dateB - dateA; // Descending order
+            });
+            
+            setLatestUpdates(sortedUpdates);
+            setEvents(sortedUpdates);
+            setFilteredEvents(sortedUpdates.slice(0, 6));
+            
+            setOrganization(data.organization);
+            // setLatestUpdates(sortedUpdates);
+            // setEvents(sortedUpdates);
+            // setFilteredEvents(sortedUpdates.slice(0, 6));
+        }
+    },[data]);
+    // useEffect(() => {
+
+    //     fetchOrganization();
+    // }, [location])
 
 
 
@@ -87,7 +123,7 @@ const Authority = () => {
 
     const visibleCards = isExpanded ? cards : cards.slice(0, 6);
 
-    if (!organization) {
+    if (isLoading || !organization) {
         return <div className='w-full h-screen flex justify-center'>
             <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
         </div>
