@@ -21,6 +21,7 @@ const StatePage = lazy(() => import('./Pages/State/StatePage'));
 const PrivacyPolicy = lazy(() => import('./Pages/PrivacyPolicy/Privacy'));
 const PortalCoverPage = lazy(() => import('./Pages/FutureStartPage/PortalCoverPage'));
 const Unsubscribe = lazy(()=>import('./Pages/Unsubscribe/Unsubscribe')); 
+const OverviewPage = lazy(() =>import('./Pages/OverviewPage/Overview') );
 
 const SecondRoutes = () => {
     const location = useLocation();
@@ -42,6 +43,8 @@ const SecondRoutes = () => {
                     <Route path='/admit-card' element={<AdmitCardPage />} />
                     <Route path='/results' element={<Results  />} />
                     <Route path='/trending' element={<TrendingPage />} />
+                    <Route path='/overview' element={<OverviewPage />} />
+
                     <Route path='/state' element={<StatePage />} />
                     <Route path='/privacy-policy' element={<PrivacyPolicy />} />
                     <Route path='/credits' element={<Credits/>} />
