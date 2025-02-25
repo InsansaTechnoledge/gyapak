@@ -2,18 +2,19 @@ import React, { lazy, Suspense, useEffect, useState } from 'react';
 const TopAuthoritiesCard = lazy(() => import('./TopAuthoritiesCard'));
 const ViewMoreButton = lazy(() => import('../Buttons/ViewMoreButton'));
 import axios from 'axios';
-import API_BASE_URL from '../../Pages/config';
 import { RingLoader } from 'react-spinners';
 import { debounce } from 'lodash';
 import { useQuery } from '@tanstack/react-query';
+import { useApi } from '../../Context/ApiContext';
 
 const TopAuthorities = (props) => {
+    const { apiBaseUrl } = useApi();
     // const [organizations, setOrganizations] = useState([]);
     const [displayCount, setDisplayCount] = useState(8); // Initial count of displayed items
 
     const fetchLogos = async () => {
         try {
-            const response = await axios.get(`${API_BASE_URL}/api/organization/logo`);
+            const response = await axios.get(`${apiBaseUrl}/api/organization/logo`);
             if (response.status === 200) {
                 // setOrganizations(response.data);
                 // console.log(response.data);
@@ -21,24 +22,22 @@ const TopAuthorities = (props) => {
             }
         } catch (error) {
             console.error("Error fetching organizations:", error);
-            return [];
         }
     };
+    // Fetch data from API
+    // useEffect(() => {
+
+    //     fetchLogos();
+    // }, []);
 
     const { data: organizations, isLoading } = useQuery({
         queryKey: ["fetchLogos"],
         queryFn: fetchLogos,
-        staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
-        cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
-        refetchOnMount: false, // ✅ Prevents refetch when component mounts again
-        refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+        staleTime: Infinity,
+        cacheTime: 24 * 60 * 60 * 1000,
+        refetchOnMount: true,
+        refetchOnWindowFocus: false
     });
-
-
-    // Fetch data from API
-    // useEffect(() => {
-    //     fetchLogos();
-    // }, []);
 
     // Handle "View More"
     const handleViewMore = () => {

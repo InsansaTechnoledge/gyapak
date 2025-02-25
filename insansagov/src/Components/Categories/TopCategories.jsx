@@ -2,12 +2,13 @@ import React, { useState, useEffect, lazy, Suspense } from 'react';
 const TopCategoriesCard = lazy(() => import('./TopCategoriesCard'));
 const ViewMoreButton = lazy(() => import('../Buttons/ViewMoreButton'));
 import axios from 'axios';
-import API_BASE_URL from '../../Pages/config';
 import { RingLoader } from 'react-spinners';
 import { debounce } from 'lodash';
 import { useQuery } from '@tanstack/react-query';
+import { useApi } from '../../Context/ApiContext';
 
 const TopCategories = (props) => {
+    const { apiBaseUrl } = useApi();
     // const [categories, setCategories] = useState();
     const [filteredCategories, setFilteredCategories] = useState([]);
     const [isExpanded, setIsExpanded] = useState(false);
@@ -19,7 +20,7 @@ const TopCategories = (props) => {
 
     const fetchCategories = async () => {
         try {
-            const response = await axios.get(`${API_BASE_URL}/api/category/getCategories`);
+            const response = await axios.get(`${apiBaseUrl}/api/category/getCategories`);
             if (response.status === 201) {
                 // setCategories(response.data);
                 setFilteredCategories(response.data.slice(0, 4));

@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import API_BASE_URL from '../config'
 import axios from 'axios'
 import RelatedAuthorities from '../../Components/Authority/RelatedAuthorities'
 import BackButton from '../../Components/BackButton/BackButton'
 import { RingLoader } from 'react-spinners'
 import no_data_image from '../../assets/Landing/no_data.jpg'
 import { Helmet } from 'react-helmet-async'
+import { useApi } from '../../Context/ApiContext'
+
 import { useQuery } from '@tanstack/react-query'
 
 
 const Category = () => {
+
+    const { apiBaseUrl } = useApi();
 
     const [isExpanded, setIsExpanded] = useState(false);
     const location = useLocation();
@@ -22,7 +25,7 @@ const Category = () => {
     const name = queryParams.get("name"); // Access the 'name' parameter
 
     const fetchCategoryOrganization = async () => {
-        const response = await axios.get(`${API_BASE_URL}/api/category/organizations/${name}`);
+        const response = await axios.get(`${apiBaseUrl}/api/category/organizations/${name}`);
         if (response.status === 201) {
             // console.log(response.data);
             setLogo(response.data.categoryData.logo);

@@ -3,12 +3,12 @@ import OpportunityCarouselCard from '../../Components/OpportunityCarousel/Opport
 import ViewMoreButton from '../../Components/Buttons/ViewMoreButton';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
-import API_BASE_URL from '../config';
 import AuthorityLatestUpdates from '../../Components/Authority/AuthorityLatesUpdate';
 import RelatedAuthorities from '../../Components/Authority/RelatedAuthorities';
 import { RingLoader } from 'react-spinners';
 import no_data_image from '../../assets/Landing/no_data.jpg'
 import { Helmet } from 'react-helmet-async';
+import { useApi } from '../../Context/ApiContext';
 import { useQuery } from '@tanstack/react-query';
 
 const cards = [
@@ -28,6 +28,7 @@ const cards = [
 
 
 const Authority = () => {
+    const { apiBaseUrl } = useApi();
     const [isExpanded, setIsExpanded] = useState(false);
     const [organization, setOrganization] = useState();
     const [latestUpdates, setLatestUpdates] = useState();
@@ -41,7 +42,7 @@ const Authority = () => {
     const name = queryParams.get("name"); // Access the 'name' parameter
 
     const fetchOrganization = async () => {
-        const response = await axios.get(`${API_BASE_URL}/api/organization/${name}`);
+        const response = await axios.get(`${apiBaseUrl}/api/organization/${name}`);
         console.log("JEE");
         if (response.status === 201) {
             setOrganization(response.data.organization);

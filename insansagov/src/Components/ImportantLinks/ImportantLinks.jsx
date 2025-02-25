@@ -4,8 +4,10 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import API_BASE_URL from "../../Pages/config";
 import { useQuery } from "@tanstack/react-query";
+import { useApi } from "../../Context/ApiContext";
 
 const ImportantLinksDashboard = () => {
+    const { apiBaseUrl } = useApi();
     const [filter, setFilter] = useState("All");
     const navigate = useNavigate();
     // const [categories, setCategories] = useState();
@@ -15,8 +17,8 @@ const ImportantLinksDashboard = () => {
     const fetchImportantLinks = async () => {
         try {
             const [response1, response2] = await Promise.all([
-                axios.get(`${API_BASE_URL}/api/admitCard/`),
-                axios.get(`${API_BASE_URL}/api/result/`)
+                axios.get(`${apiBaseUrl}/api/admitCard/`),
+                axios.get(`${apiBaseUrl}/api/result/`)
             ]);
 
             if (response1.status === 201 && response2.status === 201) {
@@ -39,7 +41,7 @@ const ImportantLinksDashboard = () => {
     })
 
     const fetchCategories = async () => {
-        const response = await axios.get(`${API_BASE_URL}/api/category/getcategories`);
+        const response = await axios.get(`${apiBaseUrl}/api/category/getcategories`);
         if (response.status === 201) {
             const categories = response.data.map(cat => cat.category);
             categories.unshift("All");

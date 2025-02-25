@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Search, Calendar, Building2, Filter, RefreshCw } from "lucide-react";
-import API_BASE_URL from "../../Pages/config";
 import AdmitCardCard from "../../Components/AdmitCards/AdmitCardCard";
 import { Helmet } from "react-helmet-async";
 import axios from "axios";
+import { useApi } from "../../Context/ApiContext";
 
 const AdmitCardPage = () => {
+    const { apiBaseUrl } = useApi();
     const [search, setSearch] = useState("");
     const [filter, setFilter] = useState("All");
     const [categories, setCategories] = useState();
@@ -53,7 +54,7 @@ const AdmitCardPage = () => {
 
         try {
             setLoading(true);
-            const response = await axios.get(`${API_BASE_URL}/api/admitCard/`);
+            const response = await axios.get(`${apiBaseUrl}/api/admitCard/`);
             const data = await response.json();
             if (response.ok) {
                 setAdmitCards(data);
@@ -78,7 +79,7 @@ const AdmitCardPage = () => {
         }
 
         try {
-            const response = await axios.get(`${API_BASE_URL}/api/category/getcategories`);
+            const response = await axios.get(`${apiBaseUrl}/api/category/getcategories`);
             const data = await response.json();
             if (response.ok) {
                 const formattedCategories = ["All", ...data.map(cat => cat.category)];

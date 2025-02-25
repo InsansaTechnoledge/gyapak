@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Calendar, Building2, Filter, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import API_BASE_URL from "../../Pages/config";
+import { useApi } from "../../Context/ApiContext";
 
 const ResultsDashboard = () => {
+    const { apiBaseUrl } = useApi();
     const [search, setSearch] = useState("");
     const [filter, setFilter] = useState("All");
     const navigate = useNavigate();
@@ -24,40 +25,40 @@ const ResultsDashboard = () => {
     //     })
     //     : [];
 
-    useEffect(()=>{
+    useEffect(() => {
         const fetchResults = async () => {
-            const response = await axios.get(`${API_BASE_URL}/api/result/`);
-            if(response.status===201){
+            const response = await axios.get(`${apiBaseUrl}/api/result/`);
+            if (response.status === 201) {
                 setResults(response.data);
             }
         }
 
         const fetchCategories = async () => {
-            const response = await axios.get(`${API_BASE_URL}/api/category/getcategories`);
-            if(response.status===201){
+            const response = await axios.get(`${apiBaseUrl}/api/category/getcategories`);
+            if (response.status === 201) {
                 setCategories(response.data.map(cat => cat.category));
                 setCategories(prev => ([
                     "All",
                     ...prev
                 ]))
-                
+
             }
         }
         fetchResults();
         fetchCategories();
-    },[]);
+    }, []);
 
-    useEffect(()=>{
-            if(categories && results){
-                setFilteredResults(Array.isArray(results)
+    useEffect(() => {
+        if (categories && results) {
+            setFilteredResults(Array.isArray(results)
                 ? results.filter((card) => {
                     const matchesFilter = filter === "All" || card.category === filter;
                     return matchesFilter;
                 })
                 : []);
-            
-            }
-        },[categories, results, filter]);
+
+        }
+    }, [categories, results, filter]);
 
     const viewAllResults = () => {
         navigate("/results");
@@ -86,7 +87,7 @@ const ResultsDashboard = () => {
                 </div>
             </div>
 
-                        {/* {console.log("FIL",filteredResults)} */}
+            {/* {console.log("FIL",filteredResults)} */}
             {filteredResults && filteredResults.length > 0 ? (
                 <div className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

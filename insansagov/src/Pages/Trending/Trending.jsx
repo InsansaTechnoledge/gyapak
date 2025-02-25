@@ -10,10 +10,11 @@ import {
     ChevronRight,
 } from "lucide-react";
 import BackButton from "../../Components/BackButton/BackButton";
-import API_BASE_URL from "../config";
 import { Helmet } from "react-helmet-async";
+import { useApi } from "../../Context/ApiContext";
 
 const TrendingPage = ({ trendingItems = [] }) => {
+    const { apiBaseUrl } = useApi();
     const [searchQuery, setSearchQuery] = React.useState("");
     const [selectedOrg, setSelectedOrg] = React.useState("all");
     const [activeTab, setActiveTab] = React.useState("all");
@@ -25,8 +26,8 @@ const TrendingPage = ({ trendingItems = [] }) => {
     const fetchData = async () => {
         try {
             const [admitCardsResponse, resultsResponse] = await Promise.all([
-                axios.get(`${API_BASE_URL}/api/admitCard`),
-                axios.get(`${API_BASE_URL}/api/result`)
+                axios.get(`${apiBaseUrl}/api/admitCard`),
+                axios.get(`${apiBaseUrl}/api/result`)
             ]);
 
             const formattedAdmitCards = admitCardsResponse.data.map(card => ({

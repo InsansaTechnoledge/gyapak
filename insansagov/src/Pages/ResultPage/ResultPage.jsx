@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Search, Calendar, Building2, Filter } from "lucide-react";
 import axios from "axios";
-import API_BASE_URL from "../config";
 import { Helmet } from "react-helmet-async";
+import { useApi } from "../../Context/ApiContext";
 
 
 const Results = () => {
+    const { apiBaseUrl } = useApi();
     const [search, setSearch] = useState("");
     const [filter, setFilter] = useState("All");
     const [categories, setCategories] = useState();
@@ -16,14 +17,14 @@ const Results = () => {
 
     useEffect(() => {
         const fetchResults = async () => {
-            const response = await axios.get(`${API_BASE_URL}/api/result/`);
+            const response = await axios.get(`${apiBaseUrl}/api/result/`);
             if (response.status === 201) {
                 setResults(response.data);
             }
         }
 
         const fetchCategories = async () => {
-            const response = await axios.get(`${API_BASE_URL}/api/category/getcategories`);
+            const response = await axios.get(`${apiBaseUrl}/api/category/getcategories`);
             if (response.status === 201) {
                 setCategories(response.data.map(cat => cat.category));
                 setCategories(prev => ([

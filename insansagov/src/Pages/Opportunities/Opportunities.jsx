@@ -13,7 +13,6 @@ import ContactDetailsSection from "../../Components/OpportunityPageComponents/Co
 import ImportantLinksSection from "../../Components/OpportunityPageComponents/ImportantLinksSection";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import API_BASE_URL from "../config";
 import LocationSection from "../../Components/OpportunityPageComponents/LocationSection";
 import PositionSection from "../../Components/OpportunityPageComponents/PositionSection";
 import SalarySection from "../../Components/OpportunityPageComponents/SalarySection";
@@ -22,9 +21,10 @@ import AdditionalDetailsSection from "../../Components/OpportunityPageComponents
 import { RingLoader } from "react-spinners";
 import { Helmet } from "react-helmet-async";
 import { useQuery } from "@tanstack/react-query";
+import { useApi } from "../../Context/ApiContext";
 
 const ModernExamDetailsPage = () => {
-
+  const { apiBaseUrl } = useApi();
   const location = useLocation();
   // Parse the query parameters
   const queryParams = new URLSearchParams(location.search);
@@ -34,7 +34,7 @@ const ModernExamDetailsPage = () => {
   const existingSections = ['document_links', 'vacancies']
 
   const fetchEvent = async () => {
-    const response = await axios.get(`${API_BASE_URL}/api/event/${examId}`);
+    const response = await axios.get(`${apiBaseUrl}/api/event/${examId}`);
 
     if (response.status === 200) {
       console.log(response.data);

@@ -1,12 +1,13 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react'
 import axios from 'axios';
-import API_BASE_URL from '../../Pages/config';
 const TopAuthoritiesCard = lazy(() => import('./TopAuthoritiesCard'));
 const ViewMoreButton = lazy(() => import('../Buttons/ViewMoreButton'));
 import { RingLoader } from 'react-spinners';
 import RelatedStatesCard from '../States/RelatedStatesCard';
+import { useApi } from '../../Context/ApiContext';
 
 const MoreAuthorities = ({ currentAuthority }) => {
+    const {apiBaseUrl}=useApi();
     const [moreAuthorities, setMoreAuthorities] = useState();
     const [displayCount, setDisplayCount] = useState(8); // Initial count of displayed items
 
@@ -21,7 +22,7 @@ const MoreAuthorities = ({ currentAuthority }) => {
     };
     useEffect(() => {
         const getMoreAuthorities = async () => {
-            const response = await axios.get(`${API_BASE_URL}/api/state/more/`);
+            const response = await axios.get(`${apiBaseUrl}/api/state/more/`);
             if (response.status === 201) {
 
                 const data = response.data;
@@ -42,20 +43,20 @@ const MoreAuthorities = ({ currentAuthority }) => {
         </div>
     }
 
-    if(moreAuthorities.length===0){
+    if (moreAuthorities.length === 0) {
         return null;
     }
 
 
     return (
         <>
-        <h1 className='text-2xl xl:text-3xl font-bold text-gray-900 mb-10'>
-            More Authorities
-        </h1>
+            <h1 className='text-2xl xl:text-3xl font-bold text-gray-900 mb-10'>
+                More Authorities
+            </h1>
             <div className='grid grid-cols-4 mb-5 gap-4'>
                 <Suspense fallback={<div><div className='w-full h-screen flex justify-center'>
-      <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
-    </div></div>}>
+                    <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
+                </div></div>}>
                     {
                         moreAuthorities.slice(0, displayCount).map((auth, key) => (
                             <RelatedStatesCard key={key} name={auth.name} logo={auth.logo} id={auth._id} />
@@ -66,8 +67,8 @@ const MoreAuthorities = ({ currentAuthority }) => {
             <div className='flex justify-center gap-4 mb-20'>
                 {/* Show "View More" button only if there are more items to load */}
                 <Suspense fallback={<div><div className='w-full h-screen flex justify-center'>
-      <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
-    </div></div>}>
+                    <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
+                </div></div>}>
                     {displayCount < moreAuthorities.length && (
                         <ViewMoreButton
                             content="View More ▼"

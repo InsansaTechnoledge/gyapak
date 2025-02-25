@@ -3,7 +3,7 @@ import { Menu, X, ChevronDown, Search, MapPin, AlertTriangle } from 'lucide-reac
 import { useLocation, useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
 import axios from 'axios';
-import API_BASE_URL from '../../Pages/config';
+import { useApi } from '../../Context/ApiContext';
 
 const categories = [
   { Nameid: 'Defense', name: 'Defense', icon: '🛡️' },
@@ -41,6 +41,7 @@ const StateIcon = ({ state, index }) => {
 };
 
 const Navbar = () => {
+  const { apiBaseUrl } = useApi();
   const location = useLocation();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
@@ -52,11 +53,11 @@ const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [logoVisible, setLogoVisible] = useState(false);
 
-  console.log('API_BASE_URL:', API_BASE_URL);
+  console.log('apiBaseUrl:', apiBaseUrl);
   // Existing useEffects remain the same
   useEffect(() => {
     const fetchStates = async () => {
-      const response = await axios.get(`${API_BASE_URL}/api/state/list`);
+      const response = await axios.get(`${apiBaseUrl}/api/state/list`);
       if (response.status === 200) {
         setStates(response.data);
       }
@@ -73,7 +74,7 @@ const Navbar = () => {
       if (window.scrollY > 20) {
         setLogoVisible(true);
       }
-      else{
+      else {
         setLogoVisible(false);
       }
 
@@ -128,8 +129,8 @@ const Navbar = () => {
     }
 
     try {
-      console.log('Fetching suggestions for:', API_BASE_URL);
-      const response = await axios.get(`${API_BASE_URL}/api/search/`, { params: { q: query } });
+      console.log('Fetching suggestions for:', apiBaseUrl);
+      const response = await axios.get(`${apiBaseUrl}/api/search/`, { params: { q: query } });
       setSuggestions(response.data.suggestions);
       setShowDropdown(true);
     } catch (error) {
@@ -164,7 +165,7 @@ const Navbar = () => {
   };
 
   return (
-    
+
     <nav className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-lg' : 'bg-transparent'}`}>
       <style>
         {`
@@ -211,7 +212,7 @@ const Navbar = () => {
               </div>
               :
               null
-            }
+          }
 
 
 
