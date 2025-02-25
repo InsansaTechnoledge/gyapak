@@ -14,32 +14,49 @@ export const SERVER_URLS = [
     "http://localhost:5002",
     "http://localhost:3000"
   ];
+
+export const CheckServer = async () => {
+    for (let url of SERVER_URLS) {
+      try {
+        const response = await axios.get(`${url}`);
+        if (response.data === "Server is running perfectly !!") {
+          return url; // ✅ Return working API URL
+        }
+      } catch (err) {
+        console.warn(`❌ Failed: ${url}`, err.message);
+        throw new Error(err.message);
+      }
+    }
+    return null;
+  
+};
   
 export const ApiProvider=({children})=>{
     const [apiBaseUrl,setApiBaseUrl]=useState(null);
     const [loading,setLoading]=useState(true);
     const [error,setError]=useState(null);
 
-    useEffect(()=>{
-        async function CheckServer(){
-            for(let url of SERVER_URLS){
-                try{
-                    const response=await axios.get(`${url}`);
-                    if(response.data==="Server is running perfectly !!"){
-                        setApiBaseUrl(url);
-                        setLoading(false);
-                        console.log("🚀 Using API:",url);
-                        return;
-                    }
+  const Check=async()=>{
+        
+            try{
+                const url=await CheckServer();
+                if(url){
+                    setApiBaseUrl(url);
+                    setLoading(false);
+                    console.log("🚀 Using API:",url);
+                    return;
                 }
-                catch(error){
-                    console.warn(`❌ Failed: ${url}`, error.message);
-                }
+                else{setError("🚨 No API servers are available!");}
             }
-            setError("🚨 No API servers are available!");
-            setLoading(false);
-        }
-        CheckServer();
+            catch(error){
+                console.warn(`❌ Failed: ${url}`, error.message);
+                setError("🚨 No API servers are available!");
+            }
+        setLoading(false);
+    }
+
+    useEffect(()=>{
+        Check();
     },[]);
 
     return(
