@@ -3,7 +3,7 @@ import { Search, Calendar, Building2, Filter, RefreshCw } from "lucide-react";
 import API_BASE_URL from "../../Pages/config";
 import AdmitCardCard from "../../Components/AdmitCards/AdmitCardCard";
 import { Helmet } from "react-helmet-async";
-import { fetchWithFallback } from "../../../../Server/controller/fetchWithFailovers";
+import axios from "axios";
 
 const AdmitCardPage = () => {
     const [search, setSearch] = useState("");
@@ -53,7 +53,7 @@ const AdmitCardPage = () => {
 
         try {
             setLoading(true);
-            const response = await fetchWithFallback("/api/admitCard/");
+            const response = await axios.get(`${API_BASE_URL}/api/admitCard/`);
             const data = await response.json();
             if (response.ok) {
                 setAdmitCards(data);
@@ -78,7 +78,7 @@ const AdmitCardPage = () => {
         }
 
         try {
-            const response = await fetchWithFallback("/api/category/getcategories");
+            const response = await axios.get(`${API_BASE_URL}/api/category/getcategories`);
             const data = await response.json();
             if (response.ok) {
                 const formattedCategories = ["All", ...data.map(cat => cat.category)];

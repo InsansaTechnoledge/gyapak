@@ -52,6 +52,7 @@ const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [logoVisible, setLogoVisible] = useState(false);
 
+  console.log('API_BASE_URL:', API_BASE_URL);
   // Existing useEffects remain the same
   useEffect(() => {
     const fetchStates = async () => {
@@ -127,6 +128,7 @@ const Navbar = () => {
     }
 
     try {
+      console.log('Fetching suggestions for:', API_BASE_URL);
       const response = await axios.get(`${API_BASE_URL}/api/search/`, { params: { q: query } });
       setSuggestions(response.data.suggestions);
       setShowDropdown(true);
@@ -162,6 +164,7 @@ const Navbar = () => {
   };
 
   return (
+    
     <nav className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-lg' : 'bg-transparent'}`}>
       <style>
         {`
@@ -255,6 +258,7 @@ const Navbar = () => {
                 <div className="p-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Browse States</h3>
                   <div className="grid grid-cols-3 gap-4">
+                    {console.log(states)}
                     {states && states.map((state, index) => (
                       <StateIcon key={index} state={state} index={index} />
                     ))}
