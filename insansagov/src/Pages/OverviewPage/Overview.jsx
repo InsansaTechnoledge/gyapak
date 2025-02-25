@@ -14,13 +14,14 @@ import {
 import BackButton from "../../Components/BackButton/BackButton";
 import API_BASE_URL from "../config";
 import { Helmet } from "react-helmet-async";
+import { useQuery } from "@tanstack/react-query";
 
 const OverviewPage = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedOrg, setSelectedOrg] = useState("all");
     const [selectedCategory, setSelectedCategory] = useState("all");
     const [notifications, setNotifications] = useState({});
-    const [allUpdates, setAllUpdates] = useState([]);
+    // const [allUpdates, setAllUpdates] = useState([]);
     const [filteredUpdates, setFilteredUpdates] = useState([]);
     const [organizations, setOrganizations] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -32,7 +33,7 @@ const OverviewPage = () => {
             const [typeAResponse, typeBResponse, typeCResponse] = await Promise.all([
                 axios.get(`${API_BASE_URL}/api/admitCard`),
                 axios.get(`${API_BASE_URL}/api/result`),
-                axios.get(`${API_BASE_URL}/api/examDates`)
+                // axios.get(`${API_BASE_URL}/api/examDates`)
             ]);
 
             // Format type A data (admit cards)
@@ -58,23 +59,23 @@ const OverviewPage = () => {
             }));
 
             // Format type C data (exam dates)
-            const formattedTypeC = typeCResponse.data.map(item => ({
-                ...item,
-                category: 'schedule',
-                title: item.name || item.examName,
-                organization: item.abbreviation || item.organization,
-                date: item.examDate,
-                status: 'Upcoming',
-                documentType: 'Event'
-            }));
+            // const formattedTypeC = typeCResponse.data.map(item => ({
+            //     ...item,
+            //     category: 'schedule',
+            //     title: item.name || item.examName,
+            //     organization: item.abbreviation || item.organization,
+            //     date: item.examDate,
+            //     status: 'Upcoming',
+            //     documentType: 'Event'
+            // }));
 
             // Combine all updates
-            const combined = [...formattedTypeA, ...formattedTypeB, ...formattedTypeC];
+            const combined = [...formattedTypeA, ...formattedTypeB];
 
             // Sort by date (newest first)
             combined.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-            setAllUpdates(combined);
+            // setAllUpdates(combined);
 
             // Extract unique organizations
             const uniqueOrgs = [...new Set(combined.map(item => item.organization))]
@@ -83,36 +84,63 @@ const OverviewPage = () => {
 
             setOrganizations(uniqueOrgs);
             setIsLoading(false);
+
+            return combined;
         } catch (error) {
             console.error("Failed to fetch data:", error.message);
             setIsLoading(false);
         }
     };
 
+    const { data: allUpdates, isLoading2 } = useQuery({
+        queryKey: ["overview"],
+        queryFn: fetchData,
+        staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
+        cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
+        refetchOnMount: true, // ✅ Prevents refetch when component mounts again
+        refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+    });
+
+    console.log(allUpdates);
     useEffect(() => {
-        fetchData();
-    }, []);
+        if (allUpdates) {
+            // Extract unique organizations
+            const uniqueOrgs = [...new Set(allUpdates.map(item => item.organization))]
+                .filter(Boolean)
+                .sort();
+
+            setOrganizations(uniqueOrgs);
+            setIsLoading(false);
+        }
+    }, [allUpdates])
+
+    // useEffect(() => {
+    //     fetchData();
+    // }, []);
 
     useEffect(() => {
-        const filterUpdates = () => {
-            const filtered = allUpdates.filter(item => {
-                const matchesOrg = selectedOrg === "all" ||
-                    item.organization?.toLowerCase() === selectedOrg.toLowerCase();
+        if (allUpdates) {
 
-                const matchesCategory = selectedCategory === "all" ||
-                    item.category === selectedCategory;
+            const filterUpdates = () => {
+                const filtered = allUpdates.filter(item => {
+                    const matchesOrg = selectedOrg === "all" ||
+                        item.organization?.toLowerCase() === selectedOrg.toLowerCase();
 
-                const matchesSearch = !searchQuery ||
-                    item.organization?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    item.title?.toLowerCase().includes(searchQuery.toLowerCase());
+                    const matchesCategory = selectedCategory === "all" ||
+                        item.category === selectedCategory;
 
-                return matchesOrg && matchesCategory && matchesSearch;
-            });
+                    const matchesSearch = !searchQuery ||
+                        item.organization?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        item.title?.toLowerCase().includes(searchQuery.toLowerCase());
 
-            setFilteredUpdates(filtered);
-        };
+                    return matchesOrg && matchesCategory && matchesSearch;
+                });
 
-        filterUpdates();
+                setFilteredUpdates(filtered);
+            };
+
+            filterUpdates();
+        }
     }, [searchQuery, selectedOrg, selectedCategory, allUpdates]);
 
     const toggleNotification = (id) => {

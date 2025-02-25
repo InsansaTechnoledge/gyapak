@@ -10,7 +10,7 @@ export const SERVER_URLS = [
 ];
 
 // let API_BASE_URL = "https://gyapak-2.onrender.com";
-let API_BASE_URL = null;
+let API_BASE_URL = "http://localhost:3000";
 
 export const setApiBaseUrl = (url) => {
   API_BASE_URL = url;

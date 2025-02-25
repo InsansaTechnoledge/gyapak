@@ -7,35 +7,35 @@ import { CheckServer, setApiBaseUrl} from "./Pages/config";
 
 
 const App = () => {
-const [confirmUrl, setconfirmUrl] = useState(null);
-const [error, setError] = useState(null);
+// const [confirmUrl, setconfirmUrl] = useState(null);
+// const [error, setError] = useState(null);
 
 
-  useEffect(() => {
-    async function findWorkingApiBaseUrl () {
+//   useEffect(() => {
+//     async function findWorkingApiBaseUrl () {
  
-      try {
-        const url = await CheckServer();
-        if (url){
+//       try {
+//         const url = await CheckServer();
+//         if (url){
       
-        setconfirmUrl(url);
-        setApiBaseUrl(url)
-        }
-        else{
-          setError("🚨 No API servers are available!");
-        }
+//         setconfirmUrl(url);
+//         setApiBaseUrl(url)
+//         }
+//         else{
+//           setError("🚨 No API servers are available!");
+//         }
 
-      } catch (err) {
-        console.error('Error in initializing server:', err);
-        setError("🚨 No API servers are available!");
-      }
+//       } catch (err) {
+//         console.error('Error in initializing server:', err);
+//         setError("🚨 No API servers are available!");
+//       }
   
-  }
-    findWorkingApiBaseUrl();
-  }, []);
+//   }
+//     findWorkingApiBaseUrl();
+//   }, []);
 
-  if (!confirmUrl && !error) return <h2>🔄 Checking API Availability...</h2>;
-  if (error) return <h2>❌ {error}</h2>;
+//   if (!confirmUrl && !error) return <h2>🔄 Checking API Availability...</h2>;
+//   if (error) return <h2>❌ {error}</h2>;
   return (
     <>
 

@@ -3,36 +3,68 @@ import { Calendar, Building2, ArrowRight, ExternalLink } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import API_BASE_URL from "../../Pages/config";
+import { useQuery } from "@tanstack/react-query";
 
 const ImportantLinksDashboard = () => {
     const [filter, setFilter] = useState("All");
     const navigate = useNavigate();
-    const [categories, setCategories] = useState();
+    // const [categories, setCategories] = useState();
     const [filteredLinks, setFilteredLinks] = useState();
-    const [importantLinks, setImportantLinks] = useState();
+    // const [importantLinks, setImportantLinks] = useState();
 
-    useEffect(() => {
-        const fetchImportantLinks = async () => {
-            const response = await axios.get(`${API_BASE_URL}/api/importantLinks/`);
-            if (response.status === 201) {
-                setImportantLinks(response.data);
+    const fetchImportantLinks = async () => {
+        try {
+            const [response1, response2] = await Promise.all([
+                axios.get(`${API_BASE_URL}/api/admitCard/`),
+                axios.get(`${API_BASE_URL}/api/result/`)
+            ]);
+
+            if (response1.status === 201 && response2.status === 201) {
+                const mergedData = [...response1.data, ...response2.data]; // ✅ Merge arrays correctly
+                return mergedData; // ✅ Return the data for useQuery
             }
-        };
+        } catch (error) {
+            console.error("Error fetching important links:", error);
+            return []; // ✅ Return empty array in case of error
+        }
+    };
 
-        const fetchCategories = async () => {
-            const response = await axios.get(`${API_BASE_URL}/api/category/getcategories`);
-            if (response.status === 201) {
-                setCategories(response.data.map(cat => cat.category));
-                setCategories(prev => ([
-                    "All",
-                    ...prev
-                ]));
-            }
-        };
+    const { data: importantLinks, isLoading1 } = useQuery({
+        queryKey: ["importantLinksDashboard"],
+        queryFn: fetchImportantLinks,
+        staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
+        cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
+        refetchOnMount: true, // ✅ Prevents refetch when component mounts again
+        refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+    })
 
-        fetchImportantLinks();
-        fetchCategories();
-    }, []);
+    const fetchCategories = async () => {
+        const response = await axios.get(`${API_BASE_URL}/api/category/getcategories`);
+        if (response.status === 201) {
+            const categories = response.data.map(cat => cat.category);
+            categories.unshift("All");
+            // setCategories(prev => ([
+            //     "All",
+            //     ...prev
+            // ]));
+            return categories
+        }
+    };
+
+    const { data: categories, isLoading2 } = useQuery({
+        queryKey: ["importanLinksCategory"],
+        queryFn: fetchCategories,
+        staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
+        cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
+        refetchOnMount: true, // ✅ Prevents refetch when component mounts again
+        refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+    });
+
+    // useEffect(() => {
+
+    //     fetchImportantLinks();
+    //     fetchCategories();
+    // }, []);
 
     useEffect(() => {
         if (categories && importantLinks) {
@@ -46,7 +78,7 @@ const ImportantLinksDashboard = () => {
     }, [categories, importantLinks, filter]);
 
     const viewAllLinks = () => {
-        navigate("/important-links");
+        navigate("/overview");
     };
 
     return (
@@ -88,12 +120,12 @@ const ImportantLinksDashboard = () => {
                                     <div className="text-sm text-gray-600">
                                         <div className="flex items-center gap-2 mb-1">
                                             <Calendar className="h-4 w-4" />
-                                            Updated: {new Date(link.lastUpdated).toLocaleDateString()}
+                                            Updated: {new Date(link.date_of_notification).toLocaleDateString()}
                                         </div>
                                         <span
                                             className={`inline-block mt-2 px-2 py-1 rounded-full text-xs ${link.status === "Active"
-                                                    ? "bg-green-100 text-green-800"
-                                                    : "bg-yellow-100 text-yellow-800"
+                                                ? "bg-green-100 text-green-800"
+                                                : "bg-yellow-100 text-yellow-800"
                                                 }`}
                                         >
                                             {link.status || "ACTIVE"}
