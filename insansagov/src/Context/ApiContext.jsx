@@ -1,5 +1,7 @@
-import React,{createContext, useContext, useEffect, useState} from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
+import { RingLoader } from 'react-spinners';
+import ErrorPage from '../Pages/Error/ErrorPage';
 
 
 const ApiContext = createContext();
@@ -59,26 +61,29 @@ export const ApiProvider=({children})=>{
         Check();
     },[]);
 
-    return(
-        <ApiContext.Provider value={{apiBaseUrl}}>
+    return (
+        <ApiContext.Provider value={{ apiBaseUrl }}>
             {loading
-            ?(
-            <h2>Checking API Availability...</h2>)
-            :error 
-            ?(
-            <h2>{error}</h2>)
-            :(
-            children)}
+                ? (
+                    <div className='w-full h-screen flex justify-center'>
+                    <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
+                </div>
+                )
+                : error
+                    ? (
+                       <ErrorPage code={503} message={"Oops! Looks like server has crashed :("} subMessage={"Please check your internet connection and reload the site."}/>)
+                    : (
+                        children)}
         </ApiContext.Provider>
     );
 
-    
+
 }
 
 export const useApi = () => {
     const context = useContext(ApiContext);
     if (!context) {
-      throw new Error("useApi must be used within an ApiProvider");
+        throw new Error("useApi must be used within an ApiProvider");
     }
     return context;
-  };
+};
