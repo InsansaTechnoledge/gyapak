@@ -49,10 +49,10 @@ const TopCategories = React.lazy(() => import('../../Components/Categories/TopCa
 const Contact = React.lazy(() => import('../../Components/ContactUs/Contact'));
 const FeaturePage = React.lazy(() => import('../../Components/FeatureAdvertisement/Features'));
 const FeatureBand = React.lazy(() => import('../../Components/FeatureAdvertisement/FeatureBand'));
-const AdmitCardDashboard = React.lazy(() => import('../../Components/AdmitCards/AdmitCard'));
-const ResultsDashboard = React.lazy(() => import('../../Components/ResultComponent/Results'));
+// const AdmitCardDashboard = React.lazy(() => import('../../Components/AdmitCards/AdmitCard'));
+// const ResultsDashboard = React.lazy(() => import('../../Components/ResultComponent/Results'));
 const StateComponent = React.lazy(() => import('../../Components/States/State'));
-
+const ImportantLinksDashboard = React.lazy(() => import('../../Components/ImportantLinks/ImportantLinks'))
 // Enhanced LazyRender with loading states and error boundary
 const LazyRender = ({ children, height = "h-64", priority = false, id }) => {
   const { ref, inView } = useInView({
@@ -117,13 +117,19 @@ const Landing = () => {
             </LazyRender>
           </div>
 
-          <LazyRender height="h-96" id={"landing-admit"}>
+          {/* <LazyRender height="h-96" id={"landing-admit"}>
             <AdmitCardDashboard />
-          </LazyRender>
+          </LazyRender> */}
+
+          {/* <LazyRender height="h-96" id={"landing-result"}>
+            <ResultsDashboard />
+          </LazyRender> */}
 
           <LazyRender height="h-96" id={"landing-result"}>
-            <ResultsDashboard />
+            <ImportantLinksDashboard />
           </LazyRender>
+
+          
 
 
         </div>
