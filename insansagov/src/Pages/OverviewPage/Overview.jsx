@@ -12,10 +12,11 @@ import {
     Bell,
 } from "lucide-react";
 import BackButton from "../../Components/BackButton/BackButton";
-import API_BASE_URL from "../config";
 import { Helmet } from "react-helmet-async";
+import { useApi } from "../../Context/ApiContext";
 
 const OverviewPage = () => {
+    const { apiBaseUrl } = useApi();
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedOrg, setSelectedOrg] = useState("all");
     const [selectedCategory, setSelectedCategory] = useState("all");
@@ -30,9 +31,9 @@ const OverviewPage = () => {
         try {
             // Fetch all different types of data
             const [typeAResponse, typeBResponse, typeCResponse] = await Promise.all([
-                axios.get(`${API_BASE_URL}/api/admitCard`),
-                axios.get(`${API_BASE_URL}/api/result`),
-                axios.get(`${API_BASE_URL}/api/examDates`)
+                axios.get(`${apiBaseUrl}/api/admitCard`),
+                axios.get(`${apiBaseUrl}/api/result`),
+                axios.get(`${apiBaseUrl}/api/examDates`)
             ]);
 
             // Format type A data (admit cards)

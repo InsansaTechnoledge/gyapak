@@ -3,15 +3,18 @@
 import React from 'react';
 import { Mail, ArrowRight, AlertTriangle, Twitter, Linkedin } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useApi } from '../../Context/ApiContext';
 
 const Footer = () => {
+
+  const { apiBaseUrl } = useApi();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const email = e.target.email.value;
       const name = email.split('@')[0];
-      const response = await axios.post(`${API_BASE_URL}/api/subscriber/create`, { email, name });
+      const response = await axios.post(`${apiBaseUrl}/api/subscriber/create`, { email, name });
 
       if (response.status === 201) {
         alert(response.data);
@@ -49,9 +52,9 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-              <p className="text-lg text-gray-200 font-semibold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
-                Insansa Techknowledge Pvt. Ltd.
-              </p>
+                <p className="text-lg text-gray-200 font-semibold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+                  Insansa Techknowledge Pvt. Ltd.
+                </p>
               </a>
 
             </div>

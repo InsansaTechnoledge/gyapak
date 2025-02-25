@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { debounce } from 'lodash';
 import { Search as SearchIcon } from 'lucide-react';
-import API_BASE_URL from '../../Pages/config';
+import { useApi } from '../../Context/ApiContext';
 
 const Search = (props) => {
+  const { apiBaseUrl } = useApi();
   const [input, setInput] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -46,7 +47,7 @@ const Search = (props) => {
     }
 
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/search/`, { params: { q: query } });
+      const response = await axios.get(`${apiBaseUrl}/api/search/`, { params: { q: query } });
       setSuggestions(response.data.suggestions);
       setShowDropdown(true);
       console.log(response.data.suggestions);
@@ -167,7 +168,7 @@ const Search = (props) => {
           )}
         </div>
       </div>
-      </>
+    </>
   );
 };
 

@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useCallback, Suspense, lazy } from 'react';
 import axios from 'axios';
-import API_BASE_URL from '../../Pages/config';
 import { RingLoader } from 'react-spinners';
+import { useApi } from '../../Context/ApiContext';
 
 // Lazy load the components
 const LatestUpdateCard = lazy(() => import('./LatestUpdateCard'));
 const ViewMoreButton = lazy(() => import('../Buttons/ViewMoreButton'));
 
 const LatestUpdates = ({ titleHidden }) => {
+  const { apiBaseUrl } = useApi();
   const [isExpanded, setIsExpanded] = useState(false);
   const [latestUpdates, setLatestUpdates] = useState([]);
   const [filteredLatestUpdates, setFilteredLatestUpdates] = useState([]);
@@ -23,7 +24,7 @@ const LatestUpdates = ({ titleHidden }) => {
   useEffect(() => {
     const fetchLatestUpdates = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/api/event/latest`);
+        const response = await axios.get(`${apiBaseUrl}/api/event/latest`);
         if (response.status === 201) {
           const sortedUpdates = response.data.sort((a, b) => {
             const dateA = new Date(a.date_of_notification);

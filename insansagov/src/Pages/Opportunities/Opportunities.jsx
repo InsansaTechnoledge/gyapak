@@ -13,7 +13,6 @@ import ContactDetailsSection from "../../Components/OpportunityPageComponents/Co
 import ImportantLinksSection from "../../Components/OpportunityPageComponents/ImportantLinksSection";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import API_BASE_URL from "../config";
 import LocationSection from "../../Components/OpportunityPageComponents/LocationSection";
 import PositionSection from "../../Components/OpportunityPageComponents/PositionSection";
 import SalarySection from "../../Components/OpportunityPageComponents/SalarySection";
@@ -21,8 +20,10 @@ import SelectionSection from "../../Components/OpportunityPageComponents/Selecti
 import AdditionalDetailsSection from "../../Components/OpportunityPageComponents/AdditionalDetailsSection";
 import { RingLoader } from "react-spinners";
 import { Helmet } from "react-helmet-async";
+import { useApi } from "../../Context/ApiContext";
 
 const ModernExamDetailsPage = () => {
+  const { apiBaseUrl } = useApi();
   // const data = {
   //   name: "Combined Defence Services Examination (I), 2025",
   //   date_of_notification: "11-12-2024",
@@ -121,7 +122,7 @@ const ModernExamDetailsPage = () => {
 
   useEffect(() => {
     const fetchEvent = async () => {
-      const response = await axios.get(`${API_BASE_URL}/api/event/${examId}`);
+      const response = await axios.get(`${apiBaseUrl}/api/event/${examId}`);
 
       if (response.status === 200) {
         console.log(response.data);

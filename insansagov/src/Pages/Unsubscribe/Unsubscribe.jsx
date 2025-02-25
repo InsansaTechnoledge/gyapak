@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import API_BASE_URL from '../config.js';
 import { RingLoader } from 'react-spinners';
+import { useApi } from '../../Context/ApiContext';
 
 const UnsubscribePage = () => {
+    const { apiBaseUrl } = useApi();
     const [unsubscribedmsg, setUnsubscribedMsg] = useState();
     const [errorMessage, setErrorMessage] = useState('');
     const [isProcessing, setIsProcessing] = useState(false); // State to show loading during API call
@@ -31,7 +32,7 @@ const UnsubscribePage = () => {
         setErrorMessage(''); // Clear any previous error
 
         try {
-            const response = await axios.post(`${API_BASE_URL}/api/subscriber/unsubscribe`, { token });
+            const response = await axios.post(`${apiBaseUrl}/api/subscriber/unsubscribe`, { token });
 
             if (response.status === 201) {
                 setUnsubscribedMsg(response.data);

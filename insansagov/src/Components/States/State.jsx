@@ -3,12 +3,13 @@ import { Search, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { debounce } from "lodash";
 import axios from "axios";
-import API_BASE_URL from "../../Pages/config";
 import moment from "moment";
 import { RingLoader } from "react-spinners";
+import { useApi } from "../../Context/ApiContext";
 const StateCard = lazy(() => import('./StateCard'));
 
 const StateComponent = () => {
+    const { apiBaseUrl } = useApi();
     const [isSearchVisible, setIsSearchVisible] = useState(false);
     const [activeRegion, setActiveRegion] = useState('North');
 
@@ -49,7 +50,7 @@ const StateComponent = () => {
         }
 
         try {
-            const response = await axios.get(`${API_BASE_URL}/api/search/state`, { params: { q: query } });
+            const response = await axios.get(`${apiBaseUrl}/api/search/state`, { params: { q: query } });
             setSuggestions(response.data.suggestions);
             console.log(response.data.suggestions);
             setShowDropdown(true);
@@ -125,7 +126,7 @@ const StateComponent = () => {
     useEffect(() => {
         const fetchStateCount = async () => {
             try {
-                const response = await axios.get(`${API_BASE_URL}/api/state/count`);
+                const response = await axios.get(`${apiBaseUrl}/api/state/count`);
                 setStateCount(response.data);
             } catch (error) {
                 console.error('Error fetching state count:', error);
@@ -134,7 +135,7 @@ const StateComponent = () => {
 
         const fetchLastUpdated = async () => {
             try {
-                const response = await axios.get(`${API_BASE_URL}/api/event/lastupdated`);
+                const response = await axios.get(`${apiBaseUrl}/api/event/lastupdated`);
                 setLastUpdated(formatDate(response.data.data));
             } catch (error) {
                 console.error('Error fetching last updated date:', error);

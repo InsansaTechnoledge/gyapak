@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Calendar, Building2, ArrowRight, ExternalLink } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import API_BASE_URL from "../../Pages/config";
+import { useApi } from "../../Context/ApiContext";
 
 const ImportantLinksDashboard = () => {
+    const { apiBaseUrl } = useApi();
     const [filter, setFilter] = useState("All");
     const navigate = useNavigate();
     const [categories, setCategories] = useState();
@@ -13,14 +14,14 @@ const ImportantLinksDashboard = () => {
 
     useEffect(() => {
         const fetchImportantLinks = async () => {
-            const response = await axios.get(`${API_BASE_URL}/api/importantLinks/`);
+            const response = await axios.get(`${apiBaseUrl}/api/importantLinks/`);
             if (response.status === 201) {
                 setImportantLinks(response.data);
             }
         };
 
         const fetchCategories = async () => {
-            const response = await axios.get(`${API_BASE_URL}/api/category/getcategories`);
+            const response = await axios.get(`${apiBaseUrl}/api/category/getcategories`);
             if (response.status === 201) {
                 setCategories(response.data.map(cat => cat.category));
                 setCategories(prev => ([
@@ -92,8 +93,8 @@ const ImportantLinksDashboard = () => {
                                         </div>
                                         <span
                                             className={`inline-block mt-2 px-2 py-1 rounded-full text-xs ${link.status === "Active"
-                                                    ? "bg-green-100 text-green-800"
-                                                    : "bg-yellow-100 text-yellow-800"
+                                                ? "bg-green-100 text-green-800"
+                                                : "bg-yellow-100 text-yellow-800"
                                                 }`}
                                         >
                                             {link.status || "ACTIVE"}

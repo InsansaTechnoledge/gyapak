@@ -2,11 +2,12 @@ import React, { useState, useEffect, lazy, Suspense } from 'react';
 const TopCategoriesCard = lazy(() => import('./TopCategoriesCard'));
 const ViewMoreButton = lazy(() => import('../Buttons/ViewMoreButton'));
 import axios from 'axios';
-import API_BASE_URL from '../../Pages/config';
 import { RingLoader } from 'react-spinners';
 import { debounce } from 'lodash';
+import { useApi } from '../../Context/ApiContext';
 
 const TopCategories = (props) => {
+    const { apiBaseUrl } = useApi();
     const [categories, setCategories] = useState();
     const [filteredCategories, setFilteredCategories] = useState([]);
     const [isExpanded, setIsExpanded] = useState(false);
@@ -19,7 +20,7 @@ const TopCategories = (props) => {
     useEffect(() => {
         const fetchCategories = debounce(async () => {
             try {
-                const response = await axios.get(`${API_BASE_URL}/api/category/getCategories`);
+                const response = await axios.get(`${apiBaseUrl}/api/category/getCategories`);
                 if (response.status === 201) {
                     setCategories(response.data);
                     setFilteredCategories(response.data.slice(0, 4));
@@ -27,7 +28,7 @@ const TopCategories = (props) => {
             } catch (error) {
                 console.error('Error fetching categories:', error);
             }
-        },1000);
+        }, 1000);
         fetchCategories();
     }, []);
 
@@ -50,8 +51,8 @@ const TopCategories = (props) => {
             )}
             <div className="grid grid-cols-2 lg:grid-cols-4 mb-5 gap-4">
                 <Suspense fallback={<div><div className='w-full h-screen flex justify-center'>
-      <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
-    </div></div>}>
+                    <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
+                </div></div>}>
                     {filteredCategories.map((category, key) => (
                         <TopCategoriesCard key={key} name={category.category} logo={category.logo} id={category._id} />
                     ))}
@@ -59,8 +60,8 @@ const TopCategories = (props) => {
             </div>
             <div className="flex justify-center gap-4 mb-20">
                 <Suspense fallback={<div><div className='w-full h-screen flex justify-center'>
-      <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
-    </div></div>}>
+                    <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
+                </div></div>}>
                     <ViewMoreButton
                         content={isExpanded ? 'Close All ▲' : 'View More ▼'}
                         onClick={handleToggle}
