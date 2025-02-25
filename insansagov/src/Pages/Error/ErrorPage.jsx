@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
 const ErrorPage = ({code,message, subMessage}) => {
+    
+    
+
     const navigate = useNavigate();
 
     const handleGoBack = () => {

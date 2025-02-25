@@ -1,16 +1,16 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
-import { Search, X } from "lucide-react";
+import { Check, Search, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { debounce } from "lodash";
 import axios from "axios";
 import moment from "moment";
 import { RingLoader } from "react-spinners";
-import { useApi } from "../../Context/ApiContext";
+import { CheckServer, useApi } from "../../Context/ApiContext";
 import { useQuery } from "@tanstack/react-query";
 const StateCard = lazy(() => import('./StateCard'));
 
 const StateComponent = () => {
-    const { apiBaseUrl } = useApi();
+    const { apiBaseUrl,setApiBaseUrl } = useApi();
     const [isSearchVisible, setIsSearchVisible] = useState(false);
     const [activeRegion, setActiveRegion] = useState('North');
 
@@ -130,7 +130,21 @@ const StateComponent = () => {
             // setStateCount(response.data);
             return response.data;
         } catch (error) {
-            console.error('Error fetching state count:', error);
+            if (error.response) {
+                if (error.response.status >= 500 && error.response.status < 600) {
+                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+                    const url=CheckServer();
+                    setApiBaseUrl(url);
+                    fetchStateCount();
+                }
+                else{
+                    console.error('Error fetching state count:', error);
+                }
+            }
+                else {
+                    console.error('Error fetching state count:', error);
+            }
+            
         }
     };
 
@@ -140,7 +154,20 @@ const StateComponent = () => {
             // setLastUpdated(formatDate(response.data.data));
             return formatDate(response.data.data);
         } catch (error) {
-            console.error('Error fetching last updated date:', error);
+            if (error.response) {
+                if (error.response.status >= 500 && error.response.status < 600) {
+                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+                    const url=CheckServer();
+                    setApiBaseUrl(url);
+                    fetchLastUpdated();
+                }
+                else{
+                    console.error('Error fetching state count:', error);
+                }
+            }
+                else {
+                    console.error('Error fetching state count:', error);
+            }
         }
     };
     // useEffect(() => {
