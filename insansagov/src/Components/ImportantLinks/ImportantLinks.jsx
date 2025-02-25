@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Calendar, Building2, ArrowRight, ExternalLink } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import API_BASE_URL from "../../Pages/config";
 import { useQuery } from "@tanstack/react-query";
 import { useApi } from "../../Context/ApiContext";
 
