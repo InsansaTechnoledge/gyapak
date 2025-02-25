@@ -7,7 +7,7 @@ import BackButton from '../../Components/BackButton/BackButton'
 import { RingLoader } from 'react-spinners'
 import no_data_image from '../../assets/Landing/no_data.jpg'
 import { Helmet } from 'react-helmet-async'
-
+import { useQuery } from '@tanstack/react-query'
 
 
 const Category = () => {
@@ -21,19 +21,38 @@ const Category = () => {
     const queryParams = new URLSearchParams(location.search);
     const name = queryParams.get("name"); // Access the 'name' parameter
 
-    useEffect(() => {
-
-        const fetchCategoryOrganization = async () => {
-            const response = await axios.get(`${API_BASE_URL}/api/category/organizations/${name}`);
-            if (response.status === 201) {
-                // console.log(response.data);
-                setLogo(response.data.categoryData.logo);
-                setOrganizations(response.data.organizations.filter(org => org.logo));
-            }
+    const fetchCategoryOrganization = async () => {
+        const response = await axios.get(`${API_BASE_URL}/api/category/organizations/${name}`);
+        if (response.status === 201) {
+            // console.log(response.data);
+            setLogo(response.data.categoryData.logo);
+            setOrganizations(response.data.organizations.filter(org => org.logo));
+            return response.data;
         }
+    }
 
-        fetchCategoryOrganization();
-    }, [location])
+    const { data: data, isLoading } = useQuery({
+        queryKey: ["fetchCategoryOrganization/" + name],
+        queryFn: fetchCategoryOrganization,
+        staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
+        cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
+        refetchOnMount: true, // ✅ Prevents refetch when component mounts again
+        refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+    });
+
+    useEffect(() => {
+        if(data){
+            setLogo(data.categoryData.logo);
+            setOrganizations(data.organizations.filter(org => org.logo));   
+        }
+    },[data])
+
+    // useEffect(() => {
+
+
+
+    //     fetchCategoryOrganization();
+    // }, [location])
 
     const handleToggle = () => {
         setIsExpanded(!isExpanded);

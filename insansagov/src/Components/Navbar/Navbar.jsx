@@ -185,26 +185,26 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
             {/* Desktop Component (Visible on sm and larger) */}
-            <a href="/" className="group hidden sm:block">
+            <div onClick={()=>navigate('/')} className="group hidden sm:block">
               <div className="flex-shrink-0 flex items-center">
                 <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl flex items-center justify-center group-hover:from-purple-700 group-hover:to-blue-700 transition-all duration-300 shadow-md group-hover:shadow-lg">
                   <span className="text-white text-xl pt-3 pb-4 px-4 font-bold">gyapak.in</span>
                 </div>
               </div>
-            </a>
+            </div>
         
             {/* Mobile Component (Visible only on small screens) */}
             {
               logoVisible
               ?
               <div>
-              <a href="/" className="group block sm:hidden">
+              <div onClick={()=>navigate('/')} className="group block sm:hidden">
                 <div className="flex items-center">
                   <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl flex items-center justify-center group-hover:from-purple-700 group-hover:to-blue-700 transition-all duration-300 shadow-md group-hover:shadow-lg">
                     <span className="text-white text-xl pt-3 pb-4 px-4 font-bold">gyapak.in</span>
                   </div>
                 </div>
-              </a>
+              </div>
               </div>
               :
               null

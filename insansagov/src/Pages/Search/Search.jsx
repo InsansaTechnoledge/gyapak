@@ -13,28 +13,46 @@ import MoreCategories from '../../Components/Authority/MoreCategories'
 import { RingLoader } from 'react-spinners'
 import no_search_image from '../../assets/Landing/no_search.jpg'
 import { Helmet } from 'react-helmet-async'
+import { useQuery } from '@tanstack/react-query'
 
 const SearchPage = () => {
   const location = useLocation();
   const [query, setQuery] = useState();
   const queryParams = new URLSearchParams(location.search);
-  const [searchData, setSearchData] = useState();
+  // const [searchData, setSearchData] = useState();
   const navigate = useNavigate();
+  const queryData = queryParams.get("query");
+
+  const fetchSearch = async () => {
+    setQuery(queryData);
+    const response = await axios.get(`${API_BASE_URL}/api/search/result/${queryData}`);
+
+    if (response.status === 200) {
+      console.log(response.data);
+      return response.data;
+    }
+  }
+
+  const {data:searchData, isLoading} = useQuery({
+    queryKey: ["search/"+queryData],
+    queryFn: fetchSearch,
+    staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
+    cacheTime: 5 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
+    refetchOnMount: true, // ✅ Prevents refetch when component mounts again
+    refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+  });
 
   useEffect(() => {
-    const fetchSearch = async () => {
-      const queryData = queryParams.get("query");
+    if(searchData){
       setQuery(queryData);
-      const response = await axios.get(`${API_BASE_URL}/api/search/result/${queryData}`);
-
-      if (response.status === 200) {
-        console.log(response.data);
-        setSearchData(response.data);
-      }
     }
+  },[searchData])
+  
+  // useEffect(() => {
+    
 
-    fetchSearch();
-  }, [location])
+  //   fetchSearch();
+  // }, [location])
 
   const searchHandler = (input) => {
     navigate(`/search?query=${encodeURIComponent(input)}`);

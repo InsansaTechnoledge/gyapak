@@ -6,6 +6,7 @@ import axios from "axios";
 import API_BASE_URL from "../../Pages/config";
 import moment from "moment";
 import { RingLoader } from "react-spinners";
+import { useQuery } from "@tanstack/react-query";
 const StateCard = lazy(() => import('./StateCard'));
 
 const StateComponent = () => {
@@ -18,12 +19,12 @@ const StateComponent = () => {
     const [totalCount, setTotalCount] = useState(0);
 
     const navigate = useNavigate();
-    const [stateCount, setStateCount] = useState();
-    const [lastUpdated, setLastUpdated] = useState();
+    // const [stateCount, setStateCount] = useState();
+    // const [lastUpdated, setLastUpdated] = useState();
 
     useEffect(() => {
         if (suggestions) {
-            const total = suggestions.length;
+            const total = suggestions?.length;
 
             setTotalCount(total);
         }
@@ -122,28 +123,55 @@ const StateComponent = () => {
             </div>
         );
     };
-    useEffect(() => {
-        const fetchStateCount = async () => {
-            try {
-                const response = await axios.get(`${API_BASE_URL}/api/state/count`);
-                setStateCount(response.data);
-            } catch (error) {
-                console.error('Error fetching state count:', error);
-            }
-        };
+    const fetchStateCount = async () => {
+        try {
+            const response = await axios.get(`${API_BASE_URL}/api/state/count`);
+            // setStateCount(response.data);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching state count:', error);
+        }
+    };
 
-        const fetchLastUpdated = async () => {
-            try {
-                const response = await axios.get(`${API_BASE_URL}/api/event/lastupdated`);
-                setLastUpdated(formatDate(response.data.data));
-            } catch (error) {
-                console.error('Error fetching last updated date:', error);
-            }
-        };
+    const fetchLastUpdated = async () => {
+        try {
+            const response = await axios.get(`${API_BASE_URL}/api/event/lastupdated`);
+            // setLastUpdated(formatDate(response.data.data));
+            return formatDate(response.data.data);
+        } catch (error) {
+            console.error('Error fetching last updated date:', error);
+        }
+    };
+    // useEffect(() => {
 
-        fetchStateCount();
-        fetchLastUpdated();
-    }, []);
+    //     fetchStateCount();
+    //     fetchLastUpdated();
+    // }, []);
+
+    const {data:stateCount, isLoading1} = useQuery({
+        queryKey:["stateCount"],
+        queryFn:fetchStateCount,
+        staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
+        cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
+        refetchOnMount: true, // ✅ Prevents refetch when component mounts again
+        refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+    });
+    const {data:lastUpdated, isLoading2} = useQuery({
+        queryKey:["lastUpdated"],
+        queryFn:fetchLastUpdated,
+        staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
+        cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
+        refetchOnMount: true, // ✅ Prevents refetch when component mounts again
+        refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+    });
+
+    if(isLoading1 || isLoading2){
+        return (
+            <div>
+                Loading...
+            </div>
+        )
+    }
 
     return (
         <>

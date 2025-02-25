@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet-async";
 const App = () => {
   return (
     <>
+
       <Helmet>
         <title>gyapak</title>
         <meta name="description" content="gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
