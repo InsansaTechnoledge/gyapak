@@ -9,13 +9,13 @@ const ApiContext = createContext();
 
 
 export const SERVER_URLS = [
-    // "https://gyapak-2.onrender.com",
-    // "https://gyapak.onrender.com",
-    // "https://gyapak-3.onrender.com",
-    "http://localhost:5000",
-    "http://localhost:5001",
-    "http://localhost:5002",
-    "http://localhost:3000"
+    "https://gyapak-2.onrender.com",
+    "https://gyapak.onrender.com",
+    "https://gyapak-3.onrender.com",
+    // "http://localhost:5000",
+    // "http://localhost:5001",
+    // "http://localhost:5002",
+    // "http://localhost:3000"
   ];
 
   export const CheckServer = async () => {
