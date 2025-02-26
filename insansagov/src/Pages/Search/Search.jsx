@@ -12,7 +12,7 @@ import MoreCategories from '../../Components/Authority/MoreCategories'
 import { RingLoader } from 'react-spinners'
 import no_search_image from '../../assets/Landing/no_search.jpg'
 import { Helmet } from 'react-helmet-async'
-import { useApi } from '../../Context/ApiContext'
+import { useApi, CheckServer } from '../../Context/ApiContext'
 import { useQuery } from '@tanstack/react-query'
 
 const SearchPage = () => {
@@ -36,12 +36,10 @@ const SearchPage = () => {
       }
     }
     catch (error) {
-      if (error.response) {
-        if (error.response.status >= 500 && error.response.status < 600) {
-          console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-          const url = CheckServer();
+      if (error.response || error.request) {
+        if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+          const url = await CheckServer();
           setApiBaseUrl(url);
-          fetchSearch();
         }
         else {
           console.error('Error fetching state count:', error);
@@ -54,7 +52,7 @@ const SearchPage = () => {
   }
 
   const { data: searchData, isLoading } = useQuery({
-    queryKey: ["search/" + queryData],
+    queryKey: ["search/" + queryData, apiBaseUrl],
     queryFn: fetchSearch,
     staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
     cacheTime: 5 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory

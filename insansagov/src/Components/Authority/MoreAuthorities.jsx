@@ -4,7 +4,7 @@ const TopAuthoritiesCard = lazy(() => import('./TopAuthoritiesCard'));
 const ViewMoreButton = lazy(() => import('../Buttons/ViewMoreButton'));
 import { RingLoader } from 'react-spinners';
 import RelatedStatesCard from '../States/RelatedStatesCard';
-import { useApi } from '../../Context/ApiContext';
+import { useApi, CheckServer } from '../../Context/ApiContext';
 import { useQuery } from '@tanstack/react-query';
 
 const MoreAuthorities = ({ currentAuthority }) => {
@@ -33,12 +33,10 @@ const MoreAuthorities = ({ currentAuthority }) => {
             }
         }
         catch (error) {
-            if (error.response) {
-                if (error.response.status >= 500 && error.response.status < 600) {
-                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-                    const url = CheckServer();
+            if (error.response || error.request) {
+                if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                    const url = await CheckServer();
                     setApiBaseUrl(url);
-                    getMoreAuthorities();
                 }
                 else {
                     console.error('Error fetching state count:', error);
@@ -54,8 +52,8 @@ const MoreAuthorities = ({ currentAuthority }) => {
     //     getMoreAuthorities();
     // }, []);
 
-    const {data:moreAuthorities, isLoading} = useQuery({
-        queryKey:["moreAuthorities"],
+    const { data: moreAuthorities, isLoading } = useQuery({
+        queryKey: ["moreAuthorities", apiBaseUrl],
         queryFn: getMoreAuthorities,
         staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
         cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory

@@ -4,7 +4,7 @@ const TopCategoriesCard = lazy(() => import('../Categories/TopCategoriesCard'));
 const ViewMoreButton = lazy(() => import('../Buttons/ViewMoreButton'));
 
 import { RingLoader } from 'react-spinners';
-import { useApi } from '../../Context/ApiContext';
+import { useApi, CheckServer } from '../../Context/ApiContext';
 import { useQuery } from '@tanstack/react-query';
 
 const MoreCategories = ({ currentCategory }) => {
@@ -33,20 +33,18 @@ const MoreCategories = ({ currentCategory }) => {
                 return filteredData;
             }
         }
-        catch(error){
-            if (error.response) {
-                if (error.response.status >= 500 && error.response.status < 600) {
-                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-                    const url=CheckServer();
+        catch (error) {
+            if (error.response || error.request) {
+                if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                    const url = await CheckServer();
                     setApiBaseUrl(url);
-                    getMoreCategories();
                 }
-                else{
+                else {
                     console.error('Error fetching state count:', error);
                 }
             }
-                else {
-                    console.error('Error fetching state count:', error);
+            else {
+                console.error('Error fetching state count:', error);
             }
         }
     }
@@ -56,7 +54,7 @@ const MoreCategories = ({ currentCategory }) => {
     // }, []);
 
     const { data: moreCategories, isLoading } = useQuery({
-        queryKey: ["moreCategories"],
+        queryKey: ["moreCategories", apiBaseUrl],
         queryFn: getMoreCategories,
         staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
         cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory

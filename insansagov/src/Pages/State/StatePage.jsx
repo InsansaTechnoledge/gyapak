@@ -6,7 +6,7 @@ import BackButton from '../../Components/BackButton/BackButton';
 import { RingLoader } from 'react-spinners';
 import no_data_image from '../../assets/Landing/no_data.jpg';
 import { Helmet } from 'react-helmet-async';
-import { useApi } from '../../Context/ApiContext';
+import { useApi, CheckServer } from '../../Context/ApiContext';
 import { useQuery } from '@tanstack/react-query';
 
 const StatePage = () => {
@@ -31,12 +31,10 @@ const StatePage = () => {
             }
         } catch (error) {
             console.error('Error fetching state data:', error);
-            if (error.response) {
-                if (error.response.status >= 500 && error.response.status < 600) {
-                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-                    const url = CheckServer();
+            if (error.response || error.request) {
+                if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                    const url = await CheckServer();
                     setApiBaseUrl(url);
-                    fetchStateData();
                 }
                 else {
                     console.error('Error fetching state count:', error);
@@ -49,7 +47,7 @@ const StatePage = () => {
     };
 
     const { data: data, isLoading } = useQuery({
-        queryKey: ["fetchStateData/" + state],
+        queryKey: ["fetchStateData/" + state, apiBaseUrl],
         queryFn: fetchStateData,
         staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
         cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory

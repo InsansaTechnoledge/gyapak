@@ -3,7 +3,7 @@ import { Menu, X, ChevronDown, Search, MapPin, AlertTriangle } from 'lucide-reac
 import { useLocation, useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
 import axios from 'axios';
-import { useApi } from '../../Context/ApiContext';
+import { useApi, CheckServer } from '../../Context/ApiContext';
 import { useQuery } from '@tanstack/react-query';
 
 const categories = [
@@ -62,12 +62,10 @@ const Navbar = () => {
       }
     }
     catch (error) {
-      if (error.response) {
-        if (error.response.status >= 500 && error.response.status < 600) {
-          console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-          const url = CheckServer();
+      if (error.response || error.request) {
+        if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+          const url = await CheckServer();
           setApiBaseUrl(url);
-          fetchStates();
         }
         else {
           console.error('Error fetching state count:', error);
@@ -85,7 +83,7 @@ const Navbar = () => {
   // }, []);
 
   const { data: states, isLoading } = useQuery({
-    queryKey: ["navbarStates"],
+    queryKey: ["navbarStates", apiBaseUrl],
     queryFn: fetchStates,
     staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
     cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory

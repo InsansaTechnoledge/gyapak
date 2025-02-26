@@ -3,7 +3,8 @@
 import React from 'react';
 import { Mail, ArrowRight, AlertTriangle, Twitter, Linkedin } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useApi } from '../../Context/ApiContext';
+import { useApi, CheckServer } from '../../Context/ApiContext';
+import axios from 'axios';
 
 const Footer = () => {
 
@@ -25,20 +26,19 @@ const Footer = () => {
       }
     } catch (error) {
       console.log("Error", error);
-      if (error.response) {
-        if (error.response.status >= 500 && error.response.status < 600) {
-            console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-            const url=CheckServer();
-            setApiBaseUrl(url);
-            handleSubmit();
+      if (error.response || error.request) {
+        if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+          const url = await CheckServer();
+          setApiBaseUrl(url);
+          setTimeout(()=>document.getElementById("subscribe").click(),1000);
         }
-        else{
-            console.error('Error fetching state count:', error);
-        }
-    }
         else {
-            console.error('Error fetching state count:', error);
-    }
+          console.error('Error fetching state count:', error);
+        }
+      }
+      else {
+        console.error('Error fetching state count:', error);
+      }
     }
   };
 
@@ -163,6 +163,7 @@ const Footer = () => {
             </div>
             <button
               type="submit"
+              id='subscribe'
               className="w-full bg-purple-600 text-white px-4 py-3 rounded-lg hover:bg-purple-700 transition-colors flex items-center justify-center space-x-2 group"
             >
               <span>Subscribe</span>

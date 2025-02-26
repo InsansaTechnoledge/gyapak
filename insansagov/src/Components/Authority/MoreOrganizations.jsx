@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react'
 import axios from 'axios';
 import { RingLoader } from 'react-spinners';
-import { useApi } from '../../Context/ApiContext';
+import { useApi, CheckServer } from '../../Context/ApiContext';
 import { useQuery } from '@tanstack/react-query';
 const TopAuthoritiesCard = lazy(() => import('./TopAuthoritiesCard'));
 const ViewMoreButton = lazy(() => import('../Buttons/ViewMoreButton'));
@@ -24,30 +24,28 @@ const MoreOrganizations = ({ currentOrganization }) => {
     };
 
     const getMoreOrganizations = async () => {
-        try{
+        try {
 
             const response = await axios.get(`${apiBaseUrl}/api/organization/more/${currentOrganization.category}`);
             if (response.status === 201) {
                 const data = response.data;
-                
+
                 const filteredData = data.filter(org => org._id != currentOrganization._id);
                 return filteredData;
             }
         }
-        catch(error){
-            if (error.response) {
-                if (error.response.status >= 500 && error.response.status < 600) {
-                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-                    const url=CheckServer();
+        catch (error) {
+            if (error.response || error.request) {
+                if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                    const url = await CheckServer();
                     setApiBaseUrl(url);
-                    getMoreOrganizations();
                 }
-                else{
+                else {
                     console.error('Error fetching state count:', error);
                 }
             }
-                else {
-                    console.error('Error fetching state count:', error);
+            else {
+                console.error('Error fetching state count:', error);
             }
         }
     }
@@ -57,7 +55,7 @@ const MoreOrganizations = ({ currentOrganization }) => {
     // }, []);
 
     const { data: moreOrganizations, isLoading } = useQuery({
-        queryKey: ["moreOrganizations"],
+        queryKey: ["moreOrganizations", apiBaseUrl],
         queryFn: getMoreOrganizations,
         staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
         cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory

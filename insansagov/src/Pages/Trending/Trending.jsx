@@ -11,7 +11,8 @@ import {
 } from "lucide-react";
 import BackButton from "../../Components/BackButton/BackButton";
 import { Helmet } from "react-helmet-async";
-import { useApi } from "../../Context/ApiContext";
+import { useApi, CheckServer } from "../../Context/ApiContext";
+import { useQuery } from "@tanstack/react-query";
 
 const TrendingPage = ({ trendingItems = [] }) => {
     const { apiBaseUrl, setApiBaseUrl } = useApi();
@@ -47,15 +48,15 @@ const TrendingPage = ({ trendingItems = [] }) => {
             }));
 
             setAdmitCards(formattedAdmitCards);
-            setResults(formattedResults);
+            // setResults(formattedResults);
+            return [formattedResults,formattedAdmitCards];
+
         } catch (error) {
             console.error("Failed to fetch data:", error.message);
-            if (error.response) {
-                if (error.response.status >= 500 && error.response.status < 600) {
-                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-                    const url = CheckServer();
+            if (error.response || error.request) {
+                if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                    const url = await CheckServer();
                     setApiBaseUrl(url);
-                    fetchData();
                 }
                 else {
                     console.error('Error fetching state count:', error);
@@ -66,10 +67,17 @@ const TrendingPage = ({ trendingItems = [] }) => {
             }
         }
     };
+    
+    const {data:formattedData, isLoading} = useQuery({
+        queryKey:["trending",apiBaseUrl],
+        queryFn: fetchData,
+
+    })
 
     useEffect(() => {
-        fetchData();
-    }, []);
+        setResults(formattedData[0]);
+        setAdmitCards(formattedData[1]);
+    }, [formattedData]);
 
     useEffect(() => {
         const filterItems = () => {

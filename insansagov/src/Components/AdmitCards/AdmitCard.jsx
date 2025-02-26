@@ -4,10 +4,10 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import AdmitCardCard from "./AdmitCardCard";
-import { useApi } from "../../Context/ApiContext";
+import { useApi, CheckServer } from "../../Context/ApiContext";
 
 const AdmitCardLanding = () => {
-    const {apiBaseUrl, setApiBaseUrl}=useApi();
+    const { apiBaseUrl, setApiBaseUrl } = useApi();
     const [filter, setFilter] = useState("All");
     const navigate = useNavigate();
     const [categories, setCategories] = useState();
@@ -18,32 +18,30 @@ const AdmitCardLanding = () => {
 
     useEffect(() => {
         const fetchAdmitCards = async () => {
-                try{
+            try {
                 const response = await axios.get(`${apiBaseUrl}/api/admitCard/`);
                 if (response.status === 201) {
                     setAdmitCards(response.data);
                 }
             }
-            catch(error){
-                if (error.response) {
-                    if (error.response.status >= 500 && error.response.status < 600) {
-                        console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-                        const url=CheckServer();
+            catch (error) {
+                if (error.response || error.request) {
+                    if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                        const url = await CheckServer();
                         setApiBaseUrl(url);
-                        fetchAdmitCards();
                     }
-                    else{
-                        console.error('Error fetching state count:', error);
-                    }
-                }
                     else {
                         console.error('Error fetching state count:', error);
+                    }
+                }
+                else {
+                    console.error('Error fetching state count:', error);
                 }
             }
-            }
+        }
 
         const fetchCategories = async () => {
-            try{
+            try {
 
                 const response = await axios.get(`${apiBaseUrl}/api/category/getcategories`);
                 if (response.status === 201) {
@@ -52,29 +50,27 @@ const AdmitCardLanding = () => {
                         "All",
                         ...prev
                     ]))
-                    
+
                 }
             }
-            catch(error){
-                if (error.response) {
-                    if (error.response.status >= 500 && error.response.status < 600) {
-                        console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-                        const url=CheckServer();
+            catch (error) {
+                if (error.response || error.request) {
+                    if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                        const url = await CheckServer();
                         setApiBaseUrl(url);
-                        fetchCategories();
                     }
-                    else{
+                    else {
                         console.error('Error fetching state count:', error);
                     }
                 }
-                    else {
-                        console.error('Error fetching state count:', error);
+                else {
+                    console.error('Error fetching state count:', error);
                 }
             }
         }//test comment
         fetchAdmitCards();
         fetchCategories();
-    }, []);
+    }, [apiBaseUrl]);
 
     useEffect(() => {
         if (categories && admitCards) {

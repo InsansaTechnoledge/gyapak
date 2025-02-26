@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Calendar, Building2, Filter, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useApi } from "../../Context/ApiContext";
+import { useApi, CheckServer } from "../../Context/ApiContext";
 import { useQuery } from "@tanstack/react-query";
 
 const ResultsDashboard = () => {
@@ -27,27 +27,25 @@ const ResultsDashboard = () => {
     //     : [];
 
     const fetchResults = async () => {
-        try{
+        try {
 
             const response = await axios.get(`${apiBaseUrl}/api/result/`);
             if (response.status === 201) {
                 return response.data;
             }
         }
-        catch(error){
-            if (error.response) {
-                if (error.response.status >= 500 && error.response.status < 600) {
-                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-                    const url=CheckServer();
+        catch (error) {
+            if (error.response || error.request) {
+                if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                    const url = await CheckServer();
                     setApiBaseUrl(url);
-                    fetchResults();
                 }
-                else{
+                else {
                     console.error('Error fetching state count:', error);
                 }
             }
-                else {
-                    console.error('Error fetching state count:', error);
+            else {
+                console.error('Error fetching state count:', error);
             }
         }
     }
@@ -61,26 +59,24 @@ const ResultsDashboard = () => {
                 return categories;
             }
         }
-        catch(error){
-            if (error.response) {
-                if (error.response.status >= 500 && error.response.status < 600) {
-                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-                    const url=CheckServer();
+        catch (error) {
+            if (error.response || error.request) {
+                if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                    const url = await CheckServer();
                     setApiBaseUrl(url);
-                    fetchCategories();
                 }
-                else{
+                else {
                     console.error('Error fetching state count:', error);
                 }
             }
-                else {
-                    console.error('Error fetching state count:', error);
+            else {
+                console.error('Error fetching state count:', error);
             }
         }
     }
 
     const { data: categories, isLoading1 } = useQuery({
-        queryKey: ["rdcategories"],
+        queryKey: ["rdcategories", apiBaseUrl],
         queryFn: fetchCategories,
         staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
         cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
@@ -89,7 +85,7 @@ const ResultsDashboard = () => {
     })
 
     const { data: results, isLoading2 } = useQuery({
-        queryKey: ["rdresults"],
+        queryKey: ["rdresults", apiBaseUrl],
         queryFn: fetchResults,
         staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
         cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory

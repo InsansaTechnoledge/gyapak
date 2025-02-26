@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Search, Calendar, Building2, Filter } from "lucide-react";
 import axios from "axios";
 import { Helmet } from "react-helmet-async";
-import { useApi } from "../../Context/ApiContext";
+import { useApi, CheckServer } from "../../Context/ApiContext";
 
 
 const Results = () => {
@@ -25,12 +25,10 @@ const Results = () => {
                 }
             }
             catch (error) {
-                if (error.response) {
-                    if (error.response.status >= 500 && error.response.status < 600) {
-                        console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-                        const url = CheckServer();
+                if (error.response || error.request) {
+                    if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                        const url = await CheckServer();
                         setApiBaseUrl(url);
-                        fetchResults();
                     }
                     else {
                         console.error('Error fetching state count:', error);
@@ -56,12 +54,10 @@ const Results = () => {
                 }
             }
             catch (error) {
-                if (error.response) {
-                    if (error.response.status >= 500 && error.response.status < 600) {
-                        console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-                        const url = CheckServer();
+                if (error.response || error.request) {
+                    if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                        const url = await CheckServer();
                         setApiBaseUrl(url);
-                        fetchCategories();
                     }
                     else {
                         console.error('Error fetching state count:', error);
@@ -74,7 +70,7 @@ const Results = () => {
         }
         fetchResults();
         fetchCategories();
-    }, []);
+    }, [apiBaseUrl]);
 
     useEffect(() => {
         if (categories && results) {

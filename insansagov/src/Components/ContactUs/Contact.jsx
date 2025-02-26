@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Clock, Send, X, Book, GraduationCap, Award, Users, BookOpen } from 'lucide-react';
 import PaperPlane from '../SubmitAnimation/PaperPlane';
 import axios from 'axios';
-import { useApi } from '../../Context/ApiContext';
+import { useApi, CheckServer } from '../../Context/ApiContext';
 
 const Contact = () => {
     const { apiBaseUrl, setApiBaseUrl } = useApi();
@@ -50,12 +50,11 @@ const Contact = () => {
             }
         } catch (error) {
             console.error('Error sending email:', error);
-            if (error.response) {
-                if (error.response.status >= 500 && error.response.status < 600) {
-                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-                    const url = CheckServer();
+            if (error.response || error.request) {
+                if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                    const url = await CheckServer();
                     setApiBaseUrl(url);
-                    handleSubmit();
+                    setTimeout(()=>handleSubmit(),1000);
                 }
                 else {
                     console.error('Error fetching state count:', error);

@@ -5,7 +5,7 @@ import axios from 'axios';
 import { RingLoader } from 'react-spinners';
 import { debounce } from 'lodash';
 import { useQuery } from '@tanstack/react-query';
-import { useApi } from '../../Context/ApiContext';
+import { useApi, CheckServer } from '../../Context/ApiContext';
 
 const TopAuthorities = (props) => {
     const { apiBaseUrl, setApiBaseUrl } = useApi();
@@ -22,12 +22,10 @@ const TopAuthorities = (props) => {
             }
         } catch (error) {
             console.error("Error fetching organizations:", error);
-            if (error.response) {
-                if (error.response.status >= 500 && error.response.status < 600) {
-                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-                    const url = CheckServer();
+            if (error.response || error.request) {
+                if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                    const url = await CheckServer();
                     setApiBaseUrl(url);
-                    fetchLogos();
                 }
                 else {
                     console.error('Error fetching state count:', error);
@@ -45,7 +43,7 @@ const TopAuthorities = (props) => {
     // }, []);
 
     const { data: organizations, isLoading } = useQuery({
-        queryKey: ["fetchLogos"],
+        queryKey: ["fetchLogos", apiBaseUrl],
         queryFn: fetchLogos,
         staleTime: Infinity,
         cacheTime: 24 * 60 * 60 * 1000,

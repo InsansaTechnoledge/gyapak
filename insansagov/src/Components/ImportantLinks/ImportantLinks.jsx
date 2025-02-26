@@ -3,7 +3,7 @@ import { Calendar, Building2, ArrowRight, ExternalLink } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { useApi } from "../../Context/ApiContext";
+import { useApi, CheckServer } from "../../Context/ApiContext";
 
 const ImportantLinksDashboard = () => {
     const { apiBaseUrl, setApiBaseUrl } = useApi();
@@ -26,12 +26,23 @@ const ImportantLinksDashboard = () => {
             }
         } catch (error) {
             console.error("Error fetching important links:", error);
-            return []; // ✅ Return empty array in case of error
+            if (error.response || error.request) {
+                if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                    const url = await CheckServer();
+                    setApiBaseUrl(url);
+                }
+                else {
+                    console.error('Error fetching state count:', error);
+                }
+            }
+            else {
+                console.error('Error fetching state count:', error);
+            }
         }
     };
 
     const { data: importantLinks, isLoading1 } = useQuery({
-        queryKey: ["importantLinksDashboard"],
+        queryKey: ["importantLinksDashboard", apiBaseUrl],
         queryFn: fetchImportantLinks,
         staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
         cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
@@ -54,12 +65,10 @@ const ImportantLinksDashboard = () => {
             }
         }
         catch (error) {
-            if (error.response) {
-                if (error.response.status >= 500 && error.response.status < 600) {
-                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-                    const url = CheckServer();
+            if (error.response || error.request) {
+                if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                    const url = await CheckServer();
                     setApiBaseUrl(url);
-                    fetchCategories();
                 }
                 else {
                     console.error('Error fetching state count:', error);
@@ -72,7 +81,7 @@ const ImportantLinksDashboard = () => {
     };
 
     const { data: categories, isLoading2 } = useQuery({
-        queryKey: ["importanLinksCategory"],
+        queryKey: ["importanLinksCategory", apiBaseUrl],
         queryFn: fetchCategories,
         staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
         cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory

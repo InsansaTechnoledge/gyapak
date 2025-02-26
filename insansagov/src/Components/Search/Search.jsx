@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { debounce } from 'lodash';
 import { Search as SearchIcon } from 'lucide-react';
-import { useApi } from '../../Context/ApiContext';
+import { useApi, CheckServer } from '../../Context/ApiContext';
 
 const Search = (props) => {
-  const { apiBaseUrl,setApiBaseUrl } = useApi();
+  const { apiBaseUrl, setApiBaseUrl } = useApi();
   const [input, setInput] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -53,12 +53,11 @@ const Search = (props) => {
       console.log(response.data.suggestions);
     } catch (error) {
       console.error('Error fetching suggestions:', error);
-      if (error.response) {
-        if (error.response.status >= 500 && error.response.status < 600) {
-          console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-          const url = CheckServer();
+      if (error.response || error.request) {
+        if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+          const url = await CheckServer();
           setApiBaseUrl(url);
-          fetchSuggestions();
+          setTimeout(()=>fetchSuggestions(),1000);
         }
         else {
           console.error('Error fetching state count:', error);

@@ -14,7 +14,7 @@ import {
 import BackButton from "../../Components/BackButton/BackButton";
 import { Helmet } from "react-helmet-async";
 import { useQuery } from "@tanstack/react-query";
-import { useApi } from "../../Context/ApiContext";
+import { useApi, CheckServer } from "../../Context/ApiContext";
 
 const OverviewPage = () => {
     const { apiBaseUrl, setApiBaseUrl } = useApi();
@@ -90,12 +90,10 @@ const OverviewPage = () => {
         } catch (error) {
             console.error("Failed to fetch data:", error.message);
             setIsLoading(false);
-            if (error.response) {
-                if (error.response.status >= 500 && error.response.status < 600) {
-                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-                    const url = CheckServer();
+            if (error.response || error.request) {
+                if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                    const url = await CheckServer();
                     setApiBaseUrl(url);
-                    fetchData();
                 }
                 else {
                     console.error('Error fetching state count:', error);
@@ -108,7 +106,7 @@ const OverviewPage = () => {
     };
 
     const { data: allUpdates, isLoading2 } = useQuery({
-        queryKey: ["overview"],
+        queryKey: ["overview", apiBaseUrl],
         queryFn: fetchData,
         staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
         cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory

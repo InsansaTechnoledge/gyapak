@@ -5,7 +5,7 @@ import axios from 'axios';
 import { RingLoader } from 'react-spinners';
 import { debounce } from 'lodash';
 import { useQuery } from '@tanstack/react-query';
-import { useApi } from '../../Context/ApiContext';
+import { useApi, CheckServer } from '../../Context/ApiContext';
 
 const TopCategories = (props) => {
     const { apiBaseUrl, setApiBaseUrl } = useApi();
@@ -28,12 +28,10 @@ const TopCategories = (props) => {
             }
         } catch (error) {
             console.error('Error fetching categories:', error);
-            if (error.response) {
-                if (error.response.status >= 500 && error.response.status < 600) {
-                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-                    const url = CheckServer();
+            if (error.response || error.request) {
+                if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                    const url = await CheckServer();
                     setApiBaseUrl(url);
-                    fetchCategories();
                 }
                 else {
                     console.error('Error fetching state count:', error);
@@ -46,7 +44,7 @@ const TopCategories = (props) => {
     };
 
     const { data: categories, isLoading } = useQuery({
-        queryKey: ["fetchCategories"],
+        queryKey: ["fetchCategories", apiBaseUrl],
         queryFn: fetchCategories,
         staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
         cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory

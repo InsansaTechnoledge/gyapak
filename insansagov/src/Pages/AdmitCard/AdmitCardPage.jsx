@@ -3,7 +3,7 @@ import { Search, Calendar, Building2, Filter, RefreshCw } from "lucide-react";
 import AdmitCardCard from "../../Components/AdmitCards/AdmitCardCard";
 import { Helmet } from "react-helmet-async";
 import axios from "axios";
-import { useApi } from "../../Context/ApiContext";
+import { useApi, CheckServer } from "../../Context/ApiContext";
 
 const AdmitCardPage = () => {
     const { apiBaseUrl, setApiBaseUrl } = useApi();
@@ -65,12 +65,10 @@ const AdmitCardPage = () => {
             }
         } catch (error) {
             console.error("Error fetching admit cards:", error);
-            if (error.response) {
-                if (error.response.status >= 500 && error.response.status < 600) {
-                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-                    const url = CheckServer();
+            if (error.response || error.request) {
+                if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                    const url = await CheckServer();
                     setApiBaseUrl(url);
-                    fetchAdmitCards();
                 }
                 else {
                     console.error('Error fetching state count:', error);
@@ -105,12 +103,10 @@ const AdmitCardPage = () => {
             }
         } catch (error) {
             console.error("Error fetching categories:", error);
-            if (error.response) {
-                if (error.response.status >= 500 && error.response.status < 600) {
-                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-                    const url = CheckServer();
+            if (error.response || error.request) {
+                if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                    const url = await CheckServer();
                     setApiBaseUrl(url);
-                    fetchCategories();
                 }
                 else {
                     console.error('Error fetching state count:', error);
@@ -135,7 +131,7 @@ const AdmitCardPage = () => {
     useEffect(() => {
         fetchAdmitCards();
         fetchCategories();
-    }, []);
+    }, [apiBaseUrl]);
 
     useEffect(() => {
         if (categories && admitCards) {

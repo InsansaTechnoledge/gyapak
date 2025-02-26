@@ -8,7 +8,7 @@ import RelatedAuthorities from '../../Components/Authority/RelatedAuthorities';
 import { RingLoader } from 'react-spinners';
 import no_data_image from '../../assets/Landing/no_data.jpg'
 import { Helmet } from 'react-helmet-async';
-import { useApi } from '../../Context/ApiContext';
+import { CheckServer, useApi } from '../../Context/ApiContext';
 import { useQuery } from '@tanstack/react-query';
 
 const cards = [
@@ -43,7 +43,6 @@ const Authority = () => {
 
     const fetchOrganization = async () => {
         try {
-
             const response = await axios.get(`${apiBaseUrl}/api/organization/${name}`);
             if (response.status === 201) {
                 setOrganization(response.data.organization);
@@ -69,12 +68,12 @@ const Authority = () => {
             }
         }
         catch (error) {
-            if (error.response) {
-                if (error.response.status >= 500 && error.response.status < 600) {
-                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-                    const url = CheckServer();
+            console.log(error.response);
+            if (error.response || error.request) {
+                if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                    console.log("RR");
+                    const url = await CheckServer();
                     setApiBaseUrl(url);
-                    fetchOrganization();
                 }
                 else {
                     console.error('Error fetching state count:', error);
@@ -87,7 +86,7 @@ const Authority = () => {
     }
 
     const { data: data, isLoading } = useQuery({
-        queryKey: ["fetchOrganization/" + name],
+        queryKey: ["fetchOrganization/" + name, apiBaseUrl],
         queryFn: fetchOrganization,
         staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
         cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory

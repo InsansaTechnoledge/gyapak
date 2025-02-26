@@ -57,12 +57,11 @@ const StateComponent = () => {
             setShowDropdown(true);
         } catch (error) {
             console.error('Error fetching suggestions:', error);
-            if (error.response) {
-                if (error.response.status >= 500 && error.response.status < 600) {
-                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-                    const url = CheckServer();
+            if (error.response || error.request) {
+                if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                    const url = await CheckServer();
                     setApiBaseUrl(url);
-                    fetchSuggestions();
+                    setTimeout(()=>fetchSuggestions(),1000);
                 }
                 else {
                     console.error('Error fetching state count:', error);

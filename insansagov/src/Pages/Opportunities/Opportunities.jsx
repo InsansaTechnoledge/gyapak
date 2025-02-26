@@ -21,7 +21,7 @@ import AdditionalDetailsSection from "../../Components/OpportunityPageComponents
 import { RingLoader } from "react-spinners";
 import { Helmet } from "react-helmet-async";
 import { useQuery } from "@tanstack/react-query";
-import { useApi } from "../../Context/ApiContext";
+import { useApi, CheckServer } from "../../Context/ApiContext";
 
 const ModernExamDetailsPage = () => {
   const { apiBaseUrl, setApiBaseUrl } = useApi();
@@ -46,12 +46,10 @@ const ModernExamDetailsPage = () => {
       }
     }
     catch (error) {
-      if (error.response) {
-        if (error.response.status >= 500 && error.response.status < 600) {
-          console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-          const url = CheckServer();
+      if (error.response || error.request) {
+        if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+          const url = await CheckServer();
           setApiBaseUrl(url);
-          fetchEvent();
         }
         else {
           console.error('Error fetching state count:', error);
@@ -68,7 +66,7 @@ const ModernExamDetailsPage = () => {
   // }, [])
 
   const { data: completeData, isLoading } = useQuery({
-    queryKey: ["opportunity/" + examId],
+    queryKey: ["opportunity/" + examId, apiBaseUrl],
     queryFn: fetchEvent,
     staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
     cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory

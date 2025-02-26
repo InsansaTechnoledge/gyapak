@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { RingLoader } from 'react-spinners';
-import { useApi } from '../../Context/ApiContext';
+import { useApi, CheckServer } from '../../Context/ApiContext';
 
 const UnsubscribePage = () => {
     const { apiBaseUrl, setApiBaseUrl } = useApi();
@@ -20,8 +20,6 @@ const UnsubscribePage = () => {
         }
     }, [token])
     const handleUnsubscribe = async () => {
-
-
 
         if (!token) {
             setErrorMessage('Invalid or missing token.');
@@ -45,19 +43,18 @@ const UnsubscribePage = () => {
             }
         } catch (error) {
             console.error('Error unsubscribing:', error);
-            if (error.response) {
-                if (error.response.status >= 500 && error.response.status < 600) {
-                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-                    const url=CheckServer();
+            if (error.response || error.request) {
+                if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                    const url = await CheckServer();
                     setApiBaseUrl(url);
-                    handleUnsubscribe();
+                    setTimeout(()=>handleUnsubscribe(),1000);
                 }
-                else{
+                else {
                     console.error('Error fetching state count:', error);
                 }
             }
-                else {
-                    console.error('Error fetching state count:', error);
+            else {
+                console.error('Error fetching state count:', error);
             }
 
             if (error.response) {
