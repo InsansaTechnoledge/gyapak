@@ -30,13 +30,22 @@ const Contact = () => {
             id.classList.add("hidden");
             notid.classList.remove("blur-sm");
         }, 1500);
+//created object to add the website name  and passed it there 
+        const details={
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            email: formData.email,
+            subject: formData.subject,
+            message: formData.message,
+            recievedOn:'gyapak.in'
+        }
 
         try {
-            const response = await axios.post(`${apiBaseUrl}/api/contact/sendMail`, formData);
+            const response = await axios.post(`${apiBaseUrl}/api/contact/sendMail `, details);
             if (response.status === 201) {
                 await axios.post(`${apiBaseUrl}/api/contact/sendMailtoUser`, {
                     firstName: formData.firstName,
-                    lastName: formData.lastName,
+                    lastName: formData.lastName, 
                     email: formData.email,
                 });
                 setIsSuccessPopupVisible(true);

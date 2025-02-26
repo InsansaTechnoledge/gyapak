@@ -67,7 +67,7 @@ app.use(cors(corsOptions));
 // Handle preflight requests
 app.options('*', (req, res) => {
 
-  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || "https://gyapak.in" || "https://gyapak-1.onrender.com");
+  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || "https://gyapak.in" || "https://gyapak-1.onrender.com" || "https://insansa.com");
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
