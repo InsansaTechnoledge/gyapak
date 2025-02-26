@@ -7,7 +7,7 @@ import AdmitCardCard from "./AdmitCardCard";
 import { useApi } from "../../Context/ApiContext";
 
 const AdmitCardLanding = () => {
-    const {apiBaseUrl}=useApi();
+    const {apiBaseUrl, setApiBaseUrl}=useApi();
     const [filter, setFilter] = useState("All");
     const navigate = useNavigate();
     const [categories, setCategories] = useState();
@@ -18,21 +18,58 @@ const AdmitCardLanding = () => {
 
     useEffect(() => {
         const fetchAdmitCards = async () => {
-            const response = await axios.get(`${apiBaseUrl}/api/admitCard/`);
-            if (response.status === 201) {
-                setAdmitCards(response.data);
+                try{
+                const response = await axios.get(`${apiBaseUrl}/api/admitCard/`);
+                if (response.status === 201) {
+                    setAdmitCards(response.data);
+                }
             }
-        }
+            catch(error){
+                if (error.response) {
+                    if (error.response.status >= 500 && error.response.status < 600) {
+                        console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+                        const url=CheckServer();
+                        setApiBaseUrl(url);
+                        fetchAdmitCards();
+                    }
+                    else{
+                        console.error('Error fetching state count:', error);
+                    }
+                }
+                    else {
+                        console.error('Error fetching state count:', error);
+                }
+            }
+            }
 
         const fetchCategories = async () => {
-            const response = await axios.get(`${apiBaseUrl}/api/category/getcategories`);
-            if (response.status === 201) {
-                setCategories(response.data.map(cat => cat.category));
-                setCategories(prev => ([
-                    "All",
-                    ...prev
-                ]))
+            try{
 
+                const response = await axios.get(`${apiBaseUrl}/api/category/getcategories`);
+                if (response.status === 201) {
+                    setCategories(response.data.map(cat => cat.category));
+                    setCategories(prev => ([
+                        "All",
+                        ...prev
+                    ]))
+                    
+                }
+            }
+            catch(error){
+                if (error.response) {
+                    if (error.response.status >= 500 && error.response.status < 600) {
+                        console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+                        const url=CheckServer();
+                        setApiBaseUrl(url);
+                        fetchCategories();
+                    }
+                    else{
+                        console.error('Error fetching state count:', error);
+                    }
+                }
+                    else {
+                        console.error('Error fetching state count:', error);
+                }
             }
         }//test comment
         fetchAdmitCards();

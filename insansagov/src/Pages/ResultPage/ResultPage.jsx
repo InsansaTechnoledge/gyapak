@@ -6,7 +6,7 @@ import { useApi } from "../../Context/ApiContext";
 
 
 const Results = () => {
-    const { apiBaseUrl } = useApi();
+    const { apiBaseUrl, setApiBaseUrl } = useApi();
     const [search, setSearch] = useState("");
     const [filter, setFilter] = useState("All");
     const [categories, setCategories] = useState();
@@ -17,21 +17,59 @@ const Results = () => {
 
     useEffect(() => {
         const fetchResults = async () => {
-            const response = await axios.get(`${apiBaseUrl}/api/result/`);
-            if (response.status === 201) {
-                setResults(response.data);
+            try {
+
+                const response = await axios.get(`${apiBaseUrl}/api/result/`);
+                if (response.status === 201) {
+                    setResults(response.data);
+                }
+            }
+            catch (error) {
+                if (error.response) {
+                    if (error.response.status >= 500 && error.response.status < 600) {
+                        console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+                        const url = CheckServer();
+                        setApiBaseUrl(url);
+                        fetchResults();
+                    }
+                    else {
+                        console.error('Error fetching state count:', error);
+                    }
+                }
+                else {
+                    console.error('Error fetching state count:', error);
+                }
             }
         }
 
         const fetchCategories = async () => {
-            const response = await axios.get(`${apiBaseUrl}/api/category/getcategories`);
-            if (response.status === 201) {
-                setCategories(response.data.map(cat => cat.category));
-                setCategories(prev => ([
-                    "All",
-                    ...prev
-                ]))
+            try {
 
+                const response = await axios.get(`${apiBaseUrl}/api/category/getcategories`);
+                if (response.status === 201) {
+                    setCategories(response.data.map(cat => cat.category));
+                    setCategories(prev => ([
+                        "All",
+                        ...prev
+                    ]))
+
+                }
+            }
+            catch (error) {
+                if (error.response) {
+                    if (error.response.status >= 500 && error.response.status < 600) {
+                        console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+                        const url = CheckServer();
+                        setApiBaseUrl(url);
+                        fetchCategories();
+                    }
+                    else {
+                        console.error('Error fetching state count:', error);
+                    }
+                }
+                else {
+                    console.error('Error fetching state count:', error);
+                }
             }
         }
         fetchResults();

@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 const StateCard = lazy(() => import('./StateCard'));
 
 const StateComponent = () => {
-    const { apiBaseUrl,setApiBaseUrl } = useApi();
+    const { apiBaseUrl, setApiBaseUrl } = useApi();
     const [isSearchVisible, setIsSearchVisible] = useState(false);
     const [activeRegion, setActiveRegion] = useState('North');
 
@@ -57,6 +57,20 @@ const StateComponent = () => {
             setShowDropdown(true);
         } catch (error) {
             console.error('Error fetching suggestions:', error);
+            if (error.response) {
+                if (error.response.status >= 500 && error.response.status < 600) {
+                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+                    const url = CheckServer();
+                    setApiBaseUrl(url);
+                    fetchSuggestions();
+                }
+                else {
+                    console.error('Error fetching state count:', error);
+                }
+            }
+            else {
+                console.error('Error fetching state count:', error);
+            }
         }
     }, 300); // 1000ms debounce delay
 
@@ -133,18 +147,18 @@ const StateComponent = () => {
             if (error.response) {
                 if (error.response.status >= 500 && error.response.status < 600) {
                     console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-                    const url=CheckServer();
+                    const url = CheckServer();
                     setApiBaseUrl(url);
                     fetchStateCount();
                 }
-                else{
+                else {
                     console.error('Error fetching state count:', error);
                 }
             }
-                else {
-                    console.error('Error fetching state count:', error);
+            else {
+                console.error('Error fetching state count:', error);
             }
-            
+
         }
     };
 
@@ -157,16 +171,16 @@ const StateComponent = () => {
             if (error.response) {
                 if (error.response.status >= 500 && error.response.status < 600) {
                     console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-                    const url=CheckServer();
+                    const url = CheckServer();
                     setApiBaseUrl(url);
                     fetchLastUpdated();
                 }
-                else{
+                else {
                     console.error('Error fetching state count:', error);
                 }
             }
-                else {
-                    console.error('Error fetching state count:', error);
+            else {
+                console.error('Error fetching state count:', error);
             }
         }
     };
@@ -176,24 +190,24 @@ const StateComponent = () => {
     //     fetchLastUpdated();
     // }, []);
 
-    const {data:stateCount, isLoading1} = useQuery({
-        queryKey:["stateCount"],
-        queryFn:fetchStateCount,
+    const { data: stateCount, isLoading1 } = useQuery({
+        queryKey: ["stateCount"],
+        queryFn: fetchStateCount,
         staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
         cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
         refetchOnMount: true, // ✅ Prevents refetch when component mounts again
         refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
     });
-    const {data:lastUpdated, isLoading2} = useQuery({
-        queryKey:["lastUpdated"],
-        queryFn:fetchLastUpdated,
+    const { data: lastUpdated, isLoading2 } = useQuery({
+        queryKey: ["lastUpdated"],
+        queryFn: fetchLastUpdated,
         staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
         cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
         refetchOnMount: true, // ✅ Prevents refetch when component mounts again
         refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
     });
 
-    if(isLoading1 || isLoading2){
+    if (isLoading1 || isLoading2) {
         return (
             <div>
                 Loading...

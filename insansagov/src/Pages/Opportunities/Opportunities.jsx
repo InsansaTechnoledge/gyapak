@@ -24,7 +24,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useApi } from "../../Context/ApiContext";
 
 const ModernExamDetailsPage = () => {
-  const { apiBaseUrl } = useApi();
+  const { apiBaseUrl, setApiBaseUrl } = useApi();
   const location = useLocation();
   // Parse the query parameters
   const queryParams = new URLSearchParams(location.search);
@@ -34,13 +34,32 @@ const ModernExamDetailsPage = () => {
   const existingSections = ['document_links', 'vacancies']
 
   const fetchEvent = async () => {
-    const response = await axios.get(`${apiBaseUrl}/api/event/${examId}`);
+    try {
 
-    if (response.status === 200) {
-      console.log(response.data);
-      setData(response.data.exam);
-      setOrganization(response.data.organization.name);
-      return response.data;
+      const response = await axios.get(`${apiBaseUrl}/api/event/${examId}`);
+
+      if (response.status === 200) {
+        console.log(response.data);
+        setData(response.data.exam);
+        setOrganization(response.data.organization.name);
+        return response.data;
+      }
+    }
+    catch (error) {
+      if (error.response) {
+        if (error.response.status >= 500 && error.response.status < 600) {
+          console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+          const url = CheckServer();
+          setApiBaseUrl(url);
+          fetchEvent();
+        }
+        else {
+          console.error('Error fetching state count:', error);
+        }
+      }
+      else {
+        console.error('Error fetching state count:', error);
+      }
     }
   }
   // useEffect(() => {
@@ -48,8 +67,8 @@ const ModernExamDetailsPage = () => {
   //   fetchEvent();
   // }, [])
 
-  const {data:completeData, isLoading} = useQuery({
-    queryKey: ["opportunity/"+examId],
+  const { data: completeData, isLoading } = useQuery({
+    queryKey: ["opportunity/" + examId],
     queryFn: fetchEvent,
     staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
     cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
@@ -58,11 +77,11 @@ const ModernExamDetailsPage = () => {
   })
 
   useEffect(() => {
-    if(completeData){
+    if (completeData) {
       setData(completeData.exam);
       setOrganization(completeData.organization.name);
     }
-  },[completeData])
+  }, [completeData])
 
   if (isLoading || (!data && !organization)) {
     return <div className='w-full h-screen flex justify-center'>

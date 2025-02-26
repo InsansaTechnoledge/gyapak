@@ -17,7 +17,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useApi } from "../../Context/ApiContext";
 
 const OverviewPage = () => {
-    const { apiBaseUrl } = useApi();
+    const { apiBaseUrl, setApiBaseUrl } = useApi();
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedOrg, setSelectedOrg] = useState("all");
     const [selectedCategory, setSelectedCategory] = useState("all");
@@ -90,6 +90,20 @@ const OverviewPage = () => {
         } catch (error) {
             console.error("Failed to fetch data:", error.message);
             setIsLoading(false);
+            if (error.response) {
+                if (error.response.status >= 500 && error.response.status < 600) {
+                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+                    const url = CheckServer();
+                    setApiBaseUrl(url);
+                    fetchData();
+                }
+                else {
+                    console.error('Error fetching state count:', error);
+                }
+            }
+            else {
+                console.error('Error fetching state count:', error);
+            }
         }
     };
 

@@ -7,7 +7,7 @@ import { useApi } from '../../Context/ApiContext';
 
 const Footer = () => {
 
-  const { apiBaseUrl } = useApi();
+  const { apiBaseUrl, setApiBaseUrl } = useApi();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,6 +25,20 @@ const Footer = () => {
       }
     } catch (error) {
       console.log("Error", error);
+      if (error.response) {
+        if (error.response.status >= 500 && error.response.status < 600) {
+            console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+            const url=CheckServer();
+            setApiBaseUrl(url);
+            handleSubmit();
+        }
+        else{
+            console.error('Error fetching state count:', error);
+        }
+    }
+        else {
+            console.error('Error fetching state count:', error);
+    }
     }
   };
 

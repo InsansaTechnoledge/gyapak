@@ -2,14 +2,15 @@ import React, { lazy, Suspense, useEffect, useState } from 'react'
 import axios from 'axios';
 import { RingLoader } from 'react-spinners';
 import { useApi } from '../../Context/ApiContext';
+import { useQuery } from '@tanstack/react-query';
 const TopAuthoritiesCard = lazy(() => import('./TopAuthoritiesCard'));
 const ViewMoreButton = lazy(() => import('../Buttons/ViewMoreButton'));
 
 
 const MoreOrganizations = ({ currentOrganization }) => {
 
-    const {apiBaseUrl}=useApi();
-    const [moreOrganizations, setMoreOrganizations] = useState();
+    const { apiBaseUrl, setApiBaseUrl } = useApi();
+    // const [moreOrganizations, setMoreOrganizations] = useState();
     const [displayCount, setDisplayCount] = useState(8); // Initial count of displayed items
 
     // Handle "View More"
@@ -22,21 +23,49 @@ const MoreOrganizations = ({ currentOrganization }) => {
         setDisplayCount(8);
     };
 
-    useEffect(() => {
-        const getMoreOrganizations = async () => {
+    const getMoreOrganizations = async () => {
+        try{
+
             const response = await axios.get(`${apiBaseUrl}/api/organization/more/${currentOrganization.category}`);
             if (response.status === 201) {
                 const data = response.data;
-
+                
                 const filteredData = data.filter(org => org._id != currentOrganization._id);
-                setMoreOrganizations(filteredData);
+                return filteredData;
             }
         }
+        catch(error){
+            if (error.response) {
+                if (error.response.status >= 500 && error.response.status < 600) {
+                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+                    const url=CheckServer();
+                    setApiBaseUrl(url);
+                    getMoreOrganizations();
+                }
+                else{
+                    console.error('Error fetching state count:', error);
+                }
+            }
+                else {
+                    console.error('Error fetching state count:', error);
+            }
+        }
+    }
+    // useEffect(() => {
 
-        getMoreOrganizations();
-    }, []);
+    //     getMoreOrganizations();
+    // }, []);
 
-    if (!moreOrganizations) {
+    const { data: moreOrganizations, isLoading } = useQuery({
+        queryKey: ["moreOrganizations"],
+        queryFn: getMoreOrganizations,
+        staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
+        cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
+        refetchOnMount: true, // ✅ Prevents refetch when component mounts again
+        refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+    })
+
+    if (isLoading || !moreOrganizations) {
         return <div className='w-full flex flex-col justify-center mb-10'>
             <div className='flex justify-center'>
                 <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />

@@ -5,10 +5,11 @@ const ViewMoreButton = lazy(() => import('../Buttons/ViewMoreButton'));
 import { RingLoader } from 'react-spinners';
 import RelatedStatesCard from '../States/RelatedStatesCard';
 import { useApi } from '../../Context/ApiContext';
+import { useQuery } from '@tanstack/react-query';
 
 const MoreAuthorities = ({ currentAuthority }) => {
-    const {apiBaseUrl}=useApi();
-    const [moreAuthorities, setMoreAuthorities] = useState();
+    const { apiBaseUrl, setApiBaseUrl } = useApi();
+    // const [moreAuthorities, setMoreAuthorities] = useState();
     const [displayCount, setDisplayCount] = useState(8); // Initial count of displayed items
 
     // Handle "View More"
@@ -20,21 +21,49 @@ const MoreAuthorities = ({ currentAuthority }) => {
     const handleCloseAll = () => {
         setDisplayCount(8);
     };
-    useEffect(() => {
-        const getMoreAuthorities = async () => {
+    const getMoreAuthorities = async () => {
+        try {
+
             const response = await axios.get(`${apiBaseUrl}/api/state/more/`);
             if (response.status === 201) {
 
                 const data = response.data;
                 const filteredData = data.filter(auth => auth._id !== currentAuthority._id);
-                setMoreAuthorities(filteredData);
+                return filteredData;
             }
         }
+        catch (error) {
+            if (error.response) {
+                if (error.response.status >= 500 && error.response.status < 600) {
+                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+                    const url = CheckServer();
+                    setApiBaseUrl(url);
+                    getMoreAuthorities();
+                }
+                else {
+                    console.error('Error fetching state count:', error);
+                }
+            }
+            else {
+                console.error('Error fetching state count:', error);
+            }
+        }
+    }
+    // useEffect(() => {
 
-        getMoreAuthorities();
-    }, []);
+    //     getMoreAuthorities();
+    // }, []);
 
-    if (!moreAuthorities) {
+    const {data:moreAuthorities, isLoading} = useQuery({
+        queryKey:["moreAuthorities"],
+        queryFn: getMoreAuthorities,
+        staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
+        cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
+        refetchOnMount: true, // ✅ Prevents refetch when component mounts again
+        refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+    })
+
+    if (isLoading || !moreAuthorities) {
         return <div className='w-full flex flex-col justify-center mb-10'>
             <div className='flex justify-center'>
                 <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />

@@ -9,7 +9,7 @@ const LatestUpdateCard = lazy(() => import('./LatestUpdateCard'));
 const ViewMoreButton = lazy(() => import('../Buttons/ViewMoreButton'));
 
 const LatestUpdates = ({ titleHidden }) => {
-  const { apiBaseUrl } = useApi();
+  const { apiBaseUrl, setApiBaseUrl } = useApi();
   const [isExpanded, setIsExpanded] = useState(false);
   // const [latestUpdates, setLatestUpdates] = useState([]);
   const [filteredLatestUpdates, setFilteredLatestUpdates] = useState([]);
@@ -36,6 +36,20 @@ const LatestUpdates = ({ titleHidden }) => {
       }
     } catch (error) {
       console.error('Error fetching latest updates:', error);
+      if (error.response) {
+        if (error.response.status >= 500 && error.response.status < 600) {
+          console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+          const url = CheckServer();
+          setApiBaseUrl(url);
+          fetchLatestUpdates();
+        }
+        else {
+          console.error('Error fetching state count:', error);
+        }
+      }
+      else {
+        console.error('Error fetching state count:', error);
+      }
     }
   };
   // Fetch latest updates from API
@@ -53,11 +67,11 @@ const LatestUpdates = ({ titleHidden }) => {
     refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
   });
 
-  useEffect(()=>{
-    if(latestUpdates){
-      setFilteredLatestUpdates(latestUpdates.slice(0,2));
+  useEffect(() => {
+    if (latestUpdates) {
+      setFilteredLatestUpdates(latestUpdates.slice(0, 2));
     }
-  },[latestUpdates])
+  }, [latestUpdates])
 
   if (isLoading) {
     return (
@@ -68,7 +82,7 @@ const LatestUpdates = ({ titleHidden }) => {
   }
 
   return (
-    
+
     <>
       <div className="flex justify-between mb-5">
         <div className="font-bold text-2xl flex items-center">Latest Updates</div>

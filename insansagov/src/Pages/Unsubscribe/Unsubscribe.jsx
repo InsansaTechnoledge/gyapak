@@ -5,7 +5,7 @@ import { RingLoader } from 'react-spinners';
 import { useApi } from '../../Context/ApiContext';
 
 const UnsubscribePage = () => {
-    const { apiBaseUrl } = useApi();
+    const { apiBaseUrl, setApiBaseUrl } = useApi();
     const [unsubscribedmsg, setUnsubscribedMsg] = useState();
     const [errorMessage, setErrorMessage] = useState('');
     const [isProcessing, setIsProcessing] = useState(false); // State to show loading during API call
@@ -45,6 +45,20 @@ const UnsubscribePage = () => {
             }
         } catch (error) {
             console.error('Error unsubscribing:', error);
+            if (error.response) {
+                if (error.response.status >= 500 && error.response.status < 600) {
+                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+                    const url=CheckServer();
+                    setApiBaseUrl(url);
+                    handleUnsubscribe();
+                }
+                else{
+                    console.error('Error fetching state count:', error);
+                }
+            }
+                else {
+                    console.error('Error fetching state count:', error);
+            }
 
             if (error.response) {
                 setErrorMessage(error.response.data.message || 'An error occurred. Please try again.');

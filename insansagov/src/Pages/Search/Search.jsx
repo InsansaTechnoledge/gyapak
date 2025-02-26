@@ -16,7 +16,7 @@ import { useApi } from '../../Context/ApiContext'
 import { useQuery } from '@tanstack/react-query'
 
 const SearchPage = () => {
-    const { apiBaseUrl } = useApi();
+  const { apiBaseUrl, setApiBaseUrl } = useApi();
   const location = useLocation();
   const [query, setQuery] = useState();
   const queryParams = new URLSearchParams(location.search);
@@ -25,17 +25,36 @@ const SearchPage = () => {
   const queryData = queryParams.get("query");
 
   const fetchSearch = async () => {
-    setQuery(queryData);
-    const response = await axios.get(`${apiBaseUrl}/api/search/result/${queryData}`);
+    try {
 
-    if (response.status === 200) {
-      console.log(response.data);
-      return response.data;
+      setQuery(queryData);
+      const response = await axios.get(`${apiBaseUrl}/api/search/result/${queryData}`);
+
+      if (response.status === 200) {
+        console.log(response.data);
+        return response.data;
+      }
+    }
+    catch (error) {
+      if (error.response) {
+        if (error.response.status >= 500 && error.response.status < 600) {
+          console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+          const url = CheckServer();
+          setApiBaseUrl(url);
+          fetchSearch();
+        }
+        else {
+          console.error('Error fetching state count:', error);
+        }
+      }
+      else {
+        console.error('Error fetching state count:', error);
+      }
     }
   }
 
-  const {data:searchData, isLoading} = useQuery({
-    queryKey: ["search/"+queryData],
+  const { data: searchData, isLoading } = useQuery({
+    queryKey: ["search/" + queryData],
     queryFn: fetchSearch,
     staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
     cacheTime: 5 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
@@ -44,13 +63,13 @@ const SearchPage = () => {
   });
 
   useEffect(() => {
-    if(searchData){
+    if (searchData) {
       setQuery(queryData);
     }
-  },[searchData])
-  
+  }, [searchData])
+
   // useEffect(() => {
-    
+
 
   //   fetchSearch();
   // }, [location])

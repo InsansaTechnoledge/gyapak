@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useApi } from "../../Context/ApiContext";
 
 const ImportantLinksDashboard = () => {
-    const { apiBaseUrl } = useApi();
+    const { apiBaseUrl, setApiBaseUrl } = useApi();
     const [filter, setFilter] = useState("All");
     const navigate = useNavigate();
     // const [categories, setCategories] = useState();
@@ -40,15 +40,34 @@ const ImportantLinksDashboard = () => {
     })
 
     const fetchCategories = async () => {
-        const response = await axios.get(`${apiBaseUrl}/api/category/getcategories`);
-        if (response.status === 201) {
-            const categories = response.data.map(cat => cat.category);
-            categories.unshift("All");
-            // setCategories(prev => ([
-            //     "All",
-            //     ...prev
-            // ]));
-            return categories
+        try {
+
+            const response = await axios.get(`${apiBaseUrl}/api/category/getcategories`);
+            if (response.status === 201) {
+                const categories = response.data.map(cat => cat.category);
+                categories.unshift("All");
+                // setCategories(prev => ([
+                //     "All",
+                //     ...prev
+                // ]));
+                return categories
+            }
+        }
+        catch (error) {
+            if (error.response) {
+                if (error.response.status >= 500 && error.response.status < 600) {
+                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+                    const url = CheckServer();
+                    setApiBaseUrl(url);
+                    fetchCategories();
+                }
+                else {
+                    console.error('Error fetching state count:', error);
+                }
+            }
+            else {
+                console.error('Error fetching state count:', error);
+            }
         }
     };
 

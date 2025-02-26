@@ -10,7 +10,7 @@ import { useApi } from '../../Context/ApiContext';
 import { useQuery } from '@tanstack/react-query';
 
 const StatePage = () => {
-    const { apiBaseUrl } = useApi();
+    const { apiBaseUrl, setApiBaseUrl } = useApi();
     const [isExpanded, setIsExpanded] = useState(false);
     const location = useLocation();
     const [logo, setLogo] = useState();
@@ -31,6 +31,20 @@ const StatePage = () => {
             }
         } catch (error) {
             console.error('Error fetching state data:', error);
+            if (error.response) {
+                if (error.response.status >= 500 && error.response.status < 600) {
+                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+                    const url = CheckServer();
+                    setApiBaseUrl(url);
+                    fetchStateData();
+                }
+                else {
+                    console.error('Error fetching state count:', error);
+                }
+            }
+            else {
+                console.error('Error fetching state count:', error);
+            }
         }
     };
 
@@ -44,11 +58,11 @@ const StatePage = () => {
     })
 
     useEffect(() => {
-        if(data){
+        if (data) {
             setLogo(data.stateData.logo);
             setOrganizations(data.organizations);
         }
-    },[data])
+    }, [data])
 
     // useEffect(() => {
 

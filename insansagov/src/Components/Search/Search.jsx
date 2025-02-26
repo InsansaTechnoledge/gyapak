@@ -5,7 +5,7 @@ import { Search as SearchIcon } from 'lucide-react';
 import { useApi } from '../../Context/ApiContext';
 
 const Search = (props) => {
-  const { apiBaseUrl } = useApi();
+  const { apiBaseUrl,setApiBaseUrl } = useApi();
   const [input, setInput] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -53,6 +53,20 @@ const Search = (props) => {
       console.log(response.data.suggestions);
     } catch (error) {
       console.error('Error fetching suggestions:', error);
+      if (error.response) {
+        if (error.response.status >= 500 && error.response.status < 600) {
+          console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+          const url = CheckServer();
+          setApiBaseUrl(url);
+          fetchSuggestions();
+        }
+        else {
+          console.error('Error fetching state count:', error);
+        }
+      }
+      else {
+        console.error('Error fetching state count:', error);
+      }
     }
   }, 600);
 

@@ -8,7 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useApi } from '../../Context/ApiContext';
 
 const TopAuthorities = (props) => {
-    const { apiBaseUrl } = useApi();
+    const { apiBaseUrl, setApiBaseUrl } = useApi();
     // const [organizations, setOrganizations] = useState([]);
     const [displayCount, setDisplayCount] = useState(8); // Initial count of displayed items
 
@@ -22,6 +22,20 @@ const TopAuthorities = (props) => {
             }
         } catch (error) {
             console.error("Error fetching organizations:", error);
+            if (error.response) {
+                if (error.response.status >= 500 && error.response.status < 600) {
+                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+                    const url = CheckServer();
+                    setApiBaseUrl(url);
+                    fetchLogos();
+                }
+                else {
+                    console.error('Error fetching state count:', error);
+                }
+            }
+            else {
+                console.error('Error fetching state count:', error);
+            }
         }
     };
     // Fetch data from API

@@ -6,7 +6,7 @@ import axios from "axios";
 import { useApi } from "../../Context/ApiContext";
 
 const AdmitCardPage = () => {
-    const { apiBaseUrl } = useApi();
+    const { apiBaseUrl, setApiBaseUrl } = useApi();
     const [search, setSearch] = useState("");
     const [filter, setFilter] = useState("All");
     const [categories, setCategories] = useState();
@@ -65,6 +65,20 @@ const AdmitCardPage = () => {
             }
         } catch (error) {
             console.error("Error fetching admit cards:", error);
+            if (error.response) {
+                if (error.response.status >= 500 && error.response.status < 600) {
+                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+                    const url = CheckServer();
+                    setApiBaseUrl(url);
+                    fetchAdmitCards();
+                }
+                else {
+                    console.error('Error fetching state count:', error);
+                }
+            }
+            else {
+                console.error('Error fetching state count:', error);
+            }
         } finally {
             setLoading(false);
         }
@@ -91,6 +105,20 @@ const AdmitCardPage = () => {
             }
         } catch (error) {
             console.error("Error fetching categories:", error);
+            if (error.response) {
+                if (error.response.status >= 500 && error.response.status < 600) {
+                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+                    const url = CheckServer();
+                    setApiBaseUrl(url);
+                    fetchCategories();
+                }
+                else {
+                    console.error('Error fetching state count:', error);
+                }
+            }
+            else {
+                console.error('Error fetching state count:', error);
+            }
         }
     };
 

@@ -8,7 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useApi } from '../../Context/ApiContext';
 
 const TopCategories = (props) => {
-    const { apiBaseUrl } = useApi();
+    const { apiBaseUrl, setApiBaseUrl } = useApi();
     // const [categories, setCategories] = useState();
     const [filteredCategories, setFilteredCategories] = useState([]);
     const [isExpanded, setIsExpanded] = useState(false);
@@ -28,6 +28,20 @@ const TopCategories = (props) => {
             }
         } catch (error) {
             console.error('Error fetching categories:', error);
+            if (error.response) {
+                if (error.response.status >= 500 && error.response.status < 600) {
+                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+                    const url = CheckServer();
+                    setApiBaseUrl(url);
+                    fetchCategories();
+                }
+                else {
+                    console.error('Error fetching state count:', error);
+                }
+            }
+            else {
+                console.error('Error fetching state count:', error);
+            }
         }
     };
 
@@ -41,10 +55,10 @@ const TopCategories = (props) => {
     });
 
     useEffect(() => {
-        if(categories){
-            setFilteredCategories(categories.slice(0,4));
+        if (categories) {
+            setFilteredCategories(categories.slice(0, 4));
         }
-    },[categories])
+    }, [categories])
 
     // useEffect(() => {
     //     fetchCategories();

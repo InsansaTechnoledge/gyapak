@@ -5,10 +5,11 @@ const ViewMoreButton = lazy(() => import('../Buttons/ViewMoreButton'));
 
 import { RingLoader } from 'react-spinners';
 import { useApi } from '../../Context/ApiContext';
+import { useQuery } from '@tanstack/react-query';
 
 const MoreCategories = ({ currentCategory }) => {
-    const{apiBaseUrl}=useApi();
-    const [moreCategories, setMoreCategories] = useState();
+    const { apiBaseUrl, setApiBaseUrl } = useApi();
+    // const [moreCategories, setMoreCategories] = useState();
     const [displayCount, setDisplayCount] = useState(8); // Initial count of displayed items
 
     // Handle "View More"
@@ -21,21 +22,49 @@ const MoreCategories = ({ currentCategory }) => {
         setDisplayCount(8);
     };
 
-    useEffect(() => {
-        const getMoreCategories = async () => {
+    const getMoreCategories = async () => {
+        try {
+
             const response = await axios.get(`${apiBaseUrl}/api/category/getCategories/`);
             if (response.status === 201) {
                 console.log(response.data);
                 const data = response.data;
                 const filteredData = data.filter(cat => cat._id != currentCategory._id);
-                setMoreCategories(filteredData);
+                return filteredData;
             }
         }
+        catch(error){
+            if (error.response) {
+                if (error.response.status >= 500 && error.response.status < 600) {
+                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+                    const url=CheckServer();
+                    setApiBaseUrl(url);
+                    getMoreCategories();
+                }
+                else{
+                    console.error('Error fetching state count:', error);
+                }
+            }
+                else {
+                    console.error('Error fetching state count:', error);
+            }
+        }
+    }
+    // useEffect(() => {
 
-        getMoreCategories();
-    }, []);
+    //     getMoreCategories();
+    // }, []);
 
-    if (!moreCategories) {
+    const { data: moreCategories, isLoading } = useQuery({
+        queryKey: ["moreCategories"],
+        queryFn: getMoreCategories,
+        staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
+        cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
+        refetchOnMount: true, // ✅ Prevents refetch when component mounts again
+        refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+    })
+
+    if (isLoading || !moreCategories) {
         return <div className='w-full flex flex-col justify-center mb-10'>
             <div className='flex justify-center'>
                 <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />

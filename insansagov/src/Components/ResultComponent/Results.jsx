@@ -3,15 +3,16 @@ import { Calendar, Building2, Filter, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useApi } from "../../Context/ApiContext";
+import { useQuery } from "@tanstack/react-query";
 
 const ResultsDashboard = () => {
-    const { apiBaseUrl } = useApi();
+    const { apiBaseUrl, setApiBaseUrl } = useApi();
     const [search, setSearch] = useState("");
     const [filter, setFilter] = useState("All");
     const navigate = useNavigate();
     const [filteredResults, setFilteredResults] = useState();
-    const [categories, setCategories] = useState();
-    const [results, setResults] = useState();
+    // const [categories, setCategories] = useState();
+    // const [results, setResults] = useState();
 
     // const categories = ["All", "Civil Services", "Staff Selection", "Banking", "Defense"];
 
@@ -25,28 +26,81 @@ const ResultsDashboard = () => {
     //     })
     //     : [];
 
-    useEffect(() => {
-        const fetchResults = async () => {
+    const fetchResults = async () => {
+        try{
+
             const response = await axios.get(`${apiBaseUrl}/api/result/`);
             if (response.status === 201) {
-                setResults(response.data);
+                return response.data;
             }
         }
+        catch(error){
+            if (error.response) {
+                if (error.response.status >= 500 && error.response.status < 600) {
+                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+                    const url=CheckServer();
+                    setApiBaseUrl(url);
+                    fetchResults();
+                }
+                else{
+                    console.error('Error fetching state count:', error);
+                }
+            }
+                else {
+                    console.error('Error fetching state count:', error);
+            }
+        }
+    }
+    const fetchCategories = async () => {
+        try {
 
-        const fetchCategories = async () => {
             const response = await axios.get(`${apiBaseUrl}/api/category/getcategories`);
             if (response.status === 201) {
-                setCategories(response.data.map(cat => cat.category));
-                setCategories(prev => ([
-                    "All",
-                    ...prev
-                ]))
-
+                const categories = response.data.map(cat => cat.category);
+                categories.unshift("All")
+                return categories;
             }
         }
-        fetchResults();
-        fetchCategories();
-    }, []);
+        catch(error){
+            if (error.response) {
+                if (error.response.status >= 500 && error.response.status < 600) {
+                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+                    const url=CheckServer();
+                    setApiBaseUrl(url);
+                    fetchCategories();
+                }
+                else{
+                    console.error('Error fetching state count:', error);
+                }
+            }
+                else {
+                    console.error('Error fetching state count:', error);
+            }
+        }
+    }
+
+    const { data: categories, isLoading1 } = useQuery({
+        queryKey: ["rdcategories"],
+        queryFn: fetchCategories,
+        staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
+        cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
+        refetchOnMount: true, // ✅ Prevents refetch when component mounts again
+        refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+    })
+
+    const { data: results, isLoading2 } = useQuery({
+        queryKey: ["rdresults"],
+        queryFn: fetchResults,
+        staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
+        cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
+        refetchOnMount: true, // ✅ Prevents refetch when component mounts again
+        refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+    })
+    // useEffect(() => {
+
+    //     fetchResults();
+    //     fetchCategories();
+    // }, []);
 
     useEffect(() => {
         if (categories && results) {

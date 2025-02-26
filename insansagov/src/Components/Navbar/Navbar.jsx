@@ -42,7 +42,7 @@ const StateIcon = ({ state, index }) => {
 };
 
 const Navbar = () => {
-  const { apiBaseUrl } = useApi();
+  const { apiBaseUrl, setApiBaseUrl } = useApi();
   const location = useLocation();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
@@ -55,9 +55,27 @@ const Navbar = () => {
   const [logoVisible, setLogoVisible] = useState(false);
 
   const fetchStates = async () => {
-    const response = await axios.get(`${apiBaseUrl}/api/state/list`);
-    if (response.status === 200) {
-      return response.data;
+    try {
+      const response = await axios.get(`${apiBaseUrl}/api/state/list`);
+      if (response.status === 200) {
+        return response.data;
+      }
+    }
+    catch (error) {
+      if (error.response) {
+        if (error.response.status >= 500 && error.response.status < 600) {
+          console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+          const url = CheckServer();
+          setApiBaseUrl(url);
+          fetchStates();
+        }
+        else {
+          console.error('Error fetching state count:', error);
+        }
+      }
+      else {
+        console.error('Error fetching state count:', error);
+      }
     }
   }
 
@@ -145,6 +163,20 @@ const Navbar = () => {
       setShowDropdown(true);
     } catch (error) {
       console.error('Error fetching suggestions:', error);
+      if (error.response) {
+        if (error.response.status >= 500 && error.response.status < 600) {
+          console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+          const url = CheckServer();
+          setApiBaseUrl(url);
+          fetchSuggestions();
+        }
+        else {
+          console.error('Error fetching state count:', error);
+        }
+      }
+      else {
+        console.error('Error fetching state count:', error);
+      }
     }
   }, 600);
 

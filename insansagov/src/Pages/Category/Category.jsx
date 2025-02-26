@@ -13,7 +13,7 @@ import { useQuery } from '@tanstack/react-query'
 
 const Category = () => {
 
-    const { apiBaseUrl } = useApi();
+    const { apiBaseUrl, setApiBaseUrl } = useApi();
 
     const [isExpanded, setIsExpanded] = useState(false);
     const location = useLocation();
@@ -25,12 +25,31 @@ const Category = () => {
     const name = queryParams.get("name"); // Access the 'name' parameter
 
     const fetchCategoryOrganization = async () => {
-        const response = await axios.get(`${apiBaseUrl}/api/category/organizations/${name}`);
-        if (response.status === 201) {
-            // console.log(response.data);
-            setLogo(response.data.categoryData.logo);
-            setOrganizations(response.data.organizations.filter(org => org.logo));
-            return response.data;
+        try {
+
+            const response = await axios.get(`${apiBaseUrl}/api/category/organizations/${name}`);
+            if (response.status === 201) {
+                // console.log(response.data);
+                setLogo(response.data.categoryData.logo);
+                setOrganizations(response.data.organizations.filter(org => org.logo));
+                return response.data;
+            }
+        }
+        catch (error) {
+            if (error.response) {
+                if (error.response.status >= 500 && error.response.status < 600) {
+                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+                    const url = CheckServer();
+                    setApiBaseUrl(url);
+                    fetchCategoryOrganization();
+                }
+                else {
+                    console.error('Error fetching state count:', error);
+                }
+            }
+            else {
+                console.error('Error fetching state count:', error);
+            }
         }
     }
 
@@ -44,11 +63,11 @@ const Category = () => {
     });
 
     useEffect(() => {
-        if(data){
+        if (data) {
             setLogo(data.categoryData.logo);
-            setOrganizations(data.organizations.filter(org => org.logo));   
+            setOrganizations(data.organizations.filter(org => org.logo));
         }
-    },[data])
+    }, [data])
 
     // useEffect(() => {
 

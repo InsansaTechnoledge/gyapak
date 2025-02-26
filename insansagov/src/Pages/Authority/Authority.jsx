@@ -28,7 +28,7 @@ const cards = [
 
 
 const Authority = () => {
-    const { apiBaseUrl } = useApi();
+    const { apiBaseUrl, setApiBaseUrl } = useApi();
     const [isExpanded, setIsExpanded] = useState(false);
     const [organization, setOrganization] = useState();
     const [latestUpdates, setLatestUpdates] = useState();
@@ -42,34 +42,52 @@ const Authority = () => {
     const name = queryParams.get("name"); // Access the 'name' parameter
 
     const fetchOrganization = async () => {
-        const response = await axios.get(`${apiBaseUrl}/api/organization/${name}`);
-        console.log("JEE");
-        if (response.status === 201) {
-            setOrganization(response.data.organization);
-            setRelatedOrganizations(response.data.relatedOrganizations.filter(org => org._id !== response.data.organization._id));
+        try {
 
-            const sortedUpdates = response.data.events.sort((a, b) => {
-                const dateA = new Date(a.notificationDate);
-                const dateB = new Date(b.notificationDate);
+            const response = await axios.get(`${apiBaseUrl}/api/organization/${name}`);
+            if (response.status === 201) {
+                setOrganization(response.data.organization);
+                setRelatedOrganizations(response.data.relatedOrganizations.filter(org => org._id !== response.data.organization._id));
 
-                // Check if the dates are valid, in case some of the dates are 'Not specified'
-                if (isNaN(dateA) || isNaN(dateB)) {
-                    return 0; // Leave invalid dates in their original order
+                const sortedUpdates = response.data.events.sort((a, b) => {
+                    const dateA = new Date(a.notificationDate);
+                    const dateB = new Date(b.notificationDate);
+
+                    // Check if the dates are valid, in case some of the dates are 'Not specified'
+                    if (isNaN(dateA) || isNaN(dateB)) {
+                        return 0; // Leave invalid dates in their original order
+                    }
+
+                    return dateB - dateA; // Descending order
+                });
+
+                setLatestUpdates(sortedUpdates);
+                setEvents(sortedUpdates);
+                setFilteredEvents(sortedUpdates.slice(0, 6));
+                return response.data;
+
+            }
+        }
+        catch (error) {
+            if (error.response) {
+                if (error.response.status >= 500 && error.response.status < 600) {
+                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+                    const url = CheckServer();
+                    setApiBaseUrl(url);
+                    fetchOrganization();
                 }
-
-                return dateB - dateA; // Descending order
-            });
-
-            setLatestUpdates(sortedUpdates);
-            setEvents(sortedUpdates);
-            setFilteredEvents(sortedUpdates.slice(0, 6));
-            return response.data;
-
+                else {
+                    console.error('Error fetching state count:', error);
+                }
+            }
+            else {
+                console.error('Error fetching state count:', error);
+            }
         }
     }
 
     const { data: data, isLoading } = useQuery({
-        queryKey: ["fetchOrganization/"+name],
+        queryKey: ["fetchOrganization/" + name],
         queryFn: fetchOrganization,
         staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
         cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
@@ -78,32 +96,32 @@ const Authority = () => {
     });
 
     useEffect(() => {
-        if(data){
+        if (data) {
             console.log(data);
             setRelatedOrganizations(data.relatedOrganizations.filter(org => org._id !== data.organization._id));
-            
+
             const sortedUpdates = data.events.sort((a, b) => {
                 const dateA = new Date(a.notificationDate);
                 const dateB = new Date(b.notificationDate);
-                
+
                 // Check if the dates are valid, in case some of the dates are 'Not specified'
                 if (isNaN(dateA) || isNaN(dateB)) {
                     return 0; // Leave invalid dates in their original order
                 }
-                
+
                 return dateB - dateA; // Descending order
             });
-            
+
             setLatestUpdates(sortedUpdates);
             setEvents(sortedUpdates);
             setFilteredEvents(sortedUpdates.slice(0, 6));
-            
+
             setOrganization(data.organization);
             // setLatestUpdates(sortedUpdates);
             // setEvents(sortedUpdates);
             // setFilteredEvents(sortedUpdates.slice(0, 6));
         }
-    },[data]);
+    }, [data]);
     // useEffect(() => {
 
     //     fetchOrganization();

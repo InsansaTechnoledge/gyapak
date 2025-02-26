@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useApi } from '../../Context/ApiContext';
 
 const Contact = () => {
-    const { apiBaseUrl } = useApi();
+    const { apiBaseUrl, setApiBaseUrl } = useApi();
     const [isSuccessPopupVisible, setIsSuccessPopupVisible] = useState(false);
     const [activeTab, setActiveTab] = useState('general');
     const [formData, setFormData] = useState({
@@ -50,6 +50,20 @@ const Contact = () => {
             }
         } catch (error) {
             console.error('Error sending email:', error);
+            if (error.response) {
+                if (error.response.status >= 500 && error.response.status < 600) {
+                    console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+                    const url = CheckServer();
+                    setApiBaseUrl(url);
+                    handleSubmit();
+                }
+                else {
+                    console.error('Error fetching state count:', error);
+                }
+            }
+            else {
+                console.error('Error fetching state count:', error);
+            }
         }
     };
 
