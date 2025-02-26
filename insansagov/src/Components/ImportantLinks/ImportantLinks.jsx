@@ -2,37 +2,87 @@ import React, { useEffect, useState } from "react";
 import { Calendar, Building2, ArrowRight, ExternalLink } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import API_BASE_URL from "../../Pages/config";
+import { useQuery } from "@tanstack/react-query";
+import { useApi, CheckServer } from "../../Context/ApiContext";
 
 const ImportantLinksDashboard = () => {
+    const { apiBaseUrl, setApiBaseUrl } = useApi();
     const [filter, setFilter] = useState("All");
     const navigate = useNavigate();
-    const [categories, setCategories] = useState();
     const [filteredLinks, setFilteredLinks] = useState();
-    const [importantLinks, setImportantLinks] = useState();
 
-    useEffect(() => {
-        const fetchImportantLinks = async () => {
-            const response = await axios.get(`${API_BASE_URL}/api/admitcards/`);
-            if (response.status === 201) {
-                setImportantLinks(response.data);
+    const fetchImportantLinks = async () => {
+        try {
+            const [response1, response2] = await Promise.all([
+                axios.get(`${apiBaseUrl}/api/admitCard/`),
+                axios.get(`${apiBaseUrl}/api/result/`)
+            ]);
+
+            if (response1.status === 201 && response2.status === 201) {
+                const mergedData = [...response1.data, ...response2.data]; 
+                return mergedData; 
             }
-        };
-
-        const fetchCategories = async () => {
-            const response = await axios.get(`${API_BASE_URL}/api/category/results`);
-            if (response.status === 201) {
-                setCategories(response.data.map(cat => cat.category));
-                setCategories(prev => ([
-                    "All",
-                    ...prev
-                ]));
+            return [];
+        } catch (error) {
+            console.error("Error fetching important links:", error);
+            if (error.response || error.request) {
+                if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                    const url = await CheckServer();
+                    setApiBaseUrl(url);
+                }
+                else {
+                    console.error('Error fetching state count:', error);
+                }
             }
-        };
+            else {
+                console.error('Error fetching state count:', error);
+            }
+        }
+    };
 
-        fetchImportantLinks();
-        fetchCategories();
-    }, []);
+    const { data: importantLinks, isLoading1 } = useQuery({
+        queryKey: ["importantLinksDashboard", apiBaseUrl],
+        queryFn: fetchImportantLinks,
+        staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
+        cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
+        refetchOnMount: true, // ✅ Prevents refetch when component mounts again
+        refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+    })
+
+    const fetchCategories = async () => {
+        try {
+
+            const response = await axios.get(`${apiBaseUrl}/api/category/getcategories`);
+            if (response.status === 201) {
+                const categories = response.data.map(cat => cat.category);
+                categories.unshift("All");
+                return categories
+            }
+        }
+        catch (error) {
+            if (error.response || error.request) {
+                if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                    const url = await CheckServer();
+                    setApiBaseUrl(url);
+                }
+                else {
+                    console.error('Error fetching state count:', error);
+                }
+            }
+            else {
+                console.error('Error fetching state count:', error);
+            }
+        }
+    };
+
+    const { data: categories, isLoading2 } = useQuery({
+        queryKey: ["importanLinksCategory", apiBaseUrl],
+        queryFn: fetchCategories,
+        staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
+        cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
+        refetchOnMount: true, // ✅ Prevents refetch when component mounts again
+        refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+    });
 
     useEffect(() => {
         if (categories && importantLinks) {
@@ -46,7 +96,7 @@ const ImportantLinksDashboard = () => {
     }, [categories, importantLinks, filter]);
 
     const viewAllLinks = () => {
-        navigate("/important-links");
+        navigate("/overview");
     };
 
     return (
@@ -88,12 +138,12 @@ const ImportantLinksDashboard = () => {
                                     <div className="text-sm text-gray-600">
                                         <div className="flex items-center gap-2 mb-1">
                                             <Calendar className="h-4 w-4" />
-                                            Updated: {new Date(link.lastUpdated).toLocaleDateString()}
+                                            Updated: {new Date(link.date_of_notification).toLocaleDateString()}
                                         </div>
                                         <span
                                             className={`inline-block mt-2 px-2 py-1 rounded-full text-xs ${link.status === "Active"
-                                                    ? "bg-green-100 text-green-800"
-                                                    : "bg-yellow-100 text-yellow-800"
+                                                ? "bg-green-100 text-green-800"
+                                                : "bg-yellow-100 text-yellow-800"
                                                 }`}
                                         >
                                             {link.status || "ACTIVE"}

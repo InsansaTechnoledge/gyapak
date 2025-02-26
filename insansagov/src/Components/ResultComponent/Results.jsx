@@ -2,15 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Calendar, Building2, Filter, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import API_BASE_URL from "../../Pages/config";
+import { useApi, CheckServer } from "../../Context/ApiContext";
+import { useQuery } from "@tanstack/react-query";
 
 const ResultsDashboard = () => {
+    const { apiBaseUrl, setApiBaseUrl } = useApi();
     const [search, setSearch] = useState("");
     const [filter, setFilter] = useState("All");
     const navigate = useNavigate();
     const [filteredResults, setFilteredResults] = useState();
-    const [categories, setCategories] = useState();
-    const [results, setResults] = useState();
+    // const [categories, setCategories] = useState();
+    // const [results, setResults] = useState();
 
     // const categories = ["All", "Civil Services", "Staff Selection", "Banking", "Defense"];
 
@@ -24,40 +26,89 @@ const ResultsDashboard = () => {
     //     })
     //     : [];
 
-    useEffect(()=>{
-        const fetchResults = async () => {
-            const response = await axios.get(`${API_BASE_URL}/api/result/`);
-            if(response.status===201){
-                setResults(response.data);
+    const fetchResults = async () => {
+        try {
+
+            const response = await axios.get(`${apiBaseUrl}/api/result/`);
+            if (response.status === 201) {
+                return response.data;
             }
         }
-
-        const fetchCategories = async () => {
-            const response = await axios.get(`${API_BASE_URL}/api/category/getcategories`);
-            if(response.status===201){
-                setCategories(response.data.map(cat => cat.category));
-                setCategories(prev => ([
-                    "All",
-                    ...prev
-                ]))
-                
+        catch (error) {
+            if (error.response || error.request) {
+                if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                    const url = await CheckServer();
+                    setApiBaseUrl(url);
+                }
+                else {
+                    console.error('Error fetching state count:', error);
+                }
+            }
+            else {
+                console.error('Error fetching state count:', error);
             }
         }
-        fetchResults();
-        fetchCategories();
-    },[]);
+    }
+    const fetchCategories = async () => {
+        try {
 
-    useEffect(()=>{
-            if(categories && results){
-                setFilteredResults(Array.isArray(results)
+            const response = await axios.get(`${apiBaseUrl}/api/category/getcategories`);
+            if (response.status === 201) {
+                const categories = response.data.map(cat => cat.category);
+                categories.unshift("All")
+                return categories;
+            }
+        }
+        catch (error) {
+            if (error.response || error.request) {
+                if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                    const url = await CheckServer();
+                    setApiBaseUrl(url);
+                }
+                else {
+                    console.error('Error fetching state count:', error);
+                }
+            }
+            else {
+                console.error('Error fetching state count:', error);
+            }
+        }
+    }
+
+    const { data: categories, isLoading1 } = useQuery({
+        queryKey: ["rdcategories", apiBaseUrl],
+        queryFn: fetchCategories,
+        staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
+        cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
+        refetchOnMount: true, // ✅ Prevents refetch when component mounts again
+        refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+    })
+
+    const { data: results, isLoading2 } = useQuery({
+        queryKey: ["rdresults", apiBaseUrl],
+        queryFn: fetchResults,
+        staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
+        cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
+        refetchOnMount: true, // ✅ Prevents refetch when component mounts again
+        refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+    })
+    // useEffect(() => {
+
+    //     fetchResults();
+    //     fetchCategories();
+    // }, []);
+
+    useEffect(() => {
+        if (categories && results) {
+            setFilteredResults(Array.isArray(results)
                 ? results.filter((card) => {
                     const matchesFilter = filter === "All" || card.category === filter;
                     return matchesFilter;
                 })
                 : []);
-            
-            }
-        },[categories, results, filter]);
+
+        }
+    }, [categories, results, filter]);
 
     const viewAllResults = () => {
         navigate("/results");
@@ -86,7 +137,7 @@ const ResultsDashboard = () => {
                 </div>
             </div>
 
-                        {/* {console.log("FIL",filteredResults)} */}
+            {/* {console.log("FIL",filteredResults)} */}
             {filteredResults && filteredResults.length > 0 ? (
                 <div className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

@@ -12,15 +12,17 @@ import {
     Bell,
 } from "lucide-react";
 import BackButton from "../../Components/BackButton/BackButton";
-import API_BASE_URL from "../config";
 import { Helmet } from "react-helmet-async";
+import { useQuery } from "@tanstack/react-query";
+import { useApi, CheckServer } from "../../Context/ApiContext";
 
 const OverviewPage = () => {
+    const { apiBaseUrl, setApiBaseUrl } = useApi();
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedOrg, setSelectedOrg] = useState("all");
     const [selectedCategory, setSelectedCategory] = useState("all");
     const [notifications, setNotifications] = useState({});
-    const [allUpdates, setAllUpdates] = useState([]);
+    // const [allUpdates, setAllUpdates] = useState([]);
     const [filteredUpdates, setFilteredUpdates] = useState([]);
     const [organizations, setOrganizations] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -30,9 +32,9 @@ const OverviewPage = () => {
         try {
             // Fetch all different types of data
             const [typeAResponse, typeBResponse, typeCResponse] = await Promise.all([
-                axios.get(`${API_BASE_URL}/api/admitCard`),
-                axios.get(`${API_BASE_URL}/api/result`),
-                axios.get(`${API_BASE_URL}/api/examDates`)
+                axios.get(`${apiBaseUrl}/api/admitCard`),
+                axios.get(`${apiBaseUrl}/api/result`),
+                // axios.get(`${API_BASE_URL}/api/examDates`)
             ]);
 
             // Format type A data (admit cards)
@@ -58,23 +60,23 @@ const OverviewPage = () => {
             }));
 
             // Format type C data (exam dates)
-            const formattedTypeC = typeCResponse.data.map(item => ({
-                ...item,
-                category: 'schedule',
-                title: item.name || item.examName,
-                organization: item.abbreviation || item.organization,
-                date: item.examDate,
-                status: 'Upcoming',
-                documentType: 'Event'
-            }));
+            // const formattedTypeC = typeCResponse.data.map(item => ({
+            //     ...item,
+            //     category: 'schedule',
+            //     title: item.name || item.examName,
+            //     organization: item.abbreviation || item.organization,
+            //     date: item.examDate,
+            //     status: 'Upcoming',
+            //     documentType: 'Event'
+            // }));
 
             // Combine all updates
-            const combined = [...formattedTypeA, ...formattedTypeB, ...formattedTypeC];
+            const combined = [...formattedTypeA, ...formattedTypeB];
 
             // Sort by date (newest first)
             combined.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-            setAllUpdates(combined);
+            // setAllUpdates(combined);
 
             // Extract unique organizations
             const uniqueOrgs = [...new Set(combined.map(item => item.organization))]
@@ -83,36 +85,73 @@ const OverviewPage = () => {
 
             setOrganizations(uniqueOrgs);
             setIsLoading(false);
+
+            return combined;
         } catch (error) {
             console.error("Failed to fetch data:", error.message);
             setIsLoading(false);
+            if (error.response || error.request) {
+                if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                    const url = await CheckServer();
+                    setApiBaseUrl(url);
+                }
+                else {
+                    console.error('Error fetching state count:', error);
+                }
+            }
+            else {
+                console.error('Error fetching state count:', error);
+            }
         }
     };
 
+    const { data: allUpdates, isLoading2 } = useQuery({
+        queryKey: ["overview", apiBaseUrl],
+        queryFn: fetchData,
+        staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
+        cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
+        refetchOnMount: true, // ✅ Prevents refetch when component mounts again
+        refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+    });
     useEffect(() => {
-        fetchData();
-    }, []);
+        if (allUpdates) {
+            // Extract unique organizations
+            const uniqueOrgs = [...new Set(allUpdates.map(item => item.organization))]
+                .filter(Boolean)
+                .sort();
+
+            setOrganizations(uniqueOrgs);
+            setIsLoading(false);
+        }
+    }, [allUpdates])
+
+    // useEffect(() => {
+    //     fetchData();
+    // }, []);
 
     useEffect(() => {
-        const filterUpdates = () => {
-            const filtered = allUpdates.filter(item => {
-                const matchesOrg = selectedOrg === "all" ||
-                    item.organization?.toLowerCase() === selectedOrg.toLowerCase();
+        if (allUpdates) {
 
-                const matchesCategory = selectedCategory === "all" ||
-                    item.category === selectedCategory;
+            const filterUpdates = () => {
+                const filtered = allUpdates.filter(item => {
+                    const matchesOrg = selectedOrg === "all" ||
+                        item.organization?.toLowerCase() === selectedOrg.toLowerCase();
 
-                const matchesSearch = !searchQuery ||
-                    item.organization?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    item.title?.toLowerCase().includes(searchQuery.toLowerCase());
+                    const matchesCategory = selectedCategory === "all" ||
+                        item.category === selectedCategory;
 
-                return matchesOrg && matchesCategory && matchesSearch;
-            });
+                    const matchesSearch = !searchQuery ||
+                        item.organization?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        item.title?.toLowerCase().includes(searchQuery.toLowerCase());
 
-            setFilteredUpdates(filtered);
-        };
+                    return matchesOrg && matchesCategory && matchesSearch;
+                });
 
-        filterUpdates();
+                setFilteredUpdates(filtered);
+            };
+
+            filterUpdates();
+        }
     }, [searchQuery, selectedOrg, selectedCategory, allUpdates]);
 
     const toggleNotification = (id) => {
@@ -199,7 +238,7 @@ const OverviewPage = () => {
                             <span>View Details</span>
                             <ChevronRight className="h-4 w-4" />
                         </button>
-                        <button
+                        {/* <button
                             onClick={() => toggleNotification(item._id)}
                             className={`p-2.5 rounded-lg transition-all duration-200 
                 ${notifications[item._id]
@@ -208,7 +247,7 @@ const OverviewPage = () => {
                                 }`}
                         >
                             <Bell className={`h-5 w-5 ${notifications[item._id] ? colorScheme.icon : "text-gray-500"}`} />
-                        </button>
+                        </button> */}
                     </div>
                 </div>
             </div>
@@ -249,13 +288,13 @@ const OverviewPage = () => {
                                     Your complete overview of all notifications, documents and schedules
                                 </p>
                             </div>
-                            <button
+                            {/* <button
                                 onClick={handleRefresh}
                                 className="flex items-center gap-2 px-4 py-2 bg-indigo-50 text-indigo-700 rounded-lg hover:bg-indigo-100 transition-all duration-200 font-medium"
                             >
                                 <RefreshCcw className="h-4 w-4" />
                                 Refresh
-                            </button>
+                            </button> */}
                         </div>
 
                         <div className="flex flex-col md:flex-row gap-4">

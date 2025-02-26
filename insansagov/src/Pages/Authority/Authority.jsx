@@ -3,30 +3,16 @@ import OpportunityCarouselCard from '../../Components/OpportunityCarousel/Opport
 import ViewMoreButton from '../../Components/Buttons/ViewMoreButton';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
-import API_BASE_URL from '../config';
 import AuthorityLatestUpdates from '../../Components/Authority/AuthorityLatesUpdate';
 import RelatedAuthorities from '../../Components/Authority/RelatedAuthorities';
 import { RingLoader } from 'react-spinners';
 import no_data_image from '../../assets/Landing/no_data.jpg'
 import { Helmet } from 'react-helmet-async';
-
-const cards = [
-    { title: 'Exam Schedule 2025', authority: 'Education Board', latestUpdate: '1/1/2025' },
-    { title: 'Result Announcement', authority: 'University XYZ', latestUpdate: '12/25/2024' },
-    { title: 'Application Deadline', authority: 'Scholarship Authority', latestUpdate: '12/15/2024' },
-    { title: 'Course Enrollment', authority: 'Online Academy', latestUpdate: '11/30/2024' },
-    { title: 'Internship Program', authority: 'Tech Corp', latestUpdate: '11/20/2024' },
-    { title: 'Job Fair 2025', authority: 'Career Center', latestUpdate: '10/25/2024' },
-    { title: 'Exam Schedule 2025', authority: 'Education Board', latestUpdate: '1/1/2025' },
-    { title: 'Result Announcement', authority: 'University XYZ', latestUpdate: '12/25/2024' },
-    { title: 'Application Deadline', authority: 'Scholarship Authority', latestUpdate: '12/15/2024' },
-    { title: 'Course Enrollment', authority: 'Online Academy', latestUpdate: '11/30/2024' },
-    { title: 'Internship Program', authority: 'Tech Corp', latestUpdate: '11/20/2024' },
-    { title: 'Job Fair 2025', authority: 'Career Center', latestUpdate: '10/25/2024' }
-];
-
+import { CheckServer, useApi } from '../../Context/ApiContext';
+import { useQuery } from '@tanstack/react-query';
 
 const Authority = () => {
+    const { apiBaseUrl, setApiBaseUrl } = useApi();
     const [isExpanded, setIsExpanded] = useState(false);
     const [organization, setOrganization] = useState();
     const [latestUpdates, setLatestUpdates] = useState();
@@ -39,11 +25,9 @@ const Authority = () => {
     const queryParams = new URLSearchParams(location.search);
     const name = queryParams.get("name"); // Access the 'name' parameter
 
-    useEffect(() => {
-
-        const fetchOrganization = async () => {
-            const response = await axios.get(`${API_BASE_URL}/api/organization/${name}`);
-
+    const fetchOrganization = async () => {
+        try {
+            const response = await axios.get(`${apiBaseUrl}/api/organization/${name}`);
             if (response.status === 201) {
                 setOrganization(response.data.organization);
                 setRelatedOrganizations(response.data.relatedOrganizations.filter(org => org._id !== response.data.organization._id));
@@ -63,14 +47,59 @@ const Authority = () => {
                 setLatestUpdates(sortedUpdates);
                 setEvents(sortedUpdates);
                 setFilteredEvents(sortedUpdates.slice(0, 6));
-
-
+                return response.data;
 
             }
         }
+        catch (error) {
+            console.log(error.response);
+            if (error.response || error.request) {
+                if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                    console.log("RR");
+                    const url = await CheckServer();
+                    setApiBaseUrl(url);
+                }
+                else {
+                    console.error('Error fetching state count:', error);
+                }
+            }
+            else {
+                console.error('Error fetching state count:', error);
+            }
+        }
+    }
 
-        fetchOrganization();
-    }, [location])
+    const { data: data, isLoading } = useQuery({
+        queryKey: ["fetchOrganization/" + name, apiBaseUrl],
+        queryFn: fetchOrganization,
+        staleTime: Infinity, 
+        cacheTime: 24 * 60 * 60 * 1000, 
+        refetchOnMount: true, 
+        refetchOnWindowFocus: false, 
+    });
+
+    useEffect(() => {
+        if (data) {
+            setRelatedOrganizations(data.relatedOrganizations.filter(org => org._id !== data.organization._id));
+
+            const sortedUpdates = data.events.sort((a, b) => {
+                const dateA = new Date(a.notificationDate);
+                const dateB = new Date(b.notificationDate);
+
+                if (isNaN(dateA) || isNaN(dateB)) {
+                    return 0; 
+                }
+
+                return dateB - dateA; 
+            });
+
+            setLatestUpdates(sortedUpdates);
+            setEvents(sortedUpdates);
+            setFilteredEvents(sortedUpdates.slice(0, 6));
+
+            setOrganization(data.organization);
+        }
+    }, [data]);
 
 
 
@@ -84,9 +113,7 @@ const Authority = () => {
         }
     };
 
-    const visibleCards = isExpanded ? cards : cards.slice(0, 6);
-
-    if (!organization) {
+    if (isLoading || !organization) {
         return <div className='w-full h-screen flex justify-center'>
             <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
         </div>

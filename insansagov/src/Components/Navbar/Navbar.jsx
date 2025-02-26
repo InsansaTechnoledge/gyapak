@@ -3,7 +3,8 @@ import { Menu, X, ChevronDown, Search, MapPin, AlertTriangle } from 'lucide-reac
 import { useLocation, useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
 import axios from 'axios';
-import API_BASE_URL from '../../Pages/config';
+import { useApi, CheckServer } from '../../Context/ApiContext';
+import { useQuery } from '@tanstack/react-query';
 
 const categories = [
   { Nameid: 'Defense', name: 'Defense', icon: '🛡️' },
@@ -41,28 +42,54 @@ const StateIcon = ({ state, index }) => {
 };
 
 const Navbar = () => {
+  const { apiBaseUrl, setApiBaseUrl } = useApi();
   const location = useLocation();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(location.pathname === '/' ? false : true);
   const [searchQuery, setSearchQuery] = useState("");
   const [totalCount, setTotalCount] = useState(0);
-  const [states, setStates] = useState();
+  // const [states, setStates] = useState();
   const [suggestions, setSuggestions] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [logoVisible, setLogoVisible] = useState(false);
 
-  console.log('API_BASE_URL:', API_BASE_URL);
-  // Existing useEffects remain the same
-  useEffect(() => {
-    const fetchStates = async () => {
-      const response = await axios.get(`${API_BASE_URL}/api/state/list`);
+  const fetchStates = async () => {
+    try {
+      const response = await axios.get(`${apiBaseUrl}/api/state/list`);
       if (response.status === 200) {
-        setStates(response.data);
+        return response.data;
       }
     }
-    fetchStates();
-  }, []);
+    catch (error) {
+      if (error.response || error.request) {
+        if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+          const url = await CheckServer();
+          setApiBaseUrl(url);
+        }
+        else {
+          console.error('Error fetching state count:', error);
+        }
+      }
+      else {
+        console.error('Error fetching state count:', error);
+      }
+    }
+  }
+
+  // Existing useEffects remain the same
+  // useEffect(() => {
+  //   fetchStates();
+  // }, []);
+
+  const { data: states, isLoading } = useQuery({
+    queryKey: ["navbarStates", apiBaseUrl],
+    queryFn: fetchStates,
+    staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
+    cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
+    refetchOnMount: true, // ✅ Prevents refetch when component mounts again
+    refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+  })
 
   useEffect(() => {
     setIsScrolled(location.pathname === '/' ? false : true);
@@ -73,7 +100,7 @@ const Navbar = () => {
       if (window.scrollY > 20) {
         setLogoVisible(true);
       }
-      else{
+      else {
         setLogoVisible(false);
       }
 
@@ -128,12 +155,26 @@ const Navbar = () => {
     }
 
     try {
-      console.log('Fetching suggestions for:', API_BASE_URL);
-      const response = await axios.get(`${API_BASE_URL}/api/search/`, { params: { q: query } });
+      console.log('Fetching suggestions for:', apiBaseUrl);
+      const response = await axios.get(`${apiBaseUrl}/api/search/`, { params: { q: query } });
       setSuggestions(response.data.suggestions);
       setShowDropdown(true);
     } catch (error) {
       console.error('Error fetching suggestions:', error);
+      if (error.response) {
+        if (error.response.status >= 500 && error.response.status < 600) {
+          console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+          const url = CheckServer();
+          setApiBaseUrl(url);
+          fetchSuggestions();
+        }
+        else {
+          console.error('Error fetching state count:', error);
+        }
+      }
+      else {
+        console.error('Error fetching state count:', error);
+      }
     }
   }, 600);
 
@@ -164,7 +205,7 @@ const Navbar = () => {
   };
 
   return (
-    
+
     <nav className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-lg' : 'bg-transparent'}`}>
       <style>
         {`
@@ -187,31 +228,31 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-            {/* Desktop Component (Visible on sm and larger) */}
-            <a href="/" className="group hidden sm:block">
-              <div className="flex-shrink-0 flex items-center">
-                <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl flex items-center justify-center group-hover:from-purple-700 group-hover:to-blue-700 transition-all duration-300 shadow-md group-hover:shadow-lg">
-                  <span className="text-white text-xl pt-3 pb-4 px-4 font-bold">gyapak.in</span>
-                </div>
+          {/* Desktop Component (Visible on sm and larger) */}
+          <div onClick={() => navigate('/')} className="group hidden sm:block hover:cursor-pointer">
+            <div className="flex-shrink-0 flex items-center">
+              <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl flex items-center justify-center group-hover:from-purple-700 group-hover:to-blue-700 transition-all duration-300 shadow-md group-hover:shadow-lg">
+                <span className="text-white text-xl pt-3 pb-4 px-4 font-bold">gyapak.in</span>
               </div>
-            </a>
-        
-            {/* Mobile Component (Visible only on small screens) */}
-            {
-              logoVisible
+            </div>
+          </div>
+
+          {/* Mobile Component (Visible only on small screens) */}
+          {
+            logoVisible
               ?
               <div>
-              <a href="/" className="group block sm:hidden">
-                <div className="flex items-center">
-                  <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl flex items-center justify-center group-hover:from-purple-700 group-hover:to-blue-700 transition-all duration-300 shadow-md group-hover:shadow-lg">
-                    <span className="text-white text-xl pt-3 pb-4 px-4 font-bold">gyapak.in</span>
+                <div onClick={() => navigate('/')} className="group block sm:hidden">
+                  <div className="flex items-center">
+                    <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl flex items-center justify-center group-hover:from-purple-700 group-hover:to-blue-700 transition-all duration-300 shadow-md group-hover:shadow-lg">
+                      <span className="text-white text-xl pt-3 pb-4 px-4 font-bold">gyapak.in</span>
+                    </div>
                   </div>
                 </div>
-              </a>
               </div>
               :
               null
-            }
+          }
 
 
 
@@ -258,7 +299,6 @@ const Navbar = () => {
                 <div className="p-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Browse States</h3>
                   <div className="grid grid-cols-3 gap-4">
-                    {console.log(states)}
                     {states && states.map((state, index) => (
                       <StateIcon key={index} state={state} index={index} />
                     ))}

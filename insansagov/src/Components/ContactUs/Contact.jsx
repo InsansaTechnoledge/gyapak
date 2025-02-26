@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Clock, Send, X, Book, GraduationCap, Award, Users, BookOpen } from 'lucide-react';
 import PaperPlane from '../SubmitAnimation/PaperPlane';
 import axios from 'axios';
-import API_BASE_URL from '../../Pages/config';
+import { useApi, CheckServer } from '../../Context/ApiContext';
 
 const Contact = () => {
+    const { apiBaseUrl, setApiBaseUrl } = useApi();
     const [isSuccessPopupVisible, setIsSuccessPopupVisible] = useState(false);
     const [activeTab, setActiveTab] = useState('general');
     const [formData, setFormData] = useState({
@@ -29,13 +30,22 @@ const Contact = () => {
             id.classList.add("hidden");
             notid.classList.remove("blur-sm");
         }, 1500);
+//created object to add the website name  and passed it there 
+        const details={
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            email: formData.email,
+            subject: formData.subject,
+            message: formData.message,
+            recievedOn:'gyapak.in'
+        }
 
         try {
-            const response = await axios.post(`${API_BASE_URL}/api/contact/sendMail`, formData);
+            const response = await axios.post(`${apiBaseUrl}/api/contact/sendMail `, details);
             if (response.status === 201) {
-                await axios.post(`${API_BASE_URL}/api/contact/sendMailtoUser`, {
+                await axios.post(`${apiBaseUrl}/api/contact/sendMailtoUser`, {
                     firstName: formData.firstName,
-                    lastName: formData.lastName,
+                    lastName: formData.lastName, 
                     email: formData.email,
                 });
                 setIsSuccessPopupVisible(true);
@@ -49,6 +59,19 @@ const Contact = () => {
             }
         } catch (error) {
             console.error('Error sending email:', error);
+            if (error.response || error.request) {
+                if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                    const url = await CheckServer();
+                    setApiBaseUrl(url);
+                    setTimeout(()=>handleSubmit(),1000);
+                }
+                else {
+                    console.error('Error fetching state count:', error);
+                }
+            }
+            else {
+                console.error('Error fetching state count:', error);
+            }
         }
     };
 
@@ -123,8 +146,8 @@ const Contact = () => {
                                 key={category.id}
                                 onClick={() => setActiveTab(category.id)}
                                 className={`flex flex-col items-center p-6 rounded-xl transition-all duration-300 ${activeTab === category.id
-                                        ? 'bg-purple-800 text-white shadow-lg shadow-purple-200'
-                                        : 'bg-white text-gray-600 hover:bg-purple-100 hover:shadow-md'
+                                    ? 'bg-purple-800 text-white shadow-lg shadow-purple-200'
+                                    : 'bg-white text-gray-600 hover:bg-purple-100 hover:shadow-md'
                                     }`}
                             >
                                 <div className={`p-3 rounded-full mb-3 ${activeTab === category.id ? 'bg-white/20' : 'bg-purple-100'
@@ -288,7 +311,7 @@ const Contact = () => {
                                             activeTab === 'general' ? "Tell us how we can assist you..." :
                                                 activeTab === 'academic' ? "Describe what you're struggling with..." :
                                                     "Tell us about your career goals..."
-                                                    }
+                                        }
                                         required
                                     />
                                 </div>
@@ -308,7 +331,7 @@ const Contact = () => {
                         </div>
                     </div>
 
-                    
+
                 </div>
             </div>
         </>

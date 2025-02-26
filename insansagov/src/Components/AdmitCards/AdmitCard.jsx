@@ -1,53 +1,87 @@
 import React, { useEffect, useState } from "react";
-import { Calendar, Building2, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import API_BASE_URL from "../../Pages/config.js";
 import AdmitCardCard from "./AdmitCardCard";
+import { useApi, CheckServer } from "../../Context/ApiContext";
 
 const AdmitCardLanding = () => {
+    const { apiBaseUrl, setApiBaseUrl } = useApi();
     const [filter, setFilter] = useState("All");
     const navigate = useNavigate();
-    const [categories,setCategories] = useState();
+    const [categories, setCategories] = useState();
     const [filteredCards, setFilterCards] = useState();
-    const [admitCards,setAdmitCards] = useState();
+    const [admitCards, setAdmitCards] = useState();
 
     // const categories = ["All", "Civil Services", "Staff Selection", "Banking", "Defense"];    
 
-    useEffect(()=>{
+    useEffect(() => {
         const fetchAdmitCards = async () => {
-            const response = await axios.get(`${API_BASE_URL}/api/admitCard/`);
-            if(response.status===201){
-                setAdmitCards(response.data);
+            try {
+                const response = await axios.get(`${apiBaseUrl}/api/admitCard/`);
+                if (response.status === 201) {
+                    setAdmitCards(response.data);
+                }
+            }
+            catch (error) {
+                if (error.response || error.request) {
+                    if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                        const url = await CheckServer();
+                        setApiBaseUrl(url);
+                    }
+                    else {
+                        console.error('Error fetching state count:', error);
+                    }
+                }
+                else {
+                    console.error('Error fetching state count:', error);
+                }
             }
         }
 
         const fetchCategories = async () => {
-            const response = await axios.get(`${API_BASE_URL}/api/category/getcategories`);
-            if(response.status===201){
-                setCategories(response.data.map(cat => cat.category));
-                setCategories(prev => ([
-                    "All",
-                    ...prev
-                ]))
+            try {
 
+                const response = await axios.get(`${apiBaseUrl}/api/category/getcategories`);
+                if (response.status === 201) {
+                    setCategories(response.data.map(cat => cat.category));
+                    setCategories(prev => ([
+                        "All",
+                        ...prev
+                    ]))
+
+                }
+            }
+            catch (error) {
+                if (error.response || error.request) {
+                    if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                        const url = await CheckServer();
+                        setApiBaseUrl(url);
+                    }
+                    else {
+                        console.error('Error fetching state count:', error);
+                    }
+                }
+                else {
+                    console.error('Error fetching state count:', error);
+                }
             }
         }//test comment
         fetchAdmitCards();
         fetchCategories();
-    },[]);
+    }, [apiBaseUrl]);
 
-    useEffect(()=>{
-                if(categories && admitCards){
-                    setFilterCards(Array.isArray(admitCards)
-                    ? admitCards.filter((card) => {
-                        const matchesFilter = filter === "All" || card.category === filter;
-                        return matchesFilter;
-                    })
-                    : []);
-                
-                }
-            },[categories, admitCards, filter]);
+    useEffect(() => {
+        if (categories && admitCards) {
+            setFilterCards(Array.isArray(admitCards)
+                ? admitCards.filter((card) => {
+                    const matchesFilter = filter === "All" || card.category === filter;
+                    return matchesFilter;
+                })
+                : []);
+
+        }
+    }, [categories, admitCards, filter]);
 
     const viewAllAdmitCards = () => {
         navigate("/admit-card");
@@ -79,8 +113,8 @@ const AdmitCardLanding = () => {
                 <div className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {filteredCards.slice(0, 3).map((card, index) => (
-                            <AdmitCardCard card={card} key={index}/>
-                            
+                            <AdmitCardCard card={card} key={index} />
+
                         ))}
                     </div>
 

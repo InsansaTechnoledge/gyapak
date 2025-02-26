@@ -13,7 +13,6 @@ import ContactDetailsSection from "../../Components/OpportunityPageComponents/Co
 import ImportantLinksSection from "../../Components/OpportunityPageComponents/ImportantLinksSection";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import API_BASE_URL from "../config";
 import LocationSection from "../../Components/OpportunityPageComponents/LocationSection";
 import PositionSection from "../../Components/OpportunityPageComponents/PositionSection";
 import SalarySection from "../../Components/OpportunityPageComponents/SalarySection";
@@ -21,96 +20,11 @@ import SelectionSection from "../../Components/OpportunityPageComponents/Selecti
 import AdditionalDetailsSection from "../../Components/OpportunityPageComponents/AdditionalDetailsSection";
 import { RingLoader } from "react-spinners";
 import { Helmet } from "react-helmet-async";
+import { useQuery } from "@tanstack/react-query";
+import { useApi, CheckServer } from "../../Context/ApiContext";
 
 const ModernExamDetailsPage = () => {
-  // const data = {
-  //   name: "Combined Defence Services Examination (I), 2025",
-  //   date_of_notification: "11-12-2024",
-  //   date_of_commencement: "13-04-2025",
-  //   end_date: "31-12-2024",
-  //   apply_link: "https://upsconline.gov.in",
-  //   document_links: [
-  //     "http://upsc.gov.in",
-  //     "https://upsconline.gov.in/miscellaneous/QPRep",
-  //     "http://www.joinindianarmy.nic.in",
-  //     "http://www.joinindiannavy.gov.in",
-  //   ],
-  //   details: {
-  //     vacancies: {
-  //       total: 457,
-  //       breakdown: {
-  //         IMA: 100,
-  //         INA: 32,
-  //         Air_Force_Academy: 32,
-  //         OTA_Men: 275,
-  //         OTA_Women: 18,
-  //       },
-  //     },
-  //     eligibility: {
-  //       nationality: [
-  //         "Indian citizen",
-  //         "Subject of Nepal",
-  //         "Person of Indian origin migrated from specified countries",
-  //       ],
-  //       age_limits: {
-  //         IMA: "Born between 02-01-2002 and 01-01-2007",
-  //         INA: "Born between 02-01-2002 and 01-01-2007",
-  //         Air_Force_Academy: "Born between 02-01-2002 and 01-01-2006",
-  //         OTA_Men: "Born between 02-01-2001 and 01-01-2007",
-  //         OTA_Women: "Born between 02-01-2001 and 01-01-2007",
-  //       },
-  //       education: {
-  //         IMA: "Degree of a recognized University or equivalent",
-  //         INA: "Degree in Engineering from a recognized University/Institution",
-  //         Air_Force_Academy: "Degree with Physics and Mathematics at 10+2 or Bachelor of Engineering",
-  //         OTA: "Degree of a recognized University or equivalent",
-  //       },
-  //     },
-  //     fee_details: {
-  //       amount: "₹200",
-  //       exempted_categories: ["Female", "SC/ST"],
-  //     },
-  //     important_dates: {
-  //       modification_window: "01-01-2025 to 07-01-2025",
-  //       results: "May 2025",
-  //       SSB_interviews: "August–December 2025",
-  //     },
-  //     exam_centers: [
-  //       "Agartala",
-  //       "Ghaziabad",
-  //       "Navi Mumbai",
-  //       "Chennai",
-  //       "Delhi",
-  //       "Hyderabad",
-  //       "Kolkata",
-  //       "Mumbai",
-  //       "Lucknow",
-  //       "Bengaluru",
-  //     ],
-  //     contact_details: {
-  //       facilitation_counter: "011-23381125, 011-23385271, 011-23098543",
-  //       address: "UPSC Office, Gate C, New Delhi",
-  //     },
-  //     scheme_of_exam: {
-  //       IMA_INA_AirForce: {
-  //         subjects: {
-  //           English: 100,
-  //           General_Knowledge: 100,
-  //           Elementary_Mathematics: 100,
-  //         },
-  //         total_marks: 300,
-  //       },
-  //       OTA: {
-  //         subjects: {
-  //           English: 100,
-  //           General_Knowledge: 100,
-  //         },
-  //         total_marks: 200,
-  //       },
-  //     },
-  //   },
-  // };
-
+  const { apiBaseUrl, setApiBaseUrl } = useApi();
   const location = useLocation();
   // Parse the query parameters
   const queryParams = new URLSearchParams(location.search);
@@ -119,21 +33,55 @@ const ModernExamDetailsPage = () => {
   const [organization, setOrganization] = useState();
   const existingSections = ['document_links', 'vacancies']
 
-  useEffect(() => {
-    const fetchEvent = async () => {
-      const response = await axios.get(`${API_BASE_URL}/api/event/${examId}`);
+  const fetchEvent = async () => {
+    try {
+
+      const response = await axios.get(`${apiBaseUrl}/api/event/${examId}`);
 
       if (response.status === 200) {
         console.log(response.data);
         setData(response.data.exam);
         setOrganization(response.data.organization.name);
+        return response.data;
       }
     }
+    catch (error) {
+      if (error.response || error.request) {
+        if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+          const url = await CheckServer();
+          setApiBaseUrl(url);
+        }
+        else {
+          console.error('Error fetching state count:', error);
+        }
+      }
+      else {
+        console.error('Error fetching state count:', error);
+      }
+    }
+  }
+  // useEffect(() => {
 
-    fetchEvent();
-  }, [])
+  //   fetchEvent();
+  // }, [])
 
-  if (!data && !organization) {
+  const { data: completeData, isLoading } = useQuery({
+    queryKey: ["opportunity/" + examId, apiBaseUrl],
+    queryFn: fetchEvent,
+    staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
+    cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
+    refetchOnMount: true, // ✅ Prevents refetch when component mounts again
+    refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+  })
+
+  useEffect(() => {
+    if (completeData) {
+      setData(completeData.exam);
+      setOrganization(completeData.organization.name);
+    }
+  }, [completeData])
+
+  if (isLoading || (!data && !organization)) {
     return <div className='w-full h-screen flex justify-center'>
       <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
     </div>

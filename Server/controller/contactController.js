@@ -24,14 +24,15 @@ if(process.env.NODE_ENV !== "production"){
   });
 
 export const sendMailtoQueries = async (req, res) => {
-    const {firstName, lastName, email,subject, message} = req.body;
+    const {firstName, lastName, email,subject, message,recievedOn} = req.body;
 try{
     const mailOptions={
     from: process.env.EMAIL, 
     to: process.env.EMAIL1,  
     replyTo: email,           
-    subject: `New Query from ${firstName} ${lastName}`,
+    subject: `New Query from ${firstName} ${lastName} on ${recievedOn}`,
     text: `
+      receivedOn: ${recievedOn}
       Name: ${firstName} ${lastName}
       Email: ${email}
       Subject: ${subject}

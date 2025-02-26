@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Search, Calendar, Building2, Filter } from "lucide-react";
 import axios from "axios";
-import API_BASE_URL from "../config";
 import { Helmet } from "react-helmet-async";
+import { useApi, CheckServer } from "../../Context/ApiContext";
 
 
 const Results = () => {
+    const { apiBaseUrl, setApiBaseUrl } = useApi();
     const [search, setSearch] = useState("");
     const [filter, setFilter] = useState("All");
     const [categories, setCategories] = useState();
@@ -16,26 +17,60 @@ const Results = () => {
 
     useEffect(() => {
         const fetchResults = async () => {
-            const response = await axios.get(`${API_BASE_URL}/api/result/`);
-            if (response.status === 201) {
-                setResults(response.data);
+            try {
+
+                const response = await axios.get(`${apiBaseUrl}/api/result/`);
+                if (response.status === 201) {
+                    setResults(response.data);
+                }
+            }
+            catch (error) {
+                if (error.response || error.request) {
+                    if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                        const url = await CheckServer();
+                        setApiBaseUrl(url);
+                    }
+                    else {
+                        console.error('Error fetching state count:', error);
+                    }
+                }
+                else {
+                    console.error('Error fetching state count:', error);
+                }
             }
         }
 
         const fetchCategories = async () => {
-            const response = await axios.get(`${API_BASE_URL}/api/category/getcategories`);
-            if (response.status === 201) {
-                setCategories(response.data.map(cat => cat.category));
-                setCategories(prev => ([
-                    "All",
-                    ...prev
-                ]))
+            try {
 
+                const response = await axios.get(`${apiBaseUrl}/api/category/getcategories`);
+                if (response.status === 201) {
+                    setCategories(response.data.map(cat => cat.category));
+                    setCategories(prev => ([
+                        "All",
+                        ...prev
+                    ]))
+
+                }
+            }
+            catch (error) {
+                if (error.response || error.request) {
+                    if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                        const url = await CheckServer();
+                        setApiBaseUrl(url);
+                    }
+                    else {
+                        console.error('Error fetching state count:', error);
+                    }
+                }
+                else {
+                    console.error('Error fetching state count:', error);
+                }
             }
         }
         fetchResults();
         fetchCategories();
-    }, []);
+    }, [apiBaseUrl]);
 
     useEffect(() => {
         if (categories && results) {

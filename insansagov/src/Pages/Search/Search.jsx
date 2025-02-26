@@ -3,7 +3,6 @@ import Search from '../../Components/Search/Search'
 import TopAuthorities from '../../Components/Authority/TopAuthorities'
 import { useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import API_BASE_URL from '../config'
 import RelatedAuthorities from '../../Components/Authority/RelatedAuthorities'
 import RelatedCategories from '../../Components/Categories/RelatedCategories'
 import RelatedStates from '../../Components/States/RelatedStates'
@@ -13,28 +12,65 @@ import MoreCategories from '../../Components/Authority/MoreCategories'
 import { RingLoader } from 'react-spinners'
 import no_search_image from '../../assets/Landing/no_search.jpg'
 import { Helmet } from 'react-helmet-async'
+import { useApi, CheckServer } from '../../Context/ApiContext'
+import { useQuery } from '@tanstack/react-query'
 
 const SearchPage = () => {
+  const { apiBaseUrl, setApiBaseUrl } = useApi();
   const location = useLocation();
   const [query, setQuery] = useState();
   const queryParams = new URLSearchParams(location.search);
-  const [searchData, setSearchData] = useState();
+  // const [searchData, setSearchData] = useState();
   const navigate = useNavigate();
+  const queryData = queryParams.get("query");
 
-  useEffect(() => {
-    const fetchSearch = async () => {
-      const queryData = queryParams.get("query");
+  const fetchSearch = async () => {
+    try {
+
       setQuery(queryData);
-      const response = await axios.get(`${API_BASE_URL}/api/search/result/${queryData}`);
+      const response = await axios.get(`${apiBaseUrl}/api/search/result/${queryData}`);
 
       if (response.status === 200) {
         console.log(response.data);
-        setSearchData(response.data);
+        return response.data;
       }
     }
+    catch (error) {
+      if (error.response || error.request) {
+        if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+          const url = await CheckServer();
+          setApiBaseUrl(url);
+        }
+        else {
+          console.error('Error fetching state count:', error);
+        }
+      }
+      else {
+        console.error('Error fetching state count:', error);
+      }
+    }
+  }
 
-    fetchSearch();
-  }, [location])
+  const { data: searchData, isLoading } = useQuery({
+    queryKey: ["search/" + queryData, apiBaseUrl],
+    queryFn: fetchSearch,
+    staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
+    cacheTime: 5 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
+    refetchOnMount: true, // ✅ Prevents refetch when component mounts again
+    refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+  });
+
+  useEffect(() => {
+    if (searchData) {
+      setQuery(queryData);
+    }
+  }, [searchData])
+
+  // useEffect(() => {
+
+
+  //   fetchSearch();
+  // }, [location])
 
   const searchHandler = (input) => {
     navigate(`/search?query=${encodeURIComponent(input)}`);

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import API_BASE_URL from '../config.js';
 import { RingLoader } from 'react-spinners';
+import { useApi, CheckServer } from '../../Context/ApiContext';
+import { Helmet } from 'react-helmet-async';
 
 const UnsubscribePage = () => {
+    const { apiBaseUrl, setApiBaseUrl } = useApi();
     const [unsubscribedmsg, setUnsubscribedMsg] = useState();
     const [errorMessage, setErrorMessage] = useState('');
     const [isProcessing, setIsProcessing] = useState(false); // State to show loading during API call
@@ -20,8 +22,6 @@ const UnsubscribePage = () => {
     }, [token])
     const handleUnsubscribe = async () => {
 
-
-
         if (!token) {
             setErrorMessage('Invalid or missing token.');
             return;
@@ -31,7 +31,7 @@ const UnsubscribePage = () => {
         setErrorMessage(''); // Clear any previous error
 
         try {
-            const response = await axios.post(`${API_BASE_URL}/api/subscriber/unsubscribe`, { token });
+            const response = await axios.post(`${apiBaseUrl}/api/subscriber/unsubscribe`, { token });
 
             if (response.status === 201) {
                 setUnsubscribedMsg(response.data);
@@ -44,6 +44,19 @@ const UnsubscribePage = () => {
             }
         } catch (error) {
             console.error('Error unsubscribing:', error);
+            if (error.response || error.request) {
+                if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                    const url = await CheckServer();
+                    setApiBaseUrl(url);
+                    setTimeout(()=>handleUnsubscribe(),1000);
+                }
+                else {
+                    console.error('Error fetching state count:', error);
+                }
+            }
+            else {
+                console.error('Error fetching state count:', error);
+            }
 
             if (error.response) {
                 setErrorMessage(error.response.data.message || 'An error occurred. Please try again.');

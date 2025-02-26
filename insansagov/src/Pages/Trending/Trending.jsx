@@ -10,10 +10,12 @@ import {
     ChevronRight,
 } from "lucide-react";
 import BackButton from "../../Components/BackButton/BackButton";
-import API_BASE_URL from "../config";
 import { Helmet } from "react-helmet-async";
+import { useApi, CheckServer } from "../../Context/ApiContext";
+import { useQuery } from "@tanstack/react-query";
 
 const TrendingPage = ({ trendingItems = [] }) => {
+    const { apiBaseUrl, setApiBaseUrl } = useApi();
     const [searchQuery, setSearchQuery] = React.useState("");
     const [selectedOrg, setSelectedOrg] = React.useState("all");
     const [activeTab, setActiveTab] = React.useState("all");
@@ -25,8 +27,8 @@ const TrendingPage = ({ trendingItems = [] }) => {
     const fetchData = async () => {
         try {
             const [admitCardsResponse, resultsResponse] = await Promise.all([
-                axios.get(`${API_BASE_URL}/api/admitCard`),
-                axios.get(`${API_BASE_URL}/api/result`)
+                axios.get(`${apiBaseUrl}/api/admitCard`),
+                axios.get(`${apiBaseUrl}/api/result`)
             ]);
 
             const formattedAdmitCards = admitCardsResponse.data.map(card => ({
@@ -46,15 +48,36 @@ const TrendingPage = ({ trendingItems = [] }) => {
             }));
 
             setAdmitCards(formattedAdmitCards);
-            setResults(formattedResults);
+            // setResults(formattedResults);
+            return [formattedResults,formattedAdmitCards];
+
         } catch (error) {
             console.error("Failed to fetch data:", error.message);
+            if (error.response || error.request) {
+                if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+                    const url = await CheckServer();
+                    setApiBaseUrl(url);
+                }
+                else {
+                    console.error('Error fetching state count:', error);
+                }
+            }
+            else {
+                console.error('Error fetching state count:', error);
+            }
         }
     };
+    
+    const {data:formattedData, isLoading} = useQuery({
+        queryKey:["trending",apiBaseUrl],
+        queryFn: fetchData,
+
+    })
 
     useEffect(() => {
-        fetchData();
-    }, []);
+        setResults(formattedData[0]);
+        setAdmitCards(formattedData[1]);
+    }, [formattedData]);
 
     useEffect(() => {
         const filterItems = () => {

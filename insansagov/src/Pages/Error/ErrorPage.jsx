@@ -2,7 +2,10 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
-const ErrorPage = () => {
+const ErrorPage = ({code,message, subMessage}) => {
+    
+    
+
     const navigate = useNavigate();
 
     const handleGoBack = () => {
@@ -23,10 +26,10 @@ const ErrorPage = () => {
                 <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
             </Helmet>
             <div className="flex flex-col items-center justify-center min-h-screen bg-white text-gray-800">
-                <h1 className="text-6xl font-bold text-purple-500 mb-4">404</h1>
-                <h2 className="text-2xl font-semibold mb-4">Oops! Page Not Found</h2>
+                <h1 className="text-6xl font-bold text-purple-500 mb-4">{code}</h1>
+                <h2 className="text-2xl font-semibold mb-4">{message}</h2>
                 <p className="text-lg mb-6">
-                    The page you’re looking for doesn’t exist or has been moved.
+                    {subMessage}
                 </p>
                 <div className="flex space-x-4">
                     <button
