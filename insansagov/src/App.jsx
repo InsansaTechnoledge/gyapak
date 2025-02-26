@@ -2,40 +2,44 @@ import PageLinks from "./PageLinks";
 import React from 'react';
 import { Helmet } from "react-helmet-async";
 import { useState, useEffect } from 'react';
-import { CheckServer, setApiBaseUrl} from "./Pages/config";
-
-
+import { CheckServer, setApiBaseUrl } from "./Pages/config";
 
 const App = () => {
-const [confirmUrl, setconfirmUrl] = useState(null);
-const [error, setError] = useState(null);
-
+  const [confirmUrl, setConfirmUrl] = useState(null);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    async function findWorkingApiBaseUrl () {
- 
+    async function findWorkingApiBaseUrl() {
       try {
+        setIsLoading(true);
         const url = await CheckServer();
-        if (url){
-      
-        setconfirmUrl(url);
-        setApiBaseUrl(url)
-        }
-        else{
-          setError("🚨 No API servers are available!");
-        }
 
+        if (url) {
+          console.log("Found working URL:", url);
+          setConfirmUrl(url);
+          setApiBaseUrl(url);
+          setError(null);
+        } else {
+          console.error("No working servers found");
+          setError("🚨 No API servers are available!");
+          setConfirmUrl(null);
+        }
       } catch (err) {
         console.error('Error in initializing server:', err);
         setError("🚨 No API servers are available!");
+        setConfirmUrl(null);
+      } finally {
+        setIsLoading(false);
       }
-  
-  }
+    }
+
     findWorkingApiBaseUrl();
   }, []);
 
-  if (!confirmUrl && !error) return <h2>🔄 Checking API Availability...</h2>;
+  if (isLoading) return <h2>🔄 Checking API Availability...</h2>;
   if (error) return <h2>❌ {error}</h2>;
+
   return (
     <>
       <Helmet>
@@ -49,8 +53,7 @@ const [error, setError] = useState(null);
         <PageLinks />
       </div>
     </>
-  )
-}
+  );
+};
 
-export default App
- 
+export default App;

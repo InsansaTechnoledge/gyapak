@@ -1,4 +1,5 @@
 import axios from "axios";
+
 export const SERVER_URLS = [
   // "https://gyapak-2.onrender.com",
   // "https://gyapak.onrender.com",
@@ -6,11 +7,10 @@ export const SERVER_URLS = [
   "http://localhost:5000",
   "http://localhost:5001",
   "http://localhost:5002",
-  "http://localhost:3000"
+  "http://localhost:8000"
 ];
 
-// let API_BASE_URL = "https://gyapak-2.onrender.com";
-let API_BASE_URL = null;
+let API_BASE_URL = SERVER_URLS[0];
 
 export const setApiBaseUrl = (url) => {
   API_BASE_URL = url;
@@ -20,16 +20,24 @@ export const setApiBaseUrl = (url) => {
 export const CheckServer = async () => {
   for (let url of SERVER_URLS) {
     try {
-      const response = await axios.get(`${url}`);
+      console.log(`Checking server: ${url}`);
+      const response = await axios.get(`${url}`, { timeout: 5000 });
+      
+      // Add more detailed logging
+      console.log(`Response from ${url}:`, response.data);
+      
       if (response.data === "Server is running perfectly !!") {
-        setApiBaseUrl(url); // ✅ Store working API
-        return url; // ✅ Return working API URL
+        console.log(`✅ Server ${url} is working`);
+        setApiBaseUrl(url);
+        return url;
       }
     } catch (err) {
       console.warn(`❌ Failed: ${url}`, err.message);
     }
   }
-  return null; 
+  return null;
 };
+
+export const getApiBaseUrl = () => API_BASE_URL;
 
 export default API_BASE_URL;

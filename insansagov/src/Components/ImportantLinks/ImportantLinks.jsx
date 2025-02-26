@@ -13,14 +13,14 @@ const ImportantLinksDashboard = () => {
 
     useEffect(() => {
         const fetchImportantLinks = async () => {
-            const response = await axios.get(`${API_BASE_URL}/api/importantLinks/`);
+            const response = await axios.get(`${API_BASE_URL}/api/admitcards/`);
             if (response.status === 201) {
                 setImportantLinks(response.data);
             }
         };
 
         const fetchCategories = async () => {
-            const response = await axios.get(`${API_BASE_URL}/api/category/getcategories`);
+            const response = await axios.get(`${API_BASE_URL}/api/category/results`);
             if (response.status === 201) {
                 setCategories(response.data.map(cat => cat.category));
                 setCategories(prev => ([
