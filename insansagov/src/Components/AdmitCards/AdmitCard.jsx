@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Calendar, Building2, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
 import AdmitCardCard from "./AdmitCardCard";
 import { useApi, CheckServer } from "../../Context/ApiContext";
 

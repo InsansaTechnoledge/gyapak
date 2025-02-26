@@ -113,8 +113,6 @@ const OverviewPage = () => {
         refetchOnMount: true, // ✅ Prevents refetch when component mounts again
         refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
     });
-
-    console.log(allUpdates);
     useEffect(() => {
         if (allUpdates) {
             // Extract unique organizations
@@ -240,7 +238,7 @@ const OverviewPage = () => {
                             <span>View Details</span>
                             <ChevronRight className="h-4 w-4" />
                         </button>
-                        <button
+                        {/* <button
                             onClick={() => toggleNotification(item._id)}
                             className={`p-2.5 rounded-lg transition-all duration-200 
                 ${notifications[item._id]
@@ -249,7 +247,7 @@ const OverviewPage = () => {
                                 }`}
                         >
                             <Bell className={`h-5 w-5 ${notifications[item._id] ? colorScheme.icon : "text-gray-500"}`} />
-                        </button>
+                        </button> */}
                     </div>
                 </div>
             </div>
@@ -290,13 +288,13 @@ const OverviewPage = () => {
                                     Your complete overview of all notifications, documents and schedules
                                 </p>
                             </div>
-                            <button
+                            {/* <button
                                 onClick={handleRefresh}
                                 className="flex items-center gap-2 px-4 py-2 bg-indigo-50 text-indigo-700 rounded-lg hover:bg-indigo-100 transition-all duration-200 font-medium"
                             >
                                 <RefreshCcw className="h-4 w-4" />
                                 Refresh
-                            </button>
+                            </button> */}
                         </div>
 
                         <div className="flex flex-col md:flex-row gap-4">

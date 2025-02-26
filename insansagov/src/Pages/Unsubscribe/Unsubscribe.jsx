@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { RingLoader } from 'react-spinners';
 import { useApi, CheckServer } from '../../Context/ApiContext';
+import { Helmet } from 'react-helmet-async';
 
 const UnsubscribePage = () => {
     const { apiBaseUrl, setApiBaseUrl } = useApi();

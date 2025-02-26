@@ -11,22 +11,6 @@ import { Helmet } from 'react-helmet-async';
 import { CheckServer, useApi } from '../../Context/ApiContext';
 import { useQuery } from '@tanstack/react-query';
 
-const cards = [
-    { title: 'Exam Schedule 2025', authority: 'Education Board', latestUpdate: '1/1/2025' },
-    { title: 'Result Announcement', authority: 'University XYZ', latestUpdate: '12/25/2024' },
-    { title: 'Application Deadline', authority: 'Scholarship Authority', latestUpdate: '12/15/2024' },
-    { title: 'Course Enrollment', authority: 'Online Academy', latestUpdate: '11/30/2024' },
-    { title: 'Internship Program', authority: 'Tech Corp', latestUpdate: '11/20/2024' },
-    { title: 'Job Fair 2025', authority: 'Career Center', latestUpdate: '10/25/2024' },
-    { title: 'Exam Schedule 2025', authority: 'Education Board', latestUpdate: '1/1/2025' },
-    { title: 'Result Announcement', authority: 'University XYZ', latestUpdate: '12/25/2024' },
-    { title: 'Application Deadline', authority: 'Scholarship Authority', latestUpdate: '12/15/2024' },
-    { title: 'Course Enrollment', authority: 'Online Academy', latestUpdate: '11/30/2024' },
-    { title: 'Internship Program', authority: 'Tech Corp', latestUpdate: '11/20/2024' },
-    { title: 'Job Fair 2025', authority: 'Career Center', latestUpdate: '10/25/2024' }
-];
-
-
 const Authority = () => {
     const { apiBaseUrl, setApiBaseUrl } = useApi();
     const [isExpanded, setIsExpanded] = useState(false);
@@ -88,27 +72,25 @@ const Authority = () => {
     const { data: data, isLoading } = useQuery({
         queryKey: ["fetchOrganization/" + name, apiBaseUrl],
         queryFn: fetchOrganization,
-        staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
-        cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
-        refetchOnMount: true, // ✅ Prevents refetch when component mounts again
-        refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+        staleTime: Infinity, 
+        cacheTime: 24 * 60 * 60 * 1000, 
+        refetchOnMount: true, 
+        refetchOnWindowFocus: false, 
     });
 
     useEffect(() => {
         if (data) {
-            console.log(data);
             setRelatedOrganizations(data.relatedOrganizations.filter(org => org._id !== data.organization._id));
 
             const sortedUpdates = data.events.sort((a, b) => {
                 const dateA = new Date(a.notificationDate);
                 const dateB = new Date(b.notificationDate);
 
-                // Check if the dates are valid, in case some of the dates are 'Not specified'
                 if (isNaN(dateA) || isNaN(dateB)) {
-                    return 0; // Leave invalid dates in their original order
+                    return 0; 
                 }
 
-                return dateB - dateA; // Descending order
+                return dateB - dateA; 
             });
 
             setLatestUpdates(sortedUpdates);
@@ -116,15 +98,8 @@ const Authority = () => {
             setFilteredEvents(sortedUpdates.slice(0, 6));
 
             setOrganization(data.organization);
-            // setLatestUpdates(sortedUpdates);
-            // setEvents(sortedUpdates);
-            // setFilteredEvents(sortedUpdates.slice(0, 6));
         }
     }, [data]);
-    // useEffect(() => {
-
-    //     fetchOrganization();
-    // }, [location])
 
 
 
@@ -137,8 +112,6 @@ const Authority = () => {
             setFilteredEvents(events.slice(0, 6));
         }
     };
-
-    const visibleCards = isExpanded ? cards : cards.slice(0, 6);
 
     if (isLoading || !organization) {
         return <div className='w-full h-screen flex justify-center'>

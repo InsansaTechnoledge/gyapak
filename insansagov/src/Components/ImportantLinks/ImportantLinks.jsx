@@ -9,9 +9,7 @@ const ImportantLinksDashboard = () => {
     const { apiBaseUrl, setApiBaseUrl } = useApi();
     const [filter, setFilter] = useState("All");
     const navigate = useNavigate();
-    // const [categories, setCategories] = useState();
     const [filteredLinks, setFilteredLinks] = useState();
-    // const [importantLinks, setImportantLinks] = useState();  
 
     const fetchImportantLinks = async () => {
         try {
@@ -21,9 +19,10 @@ const ImportantLinksDashboard = () => {
             ]);
 
             if (response1.status === 201 && response2.status === 201) {
-                const mergedData = [...response1.data, ...response2.data]; // ✅ Merge arrays correctly
-                return mergedData; // ✅ Return the data for useQuery
+                const mergedData = [...response1.data, ...response2.data]; 
+                return mergedData; 
             }
+            return [];
         } catch (error) {
             console.error("Error fetching important links:", error);
             if (error.response || error.request) {
@@ -57,10 +56,6 @@ const ImportantLinksDashboard = () => {
             if (response.status === 201) {
                 const categories = response.data.map(cat => cat.category);
                 categories.unshift("All");
-                // setCategories(prev => ([
-                //     "All",
-                //     ...prev
-                // ]));
                 return categories
             }
         }
@@ -88,12 +83,6 @@ const ImportantLinksDashboard = () => {
         refetchOnMount: true, // ✅ Prevents refetch when component mounts again
         refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
     });
-
-    // useEffect(() => {
-
-    //     fetchImportantLinks();
-    //     fetchCategories();
-    // }, []);
 
     useEffect(() => {
         if (categories && importantLinks) {
