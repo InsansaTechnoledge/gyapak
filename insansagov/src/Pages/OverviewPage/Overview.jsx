@@ -258,7 +258,7 @@ const OverviewPage = () => {
         { id: "all", label: "All Updates", icon: Filter },
         { id: "documents", label: "Documents", icon: FileText },
         { id: "updates", label: "Updates", icon: Clock },
-        { id: "schedule", label: "Schedule", icon: Calendar },
+        // { id: "schedule", label: "Schedule", icon: Calendar },
     ];
 
     return (
