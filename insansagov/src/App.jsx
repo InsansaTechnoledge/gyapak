@@ -18,8 +18,7 @@ const App = () => {
         <PageLinks />
       </div>
     </>
-  )
-}
+  );
+};
 
-export default App
- 
+export default App;
