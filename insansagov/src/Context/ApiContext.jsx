@@ -3,6 +3,7 @@ import axios from 'axios';
 import { RingLoader } from 'react-spinners';
 import ErrorPage from '../Pages/Error/ErrorPage';
 import ServerPage from '../Pages/Error/ServerPage';
+import { use } from 'react';
 
 
 const ApiContext = createContext();
@@ -59,6 +60,16 @@ export const SERVER_URLS = [
   
       Check();
     }, []);
+
+    useEffect(() => {
+      if (!apiBaseUrl) {
+        setError("🚨 No API servers are available!");
+      }
+      else{
+        setError(null);
+      }
+
+    }, [apiBaseUrl]);
   
     if (loading) {
       return (
@@ -77,6 +88,8 @@ export const SERVER_URLS = [
   
   export const useApi = () => {
     const context = useContext(ApiContext);
+    console.log("🚀 Using API:", context.apiBaseUrl);
+
     if (!context) {
       throw new Error("useApi must be used within an ApiProvider");
     }
