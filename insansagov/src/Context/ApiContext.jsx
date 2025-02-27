@@ -10,10 +10,10 @@ const ApiContext = createContext();
 
 
 export const SERVER_URLS = [
-    "https://gyapak-2.onrender.com",
-    "https://gyapak.onrender.com",
-    "https://gyapak-3.onrender.com",
-    // "http://localhost:5000",
+    // "https://gyapak-2.onrender.com",
+    // "https://gyapak.onrender.com",
+    // "https://gyapak-3.onrender.com",
+    "http://localhost:5000",
     // "http://localhost:5001",
     // "http://localhost:5002",
     // "http://localhost:3000"
@@ -24,7 +24,7 @@ export const SERVER_URLS = [
       try {
         const response = await axios.get(`${url}`);
         if (response.data === "Server is running perfectly !!") {
-          console.log("🚀 Using API:", url);
+          // console.log("🚀 Using API:", url);
           return url; // ✅ Return working API URL
         }
       } catch (err) {

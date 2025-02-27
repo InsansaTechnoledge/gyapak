@@ -1,17 +1,20 @@
 
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Mail, ArrowRight, AlertTriangle, Twitter, Linkedin } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useApi, CheckServer } from '../../Context/ApiContext';
 import axios from 'axios';
+import { RingLoader } from 'react-spinners';
 
 const Footer = () => {
 
   const { apiBaseUrl, setApiBaseUrl } = useApi();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const email = e.target.email.value;
       const name = email.split('@')[0];
@@ -24,6 +27,8 @@ const Footer = () => {
         alert(response.data);
         e.target.email.value = "";
       }
+
+      setLoading(false);
     } catch (error) {
       console.log("Error", error);
       if (error.response || error.request) {
@@ -44,8 +49,20 @@ const Footer = () => {
 
   const navigate = useNavigate();
 
+  
+
   return (
     <footer className="bg-gradient-to-b from-gray-900 to-black text-gray-300">
+      {
+        loading
+        ?
+        <div className='absolute w-full z-50 h-screen flex justify-center'>
+            <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
+        </div>
+        :
+        null
+      }
+
       <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:py-16 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Company Info */}
