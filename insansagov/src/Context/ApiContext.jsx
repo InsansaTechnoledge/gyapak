@@ -85,7 +85,7 @@ export const SERVER_URLS = [
   
   export const useApi = () => {
     const context = useContext(ApiContext);
-    console.log("🚀 Using API:", context.apiBaseUrl);
+    // console.log("🚀 Using API:", context.apiBaseUrl);
 
     if (!context) {
       throw new Error("useApi must be used within an ApiProvider");
