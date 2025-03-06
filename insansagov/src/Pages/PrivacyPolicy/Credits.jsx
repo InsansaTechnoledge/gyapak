@@ -165,6 +165,14 @@ const Credits = () => {
         'MHSET': 'https://setexam.unipune.ac.in/Images/Univ_New_Logo.JPG',
         'OTET':'https://application.bseodisha.ac.in/otet2023/images/logo.png',
         'OJEE' : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdfDxmKFT6J2Ynhlr7tM-kYR5iothVdOQ6cA&s',
+        'Rajasthan Police': 'https://upload.wikimedia.org/wikipedia/en/9/9b/Rajasthan_Police_Logo.png',
+        'PSTET':'https://cdn.aglasem.com/centralised/exam-logo/PSTET.png',
+        'PSPCL':'https://pspcl.in/assets/images/logo.png',
+        'PSCB':'https://apex.pbcoopbank.in/wp-content/uploads/elementor/thumbs/cropped-logo-300x300-1-pxg4w26ncnapd9dun17kmg7cqdbo8orkscyin1409o.png',
+        'RSMSSB':'https://odishafreejobalert.com/wp-content/uploads/2022/03/RSMSSB-LOGO.png',
+        'TRB':'https://media.9curry.com/uploads/organization/image/575/tntrb.png',
+        'UPJEE':'https://cdnbbsr.s3waas.gov.in/s325db67c5657914454081c6a18e93d6dd/uploads/2022/01/2022012945.png',
+        'UPTET':'https://www.cheggindia.com/wp-content/uploads/2021/09/UPTET-Logo-1.jpg',
         "Search Results Not Found": "https://img.freepik.com/free-vector/search-concept-landing-page_52683-13620.jpg?ga=GA1.1.1723539104.1734412094&semt=ais_hybrid",
         "Data Not Found": "https://img.freepik.com/free-vector/postponed-concept_23-2148489217.jpg?ga=GA1.1.1723539104.1734412094&semt=ais_hybrid"
     }
