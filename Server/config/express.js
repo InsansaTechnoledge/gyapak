@@ -15,10 +15,10 @@ app.set('trust proxy', 1);
 const allowedOrigins = [
   process.env.CLIENT_BASE_URL_LOCAL,
   process.env.CLIENT_BASE_URL_LIVE,
-  "https://gyapak.vercel.app",
-  "https://gyapak-8ul2.vercel.app",
-  "https://gyapak-1.onrender.com",
-  "https://gyapak-2.onrender.com",
+  // "https://gyapak.vercel.app",
+  // "https://gyapak-8ul2.vercel.app",
+  // "https://gyapak-1.onrender.com",
+  // "https://gyapak-2.onrender.com",
   "https://insansa.com",
   "https://gyapak.in"
 ];
