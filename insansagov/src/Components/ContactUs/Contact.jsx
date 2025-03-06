@@ -3,6 +3,7 @@ import { Mail, Phone, MapPin, Clock, Send, X, Book, GraduationCap, Award, Users,
 import PaperPlane from '../SubmitAnimation/PaperPlane';
 import axios from 'axios';
 import { useApi, CheckServer } from '../../Context/ApiContext';
+import { RingLoader } from 'react-spinners';
 
 const Contact = () => {
     const { apiBaseUrl, setApiBaseUrl } = useApi();
@@ -16,8 +17,11 @@ const Contact = () => {
         message: ''
     });
 
+    const [loading, setLoading] = useState(false);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         const id = document.getElementById("paper");
         const notid = document.getElementById("notpaper");
 
@@ -29,15 +33,16 @@ const Contact = () => {
             id.classList.remove("flex");
             id.classList.add("hidden");
             notid.classList.remove("blur-sm");
+            setLoading(true);
         }, 1500);
-//created object to add the website name  and passed it there 
-        const details={
+        //created object to add the website name  and passed it there 
+        const details = {
             firstName: formData.firstName,
             lastName: formData.lastName,
             email: formData.email,
             subject: formData.subject,
             message: formData.message,
-            recievedOn:'gyapak.in'
+            recievedOn: 'gyapak.in'
         }
 
         try {
@@ -45,9 +50,10 @@ const Contact = () => {
             if (response.status === 201) {
                 await axios.post(`${apiBaseUrl}/api/contact/sendMailtoUser`, {
                     firstName: formData.firstName,
-                    lastName: formData.lastName, 
+                    lastName: formData.lastName,
                     email: formData.email,
                 });
+                setLoading(false);
                 setIsSuccessPopupVisible(true);
                 setFormData({
                     firstName: '',
@@ -63,7 +69,7 @@ const Contact = () => {
                 if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
                     const url = await CheckServer();
                     setApiBaseUrl(url);
-                    setTimeout(()=>handleSubmit(),1000);
+                    setTimeout(() => handleSubmit(), 1000);
                 }
                 else {
                     console.error('Error fetching state count:', error);
@@ -98,12 +104,13 @@ const Contact = () => {
 
     return (
         <>
-            <div id="paper" className="hidden fixed inset-0 items-center justify-center z-50 bg-black/20 backdrop-blur-sm">
+            <div id="paper" className="hidden fixed inset-0 items-center justify-center z-40 bg-black/20 backdrop-blur-sm">
                 <PaperPlane />
             </div>
 
+
             {isSuccessPopupVisible && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+                <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 backdrop-blur-sm">
                     <div className="bg-white rounded-xl shadow-2xl w-96 p-8 transform transition-all duration-300 scale-100 animate-fade-in">
                         <div className="relative">
                             <button
@@ -127,6 +134,7 @@ const Contact = () => {
             )}
 
             <div id="notpaper" className="min-h-screen py-16 px-4 sm:px-6 lg:px-8">
+                
                 <div className="max-w-4xl mx-auto text-center mb-16 space-y-6">
                     <div className="flex justify-center mb-6">
                         <div className="w-20 h-20 bg-purple-800 rounded-full flex items-center justify-center">
@@ -165,6 +173,15 @@ const Contact = () => {
                 </div>
 
                 <div className="max-w-7xl mx-auto">
+                {
+                    loading
+                        ?
+                        <div className='absolute w-8/12 z-50 h-screen flex justify-center'>
+                            <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
+                        </div>
+                        :
+                        null
+                }
                     <div className="grid lg:grid-cols-2 gap-8 items-start">
                         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-800 to-indigo-700 p-8 lg:p-12 shadow-xl order-2 lg:order-1">
                             <div className="absolute inset-0 bg-[url('/api/placeholder/400/400')] opacity-10 mix-blend-overlay"></div>

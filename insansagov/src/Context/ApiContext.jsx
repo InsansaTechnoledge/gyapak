@@ -3,6 +3,7 @@ import axios from 'axios';
 import { RingLoader } from 'react-spinners';
 import ErrorPage from '../Pages/Error/ErrorPage';
 import ServerPage from '../Pages/Error/ServerPage';
+import { use } from 'react';
 
 
 const ApiContext = createContext();
@@ -12,10 +13,7 @@ export const SERVER_URLS = [
     "https://gyapak-2.onrender.com",
     "https://gyapak.onrender.com",
     "https://gyapak-3.onrender.com",
-    // "http://localhost:5000",
-    // "http://localhost:5001",
-    // "http://localhost:5002",
-    // "http://localhost:3000"
+    "https://gyapak-4.onrender.com"
   ];
 
   export const CheckServer = async () => {
@@ -23,7 +21,7 @@ export const SERVER_URLS = [
       try {
         const response = await axios.get(`${url}`);
         if (response.data === "Server is running perfectly !!") {
-          console.log("🚀 Using API:", url);
+          // console.log("🚀 Using API:", url);
           return url; // ✅ Return working API URL
         }
       } catch (err) {
@@ -59,6 +57,16 @@ export const SERVER_URLS = [
   
       Check();
     }, []);
+
+    useEffect(() => {
+      if (!apiBaseUrl) {
+        setError("🚨 No API servers are available!");
+      }
+      else{
+        setError(null);
+      }
+
+    }, [apiBaseUrl]);
   
     if (loading) {
       return (
@@ -77,6 +85,8 @@ export const SERVER_URLS = [
   
   export const useApi = () => {
     const context = useContext(ApiContext);
+    // console.log("🚀 Using API:", context.apiBaseUrl);
+
     if (!context) {
       throw new Error("useApi must be used within an ApiProvider");
     }
