@@ -45,7 +45,7 @@ export const SERVER_URLS = [
           if (url) {
             setApiBaseUrl(url);
             setLoading(false);
-            console.log("✅ API Set:", url);
+            // console.log("✅ API Set:", url);
           } else {
             setError("🚨 No API servers are available!");
             setLoading(false);

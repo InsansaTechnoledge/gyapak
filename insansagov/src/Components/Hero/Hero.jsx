@@ -104,7 +104,7 @@ const Hero = () => {
                             transition={{ delay: 0.3 }}
                         >
                             <span className="inline-block border-b-4 border-indigo-500 pb-1 hover:border-purple-500 transition-colors duration-300">
-                                Your Ultimate Resource
+                                Your Ultimate Resource for
                             </span>
                             <span className="block xs:inline-block px-2">for</span>
                             <motion.span
@@ -112,7 +112,7 @@ const Hero = () => {
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                             >
-                                Important Dates
+                                government exams 
                             </motion.span>
                         </motion.p>
 
