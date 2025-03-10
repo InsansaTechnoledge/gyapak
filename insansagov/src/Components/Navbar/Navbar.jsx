@@ -116,15 +116,15 @@ const Navbar = () => {
       const currState = searchParams.get("name");
       setVisibleStates(states.filter(st => st !== currState));
     }
-    else{
+    else {
       setVisibleStates(states);
     }
 
-    if(location.pathname == '/category'){
+    if (location.pathname == '/category') {
       const currCategory = searchParams.get("name");
-      setVisibleCategories(categories.filter(cat => cat!==currCategory));
+      setVisibleCategories(categories.filter(cat => cat !== currCategory));
     }
-    else{
+    else {
       setVisibleCategories(categories);
     }
   }, [location.pathname]);
@@ -133,7 +133,7 @@ const Navbar = () => {
     if (location.pathname == '/state' && states) {
       setVisibleStates(states.filter(st => st !== state));
     }
-    else{
+    else {
       setVisibleStates(states);
     }
   }
@@ -142,7 +142,7 @@ const Navbar = () => {
     if (location.pathname == '/category') {
       setVisibleCategories(categories.filter(cat => cat !== category));
     }
-    else{
+    else {
       setVisibleCategories(categories);
     }
   }
@@ -313,58 +313,58 @@ const Navbar = () => {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-8">
             {/* Categories Dropdown */}
-            <div 
-            onMouseLeave={()=>setCategoryDropdownVisible(false)}
-            className="relative">
-              <button 
-              onMouseEnter={()=>setCategoryDropdownVisible(true)}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${isScrolled ? 'text-gray-700 hover:bg-purple-50' : 'text-white hover:bg-white/10'} transition-all duration-300`}>
+            <div
+              onMouseLeave={() => setCategoryDropdownVisible(false)}
+              className="relative">
+              <button
+                onMouseEnter={() => setCategoryDropdownVisible(true)}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${isScrolled ? 'text-gray-700 hover:bg-purple-50' : 'text-white hover:bg-white/10'} transition-all duration-300`}>
                 <span>Categories</span>
                 <ChevronDown className="w-4 h-4" />
               </button>
               {
                 categoryDropdownVisible
-                ?
-                <div className="absolute top-full -left-28 w-[480px] rounded-xl shadow-xl bg-white/95 backdrop-blur-sm ring-1 ring-black/5 transition-all duration-300 transform">
-                  <div className="p-6">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Browse Categories</h3>
-                    <div className="grid grid-cols-2 gap-3">
-                      {visibleCategories.map((category, index) => (
-                        <div
-                          key={index}
-                          onClick={() => {
-                            updateVisibleCategories(category);
-                            setCategoryDropdownVisible(false);
-                            navigate(`/category?name=${encodeURI(category.Nameid)}`)
-                          }}
-                          className="flex items-center p-3 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 group cursor-pointer"
-                        >
-                          <div className="h-12 w-12 bg-gradient-to-br from-purple-100 to-blue-100 rounded-xl flex items-center justify-center text-xl group-hover:from-purple-200 group-hover:to-blue-200 transition-all duration-300">
-                            <span>{category.icon}</span>
+                  ?
+                  <div className="absolute top-full -left-28 w-[480px] rounded-xl shadow-xl bg-white/95 backdrop-blur-sm ring-1 ring-black/5 transition-all duration-300 transform">
+                    <div className="p-6">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-4">Browse Categories</h3>
+                      <div className="grid grid-cols-2 gap-3">
+                        {visibleCategories.map((category, index) => (
+                          <div
+                            key={index}
+                            onClick={() => {
+                              updateVisibleCategories(category);
+                              setCategoryDropdownVisible(false);
+                              navigate(`/category?name=${encodeURI(category.Nameid)}`)
+                            }}
+                            className="flex items-center p-3 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 group cursor-pointer"
+                          >
+                            <div className="h-12 w-12 bg-gradient-to-br from-purple-100 to-blue-100 rounded-xl flex items-center justify-center text-xl group-hover:from-purple-200 group-hover:to-blue-200 transition-all duration-300">
+                              <span>{category.icon}</span>
+                            </div>
+                            <div className="ml-4">
+                              <span className="text-sm font-medium text-gray-800 group-hover:text-purple-700 transition-colors">
+                                {category.name}
+                              </span>
+                            </div>
                           </div>
-                          <div className="ml-4">
-                            <span className="text-sm font-medium text-gray-800 group-hover:text-purple-700 transition-colors">
-                              {category.name}
-                            </span>
-                          </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
-                :
-                null
+                  :
+                  null
               }
             </div>
 
             {/* States Dropdown */}
-            <div className="relative" id='state-group' 
-            onMouseLeave={() => setStateDropdownVisible(false)}
+            <div className="relative" id='state-group'
+              onMouseLeave={() => setStateDropdownVisible(false)}
             >
-              <button 
-              onMouseEnter={() => setStateDropdownVisible(true)} 
-              
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${isScrolled ? 'text-gray-700 hover:bg-purple-50' : 'text-white hover:bg-white/10'} transition-all duration-300`}>
+              <button
+                onMouseEnter={() => setStateDropdownVisible(true)}
+
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${isScrolled ? 'text-gray-700 hover:bg-purple-50' : 'text-white hover:bg-white/10'} transition-all duration-300`}>
                 <span>States</span>
                 <ChevronDown className="w-4 h-4" />
               </button>
@@ -376,7 +376,7 @@ const Navbar = () => {
                       <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Browse States</h3>
                       <div className="grid grid-cols-3 gap-4">
                         {visibleStates && visibleStates.map((state, index) => (
-                          <StateIcon key={index} state={state} index={index} updateVisibleStates={updateVisibleStates} setStateDropdownVisible={setStateDropdownVisible}/>
+                          <StateIcon key={index} state={state} index={index} updateVisibleStates={updateVisibleStates} setStateDropdownVisible={setStateDropdownVisible} />
                         ))}
                       </div>
                       <div className="mt-4 flex items-start justify-center space-x-3 bg-purple-700 p-4 rounded-lg border border-amber-500/50 hover:border-amber-500 transition-colors duration-300 backdrop-blur-sm">
@@ -487,7 +487,7 @@ const Navbar = () => {
         <div className="px-6 pt-4 pb-6 space-y-2">
           {/* Search Bar for Mobile */}
           {location.pathname !== '/' && (
-            <div className="mb-4">
+            <div className="mb-4 relative">
               <form onSubmit={handleSearch} className="relative">
                 <input
                   type="text"
@@ -495,70 +495,111 @@ const Navbar = () => {
                   placeholder="Search..."
                   value={searchQuery}
                   onChange={(e) => inputChangeHandler(e.target.value)}
+                  onFocus={() => searchQuery && setShowDropdown(true)}
+                  onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
+                  
                 />
-                <button
-                  type="submit"
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-purple-600 transition-colors duration-300"
-                >
-                  <Search className="w-5 h-5" />
+                      < button
+                    type = "submit"
+                    className = "absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-purple-600 transition-colors duration-300"
+                      >
+                      <Search className="w-5 h-5" />
                 </button>
-              </form>
+            </form>
+            {showDropdown && (
+              <div className="custom-scrollbar max-h-72 overflow-auto absolute top-full mt-2 w-full bg-white/95 backdrop-blur-sm border border-gray-200 rounded-xl shadow-xl z-50">
+                    {totalCount > 0 && (
+                      <div className="px-4 py-2 bg-gradient-to-r from-purple-50 to-blue-50 border-b border-gray-200 text-xs font-medium text-purple-600">
+                        Found {totalCount} total matches
+                      </div>
+                    )}
+                    <div>
+                      {suggestions.authorities?.length > 0 && (
+                        <SuggestionList
+                          title="States"
+                          items={suggestions.authorities}
+                          itemKey="name"
+                        />
+                      )}
+                      {suggestions.organizations?.length > 0 && (
+                        <SuggestionList
+                          title="Organizations"
+                          items={suggestions.organizations}
+                          itemKey="abbreviation"
+                        />
+                      )}
+                      {suggestions.categories?.length > 0 && (
+                        <SuggestionList
+                          title="Categories"
+                          items={suggestions.categories}
+                          itemKey="category"
+                        />
+                      )}
+                      {totalCount === 0 && (
+                        <div className="px-4 py-3 text-sm text-gray-500">
+                          No suggestions found
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
             </div>
+            
           )}
 
-          {/* Mobile Menu Items */}
-          <a
-            onClick={() => setIsOpen(false)}
-            href="/#landing-state"
-            className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
-          >
-            State Government Authorities
-          </a>
-          <a
-            onClick={() => setIsOpen(false)}
-            href="/#landing-authorities"
-            className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
-          >
-            Central Government Authorities
-          </a>
-          <a
-            onClick={() => setIsOpen(false)}
-            href="/#landing-categories"
-            className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
-          >
-            Top Categories
-          </a>
-          <a
-            onClick={() => setIsOpen(false)}
-            href="/#landing-admit"
-            className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
-          >
-            Latest Admit Cards
-          </a>
-          <a
-            onClick={() => setIsOpen(false)}
-            href="/#landing-result"
-            className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
-          >
-            Latest Results
-          </a>
-          <a
-            onClick={() => setIsOpen(false)}
-            href="/#about"
-            className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
-          >
-            About
-          </a>
-          <a
-            onClick={() => setIsOpen(false)}
-            href="/#contact"
-            className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
-          >
-            Contact
-          </a>
-        </div>
+        {/* Mobile Menu Items */}
+        <a
+          onClick={() => setIsOpen(false)}
+          href="/#landing-state"
+          className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+        >
+          State Government Authorities
+        </a>
+        <a
+          onClick={() => setIsOpen(false)}
+          href="/#landing-authorities"
+          className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+        >
+          Central Government Authorities
+        </a>
+        <a
+          onClick={() => setIsOpen(false)}
+          href="/#landing-categories"
+          className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+        >
+          Top Categories
+        </a>
+        <a
+          onClick={() => setIsOpen(false)}
+          href="/#landing-admit"
+          className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+        >
+          Latest Admit Cards
+        </a>
+        <a
+          onClick={() => setIsOpen(false)}
+          href="/#landing-result"
+          className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+        >
+          Latest Results
+        </a>
+        <a
+          onClick={() => setIsOpen(false)}
+          href="/#about"
+          className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+        >
+          About
+        </a>
+        <a
+          onClick={() => setIsOpen(false)}
+          href="/#contact"
+          className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+        >
+          Contact
+        </a>
       </div>
-    </nav>
+    </div>
+    </nav >
   );
 };
 

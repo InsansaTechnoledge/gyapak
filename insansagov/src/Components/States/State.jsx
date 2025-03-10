@@ -259,7 +259,7 @@ const StateComponent = () => {
                             </div>
 
                             {/* Mobile Search Toggle */}
-                            <div className="xl:hidden flex justify-end">
+                            {/* <div className="xl:hidden flex justify-end">
                                 <button
                                     onClick={() => setIsSearchVisible(!isSearchVisible)}
                                     className="p-2 hover:bg-white/10 rounded-full"
@@ -270,10 +270,10 @@ const StateComponent = () => {
                                         <Search className="h-5 w-5 text-white" />
                                     )}
                                 </button>
-                            </div>
+                            </div> */}
 
                             {/* Desktop Search */}
-                            <div className="hidden xl:flex flex-col">
+                            <div className="flex flex-col">
                                 <div className="flex items-center bg-white/10 rounded-full p-2 backdrop-blur-sm">
                                     <Search className="h-4 w-4 text-purple-200 ml-2" />
                                     <input
@@ -323,7 +323,7 @@ const StateComponent = () => {
                         </div>
 
                         {/* Mobile Search Bar */}
-                        {isSearchVisible && (
+                        {/* {isSearchVisible && (
                             <div className="mt-4 xl:hidden">
                                 <div className="flex items-center bg-white/10 rounded-full p-2 backdrop-blur-sm">
                                     <Search className="h-4 w-4 text-purple-200 ml-2" />
@@ -335,7 +335,7 @@ const StateComponent = () => {
                                     />
                                 </div>
                             </div>
-                        )}
+                        )} */}
                     </div>
                 </div>
 
