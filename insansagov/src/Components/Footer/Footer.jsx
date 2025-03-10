@@ -6,18 +6,22 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useApi, CheckServer } from '../../Context/ApiContext';
 import axios from 'axios';
 import { RingLoader } from 'react-spinners';
+import ErrorAlert from '../Error/ErrorAlert';
 
 const Footer = () => {
 
   const { apiBaseUrl, setApiBaseUrl } = useApi();
   const [loading, setLoading] = useState(false);
+  const [Error,setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     const email = e.target.email.value;
-    if(!email || email.length>50) {
-      alert("Please enter a valid email address !!");
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        
+    if(!email || email.length>50 || !emailRegex.test(email)) {
+      setError("Invalid Email!!");
       setLoading(false);
       return;
     }
@@ -46,12 +50,14 @@ const Footer = () => {
         }
         else {
           console.error('Error in subscribing !!:', error);
+          setError("Error in subscribing !!");
           setLoading(false);
 
         }
       }
       else {
         console.error('Error in subscribing !!:', error);
+        setError("Error in subscribing !!");
         setLoading(false);
       }
     }
@@ -69,6 +75,13 @@ const Footer = () => {
         <div className='absolute w-full z-50 h-screen flex justify-center'>
             <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
         </div>
+        :
+        null
+      }
+      {
+        Error
+        ?
+        <ErrorAlert title={"Error subscribing site!!"} message={Error} setIsErrorVisible={setError}/>
         :
         null
       }
