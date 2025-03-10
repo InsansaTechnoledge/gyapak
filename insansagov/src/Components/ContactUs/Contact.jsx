@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Clock, Send, X, Book, GraduationCap, Award, Users, BookOpen } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, Send, X, Book, GraduationCap, Award, Users, BookOpen, MailWarning } from 'lucide-react';
 import PaperPlane from '../SubmitAnimation/PaperPlane';
 import axios from 'axios';
 import { useApi, CheckServer } from '../../Context/ApiContext';
 import { RingLoader } from 'react-spinners';
+import ErrorAlert from '../Error/ErrorAlert';
 
 const Contact = () => {
     const { apiBaseUrl, setApiBaseUrl } = useApi();
@@ -18,9 +19,36 @@ const Contact = () => {
     });
 
     const [loading, setLoading] = useState(false);
+    const [isErrorVisible, setIsErrorVisible] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        //created object to add the website name  and passed it there 
+        const details = {
+            firstName: formData.firstName.trim(),
+            lastName: formData.lastName.trim(),
+            email: formData.email.trim(),
+            subject: formData.subject.trim(),
+            message: formData.message.trim(),
+            recievedOn: 'gyapak.in'
+        }
+
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        
+        if(!emailRegex.test(details.email)){
+            setIsErrorVisible(true);
+            setLoading(false);
+            console.log("email");
+            return
+        }
+
+        if(!details.firstName || !details.lastName || !details.email || !details.subject || !details.message 
+            || details.firstName.includes('\u200E') || details.lastName.includes('\u200E') || details.email.includes('\u200E') || details.subject.includes('\u200E') || details.message.includes('\u200E') || details.email.length > 50){
+            setIsErrorVisible(true);
+            setLoading(false);
+            return;
+        }
 
         const id = document.getElementById("paper");
         const notid = document.getElementById("notpaper");
@@ -35,15 +63,7 @@ const Contact = () => {
             notid.classList.remove("blur-sm");
             setLoading(true);
         }, 1500);
-        //created object to add the website name  and passed it there 
-        const details = {
-            firstName: formData.firstName,
-            lastName: formData.lastName,
-            email: formData.email,
-            subject: formData.subject,
-            message: formData.message,
-            recievedOn: 'gyapak.in'
-        }
+        
 
         try {
             const response = await axios.post(`${apiBaseUrl}/api/contact/sendMail `, details);
@@ -102,11 +122,23 @@ const Contact = () => {
         }
     ];
 
+    
+
     return (
         <>
             <div id="paper" className="hidden fixed inset-0 items-center justify-center z-40 bg-black/20 backdrop-blur-sm">
                 <PaperPlane />
             </div>
+
+            {
+                isErrorVisible 
+                ?
+                (
+                    <ErrorAlert title={"Message not sent!"} message={"Please fill in valid details in the form!"} setIsErrorVisible={setIsErrorVisible}/>
+                )
+                :
+                null
+            }
 
 
             {isSuccessPopupVisible && (

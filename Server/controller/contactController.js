@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+// import {body , validationResults} from 'express-validator'
 
 if(process.env.NODE_ENV !== "production"){
     (await import('dotenv')).config();
