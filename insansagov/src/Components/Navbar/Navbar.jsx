@@ -247,7 +247,10 @@ const Navbar = () => {
           {items.map((item, index) => (
             <div
               key={index}
-              onClick={() => selectSuggestion(item[itemKey])}
+              onClick={() => {
+                selectSuggestion(item[itemKey])
+                setIsOpen(false);
+              }}
               className="px-4 py-2.5 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 cursor-pointer text-gray-700 text-sm transition-all duration-300"
             >
               {item[itemKey]}
@@ -260,7 +263,9 @@ const Navbar = () => {
 
   return (
 
-    <nav className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-lg' : 'bg-transparent'}`}>
+    <nav 
+    onBlur={()=>setIsOpen(false)}
+    className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-lg' : 'bg-transparent'}`}>
       <style>
         {`
           .custom-scrollbar::-webkit-scrollbar {
@@ -483,7 +488,9 @@ const Navbar = () => {
       </div>
 
       {/* Mobile menu */}
-      <div className={`xl:hidden transition-all duration-500 ease-in-out ${isOpen ? 'max-h-[32rem] opacity-100' : 'max-h-0 opacity-0'} overflow-hidden bg-white/95 backdrop-blur-sm`}>
+      <div
+        
+        className={`xl:hidden transition-all duration-500 ease-in-out ${isOpen ? 'max-h-[32rem] opacity-100' : 'max-h-0 opacity-0'} overflow-hidden bg-white/95 backdrop-blur-sm`}>
         <div className="px-6 pt-4 pb-6 space-y-2">
           {/* Search Bar for Mobile */}
           {location.pathname !== '/' && (
@@ -497,108 +504,108 @@ const Navbar = () => {
                   onChange={(e) => inputChangeHandler(e.target.value)}
                   onFocus={() => searchQuery && setShowDropdown(true)}
                   onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
-                  
+
                 />
-                      < button
-                    type = "submit"
-                    className = "absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-purple-600 transition-colors duration-300"
-                      >
-                      <Search className="w-5 h-5" />
+                < button
+                  type="submit"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-purple-600 transition-colors duration-300"
+                >
+                  <Search className="w-5 h-5" />
                 </button>
-            </form>
-            {showDropdown && (
-              <div className="custom-scrollbar max-h-72 overflow-auto absolute top-full mt-2 w-full bg-white/95 backdrop-blur-sm border border-gray-200 rounded-xl shadow-xl z-50">
-                    {totalCount > 0 && (
-                      <div className="px-4 py-2 bg-gradient-to-r from-purple-50 to-blue-50 border-b border-gray-200 text-xs font-medium text-purple-600">
-                        Found {totalCount} total matches
+              </form>
+              {showDropdown && (
+                <div className="custom-scrollbar max-h-72 overflow-auto absolute top-full mt-2 w-full bg-white/95 backdrop-blur-sm border border-gray-200 rounded-xl shadow-xl z-50">
+                  {totalCount > 0 && (
+                    <div className="px-4 py-2 bg-gradient-to-r from-purple-50 to-blue-50 border-b border-gray-200 text-xs font-medium text-purple-600">
+                      Found {totalCount} total matches
+                    </div>
+                  )}
+                  <div>
+                    {suggestions.authorities?.length > 0 && (
+                      <SuggestionList
+                        title="States"
+                        items={suggestions.authorities}
+                        itemKey="name"
+                      />
+                    )}
+                    {suggestions.organizations?.length > 0 && (
+                      <SuggestionList
+                        title="Organizations"
+                        items={suggestions.organizations}
+                        itemKey="abbreviation"
+                      />
+                    )}
+                    {suggestions.categories?.length > 0 && (
+                      <SuggestionList
+                        title="Categories"
+                        items={suggestions.categories}
+                        itemKey="category"
+                      />
+                    )}
+                    {totalCount === 0 && (
+                      <div className="px-4 py-3 text-sm text-gray-500">
+                        No suggestions found
                       </div>
                     )}
-                    <div>
-                      {suggestions.authorities?.length > 0 && (
-                        <SuggestionList
-                          title="States"
-                          items={suggestions.authorities}
-                          itemKey="name"
-                        />
-                      )}
-                      {suggestions.organizations?.length > 0 && (
-                        <SuggestionList
-                          title="Organizations"
-                          items={suggestions.organizations}
-                          itemKey="abbreviation"
-                        />
-                      )}
-                      {suggestions.categories?.length > 0 && (
-                        <SuggestionList
-                          title="Categories"
-                          items={suggestions.categories}
-                          itemKey="category"
-                        />
-                      )}
-                      {totalCount === 0 && (
-                        <div className="px-4 py-3 text-sm text-gray-500">
-                          No suggestions found
-                        </div>
-                      )}
-                    </div>
                   </div>
-                )}
+                </div>
+              )}
             </div>
-            
+
           )}
 
-        {/* Mobile Menu Items */}
-        <a
-          onClick={() => setIsOpen(false)}
-          href="/#landing-state"
-          className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
-        >
-          State Government Authorities
-        </a>
-        <a
-          onClick={() => setIsOpen(false)}
-          href="/#landing-authorities"
-          className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
-        >
-          Central Government Authorities
-        </a>
-        <a
-          onClick={() => setIsOpen(false)}
-          href="/#landing-categories"
-          className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
-        >
-          Top Categories
-        </a>
-        <a
-          onClick={() => setIsOpen(false)}
-          href="/#landing-admit"
-          className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
-        >
-          Latest Admit Cards
-        </a>
-        <a
-          onClick={() => setIsOpen(false)}
-          href="/#landing-result"
-          className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
-        >
-          Latest Results
-        </a>
-        <a
-          onClick={() => setIsOpen(false)}
-          href="/#about"
-          className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
-        >
-          About
-        </a>
-        <a
-          onClick={() => setIsOpen(false)}
-          href="/#contact"
-          className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
-        >
-          Contact
-        </a>
+          {/* Mobile Menu Items */}
+          <a
+            onClick={() => setIsOpen(false)}
+            href="/#landing-state"
+            className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+          >
+            State Government Authorities
+          </a>
+          <a
+            onClick={() => setIsOpen(false)}
+            href="/#landing-authorities"
+            className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+          >
+            Central Government Authorities
+          </a>
+          <a
+            onClick={() => setIsOpen(false)}
+            href="/#landing-categories"
+            className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+          >
+            Top Categories
+          </a>
+          <a
+            onClick={() => setIsOpen(false)}
+            href="/#landing-admit"
+            className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+          >
+            Latest Admit Cards
+          </a>
+          <a
+            onClick={() => setIsOpen(false)}
+            href="/#landing-result"
+            className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+          >
+            Latest Results
+          </a>
+          <a
+            onClick={() => setIsOpen(false)}
+            href="/#about"
+            className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+          >
+            About
+          </a>
+          <a
+            onClick={() => setIsOpen(false)}
+            href="/#contact"
+            className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+          >
+            Contact
+          </a>
+        </div>
       </div>
-    </div>
     </nav >
   );
 };
