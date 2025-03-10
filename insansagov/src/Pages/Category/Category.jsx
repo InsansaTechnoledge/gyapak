@@ -13,7 +13,7 @@ import { useQuery } from '@tanstack/react-query'
 
 const Category = () => {
 
-    const { apiBaseUrl, setApiBaseUrl } = useApi();
+    const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
 
     const [isExpanded, setIsExpanded] = useState(false);
     const location = useLocation();
@@ -39,7 +39,8 @@ const Category = () => {
             if (error.response || error.request) {
                 if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
                     const url = await CheckServer();
-                    setApiBaseUrl(url);
+                    setApiBaseUrl(url),
+                        setServerError(error.response.status);
                 }
                 else {
                     console.error('Error fetching state count:', error);

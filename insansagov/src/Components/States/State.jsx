@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 const StateCard = lazy(() => import('./StateCard'));
 
 const StateComponent = () => {
-    const { apiBaseUrl, setApiBaseUrl } = useApi();
+    const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
     const [isSearchVisible, setIsSearchVisible] = useState(false);
     const [activeRegion, setActiveRegion] = useState('North');
 
@@ -60,8 +60,9 @@ const StateComponent = () => {
             if (error.response || error.request) {
                 if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
                     const url = await CheckServer();
-                    setApiBaseUrl(url);
-                    setTimeout(()=>fetchSuggestions(),1000);
+                    setApiBaseUrl(url),
+                        setServerError(error.response.status);
+                    setTimeout(() => fetchSuggestions(), 1000);
                 }
                 else {
                     console.error('Error fetching state count:', error);
@@ -147,7 +148,8 @@ const StateComponent = () => {
                 if (error.response.status >= 500 && error.response.status < 600) {
                     console.error("🚨 Server Error:", error.response.status, error.response.statusText);
                     const url = CheckServer();
-                    setApiBaseUrl(url);
+                    setApiBaseUrl(url),
+                        setServerError(error.response.status);
                     fetchStateCount();
                 }
                 else {
@@ -171,7 +173,8 @@ const StateComponent = () => {
                 if (error.response.status >= 500 && error.response.status < 600) {
                     console.error("🚨 Server Error:", error.response.status, error.response.statusText);
                     const url = CheckServer();
-                    setApiBaseUrl(url);
+                    setApiBaseUrl(url),
+                        setServerError(error.response.status);
                     fetchLastUpdated();
                 }
                 else {

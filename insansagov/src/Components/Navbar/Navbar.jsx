@@ -42,7 +42,7 @@ const StateIcon = ({ state, index }) => {
 };
 
 const Navbar = () => {
-  const { apiBaseUrl, setApiBaseUrl } = useApi();
+  const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
   const location = useLocation();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
@@ -65,7 +65,8 @@ const Navbar = () => {
       if (error.response || error.request) {
         if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
           const url = await CheckServer();
-          setApiBaseUrl(url);
+          setApiBaseUrl(url),
+            setServerError(error.response.status);
         }
         else {
           console.error('Error fetching state count:', error);
@@ -165,7 +166,8 @@ const Navbar = () => {
         if (error.response.status >= 500 && error.response.status < 600) {
           console.error("🚨 Server Error:", error.response.status, error.response.statusText);
           const url = CheckServer();
-          setApiBaseUrl(url);
+          setApiBaseUrl(url),
+            setServerError(error.response.status);
           fetchSuggestions();
         }
         else {

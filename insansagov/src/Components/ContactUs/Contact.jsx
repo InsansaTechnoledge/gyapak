@@ -7,7 +7,7 @@ import { RingLoader } from 'react-spinners';
 import ErrorAlert from '../Error/ErrorAlert';
 
 const Contact = () => {
-    const { apiBaseUrl, setApiBaseUrl } = useApi();
+   const { apiBaseUrl, setApiBaseUrl,setServerError } = useApi();
     const [isSuccessPopupVisible, setIsSuccessPopupVisible] = useState(false);
     const [activeTab, setActiveTab] = useState('general');
     const [formData, setFormData] = useState({
@@ -35,16 +35,16 @@ const Contact = () => {
         }
 
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        
-        if(!emailRegex.test(details.email)){
+
+        if (!emailRegex.test(details.email)) {
             setIsErrorVisible(true);
             setLoading(false);
             console.log("email");
             return
         }
 
-        if(!details.firstName || !details.lastName || !details.email || !details.subject || !details.message 
-            || details.firstName.includes('\u200E') || details.lastName.includes('\u200E') || details.email.includes('\u200E') || details.subject.includes('\u200E') || details.message.includes('\u200E') || details.email.length > 50){
+        if (!details.firstName || !details.lastName || !details.email || !details.subject || !details.message
+            || details.firstName.includes('\u200E') || details.lastName.includes('\u200E') || details.email.includes('\u200E') || details.subject.includes('\u200E') || details.message.includes('\u200E') || details.email.length > 50) {
             setIsErrorVisible(true);
             setLoading(false);
             return;
@@ -63,7 +63,7 @@ const Contact = () => {
             notid.classList.remove("blur-sm");
             setLoading(true);
         }, 1500);
-        
+
 
         try {
             const response = await axios.post(`${apiBaseUrl}/api/contact/sendMail `, details);
@@ -88,7 +88,8 @@ const Contact = () => {
             if (error.response || error.request) {
                 if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
                     const url = await CheckServer();
-                    setApiBaseUrl(url);
+                    setApiBaseUrl(url),
+                        setServerError(error.response.status);
                     setTimeout(() => handleSubmit(), 1000);
                 }
                 else {
@@ -122,7 +123,7 @@ const Contact = () => {
         }
     ];
 
-    
+
 
     return (
         <>
@@ -131,13 +132,13 @@ const Contact = () => {
             </div>
 
             {
-                isErrorVisible 
-                ?
-                (
-                    <ErrorAlert title={"Message not sent!"} message={"Please fill in valid details in the form!"} setIsErrorVisible={setIsErrorVisible}/>
-                )
-                :
-                null
+                isErrorVisible
+                    ?
+                    (
+                        <ErrorAlert title={"Message not sent!"} message={"Please fill in valid details in the form!"} setIsErrorVisible={setIsErrorVisible} />
+                    )
+                    :
+                    null
             }
 
 
@@ -166,7 +167,7 @@ const Contact = () => {
             )}
 
             <div id="notpaper" className="min-h-screen py-16 px-4 sm:px-6 lg:px-8">
-                
+
                 <div className="max-w-4xl mx-auto text-center mb-16 space-y-6">
                     <div className="flex justify-center mb-6">
                         <div className="w-20 h-20 bg-purple-800 rounded-full flex items-center justify-center">
@@ -205,15 +206,15 @@ const Contact = () => {
                 </div>
 
                 <div className="max-w-7xl mx-auto">
-                {
-                    loading
-                        ?
-                        <div className='absolute w-8/12 z-50 h-screen flex justify-center'>
-                            <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
-                        </div>
-                        :
-                        null
-                }
+                    {
+                        loading
+                            ?
+                            <div className='absolute w-8/12 z-50 h-screen flex justify-center'>
+                                <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
+                            </div>
+                            :
+                            null
+                    }
                     <div className="grid lg:grid-cols-2 gap-8 items-start">
                         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-800 to-indigo-700 p-8 lg:p-12 shadow-xl order-2 lg:order-1">
                             <div className="absolute inset-0 bg-[url('/api/placeholder/400/400')] opacity-10 mix-blend-overlay"></div>

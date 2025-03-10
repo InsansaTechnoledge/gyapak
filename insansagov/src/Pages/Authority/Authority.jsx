@@ -12,7 +12,7 @@ import { CheckServer, useApi } from '../../Context/ApiContext';
 import { useQuery } from '@tanstack/react-query';
 
 const Authority = () => {
-    const { apiBaseUrl, setApiBaseUrl } = useApi();
+    const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
     const [isExpanded, setIsExpanded] = useState(false);
     const [organization, setOrganization] = useState();
     const [latestUpdates, setLatestUpdates] = useState();
@@ -57,7 +57,8 @@ const Authority = () => {
                 if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
                     console.log("RR");
                     const url = await CheckServer();
-                    setApiBaseUrl(url);
+                    setApiBaseUrl(url),
+                        setServerError(error.response.status);
                 }
                 else {
                     console.error('Error fetching state count:', error);
@@ -72,10 +73,10 @@ const Authority = () => {
     const { data: data, isLoading } = useQuery({
         queryKey: ["fetchOrganization/" + name, apiBaseUrl],
         queryFn: fetchOrganization,
-        staleTime: Infinity, 
-        cacheTime: 24 * 60 * 60 * 1000, 
-        refetchOnMount: true, 
-        refetchOnWindowFocus: false, 
+        staleTime: Infinity,
+        cacheTime: 24 * 60 * 60 * 1000,
+        refetchOnMount: true,
+        refetchOnWindowFocus: false,
     });
 
     useEffect(() => {
@@ -87,10 +88,10 @@ const Authority = () => {
                 const dateB = new Date(b.notificationDate);
 
                 if (isNaN(dateA) || isNaN(dateB)) {
-                    return 0; 
+                    return 0;
                 }
 
-                return dateB - dateA; 
+                return dateB - dateA;
             });
 
             setLatestUpdates(sortedUpdates);
