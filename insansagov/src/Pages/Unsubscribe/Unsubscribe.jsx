@@ -6,7 +6,7 @@ import { useApi, CheckServer } from '../../Context/ApiContext';
 import { Helmet } from 'react-helmet-async';
 
 const UnsubscribePage = () => {
-    const { apiBaseUrl, setApiBaseUrl } = useApi();
+    const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
     const [unsubscribedmsg, setUnsubscribedMsg] = useState();
     const [errorMessage, setErrorMessage] = useState('');
     const [isProcessing, setIsProcessing] = useState(false); // State to show loading during API call
@@ -47,8 +47,9 @@ const UnsubscribePage = () => {
             if (error.response || error.request) {
                 if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
                     const url = await CheckServer();
-                    setApiBaseUrl(url);
-                    setTimeout(()=>handleUnsubscribe(),1000);
+                    setApiBaseUrl(url),
+                        setServerError(error.response.status);
+                    setTimeout(() => handleUnsubscribe(), 1000);
                 }
                 else {
                     console.error('Error fetching state count:', error);

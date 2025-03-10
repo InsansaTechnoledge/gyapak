@@ -8,7 +8,7 @@ import { useApi, CheckServer } from '../../Context/ApiContext';
 import { useQuery } from '@tanstack/react-query';
 
 const MoreCategories = ({ currentCategory }) => {
-    const { apiBaseUrl, setApiBaseUrl } = useApi();
+    const { apiBaseUrl, setApiBaseUrl,setServerError } = useApi();
     // const [moreCategories, setMoreCategories] = useState();
     const [displayCount, setDisplayCount] = useState(8); // Initial count of displayed items
 
@@ -37,7 +37,8 @@ const MoreCategories = ({ currentCategory }) => {
             if (error.response || error.request) {
                 if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
                     const url = await CheckServer();
-                    setApiBaseUrl(url);
+                    setApiBaseUrl(url),
+                        setServerError(error.response.status);
                 }
                 else {
                     console.error('Error fetching state count:', error);

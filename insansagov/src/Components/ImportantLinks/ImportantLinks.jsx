@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useApi, CheckServer } from "../../Context/ApiContext";
 
 const ImportantLinksDashboard = () => {
-    const { apiBaseUrl, setApiBaseUrl } = useApi();
+    const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
     const [filter, setFilter] = useState("All");
     const navigate = useNavigate();
     const [filteredLinks, setFilteredLinks] = useState();
@@ -19,8 +19,8 @@ const ImportantLinksDashboard = () => {
             ]);
 
             if (response1.status === 201 && response2.status === 201) {
-                const mergedData = [...response1.data, ...response2.data]; 
-                return mergedData; 
+                const mergedData = [...response1.data, ...response2.data];
+                return mergedData;
             }
             return [];
         } catch (error) {
@@ -28,7 +28,8 @@ const ImportantLinksDashboard = () => {
             if (error.response || error.request) {
                 if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
                     const url = await CheckServer();
-                    setApiBaseUrl(url);
+                    setApiBaseUrl(url),
+                        setServerError(error.response.status);
                 }
                 else {
                     console.error('Error fetching state count:', error);
@@ -63,7 +64,8 @@ const ImportantLinksDashboard = () => {
             if (error.response || error.request) {
                 if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
                     const url = await CheckServer();
-                    setApiBaseUrl(url);
+                    setApiBaseUrl(url),
+                        setServerError(error.response.status);
                 }
                 else {
                     console.error('Error fetching state count:', error);

@@ -9,7 +9,7 @@ const LatestUpdateCard = lazy(() => import('./LatestUpdateCard'));
 const ViewMoreButton = lazy(() => import('../Buttons/ViewMoreButton'));
 
 const LatestUpdates = ({ titleHidden }) => {
-  const { apiBaseUrl, setApiBaseUrl } = useApi();
+  const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
   const [isExpanded, setIsExpanded] = useState(false);
   // const [latestUpdates, setLatestUpdates] = useState([]);
   const [filteredLatestUpdates, setFilteredLatestUpdates] = useState([]);
@@ -40,7 +40,8 @@ const LatestUpdates = ({ titleHidden }) => {
         if (error.response.status >= 500 && error.response.status < 600) {
           console.error("🚨 Server Error:", error.response.status, error.response.statusText);
           const url = CheckServer();
-          setApiBaseUrl(url);
+          setApiBaseUrl(url),
+            setServerError(error.response.status);
           fetchLatestUpdates();
         }
         else {

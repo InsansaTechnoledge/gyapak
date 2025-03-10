@@ -15,7 +15,7 @@ import { useApi, CheckServer } from "../../Context/ApiContext";
 import { useQuery } from "@tanstack/react-query";
 
 const TrendingPage = ({ trendingItems = [] }) => {
-    const { apiBaseUrl, setApiBaseUrl } = useApi();
+    const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
     const [searchQuery, setSearchQuery] = React.useState("");
     const [selectedOrg, setSelectedOrg] = React.useState("all");
     const [activeTab, setActiveTab] = React.useState("all");
@@ -49,14 +49,15 @@ const TrendingPage = ({ trendingItems = [] }) => {
 
             setAdmitCards(formattedAdmitCards);
             // setResults(formattedResults);
-            return [formattedResults,formattedAdmitCards];
+            return [formattedResults, formattedAdmitCards];
 
         } catch (error) {
             console.error("Failed to fetch data:", error.message);
             if (error.response || error.request) {
                 if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
                     const url = await CheckServer();
-                    setApiBaseUrl(url);
+                    setApiBaseUrl(url),
+                        setServerError(error.response.status);
                 }
                 else {
                     console.error('Error fetching state count:', error);
@@ -67,9 +68,9 @@ const TrendingPage = ({ trendingItems = [] }) => {
             }
         }
     };
-    
-    const {data:formattedData, isLoading} = useQuery({
-        queryKey:["trending",apiBaseUrl],
+
+    const { data: formattedData, isLoading } = useQuery({
+        queryKey: ["trending", apiBaseUrl],
         queryFn: fetchData,
 
     })

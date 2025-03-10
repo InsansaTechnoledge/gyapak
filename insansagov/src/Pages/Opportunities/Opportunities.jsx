@@ -24,7 +24,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useApi, CheckServer } from "../../Context/ApiContext";
 
 const ModernExamDetailsPage = () => {
-  const { apiBaseUrl, setApiBaseUrl } = useApi();
+  const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
   const location = useLocation();
   // Parse the query parameters
   const queryParams = new URLSearchParams(location.search);
@@ -49,7 +49,8 @@ const ModernExamDetailsPage = () => {
       if (error.response || error.request) {
         if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
           const url = await CheckServer();
-          setApiBaseUrl(url);
+          setApiBaseUrl(url),
+            setServerError(error.response.status);
         }
         else {
           console.error('Error fetching state count:', error);
