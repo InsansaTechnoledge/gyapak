@@ -1,21 +1,19 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { RingLoader } from 'react-spinners';
-import ErrorPage from '../Pages/Error/ErrorPage';
 import ServerPage from '../Pages/Error/ServerPage';
-import { use } from 'react';
 
 
 const ApiContext = createContext();
 
 
 export const SERVER_URLS = [
-    // "https://gyapak-2.onrender.com",
-    // "https://gyapak.onrender.com",
-    // "https://gyapak-3.onrender.com",
-    // "https://gyapak-4.onrender.com"
-    "http://localhost:5000",
-    "http://localhost:3000"
+    "https://gyapak-2.onrender.com",
+    "https://gyapak.onrender.com",
+    "https://gyapak-3.onrender.com",
+    "https://gyapak-4.onrender.com"
+    // "http://localhost:5000",
+    // "http://localhost:3000"
   ];
 
   export const CheckServer = async () => {
