@@ -216,7 +216,7 @@ const Contact = () => {
                             null
                     }
                     <div className="grid lg:grid-cols-2 gap-8 items-start">
-                        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-800 to-indigo-700 p-8 lg:p-12 shadow-xl order-2 lg:order-1">
+                        <div className="h-full relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-800 to-indigo-700 p-8 lg:p-12 shadow-xl order-2 lg:order-1">
                             <div className="absolute inset-0 bg-[url('/api/placeholder/400/400')] opacity-10 mix-blend-overlay"></div>
 
                             <h2 className="text-3xl font-bold text-white mb-8">Campus Resources</h2>
@@ -236,7 +236,7 @@ const Contact = () => {
                                     </div>
                                 </div>
 
-                                <div className="bg-white/10 rounded-xl p-6 backdrop-blur-sm hover:bg-white/20 transition-colors">
+                                {/* <div className="bg-white/10 rounded-xl p-6 backdrop-blur-sm hover:bg-white/20 transition-colors">
                                     <div className="flex items-start gap-4">
                                         <Phone className="w-6 h-6 text-purple-200 flex-shrink-0" />
                                         <div>
@@ -247,7 +247,7 @@ const Contact = () => {
                                             </p>
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
 
                                 <div className="bg-white/10 rounded-xl p-6 backdrop-blur-sm hover:bg-white/20 transition-colors">
                                     <div className="flex items-start gap-4">
@@ -255,8 +255,7 @@ const Contact = () => {
                                         <div>
                                             <h3 className="font-semibold text-white mb-2">Email Support</h3>
                                             <p className="text-purple-100">
-                                                talent@insansa.com<br />
-                                                sales@insansa.com
+                                                queries@insansa.com
                                             </p>
                                         </div>
                                     </div>

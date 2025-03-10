@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, ChevronDown, Search, MapPin, AlertTriangle } from 'lucide-react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { debounce, update } from 'lodash';
@@ -65,6 +65,7 @@ const Navbar = () => {
   const [stateDropdownVisible, setStateDropdownVisible] = useState(false);
   const [visibleCategories, setVisibleCategories] = useState(categories);
   const [categoryDropdownVisible, setCategoryDropdownVisible] = useState(false);
+  const navRef = useRef(null);
 
   const fetchStates = async () => {
     try {
@@ -94,6 +95,20 @@ const Navbar = () => {
   // useEffect(() => {
   //   fetchStates();
   // }, []);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (navRef.current && !navRef.current.contains(event.target)) {
+        setIsOpen(false); // Call function when clicking outside
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const { data: states, isLoading } = useQuery({
     queryKey: ["navbarStates", apiBaseUrl],
@@ -264,8 +279,8 @@ const Navbar = () => {
   return (
 
     <nav 
-    onBlur={()=>setIsOpen(false)}
-    className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-lg' : 'bg-transparent'}`}>
+    ref={navRef}
+className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-lg' : 'bg-transparent'}`}>
       <style>
         {`
           .custom-scrollbar::-webkit-scrollbar {
@@ -576,19 +591,13 @@ const Navbar = () => {
           >
             Top Categories
           </a>
-          <a
-            onClick={() => setIsOpen(false)}
-            href="/#landing-admit"
-            className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
-          >
-            Latest Admit Cards
-          </a>
+      
           <a
             onClick={() => setIsOpen(false)}
             href="/#landing-result"
             className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
           >
-            Latest Results
+            Important Links
           </a>
           <a
             onClick={() => setIsOpen(false)}

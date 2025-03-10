@@ -3,7 +3,7 @@ import Draggable from 'react-draggable';
 import { MessageCircle, Send, X, MinusCircle, User, Bot } from 'lucide-react';
 import axios from 'axios';
 import parse from 'html-react-parser';
-import { DotLoader} from 'react-spinners';
+import { DotLoader } from 'react-spinners';
 
 const ChatBot = () => {
 
@@ -11,6 +11,21 @@ const ChatBot = () => {
     const [isChatBotLoading, setIsChatBotLoading] = useState(false);
     const containerRef = useRef(null)
     const dragRef = useRef(null);
+    const windowRef = useRef(null);
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+          if (windowRef.current && !windowRef.current.contains(event.target)) {
+            setIsOpen(false); // Call function when clicking outside
+          }
+        }
+    
+        document.addEventListener("mousedown", handleClickOutside);
+        
+        return () => {
+          document.removeEventListener("mousedown", handleClickOutside);
+        };
+      }, []);
 
     useEffect(() => {
         const handleResize = () => {
@@ -86,23 +101,23 @@ const ChatBot = () => {
                 var responseType = ''
                 console.log(response.data);
                 if (botResponse.exam_details) {
-                    if(!botResponse.exam_details.start_date){
+                    if (!botResponse.exam_details.start_date) {
                         responseSet = [botResponse.exam_details.apply_link, botResponse.exam_details.url, botResponse.exam_details.name];
                         responseType = 'no-date'
 
-                        
+
                     }
-                    else if(!botResponse.exam_details.apply_link){
+                    else if (!botResponse.exam_details.apply_link) {
                         responseSet = [botResponse.exam_details.url, botResponse.exam_details.start_date, botResponse.exam_details.end_date, botResponse.exam_details.name];
                         responseType = 'no-apply-link'
 
                     }
-                    else{
+                    else {
 
                         responseSet = [botResponse.exam_details.apply_link, botResponse.exam_details.start_date, botResponse.exam_details.end_date, botResponse.exam_details.url, botResponse.exam_details.name]
                         responseType = 'all'
-                        
-                    
+
+
                     }
                 }
                 else if (botResponse.start_date) {
@@ -115,9 +130,9 @@ const ChatBot = () => {
                     responseSet = [botResponse.end_date.end_date, botResponse.end_date.name];
 
                 }
-                else if(botResponse.date){
+                else if (botResponse.date) {
                     responseType = 'date'
-                    responseSet = [botResponse.date.start_date,botResponse.date.end_date, botResponse.date.name];
+                    responseSet = [botResponse.date.start_date, botResponse.date.end_date, botResponse.date.name];
                 }
                 else if (botResponse.link_details) {
                     responseType = 'link'
@@ -198,15 +213,20 @@ const ChatBot = () => {
         setMessages((prev) => [...prev, newBotMessage])
     }
 
+    
 
     const chatWindow = (
-        <div className={`z-50 fixed bottom-6 right-6 w-80 md:w-96 ${isMinimized ? 'h-14' : 'h-[600px]'}
+        <div
+            id='chat-window'
+            ref={windowRef}
+            className={`z-50 fixed bottom-6 right-6 w-80 md:w-96 ${isMinimized ? 'h-14' : 'h-[600px]'}
      rounded-2xl shadow-2xl transition-all duration-300 overflow-hidden
       ${isOpen ? 'animate-in slide-in-from-right' : ''}`}>
-            <div className="drag-handle p-3 bg-gradient-to-r from-indigo-500 to-purple-600
+            <div
+                className="drag-handle p-3 bg-gradient-to-r from-indigo-500 to-purple-600
         text-white rounded-t-2xl flex justify-between items-center cursor-move
         hover:bg-gradient-to-r hover:from-indigo-600 hover:to-purple-700 transition-all duration-300">
-                
+
                 <div className="flex-1 text-center">
                     <h2 className="text-sm font-medium">AskGyapak</h2>
                 </div>
@@ -354,73 +374,73 @@ const ChatBot = () => {
                                     {
                                         message.type === "date" && (
                                             <div className="space-y-2 space-x-2">
-                                            <p className="text-sm font-medium">Details for {message.set[2]}</p>
-                                            <button onClick={() => (addMessage("start-date", message.set[0]))} className="px-3 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800">
-                                                Start Date
-                                            </button>
-                                            <button onClick={() => (addMessage("end-date", message.set[1]))} className="px-3 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800">
-                                                End Date
-                                            </button>
-                                        </div>
+                                                <p className="text-sm font-medium">Details for {message.set[2]}</p>
+                                                <button onClick={() => (addMessage("start-date", message.set[0]))} className="px-3 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800">
+                                                    Start Date
+                                                </button>
+                                                <button onClick={() => (addMessage("end-date", message.set[1]))} className="px-3 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800">
+                                                    End Date
+                                                </button>
+                                            </div>
                                         )
                                     }
                                     {
                                         message.type === "no-date" && (
                                             <div className="space-y-2 space-x-2">
-                                            <p className="text-sm font-medium">Details for {message.set[2]}</p>
-                                            <button
-                                                className="px-3 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800"
-                                                onClick={() => {
-                                                    const url = message.set[0];
-                                                    if (url.startsWith("http://") || url.startsWith("https://")) {
-                                                        window.open(url, "_blank");
-                                                    } else {
-                                                        console.error("Invalid URL:", url);
-                                                    }
-                                                }}
-                                            >
-                                                Apply Link
-                                            </button>
-                                            <button
-                                                className="px-3 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800"
-                                                onClick={() => {
-                                                    const url = message.set[1];
-                                                    if (url.startsWith("http://") || url.startsWith("https://")) {
-                                                        window.location.href = url;
-                                                    } else {
-                                                        console.error("Invalid URL:", url);
-                                                    }
-                                                }}
-                                            >
-                                                More Info
-                                            </button>
-                                        </div>
+                                                <p className="text-sm font-medium">Details for {message.set[2]}</p>
+                                                <button
+                                                    className="px-3 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800"
+                                                    onClick={() => {
+                                                        const url = message.set[0];
+                                                        if (url.startsWith("http://") || url.startsWith("https://")) {
+                                                            window.open(url, "_blank");
+                                                        } else {
+                                                            console.error("Invalid URL:", url);
+                                                        }
+                                                    }}
+                                                >
+                                                    Apply Link
+                                                </button>
+                                                <button
+                                                    className="px-3 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800"
+                                                    onClick={() => {
+                                                        const url = message.set[1];
+                                                        if (url.startsWith("http://") || url.startsWith("https://")) {
+                                                            window.location.href = url;
+                                                        } else {
+                                                            console.error("Invalid URL:", url);
+                                                        }
+                                                    }}
+                                                >
+                                                    More Info
+                                                </button>
+                                            </div>
                                         )
                                     }
                                     {
                                         message.type === "no-apply-link" && (
                                             <div className="space-y-2 space-x-2">
-                                            <p className="text-sm font-medium">Details for {message.set[3]}</p>
-                                            <button onClick={() => (addMessage("start-date", message.set[1]))} className="px-3 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800">
-                                                Start Date
-                                            </button>
-                                            <button onClick={() => (addMessage("end-date", message.set[2]))} className="px-3 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800">
-                                                End Date
-                                            </button>
-                                            <button
-                                                className="px-3 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800"
-                                                onClick={() => {
-                                                    const url = message.set[0];
-                                                    if (url.startsWith("http://") || url.startsWith("https://")) {
-                                                        window.location.href = url;
-                                                    } else {
-                                                        console.error("Invalid URL:", url);
-                                                    }
-                                                }}
-                                            >
-                                                More Info
-                                            </button>
-                                        </div>
+                                                <p className="text-sm font-medium">Details for {message.set[3]}</p>
+                                                <button onClick={() => (addMessage("start-date", message.set[1]))} className="px-3 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800">
+                                                    Start Date
+                                                </button>
+                                                <button onClick={() => (addMessage("end-date", message.set[2]))} className="px-3 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800">
+                                                    End Date
+                                                </button>
+                                                <button
+                                                    className="px-3 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800"
+                                                    onClick={() => {
+                                                        const url = message.set[0];
+                                                        if (url.startsWith("http://") || url.startsWith("https://")) {
+                                                            window.location.href = url;
+                                                        } else {
+                                                            console.error("Invalid URL:", url);
+                                                        }
+                                                    }}
+                                                >
+                                                    More Info
+                                                </button>
+                                            </div>
                                         )
                                     }
                                     {message.type === "start-date" && (
@@ -491,10 +511,10 @@ const ChatBot = () => {
                             </div>
                         ))}
 
-                    
+
                         <DotLoader speedMultiplier={1.6} size={25} color={'#8854EB'} loading={isChatBotLoading} />
                         {/* <SyncLoader size={6} color={'#8854EB'} loading={true} /> */}
-                        
+
                     </div>
 
                     <form onSubmit={handleSend} className="h-full p-4 border-t-gray-400 bg-white border-t">
