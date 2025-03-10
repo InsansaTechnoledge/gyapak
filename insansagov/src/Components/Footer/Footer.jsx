@@ -15,9 +15,16 @@ const Footer = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    const email = e.target.email.value;
+    if(!email || email.length>50) {
+      alert("Please enter a valid email address !!");
+      setLoading(false);
+      return;
+    }
+    const name = email.split('@')[0];
+
     try {
-      const email = e.target.email.value;
-      const name = email.split('@')[0];
+
       const response = await axios.post(`${apiBaseUrl}/api/subscriber/create`, { email, name });
 
       if (response.status === 201) {
@@ -38,11 +45,14 @@ const Footer = () => {
           setTimeout(()=>document.getElementById("subscribe").click(),1000);
         }
         else {
-          console.error('Error fetching state count:', error);
+          console.error('Error in subscribing !!:', error);
+          setLoading(false);
+
         }
       }
       else {
-        console.error('Error fetching state count:', error);
+        console.error('Error in subscribing !!:', error);
+        setLoading(false);
       }
     }
   };

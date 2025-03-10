@@ -168,7 +168,6 @@ const Credits = () => {
         'Rajasthan Police': 'https://upload.wikimedia.org/wikipedia/en/9/9b/Rajasthan_Police_Logo.png',
         'PSTET':'https://cdn.aglasem.com/centralised/exam-logo/PSTET.png',
         'PSPCL':'https://pspcl.in/assets/images/logo.png',
-        'PSCB':'https://apex.pbcoopbank.in/wp-content/uploads/elementor/thumbs/cropped-logo-300x300-1-pxg4w26ncnapd9dun17kmg7cqdbo8orkscyin1409o.png',
         'RSMSSB':'https://odishafreejobalert.com/wp-content/uploads/2022/03/RSMSSB-LOGO.png',
         'TRB':'https://media.9curry.com/uploads/organization/image/575/tntrb.png',
         'UPJEE':'https://cdnbbsr.s3waas.gov.in/s325db67c5657914454081c6a18e93d6dd/uploads/2022/01/2022012945.png',
