@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, ChevronDown, Search, MapPin, AlertTriangle } from 'lucide-react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { debounce } from 'lodash';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { debounce, update } from 'lodash';
 import axios from 'axios';
 import { useApi, CheckServer } from '../../Context/ApiContext';
 import { useQuery } from '@tanstack/react-query';
@@ -21,12 +21,18 @@ const categories = [
   { Nameid: 'Agriculture', name: 'Agriculture', icon: '🌾' },
 ];
 
-const StateIcon = ({ state, index }) => {
+const StateIcon = ({ state, index, updateVisibleStates, setStateDropdownVisible }) => {
   const navigate = useNavigate();
   return (
     <div
       key={index}
-      onClick={() => navigate(`/state?name=${encodeURI(state)}`)}
+      onClick={() => {
+
+        updateVisibleStates(state);
+        setStateDropdownVisible(false);
+        navigate(`/state?name=${encodeURI(state)}`)
+
+      }}
       className="flex items-center p-3 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 group cursor-pointer"
     >
       <div className="h-12 w-12 bg-gradient-to-br from-purple-100 to-blue-100 rounded-xl flex items-center justify-center group-hover:from-purple-200 group-hover:to-blue-200 transition-all duration-300">
@@ -41,6 +47,7 @@ const StateIcon = ({ state, index }) => {
   );
 };
 
+
 const Navbar = () => {
   const { apiBaseUrl, setApiBaseUrl } = useApi();
   const location = useLocation();
@@ -53,6 +60,11 @@ const Navbar = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [logoVisible, setLogoVisible] = useState(false);
+  const [searchParams] = useSearchParams();
+  const [visibleStates, setVisibleStates] = useState();
+  const [stateDropdownVisible, setStateDropdownVisible] = useState(false);
+  const [visibleCategories, setVisibleCategories] = useState(categories);
+  const [categoryDropdownVisible, setCategoryDropdownVisible] = useState(false);
 
   const fetchStates = async () => {
     try {
@@ -92,8 +104,48 @@ const Navbar = () => {
   })
 
   useEffect(() => {
+    if (states) {
+      setVisibleStates(states);
+    }
+  }, [states]);
+
+  useEffect(() => {
     setIsScrolled(location.pathname === '/' ? false : true);
+    if (location.pathname == '/state' && states) {
+      const currState = searchParams.get("name");
+      setVisibleStates(states.filter(st => st !== currState));
+    }
+    else{
+      setVisibleStates(states);
+    }
+
+    if(location.pathname == '/category'){
+      const currCategory = searchParams.get("name");
+      setVisibleCategories(categories.filter(cat => cat!==currCategory));
+    }
+    else{
+      setVisibleCategories(categories);
+    }
   }, [location.pathname]);
+
+  const updateVisibleStates = (state) => {
+    if (location.pathname == '/state' && states) {
+      setVisibleStates(states.filter(st => st !== state));
+    }
+    else{
+      setVisibleStates(states);
+    }
+  }
+
+  const updateVisibleCategories = (category) => {
+    if (location.pathname == '/category') {
+      setVisibleCategories(categories.filter(cat => cat !== category));
+    }
+    else{
+      setVisibleCategories(categories);
+    }
+  }
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -259,58 +311,83 @@ const Navbar = () => {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-8">
             {/* Categories Dropdown */}
-            <div className="relative group">
-              <button className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${isScrolled ? 'text-gray-700 hover:bg-purple-50' : 'text-white hover:bg-white/10'} transition-all duration-300`}>
+            <div 
+            onMouseLeave={()=>setCategoryDropdownVisible(false)}
+            className="relative">
+              <button 
+              onMouseEnter={()=>setCategoryDropdownVisible(true)}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${isScrolled ? 'text-gray-700 hover:bg-purple-50' : 'text-white hover:bg-white/10'} transition-all duration-300`}>
                 <span>Categories</span>
                 <ChevronDown className="w-4 h-4" />
               </button>
-              <div className="absolute top-full -left-28 mt-2 w-[480px] rounded-xl shadow-xl bg-white/95 backdrop-blur-sm ring-1 ring-black/5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                <div className="p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Browse Categories</h3>
-                  <div className="grid grid-cols-2 gap-3">
-                    {categories.map((category, index) => (
-                      <div
-                        key={index}
-                        onClick={() => navigate(`/category?name=${encodeURI(category.Nameid)}`)}
-                        className="flex items-center p-3 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 group cursor-pointer"
-                      >
-                        <div className="h-12 w-12 bg-gradient-to-br from-purple-100 to-blue-100 rounded-xl flex items-center justify-center text-xl group-hover:from-purple-200 group-hover:to-blue-200 transition-all duration-300">
-                          <span>{category.icon}</span>
+              {
+                categoryDropdownVisible
+                ?
+                <div className="absolute top-full -left-28 w-[480px] rounded-xl shadow-xl bg-white/95 backdrop-blur-sm ring-1 ring-black/5 transition-all duration-300 transform">
+                  <div className="p-6">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Browse Categories</h3>
+                    <div className="grid grid-cols-2 gap-3">
+                      {visibleCategories.map((category, index) => (
+                        <div
+                          key={index}
+                          onClick={() => {
+                            updateVisibleCategories(category);
+                            setCategoryDropdownVisible(false);
+                            navigate(`/category?name=${encodeURI(category.Nameid)}`)
+                          }}
+                          className="flex items-center p-3 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 group cursor-pointer"
+                        >
+                          <div className="h-12 w-12 bg-gradient-to-br from-purple-100 to-blue-100 rounded-xl flex items-center justify-center text-xl group-hover:from-purple-200 group-hover:to-blue-200 transition-all duration-300">
+                            <span>{category.icon}</span>
+                          </div>
+                          <div className="ml-4">
+                            <span className="text-sm font-medium text-gray-800 group-hover:text-purple-700 transition-colors">
+                              {category.name}
+                            </span>
+                          </div>
                         </div>
-                        <div className="ml-4">
-                          <span className="text-sm font-medium text-gray-800 group-hover:text-purple-700 transition-colors">
-                            {category.name}
-                          </span>
-                        </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
+                :
+                null
+              }
             </div>
 
             {/* States Dropdown */}
-            <div className="relative group">
-              <button className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${isScrolled ? 'text-gray-700 hover:bg-purple-50' : 'text-white hover:bg-white/10'} transition-all duration-300`}>
+            <div className="relative" id='state-group' 
+            onMouseLeave={() => setStateDropdownVisible(false)}
+            >
+              <button 
+              onMouseEnter={() => setStateDropdownVisible(true)} 
+              
+              className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${isScrolled ? 'text-gray-700 hover:bg-purple-50' : 'text-white hover:bg-white/10'} transition-all duration-300`}>
                 <span>States</span>
                 <ChevronDown className="w-4 h-4" />
               </button>
-              <div className="absolute top-full left-1/2 transform -translate-x-[60%] mt-2 w-[700px] rounded-xl shadow-xl bg-white/95 backdrop-blur-sm ring-1 ring-black/5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                <div className="p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Browse States</h3>
-                  <div className="grid grid-cols-3 gap-4">
-                    {states && states.map((state, index) => (
-                      <StateIcon key={index} state={state} index={index} />
-                    ))}
+              {
+                stateDropdownVisible
+                  ?
+                  <div className="absolute top-full left-1/2 transform -translate-x-[60%] w-[700px] rounded-xl shadow-xl bg-white/95 backdrop-blur-sm ring-1 ring-black/5 transition-all duration-300">
+                    <div className="p-6">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Browse States</h3>
+                      <div className="grid grid-cols-3 gap-4">
+                        {visibleStates && visibleStates.map((state, index) => (
+                          <StateIcon key={index} state={state} index={index} updateVisibleStates={updateVisibleStates} setStateDropdownVisible={setStateDropdownVisible}/>
+                        ))}
+                      </div>
+                      <div className="mt-4 flex items-start justify-center space-x-3 bg-purple-700 p-4 rounded-lg border border-amber-500/50 hover:border-amber-500 transition-colors duration-300 backdrop-blur-sm">
+                        <AlertTriangle className="h-5 w-5 text-purple-50 flex-shrink-0 mt-1 animate-pulse" />
+                        <p className="text-gray-200 text-sm leading-relaxed">
+                          Remaining states would be available soon!
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <div className="mt-4 flex items-start justify-center space-x-3 bg-purple-700 p-4 rounded-lg border border-amber-500/50 hover:border-amber-500 transition-colors duration-300 backdrop-blur-sm">
-                    <AlertTriangle className="h-5 w-5 text-purple-50 flex-shrink-0 mt-1 animate-pulse" />
-                    <p className="text-gray-200 text-sm leading-relaxed">
-                      Remaining states would be available soon!
-                    </p>
-                  </div>
-                </div>
-              </div>
+                  :
+                  null
+              }
 
             </div>
 
