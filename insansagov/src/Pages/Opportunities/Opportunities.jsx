@@ -39,7 +39,7 @@ const ModernExamDetailsPage = () => {
       const response = await axios.get(`${apiBaseUrl}/api/event/${examId}`);
 
       if (response.status === 200) {
-        console.log(response.data);
+        // console.log(response.data);
         setData(response.data.exam);
         setOrganization(response.data.organization.name);
         return response.data;
