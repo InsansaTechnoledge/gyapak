@@ -1,9 +1,10 @@
 import express from 'express';
-import { create, unsubscribe , subscribeMail } from '../controller/subscriberController.js'
+import { create, unsubscribe  } from '../controller/subscriberController.js'
+import { verifySubscriber } from '../middleware/validator.js';
 
 const router=express.Router();
 
-router.post('/create',create);
+router.post('/create',verifySubscriber,create);
 router.post('/unsubscribe', unsubscribe);
 
 

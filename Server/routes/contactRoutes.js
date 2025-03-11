@@ -1,6 +1,6 @@
 import express from 'express';
 import { sendMailtoQueries,sendMailtoUser } from '../controller/contactController.js'
-import {verifyField} from '../config/validator.js'
+import {verifyField} from '../middleware/validator.js'
 
 const router = express.Router();
 
