@@ -37,7 +37,7 @@ const organizationSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref:"Category"
     },
-    calender:{
+    calendar:{
         type: String
     }
     
