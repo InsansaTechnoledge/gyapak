@@ -33,7 +33,9 @@ export default defineConfig({
     rollupOptions: {
       output: {
         // Disable automatic chunk splitting
-        manualChunks: undefined, // This disables code-splitting
+        manualChunks: {
+          'pdf.worker': ['pdfjs-dist/build/pdf.worker.min'],
+        }, // This disables code-splitting
         // You can manually specify chunk sizes for particular libraries
         // Example:
         // chunkFileNames: '[name]-[hash].js',

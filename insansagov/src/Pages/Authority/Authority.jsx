@@ -10,6 +10,8 @@ import no_data_image from '../../assets/Landing/no_data.jpg'
 import { Helmet } from 'react-helmet-async';
 import { CheckServer, useApi } from '../../Context/ApiContext';
 import { useQuery } from '@tanstack/react-query';
+import ExamCalendar from '../../Components/Calendar/ExamCalendar';
+import { set } from 'lodash';
 
 const Authority = () => {
     const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
@@ -20,6 +22,7 @@ const Authority = () => {
     const [events, setEvents] = useState();
     const [filteredEvents, setFilteredEvents] = useState();
     const [relatedOrganizations, setRelatedOrganizations] = useState();
+    const [calendarDisplay, setCalendarDidsplay] = useState(false);
 
     // Parse the query parameters
     const queryParams = new URLSearchParams(location.search);
@@ -120,6 +123,17 @@ const Authority = () => {
         </div>
     }
 
+    const toggleCalendarDisplay = () => {
+        if(calendarDisplay){
+            document.getElementById('view-calendar').innerHTML='View annual calendar'
+        }
+        else{
+            document.getElementById('view-calendar').innerHTML='Hide annual calendar'
+        }
+        setCalendarDidsplay(!calendarDisplay);
+        
+    }
+
     return (
         <>
             <Helmet>
@@ -129,12 +143,35 @@ const Authority = () => {
                 <meta property="og:title" content="gyapak" />
                 <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
             </Helmet>
-            <div className='pt-28'>
+            <div className='pt-28 bg-red'>
                 <div className='flex flex-col justify-center mb-20'>
                     <img src={`data:image/png;base64,${organization.logo}`} className='w-32 self-center mb-5' />
                     <h1 className='text-3xl self-center font-bold mb-5'>{organization.name}</h1>
                     <div className='self-center text-center'>{organization.description}</div>
                 </div>
+
+                {
+                    organization.calendar
+                    ?
+                    <div className='flex justify-end mb-10'>
+                        <button
+                        id='view-calendar' 
+                        onClick={toggleCalendarDisplay}
+                        className='py-3 px-4 rounded-md bg-purple-700 text-white font-medium'>
+                            View annual calendar
+                        </button>
+
+                    </div>
+                    :
+                    null
+                }
+                {
+                    calendarDisplay
+                    ?
+                    <ExamCalendar organizationId={organization._id}/>
+                    :
+                    null
+                }
 
                 {
                     filteredEvents.length > 0
