@@ -47,7 +47,7 @@ const Search = (props) => {
     }
 
     try {
-      const response = await axios.get(`${apiBaseUrl}/api/search/`, { params: { q: query } });
+      const response = await axios.get(`${apiBaseUrl}/api/search/`, { params: { q: query.trim() } });
       setSuggestions(response.data.suggestions);
       setShowDropdown(true);
       console.log(response.data.suggestions);

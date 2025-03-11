@@ -200,7 +200,8 @@ const Navbar = () => {
 
   const handleSearch = (suggestion) => {
     // preventDefault();
-    navigate(`/search/?query=${encodeURI(suggestion)}`);
+    const trimmedSuggestion = suggestion.trim();
+    navigate(`/search/?query=${encodeURI(trimmedSuggestion)}`);
     setSearchQuery("");
   };
 
@@ -224,7 +225,7 @@ const Navbar = () => {
 
     try {
       console.log('Fetching suggestions for:', apiBaseUrl);
-      const response = await axios.get(`${apiBaseUrl}/api/search/`, { params: { q: query } });
+      const response = await axios.get(`${apiBaseUrl}/api/search/`, { params: { q: query.trim() } });
       setSuggestions(response.data.suggestions);
       setShowDropdown(true);
     } catch (error) {
@@ -436,7 +437,7 @@ className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-whi
                     onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter') {
-                        navigate(`/search?query=${encodeURI(searchQuery)}`)
+                        navigate(`/search?query=${encodeURI(searchQuery.trim())}`)
                       }
                       console.log(e)
                     }}

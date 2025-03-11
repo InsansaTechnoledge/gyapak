@@ -8,9 +8,9 @@ export const search = async (req, res) => {
     const { query } = req.params;
 
     // Validate that query is provided
-    if (!query) {
-      return res.status(400).json({ message: "Search query is required." });
-    }
+    // if (!query) {
+    //   return res.status(200).json({ message: "Search query is required." });
+    // }
 
     // Retrieve the database instance
     const db = mongoose.connection.db;
@@ -47,7 +47,11 @@ export const search = async (req, res) => {
 
 export const searchSuggestion = async (req, res) => {
   const userInput = req.query.q || '';
-  if (!userInput) return res.json({ suggestions: [] });
+  if (!userInput) return res.json({ suggestions: {
+    "organizations":[],
+    "authorities": [],
+    "categories": []
+  } });
 
   try {
     const regex = new RegExp(`${userInput.split("").join(".*")}`, 'i'); 

@@ -51,7 +51,7 @@ const StateComponent = () => {
         }
 
         try {
-            const response = await axios.get(`${apiBaseUrl}/api/search/state`, { params: { q: query } });
+            const response = await axios.get(`${apiBaseUrl}/api/search/state`, { params: { q: query.trim() } });
             setSuggestions(response.data.suggestions);
             console.log(response.data.suggestions);
             setShowDropdown(true);

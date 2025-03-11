@@ -28,10 +28,13 @@ const SearchPage = () => {
     try {
 
       setQuery(queryData);
+      if (queryData == '') {
+        return { authorities: [], organizations: [], categories: [] };
+      }
       const response = await axios.get(`${apiBaseUrl}/api/search/result/${queryData}`);
 
       if (response.status === 200) {
-        console.log(response.data);
+        console.log("SD", response.data);
         return response.data;
       }
     }
@@ -74,7 +77,7 @@ const SearchPage = () => {
   // }, [location])
 
   const searchHandler = (input) => {
-    navigate(`/search?query=${encodeURIComponent(input)}`);
+    navigate(`/search?query=${encodeURIComponent(input.trim())}`);
   }
 
   if (!searchData) {

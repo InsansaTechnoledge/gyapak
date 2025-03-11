@@ -38,7 +38,8 @@ const Hero = () => {
     }, []);
 
     const searchHandler = useMemo(() => (input) => {
-        navigate(`/search?query=${encodeURIComponent(input)}`);
+        const trimmedInput = input.trim();
+        navigate(`/search?query=${encodeURIComponent(trimmedInput)}`);
     }, [navigate]);
 
     return (
