@@ -15,6 +15,7 @@ import BackButton from "../../Components/BackButton/BackButton";
 import { Helmet } from "react-helmet-async";
 import { useQuery } from "@tanstack/react-query";
 import { useApi, CheckServer } from "../../Context/ApiContext";
+import ExamCalendar from "../../Components/Calendar/ExamCalendar";
 
 const OverviewPage = () => {
     const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
@@ -34,7 +35,7 @@ const OverviewPage = () => {
             const [typeAResponse, typeBResponse, typeCResponse] = await Promise.all([
                 axios.get(`${apiBaseUrl}/api/admitCard`),
                 axios.get(`${apiBaseUrl}/api/result`),
-                // axios.get(`${API_BASE_URL}/api/examDates`)
+                axios.get(`${apiBaseUrl}/api/organization/calendar/all`)
             ]);
 
             // Format type A data (admit cards)
@@ -59,19 +60,20 @@ const OverviewPage = () => {
                 documentType: 'Update'
             }));
 
+            console.log(typeCResponse);
             // Format type C data (exam dates)
-            // const formattedTypeC = typeCResponse.data.map(item => ({
-            //     ...item,
-            //     category: 'schedule',
-            //     title: item.name || item.examName,
-            //     organization: item.abbreviation || item.organization,
-            //     date: item.examDate,
-            //     status: 'Upcoming',
-            //     documentType: 'Event'
-            // }));
+            const formattedTypeC = typeCResponse.data.map(item => ({
+                ...item,
+                category: 'calendar',
+                title: item.name,
+                organization: item.abbreviation,
+                date: item.examDate,
+                status: 'Active',
+                documentType: 'Calendar'
+            }));
 
             // Combine all updates
-            const combined = [...formattedTypeA, ...formattedTypeB];
+            const combined = [...formattedTypeA, ...formattedTypeB, ...formattedTypeC];
 
             // Sort by date (newest first)
             combined.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -170,7 +172,7 @@ const OverviewPage = () => {
         switch (category) {
             case 'documents': return FileText;
             case 'updates': return Clock;
-            case 'schedule': return Calendar;
+            case 'calendar': return Calendar;
             default: return Building2;
         }
     };
@@ -179,7 +181,7 @@ const OverviewPage = () => {
         switch (category) {
             case 'documents': return blueColorScheme;
             case 'updates': return greenColorScheme;
-            case 'schedule': return orangeColorScheme;
+            case 'calendar': return orangeColorScheme;
             default: return purpleColorScheme;
         }
     };
@@ -193,53 +195,65 @@ const OverviewPage = () => {
         });
     };
 
+    const toggleCalendar = (id) => {
+        document.getElementById('calendar_'+id).classList.toggle('hidden');
+
+        if(document.getElementById('calendar_'+id).classList.contains('hidden')){
+            document.getElementById('btn_'+id).innerHTML="View Annual Calendar";
+        }
+        else{
+            document.getElementById('btn_'+id).innerHTML="Hide Annual Calendar";
+        }
+    }
+
     const UpdateCard = ({ item }) => {
         const colorScheme = getColorScheme(item.category);
         const IconComponent = getCategoryIcon(item.category);
+        if (item.category != 'calendar') {
 
-        return (
-            <div className="bg-white shadow-md rounded-lg overflow-hidden transition-all hover:shadow-lg">
-                <div className={`h-2 ${colorScheme.headerBg}`} />
-                <div className="p-6 space-y-4">
-                    <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                            <div className="flex items-center gap-3 mb-3">
-                                <div className={`p-2.5 rounded-xl ${colorScheme.iconBg} ring-1 ring-inset ${colorScheme.iconRing}`}>
-                                    <IconComponent className={`h-5 w-5 ${colorScheme.icon}`} />
-                                </div>
-                                <div>
-                                    <h4 className={`text-lg font-semibold ${colorScheme.title} line-clamp-1`}>
-                                        {item.organization}
-                                    </h4>
-                                    <span className={`text-xs font-medium ${colorScheme.typeBadge} px-2.5 py-0.5 rounded-full`}>
-                                        {item.status}
-                                    </span>
+            return (
+                <div className="bg-white shadow-md rounded-lg overflow-hidden transition-all hover:shadow-lg">
+                    <div className={`h-2 ${colorScheme.headerBg}`} />
+                    <div className="p-6 space-y-4">
+                        <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                                <div className="flex items-center gap-3 mb-3">
+                                    <div className={`p-2.5 rounded-xl ${colorScheme.iconBg} ring-1 ring-inset ${colorScheme.iconRing}`}>
+                                        <IconComponent className={`h-5 w-5 ${colorScheme.icon}`} />
+                                    </div>
+                                    <div>
+                                        <h4 className={`text-lg font-semibold ${colorScheme.title} line-clamp-1`}>
+                                            {item.organization}
+                                        </h4>
+                                        <span className={`text-xs font-medium ${colorScheme.typeBadge} px-2.5 py-0.5 rounded-full`}>
+                                            {item.status}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div className="space-y-3">
-                        <p className="text-gray-900 font-medium text-lg line-clamp-2">
-                            {item.title}
-                        </p>
+                        <div className="space-y-3">
+                            <p className="text-gray-900 font-medium text-lg line-clamp-2">
+                                {item.title}
+                            </p>
 
-                        <div className={`inline-flex items-center gap-2 text-sm ${colorScheme.dateText} bg-gray-50 px-3 py-1.5 rounded-lg`}>
-                            <Calendar className="h-4 w-4" />
-                            <span>{formatDate(item.date)}</span>
+                            <div className={`inline-flex items-center gap-2 text-sm ${colorScheme.dateText} bg-gray-50 px-3 py-1.5 rounded-lg`}>
+                                <Calendar className="h-4 w-4" />
+                                <span>{formatDate(item.date)}</span>
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="flex gap-3 pt-2">
-                        <button
-                            className={`flex-1 px-4 py-2.5 rounded-lg text-white font-medium transition-all duration-200 
+                        <div className="flex gap-3 pt-2">
+                            <button
+                                className={`flex-1 px-4 py-2.5 rounded-lg text-white font-medium transition-all duration-200 
                 ${colorScheme.button} hover:shadow-lg active:scale-98 flex items-center justify-center gap-2`}
-                            onClick={() => window.open(item.apply_link || "#", "_blank")}
-                        >
-                            <span>View Details</span>
-                            <ChevronRight className="h-4 w-4" />
-                        </button>
-                        {/* <button
+                                onClick={() => window.open(item.apply_link || "#", "_blank")}
+                            >
+                                <span>View Details</span>
+                                <ChevronRight className="h-4 w-4" />
+                            </button>
+                            {/* <button
                             onClick={() => toggleNotification(item._id)}
                             className={`p-2.5 rounded-lg transition-all duration-200 
                 ${notifications[item._id]
@@ -249,17 +263,70 @@ const OverviewPage = () => {
                         >
                             <Bell className={`h-5 w-5 ${notifications[item._id] ? colorScheme.icon : "text-gray-500"}`} />
                         </button> */}
+                        </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        }
+        else{
+            return (
+                <div className="col-span-3 bg-white shadow-md rounded-lg overflow-hidden transition-all hover:shadow-lg">
+                    <div className={`h-2 ${colorScheme.headerBg}`} />
+                    <div className="p-6 space-y-4">
+                        <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                                <div className="flex items-center gap-3 mb-3">
+                                    <div className={`p-2.5 rounded-xl ${colorScheme.iconBg} ring-1 ring-inset ${colorScheme.iconRing}`}>
+                                        <IconComponent className={`h-5 w-5 ${colorScheme.icon}`} />
+                                    </div>
+                                    <div>
+                                        <h4 className={`text-lg font-semibold ${colorScheme.title} line-clamp-1`}>
+                                            {item.organization}
+                                        </h4>
+                                        {/* <span className={`text-xs font-medium ${colorScheme.typeBadge} px-2.5 py-0.5 rounded-full`}>
+                                            {item.status}
+                                        </span> */}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="space-y-3">
+                            <p className="text-gray-900 font-medium text-lg line-clamp-2">
+                                {item.title}
+                            </p>
+
+                           
+                        </div>
+
+                        <div className="flex gap-3 pt-2">
+                            <button
+                                id={`btn_${item._id}`}
+                                className={`flex-1 px-4 py-2.5 rounded-lg text-white font-medium transition-all duration-200 
+                ${colorScheme.button} hover:shadow-lg active:scale-98 flex items-center justify-center gap-2`}
+                                onClick={() => toggleCalendar(item._id)}
+                            >
+                                <span>View Annual Calendar</span>
+                                {/* <ChevronRight className="h-4 w-4" /> */}
+                            </button>
+                        </div>
+                            <div 
+                            id={`calendar_${item._id}`}
+                            className="hidden"
+                            >
+                                <ExamCalendar organizationId={item._id} />
+                            </div>
+                    </div>
+                </div>
+            )
+        }
     };
 
     const categories = [
         { id: "all", label: "All Updates", icon: Filter },
         { id: "documents", label: "Documents", icon: FileText },
         { id: "updates", label: "Updates", icon: Clock },
-        // { id: "schedule", label: "Schedule", icon: Calendar },
+        { id: "calendar", label: "Annual calendar", icon: Calendar },
     ];
 
     return (

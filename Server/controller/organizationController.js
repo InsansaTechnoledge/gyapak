@@ -88,3 +88,19 @@ export const getCalendar = async (req,res) => {
     return res.status(400).json(err);
   }
 }
+
+export const getAllCalendars = async (req,res) => {
+  try{
+    const response = await Organization.find({calendar: { $exists: true } });
+    if(response){
+      return res.status(200).json(response);
+    }
+    else{
+      return res.status(400).json({message: "No data found"})
+    }
+  }
+  catch(err){
+    console.log(err);
+    return res.status(500).json({message: err.message});
+  }
+}
