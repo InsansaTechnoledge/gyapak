@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Clock, Send, X, Book, GraduationCap, Award, Users, BookOpen } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, Send, X, Book, GraduationCap, Award, Users, BookOpen, MailWarning } from 'lucide-react';
 import PaperPlane from '../SubmitAnimation/PaperPlane';
 import axios from 'axios';
 import { useApi, CheckServer } from '../../Context/ApiContext';
 import { RingLoader } from 'react-spinners';
+import ErrorAlert from '../Error/ErrorAlert';
 
 const Contact = () => {
-    const { apiBaseUrl, setApiBaseUrl } = useApi();
+   const { apiBaseUrl, setApiBaseUrl,setServerError } = useApi();
     const [isSuccessPopupVisible, setIsSuccessPopupVisible] = useState(false);
     const [activeTab, setActiveTab] = useState('general');
     const [formData, setFormData] = useState({
@@ -18,9 +19,36 @@ const Contact = () => {
     });
 
     const [loading, setLoading] = useState(false);
+    const [isErrorVisible, setIsErrorVisible] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
+        //created object to add the website name  and passed it there 
+        const details = {
+            firstName: formData.firstName.trim(),
+            lastName: formData.lastName.trim(),
+            email: formData.email.trim(),
+            subject: formData.subject.trim(),
+            message: formData.message.trim(),
+            recievedOn: 'gyapak.in'
+        }
+
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+        if (!emailRegex.test(details.email)) {
+            setIsErrorVisible(true);
+            setLoading(false);
+            console.log("email");
+            return
+        }
+
+        if (!details.firstName || !details.lastName || !details.email || !details.subject || !details.message
+            || details.firstName.includes('\u200E') || details.lastName.includes('\u200E') || details.email.includes('\u200E') || details.subject.includes('\u200E') || details.message.includes('\u200E') || details.email.length > 50) {
+            setIsErrorVisible(true);
+            setLoading(false);
+            return;
+        }
 
         const id = document.getElementById("paper");
         const notid = document.getElementById("notpaper");
@@ -33,17 +61,8 @@ const Contact = () => {
             id.classList.remove("flex");
             id.classList.add("hidden");
             notid.classList.remove("blur-sm");
-            setLoading(true);
         }, 1500);
-        //created object to add the website name  and passed it there 
-        const details = {
-            firstName: formData.firstName,
-            lastName: formData.lastName,
-            email: formData.email,
-            subject: formData.subject,
-            message: formData.message,
-            recievedOn: 'gyapak.in'
-        }
+
 
         try {
             const response = await axios.post(`${apiBaseUrl}/api/contact/sendMail `, details);
@@ -54,6 +73,7 @@ const Contact = () => {
                     email: formData.email,
                 });
                 setLoading(false);
+                console.log(response.data);
                 setIsSuccessPopupVisible(true);
                 setFormData({
                     firstName: '',
@@ -64,19 +84,30 @@ const Contact = () => {
                 });
             }
         } catch (error) {
-            console.error('Error sending email:', error);
+            setLoading(false);
             if (error.response || error.request) {
                 if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
                     const url = await CheckServer();
-                    setApiBaseUrl(url);
+                    setApiBaseUrl(url),
+                    setServerError(error.response.status);
                     setTimeout(() => handleSubmit(), 1000);
                 }
                 else {
-                    console.error('Error fetching state count:', error);
-                }
+                    console.error('Error generating the email:', error);
+                        setIsErrorVisible(true);
+                        setLoading(false);
+                        return;
+                        
+
             }
+        }
             else {
-                console.error('Error fetching state count:', error);
+                // Something else happened while setting up the request
+                console.error('Request setup error:', error.message);
+                setIsErrorVisible(true);
+                setLoading(false);
+                return;
+
             }
         }
     };
@@ -102,11 +133,23 @@ const Contact = () => {
         }
     ];
 
+
+
     return (
         <>
             <div id="paper" className="hidden fixed inset-0 items-center justify-center z-40 bg-black/20 backdrop-blur-sm">
                 <PaperPlane />
             </div>
+
+            {
+                isErrorVisible
+                    ?
+                    (
+                        <ErrorAlert title={"Message not sent!"} message={"Please fill in valid details in the form!"} setIsErrorVisible={setIsErrorVisible} />
+                    )
+                    :
+                    null
+            }
 
 
             {isSuccessPopupVisible && (
@@ -134,7 +177,7 @@ const Contact = () => {
             )}
 
             <div id="notpaper" className="min-h-screen py-16 px-4 sm:px-6 lg:px-8">
-                
+
                 <div className="max-w-4xl mx-auto text-center mb-16 space-y-6">
                     <div className="flex justify-center mb-6">
                         <div className="w-20 h-20 bg-purple-800 rounded-full flex items-center justify-center">
@@ -173,17 +216,17 @@ const Contact = () => {
                 </div>
 
                 <div className="max-w-7xl mx-auto">
-                {
-                    loading
-                        ?
-                        <div className='absolute w-8/12 z-50 h-screen flex justify-center'>
-                            <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
-                        </div>
-                        :
-                        null
-                }
+                    {
+                        loading
+                            ?
+                            <div className='absolute w-8/12 z-50 h-screen flex justify-center'>
+                                <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
+                            </div>
+                            :
+                            null
+                    }
                     <div className="grid lg:grid-cols-2 gap-8 items-start">
-                        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-800 to-indigo-700 p-8 lg:p-12 shadow-xl order-2 lg:order-1">
+                        <div className="h-full relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-800 to-indigo-700 p-8 lg:p-12 shadow-xl order-2 lg:order-1">
                             <div className="absolute inset-0 bg-[url('/api/placeholder/400/400')] opacity-10 mix-blend-overlay"></div>
 
                             <h2 className="text-3xl font-bold text-white mb-8">Campus Resources</h2>
@@ -203,7 +246,7 @@ const Contact = () => {
                                     </div>
                                 </div>
 
-                                <div className="bg-white/10 rounded-xl p-6 backdrop-blur-sm hover:bg-white/20 transition-colors">
+                                {/* <div className="bg-white/10 rounded-xl p-6 backdrop-blur-sm hover:bg-white/20 transition-colors">
                                     <div className="flex items-start gap-4">
                                         <Phone className="w-6 h-6 text-purple-200 flex-shrink-0" />
                                         <div>
@@ -214,7 +257,7 @@ const Contact = () => {
                                             </p>
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
 
                                 <div className="bg-white/10 rounded-xl p-6 backdrop-blur-sm hover:bg-white/20 transition-colors">
                                     <div className="flex items-start gap-4">
@@ -222,8 +265,7 @@ const Contact = () => {
                                         <div>
                                             <h3 className="font-semibold text-white mb-2">Email Support</h3>
                                             <p className="text-purple-100">
-                                                talent@insansa.com<br />
-                                                sales@insansa.com
+                                                queries@insansa.com
                                             </p>
                                         </div>
                                     </div>

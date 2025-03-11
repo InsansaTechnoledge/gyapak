@@ -1,9 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { RingLoader } from 'react-spinners';
-import ErrorPage from '../Pages/Error/ErrorPage';
 import ServerPage from '../Pages/Error/ServerPage';
-import { use } from 'react';
 
 
 const ApiContext = createContext();
@@ -35,6 +33,7 @@ export const SERVER_URLS = [
     const [apiBaseUrl, setApiBaseUrl] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [serverError, setServerError] = useState(503);
   
     useEffect(() => {
       const Check = async () => {
@@ -77,10 +76,10 @@ export const SERVER_URLS = [
     }
   
     if (error) {
-      return <ServerPage code={503} message={"Oops! Something went wrong :("} subMessage={"We'll be right back :)"} />;
+      return <ServerPage code={serverError} message={"Oops! Something went wrong :("} subMessage={"We'll be right back :)"} />;
     }
   
-    return <ApiContext.Provider value={{ apiBaseUrl, setApiBaseUrl }}>{children}</ApiContext.Provider>;
+    return <ApiContext.Provider value={{ apiBaseUrl, setApiBaseUrl ,setServerError}}>{children}</ApiContext.Provider>;
   };
   
   export const useApi = () => {

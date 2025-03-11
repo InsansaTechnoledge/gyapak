@@ -16,7 +16,7 @@ import { useApi, CheckServer } from '../../Context/ApiContext'
 import { useQuery } from '@tanstack/react-query'
 
 const SearchPage = () => {
-  const { apiBaseUrl, setApiBaseUrl } = useApi();
+  const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
   const location = useLocation();
   const [query, setQuery] = useState();
   const queryParams = new URLSearchParams(location.search);
@@ -28,10 +28,13 @@ const SearchPage = () => {
     try {
 
       setQuery(queryData);
+      if (queryData == '') {
+        return { authorities: [], organizations: [], categories: [] };
+      }
       const response = await axios.get(`${apiBaseUrl}/api/search/result/${queryData}`);
 
       if (response.status === 200) {
-        console.log(response.data);
+        console.log("SD", response.data);
         return response.data;
       }
     }
@@ -39,7 +42,8 @@ const SearchPage = () => {
       if (error.response || error.request) {
         if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
           const url = await CheckServer();
-          setApiBaseUrl(url);
+          setApiBaseUrl(url),
+            setServerError(error.response.status);
         }
         else {
           console.error('Error fetching state count:', error);
@@ -73,7 +77,7 @@ const SearchPage = () => {
   // }, [location])
 
   const searchHandler = (input) => {
-    navigate(`/search?query=${encodeURIComponent(input)}`);
+    navigate(`/search?query=${encodeURIComponent(input.trim())}`);
   }
 
   if (!searchData) {

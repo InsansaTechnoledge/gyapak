@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 const StateCard = lazy(() => import('./StateCard'));
 
 const StateComponent = () => {
-    const { apiBaseUrl, setApiBaseUrl } = useApi();
+    const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
     const [isSearchVisible, setIsSearchVisible] = useState(false);
     const [activeRegion, setActiveRegion] = useState('North');
 
@@ -51,7 +51,7 @@ const StateComponent = () => {
         }
 
         try {
-            const response = await axios.get(`${apiBaseUrl}/api/search/state`, { params: { q: query } });
+            const response = await axios.get(`${apiBaseUrl}/api/search/state`, { params: { q: query.trim() } });
             setSuggestions(response.data.suggestions);
             console.log(response.data.suggestions);
             setShowDropdown(true);
@@ -60,8 +60,9 @@ const StateComponent = () => {
             if (error.response || error.request) {
                 if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
                     const url = await CheckServer();
-                    setApiBaseUrl(url);
-                    setTimeout(()=>fetchSuggestions(),1000);
+                    setApiBaseUrl(url),
+                        setServerError(error.response.status);
+                    setTimeout(() => fetchSuggestions(), 1000);
                 }
                 else {
                     console.error('Error fetching state count:', error);
@@ -147,7 +148,8 @@ const StateComponent = () => {
                 if (error.response.status >= 500 && error.response.status < 600) {
                     console.error("🚨 Server Error:", error.response.status, error.response.statusText);
                     const url = CheckServer();
-                    setApiBaseUrl(url);
+                    setApiBaseUrl(url),
+                        setServerError(error.response.status);
                     fetchStateCount();
                 }
                 else {
@@ -171,7 +173,8 @@ const StateComponent = () => {
                 if (error.response.status >= 500 && error.response.status < 600) {
                     console.error("🚨 Server Error:", error.response.status, error.response.statusText);
                     const url = CheckServer();
-                    setApiBaseUrl(url);
+                    setApiBaseUrl(url),
+                        setServerError(error.response.status);
                     fetchLastUpdated();
                 }
                 else {
@@ -256,7 +259,7 @@ const StateComponent = () => {
                             </div>
 
                             {/* Mobile Search Toggle */}
-                            <div className="xl:hidden flex justify-end">
+                            {/* <div className="xl:hidden flex justify-end">
                                 <button
                                     onClick={() => setIsSearchVisible(!isSearchVisible)}
                                     className="p-2 hover:bg-white/10 rounded-full"
@@ -267,10 +270,10 @@ const StateComponent = () => {
                                         <Search className="h-5 w-5 text-white" />
                                     )}
                                 </button>
-                            </div>
+                            </div> */}
 
                             {/* Desktop Search */}
-                            <div className="hidden xl:flex flex-col">
+                            <div className="flex flex-col">
                                 <div className="flex items-center bg-white/10 rounded-full p-2 backdrop-blur-sm">
                                     <Search className="h-4 w-4 text-purple-200 ml-2" />
                                     <input
@@ -320,7 +323,7 @@ const StateComponent = () => {
                         </div>
 
                         {/* Mobile Search Bar */}
-                        {isSearchVisible && (
+                        {/* {isSearchVisible && (
                             <div className="mt-4 xl:hidden">
                                 <div className="flex items-center bg-white/10 rounded-full p-2 backdrop-blur-sm">
                                     <Search className="h-4 w-4 text-purple-200 ml-2" />
@@ -332,7 +335,7 @@ const StateComponent = () => {
                                     />
                                 </div>
                             </div>
-                        )}
+                        )} */}
                     </div>
                 </div>
 

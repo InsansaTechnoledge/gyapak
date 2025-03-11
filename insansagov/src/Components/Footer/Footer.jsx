@@ -6,18 +6,29 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useApi, CheckServer } from '../../Context/ApiContext';
 import axios from 'axios';
 import { RingLoader } from 'react-spinners';
+import ErrorAlert from '../Error/ErrorAlert';
 
 const Footer = () => {
 
-  const { apiBaseUrl, setApiBaseUrl } = useApi();
+  const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
   const [loading, setLoading] = useState(false);
+  const [Error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    const email = e.target.email.value;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!email || email.length > 50 || !emailRegex.test(email)) {
+      setError("Invalid Email!!");
+      setLoading(false);
+      return;
+    }
+    const name = email.split('@')[0];
+
     try {
-      const email = e.target.email.value;
-      const name = email.split('@')[0];
+
       const response = await axios.post(`${apiBaseUrl}/api/subscriber/create`, { email, name });
 
       if (response.status === 201) {
@@ -34,33 +45,46 @@ const Footer = () => {
       if (error.response || error.request) {
         if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
           const url = await CheckServer();
-          setApiBaseUrl(url);
-          setTimeout(()=>document.getElementById("subscribe").click(),1000);
+          setApiBaseUrl(url),
+            setServerError(error.response.status);
+          setTimeout(() => document.getElementById("subscribe").click(), 1000);
         }
         else {
-          console.error('Error fetching state count:', error);
+          console.error('Error in subscribing !!:', error);
+          setError("Error in subscribing !!");
+          setLoading(false);
+
         }
       }
       else {
-        console.error('Error fetching state count:', error);
+        console.error('Error in subscribing !!:', error);
+        setError("Error in subscribing !!");
+        setLoading(false);
       }
     }
   };
 
   const navigate = useNavigate();
 
-  
+
 
   return (
     <footer className="bg-gradient-to-b from-gray-900 to-black text-gray-300">
       {
         loading
-        ?
-        <div className='absolute w-full z-50 h-screen flex justify-center'>
+          ?
+          <div className='absolute w-full z-50 h-screen flex justify-center'>
             <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
-        </div>
-        :
-        null
+          </div>
+          :
+          null
+      }
+      {
+        Error
+          ?
+          <ErrorAlert title={"Error subscribing site!!"} message={Error} setIsErrorVisible={setError} />
+          :
+          null
       }
 
       <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:py-16 lg:px-8">

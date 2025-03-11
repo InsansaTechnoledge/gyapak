@@ -74,3 +74,17 @@ export const getMoreOrganization = async (req,res) => {
   res.status(201).json(organizations);
 
 }
+
+export const getCalendar = async (req,res) => {
+  try{
+
+    const id = req.params.id
+    
+    const response = await Organization.findById(id,{calendar : 1});
+    return res.status(200).json(response);
+  }
+  catch(err){
+    console.log(err)
+    return res.status(400).json(err);
+  }
+}

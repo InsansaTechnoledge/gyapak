@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useApi, CheckServer } from "../../Context/ApiContext";
 
 const ImportantLinksDashboard = () => {
-    const { apiBaseUrl, setApiBaseUrl } = useApi();
+    const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
     const [filter, setFilter] = useState("All");
     const navigate = useNavigate();
     const [filteredLinks, setFilteredLinks] = useState();
@@ -19,8 +19,9 @@ const ImportantLinksDashboard = () => {
             ]);
 
             if (response1.status === 201 && response2.status === 201) {
-                const mergedData = [...response1.data, ...response2.data]; 
-                return mergedData; 
+                const mergedData = [...response1.data, ...response2.data];
+                console.log(mergedData);
+                return mergedData;
             }
             return [];
         } catch (error) {
@@ -28,7 +29,8 @@ const ImportantLinksDashboard = () => {
             if (error.response || error.request) {
                 if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
                     const url = await CheckServer();
-                    setApiBaseUrl(url);
+                    setApiBaseUrl(url),
+                        setServerError(error.response.status);
                 }
                 else {
                     console.error('Error fetching state count:', error);
@@ -56,6 +58,7 @@ const ImportantLinksDashboard = () => {
             if (response.status === 201) {
                 const categories = response.data.map(cat => cat.category);
                 categories.unshift("All");
+        
                 return categories
             }
         }
@@ -63,7 +66,8 @@ const ImportantLinksDashboard = () => {
             if (error.response || error.request) {
                 if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
                     const url = await CheckServer();
-                    setApiBaseUrl(url);
+                    setApiBaseUrl(url),
+                        setServerError(error.response.status);
                 }
                 else {
                     console.error('Error fetching state count:', error);
@@ -151,18 +155,17 @@ const ImportantLinksDashboard = () => {
                                     </div>
                                 </div>
                                 <div className="mt-4 space-y-2">
-                                    {link.links && link.links.map((resource, idx) => (
+                                    {link.apply_link && (
                                         <a
-                                            key={idx}
-                                            href={resource.url}
+                                            href={link.apply_link}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="flex items-center justify-between px-3 py-2 bg-purple-50 text-purple-700 rounded-md hover:bg-purple-100 transition-colors"
                                         >
-                                            <span>{resource.title}</span>
+                                            <span>view details</span>
                                             <ExternalLink className="h-4 w-4" />
                                         </a>
-                                    ))}
+                                    )}
                                 </div>
                             </div>
                         ))}
