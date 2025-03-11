@@ -23,7 +23,7 @@ const Contact = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        setLoading(true);
         //created object to add the website name  and passed it there 
         const details = {
             firstName: formData.firstName.trim(),
@@ -61,7 +61,6 @@ const Contact = () => {
             id.classList.remove("flex");
             id.classList.add("hidden");
             notid.classList.remove("blur-sm");
-            setLoading(true);
         }, 1500);
 
 
@@ -74,6 +73,7 @@ const Contact = () => {
                     email: formData.email,
                 });
                 setLoading(false);
+                console.log(response.data);
                 setIsSuccessPopupVisible(true);
                 setFormData({
                     firstName: '',
@@ -84,20 +84,30 @@ const Contact = () => {
                 });
             }
         } catch (error) {
-            console.error('Error sending email:', error);
+            setLoading(false);
             if (error.response || error.request) {
                 if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
                     const url = await CheckServer();
                     setApiBaseUrl(url),
-                        setServerError(error.response.status);
+                    setServerError(error.response.status);
                     setTimeout(() => handleSubmit(), 1000);
                 }
                 else {
-                    console.error('Error fetching state count:', error);
-                }
+                    console.error('Error generating the email:', error);
+                        setIsErrorVisible(true);
+                        setLoading(false);
+                        return;
+                        
+
             }
+        }
             else {
-                console.error('Error fetching state count:', error);
+                // Something else happened while setting up the request
+                console.error('Request setup error:', error.message);
+                setIsErrorVisible(true);
+                setLoading(false);
+                return;
+
             }
         }
     };
