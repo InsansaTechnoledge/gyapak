@@ -34,6 +34,14 @@ const loadBalancer = (req, res, next) => {
   next();
 };
 
+app.use((req, res, next) => {
+  if (!req.headers.origin) {
+    return res.status(403).json({ error: "Direct browser requests are not allowed" });
+  }
+  next();
+});
+
+
 // CORS configuration
 const corsOptions = {
   origin: (origin, callback) => {
@@ -53,6 +61,7 @@ const corsOptions = {
   allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
   credentials: true,
 };
+
 
 // Apply CORS middleware globally (before routes)
 app.use(cors(corsOptions));
