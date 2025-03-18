@@ -14,7 +14,7 @@ export const SERVER_URLS = [
     // "https://gyapak-4.onrender.com"
     // "http://localhost:5000",
     // "http://localhost:3000",
-    "http://89.116.33.66:5000"
+    "https://backend.gyapak.in"
   ];
 
   export const CheckServer = async () => {
