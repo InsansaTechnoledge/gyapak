@@ -21,7 +21,7 @@ const allowedOrigins = [
 
 // Backend instances for load balancing
 const backendInstances = [
-  "http://89.116.33.66:5000"
+  "https://backend.gyapak.in"
 ];
 
 let currentIndex = 0;
