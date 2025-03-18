@@ -29,7 +29,7 @@ const backendInstances = [
   // "https://gyapak.onrender.com",
   // "https://gyapak-2.onrender.com",
   // "https://gyapak-3.onrender.com",
-  "http://89.116.33.66"
+  "http://89.116.33.66:5000"
 ];
 
 // Round-robin index
