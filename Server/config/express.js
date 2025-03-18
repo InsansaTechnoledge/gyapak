@@ -25,10 +25,11 @@ const allowedOrigins = [
 
 // Backend instances for load balancing
 const backendInstances = [
-  "https://gyapak-4.onrender.com",
-  "https://gyapak.onrender.com",
-  "https://gyapak-2.onrender.com",
-  "https://gyapak-3.onrender.com",
+  // "https://gyapak-4.onrender.com",
+  // "https://gyapak.onrender.com",
+  // "https://gyapak-2.onrender.com",
+  // "https://gyapak-3.onrender.com",
+  "http://89.116.33.66"
 ];
 
 // Round-robin index
