@@ -163,15 +163,18 @@ const ChatBot = () => {
                 setIsChatBotLoading(false);
                 console.log(response.data);
                 const botResponse = response.data;
-                var responseText = `Events under ${response.data.organization.abbreviation}`
+                var responseText = ``
                 var responseSet = []
                 var responseType = 'events'
 
                 if (botResponse.events) {
+                    responseText = `Events under ${response.data.organization.abbreviation}`
                     responseSet = botResponse.events;
                 }
                 else {
-                    responseText = `${botResponse.response}`
+                    console.log(botResponse);
+                    responseText = `${botResponse.message || botResponse.response}`
+                    responseType = `normal`
                 }
 
                 const newBotMessage = {
