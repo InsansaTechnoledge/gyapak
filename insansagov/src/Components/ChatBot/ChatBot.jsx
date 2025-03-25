@@ -4,6 +4,7 @@ import { MessageCircle, Send, X, MinusCircle, User, Bot } from 'lucide-react';
 import axios from 'axios';
 import parse from 'html-react-parser';
 import { DotLoader } from 'react-spinners';
+import { useNavigate } from 'react-router-dom';
 
 const ChatBot = () => {
 
@@ -12,20 +13,22 @@ const ChatBot = () => {
     const containerRef = useRef(null)
     const dragRef = useRef(null);
     const windowRef = useRef(null);
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         function handleClickOutside(event) {
-          if (windowRef.current && !windowRef.current.contains(event.target)) {
-            setIsOpen(false); // Call function when clicking outside
-          }
+            if (windowRef.current && !windowRef.current.contains(event.target)) {
+                setIsOpen(false); // Call function when clicking outside
+            }
         }
-    
+
         document.addEventListener("mousedown", handleClickOutside);
-        
+
         return () => {
-          document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("mousedown", handleClickOutside);
         };
-      }, []);
+    }, []);
 
     useEffect(() => {
         const handleResize = () => {
@@ -68,6 +71,68 @@ const ChatBot = () => {
         });
     }, [messages]);
 
+    const handleGetExamDetails = async (e, event) => {
+        e.preventDefault();
+
+
+        const newUserMessage = {
+            id: messages.length + 1,
+            text: event.name,
+            isBot: false,
+        };
+
+        setMessages((prevMessages) => [...prevMessages, newUserMessage]);
+        setInputText("");
+
+        {
+            try {
+
+                setIsChatBotLoading(true);
+                const response = await axios.post(
+                    `https://insansachatbot.onrender.com/api/chatbot/event`,
+                    { event_id: event.id },
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                );
+                setIsChatBotLoading(false);
+                console.log(response.data);
+                const botResponse = response.data;
+                var responseText = `Details of ${response.data.name}`
+                var responseSet = []
+                var responseType = 'details'
+
+                if (botResponse) {
+                    responseSet = [botResponse.date_of_commencement, botResponse._id, botResponse.end_date, botResponse.apply_link];
+                }
+                else {
+                    responseText = `${botResponse.response}`
+                }
+
+                const newBotMessage = {
+                    id: messages.length + 2,
+                    text: responseText,
+                    type: responseType,
+                    set: responseSet,
+                    isBot: true,
+                };
+                console.log(parse(responseText));
+                setMessages((prevMessages) => [...prevMessages, newBotMessage]);
+            }
+            catch (err) {
+                console.log(err);
+            }
+
+            if (!isOpen) {
+                setUnreadCount((prevCount) => prevCount + 1);
+                setIsBouncing(true);
+                setTimeout(() => setIsBouncing(false), 1000);
+            }
+        };
+    }
+
     const handleSend = async (e) => {
         e.preventDefault();
         if (inputText.trim() === "") return;
@@ -85,9 +150,10 @@ const ChatBot = () => {
             try {
 
                 setIsChatBotLoading(true);
+                console.log
                 const response = await axios.post(
-                    `https://insansachatbot.onrender.com/api/chatbot1`,
-                    { msg: newUserMessage.text },
+                    `https://insansachatbot.onrender.com/api/chatbot`,
+                    { query: newUserMessage.text },
                     {
                         headers: {
                             'Content-Type': 'application/json',
@@ -95,49 +161,14 @@ const ChatBot = () => {
                     }
                 );
                 setIsChatBotLoading(false);
-                const botResponse = response.data;
-                var responseText = ''
-                var responseSet = []
-                var responseType = ''
                 console.log(response.data);
-                if (botResponse.exam_details) {
-                    if (!botResponse.exam_details.start_date) {
-                        responseSet = [botResponse.exam_details.apply_link, botResponse.exam_details.url, botResponse.exam_details.name];
-                        responseType = 'no-date'
+                const botResponse = response.data;
+                var responseText = `Events under ${response.data.organization.abbreviation}`
+                var responseSet = []
+                var responseType = 'events'
 
-
-                    }
-                    else if (!botResponse.exam_details.apply_link) {
-                        responseSet = [botResponse.exam_details.url, botResponse.exam_details.start_date, botResponse.exam_details.end_date, botResponse.exam_details.name];
-                        responseType = 'no-apply-link'
-
-                    }
-                    else {
-
-                        responseSet = [botResponse.exam_details.apply_link, botResponse.exam_details.start_date, botResponse.exam_details.end_date, botResponse.exam_details.url, botResponse.exam_details.name]
-                        responseType = 'all'
-
-
-                    }
-                }
-                else if (botResponse.start_date) {
-                    responseType = 'start-date'
-                    responseSet = [botResponse.start_date.start_date, botResponse.start_date.name];
-
-                }
-                else if (botResponse.end_date) {
-                    responseType = 'end-date'
-                    responseSet = [botResponse.end_date.end_date, botResponse.end_date.name];
-
-                }
-                else if (botResponse.date) {
-                    responseType = 'date'
-                    responseSet = [botResponse.date.start_date, botResponse.date.end_date, botResponse.date.name];
-                }
-                else if (botResponse.link_details) {
-                    responseType = 'link'
-                    responseSet = [botResponse.link_details.apply_link, botResponse.link_details.url, botResponse.link_details.name];
-
+                if (botResponse.events) {
+                    responseSet = botResponse.events;
                 }
                 else {
                     responseText = `${botResponse.response}`
@@ -213,7 +244,7 @@ const ChatBot = () => {
         setMessages((prev) => [...prev, newBotMessage])
     }
 
-    
+
 
     const chatWindow = (
         <div
@@ -334,7 +365,75 @@ const ChatBot = () => {
                                         : "bg-gradient-to-r from-indigo-500 to-purple-600 text-white"
                                         }`}
                                 >
-                                    {message.type === "all" && (
+                                    {
+                                        message.type === "events" && (
+                                            <div className="space-y-2 space-x-2">
+                                                <p className="text-sm font-medium">{message.text}</p>
+                                                {
+                                                    message.set.map((event,idx) => (
+                                                        <button
+                                                            key={idx}
+                                                            className="px-3 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800"
+                                                            onClick={(e) => {
+                                                                handleGetExamDetails(e, event)
+                                                            }}
+                                                        >
+                                                            {event.name}
+                                                        </button>
+                                                    ))
+                                                }
+                                            </div>
+                                        )
+                                    }
+                                    {
+                                        message.type === "details" && (
+                                            <div className="space-y-2 space-x-2">
+                                                <p className="text-sm font-medium">{message.text}</p>
+                                                <button
+                                                    className="px-3 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800"
+                                                    onClick={() => {
+                                                        const url = message.set[3];
+                                                        if (url.startsWith("http://") || url.startsWith("https://")) {
+                                                            window.open(url, "_blank");
+                                                        } else {
+                                                            console.error("Invalid URL:", url);
+                                                        }
+                                                    }}
+                                                >
+                                                    Apply Link
+                                                </button>
+                                                {
+                                                    message.set[1] && (
+                                                        <button onClick={() => (addMessage("start-date", message.set[0]))} className="px-3 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800">
+                                                            Start Date
+                                                        </button>
+                                                    )
+                                                }
+                                                {
+                                                    message.set[2] && (
+                                                        <button onClick={() => (addMessage("end-date", message.set[2]))} className="px-3 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800">
+                                                            End Date
+                                                        </button>
+                                                    )
+                                                }
+                                                <button
+                                                    className="px-3 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800"
+                                                    onClick={() => {
+                                                        const url = message.set[1];
+                                                        navigate(`/opportunity?id=${message.set[1]}`)
+                                                        // if (url.startsWith("http://") || url.startsWith("https://")) {
+                                                        //     window.location.href = url;
+                                                        // } else {
+                                                        //     console.error("Invalid URL:", url);
+                                                        // }
+                                                    }}
+                                                >
+                                                    More Info
+                                                </button>
+                                            </div>
+                                        )
+                                    }
+                                    {/* {message.type === "all" && (
                                         <div className="space-y-2 space-x-2">
                                             <p className="text-sm font-medium">Details for {message.set[4]}</p>
                                             <button
@@ -350,12 +449,21 @@ const ChatBot = () => {
                                             >
                                                 Apply Link
                                             </button>
-                                            <button onClick={() => (addMessage("start-date", message.set[1]))} className="px-3 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800">
-                                                Start Date
-                                            </button>
-                                            <button onClick={() => (addMessage("end-date", message.set[2]))} className="px-3 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800">
-                                                End Date
-                                            </button>
+                                            {
+                                                message.set[1] && message.set[1]!="" && (
+                                                    <button onClick={() => (addMessage("start-date", message.set[1]))} className="px-3 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800">
+                                                        Start Date
+                                                    </button>
+                                                )
+                                            }
+                                            {
+                                                
+                                                message.set[2] && message.set[2]!=="" && (
+                                                    <button onClick={() => (addMessage("end-date", message.set[2]))} className="px-3 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800">
+                                                        End Date
+                                                    </button>
+                                                )
+                                            }
                                             <button
                                                 className="px-3 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800"
                                                 onClick={() => {
@@ -370,8 +478,8 @@ const ChatBot = () => {
                                                 More Info
                                             </button>
                                         </div>
-                                    )}
-                                    {
+                                    )} */}
+                                    {/* {
                                         message.type === "date" && (
                                             <div className="space-y-2 space-x-2">
                                                 <p className="text-sm font-medium">Details for {message.set[2]}</p>
@@ -442,24 +550,27 @@ const ChatBot = () => {
                                                 </button>
                                             </div>
                                         )
-                                    }
-                                    {message.type === "start-date" && (
-                                        <div className="space-y-4">
-                                            <p className="text-sm font-medium">Start date for {message.set[1]}</p>
-                                            <button className="px-5 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800">
-                                                {message.set[0]}
-                                            </button>
-                                        </div>
-                                    )}
-                                    {message.type === "end-date" && (
-                                        <div className="space-y-4">
-                                            <p className="text-sm font-medium">End date for {message.set[1]}</p>
-                                            <button className="px-5 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800">
-                                                {message.set[0]}
-                                            </button>
-                                        </div>
-                                    )}
-                                    {message.type === "link" && (
+                                    } */}
+                                    {
+                                        message.type === "start-date" && (
+                                            <div className="space-y-4">
+                                                <p className="text-sm font-medium">Start date for {message.set[1]}</p>
+                                                <button className="px-5 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800">
+                                                    {message.set[0]}
+                                                </button>
+                                            </div>
+                                        )}
+                                    {
+                                        message.type === "end-date" && (
+                                            <div className="space-y-4">
+                                                <p className="text-sm font-medium">End date for {message.set[1]}</p>
+                                                <button className="px-5 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800">
+                                                    {message.set[0]}
+                                                </button>
+                                            </div>
+                                        )}
+                                    {/* {
+                                    message.type === "link" && (
                                         <div className="space-y-4">
                                             <p className="text-sm font-medium">Links for {message.set[2]}</p>
                                             <button
@@ -489,8 +600,8 @@ const ChatBot = () => {
                                                 More Info
                                             </button>
                                         </div>
-                                    )}
-                                    {!["all", "start-date", "end-date", "link"].includes(message.type) && (
+                                    )} */}
+                                    {!["events", "details"].includes(message.type) && (
                                         <div className="text-sm flex flex-wrap">
                                             {message.text}
                                         </div>
