@@ -105,7 +105,7 @@ const Hero = () => {
                             transition={{ delay: 0.3 }}
                         >
                             <span className="inline-block border-b-4 border-indigo-500 pb-1 hover:border-purple-500 transition-colors duration-300">
-                                Your Ultimate Resource for
+                                Your Ultimate Resource 
                             </span>
                             <span className="block xs:inline-block px-2">for</span>
                             <motion.span
