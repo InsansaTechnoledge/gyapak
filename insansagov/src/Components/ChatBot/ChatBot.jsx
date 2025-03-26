@@ -98,7 +98,7 @@ const ChatBot = () => {
                     }
                 );
                 setIsChatBotLoading(false);
-                console.log(response.data);
+                // console.log(response.data);
                 const botResponse = response.data;
                 var responseText = `Details of ${response.data.name}`
                 var responseSet = []
@@ -118,7 +118,7 @@ const ChatBot = () => {
                     set: responseSet,
                     isBot: true,
                 };
-                console.log(parse(responseText));
+                // console.log(parse(responseText));
                 setMessages((prevMessages) => [...prevMessages, newBotMessage]);
             }
             catch (err) {
@@ -150,7 +150,7 @@ const ChatBot = () => {
             try {
 
                 setIsChatBotLoading(true);
-                console.log
+                // console.log
                 const response = await axios.post(
                     `https://insansachatbot.onrender.com/api/chatbot`,
                     { query: newUserMessage.text },
@@ -161,7 +161,7 @@ const ChatBot = () => {
                     }
                 );
                 setIsChatBotLoading(false);
-                console.log(response.data);
+                // console.log(response.data);
                 const botResponse = response.data;
                 var responseText = ``
                 var responseSet = []
@@ -172,7 +172,7 @@ const ChatBot = () => {
                     responseSet = botResponse.events;
                 }
                 else {
-                    console.log(botResponse);
+                    // console.log(botResponse);
                     responseText = `${botResponse.message || botResponse.response}`
                     responseType = `normal`
                 }
@@ -184,7 +184,7 @@ const ChatBot = () => {
                     set: responseSet,
                     isBot: true,
                 };
-                console.log(parse(responseText));
+                // console.log(parse(responseText));
                 setMessages((prevMessages) => [...prevMessages, newBotMessage]);
             }
             catch (err) {
