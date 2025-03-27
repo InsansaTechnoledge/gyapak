@@ -1,7 +1,7 @@
-import Organization from "../models/organization.model";
-import Authority from "../models/authority.models";
+import Organization from "../../Server/models/OrganizationModel.js";
+import Authority from "../../Server/models/AuthorityModel.js";
 
-export const getCentralLogos = async (req, res) => {
+export const getCentralOrganization = async (req, res) => {
     try {
       
       const centralAuthority = await Authority.findOne({type: "Central_Government"})

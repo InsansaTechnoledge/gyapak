@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Calendar, Clock } from 'lucide-react';
+import axios from 'axios';
+import { API_BASE_URL } from '../../config';
 
 const HeroSection = ({ organizations, handleEventDataChange, eventData }) => {
     
-    
+    useEffect(()=>{
+        const fetchOrganizations = async () => {
+            const response = await axios.get(`${API_BASE_URL}/api/v1/organizations/central-organizations`);
+            if(response.status(200)){
+                console.log(response.data);
+            }
+        }
+
+        fetchOrganizations();
+    },[])
     
     return (
         <div className="text-center mb-32">
