@@ -406,7 +406,7 @@ const ChatBot = () => {
                                                     Apply Link
                                                 </button>
                                                 {
-                                                    message.set[1] && (
+                                                    message.set[0] && (
                                                         <button onClick={() => (addMessage("start-date", message.set[0]))} className="px-3 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800">
                                                             Start Date
                                                         </button>
