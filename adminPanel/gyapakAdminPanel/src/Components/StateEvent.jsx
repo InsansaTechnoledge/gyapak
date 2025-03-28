@@ -26,7 +26,7 @@ const StateEvent = () => {
     //       console.log(eventData);
     //   },[eventData])
 
-    const onHandleSubmitCentral = async () => {
+    const onHandleSubmitState = async () => {
         try {
             // Required fields validation
             const requiredFields = [
