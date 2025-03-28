@@ -44,7 +44,9 @@ const HeroSectionState = ({handleEventDataChange, eventData, setStateId, stateId
                 <select 
                 name='state_id'
                 className='border-2 rounded-md border-purple-700'
-                onChange={(e)=>setStateId(e.value)}>
+                onChange={(e)=>{
+                    setStateId(e.target.value)
+                    }}>
                     <option value={""}>select state</option>
                     {
                         states.map(state => (
@@ -54,7 +56,7 @@ const HeroSectionState = ({handleEventDataChange, eventData, setStateId, stateId
                 </select>
             </h2>
             {
-                eventData.state_id && organizations
+                stateId && organizations
                 ?
                 <>
                     <h2 className="text-purple-700 text-lg mb-4">

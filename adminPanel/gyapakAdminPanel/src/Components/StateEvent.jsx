@@ -27,8 +27,17 @@ const StateEvent = () => {
       },[eventData])
 
       const onHandleSubmitState = async () => {
-        const response = await axios.post(`${API_BASE_URL}/api/v1/upload/state`, eventData);
-      }
+        try{
+
+            const response = await axios.post(`${API_BASE_URL}/api/v1/upload/`, eventData);
+            if(response.status===200){
+                alert(response.data.message);
+            }
+        }
+        catch(err){
+            alert(err.response.data.message);
+        }
+    }
 
   return (
     <>

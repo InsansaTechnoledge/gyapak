@@ -1,8 +1,8 @@
 import express from 'express'
-import { uploadCentralEvent } from '../controllers/upload.controller.js';
+import { uploadEvent } from '../controllers/upload.controller.js';
 
 const router = express.Router();
 
-router.post('/central', uploadCentralEvent);
+router.post('/', uploadEvent);
 
 export default router;
