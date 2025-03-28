@@ -31,7 +31,7 @@ const HeroSectionCentral = ({handleEventDataChange, eventData }) => {
                 name='organization_id'
                 className='border-2 rounded-md border-purple-700'
                 onChange={(e)=>handleEventDataChange(e)}>
-                    <option>select organization</option>
+                    <option value={""}>select organization</option>
                     {
                         organizations.map(org => (
                             <option key={org._id} value={org._id} >{org.name}, {org.abbreviation}</option>

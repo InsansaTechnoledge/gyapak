@@ -33,11 +33,13 @@ const EventSchema = new mongoose.Schema({
     },
     organization_id:{
         type: mongoose.Schema.Types.ObjectId,
-        ref:"Organization"
+        ref:"Organization",
+        required: true
     },
     event_type:{
         type:String,
-        enum:["Exam","AdmitCard","Result"]
+        enum:["Exam","AdmitCard","Result"],
+        required: true
     }
 });
 

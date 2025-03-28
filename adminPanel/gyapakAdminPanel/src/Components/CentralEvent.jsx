@@ -50,7 +50,7 @@ const CentralEvent = () => {
                         name='event_type'
                         className='border-2 rounded-md border-purple-700'
                         onChange={(e) => handleEventDataChange(e)}>
-                        <option>select Event Type</option>
+                        <option value={""}>select Event Type</option>
                         {
                             ["Exam", "AdmitCard", "Result"].map((type, idx) => (
                                 <option key={idx} value={type} >{type}</option>
