@@ -2,11 +2,10 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import route from '../routes/routes.js';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 const ExpressApp = express();
+
+ExpressApp.set('trust proxy', 1);
 
 ExpressApp.use(express.json());
 ExpressApp.use(express.urlencoded({ extended: true }));

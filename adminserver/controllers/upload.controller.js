@@ -1,0 +1,39 @@
+import Event from "../models/EventModel.js";
+import EventType from "../models/EventTypeModel.js";
+import Organization from "../models/OrganizationModel.js";
+
+export const uploadCentralEvent = async (req, res) => {
+    try {
+        console.log(req.body);
+        const newEvent = await Event.create(req.body);
+
+        // Execute updates concurrently
+        await Promise.all([
+            EventType.findOneAndUpdate(
+                { type: req.body.event_type },
+                {
+                    $push: { events: newEvent._id },
+                    $set: { lastUpdated: Date.now() }
+                }
+            ),
+            Organization.findByIdAndUpdate(req.body.organization_id, {
+                $push: { events: newEvent._id }
+            })
+        ]);
+
+        res.status(200).json({ message: 'Event uploaded successfully', event: newEvent });
+    } catch (error) {
+        console.error('Error uploading event:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+export const uploadStateEvent = async (req,res) => {
+    try{
+        console.log(req.body);
+    }
+    catch(err) {
+        console.log('Error uploading event: ', error);
+        res.status(500).json({error: "Internal Server Error"});
+    }
+}

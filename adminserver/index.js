@@ -1,4 +1,5 @@
 import dotenv from 'dotenv'
+import { getCentralOrganization } from './controllers/organization.controller.js';
 
 dotenv.config();
 
@@ -14,6 +15,8 @@ const initialize = async () => {
                 message: 'server is running',
             });
         });
+
+        // appInstance.get('/api/v1/organizations/central', getCentralOrganization);
 
         appInstance.listen(process.env.PORT, () => {
             console.log(`Server is running on port ${process.env.PORT}`);

@@ -1,37 +1,51 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Calendar, Clock } from 'lucide-react';
 import axios from 'axios';
 import { API_BASE_URL } from '../../config';
 
-const HeroSection = ({ organizations, handleEventDataChange, eventData }) => {
-    
+const HeroSectionCentral = ({handleEventDataChange, eventData }) => {
+    const [organizations, setOrganizations] = useState();
+
     useEffect(()=>{
         const fetchOrganizations = async () => {
-            const response = await axios.get(`${API_BASE_URL}/api/v1/organizations/central-organizations`);
-            if(response.status(200)){
+            const response = await axios.get(`${API_BASE_URL}/api/v1/organizations/central`);
+            if(response.status==200){
                 console.log(response.data);
+                setOrganizations(response.data);
             }
         }
 
         fetchOrganizations();
     },[])
     
-    return (
-        <div className="text-center mb-32">
-            <h2 className="text-purple-700 text-lg mb-4">
-                {
-                    // organizations.map(org => {
+    if(!organizations){
+        return (<div>
+            Loading...
+        </div>)
+    }
 
-                    // })
-                }
+    return (
+        <div className="text-center mb-16">
+            <h2 className="text-purple-700 text-lg mb-4">
+                <select 
+                name='organization_id'
+                className='border-2 rounded-md border-purple-700'
+                onChange={(e)=>handleEventDataChange(e)}>
+                    <option>select organization</option>
+                    {
+                        organizations.map(org => (
+                            <option key={org._id} value={org._id} >{org.name}, {org.abbreviation}</option>
+                        ))
+                    }
+                </select>
             </h2>
             <div className="inline-block relative mx-auto">
                 <h1 className="
-                
-                text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold bg-gradient-to-r from-purple-600 via-purple-700 to-purple-800 bg-clip-text text-transparent mb-12">
+                text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-bold bg-gradient-to-r from-purple-600 via-purple-700 to-purple-800 bg-clip-text text-transparent mb-12">
                     <input
+                        placeholder='Enter event'
                         onChange={(e) => handleEventDataChange(e)}
-                        type='text' name='name' value={eventData?.organization} className='focus:border-4 border-purple-700 border-2 rounded-md' />
+                        type='text' name='name' value={eventData?.organization} className='w-full focus:border-4 border-purple-700 border-2 rounded-md' />
                 </h1>
 
                 {/* Floating Date Cards */}
@@ -71,4 +85,4 @@ const HeroSection = ({ organizations, handleEventDataChange, eventData }) => {
     );
 };
 
-export default HeroSection;
+export default HeroSectionCentral;
