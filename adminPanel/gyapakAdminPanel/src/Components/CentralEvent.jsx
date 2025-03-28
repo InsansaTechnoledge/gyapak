@@ -6,6 +6,7 @@ import HeroSectionCentral from './OpportunityComponents/HeroSectionCentral';
 import AdditionalDetailsSection from './OpportunityComponents/AdditionalDetailsSection';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
+import { SUBMIT_SECRET } from '../../secret';
 
 const CentralEvent = () => {
 
@@ -22,6 +23,11 @@ const CentralEvent = () => {
     }
 
     const onHandleSubmitCentral = async () => {
+        const prompt1 = prompt("Enter secret key");
+                if(prompt1!==SUBMIT_SECRET){
+                    alert("Unauthorized access");
+                    return;
+                }
         try {
             // Required fields validation
             const requiredFields = [

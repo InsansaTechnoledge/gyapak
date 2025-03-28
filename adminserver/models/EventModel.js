@@ -41,6 +41,8 @@ const EventSchema = new mongoose.Schema({
         enum:["Exam","AdmitCard","Result"],
         required: true
     }
+},{
+    timestamps: true
 });
 
 const Event = mongoose.model('Event', EventSchema);
