@@ -4,6 +4,7 @@ import StateEvent from '../Components/StateEvent';
 import FloatingOrbsBackground from '../Components/FloatingOrbsBackground';
 
 const DataInsertion = () => {
+    // comment
     const [organizationType, setOrganizationType] = useState();
     return (
         <>
