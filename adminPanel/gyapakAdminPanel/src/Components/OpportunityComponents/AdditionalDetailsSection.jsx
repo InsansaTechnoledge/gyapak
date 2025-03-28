@@ -22,7 +22,7 @@ const AdditionalDetailsSection = ({ data }) => {
           ?
           <p className="text-gray-700">Yes</p>
           :
-          < p className="text-gray-700">No</p>
+          <p className="text-gray-700">No</p>
         }
       </div >)
 
@@ -55,13 +55,13 @@ const AdditionalDetailsSection = ({ data }) => {
                 </h3>
                 {/* Recursively render nested data */}
                 {
-                  value
-                    ?
+                  // value
+                    // ?
                     <div className="space-y-2 flex flex-grow flex-wrap">
                       {renderContent(value)}
                     </div>
-                    :
-                    null
+                    // :
+                    // null
                 }
               </div>
             );
