@@ -10,7 +10,8 @@ import { API_BASE_URL } from '../config';
 const StateEvent = () => {
   
   const [eventData, setEventData] = useState({});
-  
+    const [stateId, setStateId] = useState();
+
       const handleEventDataChange = (e) => {
           const {name, value} = e.target;
   
@@ -47,9 +48,9 @@ const StateEvent = () => {
                     }
                 </select>
             </h2>
-                <HeroSectionState handleEventDataChange={handleEventDataChange} eventData={eventData}/>
+                <HeroSectionState handleEventDataChange={handleEventDataChange} eventData={eventData} setStateId={setStateId} stateId={stateId}/>
                 {
-                  eventData.state_id
+                  stateId
                   ?
                   <>
                     <QuickApplyButton handleEventDataChange={handleEventDataChange} eventData={eventData}/>

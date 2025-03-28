@@ -3,7 +3,7 @@ import { Calendar, Clock } from 'lucide-react';
 import axios from 'axios';
 import { API_BASE_URL } from '../../config';
 
-const HeroSectionState = ({handleEventDataChange, eventData }) => {
+const HeroSectionState = ({handleEventDataChange, eventData, setStateId, stateId }) => {
     const [organizations, setOrganizations] = useState();
     const [states, setStates] = useState();
 
@@ -20,17 +20,17 @@ const HeroSectionState = ({handleEventDataChange, eventData }) => {
 
     useEffect(()=>{
         const fetchOrganizations = async () => {
-            const response = await axios.get(`${API_BASE_URL}/api/v1/organizations/state?stateId=${eventData.state_id}`);
+            const response = await axios.get(`${API_BASE_URL}/api/v1/organizations/state?stateId=${stateId}`);
             if(response.status==200){
                 setOrganizations(response.data);
             }
         }
 
-        if(eventData.state_id){
+        if(stateId){
             fetchOrganizations();
         }
 
-    },[eventData.state_id])
+    },[stateId])
     
     if(!states){
         return (<div>
@@ -44,7 +44,7 @@ const HeroSectionState = ({handleEventDataChange, eventData }) => {
                 <select 
                 name='state_id'
                 className='border-2 rounded-md border-purple-700'
-                onChange={(e)=>handleEventDataChange(e)}>
+                onChange={(e)=>setStateId(e.value)}>
                     <option value={""}>select state</option>
                     {
                         states.map(state => (
