@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { PlusCircleIcon } from "lucide-react";
 
 const AdditionalDetailsSection = ({ data, existingSections }) => {
-
+  
   // Function to check if data contains at least one key not in existingSections
   const hasNonExistingSection = (data) => {
     if (typeof data === "object" && data !== null) {
@@ -46,7 +46,10 @@ if (Array.isArray(data)) {
 }
 
 if (typeof data === "object" && data !== null) {
-
+  if (Object.keys(data).length === 0) {
+    return null;
+  }
+  
   return (
     <div className="gap-4 flex flex-wrap flex-grow">
       {Object.entries(data).map(([key, value]) => {

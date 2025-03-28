@@ -22,9 +22,9 @@ const StateEvent = () => {
           }));
       }
   
-      useEffect(()=>{
-          console.log(eventData);
-      },[eventData])
+    //   useEffect(()=>{
+    //       console.log(eventData);
+    //   },[eventData])
 
       const onHandleSubmitState = async () => {
         try{

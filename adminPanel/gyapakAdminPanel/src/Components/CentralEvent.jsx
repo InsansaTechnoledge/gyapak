@@ -37,9 +37,9 @@ const CentralEvent = () => {
         }
     }
 
-    useEffect(() => {
-        console.log(eventData);
-    }, [eventData])
+    // useEffect(() => {
+    //     console.log(eventData);
+    // }, [eventData])
 
     return (
         <div>

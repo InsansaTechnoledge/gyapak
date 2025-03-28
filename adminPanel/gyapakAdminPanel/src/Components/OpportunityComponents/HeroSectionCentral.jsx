@@ -10,7 +10,7 @@ const HeroSectionCentral = ({handleEventDataChange, eventData }) => {
         const fetchOrganizations = async () => {
             const response = await axios.get(`${API_BASE_URL}/api/v1/organizations/central`);
             if(response.status==200){
-                console.log(response.data);
+                // console.log(response.data);
                 setOrganizations(response.data);
             }
         }
