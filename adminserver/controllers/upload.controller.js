@@ -4,9 +4,9 @@ import Organization from "../models/OrganizationModel.js";
 
 export const uploadEvent = async (req, res) => {
     try {
-        console.log(req.body);
+        // console.log(req.body);
         const newEvent = await Event.create(req.body);
-        console.log(req.body.event_type);
+        // console.log(req.body.event_type);
         // Execute updates concurrently
         await Promise.all([
             EventType.findOneAndUpdate(
