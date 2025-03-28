@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { PlusCircleIcon } from "lucide-react";
 
 const AdditionalDetailsSection = ({ data }) => {
-  if (Object.keys(data).length === 0) {
+  if (data && Object.keys(data).length === 0) {
     return null;
   }
 
