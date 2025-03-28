@@ -26,18 +26,45 @@ const StateEvent = () => {
     //       console.log(eventData);
     //   },[eventData])
 
-      const onHandleSubmitState = async () => {
-        try{
-
+    const onHandleSubmitCentral = async () => {
+        try {
+            // Required fields validation
+            const requiredFields = [
+                'organization_id',
+                'name',
+                'date_of_notification',
+                'date_of_commencement',
+                'end_date',
+                'apply_link',
+                'event_type'
+            ];
+    
+            for (const field of requiredFields) {
+                if (!eventData[field]) {
+                    alert(`${field} is required.`);
+                    return;
+                }
+            }
+    
+            // Validate date range
+            const commencementDate = new Date(eventData.date_of_commencement);
+            const endDate = new Date(eventData.end_date);
+    
+            if (endDate < commencementDate) {
+                alert('End date cannot be earlier than the start date.');
+                return;
+            }
+    
             const response = await axios.post(`${API_BASE_URL}/api/v1/upload/`, eventData);
-            if(response.status===200){
+    
+            if (response.status === 200) {
                 alert(response.data.message);
             }
+        } catch (err) {
+            alert(err.response?.data?.message || 'An error occurred.');
         }
-        catch(err){
-            alert(err.response.data.message);
-        }
-    }
+    };
+    
 
   return (
     <>
