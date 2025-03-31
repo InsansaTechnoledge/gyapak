@@ -6,7 +6,6 @@ import HeroSectionState from './OpportunityComponents/HeroSectionState';
 import AdditionalDetailsSection from './OpportunityComponents/AdditionalDetailsSection';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
-import { SUBMIT_SECRET } from '../../secret';
 
 const StateEvent = () => {
   
@@ -22,6 +21,8 @@ const StateEvent = () => {
               [name]: value 
           }));
       }
+
+      const SUBMIT_SECRET = "Gyapak_Insansa@123"
   
     //   useEffect(()=>{
     //       console.log(eventData);

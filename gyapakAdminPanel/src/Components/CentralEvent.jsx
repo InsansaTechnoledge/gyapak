@@ -6,7 +6,6 @@ import HeroSectionCentral from './OpportunityComponents/HeroSectionCentral';
 import AdditionalDetailsSection from './OpportunityComponents/AdditionalDetailsSection';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
-import { SUBMIT_SECRET } from '../../secret';
 
 const CentralEvent = () => {
 
@@ -21,6 +20,8 @@ const CentralEvent = () => {
             [name]: value
         }));
     }
+
+    const SUBMIT_SECRET = "Gyapak_Insansa@123"
 
     const onHandleSubmitCentral = async () => {
         const prompt1 = prompt("Enter secret key");
