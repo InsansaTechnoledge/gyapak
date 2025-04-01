@@ -179,6 +179,7 @@ const Credits = () => {
         'Indian Navy':'https://toppng.com/uploads/preview/indian-navy-logo-11562975550dcedrktvmp.png',
         'Indian Army':'https://wallpapers.com/images/hd/indian-army-logo-red-background-9yyeqs1cn57bvbtt.jpg',
         'IREL':'https://th.bing.com/th/id/OIP.0ss-UhArQdcG0RwCbn9WrQHaHE?rs=1&pid=ImgDetMain',
+        'NEIGRIHMS':'https://s3.amazonaws.com/static.freshersworld.com/company-logo/2018/02/27/logo_429_1519735636_1.jpg',
         "Search Results Not Found": "https://img.freepik.com/free-vector/search-concept-landing-page_52683-13620.jpg?ga=GA1.1.1723539104.1734412094&semt=ais_hybrid",
         "Data Not Found": "https://img.freepik.com/free-vector/postponed-concept_23-2148489217.jpg?ga=GA1.1.1723539104.1734412094&semt=ais_hybrid"
     }
