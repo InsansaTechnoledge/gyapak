@@ -346,10 +346,10 @@ className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-whi
               {
                 categoryDropdownVisible
                   ?
-                  <div className="absolute top-full -left-28 w-[480px] rounded-xl shadow-xl bg-white/95 backdrop-blur-sm ring-1 ring-black/5 transition-all duration-300 transform">
+                  <div className="absolute top-full -left-64 w-[720px] rounded-xl shadow-xl bg-white/95 backdrop-blur-sm ring-1 ring-black/5 transition-all duration-300 transform">
                     <div className="p-6">
                       <h3 className="text-lg font-semibold text-gray-900 mb-4">Browse Categories</h3>
-                      <div className="grid grid-cols-2 gap-3">
+                      <div className="grid grid-cols-3 gap-3">
                         {visibleCategories.map((category, index) => (
                           <div
                             key={index}
@@ -392,10 +392,10 @@ className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-whi
               {
                 stateDropdownVisible
                   ?
-                  <div className="absolute top-full left-1/2 transform -translate-x-[60%] w-[700px] rounded-xl shadow-xl bg-white/95 backdrop-blur-sm ring-1 ring-black/5 transition-all duration-300">
+                  <div className="absolute top-full left-1/2 transform -translate-x-[70%] w-[900px] rounded-xl shadow-xl bg-white/95 backdrop-blur-sm ring-1 ring-black/5 transition-all duration-300">
                     <div className="p-6">
                       <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Browse States</h3>
-                      <div className="grid grid-cols-3 gap-4">
+                      <div className="grid grid-cols-4 gap-4">
                         {visibleStates && visibleStates.map((state, index) => (
                           <StateIcon key={index} state={state} index={index} updateVisibleStates={updateVisibleStates} setStateDropdownVisible={setStateDropdownVisible} />
                         ))}
