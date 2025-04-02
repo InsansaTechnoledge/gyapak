@@ -21,8 +21,8 @@ const allowedOrigins = [
 
 // Backend instances for load balancing
 const backendInstances = [
-  "https://backend.gyapak.in"
-  // "http://localhost:3000"
+  // "https://backend.gyapak.in"
+  "http://localhost:5000"
 ];
 
 let currentIndex = 0;
@@ -46,7 +46,7 @@ app.use((req, res, next) => {
 // CORS configuration
 const corsOptions = {
   origin: (origin, callback) => {
- 
+
     if (!origin) {
       console.error('CORS denied: No origin');
       return callback(null, false);
