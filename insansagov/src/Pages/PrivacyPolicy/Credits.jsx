@@ -172,6 +172,14 @@ const Credits = () => {
         'TRB':'https://media.9curry.com/uploads/organization/image/575/tntrb.png',
         'UPJEE':'https://cdnbbsr.s3waas.gov.in/s325db67c5657914454081c6a18e93d6dd/uploads/2022/01/2022012945.png',
         'UPTET':'https://www.cheggindia.com/wp-content/uploads/2021/09/UPTET-Logo-1.jpg',
+        'NaBFID':'https://images.crunchbase.com/image/upload/c_pad,h_256,w_256,f_auto,q_auto:eco,dpr_1/p24ghvvgfsd0fqda4hiz',
+        'RRB':'https://www.pngegg.com/en/png-phrgs',
+        'EPIL':'https://www.gkseries.com/blog/wp-content/uploads/2020/08/EPIL-2048x1136.jpeg',
+        'Indian Air Force':'https://download.logo.wine/logo/Indian_Air_Force/Indian_Air_Force-Logo.wine.png',
+        'Indian Navy':'https://toppng.com/uploads/preview/indian-navy-logo-11562975550dcedrktvmp.png',
+        'Indian Army':'https://wallpapers.com/images/hd/indian-army-logo-red-background-9yyeqs1cn57bvbtt.jpg',
+        'IREL':'https://th.bing.com/th/id/OIP.0ss-UhArQdcG0RwCbn9WrQHaHE?rs=1&pid=ImgDetMain',
+        'NEIGRIHMS':'https://s3.amazonaws.com/static.freshersworld.com/company-logo/2018/02/27/logo_429_1519735636_1.jpg',
         "Search Results Not Found": "https://img.freepik.com/free-vector/search-concept-landing-page_52683-13620.jpg?ga=GA1.1.1723539104.1734412094&semt=ais_hybrid",
         "Data Not Found": "https://img.freepik.com/free-vector/postponed-concept_23-2148489217.jpg?ga=GA1.1.1723539104.1734412094&semt=ais_hybrid"
     }

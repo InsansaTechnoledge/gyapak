@@ -8,7 +8,13 @@ const ConnectMongo = async function () {
         useNewUrlParser: true,
         useUnifiedTopology: true
       })
-      .then(() => console.log('MongoDB connected successfully'))
+      .then(async() => {console.log('MongoDB connected successfully');
+         console.log(`MongoDb connected on ${mongoose.connection.name }`);
+
+        const indexes = await mongoose.connection.db.collection('events').indexes();
+        console.log('Indexes on events collection:', indexes);
+      }
+    )
       .catch((err) => console.error('MongoDB connection error:', err));
 };
 
