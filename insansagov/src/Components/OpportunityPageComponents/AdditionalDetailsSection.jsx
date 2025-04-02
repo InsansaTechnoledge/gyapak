@@ -64,7 +64,7 @@ if (typeof data === "object" && data !== null) {
               </h3>
               {/* Recursively render nested data */}
               {
-                value
+                typeof(value) === "boolean" || value
                   ?
                   <div className="space-y-2 flex flex-grow flex-wrap">
                     {renderContent(value)}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Calendar, Clock } from 'lucide-react';
+import { formatDate } from '../../Utils/dateFormatter';
 
 const HeroSection = ({ data, organization }) => {
   return (
@@ -34,13 +35,14 @@ const HeroSection = ({ data, organization }) => {
             :
             null
           }
+          {console.log(typeof(data.end_date))}
           {
             data.end_date
             ?
             <div className="transform -rotate-3 bg-purple-400 p-6 rounded-lg shadow-lg">
               <Clock className="w-8 h-8 mb-2 text-purple-900" />
               <p className="text-sm text-purple-900">Last Date</p>
-              <p className="font-bold text-purple-900">{data.end_date}</p>
+              <p className="font-bold text-purple-900">{formatDate(data.end_date)}</p>
             </div>
             :
             null

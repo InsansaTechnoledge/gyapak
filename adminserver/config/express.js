@@ -13,7 +13,6 @@ ExpressApp.use(express.urlencoded({ extended: true }));
 ExpressApp.use(
     cors({
         origin: '*',
-        credentials: true,
     })
 );
 

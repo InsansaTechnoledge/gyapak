@@ -18,7 +18,13 @@ export const uploadEvent = async (req, res) => {
             ),
             Organization.findByIdAndUpdate(req.body.organization_id, {
                 $push: { events: newEvent._id }
-            })
+            }),
+            EventType.findOneAndUpdate(
+                {type: "update"},
+                {
+                    $set: { lastUpdated: Date.now() }
+                }
+            )
         ]);
 
         return res.status(200).json({ message: 'Event uploaded successfully', event: newEvent });
