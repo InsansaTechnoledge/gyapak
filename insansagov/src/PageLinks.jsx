@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { Suspense, lazy } from 'react';
 import Credits from './Pages/PrivacyPolicy/Credits';
 import { RingLoader } from 'react-spinners';
+import CounselorChatUI from './Pages/counselor/GyapakCounselor';
 
 // Lazy load the components
 const Landing = lazy(() => import('./Pages/Landing/landing'));
@@ -23,6 +24,7 @@ const PortalCoverPage = lazy(() => import('./Pages/FutureStartPage/PortalCoverPa
 const Unsubscribe = lazy(()=>import('./Pages/Unsubscribe/Unsubscribe')); 
 const OverviewPage = lazy(() =>import('./Pages/OverviewPage/Overview') );
 
+
 const SecondRoutes = () => {
     const location = useLocation();
 
@@ -37,6 +39,7 @@ const SecondRoutes = () => {
     </div></div>}>
                 <Routes>
                     <Route path='/opportunity' element={<Opportunities />} />
+                    <Route path='/counselor' element ={<CounselorChatUI/>} />
                     <Route path='/search' element={<SearchPage />} />
                     <Route path='/organization' element={<Authority />} />
                     <Route path='/category' element={<Category />} />
