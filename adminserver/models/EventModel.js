@@ -17,8 +17,7 @@ const EventSchema = new mongoose.Schema({
         required: true
     },
     end_date:{
-        type: Date,
-        index: { expires: 86400  }
+        type: Date
     },
     apply_link:{
             type: String,
