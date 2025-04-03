@@ -32,7 +32,7 @@ const LatestUpdates = ({ titleHidden }) => {
         });
         // setLatestUpdates(sortedUpdates.slice(0, 5));
         // setFilteredLatestUpdates(sortedUpdates.slice(0, 2));
-        return sortedUpdates.slice(0, 2)
+        return sortedUpdates.slice(0,6);
       }
     } catch (error) {
       console.error('Error fetching latest updates:', error);
