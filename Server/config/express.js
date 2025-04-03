@@ -15,14 +15,15 @@ app.set('trust proxy', 1);
 const allowedOrigins = [
   process.env.CLIENT_BASE_URL_LOCAL,
   process.env.CLIENT_BASE_URL_LIVE,
-  // "https://insansa.com",
+  "https://insansa.com",
+  // "http://localhost:5173",
   "https://gyapak.in"
 ].filter(Boolean); // Remove undefined values
 
 // Backend instances for load balancing
 const backendInstances = [
   "https://backend.gyapak.in"
-  // "http://localhost:3000"
+  // "http://localhost:5000"
 ];
 
 let currentIndex = 0;
@@ -46,7 +47,7 @@ app.use((req, res, next) => {
 // CORS configuration
 const corsOptions = {
   origin: (origin, callback) => {
- 
+
     if (!origin) {
       console.error('CORS denied: No origin');
       return callback(null, false);
@@ -75,7 +76,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-  res.send('✅ Server is running perfectly !!');
+  res.status(200).send('✅ Server is running perfectly !!');
 });
 
 
