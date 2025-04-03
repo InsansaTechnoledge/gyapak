@@ -1,34 +1,35 @@
 import React from 'react';
 import moment from 'moment';
 import { Calendar, ChevronRight, Tag } from 'lucide-react';
+import { formatDate } from '../../Utils/dateFormatter';
 
 const LatestUpdateCard = (props) => {
 
-  function formatDate(date) {
-    if (!date) return ''; // Handle null, undefined, or empty input
+  // function formatDate(date) {
+  //   if (!date) return ''; // Handle null, undefined, or empty input
   
-    if (typeof date === 'number') {
-      return moment(date).format('MMMM D, YYYY'); // Convert number to date
-    }
+  //   if (typeof date === 'number') {
+  //     return moment(date).format('MMMM D, YYYY'); // Convert number to date
+  //   }
   
-    if (typeof date === 'string') {
-      const possibleFormats = ['YYYY-MM-DD', 'DD-MM-YYYY', 'MM-DD-YYYY'];
+  //   if (typeof date === 'string') {
+  //     const possibleFormats = ['YYYY-MM-DD', 'DD-MM-YYYY', 'MM-DD-YYYY'];
       
-      for (let format of possibleFormats) {
-        const parsedDate = moment(date, format, true);
-        if (parsedDate.isValid()) {
-          return parsedDate.format('MMMM D, YYYY');
-        }
-      }
+  //     for (let format of possibleFormats) {
+  //       const parsedDate = moment(date, format, true);
+  //       if (parsedDate.isValid()) {
+  //         return parsedDate.format('MMMM D, YYYY');
+  //       }
+  //     }
       
-      // If input is a string but doesn't match any formats, return it as is
-      console.warn('Unrecognized date format:', date);
-      return date; 
-    }
+  //     // If input is a string but doesn't match any formats, return it as is
+  //     console.warn('Unrecognized date format:', date);
+  //     return date; 
+  //   }
   
-    console.error('Invalid date format or input:', date);
-    return 'Invalid Date';
-  }
+  //   console.error('Invalid date format or input:', date);
+  //   return 'Invalid Date';
+  // }
     
 
 

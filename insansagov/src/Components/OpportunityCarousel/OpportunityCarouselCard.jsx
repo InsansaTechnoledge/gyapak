@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Building2, Clock } from 'lucide-react';
-
+import { formatDate } from '../../Utils/dateFormatter';
 
 const OpportunityCarouselCard = (props) => {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const OpportunityCarouselCard = (props) => {
             <div className='flex items-center text-gray-500'>
               <Clock className='w-4 h-4 mr-2' />
               <span className='text-sm'>
-                Updated: {props.item?.date_of_notification || 'N/A'}
+                Updated: {props.item.updatedAt ? formatDate (props.item.updatedAt) : 'N/A'}
               </span>
             </div>
             <button onClick= {()=> navigate(`/opportunity?id=${encodeURI(props.item._id)}`)} className='bg-purple-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-purple-700 transition-colors'>

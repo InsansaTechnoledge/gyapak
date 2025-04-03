@@ -34,10 +34,9 @@ const Authority = () => {
             if (response.status === 201) {
                 setOrganization(response.data.organization);
                 setRelatedOrganizations(response.data.relatedOrganizations.filter(org => org._id !== response.data.organization._id));
-
                 const sortedUpdates = response.data.events.sort((a, b) => {
-                    const dateA = new Date(a.notificationDate);
-                    const dateB = new Date(b.notificationDate);
+                    const dateA = new Date(a.updatedAt);
+                    const dateB = new Date(b.updatedAt);
 
                     // Check if the dates are valid, in case some of the dates are 'Not specified'
                     if (isNaN(dateA) || isNaN(dateB)) {
@@ -58,7 +57,6 @@ const Authority = () => {
             console.log(error.response);
             if (error.response || error.request) {
                 if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
-                    console.log("RR");
                     const url = await CheckServer();
                     setApiBaseUrl(url),
                         setServerError(error.response.status);
@@ -87,8 +85,8 @@ const Authority = () => {
             setRelatedOrganizations(data.relatedOrganizations.filter(org => org._id !== data.organization._id));
 
             const sortedUpdates = data.events.sort((a, b) => {
-                const dateA = new Date(a.notificationDate);
-                const dateB = new Date(b.notificationDate);
+                const dateA = new Date(a.updatedAt);
+                const dateB = new Date(b.updatedAt);
 
                 if (isNaN(dateA) || isNaN(dateB)) {
                     return 0;

@@ -4,5 +4,5 @@ export const formatDate = (dateString) => {
       day: '2-digit',
       month: '2-digit', // "Apr", "Jan", etc.
       year: 'numeric' // Full year "2025"
-    }).replace(',', ''); // Remove comma if any
+    }).replace(',', '').replaceAll('/','-'); // Remove comma if any
   };
