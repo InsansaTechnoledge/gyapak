@@ -76,7 +76,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-  res.send('✅ Server is running perfectly !!');
+  res.status(200).send('✅ Server is running perfectly !!');
 });
 
 
