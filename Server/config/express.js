@@ -17,7 +17,8 @@ const allowedOrigins = [
   process.env.CLIENT_BASE_URL_LIVE,
   "https://insansa.com",
   // "http://localhost:5173",
-  "https://gyapak.in"
+  "https://gyapak.in",
+  "https://www.gyapak.in"
 ].filter(Boolean); // Remove undefined values
 
 // Backend instances for load balancing
