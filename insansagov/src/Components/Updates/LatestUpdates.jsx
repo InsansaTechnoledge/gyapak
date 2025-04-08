@@ -26,13 +26,13 @@ const LatestUpdates = ({ titleHidden }) => {
       const response = await axios.get(`${apiBaseUrl}/api/event/latest`);
       if (response.status === 201) {
         const sortedUpdates = response.data.sort((a, b) => {
-          const dateA = new Date(a.date_of_notification);
-          const dateB = new Date(b.date_of_notification);
+          const dateA = new Date(a.updatedAt || a.date_of_notification);
+          const dateB = new Date(b.updatedAt || b.date_of_notification);
           return isNaN(dateA) || isNaN(dateB) ? 0 : dateB - dateA; // Sort by date descending
         });
         // setLatestUpdates(sortedUpdates.slice(0, 5));
         // setFilteredLatestUpdates(sortedUpdates.slice(0, 2));
-        return sortedUpdates.slice(0, 2)
+        return sortedUpdates.slice(0,6);
       }
     } catch (error) {
       console.error('Error fetching latest updates:', error);
@@ -112,7 +112,7 @@ const LatestUpdates = ({ titleHidden }) => {
               <LatestUpdateCard
                 key={update.id || index}
                 name={update.name}
-                date={update.date_of_notification}
+                date={update.updatedAt || update.date_of_notification}
                 organization={update.organizationName}
                 apply_link={update.apply_link}
               />

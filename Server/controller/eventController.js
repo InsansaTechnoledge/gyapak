@@ -6,35 +6,12 @@ export const getLatestUpdates = async (req, res) => {
     try {
         // Calculate date range for last year
         const now = new Date();
-        const oneYearAgo = new Date(now.getFullYear()-1, now.getMonth(), now.getDate());
-
+        const oneYearAgo = new Date(now.getFullYear(), now.getMonth()-1, now.getDate());
+        console.log(oneYearAgo);
         const exams = await Event.aggregate([
           {
-            $addFields: {
-              parsedDate: {
-                $cond: {
-                  if: {
-                    $and: [
-                      { $ne: ["$date_of_notification", null] },
-                      { $ne: ["$date_of_notification", ""] }
-                    ]
-                  },
-                  then: {
-                    $dateFromString: {
-                      dateString: "$date_of_notification",
-                      format: "%d-%m-%Y",
-                      onError: null,
-                      onNull: null
-                    }
-                  },
-                  else: null
-                }
-              }
-            }
-          },
-          {
             $match: {
-              parsedDate: { $gte: oneYearAgo, $lte: now }
+              updatedAt: { $gte: oneYearAgo, $lte: now }
             }
           },
           {
@@ -52,14 +29,13 @@ export const getLatestUpdates = async (req, res) => {
             $project: {
               _id: 1,
               name: 1, // Event name or other fields you want to include
-              date_of_notification: 1,
+              updatedAt: 1,
               apply_link: 1,
               organizationName: "$organizationDetails.abbreviation" // Including the organization name
             }
           }
         ]);
         
-
         res.status(201).json(exams);
       }
       catch(err){

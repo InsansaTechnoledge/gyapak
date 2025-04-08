@@ -7,7 +7,7 @@ import { useApi, CheckServer } from '../../Context/ApiContext';
 import { useQuery } from '@tanstack/react-query';
 
 const categories = [
-  { Nameid: 'Defense', name: 'Defense', icon: '🛡️' },
+  { Nameid: 'Defence', name: 'Defence', icon: '🛡️' },
   { Nameid: 'Engineering', name: 'Engineering', icon: '⚙️' },
   { Nameid: 'Banking Finance', name: 'Banking & Finance', icon: '💰' },
   { Nameid: 'Civil Services', name: 'Civil Services', icon: '🏛️' },

@@ -37,7 +37,7 @@ const AuthorityLatestUpdates = (props) => {
           <div className='space-y-5 mb-10'>
             {
               filteredLatestUpdates && filteredLatestUpdates.map((update, key) => {
-                return <LatestUpdateCard key={key} name={update.name} date={update.date_of_notification} organization={props.name} apply_link={update.apply_link}/>
+                return <LatestUpdateCard key={key} name={update.name} date={update.updatedAt} organization={props.name} apply_link={update.apply_link}/>
               })
             }
 

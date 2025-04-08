@@ -21,7 +21,7 @@ export const SERVER_URLS = [
     for (let url of SERVER_URLS) {
       try {
         const response = await axios.get(`${url}`);
-        if (response.data === "Server is running perfectly !!") {
+        if (response.status === 200) {
           // console.log("🚀 Using API:", url);
           return url; // ✅ Return working API URL
         }
