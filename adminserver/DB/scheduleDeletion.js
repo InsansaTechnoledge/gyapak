@@ -3,8 +3,8 @@ import Organization from '../models/OrganizationModel.js';
 import EventType from '../models/EventTypeModel.js';
 import Event from '../models/EventModel.js';
 
-const scheduler = async () => {
-    cron.schedule('0 0 * * *', async () => {
+const scheduler = () => {
+    cron.schedule('45 6 * * *', async () => {
         console.log('Running daily deletion task...');
         await watchDeletions();
     }, {
