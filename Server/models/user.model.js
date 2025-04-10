@@ -103,7 +103,7 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
 };
 
 userSchema.virtual('courseCount').get(function () {
-  return this.testPurchased.length;
+  return this.testsPurchased.length;
 });
 
 const User = model('User', userSchema);

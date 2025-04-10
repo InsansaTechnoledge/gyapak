@@ -4,10 +4,6 @@ import razorPayConfig from './razorpayConfig.js';
 import Payment from '../../models/payment.model.js';
 import User from '../../models/user.model.js';
 
-
-// this acts as a function that taks res.body as a parameter from the payment controller , this verifies payment and updates the payment records by updating transactionId , status and payment method , orderId
-// also befor updating it take paymentdetails , from built in razorpay functio
-
 const razorpay = await razorPayConfig();
 
 export const paymentSignamtureValidationFunction = async function (params) {
@@ -22,6 +18,7 @@ export const paymentSignamtureValidationFunction = async function (params) {
       razorpay_signature,
       secret
     );
+    console.log('Signature validation result:', isValidateSignature);
 
     if (isValidateSignature) {
       const paymentDetails = await razorpay.payments.fetch(razorpay_payment_id);
@@ -38,6 +35,7 @@ export const paymentSignamtureValidationFunction = async function (params) {
 
 const updatePaymentDocument = async function (paymentDetails) {
   try {
+    console.log('Payment details:');
     const payment = await Payment.findOneAndUpdate(
       { orderId: paymentDetails.order_id },
       {
@@ -57,37 +55,29 @@ const updatePaymentDocument = async function (paymentDetails) {
       transactionId: paymentDetails.acquirer_data.upi_transaction_id,
       orderId: paymentDetails.order_id,
     };
-
+    console.log('Payment data:');
+    console.log(payment);
     const updateQuery = {
       $push: {
-        testPurchased: {
+        testsPurchased: {
           $each: payment.testId.map(id => ({
-            testId: id,
-            date: Date.now()
+            testId: id
+            //model have to add
           })),
         },
       },
-      $inc: { courseCount: payment.courseId.length },
     };
-
-    // const promo=payment.discount?.find(d => d.codeId);
-    // if (promo) {
-    //   updateQuery.$pull = { promoCode:promo.codeId };
-
-    //   const promoCode = await PromoCode.findOneAndUpdate(
-    //     { code: promo.codeId },
-    //     { $inc: { usedCount: 1 } },
-    //     { new: true }
-    //   );
-    // }
     
     const updatedUser = await User.findByIdAndUpdate(
       payment.userId,
       updateQuery,
       { new: true }
     );
+    console.log('Updated user:', updatedUser);
+    console.log('Payment data:', paymentData);
     return { paymentData, updatedUser };
   } catch (e) {
+    console.error('Error updating payment document:', e.message);
     return new Error(e.message);
   }
 };

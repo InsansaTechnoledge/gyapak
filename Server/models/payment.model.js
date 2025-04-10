@@ -1,14 +1,5 @@
 import mongoose, { Schema, model } from 'mongoose';
 
-const discountSchema = new mongoose.Schema({
-  name: String,
-  codeId: {
-    type: String
-    // You can use ObjectId and ref here if needed
-  },
-  amount: Number
-}, { _id: false }); 
-
 
 const PaymentSchema = new mongoose.Schema(
   {
@@ -104,18 +95,6 @@ const PaymentSchema = new mongoose.Schema(
         note: String,
       },
     ],
-
-    discount: [discountSchema],
-
-    tax: {
-      rate: Number,
-      amount: Number,
-    },
-
-    subtotal: {
-      type: Number,
-      // required: true,
-    },
 
     finalTotal:{
       type: Number,
