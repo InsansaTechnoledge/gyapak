@@ -1,10 +1,10 @@
-import razorPayConfig from '../Utility/PaymentUtils/razorpayConfig.js';
-import { APIResponse } from '../Utility/ApiResponse.js';
-import { APIError } from '../Utility/ApiError.js';
-import { createOrderFunction } from '../Utility/PaymentUtils/createOrder.js';
-import Payment from '../models/payment.model.js';
-import User from '../models/user.model.js';
-import { paymentSignamtureValidationFunction } from '../Utility/PaymentUtils/paymentSignatureValidation.js';
+import razorPayConfig from '../../Utility/PaymentUtils/razorpayConfig.js';
+import { APIResponse } from '../../Utility/ApiResponse.js';
+import { APIError } from '../../Utility/ApiError.js';
+import { createOrderFunction } from '../../Utility/PaymentUtils/createOrder.js';
+import Payment from '../../models/payment.model.js';
+import User from '../../models/user.model.js';
+import { paymentSignamtureValidationFunction } from '../../Utility/PaymentUtils/paymentSignatureValidation.js';
 import mongoose from 'mongoose';
 // import { fetchCourseByID } from '../../Utils/SQLQueries/course.queries.js';
 

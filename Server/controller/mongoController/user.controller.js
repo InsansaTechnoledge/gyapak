@@ -1,6 +1,6 @@
-import User from '../models/user.model.js';
-import { APIError } from '../Utility/ApiError.js';
-import { APIResponse } from '../Utility/ApiResponse.js';
+import User from '../../models/user.model.js';
+import { APIError } from '../../Utility/ApiError.js';
+import { APIResponse } from '../../Utility/ApiResponse.js';
 
 export const changePassword = async (req, res) => {
   try {

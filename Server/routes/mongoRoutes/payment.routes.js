@@ -2,7 +2,7 @@ import express from 'express';
 import {
   createOrder,
   verifyPayment,
-} from '../controller/payment.controller.js';
+} from '../../controller/mongoController/payment.controller.js';
 // import { userAndtransactionValidation } from '../Middleware/userAndTransactionValidation.js';
 // import {validatePaymentDataMiddleware} from '../Middleware/paymentDataValidation.middleware.js';
 

@@ -7,10 +7,10 @@ import {
   googleProfile,
   googleAuth,
   checkAuth,
-} from '../controller/auth.controller.js';
-import { authenticateMiddleware } from '../middleware/passport.middleware.js';
-import { authRateLimiter } from '../middleware/rateLimitChecks/AuthRateLimit.middleware.js';
-import { isLoggedInMiddleware } from '../middleware/isLoggedIn.middleware.js';
+} from '../../controller/mongoController/auth.controller.js';
+import { authenticateMiddleware } from '../../middleware/passport.middleware.js';
+import { authRateLimiter } from '../../middleware/rateLimitChecks/AuthRateLimit.middleware.js';
+import { isLoggedInMiddleware } from '../../middleware/isLoggedIn.middleware.js';
 
 const router = express.Router();
 

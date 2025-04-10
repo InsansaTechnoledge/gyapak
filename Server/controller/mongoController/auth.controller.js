@@ -1,8 +1,8 @@
-import { APIResponse } from '../Utility/ApiResponse.js';
-import User from '../models/user.model.js';
-import { APIError } from '../Utility/ApiError.js';
+import { APIResponse } from '../../Utility/ApiResponse.js';
+import User from '../../models/user.model.js';
+import { APIError } from '../../Utility/ApiError.js';
 import passport from 'passport';
-import { CLIENT_BASE_URL_LOCAL,CLIENT_BASE_URL_LIVE } from '../config/env.js';
+import { CLIENT_BASE_URL_LOCAL } from '../../config/env.js';
 
 // function to sign-in user
 export const registerUser = async (req, res) => {

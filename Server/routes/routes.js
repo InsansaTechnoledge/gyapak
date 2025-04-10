@@ -9,14 +9,14 @@ import resultRoute from './resultRoutes.js'
 import subscriber from './subscriberRoutes.js'
 
 
-import subjectRouter from '../routes/supabase/subject.route.js'
-import questionRouter from '../routes/supabase/question.route.js'
-import examRouter from '../routes/supabase/exam.route.js'
-import eventRouter from '../routes/supabase/event.route.js'
+import subjectRouter from './supabase/subject.route.js'
+import questionRouter from './supabase/question.route.js'
+import examRouter from './supabase/exam.route.js'
+import eventRouter from './supabase/event.route.js'
 
-import authRoutes from './auth.routes.js';
-import userRoutes from './user.routes.js';
-import paymentRoute from './payment.routes.js'
+import authRoutes from './mongoRoutes/auth.routes.js';
+import userRoutes from './mongoRoutes/user.routes.js';
+import paymentRoute from './mongoRoutes/payment.routes.js'
 
 const routes = (app) => {
 
