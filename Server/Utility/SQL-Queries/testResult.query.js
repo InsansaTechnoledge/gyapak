@@ -23,16 +23,16 @@ export const evaluateResponse = async (answers = [], userId, examId, eventId) =>
     const question = questions.find(q => q.id === ans.question_id);
     if (!question) continue;
 
-    if(!ans.response){
+    if (question.correct === ans.response) {
+      rightAnsCount++;
+    } 
+    else if(!ans.response){
         unattemptedAns.push({
             question_id: ans.question_id,
-            user_id: userId,
-            type: "unattempted"
+            user_id: userId
         })
     }
-    else if (question.correct === ans.response) {
-      rightAnsCount++;
-    } else {
+     else {
       wrongAns.push({
         question_id: ans.question_id,
         response: ans.response,
@@ -46,8 +46,8 @@ export const evaluateResponse = async (answers = [], userId, examId, eventId) =>
     await storeWrongResponses(wrongAns);
   }
 
-  if(unattemptedAns.length > 0) {
-  await storeUnattemptedResponses(unattemptedAns);
+  if (unattemptedAns.length > 0) {
+    await storeUnattemptedResponses(unattemptedAns);
   }
 
   const wrongCount = wrongAns.length;
@@ -101,29 +101,25 @@ export const storeWrongResponses = async (responses) => {
     })
     .select();
 
-    if(error) throw error;
-    return data;
-}
+  if (error) throw error;
+  return data;
+};
 
 export const storeUnattemptedResponses = async (responses) => {
+    console.log("📦 Inserting unattempted responses:", responses);
+  
     const { data, error } = await supabase
-  .from('user_important_responses')
-  .upsert(responses, {
-    onConflict: ['user_id', 'question_id'],
-    ignoreDuplicates: true
-  })
-  .select();
-
-    if(error) throw error;
+      .from("user_important_questions")
+      .upsert(responses, {
+        onConflict: ['user_id', 'question_id']
+      })
+      .select();
+  
+    if (error) {
+      console.error("❌ Supabase error while inserting unattempted:", error);
+      throw new Error(error.message || "Failed to insert unattempted responses");
+    }
+  
     return data;
-}
-
-export const storeBookmarkedResponses = async (responses) => {
-    const {data,error} = await supabase
-    .from('user_important_responses')
-    .upsert(responses)
-    .select();
-
-    if(error) throw error;
-    return data;
-}
+  };
+  
