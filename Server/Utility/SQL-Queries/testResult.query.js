@@ -1,9 +1,5 @@
 import { supabase } from "../../config/supabaseClient.js";
 
-// export const storeWrongResponses = async () => {
-    
-// }
-
 export const evaluateResponse = async(answers = [] , userId) => {
 
     if(!Array.isArray(answers) || answers.length === 0) throw new Error('ans array is required');
@@ -40,8 +36,21 @@ export const evaluateResponse = async(answers = [] , userId) => {
         }
     }
 
+    await storeWrongResponses(wrongAns)
+
     return {
         right_Count: rightAnsCount,
         wrong_answers: wrongAns
     }
+}
+
+export const storeWrongResponses = async (responses) => {
+    
+    const {data,error} = await supabase
+    .from('user_wrong_responses')
+    .upsert(responses)
+    .select();
+
+    if(error) throw error;
+    return data;
 }
