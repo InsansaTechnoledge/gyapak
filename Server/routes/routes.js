@@ -13,10 +13,12 @@ import subjectRouter from './supabase/subject.route.js'
 import questionRouter from './supabase/question.route.js'
 import examRouter from './supabase/exam.route.js'
 import eventRouter from './supabase/event.route.js'
+import testResultRouter from './supabase/testResult.route.js'
 
 import authRoutes from './mongoRoutes/auth.routes.js';
 import userRoutes from './mongoRoutes/user.routes.js';
 import paymentRoute from './mongoRoutes/payment.routes.js'
+
 
 const routes = (app) => {
 
@@ -42,6 +44,7 @@ const routes = (app) => {
     app.use('/api/v1i2/question', questionRouter);
     app.use('/api/v1i2/exam' , examRouter);
     app.use('/api/v1i2/event', eventRouter);
+    app.use('/api/v1i2/testresult' , testResultRouter);
 
 }
 export default routes;
