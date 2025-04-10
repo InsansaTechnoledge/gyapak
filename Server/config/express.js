@@ -2,6 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import routes from '../routes/routes.js';
+import passportsessionMiddleware from '../Utility/passportSession.js';
+import passport from '../Utility/Passport.js';
+import cookieParser from 'cookie-parser';
 
 if (process.env.NODE_ENV !== "production") {
   (await import('dotenv')).config();
@@ -25,6 +28,7 @@ const allowedOrigins = [
 const backendInstances = [
   "https://backend.gyapak.in"
   // "http://localhost:5000"
+  // "http://localhost:3000"
 ];
 
 let currentIndex = 0;
@@ -37,18 +41,18 @@ const loadBalancer = (req, res, next) => {
   next();
 };
 
-app.use((req, res, next) => {
-  if (!req.headers.origin) {
-    return res.status(403).json({ error: "Direct browser requests are not allowed" });
-  }
-  next();
-});
+// app.use((req, res, next) => {
+//   if (!req.headers.origin) {
+//     return res.status(403).json({ error: "Direct browser requests are not allowed" });
+//   }
+//   next();
+// });
 
 
 // CORS configuration
 const corsOptions = {
   origin: (origin, callback) => {
-
+    return callback(null, true);
     if (!origin) {
       console.error('CORS denied: No origin');
       return callback(null, false);
@@ -79,6 +83,13 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/', (req, res) => {
   res.status(200).send('✅ Server is running perfectly !!');
 });
+
+app.use(cookieParser());
+
+app.use(passportsessionMiddleware);
+
+app.use(passport.initialize());
+app.use(passport.session()); // If using sessions
 
 
 // Your routes
