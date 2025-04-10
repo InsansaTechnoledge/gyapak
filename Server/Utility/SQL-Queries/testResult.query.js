@@ -46,6 +46,10 @@ export const evaluateResponse = async (answers = [], userId, examId, eventId) =>
     await storeWrongResponses(wrongAns);
   }
 
+  if(unattemptedAns.length > 0) {
+  await storeUnattemptedResponses(unattemptedAns);
+  }
+
   const wrongCount = wrongAns.length;
   const totalAttempted = rightAnsCount + wrongCount;
 
@@ -97,6 +101,29 @@ export const storeWrongResponses = async (responses) => {
     })
     .select();
 
-  if (error) throw error;
-  return data;
-};
+    if(error) throw error;
+    return data;
+}
+
+export const storeUnattemptedResponses = async (responses) => {
+    const { data, error } = await supabase
+  .from('user_important_responses')
+  .upsert(responses, {
+    onConflict: ['user_id', 'question_id'],
+    ignoreDuplicates: true
+  })
+  .select();
+
+    if(error) throw error;
+    return data;
+}
+
+export const storeBookmarkedResponses = async (responses) => {
+    const {data,error} = await supabase
+    .from('user_important_responses')
+    .upsert(responses)
+    .select();
+
+    if(error) throw error;
+    return data;
+}
