@@ -2,10 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import routes from '../routes/routes.js';
-
-if (process.env.NODE_ENV !== "production") {
-  (await import('dotenv')).config();
-}
+import { CLIENT_BASE_URL_LOCAL,CLIENT_BASE_URL_LIVE } from './env.js';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
@@ -13,18 +11,18 @@ app.set('trust proxy', 1);
 
 // Allowed frontend origins (ensure these are correctly set in .env)
 const allowedOrigins = [
-  process.env.CLIENT_BASE_URL_LOCAL,
-  process.env.CLIENT_BASE_URL_LIVE,
+  CLIENT_BASE_URL_LOCAL,
+  CLIENT_BASE_URL_LIVE,
   "https://insansa.com",
-  // "http://localhost:5173",
+  "http://localhost:5173",
   "https://gyapak.in",
   "https://www.gyapak.in"
 ].filter(Boolean); // Remove undefined values
 
 // Backend instances for load balancing
 const backendInstances = [
-  "https://backend.gyapak.in"
-  // "http://localhost:5000"
+  // "https://backend.gyapak.in",
+  "http://localhost:5000"
 ];
 
 let currentIndex = 0;
@@ -80,6 +78,7 @@ app.get('/', (req, res) => {
   res.status(200).send('✅ Server is running perfectly !!');
 });
 
+app.use(cookieParser());
 
 // Your routes
 routes(app);
@@ -103,6 +102,7 @@ app.use(
     },
   })
 );
+
 
 export default app;
 

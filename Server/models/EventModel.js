@@ -1,7 +1,5 @@
 import mongoose from 'mongoose';
-if(process.env.NODE_ENV !== "production"){
-    (await import('dotenv')).config();
-}
+
 
 const EventSchema = new mongoose.Schema({
     name:{

@@ -7,6 +7,7 @@ import stateRoute from './stateRoutes.js'
 import admitCardRoute from './admitCardRoutes.js'
 import resultRoute from './resultRoutes.js'
 import subscriber from './subscriberRoutes.js'
+import paymentRoute from './payment.routes.js'
 
 const routes = (app) => {
 
@@ -22,6 +23,7 @@ const routes = (app) => {
     app.get('/api', (req,res) => {
         res.send("Till API");
     });
+    app.use('/api/v2/payment', paymentRoute);
 
 }
 export default routes;
