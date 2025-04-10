@@ -5,10 +5,7 @@ import routes from '../routes/routes.js';
 import passportsessionMiddleware from '../Utility/passportSession.js';
 import passport from '../Utility/Passport.js';
 import cookieParser from 'cookie-parser';
-
-if (process.env.NODE_ENV !== "production") {
-  (await import('dotenv')).config();
-}
+import { CLIENT_BASE_URL_LOCAL,CLIENT_BASE_URL_LIVE } from './env.js';
 
 const app = express();
 
@@ -16,19 +13,18 @@ app.set('trust proxy', 1);
 
 // Allowed frontend origins (ensure these are correctly set in .env)
 const allowedOrigins = [
-  process.env.CLIENT_BASE_URL_LOCAL,
-  process.env.CLIENT_BASE_URL_LIVE,
+  CLIENT_BASE_URL_LOCAL,
+  CLIENT_BASE_URL_LIVE,
   "https://insansa.com",
-  // "http://localhost:5173",
+  "http://localhost:5173",
   "https://gyapak.in",
   "https://www.gyapak.in"
 ].filter(Boolean); // Remove undefined values
 
 // Backend instances for load balancing
 const backendInstances = [
-  "https://backend.gyapak.in"
-  // "http://localhost:5000"
-  // "http://localhost:3000"
+  // "https://backend.gyapak.in",
+  "http://localhost:5000"
 ];
 
 let currentIndex = 0;
@@ -114,6 +110,7 @@ app.use(
     },
   })
 );
+
 
 export default app;
 

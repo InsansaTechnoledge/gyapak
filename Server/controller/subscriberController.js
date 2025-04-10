@@ -2,6 +2,7 @@ import crypto from 'crypto';
 import { transporter } from './contactController.js';
 import Subscriber from '../models/SubscriberModel.js';
 const emailSentCache = new Set(); // Example if using a Map for caching
+import { EMAIL1,CLIENT_BASE_URL_LIVE } from '../config/env.js';
 
 
 // subscribed user mailing list
@@ -16,9 +17,9 @@ export const updateMail = async (email, name,unsubscribeToken) => {
         setTimeout(() => emailSentCache.delete(email), 60000); 
 
         const mailOptions = {
-            from: process.env.EMAIL1,
+            from: EMAIL1,
             to: email,
-            replyTo: process.env.EMAIL1,
+            replyTo: EMAIL1,
             subject: `Hello ${name}`,
             html: `
                 <p>Dear ${name},</p>
@@ -33,7 +34,7 @@ export const updateMail = async (email, name,unsubscribeToken) => {
                 <p>+91 9724379123 | 0265-4611836</p>
                 <br>
                 <a 
-                href="${process.env.CLIENT_BASE_URL_LIVE}/unsubscribe?token=${unsubscribeToken}"
+                href="${CLIENT_BASE_URL_LIVE}/unsubscribe?token=${unsubscribeToken}"
                 style="background-color:#b621a8; color: white; padding: 10px 20px; text-decoration: none; border: none; cursor: pointer;">
                     Click here to unsubscribe
                 </a>
@@ -82,9 +83,9 @@ export const create = async (req, res) => {
 export const subscribeMail = async (email, name, unsubscribeToken) => {
     try {
         const mailOptions = {
-            from: process.env.EMAIL1,
+            from: EMAIL1,
             to: email,
-            replyTo: process.env.EMAIL1,
+            replyTo: EMAIL1,
             subject: `Thank you for subscribing, ${name}!`,
             html: `
                 <p>Dear ${name},</p>
@@ -98,7 +99,7 @@ export const subscribeMail = async (email, name, unsubscribeToken) => {
                 <p>+91 9724379123 | 0265-4611836</p>
                 <br>
                 <a 
-                href="${process.env.CLIENT_BASE_URL_LIVE}/unsubscribe?token=${unsubscribeToken}"
+                href="${CLIENT_BASE_URL_LIVE}/unsubscribe?token=${unsubscribeToken}"
                 style="background-color:#b621a8; color: white; padding: 10px 20px; text-decoration: none; border: none; cursor: pointer;">
                     Click here to unsubscribe
                 </a>

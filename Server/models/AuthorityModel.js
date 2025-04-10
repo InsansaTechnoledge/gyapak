@@ -1,9 +1,7 @@
 import fetch from 'node-fetch';
 import mongoose from "mongoose";
-if(process.env.NODE_ENV !== "production"){
-    (await import('dotenv')).config();
-  }
-const imageUrl = process.env.DEFAULT_LOGO;
+import { DEFAULT_LOGO } from '../config/env.js';
+const imageUrl = DEFAULT_LOGO;
 let base64String = "";
 try{
     const response = await fetch(imageUrl);

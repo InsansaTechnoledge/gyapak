@@ -1,17 +1,14 @@
 import nodemailer from 'nodemailer';
 import {body} from 'express-validator'
+import { EMAIL,PASSWORD ,EMAIL1} from '../config/env.js';
 
-if(process.env.NODE_ENV !== "production"){
-    (await import('dotenv')).config();
-  }
-  
   export const transporter = nodemailer.createTransport({
     host:'smtp.gmail.com',
   port: 587,                   // Port for STARTTLS (not SSL)
   secure: false,  // Use STARTTLS
     auth: {
-      user: process.env.EMAIL, // Your Outlook email address
-      pass: process.env.PASSWORD, // Your Outlook email password or app password
+      user: EMAIL, // Your Outlook email address
+      pass: PASSWORD, // Your Outlook email password or app password
     }
   });
   
@@ -28,8 +25,8 @@ export const sendMailtoQueries = async (req, res) => {
     const {firstName, lastName, email,subject, message,recievedOn} = req.body;
 try{
     const mailOptions={
-    from: process.env.EMAIL, 
-    to: process.env.EMAIL1,  
+    from: EMAIL, 
+    to:EMAIL1,  
     replyTo: email,           
     subject: `New Query from ${firstName} ${lastName} on ${recievedOn}`,
     text: `
@@ -60,9 +57,9 @@ export const sendMailtoUser = async (req, res) => {
 
   try {
     const mailOptions = {
-      from: process.env.EMAIL,
+      from: EMAIL,
       to: email,
-      replyTo: process.env.EMAIL1,
+      replyTo: EMAIL1,
       subject: `Thank You for Reaching Out to Us!`,
       html: `
         <p>Dear ${firstName} ${lastName},</p>

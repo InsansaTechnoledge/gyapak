@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { startChangeStream } from "./watch.js";
+import { MONGO_URI } from "./env.js";
 
 const checkAndDropIndex = async (collection, indexName) => {
     const indexes = await collection.indexes();
@@ -17,7 +18,7 @@ const connectDB = async () => {
         await mongoose.connection.once('open',async()=>{
             startChangeStream();
         })
-        await mongoose.connect(process.env.MONGO_URI);
+        await mongoose.connect(MONGO_URI);
         console.log(`MongoDb connected on ${mongoose.connection.host}`);
 
         const db = mongoose.connection.db;
