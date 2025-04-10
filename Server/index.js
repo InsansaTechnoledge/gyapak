@@ -1,5 +1,6 @@
+await import('./Config/env.js');
 import App from './app.js';
-const PORT = process.env.PORT || 5000;
+import { PORT,NODE_ENV } from './Config/env.js';
 
 const initializeServer = async () => {
   try {
@@ -23,7 +24,7 @@ const initializeServer = async () => {
 };
 
 // Only initialize the server if not running in serverless mode
-if (process.env.NODE_ENV !== 'serverless') {
+if (NODE_ENV !== 'serverless') {
   initializeServer();
 }
 

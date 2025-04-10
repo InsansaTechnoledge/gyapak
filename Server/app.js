@@ -7,7 +7,7 @@ if(process.env.NODE_ENV !== "production"){
 
 }
 
-const App = async()=>{
+const App=async()=>{
     try{
         await db();
 

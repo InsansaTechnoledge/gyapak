@@ -2,6 +2,21 @@ import { Schema, model } from 'mongoose';
 import validator from 'validator';
 import bcrypt from 'bcrypt';
 
+const PurchasedTestSchema = new Schema(
+  {
+    testId: {
+      type: String,
+      required: [true, 'course is required'],
+    },
+    model: {
+      type: String,
+      enum: ["Seeker", "Planner", "Cracker"]
+    }
+  },
+  {
+    _id: false,
+  }
+);
 
 const userSchema = new Schema(
   {
@@ -30,7 +45,6 @@ const userSchema = new Schema(
 
     password: {
       type: String,
-      required: [true, 'Password is required'],
       select: false, // Exclude password from queries
       trim: true,
       validate: {
@@ -54,12 +68,11 @@ const userSchema = new Schema(
 
     userRole: {
         type: String,
-        enum:['Seeker' , 'admin' , 'contentProvider' , 'proofChecker' , 'planner' , 'cracker']
+        enum:['user' , 'admin' , 'contentProvider' , 'proofChecker']
     },
 
-    testPurchased: {
-        type: [String],
-        default: [],
+    testsPurchased : {
+      type: [PurchasedTestSchema],
     },
 
     lastLogin: {
@@ -90,7 +103,7 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
 };
 
 userSchema.virtual('courseCount').get(function () {
-  return this.coursesPurchased.length;
+  return this.testPurchased.length;
 });
 
 const User = model('User', userSchema);
