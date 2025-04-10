@@ -4,8 +4,8 @@ import { evaluateResponse } from "../../Utility/SQL-Queries/testResult.query.js"
 
 export const checkUsersAnswers = async (req , res) => {
     try{
-        const {answers , userId} = req.body 
-        const result = await evaluateResponse(answers , userId)
+        const {answers , userId , exam_id, event_id} = req.body 
+        const result = await evaluateResponse(answers , userId , exam_id , event_id)
 
         return new APIResponse(200 , result , 'checked answers').send(res);
     } catch(e) {
