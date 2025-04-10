@@ -1,12 +1,13 @@
 import { createClient } from '@supabase/supabase-js';
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from './env.js';
 
 let supabase = null;
 
 const connectToSupabase = async function(){
     try{
         supabase = createClient(
-        process.env.SUPABASE_URL,
-        process.env.SUPABASE_ANON_KEY
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
     );
     console.log('connected to supabse');
     }
