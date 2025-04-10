@@ -2,8 +2,10 @@ import express from 'express';
 import cors from 'cors';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import routes from '../routes/routes.js';
-import { CLIENT_BASE_URL_LOCAL,CLIENT_BASE_URL_LIVE } from './env.js';
+import passportsessionMiddleware from '../Utility/passportSession.js';
+import passport from '../Utility/Passport.js';
 import cookieParser from 'cookie-parser';
+import { CLIENT_BASE_URL_LOCAL,CLIENT_BASE_URL_LIVE } from './env.js';
 
 const app = express();
 
@@ -35,18 +37,18 @@ const loadBalancer = (req, res, next) => {
   next();
 };
 
-app.use((req, res, next) => {
-  if (!req.headers.origin) {
-    return res.status(403).json({ error: "Direct browser requests are not allowed" });
-  }
-  next();
-});
+// app.use((req, res, next) => {
+//   if (!req.headers.origin) {
+//     return res.status(403).json({ error: "Direct browser requests are not allowed" });
+//   }
+//   next();
+// });
 
 
 // CORS configuration
 const corsOptions = {
   origin: (origin, callback) => {
-
+    return callback(null, true);
     if (!origin) {
       console.error('CORS denied: No origin');
       return callback(null, false);
@@ -79,6 +81,12 @@ app.get('/', (req, res) => {
 });
 
 app.use(cookieParser());
+
+app.use(passportsessionMiddleware);
+
+app.use(passport.initialize());
+app.use(passport.session()); // If using sessions
+
 
 // Your routes
 routes(app);
