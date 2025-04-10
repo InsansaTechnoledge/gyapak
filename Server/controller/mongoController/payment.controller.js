@@ -18,22 +18,27 @@ export const createOrder = async (req, res) => {
     console.log(req.body);
     console.log(req.user);
     // collecting requirement from user
-    const { receipt, courseId, amount,checkoutData } = req.body;
+    // const { receipt, courseId, amount,checkoutData } = req.body;
+    const receipt='1';
+    const testId=['1'];
+    const amount=100;
+    const checkoutData={
+
+      finalTotal:118
+    }
     let order={};
 
     let paymentData={
       receipt,
-      testId:courseId,
+      testId,
       // userId: req.user._id,
-      userId:new mongoose.Types.ObjectId('67d7e16766001a23935c5196'),
+      userId:new mongoose.Types.ObjectId('67f6a6de3e12dd65d3f581b3'),
       amount,
       tax:{
         rate:0.18,
         amount:checkoutData.gstAmount
       },
-      subtotal:checkoutData.subtotal,
-      finalTotal:checkoutData.finalTotal,
-      discount:checkoutData.discount
+      finalTotal:checkoutData.finalTotal
     };
     if(amount !==0){
     //creating order with createOrderFunction()
@@ -59,8 +64,7 @@ export const createOrder = async (req, res) => {
               date: Date.now(),
             }))
           }
-        },
-        $inc: { courseCount: payment.courseId.length }
+        }
       },
       { new: true });
 

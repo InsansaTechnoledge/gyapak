@@ -1,6 +1,6 @@
-await import('./Config/env.js');
+await import('./config/env.js');
 import App from './app.js';
-import { PORT,NODE_ENV } from './Config/env.js';
+import { PORT,NODE_ENV } from './config/env.js';
 
 const initializeServer = async () => {
   try {
