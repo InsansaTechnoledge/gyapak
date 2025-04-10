@@ -54,10 +54,10 @@ const corsOptions = {
       return callback(null, false);
     }
     else if (allowedOrigins.includes(origin)) {
-      callback(null, true);
+      return callback(null, true);
     } else {
       console.error(`CORS denied for origin: ${origin}`);
-      callback(null, false);
+      return callback(null, false);
     }
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
