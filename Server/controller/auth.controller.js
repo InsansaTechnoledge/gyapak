@@ -2,6 +2,7 @@ import { APIResponse } from '../Utility/ApiResponse.js';
 import User from '../models/user.model.js';
 import { APIError } from '../Utility/ApiError.js';
 import passport from 'passport';
+import { CLIENT_BASE_URL_LOCAL,CLIENT_BASE_URL_LIVE } from '../config/env.js';
 
 // function to sign-in user
 export const registerUser = async (req, res) => {
@@ -68,14 +69,14 @@ export const googleAuth = passport.authenticate('google', {
 
 export const googleCallback = passport.authenticate('google', {
   successRedirect: `/api/v1/auth/profile`,
-  faliureRedirect: `${process.env.CLIENT_BASE_URL_LOCAL}`,
+  faliureRedirect: `${CLIENT_BASE_URL_LOCAL}`,
   session: true,
 });
 
 export const googleProfile = (req, res) => {
   if (!req.user) return new APIError(401, ['unauthorized']).send(res);
 
-  res.redirect(`${process.env.CLIENT_BASE_URL_LOCAL}`);
+  res.redirect(`${CLIENT_BASE_URL_LOCAL}`);
 };
 
 // chek auth function , for checking cookies

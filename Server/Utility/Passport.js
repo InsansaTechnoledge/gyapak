@@ -2,9 +2,7 @@ import passport from 'passport';
 import passportLocal from 'passport-local';
 import passportGoogle from 'passport-google-oauth20';
 import User from '../models/user.model.js';
-if(process.env.NODE_ENV !== "production"){
-  (await import('dotenv')).config();
-}
+import { GOOGLE_CALLBACK_URL,GOOGLE_OAUTH_CLIENT_ID,GOOGLE_OAUTH_CLIENT_SECRET } from '../config/env.js';
 
 
 const LocalStrategry = passportLocal.Strategy;
@@ -49,9 +47,9 @@ passport.use(
 passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
-      callbackURL: process.env.GOOGLE_CALLBACK_URL,
+      clientID: GOOGLE_OAUTH_CLIENT_ID,
+      clientSecret: GOOGLE_OAUTH_CLIENT_SECRET,
+      callbackURL: GOOGLE_CALLBACK_URL,
       scope: ['profile', 'email'],
       passReqToCallback: true,
     },
