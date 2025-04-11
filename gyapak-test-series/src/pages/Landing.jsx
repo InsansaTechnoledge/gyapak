@@ -3,7 +3,7 @@ import React from 'react'
 const Landing = () => {
   return (
     <>
-        <h1 className='text-primary'>
+        <h1 className='text-2xl'>
             rg4t
         </h1>
     </>
