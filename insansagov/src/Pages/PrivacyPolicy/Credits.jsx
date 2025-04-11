@@ -181,6 +181,12 @@ const Credits = () => {
         'IREL':'https://th.bing.com/th/id/OIP.0ss-UhArQdcG0RwCbn9WrQHaHE?rs=1&pid=ImgDetMain',
         'NEIGRIHMS':'https://s3.amazonaws.com/static.freshersworld.com/company-logo/2018/02/27/logo_429_1519735636_1.jpg',
         'IBPS':'https://pnghq.com/wp-content/uploads/pnghq.com-ibps-logo-institute-of-banking-personnel-selection-275x400.png',
+        'ICG':'https://thozhilveedhi.com/wp-content/uploads/2020/06/INDAN-COAT-GUARD.png',
+        'AAI':'https://logodix.com/logo/1634517.jpg',
+        'Indian Exim Bank':'https://th.bing.com/th/id/OIP.9p81EoKH5Esl56fa4kzfrwHaEl?rs=1&pid=ImgDetMain',
+        'NGT':'https://www.litem.in/images/ngt.jpg',
+        'IDBI':'https://th.bing.com/th/id/OIP.XDK8kU4pq7cTV6gjvkENhQHaEK?rs=1&pid=ImgDetMain',
+        'PSB':'https://companieslogo.com/img/orig/PSB.NS-210860d7.png?t=1604670428',
         "Search Results Not Found": "https://img.freepik.com/free-vector/search-concept-landing-page_52683-13620.jpg?ga=GA1.1.1723539104.1734412094&semt=ais_hybrid",
         "Data Not Found": "https://img.freepik.com/free-vector/postponed-concept_23-2148489217.jpg?ga=GA1.1.1723539104.1734412094&semt=ais_hybrid"
     }
