@@ -6,7 +6,7 @@ import Payment from '../../models/payment.model.js';
 import User from '../../models/user.model.js';
 import { paymentSignamtureValidationFunction } from '../../Utility/PaymentUtils/paymentSignatureValidation.js';
 import mongoose from 'mongoose';
-// import { fetchCourseByID } from '../../Utils/SQLQueries/course.queries.js';
+import { fetchExamById } from '../../Utility/SQL-Queries/exam.query.js';
 
 const razorpay = await razorPayConfig();
 
@@ -105,15 +105,15 @@ export const getPayment = async (req, res) => {
     const payment = req.payment;
 
     // for courses
-    const coursePromises = payment.courseId.map(courseId =>
-      fetchCourseByID(courseId)
+    const testPromises = payment.testId.map(testId =>
+      fetchExamById(testId)
     );
 
-    const courses = await Promise.all(coursePromises);
+    const tests = await Promise.all(testPromises);
 
     const paymentData = {
       ...payment._doc,
-      courses: courses,
+      exams: tests,
     };
     return new APIResponse(
       200,

@@ -12,12 +12,11 @@ import questionRouter from './supabase/question.route.js'
 import examRouter from './supabase/exam.route.js'
 import eventRouter from './supabase/event.route.js'
 import testResultRouter from './supabase/testResult.route.js'
-
 import authRoutes from './mongoRoutes/auth.routes.js';
 import userRoutes from './mongoRoutes/user.routes.js';
 import paymentRoute from './mongoRoutes/payment.routes.js';
 import commentRoute from './mongoRoutes/premiumComment.routes.js';
-
+import emailRoutes from './mongoRoutes/email.routes.js';
 
 const routes = (app) => {
 
@@ -33,19 +32,18 @@ const routes = (app) => {
     
     app.use('/api/v1i2/auth', authRoutes);
     app.use('/api/v1i2/user', userRoutes);
-
-    app.get('/api', (req,res) => {
-        res.send("Till API");
-    });
-    app.use('/api/v1i2/payment', paymentRoute);
-
-    // supabase routes
     app.use('/api/v1i2/subject' , subjectRouter);
     app.use('/api/v1i2/question', questionRouter);
     app.use('/api/v1i2/exam' , examRouter);
     app.use('/api/v1i2/event', eventRouter);
     app.use('/api/v1i2/testresult' , testResultRouter);
     app.use('/api/v1i2/comment' , commentRoute);
+    app.use('/api/v1i2/payment', paymentRoute);
+    app.use('/api/v1i2/email',emailRoutes);
+    app.get('/api', (req,res) => {
+        res.send("Till API");
+    });
+
 
 }
 export default routes;
