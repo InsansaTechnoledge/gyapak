@@ -69,3 +69,14 @@ export const deleteExam = async (id) => {
     if (error) throw error;
     return data;
 };
+
+export const fetchExamById=async(id) => {
+    const { data, error } = await supabase
+      .from('exam')
+      .select('*')
+      .eq('id', id)
+      .single();
+  
+    if (error) throw error;
+    return data;
+};
