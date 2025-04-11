@@ -39,7 +39,7 @@ import {
   export const assignQuestionsToEventController = async (req, res) => {
     try {
       const { event_id } = req.params;
-      const { questions } = req.body; // [{question_id, sequence}]
+      const { questions } = req.body; 
   
       const data = await assignQuestionsToEvent(event_id, questions);
       return new APIResponse(200, data, "Questions assigned to event").send(res);

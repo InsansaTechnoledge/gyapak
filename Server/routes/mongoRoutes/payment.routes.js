@@ -1,6 +1,7 @@
 import express from 'express';
 import {
   createOrder,
+  getPayment,
   verifyPayment,
 } from '../../controller/mongoController/payment.controller.js';
 // import { userAndtransactionValidation } from '../Middleware/userAndTransactionValidation.js';
@@ -27,5 +28,7 @@ router.post(
 //   userAndtransactionValidation,
 //   getPayment
 // );
+
+router.post('/get-payment/:id' , getPayment);
 
 export default router;
