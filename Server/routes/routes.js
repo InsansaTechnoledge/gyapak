@@ -15,7 +15,8 @@ import testResultRouter from './supabase/testResult.route.js'
 
 import authRoutes from './mongoRoutes/auth.routes.js';
 import userRoutes from './mongoRoutes/user.routes.js';
-import paymentRoute from './mongoRoutes/payment.routes.js'
+import paymentRoute from './mongoRoutes/payment.routes.js';
+import commentRoute from './mongoRoutes/premiumComment.routes.js';
 
 
 const routes = (app) => {
@@ -43,6 +44,7 @@ const routes = (app) => {
     app.use('/api/v1i2/exam' , examRouter);
     app.use('/api/v1i2/event', eventRouter);
     app.use('/api/v1i2/testresult' , testResultRouter);
+    app.use('/api/v1i2/comment' , commentRoute);
 
 }
 export default routes;
