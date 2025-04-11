@@ -105,7 +105,6 @@ export const storeWrongResponses = async (responses) => {
 }
 
 export const storeUnattemptedResponses = async (responses) => {
-    console.log(responses);
 
     const { data, error } = await supabase
         .from('user_important_questions')
@@ -115,17 +114,27 @@ export const storeUnattemptedResponses = async (responses) => {
         })
         .select();
     
-    
     if (error && Object.keys(error).length > 0) throw error;
     return data;
 }
 
 export const storeBookmarkedResponses = async (responses) => {
     const { data, error } = await supabase
-        .from('user_important_responses')
+        .from('user_important_questions')
         .upsert(responses)
         .select();
 
     if (error) throw error;
+    return data;
+}
+
+export const fetchWrongQuestionsSubjectwise = async (userId, examId) => {
+    const { data, error } = await supabase
+    .rpc('get_user_wrong_questions', {
+        examid: examId,
+        userid: userId
+      });
+
+    if(error) throw error;
     return data;
 }

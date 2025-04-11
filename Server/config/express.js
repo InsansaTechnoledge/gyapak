@@ -25,7 +25,7 @@ const allowedOrigins = [
 const backendInstances = [
   // "https://backend.gyapak.in",
   "http://localhost:5000",
-  "http://localhost:8383"
+  // "http://localhost:8383"
 ];
 
 let currentIndex = 0;
