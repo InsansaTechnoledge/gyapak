@@ -5,7 +5,7 @@ const Step = ({step}) => {
   return (
     <>
         <div className='flex-col flex justify-between'>
-            <div className='relative flex mx-auto my-10 w-3/5'>
+            <div className='relative flex mx-auto my-10 w-3/5 justify-center'>
                 <div className='p-5 rounded-full bg-purple-300 relative left-2.5'>
                     <Trophy className='w-full h-full ' />
                 </div>
