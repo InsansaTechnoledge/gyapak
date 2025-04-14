@@ -3,6 +3,7 @@ import SubjectForm from './SubjectForm';
 import EventForm from './EventForm';
 import { createExam } from '../../../service/exam.service';
 import { createSubject } from '../../../service/subject.service';
+import { createFullExamSetup } from '../../../service/adminn.service';
 
 const ExamSetupForm = () => {
   const [formData, setFormData] = useState({
@@ -22,7 +23,7 @@ const ExamSetupForm = () => {
 
     const totalWeightage = formData.subjects.reduce((acc, sub) => {
       return acc + Number.parseInt(sub.weightage)
-    },0)
+    }, 0)
 
     console.log(totalWeightage);
     if (totalWeightage != 100) {
@@ -30,14 +31,15 @@ const ExamSetupForm = () => {
       return;
     }
 
-    const eventsWithoutSubject = formData.events.filter(event => event.subjects.length==0);
+    const eventsWithoutSubject = formData.events.filter(event => event.subjects.length == 0);
     if (eventsWithoutSubject.length > 0) {
       alert("Add atleast one subject for ", eventsWithoutSubject.join(', '));
       return;
     }
 
     try {
-      const examData = {
+
+      const exam = {
         title: formData.title,
         description: formData.description,
         validity: formData.validity + 'months',
@@ -45,29 +47,51 @@ const ExamSetupForm = () => {
         negative_marks: formData.negative_marks
       }
 
-      const examResponse = await createExam(examData);
-      if (examResponse.status === 200) {
-        alert("exam data added");
-        console.log("EXAM", examResponse.data);
-      }
-      else {
-        throw new Error(examResponse);
-      }
+      const subjects = formData.subjects.map(sub => ({
+        name: sub.name,
+        weightage: Number.parseInt(sub.weightage),
+        syllabus_id: null
+      }));
 
-      const subjectResponse = await createSubject();
-      if (examResponse.status === 200) {
-        alert("exam data added");
-        console.log("EXAM", examResponse.data);
-      }
-      else {
-        throw new Error(examResponse);
-      }
+      const event = formData.events.map(eve => ({
+        name: eve.name,
+        weeks: Number.parseInt(eve.week),
+        subject_ids: eve.subjects.map(sub => (sub.id))
+      }));
 
-      console.log('🚀 Final Exam Setup:', formData);
-      alert('Form submitted! Check console for output.');
+      const fullData = {
+        exam,
+        subjects,
+        event
+      }
+      console.log(fullData);
+      const response = await createFullExamSetup(fullData);
+      if (response.status == 200) {
+        console.log('🚀 Final Exam Setup:', formData);
+        alert('Form submitted! Check console for output.');
+      }
+      // const examResponse = await createExam(examData);
+      // if (examResponse.status === 200) {
+      //   alert("exam data added");
+      //   console.log("EXAM", examResponse.data);
+      // }
+      // else {
+      //   throw new Error(examResponse);
+      // }
+
+      // const subjectResponse = await createSubject();
+      // if (examResponse.status === 200) {
+      //   alert("exam data added");
+      //   console.log("EXAM", examResponse.data);
+      // }
+      // else {
+      //   throw new Error(examResponse);
+      // }
+
+
     }
     catch (err) {
-      console.error(err.response.data.errors[0] || err.message);
+      console.log(err.response.data.errors[0] || err.message);
     }
     // Submit to backend here if needed
   };
