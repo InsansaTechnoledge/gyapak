@@ -3,7 +3,7 @@ import {sendInvoiceEmail,forgetPasswordEmail,newAccountEmail,newTestSeriesEmail,
 
 const router= express.Router();
 
-router.get('/invoiceEmail', sendInvoiceEmail);
+router.post('/invoiceEmail', sendInvoiceEmail);
 router.post('/forgetPasswordEmail', forgetPasswordEmail);
 router.post('/newAccountEmail', newAccountEmail);
 router.post('/newTestSeriesEmail', newTestSeriesEmail);
