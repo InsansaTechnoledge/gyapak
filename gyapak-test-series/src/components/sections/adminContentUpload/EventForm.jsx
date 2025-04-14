@@ -59,11 +59,11 @@ const EventForm = ({ formData, setFormData }) => {
                         />
                         <div
                             multiple
-                            className="border p-2 w-full flex"
+                            className="border p-2 w-full flex space-x-2"
                             value={subjects}
                         >
                             {formData.subjects.map((s, i) => (
-                                <>
+                                <div key={s.id}>
                                     <input
                                         key={id+s.id}
                                         id={id+s.id}
@@ -74,7 +74,7 @@ const EventForm = ({ formData, setFormData }) => {
                                         
                                     />
                                     <label htmlFor={id+s.id}>{s.name}</label>
-                                </>
+                                    </div>
                             ))}
                         </div>
                         <button
