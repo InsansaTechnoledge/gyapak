@@ -19,6 +19,11 @@ export const getExamById = async (examId) => {
   return res.data;
 };
 
+export const getAllexam = async () => {
+  const res = await api.get(`/api/v1i2/exam`);
+  return res.data
+}
+
 //  Update exam information
 export const updateExam = async (examId, updatedData) => {
   const res = await api.put(`/api/v1i2/exam/${examId}`, updatedData);

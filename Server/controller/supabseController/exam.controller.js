@@ -4,7 +4,8 @@ import {
     addSubjectsToExam,
     getExamWithSubjects,
     updateExam,
-    deleteExam
+    deleteExam,
+    getAllExams
   } from '../../Utility/SQL-Queries/exam.query.js';
   import { APIError } from '../../Utility/ApiError.js';
   import { APIResponse } from '../../Utility/ApiResponse.js';
@@ -19,7 +20,17 @@ import {
     }
   };
   
-  
+  export const getAllExamTogether = async(req,res) => {
+    try{
+      const data = await getAllExams();
+      if(!data) return new APIError(404, ['exam not found']).send(res);
+      // console.log(data);
+      return new  APIResponse(200 , data , 'exam fetched successsfully').send(res);
+    } catch(e) {
+        return new APIError(500, [e.message, 'there is an error fetching exams ']).send(res);
+    }
+  }
+
   export const addSubjectsToExamController = async (req, res) => {
     try {
       const { exam_id } = req.params;

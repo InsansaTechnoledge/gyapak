@@ -10,6 +10,15 @@ export const createExam = async ({ title, description, validity, positive_marks 
     if (error) throw error;
     return data;
   };
+
+export const getAllExams = async () => {
+  const {data , error} = await supabase
+  .from('exam')
+  .select('*')
+
+  if(error) throw error;
+  return data;
+}
   
 
 export const addSubjectsToExam = async(exam_id , subjects) => {

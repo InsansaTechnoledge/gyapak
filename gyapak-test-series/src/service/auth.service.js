@@ -26,5 +26,5 @@ export const checkAuth = async() => {
 
 // Google login 
 export const googleLogin = () => {
-    window.location.href = `${process.meta.env.VITE_API_BASE_URL}/api/v1i2/auth/googlelogin-user`
+    window.location.href = `http://localhost:8383/api/v1i2/auth/googlelogin-user`
 }
