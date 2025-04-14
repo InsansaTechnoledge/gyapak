@@ -14,7 +14,7 @@ export const loginUser = async(credentials) => {
 
 // Logout user
 export const logoutUser = async() => {
-    const res = await api.post('/api/v1i2/auth/logout-user');
+    const res = await api.get('/api/v1i2/auth/logout-user');
     return res.data;
 }
 

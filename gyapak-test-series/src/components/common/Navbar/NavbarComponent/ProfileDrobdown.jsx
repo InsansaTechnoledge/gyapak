@@ -1,7 +1,30 @@
 import React from 'react';
 import { User, Settings, Layout, LogOut, ChevronDown } from 'lucide-react';
+import { useUser } from '../../../../context/UserContext';
+import { logoutUser } from '../../../../service/auth.service';
 
-const ProfileDropdown = ({ activeDropdown, toggleDropdown, user = { name: "Alex Johnson", email: "alex@example.com", role: "Premium User" } }) => {
+const ProfileDropdown = ({ activeDropdown, toggleDropdown}) => {
+  const { user, setUser } = useUser();
+  console.log(user);
+  const logout = async () => {
+    try{
+      const response = await logoutUser();
+      if (response.status === 200) {
+        // console.log(response.data.message);
+        setUser(null);
+        alert("user Logged out!");
+    }
+    }
+    catch(err){
+      alert(err.response.errors[0] || err.response.message);
+    }
+
+  }
+
+  if(!user){
+    return null
+  }
+
   return (
     <div className="relative">
       <button 
@@ -16,7 +39,7 @@ const ProfileDropdown = ({ activeDropdown, toggleDropdown, user = { name: "Alex 
         
         <div className="flex flex-col items-start">
           <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">{user.name}</span>
-          <span className="text-xs text-gray-500 dark:text-gray-400">{user.role}</span>
+          <span className="text-xs text-gray-500 dark:text-gray-400">{user.userRole}</span>
         </div>
         
         <ChevronDown 
@@ -72,10 +95,12 @@ const ProfileDropdown = ({ activeDropdown, toggleDropdown, user = { name: "Alex 
           
           {/* Sign out button */}
           <div className="px-4 py-2">
-            <a href="/logout" className="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-md transition-colors">
+            <button 
+            onClick={()=>{logout()}}
+            className="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-md transition-colors">
               <LogOut size={16} className="mr-2" />
               <span>Sign out</span>
-            </a>
+            </button>
           </div>
           
         </div>
