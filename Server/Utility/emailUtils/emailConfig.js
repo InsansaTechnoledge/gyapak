@@ -20,13 +20,14 @@
         }
     });
 
-    const sendEmail = async (email, subject, text) => {
+    const sendEmail = async (email, subject, text,attachments=[]) => {
         try {
             const mailOptions = {
                 from: EMAIL,
                 to: email,
                 subject: subject,
                 html: text,
+                ...(attachments.length > 0 && { attachments })
             };
     
             await transporter.sendMail(mailOptions);
