@@ -68,7 +68,7 @@ export const googleAuth = passport.authenticate('google', {
 });
 
 export const googleCallback = passport.authenticate('google', {
-  successRedirect: `/api/v1/auth/profile`,
+  successRedirect: `/api/v1i2/auth/profile`,
   faliureRedirect: `${CLIENT_BASE_URL_LOCAL}`,
   session: true,
 });

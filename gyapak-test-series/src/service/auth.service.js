@@ -14,7 +14,7 @@ export const loginUser = async(credentials) => {
 
 // Logout user
 export const logoutUser = async() => {
-    const res = await api.post('/api/v1i2/auth/logout-user');
+    const res = await api.get('/api/v1i2/auth/logout-user');
     return res.data;
 }
 
@@ -26,5 +26,5 @@ export const checkAuth = async() => {
 
 // Google login 
 export const googleLogin = () => {
-    window.location.href = `${process.meta.env.VITE_API_BASE_URL}/api/v1i2/auth/googlelogin-user`
+    window.location.href = `http://localhost:5000/api/v1i2/auth/googlelogin-user`
 }
