@@ -8,7 +8,7 @@ export const createFullExamSetup = async (req, res) => {
   const trxLog = [];
   try {
     const { exam, subjects, event } = req.body;
-
+    console.log(event);
     const createdExam = await createExam(exam);
     trxLog.push("Exam created");
 
@@ -28,11 +28,15 @@ export const createFullExamSetup = async (req, res) => {
     await addSubjectsToExam(examId, createdSubjects);
     trxLog.push("Subjects assigned to exam");
 
-    const eventPayload = {
-      ...event,
-      exam_id: examId,
-    };
-    const createdEvent = await createEvent(eventPayload);
+    const eventWithId = event.map(eve => ({
+      ...eve,
+      exam_id: examId
+    }))
+    // const eventPayload = {
+    //   ...event,
+    //   exam_id: examId,
+    // };
+    const createdEvent = await createEvent(eventWithId);
     trxLog.push("Event created");
 
     const eventId = createdEvent.id; 
