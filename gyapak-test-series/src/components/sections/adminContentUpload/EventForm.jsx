@@ -5,7 +5,7 @@ const EventForm = ({ formData, setFormData }) => {
     const [entries, setEntries] = useState([]);
 
     const addEntry = () => {
-        setEntries([...entries, { id: uuidv4(), name: '', week: '', subjects: [] }]);
+        setEntries([...entries, { id: uuidv4(), name: '', week: entries.length+1, subjects: [] }]);
     }
 
     const handleChange = (id, field, value) => {
@@ -20,7 +20,7 @@ const EventForm = ({ formData, setFormData }) => {
                 const newValues = currentValues.includes(value)
                     ? currentValues.filter((v) => v !== value) // Remove if already present (unchecked)
                     : [...currentValues, value]; // Add if not present (checked)
-                
+
                 return { ...entry, [field]: newValues };
             }
             return entry;
@@ -45,37 +45,51 @@ const EventForm = ({ formData, setFormData }) => {
             {
                 entries.map(({ id, name, week, subjects }) => (
                     <div className="flex gap-4 mb-4">
-                        <input
-                            className="border p-2 w-full"
-                            placeholder="Event Name"
-                            value={name}
-                            onChange={(e) => handleChange(id, 'name', e.target.value)}
-                        />
-                        <input
-                            className="border p-2 w-full"
-                            placeholder="Week Number"
-                            value={week}
-                            onChange={(e) => handleChange(id, 'week', e.target.value)}
-                        />
+                        <div className='flex flex-col'>
+                            <label htmlFor={id + 'ename'}>Name</label>
+                            <input
+                                id={id+'ename'}
+                                className="border p-2 w-full"
+                                placeholder="Event Name"
+                                value={name}
+                                required
+                                onChange={(e) => handleChange(id, 'name', e.target.value)}
+                            />
+                        </div>
+                        <div className='flex flex-col'>
+                            <label htmlFor={id + 'eweek'}>Week</label>
+                            <input
+                                id={id+'eweek'}
+                                className="border p-2 w-full"
+                                placeholder="Week Number"
+                                value={week}
+                                required
+                                type='number'
+                                onChange={(e) => handleChange(id, 'week', e.target.value)}
+                            />
+                        </div>
+                        <div className='flex flex-col w-full'>
+                        <label htmlFor={id+'subjects'}>Subjects</label>
                         <div
                             multiple
-                            className="border p-2 w-full flex space-x-2"
+                            className="border p-2 w-full h-full flex space-x-2"
                             value={subjects}
                         >
                             {formData.subjects.map((s, i) => (
                                 <div key={s.id}>
                                     <input
-                                        key={id+s.id}
-                                        id={id+s.id}
+                                        key={id + s.id}
+                                        id={id + s.id}
                                         name={'check'}
                                         type='checkbox'
                                         value={s.name}
-                                        onChange={(e)=>handleCheckboxChange(id, 'subjects', e.target.value)}
-                                        
+                                        onChange={(e) => handleCheckboxChange(id, 'subjects', e.target.value)}
+
                                     />
-                                    <label htmlFor={id+s.id}>{s.name}</label>
-                                    </div>
+                                    <label htmlFor={id + s.id}>{s.name}</label>
+                                </div>
                             ))}
+                        </div>
                         </div>
                         <button
                             type="button"

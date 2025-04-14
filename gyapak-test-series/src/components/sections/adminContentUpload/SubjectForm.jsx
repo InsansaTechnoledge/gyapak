@@ -5,7 +5,7 @@ const SubjectForm = ({setFormData}) => {
     const [entries, setEntries] = useState([]);
 
     const addEntry = () => {
-        setEntries([...entries, { id: uuidv4(), name: '', weightage: '', syllabus: null }]);
+        setEntries([...entries, { id: uuidv4(), name: '', weightage: 0, syllabus: null }]);
     }
 
     const handleChange = (id, field, value) => {
@@ -30,23 +30,39 @@ const SubjectForm = ({setFormData}) => {
             {
                 entries.map(({id, name, weightage, file}) => (
                     <div key={id} className="flex gap-4 mb-4">
+                        <div className='flex flex-col'>
+                        <label htmlFor={id+'subName'}>Name</label>
                         <input
+                            id={id+'subName'}
                             className="border p-2 w-full"
                             placeholder="Subject Name"
                             value={name}
+                            required
                             onChange={(e) => (handleChange(id, 'name', e.target.value))}
                         />
+                        </div>
+                        <div className='flex flex-col'>
+                        <label htmlFor={id+'subWeight'}>Weightage</label>
                         <input
-                            type="number"
+                            id={id+'subWeight'}
+                            type='number'
                             className="border p-2 w-full"
                             placeholder="Weightage (%)"
                             value={weightage}
+                            required
                             onChange={(e) => (handleChange(id, 'weightage', e.target.value))}
                         />
+                        </div>
+                        <div className='flex flex-col'>
+                        <label htmlFor={id+'subSyllabus'}>Syllabus</label>
                         <input
+                            id={id+'subSyllabus'}
                             type="file"
                             onChange={(e) => (handleChange(id, 'syllabus', e.target.files[0]))}
+                            required
+                            className='border h-full'
                         />
+                        </div>
                         <button 
                         type='button'
                         onClick={()=>deleteEntry(id)}>

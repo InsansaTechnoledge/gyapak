@@ -1,27 +1,74 @@
 import React, { useEffect, useState } from 'react';
 import SubjectForm from './SubjectForm';
 import EventForm from './EventForm';
+import { createExam } from '../../../service/exam.service';
+import { createSubject } from '../../../service/subject.service';
 
 const ExamSetupForm = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    positive_marks: 1,
-    negative_marks: 0.25,
+    positive_marks: null,
+    negative_marks: null,
     validity: '',
     subjects: [],
     events: []
   });
 
 
-  const [subjectInput, setSubjectInput] = useState({ name: '', weightage: '', syllabus: null });
-  const [eventInput, setEventInput] = useState({ name: '', week: '', subjects: [] });
-
-  
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('🚀 Final Exam Setup:', formData);
-    alert('Form submitted! Check console for output.');
+
+
+    const totalWeightage = formData.subjects.reduce((acc, sub) => {
+      return acc + Number.parseInt(sub.weightage)
+    },0)
+
+    console.log(totalWeightage);
+    if (totalWeightage != 100) {
+      alert("Total subject weightage is not 100%");
+      return;
+    }
+
+    const eventsWithoutSubject = formData.events.filter(event => event.subjects.length==0);
+    if (eventsWithoutSubject.length > 0) {
+      alert("Add atleast one subject for ", eventsWithoutSubject.join(', '));
+      return;
+    }
+
+    try {
+      const examData = {
+        title: formData.title,
+        description: formData.description,
+        validity: formData.validity + 'months',
+        positive_marks: formData.positive_marks,
+        negative_marks: formData.negative_marks
+      }
+
+      const examResponse = await createExam(examData);
+      if (examResponse.status === 200) {
+        alert("exam data added");
+        console.log("EXAM", examResponse.data);
+      }
+      else {
+        throw new Error(examResponse);
+      }
+
+      const subjectResponse = await createSubject();
+      if (examResponse.status === 200) {
+        alert("exam data added");
+        console.log("EXAM", examResponse.data);
+      }
+      else {
+        throw new Error(examResponse);
+      }
+
+      console.log('🚀 Final Exam Setup:', formData);
+      alert('Form submitted! Check console for output.');
+    }
+    catch (err) {
+      console.error(err.response.data.errors[0] || err.message);
+    }
     // Submit to backend here if needed
   };
 
@@ -33,35 +80,55 @@ const ExamSetupForm = () => {
       <form onSubmit={handleSubmit}>
         {/* Exam Info */}
         <div className="grid gap-4 mb-6">
+          <label htmlFor='title'>Exam title</label>
           <input
+            id='title'
             className="border p-2"
             placeholder="Exam Title"
             value={formData.title}
+            required
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           />
+
+          <label htmlFor='description'>Exam description</label>
           <textarea
+            id='description'
             className="border p-2"
             placeholder="Exam Description"
             value={formData.description}
+            required
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
           />
           <div className="flex gap-4">
-            <input
-              type="number"
-              className="border p-2 w-full"
-              placeholder="Positive Marks"
-              value={formData.positive_marks}
-              onChange={(e) => setFormData({ ...formData, positive_marks: Number(e.target.value) })}
-            />
-            <input
-              type="number"
-              className="border p-2 w-full"
-              placeholder="Negative Marks"
-              value={formData.negative_marks}
-              onChange={(e) => setFormData({ ...formData, negative_marks: Number(e.target.value) })}
-            />
+            <div className='flex flex-col w-full'>
+
+              <label htmlFor='positive'>Positive marks</label>
+              <input
+                id='poitive'
+                type="number"
+                className="border p-2 w-full"
+                placeholder="Positive Marks"
+                required
+                value={formData.positive_marks}
+                onChange={(e) => setFormData({ ...formData, positive_marks: Number(e.target.value) })}
+              />
+            </div>
+            <div className='flex flex-col w-full'>
+              <label htmlFor='negative'>Negative marks (if applicable)</label>
+              <input
+                id='negative'
+                type="number"
+                className="border p-2 w-full"
+                placeholder="Negative Marks"
+                value={formData.negative_marks}
+                onChange={(e) => setFormData({ ...formData, negative_marks: Number(e.target.value) })}
+              />
+            </div>
           </div>
+          <label htmlFor='validity'>Validity</label>
           <input
+            id='validity'
+            required
             className="border p-2"
             placeholder="Validity (e.g. 3 months)"
             value={formData.validity}
@@ -70,10 +137,10 @@ const ExamSetupForm = () => {
         </div>
 
         {/* Subjects */}
-        
-        <SubjectForm formData={formData} setFormData={setFormData}/>
 
-        
+        <SubjectForm formData={formData} setFormData={setFormData} />
+
+
 
         {/* Event Planning */}
         <EventForm formData={formData} setFormData={setFormData} />
