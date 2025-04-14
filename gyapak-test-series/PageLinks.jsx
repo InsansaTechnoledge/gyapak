@@ -19,7 +19,7 @@ const PageLinks = () => {
         }
       }
       catch (err) {
-        console.err(response.errors[0] || err.message);
+        console.log(err.response.data.errors[0] || err.message);
       }
     }
 
