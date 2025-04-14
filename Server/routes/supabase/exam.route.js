@@ -5,12 +5,14 @@ import {
   addSubjectsToExamController,
   getExamWithSubjectsController,
   updateExamController,
-  deleteExamController
+  deleteExamController,
+  getAllExamTogether
 } from '../../controller/supabseController/exam.controller.js';
 
 const router = express.Router();
 
 router.post('/', createExamController);
+router.get('/', getAllExamTogether)
 router.post('/:exam_id/subjects', addSubjectsToExamController);
 router.get('/:id', getExamWithSubjectsController);
 router.put('/:id', updateExamController);

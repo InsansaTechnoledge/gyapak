@@ -3,7 +3,7 @@ import { Check, X, Compass, GraduationCap, Award, ChevronRight } from 'lucide-re
 import { features } from '../../../../constants/data';
 
 const PlanCard = ({ type, pricing, popular }) => {
-  const isFree = pricing.price === 0;
+  const isFree = pricing.amount === 0;
   
   // Get icon based on plan type
   const getIcon = () => {
@@ -54,7 +54,7 @@ const PlanCard = ({ type, pricing, popular }) => {
             ) : (
               <>
                 <span className="text-gray-500">₹</span>
-                <span className="text-3xl sm:text-4xl font-bold text-gray-800">{pricing.price}</span>
+                <span className="text-3xl sm:text-4xl font-bold text-gray-800">{pricing.amount}</span>
                 <span className="ml-1 text-gray-500 text-sm">one-time</span>
               </>
             )}
@@ -72,12 +72,14 @@ const PlanCard = ({ type, pricing, popular }) => {
           <p className="text-gray-600 text-sm">{pricing.description}</p>
         </div>
 
-        <button className={`w-full py-3 rounded-lg text-center font-medium transition-all ${
-          isFree ? 'bg-green-600 hover:bg-green-700 text-white' : 
-          popular ? 'bg-purple-600 hover:bg-purple-700 text-white' : 
-          'bg-purple-100 hover:bg-purple-200 text-purple-700'
-        }`}>
-          {isFree ? 'Start Free' : 'Buy Now'} <ChevronRight className="inline ml-1" size={16} />
+        <button 
+          onClick = {() => console.log(pricing.examId)}
+          className={`w-full py-3 rounded-lg text-center font-medium transition-all ${
+            isFree ? 'bg-green-600 hover:bg-green-700 text-white' : 
+            popular ? 'bg-purple-600 hover:bg-purple-700 text-white' : 
+            'bg-purple-100 hover:bg-purple-200 text-purple-700'
+          }`}>
+            {isFree ? 'Start Free' : 'Buy Now'} <ChevronRight className="inline ml-1" size={16} />
         </button>
       </div>
       

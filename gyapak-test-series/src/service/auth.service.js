@@ -26,5 +26,5 @@ export const checkAuth = async() => {
 
 // Google login 
 export const googleLogin = () => {
-    window.location.href = `http://localhost:5000/api/v1i2/auth/googlelogin-user`
+    window.location.href = `http://localhost:8383/api/v1i2/auth/googlelogin-user`
 }
