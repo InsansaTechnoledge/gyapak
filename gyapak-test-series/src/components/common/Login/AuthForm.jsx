@@ -194,10 +194,7 @@ const AuthForm = (props) => {
         try {
             googleLogin();
             // window.location.href = "http://localhost:5000/api/v1i2/auth/googlelogin-user";
-<<<<<<< HEAD
             
-=======
->>>>>>> 158627d9567ca90ba5b64166d103184894ca7f4f
         } catch (error) {
             console.error('Google login error:', error.response.data.errors[0] || error.response.data.message);
         } finally {
