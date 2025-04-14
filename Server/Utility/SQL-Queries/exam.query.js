@@ -26,6 +26,7 @@ export const addSubjectsToExam = async(exam_id , subjects) => {
         exam_id,
         subject_id: subject.subject_id,
         weightage: subject.weightage,
+        syllabus: subject.syllabus_id 
       }));
 
     const {data , error} = await supabase

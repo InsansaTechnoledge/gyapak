@@ -34,8 +34,7 @@ import {
   export const addSubjectsToExamController = async (req, res) => {
     try {
       const { exam_id } = req.params;
-      const { subjects } = req.body; // [{subject_id, weightage}, ...]
-  
+      const { subjects } = req.body; //  [{ subject_id, weightage, syllabus_id }, ...]
       const data = await addSubjectsToExam(exam_id, subjects);
       return new APIResponse(200, data, "Subjects added to exam successfully").send(res);
     } catch (error) {
