@@ -2,7 +2,7 @@ import React, { memo, useEffect, useRef, useState } from 'react';
 import { X, Mail, Lock, UserPlus, LogIn, ChevronRight, Eye, EyeOff, User, Type, User2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useUser } from '../../../context/UserContext';
-import { loginUser, registerUser } from '../../../service/auth.service';
+import { googleLogin, loginUser, registerUser } from '../../../service/auth.service';
 // import axios from 'axios';
 // import { API_BASE_URL } from '../config';
 
@@ -192,7 +192,8 @@ const AuthForm = (props) => {
     const handleGoogleLogin = async () => {
         setIsGoogleLoading(true);
         try {
-            window.location.href = "http://localhost:5000/api/v1i2/auth/googlelogin-user";
+            googleLogin();
+            // window.location.href = "http://localhost:5000/api/v1i2/auth/googlelogin-user";
         } catch (error) {
             console.error('Google login error:', error.response.data.errors[0] || error.response.data.message);
         } finally {

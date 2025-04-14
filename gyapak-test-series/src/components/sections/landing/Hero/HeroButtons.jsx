@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { ArrowRight, BookOpen, Globe, Sparkles } from 'lucide-react';
+import AuthForm from '../../../common/Login/AuthForm';
 
 const HeroButtons = () => {
   const [activeButton, setActiveButton] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('login');
   
   // Button configuration with enhanced variants
   const buttons = [
@@ -52,18 +55,20 @@ const HeroButtons = () => {
     const activeEffect = isActive ? "scale-[0.98] shadow-inner" : "";
     
     return (
-      <div className="relative transform transition-all duration-300">
+      <div key={button.id} className="relative transform transition-all duration-300">
         {/* Subtle glow effect */}
         <div className={`absolute inset-0 rounded-xl blur-md opacity-20 ${
           variant === 'primary' ? 'bg-indigo-400' : 
           variant === 'secondary' ? 'bg-purple-400' : 'bg-indigo-200'
         } ${isActive ? 'opacity-40 scale-105' : 'opacity-0'} transition-all duration-300`}></div>
         
+        {console.log(button.id)}
         <ButtonTag
           key={button.id}
           className={`group relative rounded-xl px-4 py-3 md:px-6 md:py-4 text-sm md:text-base font-medium w-full overflow-hidden transition-all duration-300 flex items-center justify-between space-x-2 ${variantStyles[variant]} ${activeEffect}`}
           onMouseEnter={() => setActiveButton(button.id)}
           onMouseLeave={() => setActiveButton(null)}
+          onClick={() => {button.id==='getStarted' ? setIsModalOpen(true) : null}}
           aria-label={button.label}
           {...buttonProps}
         >
@@ -108,6 +113,14 @@ const HeroButtons = () => {
   };
 
   return (
+    <>
+    {
+      isModalOpen
+      ?
+      <AuthForm activeTab={activeTab} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
+      :
+      null
+    }
     <div className="relative mt-8 md:mt-10">
       {/* Decorative background elements */}
       <div className="absolute inset-0 -z-10">
@@ -137,6 +150,8 @@ const HeroButtons = () => {
         }
       `}</style>
     </div>
+    </>
+    
   );
 };
 
