@@ -189,6 +189,12 @@ const Credits = () => {
         'PSB':'https://companieslogo.com/img/orig/PSB.NS-210860d7.png?t=1604670428',
         'Balmer Lawrie':'https://upload.wikimedia.org/wikipedia/en/0/03/Balmer_Lawrie_Logo.png',
         'HAL':'https://upload.wikimedia.org/wikipedia/en/thumb/3/3e/Hindustan_Aeronautics_Limited_Logo.svg/1200px-Hindustan_Aeronautics_Limited_Logo.svg.png',
+        'IRCON':'https://assets-netstorage.groww.in/stock-assets/logos/GSTK541956.png',
+        'HPCL':'https://jobs.hpcl.co.in/Recruit_New/formvalidators/hpcl4.png',
+        'THDC':'https://institute.careerguide.com/wp-content/uploads/2022/07/thdc-removebg-preview.png',
+        'CPCB':'https://static.abplive.com/wp-content/uploads/2020/05/02205837/cpcb.jpeg?impolicy=abp_cdn&imwidth=720',
+        'NHSRCL':'https://th.bing.com/th/id/OIP.NQuyBlnfRXpIZ6Hgp2QrPAHaEK?rs=1&pid=ImgDetMain',
+        'NCRTC':'https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/NCRTC_logo.png/330px-NCRTC_logo.png',
         "Search Results Not Found": "https://img.freepik.com/free-vector/search-concept-landing-page_52683-13620.jpg?ga=GA1.1.1723539104.1734412094&semt=ais_hybrid",
         "Data Not Found": "https://img.freepik.com/free-vector/postponed-concept_23-2148489217.jpg?ga=GA1.1.1723539104.1734412094&semt=ais_hybrid"
     }
