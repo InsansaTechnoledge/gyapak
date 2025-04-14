@@ -1,17 +1,11 @@
 import { Star } from 'lucide-react'
 import React, { useState, useEffect, useRef } from 'react'
+import { usePricing } from '../../../../hooks/usePricing';
 
 const ExamMarquee = () => {
-  const [exams, setExams] = useState([
-    "UPSC Civil Services",
-    "JEE Mains & Advanced",
-    "NEET UG & PG",
-    "GATE",
-    "CAT",
-    "CLAT",
-    "UGC NET",
-    "SSC CGL"
-  ]);
+   const {
+    exams
+  } = usePricing();
   
   const marqueeRef = useRef(null);
   const contentRef = useRef(null);
@@ -40,10 +34,10 @@ const ExamMarquee = () => {
         >
           {/* First set of items */}
           <div ref={contentRef} className="flex space-x-16">
-            {exams.map((exam, idx) => (
+            { exams && exams.map((exam, idx) => (
               <div key={idx} className="flex items-center gap-2 px-2">
                 <Star className="w-5 h-5 text-yellow-300" />
-                <span className="text-lg font-medium text-white">{exam}</span>
+                <span className="text-lg font-medium text-white">{exam.title}</span>
               </div>
             ))}
           </div>
