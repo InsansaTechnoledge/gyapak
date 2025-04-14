@@ -5,16 +5,25 @@ import { generateForgotPasswordEmailTemplate } from "../../Utility/emailUtils/te
 import { generateMockTestReminderEmailTemplate } from "../../Utility/emailUtils/templates/reminder-mail.js";
 import { generateMockTestResultEmailTemplate } from "../../Utility/emailUtils/templates/result-mail.js";
 import { generateNewTestSeriesEmailTemplate } from "../../Utility/emailUtils/templates/newTest-email.js";
+import { createInvoice } from "../../Utility/PaymentUtils/invoiceGenerator.js";
 import { APIResponse } from "../../Utility/ApiResponse.js";
 import { APIError } from "../../Utility/ApiError.js";
 
 
 export const sendInvoiceEmail = async (req,res) => {
     const {data,testName,payment}=req.body;
-    try {
+    try {        
         const subject = `Invoice #${payment.receipt}`;
         const txt=generatePaymentEmailTemplate(data,testName,payment);
-        await sendEmail(data.email, subject, txt);
+        const invoice = await createInvoice(data, payment,testName); 
+        const attachments = [
+            {
+              filename: 'invoice.pdf',
+              content: Buffer.from(invoice), // 👈 convert Uint8Array to Buffer
+              contentType: 'application/pdf',
+            }
+          ];
+        await sendEmail(data.email, subject, txt,attachments);
         console.log("Invoice email sent successfully.");
         return new APIResponse(200, null, "Invoice email sent successfully").send(res);
     } catch (error) {

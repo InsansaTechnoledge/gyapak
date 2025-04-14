@@ -8,7 +8,6 @@ import MobileNav from './NavbarComponent/MobileNav';
 import NavActionItems from './NavbarComponent/NavActionItems';
 import ThemeToggle from './NavbarComponent/ ThemeToggle';
 import useScrollPosition from '../../../hooks/usescrollPosition';
-import AuthForm from '../Login/AuthForm';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
