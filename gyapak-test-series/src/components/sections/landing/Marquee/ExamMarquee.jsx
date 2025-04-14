@@ -4,13 +4,7 @@ import React, { useState, useEffect, useRef } from 'react'
 const ExamMarquee = () => {
   const [exams, setExams] = useState([
     "UPSC Civil Services",
-    "JEE Mains & Advanced",
-    "NEET UG & PG",
-    "GATE",
-    "CAT",
-    "CLAT",
-    "UGC NET",
-    "SSC CGL"
+    
   ]);
   
   const marqueeRef = useRef(null);
@@ -33,13 +27,13 @@ const ExamMarquee = () => {
       <div className="relative overflow-hidden py-3 px-2">
         <div 
           ref={marqueeRef}
-          className="flex whitespace-nowrap animate-marquee"
+          className="flex whitespace-nowrap animate-marquee justify-end "
           style={{
-            animation: 'scroll 30s linear infinite',
+            // animation: 'scroll 3s linear infinite',
           }}
         >
           {/* First set of items */}
-          <div ref={contentRef} className="flex space-x-16">
+          <div ref={contentRef} className="flex space-x-16 ">
             {exams.map((exam, idx) => (
               <div key={idx} className="flex items-center gap-2 px-2">
                 <Star className="w-5 h-5 text-yellow-300" />
@@ -60,11 +54,11 @@ const ExamMarquee = () => {
             transform: translateX(0);
           }
           100% {
-            transform: translateX(-50%);
+            transform: translateX(-100%);
           }
         }
         .animate-marquee {
-          animation: scroll 30s linear infinite;
+          animation: scroll 3s linear infinite;
         } 
       `}</style>
     </div>
