@@ -36,7 +36,7 @@ const PricingModel = () => {
             title: selectedExam?.title,
             validity: selectedExam?.validity,
             testsCount: 0,
-            examId: selectedExam?.selectedSeriesId
+            examId: selectedExam?.id
           }} 
           popular={false} 
         />
@@ -49,7 +49,7 @@ const PricingModel = () => {
             title: selectedExam?.title,
             validity: selectedExam?.validity,
             testsCount: 0,
-            examId: selectedExam?.selectedSeriesId
+            examId: selectedExam?.id
           }}
           popular={true}
         />
@@ -62,7 +62,7 @@ const PricingModel = () => {
             title: selectedExam?.title,
             validity: selectedExam?.validity,
             testsCount: 0,
-            examId: selectedExam?.selectedSeriesId
+            examId: selectedExam?.id
           }}
           popular={false}
         />
