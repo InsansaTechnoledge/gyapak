@@ -68,7 +68,8 @@ const userSchema = new Schema(
 
     userRole: {
         type: String,
-        enum:['user' , 'admin' , 'contentProvider' , 'proofChecker']
+        enum:['user' , 'admin' , 'contentProvider' , 'proofChecker'],
+        default: 'user'
     },
 
     testsPurchased : {
