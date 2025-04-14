@@ -1,5 +1,5 @@
 import express from 'express'
-import { createFullExamSetup } from '../../controller/supabseController/admin.coontroller.js';
+import { createFullExamSetup } from '../../controller/supabseController/admin.controller.js';
 
 const router = express.Router()
 
