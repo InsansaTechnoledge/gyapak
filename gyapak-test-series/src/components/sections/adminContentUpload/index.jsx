@@ -56,6 +56,8 @@ const ExamSetupForm = () => {
           const matched = formData.subjects.find(s => s.name === sub || s.name === sub.name);
           return matched?.id || null;
         });
+
+        
       
         return {
           name: eve.name,
@@ -67,10 +69,12 @@ const ExamSetupForm = () => {
         };
       });
       
+      const organizationId = '67fe4e3e4fa325703448cd96';
       const fullData = {
         exam,
         subjects,
-        events
+        events,
+        organizationId
       };
 
       console.log(fullData);
