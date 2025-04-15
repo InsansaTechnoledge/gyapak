@@ -29,7 +29,7 @@ const PricingModel = () => {
         {/* <PlanCard type="explorer" pricing={{ amount: 0 }} popular={false} /> */}
 
         <PlanCard 
-          type="explorer" 
+          type="Explorer" 
           pricing={{ 
             amount: 0 ,
             description: selectedExam?.description,
@@ -42,7 +42,7 @@ const PricingModel = () => {
         />
 
         <PlanCard 
-          type="learner" 
+          type="Learner" 
           pricing={{
             amount: selectedExam?.price_learner ?? 0,
             description: selectedExam?.description,
@@ -55,7 +55,7 @@ const PricingModel = () => {
         />
 
         <PlanCard 
-          type="achiever" 
+          type="Achiever" 
           pricing={{
             amount: selectedExam?.price_achiever ?? 0,
             description: selectedExam?.description,
@@ -69,7 +69,7 @@ const PricingModel = () => {
       </div>
       
       <div className="mt-12 text-center">
-        <p className="text-gray-600 text-sm">Gyapak is there to help you ❤️</p>
+        <p className="text-gray-600 text-sm">Gyapak is there to help you 💜</p>
         <a href="https://gyapak.in" className="text-purple-600 font-medium inline-flex items-center hover:text-purple-700 mt-2">
           gyapak.in <ChevronRight size={16} className="ml-1" />
         </a>

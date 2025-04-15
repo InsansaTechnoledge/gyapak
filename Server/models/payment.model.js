@@ -16,16 +16,27 @@ const PaymentSchema = new mongoose.Schema(
       unique: true,
     },
 
-    testId: {
-      type: [String],
+    tests: {
+      type: [
+        {
+          testId: {
+            type: String,
+            required: [true, 'Test ID is required'],
+          },
+          testModel: {
+            type: String,
+            enum: ['Explorer', 'Learner', 'Achiever'],
+            required: [true, 'Model type is required'],
+          },
+        }
+      ],
       validate: {
         validator: function (array) {
           return array.length > 0;
         },
-        message: 'At least one exam must be specified',
+        message: 'At least one test must be specified',
       },
     },
-
     userId: {
       type: Schema.Types.ObjectId,
       ref: 'User',

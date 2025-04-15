@@ -8,9 +8,9 @@ const PurchasedTestSchema = new Schema(
       type: String,
       required: [true, 'course is required'],
     },
-    model: {
+    testModel: {
       type: String,
-      enum: ["Seeker", "Planner", "Cracker"]
+      enum: ["Explorer","Learner","Achiever"]
     }
   },
   {
