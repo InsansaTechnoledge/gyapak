@@ -37,3 +37,8 @@ export const deleteQuestion = async (questionId) => {
   const res = await api.delete(`/api/v1i2/question/${questionId}`);
   return res.data;
 };
+
+export const evaluateAnswers = async (attempts) => {
+  const res = await api.post('/api/v1i2/question/evaluate', { attempts });
+  return res.data;
+};

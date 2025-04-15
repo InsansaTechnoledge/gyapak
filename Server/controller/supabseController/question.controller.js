@@ -3,7 +3,7 @@ import fs from "fs";
 import csv from "csv-parser";
 import { APIError } from "../../Utility/ApiError.js";
 import { APIResponse } from "../../Utility/ApiResponse.js";
-import { createQuestionQuery, deleteQuestion, getQuestionBySubject, updateQuestion } from "../../Utility/SQL-Queries/question.query.js";
+import { createQuestionQuery, deleteQuestion, getQuestionBySubject, updateQuestion , evaluateAttemptedQuestions } from "../../Utility/SQL-Queries/question.query.js";
 
 export const uploadCSVQuestions = async (req, res) => {
 
@@ -111,3 +111,60 @@ export const deleteQuestions = async (req , res) => {
         return new APIError(500 , [e.message, 'there was an error deleting']).send(res);
     }
 }
+
+export const evaluateAnswersController = async (req, res) => {
+  try {
+    console.log("➡️ Received Body:", req.body);
+
+    const { attempts } = req.body;
+
+    if (!Array.isArray(attempts) || attempts.length === 0) {
+      return new APIError(400, ["Invalid or empty answers array"]).send(res);
+    }
+
+    const evaluation = await evaluateAttemptedQuestions(attempts);
+
+    console.log("✅ Evaluation Result:", evaluation);
+
+    return new APIResponse(200, evaluation, "Answers evaluated").send(res);
+  } catch (e) {
+    console.error("❌ Error in evaluateSubmittedAnswers:", e);
+    return new APIError(500, [e.message || "Unknown error"]).send(res);
+  }
+};
+
+// Received Body: {
+//   attempts: [
+//     { questionId: 'cf71f403-a337-418f-9003-2fbc234e9d9e', answer: 'C' },
+//     { questionId: 'bbae7e03-120f-4470-be71-7cb8ee906945', answer: 'B' },
+//     { questionId: 'fde36eac-b799-436f-b30f-5f2ee14a0481', answer: 'C' },
+//     { questionId: '056e99ba-b0b1-401c-adfc-27c6c2ba8e95', answer: 'D' }
+//   ]
+// }
+//
+//  Evaluation Result: [
+//   {
+//     questionId: 'cf71f403-a337-418f-9003-2fbc234e9d9e',
+//     selected: 'C',
+//     correct: 'C',
+//     status: 'correct'
+//   },
+//   {
+//     questionId: 'bbae7e03-120f-4470-be71-7cb8ee906945',
+//     selected: 'B',
+//     correct: 'B',
+//     status: 'correct'
+//   },
+//   {
+//     questionId: 'fde36eac-b799-436f-b30f-5f2ee14a0481',
+//     selected: 'C',
+//     correct: 'D',
+//     status: 'incorrect'
+//   },
+//   {
+//     questionId: '056e99ba-b0b1-401c-adfc-27c6c2ba8e95',
+//     selected: 'D',
+//     correct: 'B',
+//     status: 'incorrect'
+//   }
+// ]

@@ -9,10 +9,12 @@ import {
   } from '../../Utility/SQL-Queries/exam.query.js';
   import { APIError } from '../../Utility/ApiError.js';
   import { APIResponse } from '../../Utility/ApiResponse.js';
+import { getEventsbyExam } from '../../Utility/SQL-Queries/event.query.js';
   
   export const createExamController = async (req, res) => {
     try {
-      const data = await createExam(req.body);
+      const { id } = req.params;
+      const data = await createExam({...req.body, created_by: id});
       return new APIResponse(201, data, "Exam created successfully").send(res);
     } catch (error) {
       console.error("❌ Error creating exam:", error); 
@@ -34,8 +36,7 @@ import {
   export const addSubjectsToExamController = async (req, res) => {
     try {
       const { exam_id } = req.params;
-      const { subjects } = req.body; // [{subject_id, weightage}, ...]
-  
+      const { subjects } = req.body; //  [{ subject_id, weightage, syllabus_id }, ...]
       const data = await addSubjectsToExam(exam_id, subjects);
       return new APIResponse(200, data, "Subjects added to exam successfully").send(res);
     } catch (error) {

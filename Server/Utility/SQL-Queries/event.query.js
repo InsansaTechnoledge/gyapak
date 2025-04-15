@@ -1,11 +1,11 @@
 import {supabase} from '../../config/supabaseClient.js';
 
-export const createEvent = async ({ name, exam_id, status = 'pending', weeks, event_date, duration }) => {
-    console.log("🚀 Supabase Insert Payload:", { name, exam_id, status, weeks, event_date, duration });
+export const createEvent = async (body) => {
+    // console.log("🚀 Supabase Insert Payload:", { name, exam_id, status, weeks, event_date, duration });
   
     const { data, error } = await supabase
       .from('events') // make sure the table name is exactly 'events'
-      .insert([{ name, exam_id, status, weeks, event_date, duration }])
+      .insert(body)
       .select()
       .single();
   
@@ -138,3 +138,13 @@ export const deleteEvent = async (id) => {
   if (error) throw error;
   return data;
 };
+
+export const getEventsbyExam = async (exam_id) => {
+  const {data, error} = await supabase
+  .from('events')
+  .select('*')
+  .eq('exam_id' , exam_id)
+
+  if(error) throw error;
+  return data;  
+}

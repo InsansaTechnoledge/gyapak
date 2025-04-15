@@ -35,3 +35,8 @@ export const updateEventStatus = async (eventId, status) => {
     const res = await api.put(`api/v1i2/event/${eventId}/status`, { status });
     return res.data;
 };
+
+export const getEventsByExamId = async (exam_id) => {
+    const res = await api.get(`/api/v1i2/event/by-exam/${exam_id}`);
+    return res.data;
+  };

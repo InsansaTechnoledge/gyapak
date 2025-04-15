@@ -52,3 +52,41 @@ export const deleteQuestion = async(id) => {
     if(error) throw error;
     return data;
 }
+
+export const evaluateAttemptedQuestions = async (attempts) => {
+    const questionIds = attempts.map((a) => a.questionId);
+  
+    const { data: questions, error } = await supabase
+      .from('questions')
+      .select('id, correct')
+      .in('id', questionIds);
+  
+    if (error) throw error;
+  
+    const results = attempts.map((attempt) => {
+      const original = questions.find((q) => q.id === attempt.questionId);
+      if (!original) {
+        return { questionId: attempt.questionId, status: 'not_found' };
+      }
+  
+      const userAnswer = typeof attempt.answer === 'string'
+        ? attempt.answer.trim().toUpperCase()
+        : null;
+  
+      if (!userAnswer || userAnswer === '') {
+        return { questionId: attempt.questionId, status: 'unattempted' };
+      }
+  
+      const isCorrect = userAnswer === original.correct?.trim().toUpperCase();
+  
+      return {
+        questionId: attempt.questionId,
+        selected: userAnswer,
+        correct: original.correct,
+        status: isCorrect ? 'correct' : 'incorrect'
+      };
+    });
+  
+    return results;
+  };
+  
