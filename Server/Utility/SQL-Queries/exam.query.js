@@ -1,6 +1,6 @@
 import { supabase } from "../../config/supabaseClient.js";
 
-export const createExam = async ({ title, description, validity, positive_marks , negative_marks = 0 ,price_learner , price_achiever }) => {
+export const createExam = async ({ title, description, validity, positive_marks , negative_marks = 0 ,price_learner , price_achiever,  }) => {
     const { data, error } = await supabase
       .from('exam')
       .insert([{ title, description, validity, positive_marks, negative_marks , price_learner , price_achiever }])

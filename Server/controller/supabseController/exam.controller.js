@@ -13,7 +13,8 @@ import { getEventsbyExam } from '../../Utility/SQL-Queries/event.query.js';
   
   export const createExamController = async (req, res) => {
     try {
-      const data = await createExam(req.body);
+      const { id } = req.params;
+      const data = await createExam({...req.body, created_by: id});
       return new APIResponse(201, data, "Exam created successfully").send(res);
     } catch (error) {
       console.error("❌ Error creating exam:", error); 

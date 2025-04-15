@@ -1,3 +1,4 @@
+import { BookOpen } from 'lucide-react'
 import React from 'react'
 
 const ErrorComponent = ({heading, info}) => {
