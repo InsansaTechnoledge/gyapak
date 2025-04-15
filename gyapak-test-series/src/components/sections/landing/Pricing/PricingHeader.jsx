@@ -26,7 +26,7 @@ const PricingHeader = ({ selectedSeries, setSelectedSeries, testSeriesOptions })
         
         <div className="mt-3 flex items-center justify-center text-xs text-gray-500">
           <AlertCircle size={14} className="mr-1" />
-          <span>Prices shown are specific to {testSeriesOptions.find(s => s.id === selectedSeries).name} test series</span>
+          <span>Prices shown are specific to {testSeriesOptions.find(s => s.id === selectedSeries)?.name} test series</span>
         </div>
       </div>
     </div>

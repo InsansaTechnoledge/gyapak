@@ -26,7 +26,6 @@ const ExamListPage = () => {
   if (loading) {
     return (
       <>
-        <Navbar />
         <div className="flex items-center justify-center min-h-screen">
           <div className="flex flex-col items-center">
             <div className="w-16 h-16 border-4 border-t-purple-600 border-r-transparent border-b-purple-600 border-l-transparent rounded-full animate-spin"></div>
@@ -52,7 +51,6 @@ const ExamListPage = () => {
 
   return (
     <div className="min-h-screen pt-24 bg-gray-50">
-      <Navbar />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex justify-between items-center mb-12">
@@ -69,29 +67,6 @@ const ExamListPage = () => {
           {exams.map((exam) => (
             <ExamCard key={exam.id} exam={exam} navigate={navigate} />
           ))}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const Navbar = () => {
-  return (
-    <div className="w-full bg-white shadow-sm border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
-          
-          <div className="hidden md:block flex-grow max-w-md mx-8">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search exams..."
-                className="w-full rounded-lg border border-gray-300 pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-              />
-              <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-            </div>
-          </div>
-        
         </div>
       </div>
     </div>
