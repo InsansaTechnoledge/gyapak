@@ -51,15 +51,22 @@ const ExamSetupForm = () => {
         syllabus_id: null
       }));
 
-      const events = formData.events.map(eve => ({
-        name: eve.name,
-        status: 'planned',
-        weeks: Number.parseInt(eve.week),
-        event_date: "2025-06-01",
-        duration: '01:00:00',
-        subjects: eve.subjects.map(sub => sub.id || sub.frontend_id || sub.name) // Updated mapping here
-      }));
-
+      const events = formData.events.map(eve => {
+        const mappedSubjects = eve.subjects.map(sub => {
+          const matched = formData.subjects.find(s => s.name === sub || s.name === sub.name);
+          return matched?.id || null;
+        });
+      
+        return {
+          name: eve.name,
+          status: 'planned',
+          weeks: Number.parseInt(eve.week),
+          event_date: "2025-06-01",
+          duration: '01:00:00',
+          subjects: mappedSubjects.filter(Boolean) 
+        };
+      });
+      
       const fullData = {
         exam,
         subjects,
