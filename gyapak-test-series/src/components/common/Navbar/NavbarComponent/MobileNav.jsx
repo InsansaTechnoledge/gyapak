@@ -4,6 +4,8 @@ import navItems from './NavItems';
 import AuthForm from '../../Login/AuthForm';
 import { logoutUser } from '../../../../service/auth.service';
 import { useUser } from '../../../../context/UserContext';
+import { Link } from 'react-router-dom';
+
 
 const MobileNav = ({ isOpen, activeDropdown, toggleDropdown }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -68,41 +70,53 @@ const MobileNav = ({ isOpen, activeDropdown, toggleDropdown }) => {
 
         {/* Navigation Items */}
         <div className="px-2 pt-3 pb-3 divide-y divide-gray-100 dark:divide-gray-800">
-          {navItems.map((item, index) => (
-            <div key={index} className="py-1">
-              <button
-                className="w-full text-left px-4 py-2.5 rounded-lg text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 dark:text-gray-200 dark:hover:bg-gray-800 flex justify-between items-center transition-all duration-200"
-                onClick={() => item.dropdown && toggleDropdown(`mobile-${index}`)}
-              >
-                <span className="flex items-center">
-                  {item.icon && <item.icon size={18} className="mr-3 text-gray-500 dark:text-gray-400" />}
-                  {item.name}
-                </span>
-                {item.dropdown && (
-                  <ChevronDown
-                    size={18}
-                    className={`text-gray-400 transition-transform duration-200 ${activeDropdown === `mobile-${index}` ? 'rotate-180' : ''}`}
-                  />
-                )}
-              </button>
+        {navItems.map((item, index) => (
+  <div key={index} className="py-1">
+    {item.dropdown ? (
+      <>
+        <button
+          className="w-full text-left px-4 py-2.5 rounded-lg text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 dark:text-gray-200 dark:hover:bg-gray-800 flex justify-between items-center transition-all duration-200"
+          onClick={() => toggleDropdown(`mobile-${index}`)}
+        >
+          <span className="flex items-center">
+            {item.icon && <item.icon size={18} className="mr-3 text-gray-500 dark:text-gray-400" />}
+            {item.name}
+          </span>
+          <ChevronDown
+            size={18}
+            className={`text-gray-400 transition-transform duration-200 ${activeDropdown === `mobile-${index}` ? 'rotate-180' : ''}`}
+          />
+        </button>
 
-              {/* Mobile Dropdown */}
-              {item.dropdown && activeDropdown === `mobile-${index}` && (
-                <div className="pl-4 space-y-1 mt-1 bg-gray-50 dark:bg-gray-850 rounded-lg mx-2 mb-2">
-                  {item.dropdown.map((dropdownItem, dropdownIndex) => (
-                    <a
-                      key={dropdownIndex}
-                      href={dropdownItem.link}
-                      className="flex items-center px-4 py-2.5 text-sm text-gray-600 hover:text-indigo-600 hover:bg-white dark:text-gray-300 dark:hover:bg-gray-800 rounded-md transition-colors duration-200"
-                    >
-                      {dropdownItem.icon && <dropdownItem.icon size={16} className="mr-3 text-gray-500 dark:text-gray-400" />}
-                      {dropdownItem.name}
-                    </a>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
+        {activeDropdown === `mobile-${index}` && (
+          <div className="pl-4 space-y-1 mt-1 bg-gray-50 dark:bg-gray-850 rounded-lg mx-2 mb-2">
+            {item.dropdown.map((dropdownItem, dropdownIndex) => (
+              <Link
+                key={dropdownIndex}
+                to={dropdownItem.link}
+                className="flex items-center px-4 py-2.5 text-sm text-gray-600 hover:text-indigo-600 hover:bg-white dark:text-gray-300 dark:hover:bg-gray-800 rounded-md transition-colors duration-200"
+              >
+                {dropdownItem.icon && <dropdownItem.icon size={16} className="mr-3 text-gray-500 dark:text-gray-400" />}
+                {dropdownItem.name}
+              </Link>
+            ))}
+          </div>
+        )}
+      </>
+    ) : (
+      <Link
+        to={item.link}
+        className="block w-full text-left px-4 py-2.5 rounded-lg text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 dark:text-gray-200 dark:hover:bg-gray-800 flex justify-between items-center transition-all duration-200"
+      >
+        <span className="flex items-center">
+          {item.icon && <item.icon size={18} className="mr-3 text-gray-500 dark:text-gray-400" />}
+          {item.name}
+        </span>
+      </Link>
+    )}
+  </div>
+))}
+
         </div>
 
         {/* Quick Actions */}

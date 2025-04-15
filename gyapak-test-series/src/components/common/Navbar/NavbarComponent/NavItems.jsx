@@ -8,13 +8,13 @@ export const navItems = [
     },
     { 
       name: 'Test Series', 
-      link: '#',
-      dropdown: [
-        { name: 'UPSC', link: '/test-series/upsc' },
-        { name: 'Banking', link: '/test-series/banking' },
-        { name: 'SSC', link: '/test-series/ssc' },
-        { name: 'Railways', link: '/test-series/railways' }
-      ]
+      link: '/exam'
+      // dropdown: [
+      //   { name: 'UPSC', link: '/test-series/upsc' },
+      //   { name: 'Banking', link: '/test-series/banking' },
+      //   { name: 'SSC', link: '/test-series/ssc' },
+      //   { name: 'Railways', link: '/test-series/railways' }
+      // ]
     },
     { 
       name: 'Study Material', 

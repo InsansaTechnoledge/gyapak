@@ -138,3 +138,13 @@ export const deleteEvent = async (id) => {
   if (error) throw error;
   return data;
 };
+
+export const getEventsbyExam = async (exam_id) => {
+  const {data, error} = await supabase
+  .from('events')
+  .select('*')
+  .eq('exam_id' , exam_id)
+
+  if(error) throw error;
+  return data;  
+}

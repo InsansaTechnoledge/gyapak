@@ -16,93 +16,71 @@ const ExamSetupForm = () => {
     events: []
   });
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-
     const totalWeightage = formData.subjects.reduce((acc, sub) => {
-      return acc + Number.parseInt(sub.weightage)
-    }, 0)
+      return acc + Number.parseInt(sub.weightage);
+    }, 0);
 
     console.log(totalWeightage);
-    if (totalWeightage != 100) {
+    if (totalWeightage !== 100) {
       alert("Total subject weightage is not 100%");
       return;
     }
 
-    const eventsWithoutSubject = formData.events.filter(event => event.subjects.length == 0);
+    const eventsWithoutSubject = formData.events.filter(event => event.subjects.length === 0);
     if (eventsWithoutSubject.length > 0) {
-      alert("Add atleast one subject for ", eventsWithoutSubject.join(', '));
+      alert("Add at least one subject for each event");
       return;
     }
 
     try {
-
       const exam = {
         title: formData.title,
         description: formData.description,
         validity: formData.validity + 'months',
         positive_marks: formData.positive_marks,
         negative_marks: formData.negative_marks
-      }
+      };
 
       const subjects = formData.subjects.map(sub => ({
+        frontend_id: sub.id,
         name: sub.name,
-        weightage: Number.parseInt(sub.weightage),
+        weightage: parseInt(sub.weightage),
         syllabus_id: null
       }));
 
-      const event = formData.events.map(eve => ({
+      const events = formData.events.map(eve => ({
         name: eve.name,
+        status: 'planned',
         weeks: Number.parseInt(eve.week),
-        subject_ids: eve.subjects.map(sub => (sub.id))
+        event_date: "2025-06-01",
+        duration: '01:00:00',
+        subjects: eve.subjects.map(sub => sub.id || sub.frontend_id || sub.name) // Updated mapping here
       }));
 
       const fullData = {
         exam,
         subjects,
-        event
-      }
+        events
+      };
+
       console.log(fullData);
       const response = await createFullExamSetup(fullData);
-      if (response.status == 200) {
-        console.log('🚀 Final Exam Setup:', formData);
+      if (response.status === 200) {
+        console.log('Final Exam Setup:', formData);
         alert('Form submitted! Check console for output.');
       }
-      // const examResponse = await createExam(examData);
-      // if (examResponse.status === 200) {
-      //   alert("exam data added");
-      //   console.log("EXAM", examResponse.data);
-      // }
-      // else {
-      //   throw new Error(examResponse);
-      // }
-
-      // const subjectResponse = await createSubject();
-      // if (examResponse.status === 200) {
-      //   alert("exam data added");
-      //   console.log("EXAM", examResponse.data);
-      // }
-      // else {
-      //   throw new Error(examResponse);
-      // }
-
-
+    } catch (err) {
+      console.log(err.response?.data?.errors?.[0] || err.message);
     }
-    catch (err) {
-      console.log(err.response.data.errors[0] || err.message);
-    }
-    // Submit to backend here if needed
   };
-
-
 
   return (
     <div className="max-w-4xl mx-auto bg-white p-8 rounded shadow-lg">
       <h2 className="text-2xl font-bold mb-6">📋 Exam Setup</h2>
       <form onSubmit={handleSubmit}>
-        {/* Exam Info */}
         <div className="grid gap-4 mb-6">
           <label htmlFor='title'>Exam title</label>
           <input
@@ -123,12 +101,12 @@ const ExamSetupForm = () => {
             required
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
           />
+
           <div className="flex gap-4">
             <div className='flex flex-col w-full'>
-
               <label htmlFor='positive'>Positive marks</label>
               <input
-                id='poitive'
+                id='positive'
                 type="number"
                 className="border p-2 w-full"
                 placeholder="Positive Marks"
@@ -149,6 +127,7 @@ const ExamSetupForm = () => {
               />
             </div>
           </div>
+
           <label htmlFor='validity'>Validity</label>
           <input
             id='validity'
@@ -160,16 +139,9 @@ const ExamSetupForm = () => {
           />
         </div>
 
-        {/* Subjects */}
-
         <SubjectForm formData={formData} setFormData={setFormData} />
-
-
-
-        {/* Event Planning */}
         <EventForm formData={formData} setFormData={setFormData} />
 
-        {/* Submit */}
         <button type="submit" className="mt-6 bg-purple-600 text-white px-6 py-2 rounded">
           ✅ Submit Exam Setup
         </button>

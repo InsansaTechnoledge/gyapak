@@ -13,6 +13,11 @@ export const addSubjectsToExam = async (examId, subjects) => {
   return res.data;
 };
 
+export const getExamWithSubject = async(examId) => {
+  const res = await api.get(`api/v1i2/exam/${examId}`)
+  return res.data;
+}
+
 // Get full exam data with attached subjects
 export const getExamById = async (examId) => {
   const res = await api.get(`/api/v1i2/exam/${examId}`);

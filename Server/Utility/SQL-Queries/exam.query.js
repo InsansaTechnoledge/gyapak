@@ -90,3 +90,4 @@ export const fetchExamById=async(id) => {
     if (error) throw error;
     return data;
 };
+

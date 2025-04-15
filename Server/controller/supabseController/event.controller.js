@@ -5,7 +5,8 @@ import {
     assignQuestionsToEvent,
     getFullEventDetails,
     updateEventStatus,
-    deleteEvent
+    deleteEvent,
+    getEventsbyExam
   } from '../../Utility/SQL-Queries/event.query.js';
   
   import { APIError } from '../../Utility/ApiError.js';
@@ -78,6 +79,17 @@ import {
       return new APIError(500, [error.message, "Failed to delete event"]).send(res);
     }
   };
+
+  export const getEventsForExamController = async (req, res) => {
+    try {
+      const { exam_id } = req.params;
+      const events = await getEventsbyExam(exam_id);
+      return new APIResponse(200, events, "Events fetched for exam").send(res);
+    } catch (e) {
+      return new APIError(500, [e.message, "Failed to fetch events"]).send(res);
+    }
+  };
+  
 
 
   
