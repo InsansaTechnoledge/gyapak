@@ -1,9 +1,14 @@
-import React from 'react';
-import { Check, X, Compass, GraduationCap, Award, ChevronRight } from 'lucide-react';
+import {React,useEffect} from 'react';
+import { Check, X, Compass, GraduationCap, Award, ChevronRight, PartyPopperIcon } from 'lucide-react';
 import { features } from '../../../../constants/data';
+import paymentComponent from '../../payment/paymentFunction';
+import {useUser} from '../../../../context/UserContext';
 
 const PlanCard = ({ type, pricing, popular }) => {
   const isFree = pricing.amount === 0;
+
+  const{user, setUser} = useUser();
+
   
   // Get icon based on plan type
   const getIcon = () => {
@@ -14,16 +19,40 @@ const PlanCard = ({ type, pricing, popular }) => {
       default: return <Compass size={20} />;
     }
   };
+  
+  const loadScript = (src) => {
+    return new Promise((resolve) => {
+        const script = document.createElement('script')
+        script.src = src
+        script.onload = () => {
+            resolve(true)
+        }
+        script.onerror = () => {
+            resolve(false)
+        }
+        document.body.appendChild(script)
+    })
+}
+useEffect(() => {
+    loadScript('https://checkout.razorpay.com/v1/checkout.js')
+}, [])
 
-  // Get name based on plan type
-  const getName = () => {
-    switch(type) {
-      case 'explorer': return 'Explorer';
-      case 'learner': return 'Learner';
-      case 'achiever': return 'Achiever';
-      default: return 'Plan';
+  const handlePayment =async (examId, planType) => {
+
+    console.log(`Initiating payment for ${planType} plan with exam ID: ${examId}`);
+    // console.log(`User ID:`, user);
+    const data={
+      user:user,
+      planType:planType,
+      pricing:pricing,
+      examId:examId
+
     }
-  };
+    const order=await paymentComponent(data);
+    
+
+    console.log("🫡",order);
+  }
   
   return (
     <div className={`relative flex flex-col rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl ${popular ? 'border-2 border-purple-500 shadow-lg transform hover:-translate-y-1' : isFree ? 'border-2 border-green-500 transform hover:-translate-y-0.5' : 'border border-gray-200 hover:-translate-y-0.5'}`}>
@@ -44,7 +73,7 @@ const PlanCard = ({ type, pricing, popular }) => {
           <div className={`p-2 rounded-full ${popular ? 'bg-purple-500 text-white' : isFree ? 'bg-green-500 text-white' : 'bg-purple-100 text-purple-600'}`}>
             {getIcon()}
           </div>
-          <h3 className="ml-3 text-xl font-bold text-gray-800">{getName()}</h3>
+          <h3 className="ml-3 text-xl font-bold text-gray-800">{type}</h3>
         </div>
         
         <div className="mb-6">
@@ -73,7 +102,7 @@ const PlanCard = ({ type, pricing, popular }) => {
         </div>
 
         <button 
-          onClick = {() => console.log(pricing.examId)}
+          onClick = {() => {handlePayment(pricing.examId, type)}}
           className={`w-full py-3 rounded-lg text-center font-medium transition-all ${
             isFree ? 'bg-green-600 hover:bg-green-700 text-white' : 
             popular ? 'bg-purple-600 hover:bg-purple-700 text-white' : 
