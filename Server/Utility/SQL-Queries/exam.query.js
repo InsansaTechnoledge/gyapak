@@ -14,7 +14,8 @@ export const createExam = async ({ title, description, validity, positive_marks 
 export const getAllExams = async () => {
   const {data , error} = await supabase
   .from('exam')
-  .select('*')
+  .select('*, events(*)')
+
 
   if(error) throw error;
   return data;

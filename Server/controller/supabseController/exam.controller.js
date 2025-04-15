@@ -9,6 +9,7 @@ import {
   } from '../../Utility/SQL-Queries/exam.query.js';
   import { APIError } from '../../Utility/ApiError.js';
   import { APIResponse } from '../../Utility/ApiResponse.js';
+import { getEventsbyExam } from '../../Utility/SQL-Queries/event.query.js';
   
   export const createExamController = async (req, res) => {
     try {
