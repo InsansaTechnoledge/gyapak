@@ -18,6 +18,7 @@ import paymentRoute from './mongoRoutes/payment.routes.js';
 import commentRoute from './mongoRoutes/premiumComment.routes.js';
 import emailRoutes from './mongoRoutes/email.routes.js';
 import adminRoutes from './supabase/admin.routes.js'
+import instituteRoutes from './mongoRoutes/institute.routes.js';
 
 const routes = (app) => {
 
@@ -42,6 +43,7 @@ const routes = (app) => {
     app.use('/api/v1i2/payment', paymentRoute);
     app.use('/api/v1i2/email',emailRoutes);
     app.use('/api/v1i2/admin' ,adminRoutes )
+    app.use('/api/v1i2/institute-register' , instituteRoutes)
     app.get('/api', (req,res) => {
         res.send("Till API");
     });
