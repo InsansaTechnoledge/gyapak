@@ -1,8 +1,30 @@
-import e from "express";
 import { Institute } from "../../models/Institutions.model.js";
 import { APIError } from "../../Utility/ApiError.js"
 import { APIResponse } from "../../Utility/ApiResponse.js";
 import { getGeoLocationFromIp } from "../../Utility/geoLocation/getGeoLocationFromIp.js";
+
+export const loginInstitue = async (req, res) => {
+  try {
+
+    const rememberMeBoolean = req.body.rememberMe;
+
+    if (rememberMeBoolean) {
+      req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
+    } else {
+      req.session.cookie.maxAge = 1 * 24 * 60 * 60 * 1000;
+    }
+
+    
+    const institiute = await Institute.findByIdAndUpdate(
+      req.user._id,
+      { new: true }
+    );
+
+    return new APIResponse(200, { institiute }, 'user loggedIn successfully').send(res);
+  } catch (e) {
+    return new APIError(500, [e.message]).send(res);
+  }
+}
 
 export const createInstitute = async (req, res) => {
     try {

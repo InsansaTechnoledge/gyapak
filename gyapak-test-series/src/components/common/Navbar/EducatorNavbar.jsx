@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { BookOpen, Award, BarChart, Users, ChevronDown } from 'lucide-react';
+import InstituteLogin from '../InstituteAuth/Auth/InstituteLogin';
 
 // Custom link component using direct paths
 const CustomLink = ({ icon, label, href = "#" }) => {
@@ -16,8 +17,18 @@ const CustomLink = ({ icon, label, href = "#" }) => {
 
 const EducatorNavbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  
   return (
+    <>
+    {
+      isModalOpen
+      ?
+      <InstituteLogin setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen}/>
+      :
+      null
+    }
     <div className="container mx-auto">
       <div className="flex items-center justify-between py-4 px-4 md:px-0">
         {/* Logo */}
@@ -52,9 +63,12 @@ const EducatorNavbar = () => {
         
         {/* Action Buttons */}
         <div className="flex items-center space-x-3">
-          <a href="/login" className="hidden md:block text-purple-700 hover:text-purple-900 font-medium">
+          <button 
+          onClick={()=>{
+            setIsModalOpen(true)}}
+          className="hidden md:block text-purple-700 hover:text-purple-900 font-medium">
             Log In
-          </a>
+          </button>
           <a href="/institute/registration" className="bg-purple-600 hover:bg-purple-700 text-white rounded-lg px-4 py-2 text-sm font-medium transition-colors">
             Register
           </a>
@@ -70,11 +84,15 @@ const EducatorNavbar = () => {
             <CustomLink icon={<Users size={16} />} label="For Students" href="/" />
             <CustomLink label="Pricing" href="/pricing" />
             <CustomLink label="Resources" href="/resources" />
-            <a href="/login" className="text-purple-700 hover:text-purple-900">Log In</a>
+            <button 
+            onClick={()=>{setIsModalOpen(true)}}
+            className="text-purple-700 hover:text-purple-900">Log In</button>
           </div>
         </div>
       )}
     </div>
+    </>
+    
   )
 }
  

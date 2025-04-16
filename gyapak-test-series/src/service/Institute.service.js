@@ -23,6 +23,11 @@ export const updateInstitute = async (id, updatePayload) => {
 };
 
 export const deleteInstitute = async (id) => {
-  const res = await api.delete(`//api/v1i2/institute-register/${id}`);
+  const res = await api.delete(`/api/v1i2/institute-register/${id}`);
+  return res.data;
+};
+
+export const loginInstitue = async (payload) => {
+  const res = await api.post('/api/v1i2/institute-register/login', payload);
   return res.data;
 };
