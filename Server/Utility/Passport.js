@@ -131,7 +131,7 @@ passport.use(
 );
 
 passport.serializeUser((entity, done) => {
-  done(null, { id: entity._id, type: entity.loginType}); // Save only user ID in session
+  done(null, { id: entity._id, loginType: entity.loginType}); // Save only user ID in session
 });
 
 passport.deserializeUser(async (obj, done) => {
