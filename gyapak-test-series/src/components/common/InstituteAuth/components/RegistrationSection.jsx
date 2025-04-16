@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { createInstitute } from '../../../../service/Institute.service';
-import { Building, Mail, Phone, Image, Globe, MapPin, Check, Loader, BookOpen, Shield, PieChart, Users } from 'lucide-react';
+import { Building, Mail, Phone, Image, Globe, MapPin, Check, Loader, BookOpen, Shield, PieChart, Users, Lock } from 'lucide-react';
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
+    password: '',
     logoUrl: '',
     website: '',
     adminUserId: '', // Optional
@@ -31,6 +32,7 @@ const RegistrationForm = () => {
 
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const handleChange = (e, field, nested = null) => {
     const value = e.target.value;
@@ -56,6 +58,10 @@ const RegistrationForm = () => {
         [feature]: !prev.features[feature]
       }
     }));
+  };
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
   };
 
   const handleSubmit = async (e) => {
@@ -170,6 +176,32 @@ const RegistrationForm = () => {
                 </div>
                 
                 <div>
+                  <label className="block text-gray-700 text-sm font-medium mb-1">Password</label>
+                  <div className="relative">
+                    <input 
+                      type={passwordVisible ? "text" : "password"}
+                      className="w-full pl-10 pr-12 py-3 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
+                      required
+                      value={formData.password}
+                      onChange={(e) => handleChange(e, 'password')}
+                      placeholder="Create a secure password" 
+                      minLength="8"
+                    />
+                    <Lock className="absolute left-3 top-3.5 text-purple-500" size={18} />
+                    <button 
+                      type="button"
+                      onClick={togglePasswordVisibility}
+                      className="absolute right-3 top-3.5 text-gray-500 hover:text-purple-700"
+                    >
+                      {passwordVisible ? "Hide" : "Show"}
+                    </button>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-1">Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.</p>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
                   <label className="block text-gray-700 text-sm font-medium mb-1">Website (optional)</label>
                   <div className="relative">
                     <input 
@@ -182,19 +214,19 @@ const RegistrationForm = () => {
                     <Globe className="absolute left-3 top-3.5 text-purple-500" size={18} />
                   </div>
                 </div>
-              </div>
-
-              <div>
-                <label className="block text-gray-700 text-sm font-medium mb-1">Logo URL</label>
-                <div className="relative">
-                  <input 
-                    type="url" 
-                    className="w-full pl-10 pr-4 py-3 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
-                    value={formData.logoUrl}
-                    onChange={(e) => handleChange(e, 'logoUrl')}
-                    placeholder="https://yoursite.com/logo.png" 
-                  />
-                  <Image className="absolute left-3 top-3.5 text-purple-500" size={18} />
+                
+                <div>
+                  <label className="block text-gray-700 text-sm font-medium mb-1">Logo URL</label>
+                  <div className="relative">
+                    <input 
+                      type="url" 
+                      className="w-full pl-10 pr-4 py-3 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
+                      value={formData.logoUrl}
+                      onChange={(e) => handleChange(e, 'logoUrl')}
+                      placeholder="https://yoursite.com/logo.png" 
+                    />
+                    <Image className="absolute left-3 top-3.5 text-purple-500" size={18} />
+                  </div>
                 </div>
               </div>
 
