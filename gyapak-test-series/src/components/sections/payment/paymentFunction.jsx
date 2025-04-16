@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
 import { createOrder,verifyPayment} from "../../../service/payment.service";
+import { invoiceEmail } from "../../../service/email.service";
 const generateReceipt = (userId) => {
 
         const now = new Date();
@@ -33,9 +33,23 @@ const generateReceipt = (userId) => {
         return {status:400,message:"Error in creating order"};
      }
 
+     let emailData={};
 
      if(data.pricing.amount===0){
+
+        emailData={
+            data:payload,
+            testName:data.testName,
+            payment:response.data.payment
+        };
+        const emailResponse=await invoiceEmail(emailData);  
+        if(emailResponse.status!==200){
+
          return {status:200,message:"Payment successfull",payment:{_id:response.data.payment}, updatedUser: response.data.updatedUser};
+        }
+        else{
+            return {status:200,message:"Payment successfull and email sent successfully",payment:{_id:response.data.payment}, updatedUser: response.data.updatedUser};
+        }
      }else{
         return new Promise((resolve,reject)=>{
             const options={
@@ -56,7 +70,19 @@ const generateReceipt = (userId) => {
                     try{
                     response=await verifyPayment(paymentData);
                     if(response.status===200){
-                        resolve( {status:response.status,message:"Payment successfull",payment:response.data.payment, updatedUser: response.data.updatedUser});
+                        emailData={
+                            data:payload,
+                            testName:data.testName,
+                            payment:response.data.payment
+                        };
+                        const emailResponse=await invoiceEmail(emailData);
+                        if(emailResponse.status!==200){
+
+                            resolve({status:response.status,message:"Payment successfull",payment:response.data.payment, updatedUser: response.data.updatedUser});
+                        }
+                        else{
+                            resolve({status:response.status,message:"Payment successfull and email sent successfully",payment:response.data.payment, updatedUser: response.data.updatedUser});
+                        }
                     }
                     else{
                         
@@ -90,8 +116,9 @@ const generateReceipt = (userId) => {
                     }
                 }
             };
-            const rzp1=new Razorpay(options);
+            const rzp1=Razorpay(options);
             rzp1.open();
+
         })
      };
 
