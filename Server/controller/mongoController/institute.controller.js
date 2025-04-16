@@ -2,23 +2,42 @@ import e from "express";
 import { Institute } from "../../models/Institutions.model.js";
 import { APIError } from "../../Utility/ApiError.js"
 import { APIResponse } from "../../Utility/ApiResponse.js";
+import { getGeoLocationFromIp } from "../../Utility/geoLocation/getGeoLocationFromIp.js";
 
-export const createInstitute = async (req , res) => {
-    try{
-        const data = req.body;
-
-        const existing = await Institute.findOne({ $or : [{email: data.email}, {name: data.name}]})
-
-        if(existing) return new APIError(400 , [e.message , 'institute already exists']).send(res)
-
-        const institute = await Institute.create(data)
-
-        return new APIResponse(200, institute , 'your institute registered succesfully').send(res)
-
-    } catch (e) {
-        return new APIError(500 , [e.message , 'error registering your institute ']).send(res)
+export const createInstitute = async (req, res) => {
+    try {
+      const data = req.body;
+  
+      // Get client's IP
+      const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
+  
+      // Fetch coordinates
+      const location = await getGeoLocationFromIp(ip);
+      
+  
+      if (location) {
+        data.address = {
+          ...data.address,
+          location
+        };
+      }
+  
+      const existing = await Institute.findOne({
+        $or: [{ email: data.email }, { name: data.name }]
+      });
+  
+      if (existing) {
+        return new APIError(409, ['Institute already exists']).send(res);
+      }
+  
+      const institute = await Institute.create(data);
+      return new APIResponse(201, institute, 'Institute created successfully').send(res);
+    } catch (err) {
+      console.error('❌ Error creating institute:', err.message);
+      return new APIError(500, [err.message || 'Internal server error']).send(res);
     }
-}
+  };
+
 
 export const getAllInstitute = async (req , res) => {
     try{

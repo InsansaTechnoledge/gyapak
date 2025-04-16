@@ -23,7 +23,8 @@ export const {
   GOOGLE_OAUTH_CLIENT_SECRET,
   GOOGLE_CALLBACK_URL,
   SUPABASE_URL,
-  SUPABASE_ANON_KEY
+  SUPABASE_ANON_KEY,
+  IPSTAC_ACCESS_KEY
 } = process.env;
 
 export default nodeEnv;

@@ -41,7 +41,7 @@ export const createOrder = async (req, res) => {
       const updatedUser = await User.findByIdAndUpdate(payment.userId, {
         $push: { 
           testPurchased: {
-            $each: payment.testId.map(id => ({
+            $each: payment.tests.map(id => ({
               testId: id.testId,
               testModel:id.testModel,
               date:Date.now(),
