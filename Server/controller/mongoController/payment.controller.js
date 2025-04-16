@@ -5,40 +5,22 @@ import { createOrderFunction } from '../../Utility/PaymentUtils/createOrder.js';
 import Payment from '../../models/payment.model.js';
 import User from '../../models/user.model.js';
 import { paymentSignamtureValidationFunction } from '../../Utility/PaymentUtils/paymentSignatureValidation.js';
-import mongoose from 'mongoose';
 import { fetchExamById } from '../../Utility/SQL-Queries/exam.query.js';
-
-const razorpay = await razorPayConfig();
 
 // save payment detail in DB
 
 export const createOrder = async (req, res) => {
   try {
-    console.log('create order called');
-    console.log(req.body);
-    console.log(req.user);
-    // collecting requirement from user
-    // const { receipt, courseId, amount,checkoutData } = req.body;
-    const receipt='1';
-    const testId=['1'];
-    const amount=100;
-    const checkoutData={
-
-      finalTotal:118
-    }
+    console.log('Creating order...', req.body);
+    const {receipt, testData, amount, finalTotal} = req.body;
     let order={};
 
     let paymentData={
       receipt,
-      testId,
-      // userId: req.user._id,
-      userId:new mongoose.Types.ObjectId('67f6a6de3e12dd65d3f581b3'),
+      tests:testData,
+      userId: req.user._id,
       amount,
-      tax:{
-        rate:0.18,
-        amount:checkoutData.gstAmount
-      },
-      finalTotal:checkoutData.finalTotal
+      finalTotal,
     };
     if(amount !==0){
     //creating order with createOrderFunction()
@@ -59,9 +41,10 @@ export const createOrder = async (req, res) => {
       const updatedUser = await User.findByIdAndUpdate(payment.userId, {
         $push: { 
           testPurchased: {
-            $each: payment.testId.map(id => ({
-              testId: id,
-              date: Date.now(),
+            $each: payment.tests.map(id => ({
+              testId: id.testId,
+              testModel:id.testModel,
+              date:Date.now(),
             }))
           }
         }

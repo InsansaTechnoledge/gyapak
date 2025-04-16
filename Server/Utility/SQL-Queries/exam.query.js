@@ -1,9 +1,9 @@
 import { supabase } from "../../config/supabaseClient.js";
 
-export const createExam = async ({ title, description, validity, positive_marks , negative_marks = 0 ,price_learner , price_achiever }) => {
+export const createExam = async ({ title, description, validity, positive_marks , negative_marks = 0 ,price_learner , price_achiever, created_by }) => {
     const { data, error } = await supabase
       .from('exam')
-      .insert([{ title, description, validity, positive_marks, negative_marks , price_learner , price_achiever }])
+      .insert([{ title, description, validity, positive_marks, negative_marks , price_learner , price_achiever, created_by }])
       .select()
       .single();
   
@@ -14,7 +14,8 @@ export const createExam = async ({ title, description, validity, positive_marks 
 export const getAllExams = async () => {
   const {data , error} = await supabase
   .from('exam')
-  .select('*')
+  .select('*, events(*)')
+
 
   if(error) throw error;
   return data;

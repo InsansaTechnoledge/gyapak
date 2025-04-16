@@ -60,9 +60,10 @@ const updatePaymentDocument = async function (paymentDetails) {
     const updateQuery = {
       $push: {
         testsPurchased: {
-          $each: payment.testId.map(id => ({
-            testId: id
-            //model have to add
+          $each: payment.tests.map(id => ({
+            testId: id.testId,
+            testModel: id.testModel,
+            date: Date.now()
           })),
         },
       },
