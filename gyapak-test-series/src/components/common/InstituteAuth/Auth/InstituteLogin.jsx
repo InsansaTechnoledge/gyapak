@@ -1,8 +1,8 @@
 import React, { memo, useEffect, useRef, useState } from 'react';
 import { X, Mail, Lock, UserPlus, LogIn, ChevronRight, Eye, EyeOff, User, Type, User2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useUser } from '../../../../context/user';
-import { googleLogin, loginUser, registerUser } from '../../../../service/Institute.service';
+import { useUser } from '../../../../context/UserContext';
+import {loginInstitue} from '../../../../service/Institute.service';
 
 const InstituteLogin = (props) => {
 
@@ -10,11 +10,8 @@ const InstituteLogin = (props) => {
     const [showPassword, setShowPassword] = useState(false);
     const [isGoogleLoading, setIsGoogleLoading] = useState(false);
     const [registerDetails, setRegisterDetails] = useState({
-        fname: '',
-        lname: '',
         email: '',
         password: '',
-        confPassword: ''
     })
     const { user, setUser } = useUser();
 
@@ -108,29 +105,7 @@ const InstituteLogin = (props) => {
                                 variants={itemVariants}
                                 className="px-6 pb-6 text-center text-sm text-secondary bg-primary rounded-b-2xl"
                             >
-                                {activeTab === 'login' ? (
-                                    <p>
-                                        Don't have an account?{' '}
-                                        <motion.button
-                                            whileHover={{ scale: 1.05 }}
-                                            onClick={() => setActiveTab('signup')}
-                                            className="text-blue-600 hover:text-blue-700 font-medium"
-                                        >
-                                            Sign up here
-                                        </motion.button>
-                                    </p>
-                                ) : (
-                                    <p>
-                                        Already have an account?{' '}
-                                        <motion.button
-                                            whileHover={{ scale: 1.05 }}
-                                            onClick={() => setActiveTab('login')}
-                                            className="text-blue-600 hover:text-blue-700 font-medium"
-                                        >
-                                            Login here
-                                        </motion.button>
-                                    </p>
-                                )}
+                                
                             </motion.div>
                         </div>
                         <motion.button
@@ -187,18 +162,18 @@ const InstituteLogin = (props) => {
         )
     };
 
-    const handleGoogleLogin = async () => {
-        setIsGoogleLoading(true);
-        try {
-            googleLogin();
-            // window.location.href = "http://localhost:5000/api/v1i2/auth/googlelogin-user";
+    // const handleGoogleLogin = async () => {
+    //     setIsGoogleLoading(true);
+    //     try {
+    //         googleLogin();
+    //         // window.location.href = "http://localhost:5000/api/v1i2/auth/googlelogin-user";
             
-        } catch (error) {
-            console.error('Google login error:', error.response.data.errors[0] || error.response.data.message);
-        } finally {
-            setIsGoogleLoading(false);
-        }
-    };
+    //     } catch (error) {
+    //         console.error('Google login error:', error.response.data.errors[0] || error.response.data.message);
+    //     } finally {
+    //         setIsGoogleLoading(false);
+    //     }
+    // };
 
     const GoogleIcon = () => (
         <svg className="w-5 h-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -221,8 +196,8 @@ const InstituteLogin = (props) => {
         </svg>
     );
 
-    const handleAuth = async (type) => {
-        if (type === 'login') {
+    const handleAuth = async () => {
+        // if (type === 'login') {
             const details = {
                 email: registerDetails.email.trim(),
                 password: registerDetails.password.trim(),
@@ -251,17 +226,15 @@ const InstituteLogin = (props) => {
                 //     withCredentials: true
                 // });
 
-                const response = await loginUser(details);
+                const response = await loginInstitue(details);
 
                 if (response.status === 200) {
                     alert("User Logged in successfully");
                     setRegisterDetails({
-                        fname: '',
-                        lname: '',
                         email: '',
                         password: '',
-                        confPassword: ''
                     })
+                    console.log(response.data);
                     setUser(response.data.user);
                     props.setIsModalOpen(false);
                 }
@@ -273,66 +246,66 @@ const InstituteLogin = (props) => {
                 alert(err.response.errors[0] || err.response.message);
 
             }
-        }
-        else {
+        // }
+        // else {
 
-            if (registerDetails.password !== registerDetails.confPassword) {
-                alert("Password does not match");
-                return;
-            }
+        //     if (registerDetails.password !== registerDetails.confPassword) {
+        //         alert("Password does not match");
+        //         return;
+        //     }
 
-            const details = {
-                name: registerDetails.fname.trim() + ' ' + registerDetails.lname.trim(),
-                email: registerDetails.email.trim(),
-                password: registerDetails.password.trim()
-            }
+        //     const details = {
+        //         name: registerDetails.fname.trim() + ' ' + registerDetails.lname.trim(),
+        //         email: registerDetails.email.trim(),
+        //         password: registerDetails.password.trim()
+        //     }
 
-            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        //     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-            if (!emailRegex.test(details.email)) {
-                alert("not valid email");
-                return
-            }
+        //     if (!emailRegex.test(details.email)) {
+        //         alert("not valid email");
+        //         return
+        //     }
 
-            if (!details.name || !details.email || !details.password
-                || details.name.includes('\u200E') || details.email.includes('\u200E') || details.password.includes('\u200E') || details.email.length > 50) {
-                alert("invalid details");
-                return;
-            }
+        //     if (!details.name || !details.email || !details.password
+        //         || details.name.includes('\u200E') || details.email.includes('\u200E') || details.password.includes('\u200E') || details.email.length > 50) {
+        //         alert("invalid details");
+        //         return;
+        //     }
 
-            try {
+        //     try {
 
-                // const response = await axios.post(`${API_BASE_URL}/api/v1/auth/register`, details,
-                //     {
-                //         headers: {
-                //             "Content-Type": "application/json"
-                //         }
-                //     }
+        //         // const response = await axios.post(`${API_BASE_URL}/api/v1/auth/register`, details,
+        //         //     {
+        //         //         headers: {
+        //         //             "Content-Type": "application/json"
+        //         //         }
+        //         //     }
 
-                // );
+        //         // );
 
 
-                const response = await registerUser(details);
+        //         const response = await registerUser(details);
 
-                if (response.status === 200) {
-                    alert("User registered successfully");
-                    setRegisterDetails({
-                        fname: '',
-                        lname: '',
-                        email: '',
-                        password: '',
-                        confPassword: ''
-                    })
+        //         if (response.status === 200) {
+        //             alert("User registered successfully");
+        //             setRegisterDetails({
+        //                 fname: '',
+        //                 lname: '',
+        //                 email: '',
+        //                 password: '',
+        //                 confPassword: ''
+        //             })
 
-                    setActiveTab('login');
-                }
+        //             setActiveTab('login');
+        //         }
                 
-            }
-            catch (err) {
-                console.log(err);
-                alert(err.response.errors[0] || err.response.message);
-            }
-        }
+        //     }
+        //     catch (err) {
+        //         console.log(err);
+        //         alert(err.response.errors[0] || err.response.message);
+        //     }
+        // }
     }
 
     const handleRegisterChangeDetails = (e, field, inputRef) => {
@@ -349,7 +322,7 @@ const InstituteLogin = (props) => {
             className="space-y-5 p-6 bg-primary"
         >
             {/* Google Login Button */}
-            <motion.button
+            {/* <motion.button
                 variants={itemVariants}
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
@@ -374,10 +347,10 @@ const InstituteLogin = (props) => {
                         <div className="w-5 h-5 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin" />
                     </motion.div>
                 )}
-            </motion.button>
+            </motion.button> */}
 
             {/* Divider */}
-            <div className="relative">
+            {/* <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                     <div className="w-full border-t border-contrast"></div>
                 </div>
@@ -386,7 +359,7 @@ const InstituteLogin = (props) => {
                         Or continue with email
                     </span>
                 </div>
-            </div>
+            </div> */}
 
             {
                 // type == 'signup' && (
@@ -458,7 +431,7 @@ const InstituteLogin = (props) => {
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
-                onClick={() => handleAuth(type)}
+                onClick={() => handleAuth()}
                 className="w-full px-4 py-3 mt-6 flex items-center justify-center space-x-2 text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-300 shadow-lg hover:shadow-xl"
             >
                 {/* {type === 'login' ? ( */}
