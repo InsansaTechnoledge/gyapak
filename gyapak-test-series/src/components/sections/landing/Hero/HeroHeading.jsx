@@ -8,7 +8,7 @@ const HeroHeading = () => {
       <div className="relative space-y-8 text-center md:text-left">
         <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-gradient-to-r from-purple-100 to-indigo-100 text-purple-800 text-sm font-medium border border-purple-200 shadow-sm hover:shadow-md transition-all duration-300">
           <span className="flex items-center">
-            <Star className="w-4 h-4 mr-1.5 text-purple-600" />
+            {/* <Star className="w-4 h-4 mr-1.5 text-purple-600" /> */}
             Frequently Updated
             <ChevronRight className="w-4 h-4 ml-1 animate-bounce" />
           </span>
