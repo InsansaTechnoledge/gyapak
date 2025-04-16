@@ -38,14 +38,14 @@ const ExamListPage = () => {
     return (
       <>
         <ErrorComponent heading={"No exams available"} info={"There are currently no exams available in the system."} />
-      
+
       </>
     );
   }
 
   return (
     <div className="min-h-screen pt-24 bg-gray-50">
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex justify-between items-center mb-12">
           <div>
@@ -57,9 +57,15 @@ const ExamListPage = () => {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-x-20 gap-y-10">
+        <div className="grid md:grid-cols-3 gap-x-20 gap-y-10">
           {exams.map((exam) => (
-            <ExamCard key={exam.id} exam={exam} />
+            <>
+              <ExamCard key={exam.id} exam={exam} />
+              <ExamCard key={exam.id} exam={exam} />
+              <ExamCard key={exam.id} exam={exam} />
+              <ExamCard key={exam.id} exam={exam} />
+              <ExamCard key={exam.id} exam={exam} />
+            </>
           ))}
         </div>
       </div>
