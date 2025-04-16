@@ -17,22 +17,18 @@ export const navItems = [
       // ]
     },
     { 
-      name: 'Study Material', 
-      link: '#',
-      dropdown: [
-        { name: 'PDF Notes', link: '/study/pdf' },
-        { name: 'Video Lectures', link: '/study/video' },
-        { name: 'Mock Tests', link: '/study/mock' }
-      ]
+      name: 'for educators ->', 
+      link: '/institute',
+      
     },
-    { 
-      name: 'About Us', 
-      link: '/about' 
-    },
-    { 
-      name: 'Contact', 
-      link: '/contact' 
-    }
+    // { 
+    //   name: 'About Us', 
+    //   link: '/about' 
+    // },
+    // { 
+    //   name: 'Contact', 
+    //   link: '/contact' 
+    // }
   ];
   
   export default navItems;

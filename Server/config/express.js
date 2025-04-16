@@ -9,7 +9,11 @@ import { CLIENT_BASE_URL_LOCAL,CLIENT_BASE_URL_LIVE } from './env.js';
 
 const app = express();
 
-app.set('trust proxy', 1);
+// app.set('trust proxy', 1);
+
+// in your main app.js or server.js
+app.set('trust proxy', true);
+
 
 // Allowed frontend origins (ensure these are correctly set in .env)
 const allowedOrigins = [

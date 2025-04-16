@@ -3,7 +3,7 @@ import SubjectForm from './SubjectForm';
 import EventForm from './EventForm';
 import { createExam } from '../../../service/exam.service';
 import { createSubject } from '../../../service/subject.service';
-import { createFullExamSetup } from '../../../service/adminn.service';
+import { createFullExamSetup } from '../../../service/admin.service';
 
 const ExamSetupForm = () => {
   const [formData, setFormData] = useState({

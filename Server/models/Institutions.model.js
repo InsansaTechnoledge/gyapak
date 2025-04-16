@@ -1,5 +1,6 @@
 import {Schema , model} from 'mongoose'
-
+import validator from 'validator';
+import bcrypt from 'bcrypt';
 
 const addressSchema = new Schema({
   line1: {
@@ -113,6 +114,24 @@ const InstitutionSchema = new Schema({
           message: 'Please enter a valid email address',
         },
       },
+      password: {
+            type: String,
+            select: false, // Exclude password from queries
+            trim: true,
+            validate: {
+              validator: function (value) {
+                return validator.isStrongPassword(value, {
+                  minLength: 8,
+                  minLowercase: 1,
+                  minUppercase: 1,
+                  minNumbers: 1,
+                  minSymbols: 1,
+                });
+              },
+              message:
+                'Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.',
+            },
+          },
       phone: {
         type: String,
         trim: true,
@@ -148,5 +167,19 @@ const InstitutionSchema = new Schema({
 {
     timestamps: true
 })
+
+InstitutionSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next;
+  try {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+  } catch (err) {
+    next(err);
+  }
+});
+
+InstitutionSchema.methods.comparePassword = async function (candidatePassword) {
+  return await bcrypt.compare(candidatePassword, this.password);
+};
 
 export const Institute = model('Institute' , InstitutionSchema)

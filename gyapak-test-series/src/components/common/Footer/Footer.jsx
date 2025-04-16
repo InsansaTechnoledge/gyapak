@@ -43,7 +43,7 @@ const Footer = () => {
               <div className="h-10 w-24 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-xl">gyapak.in</span>
               </div>
-              <span className="ml-2 text-xl font-bold text-white">GTS</span>
+              {/* <span className="ml-2 text-xl font-bold text-white">GTS</span> */}
             </div>
             <p className="text-gray-400 mb-6">
               Helping students achieve success in competitive exams through comprehensive study materials, practice tests, and expert guidance.

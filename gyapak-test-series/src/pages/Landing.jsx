@@ -15,11 +15,13 @@ const Landing = () => {
                         <Hero />
                         <ExamMarquee />
                     </div>
+̀
                     <div className='px-12 md:px-32 lg:px-64'>
                         <FeatureMain />
                         <PricingModel/>
                         <WorkProcess />
                     </div>
+                   
                 </>
             </MainLayout>
         </>
