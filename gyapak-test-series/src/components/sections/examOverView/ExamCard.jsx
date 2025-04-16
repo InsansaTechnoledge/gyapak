@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const ExamCard = ({ exam }) => {
     const navigate = useNavigate();
-
+    console.log(exam);
     return (
         // <div 
         //   onClick={() => navigate(`/exam/${exam.id}`)}
@@ -134,7 +134,7 @@ const ExamCard = ({ exam }) => {
             min-w-fit
             absolute transform rotate-[20deg] top-0 right-0 translate-x-4/12 translate-y-1/12 border-2 rounded-md p-3 flex flex-col shadow-xl bg-white'>
                 <div className='p-1 bg-purple-900 rounded-full w-min mx-auto'></div>
-                <div className='mt-4 max-w-42 text-wrap text-purple-900 font-semibold text-center text-sm'>Insansa Techknowledge</div>
+                <div className='mt-4 max-w-42 text-wrap text-purple-900 font-semibold text-center text-sm'>{exam.institute.name}</div>
             </div>
         </div>
 

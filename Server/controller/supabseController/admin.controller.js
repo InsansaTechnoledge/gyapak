@@ -91,14 +91,14 @@ export const createFullExamSetup = async (req, res) => {
   const trxLog = [];
 
   try {
-    const { exam, subjects, events } = req.body;
+    const { exam, subjects, events, organizationId } = req.body;
 
     console.log("📥 Received Exam Payload:", exam);
     console.log("📥 Received Subjects Payload:", subjects);
     console.log("📥 Received Events Payload:", events);
 
     // Step 1: Create Exam
-    const createdExam = await createExam(exam);
+    const createdExam = await createExam({...exam, created_by : organizationId});
     const examId = createdExam.id;
     trxLog.push("Exam created");
     console.log("✅ Exam Created:", createdExam);
