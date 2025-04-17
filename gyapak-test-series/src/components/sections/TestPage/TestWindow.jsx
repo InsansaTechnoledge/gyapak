@@ -1,6 +1,7 @@
 import React from 'react'
 import QuestionListSection from './QuestionListSection'
 import QuestionSection from './QuestionSection'
+import TestSubjectSelectionBar from './TestSubjectSelectionBar'
 
 const TestWindow = () => {
     return (
@@ -35,16 +36,20 @@ const TestWindow = () => {
                         <div className='font-semibold text-nowrap'>Time Left</div>
                         <div className='font-bold text-xl'>03:00:00</div>
                     </div>
-                    
+
                 </div>
             </div>
-            <div className='flex mt-5 space-x-5 p-3'>
+            <div className='relative flex mt-5 space-x-5 p-3'>
+                <button className='border h-min'>Select Subject</button>
+                {/* <div className='absolute'> */}
+                    {/* <TestSubjectSelectionBar /> */}
+                {/* </div> */}
                 <QuestionSection />
                 <QuestionListSection />
             </div>
             <button className='mx-auto mt-10 rounded-md text-lg font-semibold bg-purple-600 px-4 py-2 w-fit text-white'>
                 Submit Test
-                </button>
+            </button>
         </div>
     )
 }
