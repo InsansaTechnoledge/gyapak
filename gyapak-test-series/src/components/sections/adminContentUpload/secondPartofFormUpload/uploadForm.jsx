@@ -45,15 +45,18 @@ const UploadQuestionsForm = () => {
     const file = selectedFiles[subjectId];
     if (!file) return alert("Please select a file");
   
+    if (!selectedEvent) return alert("Please select an event before uploading");
+  
     try {
-      const result = await uploadCSV(subjectId, file);
-      alert(`✅ Uploaded for subject ${subjectId}`);
+      const result = await uploadCSV(subjectId, file, selectedEvent); // pass eventId
+      alert(`✅ Uploaded and linked to event for subject "${subjectId}"`);
       console.log(result);
     } catch (err) {
       console.error("❌ Upload failed:", err);
       alert("Upload failed. Please check console.");
     }
   };
+  
 
   return (
     <div className="p-8 max-w-3xl mx-auto bg-white rounded shadow">

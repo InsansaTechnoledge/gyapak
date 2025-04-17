@@ -1,18 +1,24 @@
 import api from './api';
 
 // Upload CSV file of questions for a subject
-export const uploadCSV = async (subjectId, file) => {
+export const uploadCSV = async (subjectId, file, eventId) => {
   const formData = new FormData();
   formData.append('file', file);
 
-  const res = await api.post(`/api/v1i2/question/csv-upload/${subjectId}`, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data'
+  const res = await api.post(
+    `/api/v1i2/question/upload-csv/${subjectId}/event/${eventId}`,
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      withCredentials: true
     }
-  });
+  );
 
   return res.data;
 };
+
 
 // Create a single question manually
 export const createQuestion = async (questionData) => {
@@ -26,11 +32,18 @@ export const getQuestionsBySubject = async (subjectId) => {
   return res.data;
 };
 
+// fetch questions by event ID
+export const getQuestionsByEventId = async (eventid) => {
+  const res = await api.get(`/api/v1i2/question/get-question-by-event/${eventid}`)
+  return res.data;
+}
+
 // Update a question by ID
 export const updateQuestion = async (questionId, updates) => {
   const res = await api.put(`/api/v1i2/question/${questionId}`, updates);
   return res.data;
 };
+
 
 // Delete a question by ID
 export const deleteQuestion = async (questionId) => {

@@ -29,6 +29,18 @@ export const getQuestionBySubject = async(subject_id) => {
     return data;
 }
 
+export const getQuestionsByEventId = async (event_id) => {
+  const { data, error } = await supabase
+    .from('event_questions')
+    .select('question_id, questions(*)') 
+    .eq('event_id', event_id)
+
+  if (error) throw error;
+
+  return data.map(row => row.questions); 
+};
+
+
 export const updateQuestion = async(id, updates) => {
     const {data , error} = await supabase
     .from('questions')
