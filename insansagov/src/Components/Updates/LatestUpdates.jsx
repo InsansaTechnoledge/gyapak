@@ -110,7 +110,8 @@ const LatestUpdates = ({ titleHidden }) => {
           <Suspense fallback={<div>Loading updates...</div>}>
             {filteredLatestUpdates.map((update, index) => (
               <LatestUpdateCard
-                key={update.id || index}
+                key={update._id || index}
+                id={update._id}
                 name={update.name}
                 date={update.updatedAt || update.date_of_notification}
                 organization={update.organizationName}
