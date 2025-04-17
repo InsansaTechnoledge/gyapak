@@ -2,9 +2,10 @@ import React from 'react';
 import moment from 'moment';
 import { Calendar, ChevronRight, Tag } from 'lucide-react';
 import { formatDate } from '../../Utils/dateFormatter';
+import { useNavigate } from 'react-router-dom';
 
 const LatestUpdateCard = (props) => {
-
+  const navigate = useNavigate();
   // function formatDate(date) {
   //   if (!date) return ''; // Handle null, undefined, or empty input
   
@@ -45,7 +46,7 @@ const LatestUpdateCard = (props) => {
   return (
     <>
       <div 
-      onClick={navigateToWebsite}
+      onClick={()=>navigate(`/opportunity?id=${props.id}`)}
       className="group relative overflow-hidden rounded-xl bg-white shadow-md transition-all hover:shadow-lg hover:cursor-pointer">
         <div className="absolute inset-x-0 top-0 h-1 bg-purple-600" />
 
