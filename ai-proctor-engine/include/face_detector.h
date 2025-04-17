@@ -1,15 +1,17 @@
 #pragma once
-
+#include <thread>
+#include <mutex>
+#include <atomic>
 #include<iostream>
-#include<atomic>
-#include<mutex>
 #include <opencv2/opencv.hpp>
 #include<string>
 #include<vector>
+#include "frame_queue.h"
 
 class FaceDetector {
     public:
-        FaceDetector();
+        // FaceDetector();
+        FaceDetector(FrameQueue& sharedQueue);
         ~FaceDetector();
 
         bool initialize();
@@ -19,8 +21,9 @@ class FaceDetector {
         cv::Mat getCurrentFrame();
 
     private:
+        FrameQueue& frameQueue_;
         cv::VideoCapture capture_;
-        cv::CascadeClassifier faceCascare_;
+        cv::CascadeClassifier faceCascade_;
         std::mutex frameMutex_;
         cv::Mat currentFrame_;
         std::atomic<bool> isRunning_;

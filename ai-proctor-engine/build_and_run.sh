@@ -1,6 +1,11 @@
 #!/bin/bash
 
+# Navigate to the script's root folder (ai-proctor-engine)
+cd "$(dirname "$0")"
+
 echo "🔧 Building AI Proctor Engine..."
+
+# Use a clean build folder in project root
 mkdir -p build
 cd build
 

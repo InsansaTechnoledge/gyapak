@@ -85,6 +85,51 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 .PHONY : rebuild_cache/fast
 
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+.PHONY : list_install_components/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
+	/opt/homebrew/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
+	/opt/homebrew/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
+	/opt/homebrew/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
+	/opt/homebrew/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
+	/opt/homebrew/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
+	/opt/homebrew/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
+
 # The main all target
 all: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/build/CMakeFiles /Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/build//CMakeFiles/progress.marks
@@ -129,6 +174,30 @@ proctor_engine/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/proctor_engine.dir/build.make CMakeFiles/proctor_engine.dir/build
 .PHONY : proctor_engine/fast
 
+src/face_detector.o: src/face_detector.cpp.o
+.PHONY : src/face_detector.o
+
+# target to build an object file
+src/face_detector.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/proctor_engine.dir/build.make CMakeFiles/proctor_engine.dir/src/face_detector.cpp.o
+.PHONY : src/face_detector.cpp.o
+
+src/face_detector.i: src/face_detector.cpp.i
+.PHONY : src/face_detector.i
+
+# target to preprocess a source file
+src/face_detector.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/proctor_engine.dir/build.make CMakeFiles/proctor_engine.dir/src/face_detector.cpp.i
+.PHONY : src/face_detector.cpp.i
+
+src/face_detector.s: src/face_detector.cpp.s
+.PHONY : src/face_detector.s
+
+# target to generate assembly for a file
+src/face_detector.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/proctor_engine.dir/build.make CMakeFiles/proctor_engine.dir/src/face_detector.cpp.s
+.PHONY : src/face_detector.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -153,6 +222,54 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/proctor_engine.dir/build.make CMakeFiles/proctor_engine.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/proctor_engine.o: src/proctor_engine.cpp.o
+.PHONY : src/proctor_engine.o
+
+# target to build an object file
+src/proctor_engine.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/proctor_engine.dir/build.make CMakeFiles/proctor_engine.dir/src/proctor_engine.cpp.o
+.PHONY : src/proctor_engine.cpp.o
+
+src/proctor_engine.i: src/proctor_engine.cpp.i
+.PHONY : src/proctor_engine.i
+
+# target to preprocess a source file
+src/proctor_engine.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/proctor_engine.dir/build.make CMakeFiles/proctor_engine.dir/src/proctor_engine.cpp.i
+.PHONY : src/proctor_engine.cpp.i
+
+src/proctor_engine.s: src/proctor_engine.cpp.s
+.PHONY : src/proctor_engine.s
+
+# target to generate assembly for a file
+src/proctor_engine.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/proctor_engine.dir/build.make CMakeFiles/proctor_engine.dir/src/proctor_engine.cpp.s
+.PHONY : src/proctor_engine.cpp.s
+
+src/utils.o: src/utils.cpp.o
+.PHONY : src/utils.o
+
+# target to build an object file
+src/utils.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/proctor_engine.dir/build.make CMakeFiles/proctor_engine.dir/src/utils.cpp.o
+.PHONY : src/utils.cpp.o
+
+src/utils.i: src/utils.cpp.i
+.PHONY : src/utils.i
+
+# target to preprocess a source file
+src/utils.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/proctor_engine.dir/build.make CMakeFiles/proctor_engine.dir/src/utils.cpp.i
+.PHONY : src/utils.cpp.i
+
+src/utils.s: src/utils.cpp.s
+.PHONY : src/utils.s
+
+# target to generate assembly for a file
+src/utils.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/proctor_engine.dir/build.make CMakeFiles/proctor_engine.dir/src/utils.cpp.s
+.PHONY : src/utils.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -160,11 +277,24 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
+	@echo "... install"
+	@echo "... install/local"
+	@echo "... install/strip"
+	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... proctor_engine"
+	@echo "... src/face_detector.o"
+	@echo "... src/face_detector.i"
+	@echo "... src/face_detector.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/proctor_engine.o"
+	@echo "... src/proctor_engine.i"
+	@echo "... src/proctor_engine.s"
+	@echo "... src/utils.o"
+	@echo "... src/utils.i"
+	@echo "... src/utils.s"
 .PHONY : help
 
 

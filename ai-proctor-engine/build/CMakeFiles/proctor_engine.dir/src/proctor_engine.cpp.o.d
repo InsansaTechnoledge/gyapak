@@ -1,5 +1,5 @@
-CMakeFiles/proctor_engine.dir/src/main.cpp.o: \
-  /Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/src/main.cpp \
+CMakeFiles/proctor_engine.dir/src/proctor_engine.cpp.o: \
+  /Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/src/proctor_engine.cpp \
   /Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/include/proctor_engine.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/iostream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__assert \
@@ -1113,4 +1113,8 @@ CMakeFiles/proctor_engine.dir/src/main.cpp.o: \
   /opt/homebrew/opt/opencv/include/opencv4/opencv2/video/background_segm.hpp \
   /Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/include/frame_queue.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/condition_variable \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__stop_token/stop_callback.h
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__stop_token/stop_callback.h \
+  /Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/include/proctor_event.h \
+  /Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/include/utils.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/csignal \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/signal.h

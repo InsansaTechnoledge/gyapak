@@ -85,12 +85,12 @@ clean: CMakeFiles/proctor_engine.dir/clean
 CMakeFiles/proctor_engine.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/proctor_engine.dir/build.make CMakeFiles/proctor_engine.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/proctor_engine.dir/build.make CMakeFiles/proctor_engine.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/build/CMakeFiles --progress-num=1,2 "Built target proctor_engine"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/build/CMakeFiles --progress-num=1,2,3,4,5 "Built target proctor_engine"
 .PHONY : CMakeFiles/proctor_engine.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/proctor_engine.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/build/CMakeFiles 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/proctor_engine.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/build/CMakeFiles 0
 .PHONY : CMakeFiles/proctor_engine.dir/rule
@@ -102,7 +102,7 @@ proctor_engine: CMakeFiles/proctor_engine.dir/rule
 # codegen rule for target.
 CMakeFiles/proctor_engine.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/proctor_engine.dir/build.make CMakeFiles/proctor_engine.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/build/CMakeFiles --progress-num=1,2 "Finished codegen for target proctor_engine"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/build/CMakeFiles --progress-num=1,2,3,4,5 "Finished codegen for target proctor_engine"
 .PHONY : CMakeFiles/proctor_engine.dir/codegen
 
 # clean rule for target.

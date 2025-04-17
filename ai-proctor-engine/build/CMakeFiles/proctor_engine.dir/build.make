@@ -86,17 +86,65 @@ CMakeFiles/proctor_engine.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/proctor_engine.dir/src/main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/src/main.cpp -o CMakeFiles/proctor_engine.dir/src/main.cpp.s
 
+CMakeFiles/proctor_engine.dir/src/proctor_engine.cpp.o: CMakeFiles/proctor_engine.dir/flags.make
+CMakeFiles/proctor_engine.dir/src/proctor_engine.cpp.o: /Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/src/proctor_engine.cpp
+CMakeFiles/proctor_engine.dir/src/proctor_engine.cpp.o: CMakeFiles/proctor_engine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/proctor_engine.dir/src/proctor_engine.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/proctor_engine.dir/src/proctor_engine.cpp.o -MF CMakeFiles/proctor_engine.dir/src/proctor_engine.cpp.o.d -o CMakeFiles/proctor_engine.dir/src/proctor_engine.cpp.o -c /Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/src/proctor_engine.cpp
+
+CMakeFiles/proctor_engine.dir/src/proctor_engine.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/proctor_engine.dir/src/proctor_engine.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/src/proctor_engine.cpp > CMakeFiles/proctor_engine.dir/src/proctor_engine.cpp.i
+
+CMakeFiles/proctor_engine.dir/src/proctor_engine.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/proctor_engine.dir/src/proctor_engine.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/src/proctor_engine.cpp -o CMakeFiles/proctor_engine.dir/src/proctor_engine.cpp.s
+
+CMakeFiles/proctor_engine.dir/src/utils.cpp.o: CMakeFiles/proctor_engine.dir/flags.make
+CMakeFiles/proctor_engine.dir/src/utils.cpp.o: /Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/src/utils.cpp
+CMakeFiles/proctor_engine.dir/src/utils.cpp.o: CMakeFiles/proctor_engine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/proctor_engine.dir/src/utils.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/proctor_engine.dir/src/utils.cpp.o -MF CMakeFiles/proctor_engine.dir/src/utils.cpp.o.d -o CMakeFiles/proctor_engine.dir/src/utils.cpp.o -c /Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/src/utils.cpp
+
+CMakeFiles/proctor_engine.dir/src/utils.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/proctor_engine.dir/src/utils.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/src/utils.cpp > CMakeFiles/proctor_engine.dir/src/utils.cpp.i
+
+CMakeFiles/proctor_engine.dir/src/utils.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/proctor_engine.dir/src/utils.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/src/utils.cpp -o CMakeFiles/proctor_engine.dir/src/utils.cpp.s
+
+CMakeFiles/proctor_engine.dir/src/face_detector.cpp.o: CMakeFiles/proctor_engine.dir/flags.make
+CMakeFiles/proctor_engine.dir/src/face_detector.cpp.o: /Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/src/face_detector.cpp
+CMakeFiles/proctor_engine.dir/src/face_detector.cpp.o: CMakeFiles/proctor_engine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/proctor_engine.dir/src/face_detector.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/proctor_engine.dir/src/face_detector.cpp.o -MF CMakeFiles/proctor_engine.dir/src/face_detector.cpp.o.d -o CMakeFiles/proctor_engine.dir/src/face_detector.cpp.o -c /Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/src/face_detector.cpp
+
+CMakeFiles/proctor_engine.dir/src/face_detector.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/proctor_engine.dir/src/face_detector.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/src/face_detector.cpp > CMakeFiles/proctor_engine.dir/src/face_detector.cpp.i
+
+CMakeFiles/proctor_engine.dir/src/face_detector.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/proctor_engine.dir/src/face_detector.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/src/face_detector.cpp -o CMakeFiles/proctor_engine.dir/src/face_detector.cpp.s
+
 # Object files for target proctor_engine
 proctor_engine_OBJECTS = \
-"CMakeFiles/proctor_engine.dir/src/main.cpp.o"
+"CMakeFiles/proctor_engine.dir/src/main.cpp.o" \
+"CMakeFiles/proctor_engine.dir/src/proctor_engine.cpp.o" \
+"CMakeFiles/proctor_engine.dir/src/utils.cpp.o" \
+"CMakeFiles/proctor_engine.dir/src/face_detector.cpp.o"
 
 # External object files for target proctor_engine
 proctor_engine_EXTERNAL_OBJECTS =
 
 proctor_engine: CMakeFiles/proctor_engine.dir/src/main.cpp.o
+proctor_engine: CMakeFiles/proctor_engine.dir/src/proctor_engine.cpp.o
+proctor_engine: CMakeFiles/proctor_engine.dir/src/utils.cpp.o
+proctor_engine: CMakeFiles/proctor_engine.dir/src/face_detector.cpp.o
 proctor_engine: CMakeFiles/proctor_engine.dir/build.make
 proctor_engine: CMakeFiles/proctor_engine.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable proctor_engine"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable proctor_engine"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/proctor_engine.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
