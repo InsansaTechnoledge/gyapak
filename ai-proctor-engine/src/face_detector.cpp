@@ -1,41 +1,32 @@
 #include "face_detector.h"
-#include "frame_queue.h"
 #include "utils.h"
+#include <opencv2/dnn.hpp>
 #include <iostream>
-#include <thread>
-#include <stdexcept>
 #include <chrono>
-#include <iomanip>
-#include <sstream>
-#include <mutex>
-#include <exception>
+#include <thread>
 
-// FaceDetector::FaceDetector() : isRunning_(false) {}
-
-FaceDetector::FaceDetector(FrameQueue& sharedQueue)
-    : frameQueue_(sharedQueue), isRunning_(false) {}
-
+FaceDetector::FaceDetector() : isRunning_(false) {}
 
 FaceDetector::~FaceDetector() {
-    try {
-        stopCapture();
-        utils::log("🧹 FaceDetector destructor complete.");
-    } catch (const std::exception& e) {
-        utils::log("❌ Exception in FaceDetector destructor: " + std::string(e.what()));
-    } catch (...) {
-        utils::log("❌ Unknown error in FaceDetector destructor");
-    }
+    stopCapture();
+    utils::log("🧹 FaceDetector destructor complete.");
 }
-
-
 
 bool FaceDetector::initialize() {
     try {
-        std::string cascadePath = cv::samples::findFile("haarcascades/haarcascade_frontalface_default.xml");
-        if (!faceCascade_.load(cascadePath)) {
-            utils::log("Error: could not load face cascade");
+        std::string basePath = "../models/";
+        std::string protoPath = basePath + "deploy.prototxt";
+        std::string modelPath = basePath + "res10_300x300_ssd_iter_140000.caffemodel";
+        
+        faceNet_ = cv::dnn::readNetFromCaffe(protoPath, modelPath);
+        
+
+        if (faceNet_.empty()) {
+            utils::log("Error: Could not load face detection model");
             return false;
         }
+
+        utils::log("Face detection model loaded successfully");
         return true;
     } catch (const std::exception& e) {
         utils::log("Exception in faceDetector initialization: " + std::string(e.what()));
@@ -44,20 +35,18 @@ bool FaceDetector::initialize() {
 }
 
 bool FaceDetector::startCapture() {
-    if (isRunning_.exchange(true)) {
-        return true;
-    }
+    if (isRunning_.exchange(true)) return true;
 
     try {
         capture_.open(0);
         if (!capture_.isOpened()) {
-            utils::log("Error: could not open camera");
+            utils::log("❌ Could not open camera");
             isRunning_ = false;
             return false;
         }
 
         CaptureThread_ = std::thread(&FaceDetector::captureLoop, this);
-        utils::log("Capture thread started.");
+        utils::log("📸 Capture thread started.");
         return true;
     } catch (const std::exception& e) {
         utils::log("Exception in starting faceDetector: " + std::string(e.what()));
@@ -67,36 +56,25 @@ bool FaceDetector::startCapture() {
 }
 
 void FaceDetector::stopCapture() {
-    if (!isRunning_.exchange(false)) {
-        return;  // Already stopped
-    }
+    if (!isRunning_.exchange(false)) return;
 
     if (CaptureThread_.joinable()) {
         CaptureThread_.join();
-        utils::log("Capture thread joined.");
+        utils::log("📥 Capture thread joined.");
     }
 
     if (capture_.isOpened()) {
         capture_.release();
     }
 
-    utils::log("Face detector stopped and cleaned up.");
+    utils::log("🛑 Face detector stopped and cleaned up.");
 }
-
 
 void FaceDetector::captureLoop() {
     while (isRunning_) {
         try {
             cv::Mat frame;
-
-            if (!capture_.read(frame)) {
-                utils::log("Error: failed to capture frame");
-                std::this_thread::sleep_for(std::chrono::milliseconds(100));
-                continue;
-            }
-
-            if (frame.empty()) {
-                utils::log("Error: empty frame captured");
+            if (!capture_.read(frame) || frame.empty()) {
                 std::this_thread::sleep_for(std::chrono::milliseconds(100));
                 continue;
             }
@@ -106,12 +84,9 @@ void FaceDetector::captureLoop() {
                 currentFrame_ = frame.clone();
             }
 
-            frameQueue_.push(frame); // send to UI
-
             std::this_thread::sleep_for(std::chrono::milliseconds(30));
         } catch (const std::exception& e) {
             utils::log("Exception in capture loop: " + std::string(e.what()));
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     }
 }
@@ -122,33 +97,34 @@ int FaceDetector::detectFaces() {
 
         {
             std::lock_guard<std::mutex> lock(frameMutex_);
-            if (currentFrame_.empty()) {
-                return 0;
-            }
+            if (currentFrame_.empty()) return 0;
             frame = currentFrame_.clone();
         }
 
-        cv::Mat frameGray;
-        cv::cvtColor(frame, frameGray, cv::COLOR_BGR2GRAY);
-        cv::equalizeHist(frameGray, frameGray);
-
-        std::vector<cv::Rect> faces;
-        
-        faceCascade_.detectMultiScale(
-            frameGray,
-            faces,
-            1.1,        
-            5,          
-            0 | cv::CASCADE_SCALE_IMAGE,
-            cv::Size(80, 80)  
+        // Prepare input blob for DNN
+        cv::Mat blob = cv::dnn::blobFromImage(
+            frame, 1.0, cv::Size(300, 300),
+            cv::Scalar(104.0, 177.0, 123.0), false, false
         );
-        
-        return static_cast<int>(faces.size());
+
+        faceNet_.setInput(blob);
+        cv::Mat output = faceNet_.forward();
+
+        cv::Mat detections(output.size[2], output.size[3], CV_32F, output.ptr<float>());
+
+        int faceCount = 0;
+        for (int i = 0; i < detections.rows; ++i) {
+            float confidence = detections.at<float>(i, 2);
+            if (confidence > confidenceThreshold_) {
+                faceCount++;
+            }
+        }
+
+        return faceCount;
     } catch (const std::exception& e) {
         utils::log("Exception in detectFaces: " + std::string(e.what()));
         return 0;
     }
-    // this is just some random comment
 }
 
 cv::Mat FaceDetector::getCurrentFrame() {
