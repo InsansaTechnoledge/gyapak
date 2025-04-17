@@ -1,0 +1,12 @@
+[
+{
+  "directory": "/Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/build",
+  "command": "/usr/bin/c++  -I/opt/homebrew/include -O3 -DNDEBUG -std=gnu++17 -arch arm64 -o CMakeFiles/proctor_engine.dir/src/main.cpp.o -c /Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/src/main.cpp",
+  "file": "/Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/src/main.cpp",
+  "output": "CMakeFiles/proctor_engine.dir/src/main.cpp.o",
+ 
+  "configurations": [],
+  "version": 4
+  
+}
+]
