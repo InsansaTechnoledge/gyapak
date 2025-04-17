@@ -39,7 +39,7 @@ const generateReceipt = (userId) => {
 
         emailData={
             data:payload,
-            testName:data.testName,
+            testName:payload.testData,
             payment:response.data.payment
         };
         const emailResponse=await invoiceEmail(emailData);  
@@ -72,7 +72,7 @@ const generateReceipt = (userId) => {
                     if(response.status===200){
                         emailData={
                             data:payload,
-                            testName:data.testName,
+                            testName:payload.testData,
                             payment:response.data.payment
                         };
                         const emailResponse=await invoiceEmail(emailData);
@@ -99,8 +99,9 @@ const generateReceipt = (userId) => {
                     // contact:data.user.phone
                 },
                 theme:{
-                    color:"#3399cc"
+                    color:"#7c45a1"
                 },
+                image: `${window.location.origin}/assets/react.svg`,        
                 method: {
                         upi: true,    // Enable UPI payments
                         card: false,  // Disable Card payments
@@ -114,7 +115,8 @@ const generateReceipt = (userId) => {
                         console.log("Razorpay window closed by user.");
                         resolve({status:400,message:"Payment process was closed by the user"});
                     }
-                }
+                }, // Optional callback URL
+
             };
             const rzp1=Razorpay(options);
             rzp1.open();
