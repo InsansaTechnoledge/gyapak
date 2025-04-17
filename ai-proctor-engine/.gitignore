@@ -1,0 +1,5 @@
+./build
+./socket.io-client-cpp
+./vcpkg
+./build_and_run.sh
+CMakeLists.txt
