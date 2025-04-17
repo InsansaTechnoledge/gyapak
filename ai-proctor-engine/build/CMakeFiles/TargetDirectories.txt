@@ -1,3 +1,0 @@
-/Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/build/CMakeFiles/proctor_engine.dir
-/Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/build/CMakeFiles/edit_cache.dir
-/Users/tanmayseth/Desktop/Insansa_Projects/gyapak/gyapak/ai-proctor-engine/build/CMakeFiles/rebuild_cache.dir
