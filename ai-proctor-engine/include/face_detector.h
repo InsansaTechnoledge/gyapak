@@ -3,6 +3,7 @@
 #include <opencv2/dnn.hpp>
 #include <thread>
 #include <mutex>
+#include <condition_variable>
 #include <atomic>
 
 class FaceDetector {
@@ -13,13 +14,14 @@ public:
     bool initialize();
     bool startCapture();
     void stopCapture();
-    int detectFaces();
-    cv::Mat getCurrentFrame();
+    int detectFaces();               // Waits for new frame
+    cv::Mat getCurrentFrame();       // Access latest frame (thread-safe)
 
 private:
     cv::VideoCapture capture_;
     std::thread CaptureThread_;
     std::mutex frameMutex_;
+    std::condition_variable frameReady_;
     std::atomic<bool> isRunning_;
     cv::Mat currentFrame_;
 

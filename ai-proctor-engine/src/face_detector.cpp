@@ -17,12 +17,11 @@ bool FaceDetector::initialize() {
         std::string basePath = "../models/";
         std::string protoPath = basePath + "deploy.prototxt";
         std::string modelPath = basePath + "res10_300x300_ssd_iter_140000.caffemodel";
-        
+
         faceNet_ = cv::dnn::readNetFromCaffe(protoPath, modelPath);
-        
 
         if (faceNet_.empty()) {
-            utils::log("Error: Could not load face detection model");
+            utils::log("❌ Could not load face detection model");
             return false;
         }
 
@@ -84,6 +83,7 @@ void FaceDetector::captureLoop() {
                 currentFrame_ = frame.clone();
             }
 
+            frameReady_.notify_one();  // Notify consumer
             std::this_thread::sleep_for(std::chrono::milliseconds(30));
         } catch (const std::exception& e) {
             utils::log("Exception in capture loop: " + std::string(e.what()));
@@ -96,8 +96,8 @@ int FaceDetector::detectFaces() {
         cv::Mat frame;
 
         {
-            std::lock_guard<std::mutex> lock(frameMutex_);
-            if (currentFrame_.empty()) return 0;
+            std::unique_lock<std::mutex> lock(frameMutex_);
+            frameReady_.wait(lock, [this]() { return !currentFrame_.empty(); });  // Wait for fresh frame
             frame = currentFrame_.clone();
         }
 

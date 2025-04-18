@@ -6,6 +6,8 @@
 #include <thread>
 #include "face_detector.h"
 #include "screen_monitor.h"  // ✅ Include this
+#include "event_emitter.h" // ✅ Required to declare EventEmitter
+
 
 class ProctorEngine {
 public:
@@ -28,7 +30,7 @@ private:
     std::unique_ptr<FaceDetector> faceDetector_;
     ScreenMonitor screenMonitor_;  // ✅ Add screen monitor instance
 
-    std::shared_ptr<void> eventEmitter_;  // Dummy placeholder to prevent compile errors
+    std::shared_ptr<EventEmitter> eventEmitter_;
 
     void monitorLoop();
     void handleGracefulShutdown();
