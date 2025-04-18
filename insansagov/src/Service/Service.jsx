@@ -1,7 +1,10 @@
 // services/mainBlog.service.js
 import axios from 'axios';
 
-import { API_BASE_URL } from '../../../gyapakAdminPanel/src/config';
+// import { API_BASE_URL } from '../../../gyapakAdminPanel/src/config';
+
+const API_BASE_URL="https://gyapak-admin2.onrender.com";
+
 
 // export const getAllBlogs = async (tag = null) => {
 //   const url = tag ? `${API_BASE_URL}/api/v1i2/blog/?tag=${tag}` : `${API_BASE_URL}`;
