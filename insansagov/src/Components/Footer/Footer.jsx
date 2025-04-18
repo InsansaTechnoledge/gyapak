@@ -1,7 +1,7 @@
 
 
 import React, { useState } from 'react';
-import { Mail, ArrowRight, AlertTriangle, Twitter, Linkedin } from 'lucide-react';
+import { Mail, ArrowRight, AlertTriangle, Twitter, Linkedin , Instagram} from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useApi, CheckServer } from '../../Context/ApiContext';
 import axios from 'axios';
@@ -124,6 +124,22 @@ const Footer = () => {
                   <Linkedin className="h-5 w-5 text-gray-400 group-hover:text-white" />
                 </div>
               </a>
+
+              <a
+                href="https://www.instagram.com/gyapak.in/"
+                className="group"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div
+                  className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center transition-all duration-300 
+                            group-hover:scale-110 group-hover:bg-gradient-to-tr group-hover:from-pink-500 
+                            group-hover:via-red-500 group-hover:to-yellow-500 shadow-md group-hover:shadow-lg"
+                >
+                  <Instagram className="h-5 w-5 text-gray-400 transition-colors duration-300 group-hover:text-white" />
+                </div>
+              </a>
+
             </div>
           </div>
 
