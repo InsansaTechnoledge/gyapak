@@ -23,6 +23,8 @@ const PrivacyPolicy = lazy(() => import('./Pages/PrivacyPolicy/Privacy'));
 const PortalCoverPage = lazy(() => import('./Pages/FutureStartPage/PortalCoverPage'));
 const Unsubscribe = lazy(()=>import('./Pages/Unsubscribe/Unsubscribe')); 
 const OverviewPage = lazy(() =>import('./Pages/OverviewPage/Overview') );
+const BlogPage = lazy(() => import('./Components/BolgPage/BlogPage'));
+const BlogDetailPage = lazy(() => import('./Components/BolgPage/components/BlogDetailPage'))
 
 
 const SecondRoutes = () => {
@@ -53,6 +55,10 @@ const SecondRoutes = () => {
                     <Route path='/credits' element={<Credits/>} />
                     <Route path='*' element={<ErrorPage code={404} message={"Oops! Page Not Found"} subMessage={"The page you’re looking for doesn’t exist or has been moved."}/>} />
                     <Route path='/unsubscribe' element={<Unsubscribe />} />
+                    <Route path='/blog' element={<BlogPage />} />
+                    <Route path="/blog/:slug" element={<BlogDetailPage />} />
+
+
                 </Routes>
             </Suspense>
         </div>

@@ -333,6 +333,9 @@ className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-whi
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-8">
+          <a href="/blog" className={`px-4 py-2 rounded-lg ${isScrolled ? 'text-gray-700 hover:bg-purple-50' : 'text-white hover:bg-white/10'} transition-all duration-300`}>
+             Visit Blogs
+            </a>
             {/* Categories Dropdown */}
             <div
               onMouseLeave={() => setCategoryDropdownVisible(false)}

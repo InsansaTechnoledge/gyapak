@@ -1,0 +1,7 @@
+build
+socket.io-client-cpp
+vcpkg
+build_and_run.sh
+build_and_run.ps1
+CMakeLists.txt
+data

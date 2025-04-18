@@ -6,6 +6,8 @@ import passportsessionMiddleware from '../Utility/passportSession.js';
 import passport from '../Utility/Passport.js';
 import cookieParser from 'cookie-parser';
 import { CLIENT_BASE_URL_LOCAL,CLIENT_BASE_URL_LIVE } from './env.js';
+import bodyParser from 'body-parser';
+
 
 const app = express();
 
@@ -21,6 +23,7 @@ const allowedOrigins = [
   CLIENT_BASE_URL_LIVE,
   "https://insansa.com",
   "http://localhost:5173",
+  "http://localhost:5174",
   "https://gyapak.in",
   "https://www.gyapak.in"
 ].filter(Boolean); // Remove undefined values
@@ -78,6 +81,7 @@ app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 
 // Parse incoming requests
+// app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
