@@ -1,6 +1,8 @@
 #include "proctor_engine.h"
-#include "proctor_event.h"
+#include "event_emitter.h"  
+// #include "proctor_event.h"
 #include "screen_monitor.h" 
+#include "event_sender.h"
 
 #include "utils.h"
 #include <iostream>
@@ -24,13 +26,24 @@ void signalHandler(int signum) {
     }
 }
 
+#include "event_emitter.h"  // Make sure this is included at the top
+
 ProctorEngine::ProctorEngine(const std::string& userId, const std::string& examId, const std::string& socketUrl)
     : userId_(userId), examId_(examId), socketUrl_(socketUrl), running_(false) {
-    g_engineInstance = this;
     
+    g_engineInstance = this;
+
     // Set up signal handling
     std::signal(SIGINT, signalHandler);
     std::signal(SIGTERM, signalHandler);
+
+    // 👇 Initialize and connect EventEmitter
+    std::string emitUrl = socketUrl_.empty() 
+        ? "http://localhost:8383/emit-event"
+        : socketUrl_;
+
+    eventEmitter_ = std::make_shared<EventEmitter>(emitUrl);
+    eventEmitter_->connect();
 }
 
 ProctorEngine::~ProctorEngine() {
@@ -52,29 +65,66 @@ ProctorEngine::~ProctorEngine() {
 }
 
 
+// bool ProctorEngine::initialize() {
+//     try {
+//         utils::log("Initializing Proctor Engine...");
+
+//         if (!screenMonitor_.initialize()) {
+//             utils::log("Failed to initialize Screen Monitor");
+//             return false;
+//         }
+
+//         faceDetector_ = std::make_unique<FaceDetector>();
+//         if (!faceDetector_->initialize()) {
+//             utils::log("Failed to initialize Face Detector");
+//             return false;
+//         }
+
+//         utils::log("Proctor Engine initialized successfully");
+//         return true;
+//     }
+//     catch (const std::exception& e) {
+//         utils::log("Exception during initialization: " + std::string(e.what()));
+//         return false;
+//     }
+// }
+
 bool ProctorEngine::initialize() {
     try {
         utils::log("Initializing Proctor Engine...");
 
+        eventEmitter_ = std::make_shared<EventEmitter>(socketUrl_);
+        eventEmitter_->connect(); // Start the thread
+
+        // 1. Initialize Screen Monitor
         if (!screenMonitor_.initialize()) {
-            utils::log("Failed to initialize Screen Monitor");
+            utils::log("❌ Failed to initialize Screen Monitor");
             return false;
         }
 
+        // 2. Initialize Face Detector
         faceDetector_ = std::make_unique<FaceDetector>();
         if (!faceDetector_->initialize()) {
-            utils::log("Failed to initialize Face Detector");
+            utils::log("❌ Failed to initialize Face Detector");
             return false;
         }
 
-        utils::log("Proctor Engine initialized successfully");
+        // 3. Initialize Event Emitter (optional if not connected)
+        // eventEmitter_ = std::make_shared<EventEmitter>(socketUrl_);
+        // if (!eventEmitter_->connect()) {
+        //     utils::log("⚠️ Could not connect to event server (Socket.IO)");
+        //     // Optionally return false here or run in offline mode
+        // }
+
+        utils::log("✅ Proctor Engine initialized successfully");
         return true;
     }
     catch (const std::exception& e) {
-        utils::log("Exception during initialization: " + std::string(e.what()));
+        utils::log("🚨 Exception during initialization: " + std::string(e.what()));
         return false;
     }
 }
+
 
 void ProctorEngine::start() {
     if (running_.exchange(true)) {
@@ -101,9 +151,9 @@ void ProctorEngine::start() {
         "Proctoring session started"
     };
     
-    // if (eventEmitter_) {
-    //     eventEmitter_->emitEvent(startEvent);
-    // }
+    if (eventEmitter_) {
+        eventEmitter_->emitEvent(startEvent);
+    }
 }
 
 void ProctorEngine::stop() {
@@ -122,9 +172,9 @@ void ProctorEngine::stop() {
         "Proctoring session ended"
     };
     
-    // if (eventEmitter_) {
-    //     eventEmitter_->emitEvent(endEvent);
-    // }
+    if (eventEmitter_) {
+        eventEmitter_->emitEvent(endEvent);
+    }
     
     // Stop components
     // if (faceDetector_) {
@@ -147,29 +197,39 @@ void ProctorEngine::monitorLoop() {
 
     while (running_) {
         try {
-            // ✅ Face Detection
+            // ✅ Face Detection - always log, emit on change
             int faceCount = faceDetector_->detectFaces();
             utils::log("Detected faces: " + std::to_string(faceCount));
 
             if (faceCount != lastFaceCount) {
                 std::string details = (faceCount == 0) ? "No face detected"
-                                  : (faceCount > 1) ? "Multiple faces detected: " + std::to_string(faceCount)
-                                  : "Face detection normalized";
+                                      : (faceCount > 1) ? "Multiple faces detected: " + std::to_string(faceCount)
+                                      : "Face detection normalized";
 
                 ProctorEvent faceEvent{userId_, examId_, "face_detection", utils::getCurrentTimestamp(), details};
                 lastFaceCount = faceCount;
+
+                if (eventEmitter_) {
+                    
+                    eventEmitter_->emitEvent(faceEvent);
+                    utils::log("📤 [Face JSON] " + utils::formatEventJson(
+                        faceEvent.userId, faceEvent.examId, faceEvent.eventType, faceEvent.details));
+                }
             }
 
             // ✅ Screen Monitoring
             std::string newTitle;
-
             if (screenMonitor_.detectScreenChange(newTitle)) {
                 std::string prevTitle = lastWindowTitle;
-                std::string newTitle = screenMonitor_.getCurrentWindowTitle();
-
                 utils::log("Active window changed from: " + prevTitle + " → " + newTitle);
-                ProctorEvent screenEvent{userId_, examId_, "window_change", utils::getCurrentTimestamp(), newTitle};
                 lastWindowTitle = newTitle;
+
+                ProctorEvent screenEvent{userId_, examId_, "window_change", utils::getCurrentTimestamp(), newTitle};
+                if (eventEmitter_) {
+                    eventEmitter_->emitEvent(screenEvent);
+                    utils::log("📤 [Window JSON] " + utils::formatEventJson(
+                        screenEvent.userId, screenEvent.examId, screenEvent.eventType, screenEvent.details));
+                }
             }
 
             consecutiveFailures = 0;
