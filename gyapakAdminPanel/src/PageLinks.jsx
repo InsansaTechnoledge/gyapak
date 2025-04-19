@@ -8,7 +8,7 @@ const PageLinks = () => {
     <Router>
         <Routes>
             <Route path='/' element={<DataInsertion />} />
-            <Route path='/post-blog' element={<AdminBlogPage />} />
+            {/* <Route path='/post-blog' element={<AdminBlogPage />} /> */}
 
         </Routes>
     </Router>

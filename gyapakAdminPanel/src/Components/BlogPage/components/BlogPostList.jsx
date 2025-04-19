@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Edit2, Trash2, Eye, ChevronDown, ChevronUp, Search } from 'lucide-react';
 import { getAllBlogsForAdmin, deleteBlog } from '../../../Services/service';
+import { href } from 'react-router-dom';
 
 const BlogPostList = ({ onEdit }) => {
     const [posts, setPosts] = useState([]);
@@ -37,7 +38,7 @@ const BlogPostList = ({ onEdit }) => {
       }
     };
   
-    const categories = ['All', ...new Set(posts.map(post => post.category))];
+    // const categories = ['All', ...new Set(posts.map(post => post.category))];
   
     const filteredPosts = posts.filter(post => {
       const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -88,7 +89,7 @@ const BlogPostList = ({ onEdit }) => {
             />
             <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
           </div>
-          <div className="flex gap-4">
+          {/* <div className="flex gap-4">
             <select 
               className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
               value={selectedCategory}
@@ -98,7 +99,7 @@ const BlogPostList = ({ onEdit }) => {
                 <option key={category} value={category}>{category}</option>
               ))}
             </select>
-          </div>
+          </div> */}
         </div>
       </div>
       
@@ -115,15 +116,7 @@ const BlogPostList = ({ onEdit }) => {
                   {getSortIcon('title')}
                 </button>
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                <button 
-                  className="flex items-center space-x-1 focus:outline-none"
-                  onClick={() => handleSort('category')}
-                >
-                  <span>Category</span>
-                  {getSortIcon('category')}
-                </button>
-              </th>
+             
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 <button 
                   className="flex items-center space-x-1 focus:outline-none"
@@ -156,13 +149,9 @@ const BlogPostList = ({ onEdit }) => {
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
-                      {post.category}
-                    </span>
-                  </td>
+                  
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {post.date}
+                    {post.formattedDate}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {post.author.name}
@@ -170,7 +159,7 @@ const BlogPostList = ({ onEdit }) => {
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <div className="flex justify-end space-x-2">
                       <button 
-                        onClick={() => window.open(`/blog/${post.slug}`, '_blank')}
+                        onClick={() => window.open(`https://gyapak.in/blog/${post.slug}`, '_blank')}
                         className="text-gray-500 hover:text-gray-700 transition duration-200"
                         title="View post"
                       >

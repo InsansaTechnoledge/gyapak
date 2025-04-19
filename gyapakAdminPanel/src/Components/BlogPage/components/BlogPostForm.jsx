@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { X, Upload, Plus } from 'lucide-react';
-import { createBlog, updateBlog } from '../../../Services/service'
-
-
+import { X, Upload, Plus, Edit, BookOpen, Image, Clock, Tag, User, Smile, Award } from 'lucide-react';
+import { createBlog, updateBlog } from '../../../Services/service';
 
 const BlogPostForm = ({ post, onSave, onCancel, isSaving }) => {
   const [formData, setFormData] = useState({
@@ -11,7 +9,6 @@ const BlogPostForm = ({ post, onSave, onCancel, isSaving }) => {
     excerpt: '',
     content: '',
     imageUrl: '',
-    category: 'Technology',
     readTime: 5,
     author: {
       name: '',
@@ -20,20 +17,16 @@ const BlogPostForm = ({ post, onSave, onCancel, isSaving }) => {
     },
     tags: [],
     featuredPost: false,
-
   });
   
   const [currentTag, setCurrentTag] = useState('');
-  
-  // Available categories
-  const categories = ['Technology', 'Design', 'Business', 'Lifestyle', 'Tutorials'];
+  const [activeSection, setActiveSection] = useState('basics');
   
   // Initialize form if editing
   useEffect(() => {
     if (post) {
       setFormData({
         ...post,
-        // Ensure tags is an array even if the post doesn't have it
         tags: post.tags || []
       });
     }
@@ -97,210 +90,351 @@ const BlogPostForm = ({ post, onSave, onCancel, isSaving }) => {
       } else {
         await createBlog(submitData);
       }
-      onSave(); // notify parent to refresh or redirect
+      onSave();
     } catch (error) {
       console.error("❌ Blog submission failed", error);
       alert("There was an error saving the blog post.");
     }
   };
+
+  // Calculate progress through the form
+  const calculateProgress = () => {
+    const requiredFields = [
+      formData.title, 
+      formData.excerpt, 
+      formData.content, 
+      formData.author.name
+    ];
+    
+    const filledFields = requiredFields.filter(field => field && field.trim() !== '').length;
+    return Math.round((filledFields / requiredFields.length) * 100);
+  };
   
+  const progress = calculateProgress();
+  
+  // Navigation sections
+  const sections = [
+    { id: 'basics', label: 'Blog Basics', icon: <Edit className="h-5 w-5" /> },
+    { id: 'content', label: 'Your Story', icon: <BookOpen className="h-5 w-5" /> },
+    { id: 'media', label: 'Images', icon: <Image className="h-5 w-5" /> },
+    { id: 'metadata', label: 'Tags & Details', icon: <Tag className="h-5 w-5" /> },
+    { id: 'author', label: 'About You', icon: <User className="h-5 w-5" /> },
+  ];
   
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
-      <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-        <h2 className="text-lg font-medium text-gray-900">
-          {post ? 'Edit Blog Post' : 'Create New Blog Post'}
+    <div className="bg-gray-50 rounded-xl shadow-xl overflow-hidden">
+      <div className="px-6 py-4 bg-gradient-to-r from-purple-600 to-purple-600 border-b border-purple-200 flex justify-between items-center">
+        <h2 className="text-xl font-bold text-white flex items-center">
+          {/* <Smile className="h-6 w-6 mr-2" /> */}
+          {post ? 'Edit Blog Post' : 'Create Blog Post'}
         </h2>
         <button 
           onClick={onCancel}
-          className="text-gray-400 hover:text-gray-500"
+          className="text-white hover:text-purple-200 transition-colors"
         >
           <X className="h-5 w-5" />
         </button>
       </div>
       
+      {/* Progress bar */}
+      <div className="px-6 pt-4">
+        <div className="flex justify-between items-center mb-1">
+          <span className="text-xs font-medium text-purple-700">Your progress</span>
+          <span className="text-xs font-medium text-purple-700">{progress}%</span>
+        </div>
+        <div className="w-full bg-purple-100 rounded-full h-2.5">
+          <div 
+            className="bg-gradient-to-r from-purple-500 to-indigo-600 h-2.5 rounded-full transition-all duration-500 ease-in-out" 
+            style={{ width: `${progress}%` }}
+          ></div>
+        </div>
+      </div>
+      
+      {/* Navigation Tabs */}
+      <div className="px-6 pt-4">
+        <div className="flex overflow-x-auto space-x-2 pb-2">
+          {sections.map((section) => (
+            <button
+              key={section.id}
+              onClick={() => setActiveSection(section.id)}
+              className={`flex items-center px-4 py-2 rounded-lg transition-all ${
+                activeSection === section.id 
+                  ? 'bg-purple-600 text-white shadow-md transform scale-105' 
+                  : 'bg-white text-purple-600 hover:bg-purple-100'
+              }`}
+            >
+              <span className="mr-2">{section.icon}</span>
+              <span className="whitespace-nowrap">{section.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+      
       <form onSubmit={handleSubmit} className="p-6">
-        <div className="grid grid-cols-1 gap-6">
-          {/* Title */}
-          <div>
-            <label htmlFor="title" className="block text-sm font-medium text-gray-700">Title *</label>
-            <input 
-              type="text" 
-              id="title" 
-              name="title" 
-              required
-              value={formData.title} 
-              onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500"
-            />
-          </div>
-          
-          {/* Slug */}
-          <div>
-            <label htmlFor="slug" className="block text-sm font-medium text-gray-700">
-              Slug (leave empty to generate from title)
-            </label>
-            <input 
-              type="text" 
-              id="slug" 
-              name="slug" 
-              value={formData.slug} 
-              onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500"
-            />
-          </div>
-          
-          {/* Featured image */}
-          <div>
-            <label htmlFor="imageUrl" className="block text-sm font-medium text-gray-700">Featured Image URL</label>
-            <div className="mt-1 flex items-center">
+        {/* Basic Info Section */}
+        <div className={`${activeSection === 'basics' ? 'block' : 'hidden'} space-y-6 animate-fadeIn`}>
+          <div className="bg-white p-6 rounded-xl shadow-md">
+            <h3 className="text-lg font-medium text-purple-800 mb-4 flex items-center">
+              <Edit className="h-5 w-5 mr-2 text-purple-600" />
+              Blog Essentials
+            </h3>
+            
+            {/* Title */}
+            <div className="mb-6 transform transition hover:scale-[1.01]">
+              <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
+                Give your blog a catchy title *
+              </label>
               <input 
                 type="text" 
-                id="imageUrl" 
-                name="imageUrl" 
-                value={formData.imageUrl} 
-                onChange={handleChange}
-                className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500"
-              />
-              <button 
-                type="button"
-                className="ml-2 p-2 border border-gray-300 rounded-md shadow-sm text-gray-500 hover:text-gray-700"
-              >
-                <Upload className="h-5 w-5" />
-              </button>
-            </div>
-            {formData.imageUrl && (
-              <div className="mt-2">
-                <img 
-                  src={formData.imageUrl} 
-                  alt="Preview" 
-                  className="h-32 w-auto object-cover rounded"
-                  onError={(e) => {
-                    e.target.src = "/api/placeholder/300/200";
-                  }}
-                />
-              </div>
-            )}
-          </div>
-          
-          {/* Category and Read Time */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label htmlFor="category" className="block text-sm font-medium text-gray-700">Category *</label>
-              <select 
-                id="category" 
-                name="category" 
+                id="title" 
+                name="title" 
                 required
-                value={formData.category} 
+                value={formData.title} 
                 onChange={handleChange}
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500"
-              >
-                {categories.map(category => (
-                  <option key={category} value={category}>{category}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label htmlFor="readTime" className="block text-sm font-medium text-gray-700">Read Time (minutes) *</label>
-              <input 
-                type="number" 
-                id="readTime" 
-                name="readTime" 
-                required
-                min="1"
-                value={formData.readTime} 
-                onChange={handleChange}
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500"
+                placeholder="My Awesome Blog Post (maximum 100 char)"
+                className="block w-full border-2 border-purple-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
               />
             </div>
-          </div>
-          
-          {/* Excerpt */}
-          <div>
-            <label htmlFor="excerpt" className="block text-sm font-medium text-gray-700">Excerpt *</label>
-            <textarea 
-              id="excerpt" 
-              name="excerpt" 
-              required
-              rows="3"
-              value={formData.excerpt} 
-              onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500"
-            />
-          </div>
-          
-          {/* Content */}
-          <div>
-            <label htmlFor="content" className="block text-sm font-medium text-gray-700">Content *</label>
-            <textarea 
-              id="content" 
-              name="content" 
-              required
-              rows="10"
-              value={formData.content} 
-              onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500"
-            />
-          </div>
-          
-          {/* Tags */}
-          <div>
-            <label htmlFor="tags" className="block text-sm font-medium text-gray-700">Tags</label>
-            <div className="mt-1">
-              <div className="flex flex-wrap gap-2 mb-2">
-                {formData.tags.map(tag => (
-                  <span
-                    key={tag}
-                    className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800"
-                  >
-                    {tag}
-                    <button
-                      type="button"
-                      onClick={() => removeTag(tag)}
-                      className="ml-1 text-purple-600 hover:text-purple-900 focus:outline-none"
-                    >
-                      <X className="h-3 w-3" />
-                    </button>
-                  </span>
-                ))}
-              </div>
-              <div className="flex">
+            
+            {/* Slug */}
+            <div className="transform transition hover:scale-[1.01]">
+              <label htmlFor="slug" className="block text-sm font-medium text-gray-700 mb-1">
+                Custom URL slug (or leave empty to auto-generate)
+              </label>
+              <div className="flex items-center">
+                <span className="text-gray-500 mr-2">/blog/</span>
                 <input 
                   type="text" 
-                  id="currentTag" 
-                  value={currentTag} 
-                  onChange={(e) => setCurrentTag(e.target.value)}
-                  onKeyDown={handleTagKeyDown}
-                  placeholder="Add a tag and press Enter"
-                  className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500"
+                  id="slug" 
+                  name="slug" 
+                  value={formData.slug} 
+                  onChange={handleChange}
+                  placeholder="my-awesome-post"
+                  className="block w-full border-2 border-purple-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Content Section */}
+        <div className={`${activeSection === 'content' ? 'block' : 'hidden'} space-y-6 animate-fadeIn`}>
+          <div className="bg-white p-6 rounded-xl shadow-md">
+            <h3 className="text-lg font-medium text-purple-800 mb-4 flex items-center">
+              <BookOpen className="h-5 w-5 mr-2 text-purple-600" />
+              Tell Your Story
+            </h3>
+            
+            {/* Excerpt */}
+            <div className="mb-6 transform transition hover:scale-[1.01]">
+              <label htmlFor="excerpt" className="block text-sm font-medium text-gray-700 mb-1">
+                Write a compelling excerpt (this appears in previews) *
+              </label>
+              <textarea 
+                id="excerpt" 
+                name="excerpt" 
+                required
+                rows="3"
+                value={formData.excerpt} 
+                onChange={handleChange}
+                placeholder="Give readers a taste of your amazing content... (maximum 500 char)"
+                className="block w-full border-2 border-purple-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+              />
+            </div>
+            
+            {/* Content */}
+            <div className="transform transition hover:scale-[1.01]">
+              <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1">
+                Your awesome blog content *
+              </label>
+              <textarea 
+                id="content" 
+                name="content" 
+                required
+                rows="12"
+                value={formData.content} 
+                onChange={handleChange}
+                placeholder="Share your thoughts, insights, and creativity here... (minimum 100 char)"
+                className="block w-full border-2 border-purple-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+              />
+            </div>
+          </div>
+        </div>
+        
+        {/* Media Section */}
+        <div className={`${activeSection === 'media' ? 'block' : 'hidden'} space-y-6 animate-fadeIn`}>
+          <div className="bg-white p-6 rounded-xl shadow-md">
+            <h3 className="text-lg font-medium text-purple-800 mb-4 flex items-center">
+              <Image className="h-5 w-5 mr-2 text-purple-600" />
+              Add Eye-Catching Images
+            </h3>
+            
+            {/* Featured image */}
+            <div className="transform transition hover:scale-[1.01]">
+              <label htmlFor="imageUrl" className="block text-sm font-medium text-gray-700 mb-1">
+                Featured Image URL (make it pop!)
+              </label>
+              <div className="mt-1 flex items-center">
+                <input 
+                  type="text" 
+                  id="imageUrl" 
+                  name="imageUrl" 
+                  value={formData.imageUrl} 
+                  onChange={handleChange}
+                  placeholder="https://example.com/your-image.jpg"
+                  className="block w-full border-2 border-purple-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
                 />
                 <button 
                   type="button"
-                  onClick={() => {
-                    if (currentTag.trim()) {
-                      if (!formData.tags.includes(currentTag.trim())) {
-                        setFormData({
-                          ...formData,
-                          tags: [...formData.tags, currentTag.trim()]
-                        });
-                      }
-                      setCurrentTag('');
-                    }
-                  }}
-                  className="ml-2 p-2 border border-gray-300 rounded-md shadow-sm text-gray-500 hover:text-gray-700"
+                  className="ml-2 p-3 bg-purple-100 border-2 border-purple-300 rounded-lg shadow-sm text-purple-600 hover:bg-purple-200 transition"
                 >
-                  <Plus className="h-5 w-5" />
+                  <Upload className="h-5 w-5" />
                 </button>
+              </div>
+              {formData.imageUrl ? (
+                <div className="mt-4 relative group">
+                  <div className="relative overflow-hidden rounded-lg shadow-md">
+                    <img 
+                      src={formData.imageUrl} 
+                      alt="Preview" 
+                      className="w-full h-48 object-cover transition transform group-hover:scale-105 duration-300"
+                      onError={(e) => {
+                        e.target.src = "/api/placeholder/600/400";
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-purple-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
+                </div>
+              ) : (
+                <div className="mt-4 p-8 border-2 border-dashed border-purple-300 rounded-lg flex flex-col items-center justify-center text-gray-400">
+                  <Image className="h-12 w-12 mb-2" />
+                  <p>Your featured image will appear here</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        
+        {/* Metadata Section */}
+        <div className={`${activeSection === 'metadata' ? 'block' : 'hidden'} space-y-6 animate-fadeIn`}>
+          <div className="bg-white p-6 rounded-xl shadow-md">
+            <h3 className="text-lg font-medium text-purple-800 mb-4 flex items-center">
+              <Tag className="h-5 w-5 mr-2 text-purple-600" />
+              Tags & Details
+            </h3>
+            
+            {/* Read Time */}
+            <div className="mb-6 transform transition hover:scale-[1.01]">
+              <label htmlFor="readTime" className="block text-sm font-medium text-gray-700 mb-1">
+                How long will it take to read? (minutes) *
+              </label>
+              <div className="flex items-center">
+                <Clock className="h-5 w-5 text-purple-500 mr-2" />
+                <input 
+                  type="number" 
+                  id="readTime" 
+                  name="readTime" 
+                  required
+                  min="1"
+                  value={formData.readTime} 
+                  onChange={handleChange}
+                  className="block w-full border-2 border-purple-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+                />
+              </div>
+            </div>
+            
+            {/* Tags */}
+            <div className="mb-6 transform transition hover:scale-[1.01]">
+              <label htmlFor="tags" className="block text-sm font-medium text-gray-700 mb-1">
+                Add some fun tags
+              </label>
+              <div className="mt-1">
+                <div className="flex flex-wrap gap-2 mb-3">
+                  {formData.tags.length > 0 ? (
+                    formData.tags.map(tag => (
+                      <span
+                        key={tag}
+                        className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800 border border-purple-200 shadow-sm transition-transform hover:scale-105"
+                      >
+                        #{tag}
+                        <button
+                          type="button"
+                          onClick={() => removeTag(tag)}
+                          className="ml-1 text-purple-600 hover:text-purple-900 focus:outline-none"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </span>
+                    ))
+                  ) : (
+                    <span className="text-gray-400 text-sm">No tags yet. Add some below!</span>
+                  )}
+                </div>
+                <div className="flex">
+                  <input 
+                    type="text" 
+                    id="currentTag" 
+                    value={currentTag} 
+                    onChange={(e) => setCurrentTag(e.target.value)}
+                    onKeyDown={handleTagKeyDown}
+                    placeholder="Add a tag and press Enter"
+                    className="block w-full border-2 border-purple-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+                  />
+                  <button 
+                    type="button"
+                    onClick={() => {
+                      if (currentTag.trim()) {
+                        if (!formData.tags.includes(currentTag.trim())) {
+                          setFormData({
+                            ...formData,
+                            tags: [...formData.tags, currentTag.trim()]
+                          });
+                        }
+                        setCurrentTag('');
+                      }
+                    }}
+                    className="ml-2 p-3 bg-purple-100 border-2 border-purple-300 rounded-lg shadow-sm text-purple-600 hover:bg-purple-200 transition"
+                  >
+                    <Plus className="h-5 w-5" />
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            {/* Featured Post */}
+            <div className="transform transition hover:scale-[1.01]">
+              <div className="flex items-center bg-gradient-to-r from-purple-50 to-indigo-50 p-4 rounded-lg border border-purple-100">
+                <input
+                  type="checkbox"
+                  id="featuredPost"
+                  name="featuredPost"
+                  checked={formData.featuredPost}
+                  onChange={(e) => setFormData({ ...formData, featuredPost: e.target.checked })}
+                  className="h-5 w-5 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+                />
+                <label htmlFor="featuredPost" className="ml-3 block text-sm text-gray-700 flex items-center">
+                  <Award className="h-5 w-5 text-yellow-500 mr-2" />
+                  <span className="font-medium">Make this a featured post</span>
+                  <span className="ml-1 text-xs text-gray-500">(shown prominently on your blog)</span>
+                </label>
               </div>
             </div>
           </div>
-          
-          {/* Author Information */}
-          <fieldset className="border border-gray-300 rounded-md p-4">
-            <legend className="text-sm font-medium text-gray-700 px-2">Author Information</legend>
-            <div className="grid grid-cols-1 gap-4">
-              <div>
-                <label htmlFor="author.name" className="block text-sm font-medium text-gray-700">Name *</label>
+        </div>
+        
+        {/* Author Section */}
+        <div className={`${activeSection === 'author' ? 'block' : 'hidden'} space-y-6 animate-fadeIn`}>
+          <div className="bg-white p-6 rounded-xl shadow-md">
+            <h3 className="text-lg font-medium text-purple-800 mb-4 flex items-center">
+              <User className="h-5 w-5 mr-2 text-purple-600" />
+              About the Author
+            </h3>
+            
+            <div className="grid grid-cols-1 gap-6">
+              <div className="transform transition hover:scale-[1.01]">
+                <label htmlFor="author.name" className="block text-sm font-medium text-gray-700 mb-1">
+                  Your name *
+                </label>
                 <input 
                   type="text" 
                   id="author.name" 
@@ -308,70 +442,87 @@ const BlogPostForm = ({ post, onSave, onCancel, isSaving }) => {
                   required
                   value={formData.author.name} 
                   onChange={handleChange}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="Jane Doe"
+                  className="block w-full border-2 border-purple-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
                 />
               </div>
-              <div>
-                <label htmlFor="author.avatar" className="block text-sm font-medium text-gray-700">Avatar URL</label>
-                <input 
-                  type="text" 
-                  id="author.avatar" 
-                  name="author.avatar" 
-                  value={formData.author.avatar} 
-                  onChange={handleChange}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500"
-                />
+              
+              <div className="transform transition hover:scale-[1.01]">
+                <label htmlFor="author.avatar" className="block text-sm font-medium text-gray-700 mb-1">
+                  Your profile picture URL
+                </label>
+                <div className="flex items-center">
+                  {formData.author.avatar && (
+                    <div className="h-10 w-10 rounded-full overflow-hidden mr-3 border-2 border-purple-300">
+                      <img 
+                        src={formData.author.avatar} 
+                        alt="Avatar" 
+                        className="h-full w-full object-cover"
+                        onError={(e) => {
+                          e.target.src = "/api/placeholder/100/100";
+                        }}
+                      />
+                    </div>
+                  )}
+                  <input 
+                    type="text" 
+                    id="author.avatar" 
+                    name="author.avatar" 
+                    value={formData.author.avatar} 
+                    onChange={handleChange}
+                    placeholder="https://example.com/avatar.jpg"
+                    className="block w-full border-2 border-purple-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+                  />
+                </div>
               </div>
-              <div>
-                <label htmlFor="author.bio" className="block text-sm font-medium text-gray-700">Bio</label>
-                <input 
-                  type="text" 
+              
+              <div className="transform transition hover:scale-[1.01]">
+                <label htmlFor="author.bio" className="block text-sm font-medium text-gray-700 mb-1">
+                  Tell readers about yourself
+                </label>
+                <textarea 
                   id="author.bio" 
                   name="author.bio" 
+                  rows="3"
                   value={formData.author.bio} 
                   onChange={handleChange}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="I'm a passionate writer who loves to share insights about..."
+                  className="block w-full border-2 border-purple-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
                 />
               </div>
             </div>
-          </fieldset>
-
-          <div className="flex items-center">
-        
-        {/** for adding in feature collumn */}
-        <input
-            type="checkbox"
-            id="featuredPost"
-            name="featuredPost"
-            checked={formData.featuredPost}
-            onChange={(e) => setFormData({ ...formData, featuredPost: e.target.checked })}
-            className="h-4 w-4 text-purple-600 border-gray-300 rounded"
-        />
-        <label htmlFor="featuredPost" className="ml-2 block text-sm text-gray-700">
-            Mark as Featured
-        </label>
-        </div>
-
-          
-          {/* Submit buttons */}
-          <div className="flex justify-end space-x-3">
-            <button
-              type="button"
-              onClick={onCancel}
-              className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={isSaving}
-              className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
-            >
-              {isSaving ? 'Saving...' : (post ? 'Update Post' : 'Create Post')}
-            </button>
           </div>
         </div>
+        
+        {/* Submit buttons (always visible) */}
+        <div className="mt-8 flex justify-end space-x-3">
+          <button
+            type="button"
+            onClick={onCancel}
+            className="px-6 py-3 border-2 border-purple-300 rounded-lg shadow-sm text-sm font-medium text-purple-700 bg-white hover:bg-purple-50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            disabled={isSaving}
+            className="px-6 py-3 border-2 border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+          >
+            {isSaving ? 'Saving...' : (post ? ' Update Post' : 'Create Post')}
+          </button>
+        </div>
       </form>
+      
+      {/* Animation styles */}
+      {/* <style jsx>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out forwards;
+        }
+      `}</style> */}
     </div>
   );
 };

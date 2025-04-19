@@ -17,7 +17,7 @@ const BlogPage = () => {
       try {
         setIsLoading(true);
         const data = await getAllBlogs();
-        console.log('📦 Blog posts fetched:', data); // check here!
+        // console.log('📦 Blog posts fetched:', data);
         setPosts(data);
       } catch (err) {
         setError('Failed to load blog posts. Please try again later.');
