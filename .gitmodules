@@ -1,0 +1,3 @@
+[submodule "ai-proctor-engine"]
+	path = ai-proctor-engine
+	url = https://github.com/InsansaTechnoledge/ai-proctor-engine.git
