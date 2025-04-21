@@ -1,9 +1,9 @@
 import React from 'react'
 
-const MarkedForReview = ({number, noText}) => {
+const MarkedForReview = ({number, noText, current}) => {
     return (
         <div className='flex space-x-2'>
-            <span className='border-black border-2 bg-violet-400 text-white rounded-t-full py-2 px-3 font-bold'>{number.toString().padStart(2,"0")}</span>
+            <span className={`border-black ${current ? 'border-3' : 'border-2'}  bg-violet-400 text-white rounded-t-full py-2 px-3 font-bold`}>{number.toString().padStart(2,"0")}</span>
             {
                 !noText
                 &&
