@@ -7,7 +7,9 @@ const TestInstructions = () => {
     const queryParams = new URLSearchParams(window.location.search);
     const examId = queryParams.get("examId");
     const eventId = queryParams.get("eventId");
-    const {user} = useUser();
+    const userId = queryParams.get('userId');
+
+    console.log('electronApi', window.electronAPI);
 
     useEffect(() => {
         
@@ -35,7 +37,7 @@ const TestInstructions = () => {
     const handleStartTest = () => {
         try{
             console.log("JH");
-            console.log(user._id, examId, eventId, window);
+            console.log(userId, examId, eventId, window);
             if (window?.electronAPI && user?._id && examId && eventId) {
                 window.electronAPI.startProctorEngine(user._id, examId, eventId);
             }

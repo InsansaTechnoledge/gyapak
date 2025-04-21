@@ -1,11 +1,6 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
-import { spawn } from 'child_process';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-// __dirname fix for ES Modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const { app, BrowserWindow, ipcMain } = require('electron');
+const { spawn } = require('child_process');
+const path = require('path');
 
 let mainWindow;
 let proctorProcess = null;
