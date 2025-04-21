@@ -42,7 +42,7 @@ export const addSubjectsToExam = async(exam_id , subjects) => {
 export const getExamWithSubjects = async(exam_id) => {
     const {data: exam , error: examError} = await supabase 
     .from('exam')
-    .select('*')
+    .select('*, events(*)')
     .eq('id', exam_id)
     .single();
 
