@@ -22,7 +22,7 @@
 import { contextBridge , ipcRenderer } from "electron";
 
 
-ccontextBridge.exposeInMainWorld('electronAPI', {
+contextBridge.exposeInMainWorld('electronAPI', {
     startProctorEngine: (userId, examId, eventId) => {
       ipcRenderer.send('start-proctor-engine', { userId, examId, eventId });
     },
