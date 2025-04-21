@@ -6,17 +6,6 @@ import { useParams } from 'react-router-dom';
 import { useUser } from '../../../context/UserContext';
 
 const TestWindow = () => {
-  const { examId, eventId } = useParams();
-  const { user } = useUser(); 
-  useEffect(() => {
-    if (window?.electronAPI && user?.id && examId && eventId) {
-      window.electronAPI.startProctorEngine(user.id, examId, eventId);
-    }
-
-    return () => {
-      window.electronAPI?.stopProctorEngine?.();
-    };
-  }, [user, examId, eventId]);
 
   return (
     <div className='p-3 flex flex-col'>
