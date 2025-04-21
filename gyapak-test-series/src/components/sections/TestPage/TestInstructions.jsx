@@ -36,12 +36,12 @@ const TestInstructions = () => {
         try{
             console.log("JH");
             console.log(user._id, examId, eventId, window);
-            // if (window?.electronAPI && user?._id && examId && eventId) {
-            //     window.electronAPI.startProctorEngine(user._id, examId, eventId);
-            // }
-            // else{
-            //     console.log("HH");
-            // }
+            if (window?.electronAPI && user?._id && examId && eventId) {
+                window.electronAPI.startProctorEngine(user._id, examId, eventId);
+            }
+            else{
+                console.log("HH");
+            }
         }
         catch(err){
             console.log(err);
