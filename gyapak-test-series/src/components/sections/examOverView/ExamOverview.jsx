@@ -8,6 +8,9 @@ import {
   Calendar, Clock, BookOpen, Award, BookMarked, CheckCircle, 
   AlertCircle, ChevronDown, ChevronRight, HelpCircle, Info
 } from 'lucide-react';
+import axios from 'axios'
+import { useUser } from '../../../context/UserContext';
+
 
 const ExamOverview = () => {
   const { examId } = useParams();
@@ -18,6 +21,7 @@ const ExamOverview = () => {
   const [expandedQuestions, setExpandedQuestions] = useState({});
   const [activeTab, setActiveTab] = useState('subjects');
   const navigate = useNavigate();
+  const {user} = useUser()
 
   useEffect(() => {
     const fetchOverview = async () => {
@@ -79,6 +83,28 @@ const ExamOverview = () => {
     if (!question || !question.answer) return null;
     return question.answer;
   };
+
+  const handleStartTest = async (eventId) => {
+    try {
+      const body = {
+        userId: user._id,
+        examId,
+        eventId
+      };
+  
+      const res = await axios.post('http://localhost:8383/api/v1i2/proctor/launch', body);
+  
+      // Axios parses response automatically
+      if(res.ok) console.log('🚀 Proctor launched:', res.data.message);
+      
+    } catch (error) {
+      const message =
+        error?.response?.data?.message || error.message || 'Unknown error';
+      console.error('❌ Error launching proctor:', message);
+    }
+  };
+  
+
 
   if (loading) {
     return (
@@ -433,7 +459,7 @@ const ExamOverview = () => {
                           <div className="flex justify-between text-sm">
                             <span className="text-gray-500 my-auto">Event date: {event.event_date}</span>
                             <button 
-                            onClick={()=>navigate(`/test?examId=${examId}&eventId=${event.id}`)}
+                            onClick= {() => {handleStartTest(event.id)}}
                             className="font-medium rounded-md bg-purple-600 px-4 py-2 text-white hover:cursor-pointer">Start test</button>
                           </div>
                         </div>
