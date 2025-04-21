@@ -1,7 +1,7 @@
 import api from './api';
 
 // Submit answers for evaluation
-export const checkUsersAnswers = async ({ answers, userId, exam_id, event_id }) => {
+export const checkUsersAnswers = async ( answers, userId, exam_id, event_id ) => {
   const res = await api.post('/api/v1i2/testresult/check-answers', {
     answers,
     userId,

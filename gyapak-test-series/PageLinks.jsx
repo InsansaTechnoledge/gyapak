@@ -8,6 +8,7 @@ import UploadQuestionsForm from './src/components/sections/adminContentUpload/se
 import ExamPage from './src/pages/ExamPage'
 import InstitutePage from './src/pages/ForEducatorPage'
 import TestPage from './src/pages/TestPage'
+import TestInstructions from './src/components/sections/TestPage/TestInstructions'
 
 const PageLinks = () => {
   const { user, setUser } = useUser();
@@ -42,7 +43,8 @@ const PageLinks = () => {
           <Route path="/institute/*" element={<InstitutePage />} />
           <Route path='/form' element={<ExamSetupForm />} />
           <Route path='/question-upload' element={<UploadQuestionsForm/>} />
-          <Route path='/test' element={<TestPage /> } />
+          <Route path='/test-page' element={<TestPage /> } />
+          <Route path='/test' element={<TestInstructions /> } />
         </Routes>
       </Router>
     </>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'; 
+import { useNavigate, useParams } from 'react-router-dom'; 
 import { getExamWithSubject } from '../../../service/exam.service';
 import { getEventsByExamId } from '../../../service/event.service';
 import { getSubjectsByEvent } from '../../../service/subject.service';
@@ -8,6 +8,9 @@ import {
   Calendar, Clock, BookOpen, Award, BookMarked, CheckCircle, 
   AlertCircle, ChevronDown, ChevronRight, HelpCircle, Info
 } from 'lucide-react';
+import axios from 'axios'
+import { useUser } from '../../../context/UserContext';
+
 
 const ExamOverview = () => {
   const { examId } = useParams();
@@ -17,6 +20,8 @@ const ExamOverview = () => {
   const [activeEvent, setActiveEvent] = useState(null);
   const [expandedQuestions, setExpandedQuestions] = useState({});
   const [activeTab, setActiveTab] = useState('subjects');
+  const navigate = useNavigate();
+  const {user} = useUser()
 
   useEffect(() => {
     const fetchOverview = async () => {
@@ -78,6 +83,28 @@ const ExamOverview = () => {
     if (!question || !question.answer) return null;
     return question.answer;
   };
+
+  const handleStartTest = async (eventId) => {
+    try {
+      const body = {
+        userId: user._id,
+        examId,
+        eventId
+      };
+  
+      const res = await axios.post('http://localhost:8383/api/v1i2/proctor/launch', body);
+  
+      // Axios parses response automatically
+      if(res.ok) console.log('🚀 Proctor launched:', res.data.message);
+      
+    } catch (error) {
+      const message =
+        error?.response?.data?.message || error.message || 'Unknown error';
+      console.error('❌ Error launching proctor:', message);
+    }
+  };
+  
+
 
   if (loading) {
     return (
@@ -182,6 +209,15 @@ const ExamOverview = () => {
             >
               <Calendar size={18} className="mr-2" />
               Events & Questions
+            </button>
+            <button 
+              className={`px-6 py-4 font-medium text-sm flex items-center ${
+                activeTab === 'test' ? 'text-purple-600 border-b-2 border-purple-600' : 'text-gray-600 hover:text-purple-600'
+              }`}
+              onClick={() => setActiveTab('tests')}
+            >
+              <BookMarked size={18} className="mr-2" />
+              Tests
             </button>
           </div>
         
@@ -387,6 +423,54 @@ const ExamOverview = () => {
                 <div className="bg-gray-50 rounded-lg p-6 text-center">
                   <Calendar size={36} className="mx-auto text-gray-400 mb-3" />
                   <p className="text-gray-600">No events have been scheduled for this exam yet.</p>
+                </div>
+              )}
+            </div>
+          )}
+
+
+          {/* Tests */}
+          {activeTab === 'tests' && (
+            <div className="p-6">
+              <h3 className="text-lg font-semibold mb-4 flex items-center">
+                <BookMarked size={20} className="mr-2 text-purple-600" />
+                Active Tests
+              </h3>
+              
+              {Array.isArray(exam.events) && exam.events.length > 0 ? (
+                <div className="grid grid-cols-1 gap-6">
+                  {exam.events.map((event, i) => (
+                    <div key={i} className="bg-white border rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                      <div className="h-2 bg-gradient-to-r from-purple-500 to-indigo-600"></div>
+                      <div className="p-5">
+                        <div className="flex justify-between items-start">
+                          <h4 className="text-lg font-bold text-gray-800">{event.name || 'Unnamed Subject'}</h4>
+                          <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-medium">
+                            week {event.weeks}
+                          </span>
+                        </div>
+                        
+                        <div className="mt-4">
+                          <p className="text-sm text-gray-600 mb-1">Duration:</p>
+                          <p className="bg-gray-50 p-3 rounded text-sm">{event.duration || 'No duration information available'}</p>
+                        </div>
+                        
+                        <div className="mt-4 pt-4 border-t border-gray-100">
+                          <div className="flex justify-between text-sm">
+                            <span className="text-gray-500 my-auto">Event date: {event.event_date}</span>
+                            <button 
+                            onClick= {() => {handleStartTest(event.id)}}
+                            className="font-medium rounded-md bg-purple-600 px-4 py-2 text-white hover:cursor-pointer">Start test</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="bg-gray-50 rounded-lg p-6 text-center">
+                  <BookOpen size={36} className="mx-auto text-gray-400 mb-3" />
+                  <p className="text-gray-600">No subjects have been added to this exam yet.</p>
                 </div>
               )}
             </div>

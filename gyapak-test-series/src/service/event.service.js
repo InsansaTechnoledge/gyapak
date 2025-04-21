@@ -40,3 +40,8 @@ export const getEventsByExamId = async (exam_id) => {
     const res = await api.get(`/api/v1i2/event/by-exam/${exam_id}`);
     return res.data;
   };
+
+export const getFullEventDetails = async (event_id) => {
+    const res = await (api.get(`/api/v1i2/event/${event_id}`));
+    return res.data;
+}

@@ -91,7 +91,7 @@ export const getFullEventDetails = async (event_id) => {
     // Step 2: Get subjects linked to event
     const { data: subjects, error: subjectError } = await supabase
       .from('event_subjects')
-      .select('subject_id, subjects(name, description)')
+      .select('subject_id, subjects(id, name, description)')
       .eq('event_id', event_id);
   
     if (subjectError) throw subjectError;

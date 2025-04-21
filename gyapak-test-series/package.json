@@ -9,9 +9,12 @@
     "lint": "eslint .",
     "preview": "vite preview"
   },
+  "main": "electron/main.js",
   "dependencies": {
     "@tailwindcss/vite": "^4.1.3",
     "axios": "^1.8.4",
+    "crypto-js": "^4.2.0",
+    "electron": "^35.2.0",
     "framer-motion": "^12.6.5",
     "lucide-react": "^0.487.0",
     "react": "^19.0.0",
