@@ -1,22 +1,44 @@
 import React, { useEffect, useState } from "react";
+import CryptoJS from "crypto-js";
 
-function CountdownTimer({ initialTime }) {
-  const [time, setTime] = useState(() => {
+const ENCRYPTION_KEY = "secret-key-for-time-left"; // keep this consistent
+
+function CountdownTimer({ initialTime, handleSubmitTest }) {
+  const getInitialSeconds = () => {
+    const encrypted = localStorage.getItem("encryptedTimeLeft");
+    if (encrypted) {
+      try {
+        const decrypted = CryptoJS.AES.decrypt(encrypted, ENCRYPTION_KEY).toString(CryptoJS.enc.Utf8);
+        return parseInt(decrypted, 10) || 0;
+      } catch {
+        return 0;
+      }
+    }
     const [h, m, s] = initialTime.split(":").map(Number);
-    return h * 3600 + m * 60 + s; // total seconds
-  });
+    return h * 3600 + m * 60 + s;
+  };
+
+  const [time, setTime] = useState(getInitialSeconds);
 
   useEffect(() => {
-    if (time <= 0) return;
+    if (time <= 0) {
+      handleSubmitTest();
+      localStorage.removeItem("encryptedTimeLeft");
+      return;
+    }
 
     const interval = setInterval(() => {
-      setTime((prev) => prev - 1);
+      setTime((prev) => {
+        const updated = prev - 1;
+        const encrypted = CryptoJS.AES.encrypt(updated.toString(), ENCRYPTION_KEY).toString();
+        localStorage.setItem("encryptedTimeLeft", encrypted);
+        return updated;
+      });
     }, 1000);
 
-    return () => clearInterval(interval); // cleanup
+    return () => clearInterval(interval);
   }, [time]);
 
-  // Function to format seconds back to "HH:MM:SS"
   const formatTime = (secs) => {
     const h = String(Math.floor(secs / 3600)).padStart(2, "0");
     const m = String(Math.floor((secs % 3600) / 60)).padStart(2, "0");
@@ -24,11 +46,7 @@ function CountdownTimer({ initialTime }) {
     return `${h}:${m}:${s}`;
   };
 
-  return (
-    <div>
-      <h1>{formatTime(time)}</h1>
-    </div>
-  );
+  return <h1>{formatTime(time)}</h1>;
 }
 
 export default CountdownTimer;

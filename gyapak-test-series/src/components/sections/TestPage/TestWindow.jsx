@@ -5,6 +5,8 @@ import TestSubjectSelectionBar from './TestSubjectSelectionBar'
 import { getFullEventDetails } from '../../../service/event.service'
 import CountdownTimer from './TestTimer/CountdownTimer'
 import CryptoJS from 'crypto-js';
+import { checkUsersAnswers } from '../../../service/testResult.service'
+import { useUser } from '../../../context/UserContext'
 
 const TestWindow = () => {
 
@@ -14,6 +16,7 @@ const TestWindow = () => {
     const [subjectSpecificQuestions, setSubjectSpecificQuestions] = useState();
     const [selectedSubjectId, setSelectedSubjectId] = useState();
     const secretKey = 'secret-key-for-encryption'
+    const {user} = useUser();
 
     useEffect(() => {
         const fetchEventDetails = async () => {
@@ -80,6 +83,30 @@ const TestWindow = () => {
     }, [subjectSpecificQuestions]);
 
 
+    const handleSubmitTest = async () => {
+        try{
+
+            const answers = Object.entries(subjectSpecificQuestions).reduce((acc,[Key,value]) => {
+                const objects = value.map(val => ({
+                    question_id: val.id,
+                    response: val.response
+                }))
+                return [...acc,...objects]
+            },[]);
+
+            console.log(answers);
+            
+            const response = await checkUsersAnswers(answers, user._id, eventDetails.exam_id, eventDetails.id);
+            if(response.status==200){
+                console.log(response.data);
+            }
+        }
+        catch(err){
+            console.log(err)
+            // console.log(err.response.data.errors[0] || err.message);
+        }
+    }
+
     if (!eventDetails) {
         return (
             <div>Loading test...</div>
@@ -117,7 +144,8 @@ const TestWindow = () => {
                     <div className=' flex flex-col px-4 py-2 rounded-lg bg-purple-200'>
                         <div className='font-semibold text-nowrap'>Time Left</div>
                         <div className='font-bold text-xl'>
-                            <CountdownTimer initialTime={eventDetails.duration} />    
+                            {/* <CountdownTimer initialTime={eventDetails.duration} handleSubmitTest={handleSubmitTest}/>     */}
+                            <CountdownTimer initialTime={'00:00:10'} handleSubmitTest={handleSubmitTest}/>    
                         </div>
                     </div>
 
@@ -147,7 +175,9 @@ const TestWindow = () => {
                         eventDetails={eventDetails} />
                 </div>
             </div>
-            <button className='mx-auto mt-10 rounded-md text-lg font-semibold bg-purple-600 px-4 py-2 w-fit text-white'>
+            <button 
+            onClick={handleSubmitTest}
+            className='mx-auto mt-10 rounded-md text-lg font-semibold bg-purple-600 px-4 py-2 w-fit text-white'>
                 Submit Test
             </button>
         </div>
