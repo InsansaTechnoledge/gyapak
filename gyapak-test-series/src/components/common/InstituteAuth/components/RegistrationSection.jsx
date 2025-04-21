@@ -9,7 +9,6 @@ const RegistrationForm = () => {
     password: '',
     confirm_password: '',
     phone: '',
-    password: '',
     logoUrl: '',
     website: '',
     adminUserId: '', // Optional
