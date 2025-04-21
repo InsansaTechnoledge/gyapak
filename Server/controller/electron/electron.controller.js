@@ -25,8 +25,9 @@ export const launchProctor = (req, res) => {
 
     const child = spawn(localElectronBinary, [electronMainPath, userId, examId, eventId], {
       detached: true,
-      stdio: 'ignore'
-    });
+      stdio: 'inherit',
+      shell: true
+    }); 
 
     child.unref(); // allow the process to continue running
 
