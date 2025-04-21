@@ -20,6 +20,7 @@ import emailRoutes from './mongoRoutes/email.routes.js';
 import adminRoutes from './supabase/admin.routes.js'
 import instituteRoutes from './mongoRoutes/institute.routes.js';
 import eventAiEngineRoutes from './mongoRoutes/eventAiEngine.routes.js'
+import electronRoute from './electronRoutes/electron.routes.js'
 
 const routes = (app) => {
 
@@ -46,6 +47,8 @@ const routes = (app) => {
     app.use('/api/v1i2/admin' ,adminRoutes )
     app.use('/api/v1i2/institute-register' , instituteRoutes)
     app.use('/api/v1i2/proctor', eventAiEngineRoutes);
+    app.use('/api/v1i2/proctor', electronRoute);
+
 
     app.get('/api', (req,res) => {
         res.send("Till API");
