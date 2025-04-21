@@ -53,6 +53,7 @@ const FeatureBand = React.lazy(() => import('../../Components/FeatureAdvertiseme
 // const ResultsDashboard = React.lazy(() => import('../../Components/ResultComponent/Results'));
 const StateComponent = React.lazy(() => import('../../Components/States/State'));
 const ImportantLinksDashboard = React.lazy(() => import('../../Components/ImportantLinks/ImportantLinks'))
+const BlogBrandingPage = React.lazy(() => import('../../Components/BolgPage/components/BlogBranfingPage'))
 // Enhanced LazyRender with loading states and error boundary
 const LazyRender = ({ children, height = "h-64", priority = false, id }) => {
   const { ref, inView } = useInView({
@@ -101,6 +102,10 @@ const Landing = () => {
           {/* Latest updates and state components load next */}
           <LazyRender height="h-96">
             <LatestUpdates />
+          </LazyRender>
+
+          <LazyRender height="h-96">
+            <BlogBrandingPage />
           </LazyRender>
 
           <LazyRender height="h-80" id={"landing-state"}>
