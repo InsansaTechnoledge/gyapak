@@ -51,8 +51,8 @@ export const getEventAttemptsByUser = async (event_id) => {
     return res.data
 }
 
-export const updateEventAttempsByUser = async (eventId) => {
-    const res = await (api.post(`/api/v1i2/event/attempts`, { eventId }));
+export const updateEventAttempsByUser = async (eventId, userId) => {
+    const res = await (api.post(`/api/v1i2/event/attempts`, { eventId, userId }));
     return res.data;
 }
 

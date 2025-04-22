@@ -138,8 +138,8 @@ export const deleteEventAttemptsByUser = async (req,res) => {
 
 export const incrementEventAttemptsByUser = async (req,res) => {
   try{
-    const userId = req.user._id;
-    const {eventId} = req.body;
+    // const userId = req.user._id;
+    const {eventId, userId} = req.body;
     const newAttempts = await TestAttemptRecordModel.findOneAndUpdate(
       { userId, eventId },
       { $inc: { attempts: 1 } },

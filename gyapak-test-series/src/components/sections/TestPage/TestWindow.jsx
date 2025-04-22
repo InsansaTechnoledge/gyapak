@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import QuestionListSection from './QuestionListSection'
 import QuestionSection from './QuestionSection'
 import TestSubjectSelectionBar from './TestSubjectSelectionBar'
-import { getFullEventDetails } from '../../../service/event.service'
+import { deleteEventAttemptsByUser, getFullEventDetails } from '../../../service/event.service'
 import CountdownTimer from './TestTimer/CountdownTimer'
 import CryptoJS from 'crypto-js';
 import { checkUsersAnswers } from '../../../service/testResult.service'
 import { useUser } from '../../../context/UserContext'
+import { useLocation } from 'react-router-dom'
 
 const TestWindow = () => {
 
@@ -21,11 +22,14 @@ const TestWindow = () => {
     const [warning, setWarning] = useState(null);
     const [warningCount, setWarningCount] = useState(0);
 
+    const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+
+  const userId = searchParams.get('userId');
+  const examId = searchParams.get('examId');
+  const eventId = searchParams.get('eventId');
 
 
-    useEffect(()=>{
-        console.log("user", user);
-    },[user])
 
     useEffect(() => {
         if (window?.electronAPI?.onProctorWarning) {
@@ -67,7 +71,7 @@ const TestWindow = () => {
     const fetchEventDetails = async () => {
       try {
 
-        const response = await getFullEventDetails(event_id);
+        const response = await getFullEventDetails(eventId);
         if (response.status == 200) {
           console.log(response.data);
           setEventDetails(response.data);
@@ -142,9 +146,14 @@ const TestWindow = () => {
                 return [...acc,...objects]
             },[]);
 
+            const deletedAttempt = await deleteEventAttemptsByUser(eventId, userId);
+            if(deletedAttempt.status===200){
+                console.log(deletedAttempt.data);
+            }
+
             console.log(answers);
             
-            const response = await checkUsersAnswers(answers, user._id, eventDetails.exam_id, eventDetails.id);
+            const response = await checkUsersAnswers(answers, userId, eventDetails.exam_id, eventDetails.id);
             if(response.status==200){
                 console.log(response.data);
             }

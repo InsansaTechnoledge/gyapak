@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useUser } from '../../../context/UserContext';
-import { getEventDetails } from '../../../service/event.service';
+import { getEventDetails, updateEventAttempsByUser } from '../../../service/event.service';
 
 const TestInstructions = () => {
   const [examDetails, setExamDetails] = useState(null);
@@ -62,17 +62,12 @@ const TestInstructions = () => {
       console.warn("❌ Missing required params or electronAPI not available");
       setError("Unable to start the proctor. Please ensure you're using the correct application.");
     }
+    const updatedAttempt = await updateEventAttempsByUser(eventId, userId);
+    if(updatedAttempt.status===200){
+        console.log(updatedAttempt.data);
+    }
+};
 
-    const updatedAttemptsForEvent = await updateEventAttempsByUser(eventId);
-      if(updatedAttemptsForEvent.status===200){
-        // setEventAttempts(prev=>({
-        //   ...prev,
-        //   [eventId]: updatedAttemptsForEvent.data.attempts
-        // }));
-
-        console.log(updatedAttemptsForEvent.data);
-      }
-  };
 
   if (loading) {
     return (
