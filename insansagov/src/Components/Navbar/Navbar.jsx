@@ -429,7 +429,7 @@ className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-whi
             Browse States
           </h3>
           <div className="grid grid-cols-4 gap-4">
-            {visibleStates.map((state, index) => (
+          {(visibleCategories || []).map((state, index) => (
               <StateIcon
                 key={index}
                 state={state}
