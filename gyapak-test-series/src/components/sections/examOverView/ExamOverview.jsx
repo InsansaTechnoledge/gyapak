@@ -111,15 +111,7 @@ const ExamOverview = () => {
       // Axios parses response automatically
       if(res.ok) console.log('🚀 Proctor launched:', res.data.message);
       
-      const updatedAttemptsForEvent = await updateEventAttempsByUser(eventId);
-      if(updatedAttemptsForEvent.status===200){
-        setEventAttempts(prev=>({
-          ...prev,
-          [eventId]: updatedAttemptsForEvent.data.attempts
-        }));
-
-        console.log(updatedAttemptsForEvent.data);
-      }
+      
 
 
 

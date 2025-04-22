@@ -52,7 +52,7 @@ const TestInstructions = () => {
     };
   }, [eventId]);
 
-  const handleStartTest = () => {
+  const handleStartTest = async () => {
     if (window.electronAPI && userId && examId && eventId) {
       console.log("🔥 Launching Proctor Engine...");
       console.log(userId, examId, eventId);
@@ -62,6 +62,16 @@ const TestInstructions = () => {
       console.warn("❌ Missing required params or electronAPI not available");
       setError("Unable to start the proctor. Please ensure you're using the correct application.");
     }
+
+    const updatedAttemptsForEvent = await updateEventAttempsByUser(eventId);
+      if(updatedAttemptsForEvent.status===200){
+        // setEventAttempts(prev=>({
+        //   ...prev,
+        //   [eventId]: updatedAttemptsForEvent.data.attempts
+        // }));
+
+        console.log(updatedAttemptsForEvent.data);
+      }
   };
 
   if (loading) {
