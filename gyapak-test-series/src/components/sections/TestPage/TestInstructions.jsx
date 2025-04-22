@@ -43,6 +43,7 @@ const TestInstructions = () => {
     const handleStartTest = () => {
         if (window.electronAPI && userId && examId && eventId) {
           console.log("🔥 Launching Proctor Engine...");
+          console.log(userId, examId, eventId);
           window.electronAPI.startProctorEngine(userId, examId, eventId);
         } else {
           console.warn("❌ Missing required params or electronAPI not available");

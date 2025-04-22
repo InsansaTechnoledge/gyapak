@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const { spawn } = require('child_process');
 const path = require('path');
+const fs = require('fs');
 
 console.log("🧠 Electron main.js loaded from:", __filename);
 
@@ -32,18 +33,17 @@ function createWindow() {
 }
 
 function getBinaryPath() {
-
   const isWin = process.platform === 'win32'
-  const binaryName = isWin ? "Release/proctor_engine.exe" : "proctor_engine"
-  const binartPath = path.resolve(__dirname , '../../ai-proctor-engine/build' , binaryName)
-
-  return binartPath
+  console.log(__dirname)
+  const binaryName = isWin ? 'Release/proctor_engine.exe' : 'proctor_engine'
+  const binaryPath = path.resolve(__dirname, '../../ai-proctor-engine/build', binaryName);
+  // return path.join(binDir, process.platform === 'win32' ? '../../ai-proctor-engine/build/Release/proctor_engine.exe' : '../../ai-proctor-engine/build/proctor_engine');
+  return binaryPath
 }
 
-const fs = require('fs');
 
 // function getBinaryPath() {
-//   const binaryPath = path.resolve(__dirname, '../../ai-proctor-engine/build/proctor_engine'); // ✅ fixed
+//   const binaryPath = path.resolve(__dirname, ''); // ✅ fixed
 //   console.log("🛠️ Using ProctorEngine binary at:", binaryPath);
 
 //   if (!fs.existsSync(binaryPath)) {
