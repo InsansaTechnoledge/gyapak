@@ -18,8 +18,9 @@ function createWindow() {
   console.log("🧠 Using preload from:", preloadPath);
 
   mainWindow = new BrowserWindow({
-    width: 1280,
-    height: 800,
+    // width: 1280,
+    // height: 800,
+    fullscreen: true,
     webPreferences: {
       preload: preloadPath,
       contextIsolation: true,
@@ -62,10 +63,25 @@ function launchProctorEngine(userId, examId, eventId) {
 
   proctorProcess = spawn(binaryPath, [userId, examId, eventId]);
 
-  proctorProcess.stdout.on('data', (data) => {
-    mainWindow?.webContents.send('proctor-log', data.toString());
-  });
+  // proctorProcess.stdout.on('data', (data) => {
+  //   mainWindow?.webContents.send('proctor-log', data.toString());
+  // });
 
+  proctorProcess.stdout.on('data', (data) => {
+    const message = data.toString().trim();
+    try {
+      const parsed = JSON.parse(message);
+      if (parsed?.eventType === 'anomaly') {
+        mainWindow.webContents.send('proctor-warning', parsed);
+      } else {
+        mainWindow.webContents.send('proctor-log', message);
+      }
+    } catch {
+      mainWindow.webContents.send('proctor-log', message);
+    }
+  });
+  
+  
   proctorProcess.stderr.on('data', (data) => {
     mainWindow?.webContents.send('proctor-log', `❌ ERROR: ${data}`);
   });
@@ -122,6 +138,29 @@ ipcMain.on('stop-proctor-engine', () => {
   }
 });
 
+ipcMain.on('close-electron-window', async () => {
+  console.log("🛑 Received request to close Electron window");
+
+  if (proctorProcess) {
+    proctorProcess.kill('SIGINT');
+    proctorProcess = null;
+  }
+
+  if (mainWindow && !mainWindow.isDestroyed()) {
+    // Open external URL before closing
+    // const redirectURL = `http://localhost:5173/exam/${examId}`;
+    // await shell.openExternal(redirectURL);
+    console.log("main closed");
+    mainWindow.close();
+  }
+
+  // if (mainWindow && !mainWindow.isDestroyed()) {
+  //   mainWindow.close();
+  // }
+});
+
+
+
 // Cleanup
 app.on('window-all-closed', () => {
   if (proctorProcess) {
@@ -129,4 +168,14 @@ app.on('window-all-closed', () => {
     proctorProcess = null;
   }
   if (process.platform !== 'darwin') app.quit();
+});
+
+ipcMain.on('window-blurred', () => {
+  console.log("⚠️ Electron window lost focus (tab changed or minimized)");
+  mainWindow?.webContents.send('proctor-log', '⚠️ Window focus lost');
+});
+
+ipcMain.on('window-focused', () => {
+  console.log("✅ Electron window regained focus");
+  mainWindow?.webContents.send('proctor-log', '✅ Window focus regained');
 });

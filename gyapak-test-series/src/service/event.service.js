@@ -2,19 +2,19 @@ import api from './api.js'
 
 // create new event
 export const createEvent = async (eventData) => {
-    const res = await api.post('/api/v1i2/event' , eventData)
+    const res = await api.post('/api/v1i2/event', eventData)
     return res.data;
 }
 
 // assign subjects to an event
-export const assignSubjectsToEvent = async (eventId , subjectIds) => {
-    const res = await api.post(`/api/v1i2/event/${eventId}/subject` , {subject_ids: subjectIds}) 
+export const assignSubjectsToEvent = async (eventId, subjectIds) => {
+    const res = await api.post(`/api/v1i2/event/${eventId}/subject`, { subject_ids: subjectIds })
     return res.data;
 }
 
 // Assign questions to an event
-export const assignQuestionsToEvent = async (eventId , questions) => {
-    const res = await api.post(`api/v1i2/event/${eventId}/question` , {questions})
+export const assignQuestionsToEvent = async (eventId, questions) => {
+    const res = await api.post(`api/v1i2/event/${eventId}/question`, { questions })
     return res.data;
 }
 
@@ -39,9 +39,26 @@ export const updateEventStatus = async (eventId, status) => {
 export const getEventsByExamId = async (exam_id) => {
     const res = await api.get(`/api/v1i2/event/by-exam/${exam_id}`);
     return res.data;
-  };
+};
 
 export const getFullEventDetails = async (event_id) => {
     const res = await (api.get(`/api/v1i2/event/${event_id}`));
+    return res.data;
+}
+
+export const getEventAttemptsByUser = async (event_id) => {
+    const res = await (api.get(`/api/v1i2/event/attempts/${event_id}`));
+    return res.data
+}
+
+export const updateEventAttempsByUser = async (eventId) => {
+    const res = await (api.post(`/api/v1i2/event/attempts`, { eventId }));
+    return res.data;
+}
+
+export const deleteEventAttemptsByUser = async (eventId, userId) => {
+    const res = await (api.delete(`/api/v1i2/event/attempts`, {
+        data: { eventId, userId }
+    }));
     return res.data;
 }

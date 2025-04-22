@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom'; 
 import { getExamWithSubject } from '../../../service/exam.service';
-import { getEventsByExamId } from '../../../service/event.service';
+import { getEventAttemptsByUser, getEventsByExamId, updateEventAttempsByUser } from '../../../service/event.service';
 import { getSubjectsByEvent } from '../../../service/subject.service';
 import { getQuestionsBySubject } from '../../../service/question.service';
 import { 
@@ -21,7 +21,8 @@ const ExamOverview = () => {
   const [expandedQuestions, setExpandedQuestions] = useState({});
   const [activeTab, setActiveTab] = useState('subjects');
   const navigate = useNavigate();
-  const {user} = useUser()
+  const {user} = useUser();
+  const [eventAttempts, setEventAttempts] = useState();
 
   useEffect(() => {
     const fetchOverview = async () => {
@@ -39,6 +40,7 @@ const ExamOverview = () => {
         // Fetch subjects and questions for each event
         const eventsWithSubjects = await Promise.all(eventList.map(async (event) => {
           const subjectsRes = await getSubjectsByEvent(event.id);
+
           const subjects = subjectsRes?.data || [];
           
           const subjectWithQuestions = await Promise.all(subjects.map(async (sub) => {
@@ -48,6 +50,18 @@ const ExamOverview = () => {
           
           return { ...event, subjects: subjectWithQuestions };
         }));
+
+        const eventAttemptsArray = await Promise.all(
+          eventList.map(async (event) => {
+            const res = await getEventAttemptsByUser(event.id);
+            return { [event.id]: res.data.attempts };
+          })
+        );
+        
+        // Convert array of objects to a single merged object
+        const eventAttemptsResponse = Object.assign({}, ...eventAttemptsArray);
+        setEventAttempts(eventAttemptsResponse);
+        console.log(eventAttemptsResponse);
         
         setEvents(eventsWithSubjects);
         if (eventsWithSubjects.length > 0) {
@@ -91,12 +105,16 @@ const ExamOverview = () => {
         examId,
         eventId
       };
-  
+      
       const res = await axios.post('http://localhost:8383/api/v1i2/proctor/launch', body);
   
       // Axios parses response automatically
       if(res.ok) console.log('🚀 Proctor launched:', res.data.message);
       
+      
+
+
+
     } catch (error) {
       const message =
         error?.response?.data?.message || error.message || 'Unknown error';
@@ -104,7 +122,9 @@ const ExamOverview = () => {
     }
   };
   
-
+  useEffect(()=>{
+    console.log(eventAttempts);
+  },[eventAttempts])
 
   if (loading) {
     return (
@@ -458,9 +478,29 @@ const ExamOverview = () => {
                         <div className="mt-4 pt-4 border-t border-gray-100">
                           <div className="flex justify-between text-sm">
                             <span className="text-gray-500 my-auto">Event date: {event.event_date}</span>
+                            <div className='flex flex-col'>
+
                             <button 
+                            disabled={eventAttempts[event.id]>=3}
                             onClick= {() => {handleStartTest(event.id)}}
-                            className="font-medium rounded-md bg-purple-600 px-4 py-2 text-white hover:cursor-pointer">Start test</button>
+                            className={`w-fit self-end font-medium rounded-md ${eventAttempts[event.id]>=3 ? 'bg-gray-500' : 'bg-purple-600'}  px-4 py-2 text-white hover:cursor-pointer`}>
+                              {
+                                eventAttempts[event.id] > 0
+                                ?
+                                "Resume test"
+                                :
+                                "Start test"
+                              }
+                              
+                            </button>
+                            {
+                              eventAttempts[event.id] > 0 
+                              ?
+                              <span>Attempts remaining: {3-eventAttempts[event.id]}</span>
+                              :
+                              null
+                            }
+                            </div>
                           </div>
                         </div>
                       </div>
