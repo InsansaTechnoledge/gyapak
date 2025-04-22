@@ -26,6 +26,7 @@ const OverviewPage = lazy(() =>import('./Pages/OverviewPage/Overview') );
 const BlogPage = lazy(() => import('./Components/BolgPage/BlogPage'));
 const BlogDetailPage = lazy(() => import('./Components/BolgPage/components/BlogDetailPage'))
 const CalendarView = lazy(() => import('./Pages/Calendar/CalendarView'));
+const CurrentAffairPage = lazy(() => import('./Components/currentAffairs/currentAffairPage'))
 
 
 const SecondRoutes = () => {
@@ -60,6 +61,8 @@ const SecondRoutes = () => {
                     <Route path="/blog/:slug" element={<BlogDetailPage />} />
                     <Route path="/calendar" element={<CalendarView />} />
 
+
+                    <Route path="/current-affair" element={<CurrentAffairPage />} />
 
 
                 </Routes>

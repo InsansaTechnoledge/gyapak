@@ -3,6 +3,8 @@ import CentralEvent from '../Components/CentralEvent';
 import StateEvent from '../Components/StateEvent';
 import AdminBlogPage from '../Components/BlogPage/AdminBlogPage';
 import FloatingOrbsBackground from '../Components/FloatingOrbsBackground';
+import UploadCurrentAffairsPage from './CurrentAffairUpload';
+import CurrentAffairManager from '../Components/currentAffairs/currentAffairManager';
 
 const DataInsertion = () => {
   const [organizationType, setOrganizationType] = useState(null);
@@ -10,7 +12,10 @@ const DataInsertion = () => {
   const options = [
     { id: "Central", label: "Central Organization" },
     { id: "State", label: "State Organization" },
-    { id: "blog", label: "Create Blog" }
+    { id: "blog", label: "Create Blog" },
+    {id: "affair" , label: "create today's current affair"},
+    {id: "manage-affair" , label: "manage all current affair"}
+
   ];
 
   return (
@@ -19,7 +24,7 @@ const DataInsertion = () => {
       
       <div className="container mx-auto px-4 py-10 flex flex-col items-center">
         <h1 className="text-3xl font-bold text-center mb-8 text-purple-800">
-          gyapak Admin Pannel 
+          gyapak Admin Panel 
         </h1>
         
         <div className="max-w-3xl w-full mb-10">
@@ -50,6 +55,10 @@ const DataInsertion = () => {
           {organizationType === "Central" && <CentralEvent />}
           {organizationType === "State" && <StateEvent />}
           {organizationType === "blog" && <AdminBlogPage />}
+          {organizationType === "affair" && <UploadCurrentAffairsPage />}
+          {organizationType === "manage-affair" && <CurrentAffairManager />}
+
+
         </div>
       </div>
     </div>
