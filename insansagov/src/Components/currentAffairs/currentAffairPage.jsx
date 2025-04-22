@@ -51,7 +51,7 @@ export default function CurrentAffairsBlog() {
           break;
       }
   
-      console.log("🧪 Raw Response:", res.data);
+    //   console.log("🧪 Raw Response:", res.data);
   
       const records = Array.isArray(res.data) ? res.data : [];
   
@@ -73,10 +73,10 @@ export default function CurrentAffairsBlog() {
         }
       });
   
-      console.log("📦 Flattened Affairs:", flattened);
+    //   console.log("📦 Flattened Affairs:", flattened);
       setAffairs(flattened);
     } catch (e) {
-      console.error("❌ Error fetching current affairs", e);
+    //   console.error("❌ Error fetching current affairs", e);
       setError("Failed to load current affairs. Please try again later.");
     } finally {
       setLoading(false);

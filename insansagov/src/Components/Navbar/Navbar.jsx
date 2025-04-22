@@ -429,15 +429,16 @@ className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-whi
             Browse States
           </h3>
           <div className="grid grid-cols-4 gap-4">
-          {(visibleCategories || []).map((state, index) => (
-              <StateIcon
-                key={index}
-                state={state}
-                index={index}
-                updateVisibleStates={updateVisibleStates}
-                setStateDropdownVisible={setStateDropdownVisible}
-              />
-            ))}
+          {(visibleStates || []).map((state, index) => (
+            <StateIcon
+              key={index}
+              state={state}
+              index={index}
+              updateVisibleStates={updateVisibleStates}
+              setStateDropdownVisible={setStateDropdownVisible}
+            />
+          ))}
+
           </div>
           <div className="mt-4 flex items-center justify-center gap-3 p-4 bg-purple-700 border border-amber-500/50 rounded-lg hover:border-amber-500 transition-colors duration-300 backdrop-blur-sm">
             <AlertTriangle className="h-5 w-5 text-purple-50 animate-pulse" />
