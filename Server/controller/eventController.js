@@ -77,3 +77,21 @@ export const lastupdated = async (req, res) => {
     res.status(400).json({message:"Error occured"});
   }
 };
+
+export const getEventsByCategory = async (req, res) => {
+  console.log("Fetching events by category...");
+  const { category } = req.query;
+  try {
+    console.log(category);
+    const orgs = await Organization.find({ category }).select("_id");
+  const orgIds = orgs.map(org => org._id);
+
+  const events = await Event.find({ organization_id: { $in: orgIds } })
+  .populate("organization_id", "abbreaviation logo");
+
+  res.status(200).json(events);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
