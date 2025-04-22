@@ -215,6 +215,8 @@ const Credits = () => {
         'APDSC':'https://apdsc.in/wp-content/uploads/2018/03/loggg-Copy.png',
         'SHSB':'https://media.licdn.com/dms/image/sync/v2/D5627AQGvH-bkqC_CkA/articleshare-shrink_800/articleshare-shrink_800/0/1711354352056?e=2147483647&v=beta&t=a80Egw47vyFI8Vvzs9iOwq2eGN5f9g3hCupCeeCmLSk',
         'CCI':'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMS0cjgAJf_8yBdrBrIDWPpAe7CtI_OpAwbg&s',
+        'NMRC':'https://www.nmrcnoida.com/Content/img/nmrc_logo.png',
+        'DIC':'https://tse1.mm.bing.net/th/id/OIP.S8Be87J_NUT3zspHi-iYWQHaEC?rs=1&pid=ImgDetMain',
         "Search Results Not Found": "https://img.freepik.com/free-vector/search-concept-landing-page_52683-13620.jpg?ga=GA1.1.1723539104.1734412094&semt=ais_hybrid",
         "Data Not Found": "https://img.freepik.com/free-vector/postponed-concept_23-2148489217.jpg?ga=GA1.1.1723539104.1734412094&semt=ais_hybrid"
     }
