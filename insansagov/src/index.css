@@ -56,3 +56,36 @@
   .animate-shine {
     animation: shine 1.5s ease-in-out;
   }
+
+/* Hide time labels and hourly rows */
+.rbc-time-gutter,
+.rbc-timeslot-group {
+  display: none !important;
+}
+
+/* Adjust height of week view */
+.rbc-time-content {
+  height: auto !important;
+}
+
+/* Stack events vertically inside each day column */
+.rbc-day-slot {
+  display: flex;
+  flex-direction: column;
+  padding: 0.25rem;
+  gap: 0.25rem;
+}
+
+/* Style event blocks */
+.rbc-event {
+  background: linear-gradient(to right, #4f46e5, #7c3aed);
+  color: white;
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
