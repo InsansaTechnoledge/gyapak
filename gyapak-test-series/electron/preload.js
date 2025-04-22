@@ -20,3 +20,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.on('proctor-log', (_event, data) => callback(data));
   }
 });
+
+
+

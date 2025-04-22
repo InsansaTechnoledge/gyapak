@@ -150,7 +150,7 @@ ipcMain.on('close-electron-window', async () => {
     // Open external URL before closing
     // const redirectURL = `http://localhost:5173/exam/${examId}`;
     // await shell.openExternal(redirectURL);
-
+    console.log("main closed");
     mainWindow.close();
   }
 
@@ -168,4 +168,14 @@ app.on('window-all-closed', () => {
     proctorProcess = null;
   }
   if (process.platform !== 'darwin') app.quit();
+});
+
+ipcMain.on('window-blurred', () => {
+  console.log("⚠️ Electron window lost focus (tab changed or minimized)");
+  mainWindow?.webContents.send('proctor-log', '⚠️ Window focus lost');
+});
+
+ipcMain.on('window-focused', () => {
+  console.log("✅ Electron window regained focus");
+  mainWindow?.webContents.send('proctor-log', '✅ Window focus regained');
 });
