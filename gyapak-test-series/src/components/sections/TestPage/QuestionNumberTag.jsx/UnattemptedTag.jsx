@@ -7,7 +7,7 @@ const UnattemptedTag = ({number, noText, current}) => {
             {
                 !noText
                 &&
-                <span className='my-auto'>
+                <span className='my-auto text-sm'>
                     Unattempted
                 </span>
 
