@@ -104,6 +104,15 @@ const TestWindow = () => {
         catch(err){
             console.log(err)
             // console.log(err.response.data.errors[0] || err.message);
+
+            if (window?.electronAPI?.stopProctorEngine) {
+                window.electronAPI.stopProctorEngine();
+            }
+
+            if (window?.electronAPI?.closeWindow) {
+                window.electronAPI.closeWindow();
+            }
+
         }
     }
 

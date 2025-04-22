@@ -62,8 +62,14 @@ function launchProctorEngine(userId, examId, eventId) {
 
   proctorProcess = spawn(binaryPath, [userId, examId, eventId]);
 
+  // proctorProcess.stdout.on('data', (data) => {
+  //   mainWindow?.webContents.send('proctor-log', data.toString());
+  // });
+
   proctorProcess.stdout.on('data', (data) => {
-    mainWindow?.webContents.send('proctor-log', data.toString());
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.webContents.send('proctor-log', data.toString());
+    }
   });
 
   proctorProcess.stderr.on('data', (data) => {
@@ -121,6 +127,29 @@ ipcMain.on('stop-proctor-engine', () => {
     console.log("🛑 Proctor Engine stopped.");
   }
 });
+
+ipcMain.on('close-electron-window', async () => {
+  console.log("🛑 Received request to close Electron window");
+
+  if (proctorProcess) {
+    proctorProcess.kill('SIGINT');
+    proctorProcess = null;
+  }
+
+  if (mainWindow && !mainWindow.isDestroyed()) {
+    // Open external URL before closing
+    // const redirectURL = `http://localhost:5173/exam/${examId}`;
+    // await shell.openExternal(redirectURL);
+
+    mainWindow.close();
+  }
+
+  // if (mainWindow && !mainWindow.isDestroyed()) {
+  //   mainWindow.close();
+  // }
+});
+
+
 
 // Cleanup
 app.on('window-all-closed', () => {

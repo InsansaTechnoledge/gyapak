@@ -9,6 +9,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   stopProctorEngine: () => {
     ipcRenderer.send('stop-proctor-engine');
   },
+  closeWindow: () =>
+    ipcRenderer.send('close-electron-window'),
+
   onProctorLog: (callback) => {
     ipcRenderer.on('proctor-log', (_event, data) => callback(data));
   }
