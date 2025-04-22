@@ -31,24 +31,27 @@ function createWindow() {
   mainWindow.loadURL(url);
 }
 
-// function getBinaryPath() {
-//   const binDir = path.join(__dirname, 'bin');
-//   console.log(__dirname)
-//   return path.join(binDir, process.platform === 'win32' ? 'win/proctor_engine.exe' : 'mac/proctor_engine');
-// }
+function getBinaryPath() {
+
+  const isWin = process.platform === 'win32'
+  const binaryName = isWin ? "Release/proctor_engine.exe" : "proctor_engine"
+  const binartPath = path.resolve(__dirname , '../../ai-proctor-engine/build' , binaryName)
+
+  return binartPath
+}
 
 const fs = require('fs');
 
-function getBinaryPath() {
-  const binaryPath = path.resolve(__dirname, '../../ai-proctor-engine/build/proctor_engine'); // ✅ fixed
-  console.log("🛠️ Using ProctorEngine binary at:", binaryPath);
+// function getBinaryPath() {
+//   const binaryPath = path.resolve(__dirname, '../../ai-proctor-engine/build/proctor_engine'); // ✅ fixed
+//   console.log("🛠️ Using ProctorEngine binary at:", binaryPath);
 
-  if (!fs.existsSync(binaryPath)) {
-    throw new Error("❌ ProctorEngine binary not found. Did you run `make` in ai-proctor-engine?");
-  }
+//   if (!fs.existsSync(binaryPath)) {
+//     throw new Error("❌ ProctorEngine binary not found. Did you run `make` in ai-proctor-engine?");
+//   }
 
-  return binaryPath;
-}
+//   return binaryPath;
+// }
 
 
 
