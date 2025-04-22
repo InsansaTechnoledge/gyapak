@@ -212,7 +212,7 @@ const ExamOverview = () => {
             </button>
             <button 
               className={`px-6 py-4 font-medium text-sm flex items-center ${
-                activeTab === 'test' ? 'text-purple-600 border-b-2 border-purple-600' : 'text-gray-600 hover:text-purple-600'
+                activeTab === 'tests' ? 'text-purple-600 border-b-2 border-purple-600' : 'text-gray-600 hover:text-purple-600'
               }`}
               onClick={() => setActiveTab('tests')}
             >
