@@ -3,7 +3,7 @@ import CryptoJS from "crypto-js";
 
 const ENCRYPTION_KEY = "secret-key-for-time-left"; // keep this consistent
 
-function CountdownTimer({ initialTime, handleSubmitTest }) {
+function CountdownTimer({ initialTime, handleSubmitTest, submitted }) {
   const getInitialSeconds = () => {
     const encrypted = localStorage.getItem("encryptedTimeLeft");
     if (encrypted) {
@@ -21,9 +21,13 @@ function CountdownTimer({ initialTime, handleSubmitTest }) {
   const [time, setTime] = useState(getInitialSeconds);
 
   useEffect(() => {
+
+    if(submitted){
+      return;
+    }
+
     if (time <= 0) {
       handleSubmitTest();
-      localStorage.removeItem("encryptedTimeLeft");
       return;
     }
 
@@ -37,7 +41,7 @@ function CountdownTimer({ initialTime, handleSubmitTest }) {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [time]);
+  }, [time, submitted]);
 
   const formatTime = (secs) => {
     const h = String(Math.floor(secs / 3600)).padStart(2, "0");

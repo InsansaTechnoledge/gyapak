@@ -16,7 +16,12 @@ const TestWindow = () => {
     const [subjectSpecificQuestions, setSubjectSpecificQuestions] = useState();
     const [selectedSubjectId, setSelectedSubjectId] = useState();
     const secretKey = 'secret-key-for-encryption'
+    const [submitted, setSubmitted] = useState(false);
     const {user} = useUser();
+
+    useEffect(()=>{
+        console.log("user", user);
+    },[user])
 
   useEffect(() => {
     const fetchEventDetails = async () => {
@@ -85,6 +90,9 @@ const TestWindow = () => {
 
     const handleSubmitTest = async () => {
         try{
+            localStorage.removeItem('testQuestions');
+            localStorage.removeItem('encryptedTimeLeft');
+            setSubmitted(true);
 
             const answers = Object.entries(subjectSpecificQuestions).reduce((acc,[Key,value]) => {
                 const objects = value.map(val => ({
@@ -158,7 +166,7 @@ const TestWindow = () => {
                         <div className='font-semibold text-nowrap'>Time Left</div>
                         <div className='font-bold text-xl'>
                             {/* <CountdownTimer initialTime={eventDetails.duration} handleSubmitTest={handleSubmitTest}/>     */}
-                            <CountdownTimer initialTime={'00:00:10'} handleSubmitTest={handleSubmitTest}/>    
+                            <CountdownTimer initialTime={eventDetails.duration} handleSubmitTest={handleSubmitTest} submitted={submitted}/>    
                         </div>
                     </div>
 

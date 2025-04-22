@@ -7,7 +7,7 @@ const CorrectAnswerTag = ({number, noText, current}) => {
             {
                 !noText
                 &&
-                <span className='my-auto'>
+                <span className='my-auto text-sm'>
                     Answered
                 </span>
             }
