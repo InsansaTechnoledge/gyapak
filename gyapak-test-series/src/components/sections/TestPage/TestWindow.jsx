@@ -17,26 +17,31 @@ const TestWindow = () => {
     const [selectedSubjectId, setSelectedSubjectId] = useState();
     const secretKey = 'secret-key-for-encryption'
     const [submitted, setSubmitted] = useState(false);
-    const {user} = useUser();
+    const { user } = useUser();
 
-    useEffect(()=>{
-        console.log("user", user);
-    },[user])
-
-  useEffect(() => {
     const fetchEventDetails = async () => {
-      try {
+        try {
 
-        const response = await getFullEventDetails(event_id);
-        if (response.status == 200) {
-          console.log(response.data);
-          setEventDetails(response.data);
+            const response = await getFullEventDetails(event_id);
+            if (response.status == 200) {
+                console.log(response.data);
+                setEventDetails(response.data);
+            }
         }
-      }
-      catch (err) {
-        console.log(err.response.data.errors[0] || err.message);
-      }
+        catch (err) {
+            console.log(err.response.data.errors[0] || err.message);
+        }
     }
+
+
+    useEffect(() => {
+        window.addEventListener('blur', () => {
+            window.electron?.ipcRenderer?.send('window-blurred');
+          });
+          
+          window.addEventListener('focus', () => {
+            window.electron?.ipcRenderer?.send('window-focused');
+          });
 
         fetchEventDetails();
     }, [])
@@ -89,27 +94,27 @@ const TestWindow = () => {
 
 
     const handleSubmitTest = async () => {
-        try{
+        try {
             localStorage.removeItem('testQuestions');
             localStorage.removeItem('encryptedTimeLeft');
             setSubmitted(true);
 
-            const answers = Object.entries(subjectSpecificQuestions).reduce((acc,[Key,value]) => {
+            const answers = Object.entries(subjectSpecificQuestions).reduce((acc, [Key, value]) => {
                 const objects = value.map(val => ({
                     question_id: val.id,
                     response: val.response
                 }))
-                return [...acc,...objects]
-            },[]);
+                return [...acc, ...objects]
+            }, []);
 
             console.log(answers);
-            
+
             const response = await checkUsersAnswers(answers, user._id, eventDetails.exam_id, eventDetails.id);
-            if(response.status==200){
+            if (response.status == 200) {
                 console.log(response.data);
             }
         }
-        catch(err){
+        catch (err) {
             console.log(err)
             // console.log(err.response.data.errors[0] || err.message);
 
@@ -130,12 +135,12 @@ const TestWindow = () => {
         )
     }
 
-        
-    
-  
 
-  return (
-    <div className='p-3 flex flex-col'>
+
+
+
+    return (
+        <div className='p-3 flex flex-col'>
             <div className='flex w-full justify-between space-x-5'>
                 <div className=' font-bold p-5'>
                     <h1 className='text-3xl font-bold'>{eventDetails.exam.title}</h1>
@@ -166,7 +171,7 @@ const TestWindow = () => {
                         <div className='font-semibold text-nowrap'>Time Left</div>
                         <div className='font-bold text-xl'>
                             {/* <CountdownTimer initialTime={eventDetails.duration} handleSubmitTest={handleSubmitTest}/>     */}
-                            <CountdownTimer initialTime={eventDetails.duration} handleSubmitTest={handleSubmitTest} submitted={submitted}/>    
+                            <CountdownTimer initialTime={eventDetails.duration} handleSubmitTest={handleSubmitTest} submitted={submitted} />
                         </div>
                     </div>
 
@@ -196,13 +201,13 @@ const TestWindow = () => {
                         eventDetails={eventDetails} />
                 </div>
             </div>
-            <button 
-            onClick={handleSubmitTest}
-            className='mx-auto mt-10 rounded-md text-lg font-semibold bg-purple-600 px-4 py-2 w-fit text-white'>
+            <button
+                onClick={handleSubmitTest}
+                className='mx-auto mt-10 rounded-md text-lg font-semibold bg-purple-600 px-4 py-2 w-fit text-white'>
                 Submit Test
             </button>
         </div>
-  );
+    );
 };
 
 export default TestWindow;
