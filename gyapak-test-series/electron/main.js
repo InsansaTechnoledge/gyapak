@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const { spawn } = require('child_process');
 const path = require('path');
+const fs = require('fs');
 
 console.log("🧠 Electron main.js loaded from:", __filename);
 
@@ -31,24 +32,26 @@ function createWindow() {
   mainWindow.loadURL(url);
 }
 
-// function getBinaryPath() {
-//   const binDir = path.join(__dirname, 'bin');
-//   console.log(__dirname)
-//   return path.join(binDir, process.platform === 'win32' ? 'win/proctor_engine.exe' : 'mac/proctor_engine');
-// }
-
-const fs = require('fs');
-
 function getBinaryPath() {
-  const binaryPath = path.resolve(__dirname, '../../ai-proctor-engine/build/proctor_engine'); // ✅ fixed
-  console.log("🛠️ Using ProctorEngine binary at:", binaryPath);
-
-  if (!fs.existsSync(binaryPath)) {
-    throw new Error("❌ ProctorEngine binary not found. Did you run `make` in ai-proctor-engine?");
-  }
-
-  return binaryPath;
+  const isWin = process.platform === 'win32'
+  console.log(__dirname)
+  const binaryName = isWin ? 'Release/proctor_engine.exe' : 'proctor_engine'
+  const binaryPath = path.resolve(__dirname, '../../ai-proctor-engine/build', binaryName);
+  // return path.join(binDir, process.platform === 'win32' ? '../../ai-proctor-engine/build/Release/proctor_engine.exe' : '../../ai-proctor-engine/build/proctor_engine');
+  return binaryPath
 }
+
+
+// function getBinaryPath() {
+//   const binaryPath = path.resolve(__dirname, ''); // ✅ fixed
+//   console.log("🛠️ Using ProctorEngine binary at:", binaryPath);
+
+//   if (!fs.existsSync(binaryPath)) {
+//     throw new Error("❌ ProctorEngine binary not found. Did you run `make` in ai-proctor-engine?");
+//   }
+
+//   return binaryPath;
+// }
 
 
 
