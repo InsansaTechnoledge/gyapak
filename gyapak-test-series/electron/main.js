@@ -1,10 +1,9 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
-import { spawn } from 'child_process';
-import path from 'path';
-import { fileURLToPath } from 'url';
+const { app, BrowserWindow, ipcMain } = require('electron');
+const { spawn } = require('child_process');
+const path = require('path');
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+console.log("🧠 Electron main.js loaded from:", __filename);
+
 
 let mainWindow;
 let proctorProcess = null;
@@ -32,13 +31,32 @@ function createWindow() {
   mainWindow.loadURL(url);
 }
 
+// function getBinaryPath() {
+//   const binDir = path.join(__dirname, 'bin');
+//   console.log(__dirname)
+//   return path.join(binDir, process.platform === 'win32' ? 'win/proctor_engine.exe' : 'mac/proctor_engine');
+// }
+
+const fs = require('fs');
+
 function getBinaryPath() {
-  const binDir = path.join(__dirname, '..', 'bin');
-  return path.join(binDir, process.platform === 'win32' ? 'win/proctor_engine.exe' : 'mac/proctor_engine');
+  const binaryPath = path.resolve(__dirname, '../../ai-proctor-engine/build/proctor_engine'); // ✅ fixed
+  console.log("🛠️ Using ProctorEngine binary at:", binaryPath);
+
+  if (!fs.existsSync(binaryPath)) {
+    throw new Error("❌ ProctorEngine binary not found. Did you run `make` in ai-proctor-engine?");
+  }
+
+  return binaryPath;
 }
 
-function launchProctorEngine() {
+
+
+
+function launchProctorEngine(userId, examId, eventId) {
   const binaryPath = getBinaryPath();
+  console.log("🛠️ Proctor Engine Binary Path:", binaryPath);
+
   proctorProcess = spawn(binaryPath, [userId, examId, eventId]);
 
   proctorProcess.stdout.on('data', (data) => {
@@ -62,16 +80,46 @@ function launchProctorEngine() {
 
 app.whenReady().then(() => {
   createWindow();
-  launchProctorEngine();
 });
 
+// 🧠 Start from Renderer
+// ipcMain.on('start-proctor-engine', (_event, { userId, examId, eventId }) => {
+//   if (proctorProcess) {
+//     mainWindow?.webContents.send('proctor-log', '⚠️ Proctor Engine already running.');
+//     return;
+//   }
+
+//   console.log('🔥 Starting Proctor Engine from IPC...');
+//   launchProctorEngine(userId, examId, eventId);
+// });
+
+ipcMain.on('start-proctor-engine', (_event, { userId, examId, eventId }) => {
+  if (proctorProcess) {
+    mainWindow?.webContents.send('proctor-log', '⚠️ Proctor Engine already running.');
+    return;
+  }
+
+  console.log('🔥 Starting Proctor Engine from IPC...');
+
+  // ✅ Navigate to /test-page when starting the proctor engine
+  const testPageUrl = `http://localhost:5173/test-page?userId=${userId}&examId=${examId}&eventId=${eventId}`;
+  mainWindow?.loadURL(testPageUrl);
+
+  // ✅ Then start the proctor engine
+  launchProctorEngine(userId, examId, eventId);
+});
+
+
+// 🔴 Stop command from Renderer
 ipcMain.on('stop-proctor-engine', () => {
   if (proctorProcess) {
     proctorProcess.kill('SIGINT');
     proctorProcess = null;
+    console.log("🛑 Proctor Engine stopped.");
   }
 });
 
+// Cleanup
 app.on('window-all-closed', () => {
   if (proctorProcess) {
     proctorProcess.kill('SIGTERM');

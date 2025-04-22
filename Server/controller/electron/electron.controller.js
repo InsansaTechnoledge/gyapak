@@ -27,7 +27,7 @@ export const launchProctor = (req, res) => {
       detached: true,
       stdio: 'inherit',
       shell: true
-    }); 
+    });
 
     child.unref(); // allow the process to continue running
 

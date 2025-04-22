@@ -6,7 +6,9 @@ const TestInstructions = () => {
     const queryParams = new URLSearchParams(window.location.search);
     const examId = queryParams.get("examId");
     const eventId = queryParams.get("eventId");
-    const { user } = useUser();
+    const userId = queryParams.get('userId');
+
+    console.log('electronApi', window.electronAPI);
 
     useEffect(() => {
         console.log("✅ electronAPI:", window.electronAPI); // 🔍 LOG HERE
@@ -39,10 +41,14 @@ const TestInstructions = () => {
     }, []);
 
     const handleStartTest = () => {
-        console.log("🟢 Start Test clicked — Proctor already running from backend.");
-        // Optional: trigger test UI changes, navigate, etc.
-        console.log(window , eventId)
-    };
+        if (window.electronAPI && userId && examId && eventId) {
+          console.log("🔥 Launching Proctor Engine...");
+          window.electronAPI.startProctorEngine(userId, examId, eventId);
+        } else {
+          console.warn("❌ Missing required params or electronAPI not available");
+        }
+      };
+      
 
     return (
         <>
