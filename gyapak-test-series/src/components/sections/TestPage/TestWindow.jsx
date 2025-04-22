@@ -2,15 +2,16 @@ import React, { useEffect, useState } from 'react'
 import QuestionListSection from './QuestionListSection'
 import QuestionSection from './QuestionSection'
 import TestSubjectSelectionBar from './TestSubjectSelectionBar'
-import { getFullEventDetails } from '../../../service/event.service'
+import { deleteEventAttemptsByUser, getFullEventDetails } from '../../../service/event.service'
 import CountdownTimer from './TestTimer/CountdownTimer'
 import CryptoJS from 'crypto-js';
 import { checkUsersAnswers } from '../../../service/testResult.service'
 import { useUser } from '../../../context/UserContext'
+import { useLocation } from 'react-router-dom'
 
 const TestWindow = () => {
 
-    const event_id = '5f5dc6ea-b940-479a-b3be-b5f912484d24';
+    // const event_id = '5f5dc6ea-b940-479a-b3be-b5f912484d24';
     const [eventDetails, setEventDetails] = useState();
     const [selectedQuestion, setSelectedQuestion] = useState();
     const [subjectSpecificQuestions, setSubjectSpecificQuestions] = useState();
@@ -19,10 +20,17 @@ const TestWindow = () => {
     const [submitted, setSubmitted] = useState(false);
     const { user } = useUser();
 
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+  
+    const userId = searchParams.get('userId');
+    const examId = searchParams.get('examId');
+    const eventId = searchParams.get('eventId');
+
     const fetchEventDetails = async () => {
         try {
 
-            const response = await getFullEventDetails(event_id);
+            const response = await getFullEventDetails(eventId);
             if (response.status == 200) {
                 console.log(response.data);
                 setEventDetails(response.data);
@@ -99,6 +107,7 @@ const TestWindow = () => {
             localStorage.removeItem('encryptedTimeLeft');
             setSubmitted(true);
 
+
             const answers = Object.entries(subjectSpecificQuestions).reduce((acc, [Key, value]) => {
                 const objects = value.map(val => ({
                     question_id: val.id,
@@ -107,12 +116,17 @@ const TestWindow = () => {
                 return [...acc, ...objects]
             }, []);
 
-            console.log(answers);
+
+            const attemptsResponse = await deleteEventAttemptsByUser(eventDetails.id, userId);
+            if(attemptsResponse.status == 200){
+                console.log(attemptsResponse.data);
+            }
 
             const response = await checkUsersAnswers(answers, user._id, eventDetails.exam_id, eventDetails.id);
             if (response.status == 200) {
                 console.log(response.data);
             }
+
         }
         catch (err) {
             console.log(err)
