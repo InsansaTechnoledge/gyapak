@@ -68,11 +68,20 @@ function launchProctorEngine(userId, examId, eventId) {
   // });
 
   proctorProcess.stdout.on('data', (data) => {
-    if (mainWindow && !mainWindow.isDestroyed()) {
-      mainWindow.webContents.send('proctor-log', data.toString());
+    const message = data.toString().trim();
+    try {
+      const parsed = JSON.parse(message);
+      if (parsed?.eventType === 'anomaly') {
+        mainWindow.webContents.send('proctor-warning', parsed);
+      } else {
+        mainWindow.webContents.send('proctor-log', message);
+      }
+    } catch {
+      mainWindow.webContents.send('proctor-log', message);
     }
   });
-
+  
+  
   proctorProcess.stderr.on('data', (data) => {
     mainWindow?.webContents.send('proctor-log', `❌ ERROR: ${data}`);
   });
