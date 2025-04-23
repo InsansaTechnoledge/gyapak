@@ -30,3 +30,42 @@ export const getAllBlogsForAdmin = async () => {
   });
   return response.data;
 };
+
+
+export const uploadCurrentAffair = async ({ date, affairs }) => {
+  const payload = {
+    date,
+    affairs: affairs.map((a) => ({
+      ...a,
+      tags: Array.isArray(a.tags)
+        ? a.tags
+        : a.tags.split(',').map(tag => tag.trim()).filter(Boolean)
+    }))
+  };
+
+  const res = await axios.post(`${API_BASE_URL}/api/v1i2/affair/upload`, payload, {
+    withCredentials: true,
+  });
+  return res.data;
+};
+
+export const updateCurrentAffairById = async (id, payload) => {
+  const res = await axios.put(`${API_BASE_URL}/api/v1i2/affair/update/${id}`, payload, {
+    withCredentials: true,
+  });
+  return res.data;
+};
+
+export const fetchCurrentAffairs = async () => {
+  const res = await axios.get(`${API_BASE_URL}/api/v1i2/affair/all`, {
+    withCredentials: true
+  });
+  return res.data;
+};
+
+export const deleteCurrentAffairById = async (id) => {
+  const res = await axios.delete(`${API_BASE_URL}/api/v1i2/affair/delete/${id}`, {
+    withCredentials: true
+  });
+  return res.data;
+};
