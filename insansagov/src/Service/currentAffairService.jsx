@@ -32,3 +32,8 @@ export const fetchTodaysAffairs = async () => {
     });
     return res.data;
   };
+
+  export const fetchAffairDetail = async (date, slug) => {
+    const res = await axios.get(`${API_BASE_URL}/api/v1i2/affair/single/${date}/${slug}`);
+    return res.data;
+  };
