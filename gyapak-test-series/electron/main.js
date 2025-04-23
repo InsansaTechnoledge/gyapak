@@ -206,7 +206,7 @@
 // });
 
 const { app, BrowserWindow, ipcMain } = require('electron');
-const { spawn } = require('child_process');
+const { spawn, exec } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 const readline = require('readline');
@@ -219,9 +219,36 @@ const [, , userId, examId, eventId] = process.argv;
 function safeSend(channel, data) {
   if (mainWindow && !mainWindow.isDestroyed()) {
     mainWindow.webContents.send(channel, data);
-  } else {
-    console.warn(`⚠️ Tried to send to destroyed window on channel "${channel}"`);
   }
+}
+
+function closeUnwantedApps() {
+  const platform = process.platform;
+
+  console.log(platform);
+
+  // uncomment this in production
+
+  // if (platform === 'darwin') {
+  //   // macOS
+  //   const appsToKill = ['Safari', 'Google Chrome'];
+  //   appsToKill.forEach(app => {
+  //     exec(`osascript -e 'quit app "${app}"'`, (err) => {
+  //       if (err) console.warn(`⚠️ Failed to quit ${app}:`, err.message);
+  //       else console.log(`✅ ${app} closed.`);
+  //     });
+  //   });
+  // } else if (platform === 'win32') {
+  //   // Windows
+  //   const processesToKill = ['chrome.exe'];
+  //   processesToKill.forEach(proc => {
+  //     exec(`taskkill /IM ${proc} /F`, (err) => {
+  //       if (err) console.warn(`⚠️ Failed to kill ${proc}:`, err.message);
+  //       else console.log(`✅ ${proc} terminated.`);
+  //     });
+  //   });
+  // }
+  
 }
 
 function createWindow() {
@@ -243,6 +270,8 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
+
+  closeUnwantedApps(); // 👈 Kill apps once window is created
 }
 
 function getBinaryPath() {
@@ -268,7 +297,7 @@ function launchProctorEngine(userId, examId, eventId) {
       } else {
         safeSend('proctor-log', line);
       }
-    } catch (err) {
+    } catch {
       safeSend('proctor-log', line);
     }
   });
@@ -331,12 +360,4 @@ app.on('window-all-closed', () => {
     proctorProcess = null;
   }
   if (process.platform !== 'darwin') app.quit();
-});
-
-ipcMain.on('window-blurred', () => {
-  safeSend('proctor-log', '⚠️ Window focus lost');
-});
-
-ipcMain.on('window-focused', () => {
-  safeSend('proctor-log', '✅ Window focus regained');
 });
