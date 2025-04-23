@@ -32,53 +32,92 @@ const TestWindow = () => {
 
 
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        if (!proctorRunning && window?.electronAPI?.onProctorWarning) {
-            window.electronAPI.onProctorWarning((data) => {
-                console.log("⚠️ Anomaly Detected:", data);
-                setWarning(data.details);  // Or customize this with parsed content
-                setTimeout(() => {
-                    setWarning(null)
-                }, 5000); // Auto-hide after 5s
+    //     if (!proctorRunning && window?.electronAPI?.onProctorWarning) {
+    //         window.electronAPI.onProctorWarning((data) => {
+    //             console.log("⚠️ Anomaly Detected:", data);
+    //             setWarning(data.details);  // Or customize this with parsed content
+    //             setTimeout(() => {
+    //                 setWarning(null)
+    //             }, 5000); // Auto-hide after 5s
                 
-            });
-        }
-    }, []);
+    //         });
+    //     }
+    // }, []);
+
+    // useEffect(() => {
+    //     const handleProctorWarning = (event) => {
+    //         console.warn("⚠️ Proctor Warning:", event);
+    //         if(!proctorRunning){
+    //             setProctorRunning(true);
+    //             setWarningCount(prev => {
+    //                 console.log(prev);
+    //                 const newCount = prev + 1;
+    //             if (newCount >= 5 && !submitted) {
+    //                 console.warn("🚨 Auto-submitting due to multiple warnings");
+    //                 handleSubmitTest(); // Automatically submit test
+    //             }
+
+    //             setTimeout(()=>setProctorRunning(false), 1000);
+    //             // setProctorRunning(false);
+    //             return newCount;
+    //         });
+    //     }
+    //     };
+
+    //     if (window?.electronAPI?.onProctorWarning) {
+    //         window.electronAPI.onProctorWarning(handleProctorWarning);
+    //     }
+
+    //     return () => {
+    //         if (window?.electronAPI?.removeProctorWarningListener) {
+    //             window.electronAPI.removeProctorWarningListener();
+    //         }
+    //     };
+    // }, [submitted]);
+
+
 
     useEffect(() => {
-        const handleProctorWarning = (event) => {
-            console.warn("⚠️ Proctor Warning:", event);
-            if(!proctorRunning){
+        const handleProctorWarning = (data) => {
+            console.log("⚠️ Anomaly Detected:", data);
+    
+            if (!proctorRunning) {
                 setProctorRunning(true);
+                setWarning(data.details);
+    
                 setWarningCount(prev => {
-                    console.log(prev);
                     const newCount = prev + 1;
-                if (newCount >= 5 && !submitted) {
-                    console.warn("🚨 Auto-submitting due to multiple warnings");
-                    handleSubmitTest(); // Automatically submit test
-                }
-
-                setTimeout(()=>setProctorRunning(false), 1000);
-                // setProctorRunning(false);
-                return newCount;
-            });
-        }
+                    console.warn("⚠️ Proctor Warning:", data);
+                    console.log(newCount);
+    
+                    if (newCount >= 5 && !submitted) {
+                        console.warn("🚨 Auto-submitting due to multiple warnings");
+                        handleSubmitTest(); // auto-submit
+                    }
+    
+                    return newCount;
+                });
+    
+                setTimeout(() => {
+                    setWarning(null);
+                    setProctorRunning(false);
+                }, 1000); // debounce window
+            }
         };
-
+    
         if (window?.electronAPI?.onProctorWarning) {
             window.electronAPI.onProctorWarning(handleProctorWarning);
         }
-
+    
         return () => {
             if (window?.electronAPI?.removeProctorWarningListener) {
                 window.electronAPI.removeProctorWarningListener();
             }
         };
-    }, [submitted]);
-
-
-
+    }, [submitted, proctorRunning]);
+    
     useEffect(() => {
         const fetchEventDetails = async () => {
             try {
