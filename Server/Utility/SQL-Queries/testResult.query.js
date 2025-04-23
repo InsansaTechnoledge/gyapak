@@ -70,7 +70,7 @@ export const evaluateResponse = async (answers = [], userId, examId, eventId) =>
                 exam_id: examId,
                 event_id: eventId,
                 user_id: userId,
-                pdf_id: "", // placeholder if not using it
+                detailed_result_id: "", // placeholder if not using it
                 marks
             }
         ])
@@ -134,6 +134,45 @@ export const fetchWrongQuestionsSubjectwise = async (userId, examId) => {
         examid: examId,
         userid: userId
       });
+
+    if(error) throw error;
+    return data;
+}
+
+export const fetchResultsOfUser = async (userId, examId) => {
+    const { data, error } = await supabase
+    .from('results')
+    .select('*, event_id(*)')
+    .eq('exam_id', examId)
+    .eq('user_id', userId)
+
+    console.log("RESULTS",data);
+
+    if(error) throw error;
+    return data;
+}
+
+export const fetchResultForEvent = async (eventId, userId) => {
+    const { data, error } = await supabase
+    .from('results')
+    .select('*, event_id(*)')
+    .eq('event_id', eventId)
+    .eq('user_id', userId)
+
+    console.log("RESULTS",data);
+
+    if(error) throw error;
+    return data;
+}
+
+export const addDetailedResultLinktoResult = async (event_id, user_id, detailed_result_id) => {
+    const { data, error} = await supabase
+    .from('results')
+    .update({ detailed_result_id })
+    .eq('event_id', event_id)
+    .eq('user_id', user_id)
+    .select()
+    .single();
 
     if(error) throw error;
     return data;

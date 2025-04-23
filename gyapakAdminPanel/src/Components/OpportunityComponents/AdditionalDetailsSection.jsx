@@ -3,6 +3,7 @@ import { PlusCircleIcon } from "lucide-react";
 
 const AdditionalDetailsSection = ({ data }) => {
   if (data && Object.keys(data).length === 0) {
+    console.log(data);
     return null;
   }
 

@@ -1,9 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-const DetailsSection = ({setEventData}) => {
-    const [entries, setEntries] = useState([]);
-    
+const DetailsSection = ({ setEventData, eventData }) => {
+
+    function detectType(value) {
+        if (Array.isArray(value)) return 'array';
+        if (typeof value === 'boolean') return 'boolean';
+        if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value)) return 'date';
+        return 'string';
+    }
+
+    function objectToEntries(obj) {
+        if(!obj){
+            return null
+        }
+        return Object.entries(obj).map(([left, right]) => {
+            const type = detectType(right);
+            const rightArray = Array.isArray(right) ? right : [right];
+            return {
+                id: uuidv4(),
+                left,
+                right: rightArray,
+                type
+            };
+        });
+    }
+
+    const [entries, setEntries] = useState(objectToEntries(eventData?.details) || []);
     // Function to add a new entry
     const addEntry = () => {
         setEntries([...entries, { id: uuidv4(), left: '', right: [], type: 'string' }]);
@@ -53,7 +76,7 @@ const DetailsSection = ({setEventData}) => {
         return acc;
     }, {});
 
-    useEffect(()=>{
+    useEffect(() => {
         setEventData(prev => ({
             ...prev,
             details: entries.reduce((acc, { left, right }) => {
@@ -61,7 +84,7 @@ const DetailsSection = ({setEventData}) => {
                 return acc;
             }, {})
         }));
-    },[entries])
+    }, [entries])
 
     return (
         <div>

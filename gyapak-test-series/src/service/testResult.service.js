@@ -19,3 +19,13 @@ export const getWrongQuestionsSubjectwiseForExam = async ({ examId, userId }) =>
   });
   return res.data;
 };
+
+export const getResultsByUser = async (examId) => {
+  const res = await api.get(`/api/v1i2/testresult/results/${examId}`);
+  return res.data;
+}
+
+export const getResultForEvent = async (eventId) => {
+  const res = await api.get(`/api/v1i2/testresult/results/event/${eventId}`);
+  return res.data;
+}

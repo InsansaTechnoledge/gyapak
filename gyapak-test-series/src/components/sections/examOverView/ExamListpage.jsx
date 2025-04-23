@@ -61,10 +61,10 @@ const ExamListPage = () => {
           {exams.map((exam) => (
             <>
               <ExamCard key={exam.id} exam={exam} />
+              {/* <ExamCard key={exam.id} exam={exam} />
               <ExamCard key={exam.id} exam={exam} />
               <ExamCard key={exam.id} exam={exam} />
-              <ExamCard key={exam.id} exam={exam} />
-              <ExamCard key={exam.id} exam={exam} />
+              <ExamCard key={exam.id} exam={exam} /> */}
             </>
           ))}
         </div>
