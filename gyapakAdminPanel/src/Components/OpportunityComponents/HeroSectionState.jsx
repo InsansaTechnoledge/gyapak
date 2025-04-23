@@ -73,13 +73,15 @@ const HeroSectionState = ({handleEventDataChange, eventData, setStateId, stateId
                         </select>
                     </h2>
                     <div className="inline-block relative mx-auto">
-                        <h1 className="
-                        text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-bold bg-gradient-to-r from-purple-600 via-purple-700 to-purple-800 bg-clip-text text-transparent mb-12">
+                        {/* <h1 className="
+                        text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-bold bg-gradient-to-r from-purple-600 via-purple-700 to-purple-800 bg-clip-text text-transparent mb-12"> */}
                             <input
                                 placeholder='Enter event'
                                 onChange={(e) => handleEventDataChange(e)}
-                                type='text' name='name' value={eventData?.organization} className='w-full focus:border-4 border-purple-700 border-2 rounded-md' />
-                        </h1>
+                                type='text' name='name' value={eventData?.organization} 
+                                className='text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-bold text-purple-700 mb-12
+                        w-full focus:border-4 border-purple-700 border-2 rounded-md' />
+                        {/* </h1> */}
 
                         {/* Floating Date Cards */}
                         <div className="flex justify-center gap-8 flex-wrap">

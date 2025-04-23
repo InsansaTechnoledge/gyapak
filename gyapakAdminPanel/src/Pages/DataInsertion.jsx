@@ -3,6 +3,7 @@ import CentralEvent from '../Components/CentralEvent';
 import StateEvent from '../Components/StateEvent';
 import AdminBlogPage from '../Components/BlogPage/AdminBlogPage';
 import FloatingOrbsBackground from '../Components/FloatingOrbsBackground';
+import EditEvent from '../Components/EditEvent/EditEvent';
 
 const DataInsertion = () => {
   const [organizationType, setOrganizationType] = useState(null);
@@ -10,7 +11,9 @@ const DataInsertion = () => {
   const options = [
     { id: "Central", label: "Central Organization" },
     { id: "State", label: "State Organization" },
-    { id: "blog", label: "Create Blog" }
+    { id: "blog", label: "Create Blog" },
+    { id: "edit", label: "Edit Event"},
+    { id: "delete", label: "Delete Event"}
   ];
 
   return (
@@ -50,6 +53,8 @@ const DataInsertion = () => {
           {organizationType === "Central" && <CentralEvent />}
           {organizationType === "State" && <StateEvent />}
           {organizationType === "blog" && <AdminBlogPage />}
+          {organizationType === "edit" && <EditEvent title={"Edit Event"}/>}
+          {organizationType === "delete" && <EditEvent title={"Delete Event"}/>}
         </div>
       </div>
     </div>

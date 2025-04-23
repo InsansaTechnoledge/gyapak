@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-const DocumentLinksSection = ({setEventData}) => {
-    const [links, setLinks] = useState(['']);
+const DocumentLinksSection = ({setEventData, eventData}) => {
+    const [links, setLinks] = useState(eventData?.document_links || ['']);
 
     // Handle input change
     const handleInputChange = (index, value) => {
@@ -56,7 +56,7 @@ const DocumentLinksSection = ({setEventData}) => {
 
             <div className='text-2xl font-bold mt-10'>
                 <h1 className='text-center'>Final Document Links JSON</h1>
-                <div className='w-fit mx-auto'>
+                <div className='overflow-auto mx-auto'>
                     <pre className='mt-5'>{JSON.stringify(links, null, 2)}</pre>
                 </div>
             </div>
