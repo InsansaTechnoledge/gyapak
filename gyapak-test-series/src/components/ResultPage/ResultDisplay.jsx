@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
-import { fetchResultForEvent } from '../../../../Server/Utility/SQL-Queries/testResult.query'
+import { getResultForEvent } from '../../service/testResult.service';
 
 const ResultDisplay = ({eventId}) => {
     
     useEffect(()=>{
         const fetchResult = async () => {
-            const response = await fetchResultForEvent(eventId);
+            const response = await getResultForEvent(eventId);
             if(response.status==200){
                 console.log(response);
             }

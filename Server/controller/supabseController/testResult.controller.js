@@ -79,8 +79,13 @@ export const getResultForEvent = async (req,res) => {
         const result = await fetchResultForEvent(eventId, userId);
 
         console.log(result);
+
+        return new APIResponse(200, result, "Result fetched").send(res);
+
+        
     }
     catch(err){
         console.log(err);
+        return new APIError(500, [err.message]).send(res);
     }
 }
