@@ -373,7 +373,7 @@ className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-whi
     </button>
 
     {categoryDropdownVisible && (
-      <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-[720px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5 mt-2">
+      <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-[720px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5">
         <div className="p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">
             Browse Categories
@@ -423,7 +423,7 @@ className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-whi
     </button>
 
     {stateDropdownVisible && (
-      <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-[900px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5 mt-2">
+      <div className="absolute top-full left-1/2 transform -translate-x-2/3 w-[900px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5">
         <div className="p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
             Browse States
