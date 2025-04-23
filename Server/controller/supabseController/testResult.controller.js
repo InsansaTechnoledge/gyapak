@@ -77,6 +77,8 @@ export const getResultForEvent = async (req,res) => {
         const {eventId} = req.params;
         
         const result = await fetchResultForEvent(eventId, userId);
+
+        console.log(result);
     }
     catch(err){
         console.log(err);

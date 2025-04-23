@@ -158,7 +158,8 @@ export const fetchResultForEvent = async (eventId, userId) => {
     .select('*, event_id(*)')
     .eq('event_id', eventId)
     .eq('user_id', userId)
-
+    .single();
+    
     console.log("RESULTS",data);
 
     if(error) throw error;
@@ -177,3 +178,4 @@ export const addDetailedResultLinktoResult = async (event_id, user_id, detailed_
     if(error) throw error;
     return data;
 }
+

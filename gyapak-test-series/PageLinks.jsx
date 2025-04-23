@@ -46,7 +46,7 @@ const PageLinks = () => {
           <Route path='/question-upload' element={<UploadQuestionsForm/>} />
           <Route path='/test-page' element={<TestPage /> } />
           <Route path='/test' element={<TestInstructions /> } />
-          <Route path='/result' element={ <ResultPage /> } />
+          <Route path='/result/:eventId' element={ <ResultPage /> } />
 
         </Routes>
       </Router>
