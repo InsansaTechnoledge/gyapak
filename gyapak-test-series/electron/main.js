@@ -248,7 +248,7 @@ function closeUnwantedApps() {
   //     });
   //   });
   // }
-  
+
 }
 
 function createWindow() {
