@@ -56,7 +56,6 @@ const SecondRoutes = () => {
                     <Route path='/state' element={<StatePage />} />
                     <Route path='/privacy-policy' element={<PrivacyPolicy />} />
                     <Route path='/credits' element={<Credits/>} />
-                    <Route path='*' element={<ErrorPage code={404} message={"Oops! Page Not Found"} subMessage={"The page you’re looking for doesn’t exist or has been moved."}/>} />
                     <Route path='/unsubscribe' element={<Unsubscribe />} />
                     <Route path='/blog' element={<BlogPage />} />
                     <Route path="/blog/:slug" element={<BlogDetailPage />} />
@@ -66,6 +65,9 @@ const SecondRoutes = () => {
 
 
                     <Route path="/current-affair" element={<CurrentAffairPage />} />
+
+
+                    <Route path='*' element={<ErrorPage code={404} message={"Oops! Page Not Found"} subMessage={"The page you’re looking for doesn’t exist or has been moved."}/>} />
 
 
                 </Routes>

@@ -9,6 +9,7 @@ import ExamPage from './src/pages/ExamPage'
 import InstitutePage from './src/pages/ForEducatorPage'
 import TestPage from './src/pages/TestPage'
 import TestInstructions from './src/components/sections/TestPage/TestInstructions'
+import ResultPage from './src/pages/ResultPage'
 
 const PageLinks = () => {
   const { user, setUser } = useUser();
@@ -45,6 +46,8 @@ const PageLinks = () => {
           <Route path='/question-upload' element={<UploadQuestionsForm/>} />
           <Route path='/test-page' element={<TestPage /> } />
           <Route path='/test' element={<TestInstructions /> } />
+          <Route path='/result/:eventId' element={ <ResultPage /> } />
+
         </Routes>
       </Router>
     </>
