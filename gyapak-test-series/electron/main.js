@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const { spawn } = require('child_process');
 const path = require('path');
 const fs = require('fs');
-
+const readline = require('readline');
 console.log("🧠 Electron main.js loaded from:", __filename);
 
 
@@ -61,27 +61,52 @@ function launchProctorEngine(userId, examId, eventId) {
   const binaryPath = getBinaryPath();
   console.log("🛠️ Proctor Engine Binary Path:", binaryPath);
 
-  proctorProcess = spawn(binaryPath, [userId, examId, eventId]);
+  proctorProcess = spawn(binaryPath, [userId, examId, eventId], {
+    stdio:['ignore', 'pipe'],
+    windowsHide: true
+  });
 
   // proctorProcess.stdout.on('data', (data) => {
   //   mainWindow?.webContents.send('proctor-log', data.toString());
   // });
 
-  proctorProcess.stdout.on('data', (data) => {
-    const message = data.toString().trim();
-    try {
-      const parsed = JSON.parse(message);
-      if (parsed?.eventType === 'anomaly') {
-        mainWindow.webContents.send('proctor-warning', parsed);
-      } else {
-        mainWindow.webContents.send('proctor-log', message);
-      }
-    } catch {
-      mainWindow.webContents.send('proctor-log', message);
+  // proctorProcess.stdout.setEncoding('utf8');
+
+  // proctorProcess.stdout.on('data', (chunk) => {
+  //   const lines = chunk.toString().split('\n').filter(Boolean); // handle multiple messages
+  //   lines.forEach((message) => {
+  //     try {
+  //       const parsed = JSON.parse(message.trim());
+  //       if (parsed?.eventType === 'anomaly') {
+  //         mainWindow?.webContents.send('proctor-warning', parsed);
+  //       } else {
+  //         mainWindow?.webContents.send('proctor-log', message.trim());
+  //       }
+  //     } catch {
+  //       mainWindow?.webContents.send('proctor-log', message.trim());
+  //     }
+  //   });
+  // });
+  
+  
+const rl = readline.createInterface({ input: proctorProcess.stdout });
+
+rl.on('line', (line) => {
+  try{
+    const parsed = JSON.parse(line);
+    if(parsed?.eventType==='anomaly'){
+      mainWindow?.webContents.send('proctor-warning', parsed);
     }
-  });
-  
-  
+    else{
+      mainWindow?.webContents.send('proctor-log', line);
+    }
+  }
+  catch(err){
+    console.log(err);
+    mainWindow?.webContents.send('proctor-log', line)
+  }
+})
+
   proctorProcess.stderr.on('data', (data) => {
     mainWindow?.webContents.send('proctor-log', `❌ ERROR: ${data}`);
   });

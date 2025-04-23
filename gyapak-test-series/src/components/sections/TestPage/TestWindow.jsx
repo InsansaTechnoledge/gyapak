@@ -18,69 +18,81 @@ const TestWindow = () => {
     const [selectedSubjectId, setSelectedSubjectId] = useState();
     const secretKey = 'secret-key-for-encryption'
     const [submitted, setSubmitted] = useState(false);
-    const {user} = useUser();
+    const { user } = useUser();
     const [warning, setWarning] = useState(null);
     const [warningCount, setWarningCount] = useState(0);
+    const [proctorRunning, setProctorRunning] = useState(false);
 
     const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
+    const searchParams = new URLSearchParams(location.search);
 
-  const userId = searchParams.get('userId');
-  const examId = searchParams.get('examId');
-  const eventId = searchParams.get('eventId');
+    const userId = searchParams.get('userId');
+    const examId = searchParams.get('examId');
+    const eventId = searchParams.get('eventId');
 
 
 
     useEffect(() => {
-        if (window?.electronAPI?.onProctorWarning) {
-          window.electronAPI.onProctorWarning((data) => {
-            console.log("⚠️ Anomaly Detected:", data);
-            setWarning(data.details);  // Or customize this with parsed content
-            setTimeout(() => setWarning(null), 5000); // Auto-hide after 5s
-          });
-        }
-      }, []);
 
-      useEffect(() => {
+        if (!proctorRunning && window?.electronAPI?.onProctorWarning) {
+            window.electronAPI.onProctorWarning((data) => {
+                console.log("⚠️ Anomaly Detected:", data);
+                setWarning(data.details);  // Or customize this with parsed content
+                setTimeout(() => {
+                    setWarning(null)
+                }, 5000); // Auto-hide after 5s
+                
+            });
+        }
+    }, []);
+
+    useEffect(() => {
         const handleProctorWarning = (event) => {
-          console.warn("⚠️ Proctor Warning:", event);
-          setWarningCount(prev => {
-            const newCount = prev + 1;
-            if (newCount >= 5 && !submitted) {
-              console.warn("🚨 Auto-submitting due to multiple warnings");
-              handleSubmitTest(); // Automatically submit test
-            }
-            return newCount;
-          });
+            console.warn("⚠️ Proctor Warning:", event);
+            if(!proctorRunning){
+                setProctorRunning(true);
+                setWarningCount(prev => {
+                    console.log(prev);
+                    const newCount = prev + 1;
+                if (newCount >= 5 && !submitted) {
+                    console.warn("🚨 Auto-submitting due to multiple warnings");
+                    handleSubmitTest(); // Automatically submit test
+                }
+
+                setTimeout(()=>setProctorRunning(false), 1000);
+                // setProctorRunning(false);
+                return newCount;
+            });
+        }
         };
-      
+
         if (window?.electronAPI?.onProctorWarning) {
-          window.electronAPI.onProctorWarning(handleProctorWarning);
+            window.electronAPI.onProctorWarning(handleProctorWarning);
         }
-      
+
         return () => {
-          if (window?.electronAPI?.removeProctorWarningListener) {
-            window.electronAPI.removeProctorWarningListener();
-          }
+            if (window?.electronAPI?.removeProctorWarningListener) {
+                window.electronAPI.removeProctorWarningListener();
+            }
         };
-      }, [submitted]);
-      
-      
+    }, [submitted]);
 
-  useEffect(() => {
-    const fetchEventDetails = async () => {
-      try {
 
-        const response = await getFullEventDetails(eventId);
-        if (response.status == 200) {
-          console.log(response.data);
-          setEventDetails(response.data);
+
+    useEffect(() => {
+        const fetchEventDetails = async () => {
+            try {
+
+                const response = await getFullEventDetails(eventId);
+                if (response.status == 200) {
+                    console.log(response.data);
+                    setEventDetails(response.data);
+                }
+            }
+            catch (err) {
+                console.log(err.response.data.errors[0] || err.message);
+            }
         }
-      }
-      catch (err) {
-        console.log(err.response.data.errors[0] || err.message);
-      }
-    }
 
         fetchEventDetails();
     }, [])
@@ -133,32 +145,32 @@ const TestWindow = () => {
 
 
     const handleSubmitTest = async () => {
-        try{
+        try {
             localStorage.removeItem('testQuestions');
             localStorage.removeItem('encryptedTimeLeft');
             setSubmitted(true);
 
-            const answers = Object.entries(subjectSpecificQuestions).reduce((acc,[Key,value]) => {
+            const answers = Object.entries(subjectSpecificQuestions).reduce((acc, [Key, value]) => {
                 const objects = value.map(val => ({
                     question_id: val.id,
                     response: val.response
                 }))
-                return [...acc,...objects]
-            },[]);
+                return [...acc, ...objects]
+            }, []);
 
             const deletedAttempt = await deleteEventAttemptsByUser(eventId, userId);
-            if(deletedAttempt.status===200){
+            if (deletedAttempt.status === 200) {
                 console.log(deletedAttempt.data);
             }
 
             console.log(answers);
-            
+
             const response = await checkUsersAnswers(answers, userId, eventDetails.exam_id, eventDetails.id);
-            if(response.status==200){
+            if (response.status == 200) {
                 console.log(response.data);
             }
         }
-        catch(err){
+        catch (err) {
             console.log(err)
             // console.log(err.response.data.errors[0] || err.message);
 
@@ -179,17 +191,17 @@ const TestWindow = () => {
         )
     }
 
-        
-    
-  
 
-  return (
 
-    <div className='p-3 flex flex-col'>
+
+
+    return (
+
+        <div className='p-3 flex flex-col'>
             {warning && (
-            <div className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-gradient-to-r from-yellow-100 via-yellow-200 to-yellow-100 border-l-4 border-yellow-500 text-yellow-800 px-6 py-4 rounded-xl shadow-lg animate-pulse w-[90%] sm:w-[500px] text-center font-semibold text-base sm:text-lg backdrop-blur">
-                <span className="text-xl mr-2">⚠️</span> {warning}
-            </div>
+                <div className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-gradient-to-r from-yellow-100 via-yellow-200 to-yellow-100 border-l-4 border-yellow-500 text-yellow-800 px-6 py-4 rounded-xl shadow-lg animate-pulse w-[90%] sm:w-[500px] text-center font-semibold text-base sm:text-lg backdrop-blur">
+                    <span className="text-xl mr-2">⚠️</span> {warning}
+                </div>
             )}
             <div className='flex w-full justify-between space-x-5'>
                 <div className=' font-bold p-5'>
@@ -228,7 +240,7 @@ const TestWindow = () => {
                         <div className='font-semibold text-nowrap'>Time Left</div>
                         <div className='font-bold text-xl'>
                             {/* <CountdownTimer initialTime={eventDetails.duration} handleSubmitTest={handleSubmitTest}/>     */}
-                            <CountdownTimer initialTime={eventDetails.duration} handleSubmitTest={handleSubmitTest} submitted={submitted}/>    
+                            <CountdownTimer initialTime={eventDetails.duration} handleSubmitTest={handleSubmitTest} submitted={submitted} />
                         </div>
                     </div>
 
@@ -258,13 +270,13 @@ const TestWindow = () => {
                         eventDetails={eventDetails} />
                 </div>
             </div>
-            <button 
-            onClick={handleSubmitTest}
-            className='mx-auto mt-10 rounded-md text-lg font-semibold bg-purple-600 px-4 py-2 w-fit text-white'>
+            <button
+                onClick={handleSubmitTest}
+                className='mx-auto mt-10 rounded-md text-lg font-semibold bg-purple-600 px-4 py-2 w-fit text-white'>
                 Submit Test
             </button>
         </div>
-  );
+    );
 };
 
 export default TestWindow;

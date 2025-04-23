@@ -482,10 +482,10 @@ const ExamOverview = () => {
                     <span className="text-gray-500 my-auto">Event date: {event.event_date}</span>
                     <div className="flex flex-col">
                       <button 
-                        disabled={attempts >= 3}
+                        disabled={attempts >= 300}
                         onClick={() => handleStartTest(event.id)}
                         className={`w-fit self-end font-medium rounded-md ${
-                          attempts >= 3 ? 'bg-gray-500' : 'bg-purple-600'
+                          attempts >= 300 ? 'bg-gray-500' : 'bg-purple-600'
                         } px-4 py-2 text-white hover:cursor-pointer`}
                       >
                         {attempts > 0 ? "Resume test" : "Start test"}
