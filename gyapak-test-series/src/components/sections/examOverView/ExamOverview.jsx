@@ -451,70 +451,66 @@ const ExamOverview = () => {
 
           {/* Tests */}
           {activeTab === 'tests' && (
-            <div className="p-6">
-              <h3 className="text-lg font-semibold mb-4 flex items-center">
-                <BookMarked size={20} className="mr-2 text-purple-600" />
-                Active Tests
-              </h3>
-              
-              {Array.isArray(exam.events) && exam.events.length > 0 ? (
-                <div className="grid grid-cols-1 gap-6">
-                  {exam.events.map((event, i) => (
-                    <div key={i} className="bg-white border rounded-lg overflow-hidden hover:shadow-md transition-shadow">
-                      <div className="h-2 bg-gradient-to-r from-purple-500 to-indigo-600"></div>
-                      <div className="p-5">
-                        <div className="flex justify-between items-start">
-                          <h4 className="text-lg font-bold text-gray-800">{event.name || 'Unnamed Subject'}</h4>
-                          <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-medium">
-                            week {event.weeks}
-                          </span>
-                        </div>
-                        
-                        <div className="mt-4">
-                          <p className="text-sm text-gray-600 mb-1">Duration:</p>
-                          <p className="bg-gray-50 p-3 rounded text-sm">{event.duration || 'No duration information available'}</p>
-                        </div>
-                        
-                        <div className="mt-4 pt-4 border-t border-gray-100">
-                          <div className="flex justify-between text-sm">
-                            <span className="text-gray-500 my-auto">Event date: {event.event_date}</span>
-                            <div className='flex flex-col'>
+  <div className="p-6">
+    <h3 className="text-lg font-semibold mb-4 flex items-center">
+      <BookMarked size={20} className="mr-2 text-purple-600" />
+      Active Tests
+    </h3>
 
-                            <button 
-                            disabled={eventAttempts[event.id]>=3}
-                            onClick= {() => {handleStartTest(event.id)}}
-                            className={`w-fit self-end font-medium rounded-md ${eventAttempts[event.id]>=3 ? 'bg-gray-500' : 'bg-purple-600'}  px-4 py-2 text-white hover:cursor-pointer`}>
-                              {
-                                eventAttempts[event.id] > 0
-                                ?
-                                "Resume test"
-                                :
-                                "Start test"
-                              }
-                              
-                            </button>
-                            {
-                              eventAttempts[event.id] > 0 
-                              ?
-                              <span>Attempts remaining: {3-eventAttempts[event.id]}</span>
-                              :
-                              null
-                            }
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+    {Array.isArray(exam.events) && exam.events.length > 0 ? (
+      <div className="grid grid-cols-1 gap-6">
+        {exam.events.map((event, i) => {
+          const attempts = eventAttempts?.[event.id] || 0;
+          return (
+            <div key={i} className="bg-white border rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+              <div className="h-2 bg-gradient-to-r from-purple-500 to-indigo-600"></div>
+              <div className="p-5">
+                <div className="flex justify-between items-start">
+                  <h4 className="text-lg font-bold text-gray-800">{event.name || 'Unnamed Subject'}</h4>
+                  <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-medium">
+                    week {event.weeks}
+                  </span>
+                </div>
+
+                <div className="mt-4">
+                  <p className="text-sm text-gray-600 mb-1">Duration:</p>
+                  <p className="bg-gray-50 p-3 rounded text-sm">{event.duration || 'No duration information available'}</p>
+                </div>
+
+                <div className="mt-4 pt-4 border-t border-gray-100">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-500 my-auto">Event date: {event.event_date}</span>
+                    <div className="flex flex-col">
+                      <button 
+                        disabled={attempts >= 3}
+                        onClick={() => handleStartTest(event.id)}
+                        className={`w-fit self-end font-medium rounded-md ${
+                          attempts >= 3 ? 'bg-gray-500' : 'bg-purple-600'
+                        } px-4 py-2 text-white hover:cursor-pointer`}
+                      >
+                        {attempts > 0 ? "Resume test" : "Start test"}
+                      </button>
+
+                      {attempts > 0 && (
+                        <span>Attempts remaining: {3 - attempts}</span>
+                      )}
                     </div>
-                  ))}
+                  </div>
                 </div>
-              ) : (
-                <div className="bg-gray-50 rounded-lg p-6 text-center">
-                  <BookOpen size={36} className="mx-auto text-gray-400 mb-3" />
-                  <p className="text-gray-600">No subjects have been added to this exam yet.</p>
-                </div>
-              )}
+              </div>
             </div>
-          )}
+          );
+        })}
+      </div>
+    ) : (
+      <div className="bg-gray-50 rounded-lg p-6 text-center">
+        <BookOpen size={36} className="mx-auto text-gray-400 mb-3" />
+        <p className="text-gray-600">No subjects have been added to this exam yet.</p>
+      </div>
+    )}
+  </div>
+)}
+
         </div>
       </div>
     </div>
