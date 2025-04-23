@@ -318,6 +318,12 @@ export default function CurrentAffairsBlog() {
   </div>
 </header>
 
+{/* Instruction Note */}
+<div className="mt-4 text-sm text-gray-600 bg-purple-50 border border-purple-100 rounded-lg p-3 mb-8 flex items-center gap-2">
+  <AlertTriangle className="text-purple-500" size={18} />
+  <span>Click on any card to view probable questions and full details of the current affair.</span>
+</div>
+
 
       {/* Main Content */}
       <main className="container mx-auto px-4  pb-12">
