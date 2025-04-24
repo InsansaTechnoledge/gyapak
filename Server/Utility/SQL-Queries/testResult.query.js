@@ -155,7 +155,7 @@ export const fetchResultsOfUser = async (userId, examId) => {
 export const fetchResultForEvent = async (eventId, userId) => {
     const { data, error } = await supabase
     .from('results')
-    .select('*, event_id(*)')
+    .select('*, event_id(*, exam_id(id, title, positive_marks, negative_marks))')
     .eq('event_id', eventId)
     .eq('user_id', userId)
     .single();

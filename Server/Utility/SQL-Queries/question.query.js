@@ -32,7 +32,7 @@ export const getQuestionBySubject = async(subject_id) => {
 export const getQuestionsByEventId = async (event_id) => {
   const { data, error } = await supabase
     .from('event_questions')
-    .select('question_id, questions(*)') 
+    .select('question_id, questions(*, subject_id(id, name))') 
     .eq('event_id', event_id)
 
   if (error) throw error;
@@ -53,6 +53,7 @@ export const updateQuestion = async(id, updates) => {
     return data;
 }
 
+
 export const deleteQuestion = async(id) => {
     const {data , error} = await supabase
     .from('questions')
@@ -64,6 +65,18 @@ export const deleteQuestion = async(id) => {
     if(error) throw error;
     return data;
 }
+
+export const getQuestion = async (id) => {
+    const {data , error} = await supabase
+    .from('questions')
+    .select('*, subject_id(id, name)')
+    .eq('id', id)
+    .single();
+
+    if(error) throw error;
+    return data;
+}
+
 
 export const evaluateAttemptedQuestions = async (attempts) => {
     const questionIds = attempts.map((a) => a.questionId);
