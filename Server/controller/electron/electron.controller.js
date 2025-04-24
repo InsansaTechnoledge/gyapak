@@ -23,7 +23,7 @@ export const launchProctor = (req, res) => {
       return res.status(500).json({ message: 'Electron binary not found. Please run `npm install electron`.' });
     }
 
-    const child = spawn(localElectronBinary, [electronMainPath, userId, examId, eventId], {
+    const child = spawn(`"${localElectronBinary}"`, [`"${electronMainPath}"`, userId, examId, eventId], {
       detached: true,
       stdio: 'inherit',
       shell: true

@@ -79,6 +79,7 @@ const TestWindow = () => {
         const response = await getFullEventDetails(eventId);
         if (response.status === 200) {
           setEventDetails(response.data);
+          console.log("eve", response.data);
         }
       } catch (err) {
         console.log(err.response?.data?.errors?.[0] || err.message);
@@ -92,6 +93,8 @@ const TestWindow = () => {
     if (subjectSpecificQuestions) {
       const encrypted = CryptoJS.AES.encrypt(JSON.stringify(subjectSpecificQuestions), secretKey).toString();
       localStorage.setItem('testQuestions', encrypted);
+
+      console.log("subjectspecific", subjectSpecificQuestions);
     }
   }, [subjectSpecificQuestions]);
 
