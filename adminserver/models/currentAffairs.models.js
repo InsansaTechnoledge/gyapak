@@ -1,5 +1,22 @@
 import {Schema , model} from 'mongoose'
 
+const questionSchema = new Schema({
+    text: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    options: {
+      type: [String],
+      validate: v => Array.isArray(v) && v.length === 4
+    },
+    answer: {
+      type: String,
+      required: true
+    }
+  }, { _id: false });
+  
+
 const affairItemSchema = new Schema({
     title: {
       type: String,
@@ -51,8 +68,10 @@ const affairItemSchema = new Schema({
       enum: ['public', 'private'],
       default: 'public',
     },
+
+    questions: { type: [questionSchema], default: [] }
+
   }, { _id: false });
-  
 
 const currentAffariSchema = new Schema({
     date:{
@@ -79,7 +98,8 @@ const currentAffariSchema = new Schema({
       affairs: {
         type: [affairItemSchema],
         default: [],
-      }
+      },
+
 
 }, {timestamps : true})
 

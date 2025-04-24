@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { uploadCurrentAffair , updateCurrentAffair , fetchAllCurrentAffairs , deleteCurrentAffair , fetchTodaysCurrentAffairs , fetchMonthlyCurrentAffairs , fetchYearlyCurrentAffairs} from '../controllers/currentAffairs.controller.js';
+import { uploadCurrentAffair , updateCurrentAffair , fetchAllCurrentAffairs , deleteCurrentAffair , fetchTodaysCurrentAffairs , fetchMonthlyCurrentAffairs , fetchYearlyCurrentAffairs , getAffairWithQuestions} from '../controllers/currentAffairs.controller.js';
 
 const router = express.Router()
 
@@ -11,5 +11,7 @@ router.delete('/delete/:id', deleteCurrentAffair);
 router.get('/today', fetchTodaysCurrentAffairs);
 router.get('/month', fetchMonthlyCurrentAffairs);
 router.get('/year', fetchYearlyCurrentAffairs);
+router.get('/single/:date/:slug', getAffairWithQuestions);
+
 
 export default router;

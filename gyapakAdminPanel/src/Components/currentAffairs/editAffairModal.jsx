@@ -36,6 +36,36 @@ const EditAffairModal = ({ isOpen, onClose, record, onSubmit }) => {
     setFormData({ ...formData, affairs: updated });
   };
 
+  const handleQuestionChange = (affairIndex, qIndex, field, value) => {
+    const updatedAffairs = [...formData.affairs];
+    updatedAffairs[affairIndex].questions[qIndex][field] = value;
+    setFormData({ ...formData, affairs: updatedAffairs });
+  };
+  
+  const handleOptionChange = (affairIndex, qIndex, optIndex, value) => {
+    const updated = [...formData.affairs];
+    updated[affairIndex].questions[qIndex].options[optIndex] = value;
+    setFormData({ ...formData, affairs: updated });
+  };
+  
+  const addQuestion = (affairIndex) => {
+    const updated = [...formData.affairs];
+    updated[affairIndex].questions = updated[affairIndex].questions || [];
+    updated[affairIndex].questions.push({
+      text: '',
+      options: ['', '', '', ''],
+      answer: ''
+    });
+    setFormData({ ...formData, affairs: updated });
+  };
+  
+  const removeQuestion = (affairIndex, qIndex) => {
+    const updated = [...formData.affairs];
+    updated[affairIndex].questions.splice(qIndex, 1);
+    setFormData({ ...formData, affairs: updated });
+  };
+  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -203,6 +233,55 @@ const EditAffairModal = ({ isOpen, onClose, record, onSubmit }) => {
                         className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                       />
                     </div>
+
+                    {affair.questions && affair.questions.length > 0 && (
+  <div className="mt-6">
+    <h4 className="text-md font-semibold text-purple-800 mb-3">🧠 Edit Questions</h4>
+    {affair.questions.map((q, qIndex) => (
+      <div key={qIndex} className="bg-purple-50 p-4 rounded border border-purple-200 mb-4 space-y-3">
+        <input
+          type="text"
+          value={q.text}
+          onChange={(e) => handleQuestionChange(i, qIndex, 'text', e.target.value)}
+          placeholder="Question text"
+          className="w-full border border-gray-300 p-2 rounded"
+        />
+        {q.options.map((opt, optIndex) => (
+          <input
+            key={optIndex}
+            type="text"
+            value={opt}
+            onChange={(e) => handleOptionChange(i, qIndex, optIndex, e.target.value)}
+            placeholder={`Option ${optIndex + 1}`}
+            className="w-full border border-gray-300 p-2 rounded"
+          />
+        ))}
+        <input
+          type="text"
+          value={q.answer}
+          onChange={(e) => handleQuestionChange(i, qIndex, 'answer', e.target.value)}
+          placeholder="Correct answer"
+          className="w-full border border-green-300 p-2 rounded"
+        />
+        <button
+          type="button"
+          onClick={() => removeQuestion(i, qIndex)}
+          className="text-red-600 text-sm underline"
+        >
+          Remove Question
+        </button>
+      </div>
+    ))}
+    <button
+      type="button"
+      onClick={() => addQuestion(i)}
+      className="text-blue-600 text-sm underline"
+    >
+      + Add Question
+    </button>
+  </div>
+)}
+
                   </div>
                 </div>
               </div>

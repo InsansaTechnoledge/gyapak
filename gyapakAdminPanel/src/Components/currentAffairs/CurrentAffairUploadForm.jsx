@@ -16,7 +16,15 @@ const initialAffair = {
   visibility: 'public',
   source: '',
   imageUrl: '',
-  videoUrl: ''
+  videoUrl: '',
+  questions: [
+    {
+      text: '',
+      options: ['', '', '', ''],
+      answer: ''
+    }
+  ]
+  
 };
 
 export default function CurrentAffairUploadForm() {
@@ -40,6 +48,35 @@ export default function CurrentAffairUploadForm() {
     const updated = affairs.filter((_, i) => i !== index);
     setAffairs(updated);
   };
+
+  const handleQuestionChange = (affairIndex, qIndex, field, value) => {
+    const updatedAffairs = [...affairs];
+    updatedAffairs[affairIndex].questions[qIndex][field] = value;
+    setAffairs(updatedAffairs);
+  };
+  
+  const handleOptionChange = (affairIndex, qIndex, optIndex, value) => {
+    const updated = [...affairs];
+    updated[affairIndex].questions[qIndex].options[optIndex] = value;
+    setAffairs(updated);
+  };
+  
+  const addQuestion = (affairIndex) => {
+    const updated = [...affairs];
+    updated[affairIndex].questions.push({
+      text: '',
+      options: ['', '', '', ''],
+      answer: ''
+    });
+    setAffairs(updated);
+  };
+  
+  const removeQuestion = (affairIndex, qIndex) => {
+    const updated = [...affairs];
+    updated[affairIndex].questions.splice(qIndex, 1);
+    setAffairs(updated);
+  };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -257,6 +294,53 @@ export default function CurrentAffairUploadForm() {
                     className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                   />
                 </div>
+
+                <div className="mt-6">
+  <h4 className="text-md font-semibold text-purple-800 mb-3">🧠 Add Questions</h4>
+  {affair.questions.map((q, qIndex) => (
+    <div key={qIndex} className="bg-purple-50 p-4 rounded border border-purple-200 mb-4 space-y-3">
+      <input
+        type="text"
+        value={q.text}
+        onChange={(e) => handleQuestionChange(index, qIndex, 'text', e.target.value)}
+        placeholder="Enter question text"
+        className="w-full border border-gray-300 p-2 rounded"
+      />
+      {q.options.map((opt, optIndex) => (
+        <input
+          key={optIndex}
+          type="text"
+          value={opt}
+          onChange={(e) => handleOptionChange(index, qIndex, optIndex, e.target.value)}
+          placeholder={`Option ${optIndex + 1}`}
+          className="w-full border border-gray-300 p-2 rounded"
+        />
+      ))}
+      <input
+        type="text"
+        value={q.answer}
+        onChange={(e) => handleQuestionChange(index, qIndex, 'answer', e.target.value)}
+        placeholder="Correct answer"
+        className="w-full border border-green-300 p-2 rounded"
+      />
+      <button
+        type="button"
+        onClick={() => removeQuestion(index, qIndex)}
+        className="text-red-600 text-sm underline"
+      >
+        Remove Question
+      </button>
+    </div>
+  ))}
+  <button
+    type="button"
+    onClick={() => addQuestion(index)}
+    className="text-blue-600 text-sm underline"
+  >
+    + Add Question
+  </button>
+</div>
+
               </div>
             </div>
           </div>

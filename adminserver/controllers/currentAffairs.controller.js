@@ -149,3 +149,50 @@ export const deleteCurrentAffair = async (req, res) => {
     }
   };
   
+
+  export const addQuestionsToAffair = async (req, res) => {
+    try {
+        const { date, affairs } = req.body;
+    
+        const affairDate = new Date(date);
+        const month = affairDate.getMonth() + 1;
+        const year = affairDate.getFullYear();
+    
+        const exists = await CurrentAffair.findOne({ date: affairDate });
+        if (exists) {
+          return new APIError(400, ['Current affair already exists for this date']).send(res); 
+        }
+    
+        const newRecord = await CurrentAffair.create({
+          date: affairDate,
+          month,
+          year,
+          affairs // ✅ this must include questions
+        });
+    
+        return new APIResponse(200, newRecord, 'New affair created successfully').send(res);
+      } catch (e) {
+        return new APIError(500, [e.message, 'There was an error uploading current affairs']).send(res);
+      }
+  };
+  
+
+  export const getAffairWithQuestions = async (req, res) => {
+    try {
+      const { date, slug } = req.params;
+  
+      const record = await CurrentAffair.findOne({ date: new Date(date) });
+  
+      if (!record) return new APIError(404, ['No record found for given date']).send(res);
+  
+      const affair = record.affairs.find(
+        a => a.title.toLowerCase().replace(/\s+/g, '-') === slug
+      );
+  
+      if (!affair) return new APIError(404, ['Affair not found']).send(res);
+  
+      return new APIResponse(200, affair, 'Affair found').send(res);
+    } catch (e) {
+      return new APIError(500, [e.message, 'Failed to fetch affair']).send(res);
+    }
+  };
