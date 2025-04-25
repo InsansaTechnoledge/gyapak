@@ -33,8 +33,8 @@ const allowedOrigins = [
 const backendInstances = [
   // "https://backend.gyapak.in",
   // "http://localhost:5000",
-  // "http://localhost:8383",
-  'https://gyapak-test-server.onrender.com'
+  "http://localhost:8383",
+  // 'https://gyapak-test-server.onrender.com'
 ];
 
 let currentIndex = 0;
