@@ -274,30 +274,30 @@ function createWindow() {
   closeUnwantedApps(); // 👈 Kill apps once window is created
 }
 
-// function getBinaryPath() {
-//   const isWin = process.platform === 'win32';
-//   const binaryName = isWin ? 'Release/proctor_engine.exe' : 'proctor_engine';
-//   return path.resolve(__dirname, '../../ai-proctor-engine/build', binaryName);
-// }
-
-
 function getBinaryPath() {
   const isWin = process.platform === 'win32';
-  const platformDir = isWin ? 'win' : 'mac';
-  const binaryName = isWin ? 'proctor_engine.exe' : 'proctor_engine';
-
-  // Resolve from Electron app root
-  const binaryPath = path.join(__dirname, './bin', platformDir, binaryName);
-  const resolved = path.resolve(binaryPath);
-
-  console.log("🛠️ Resolved binary path:", resolved);
-
-  if (!fs.existsSync(resolved)) {
-    throw new Error(`❌ Proctor Engine binary not found at: ${resolved}`);
-  }
-
-  return resolved;
+  const binaryName = isWin ? 'Release/proctor_engine.exe' : 'proctor_engine';
+  return path.resolve(__dirname, '../../ai-proctor-engine/build', binaryName);
 }
+
+
+// function getBinaryPath() {
+//   const isWin = process.platform === 'win32';
+//   const platformDir = isWin ? 'win' : 'mac';
+//   const binaryName = isWin ? 'proctor_engine.exe' : 'proctor_engine';
+
+//   // Resolve from Electron app root
+//   const binaryPath = path.join(__dirname, './bin', platformDir, binaryName);
+//   const resolved = path.resolve(binaryPath);
+
+//   console.log("🛠️ Resolved binary path:", resolved);
+
+//   if (!fs.existsSync(resolved)) {
+//     throw new Error(`❌ Proctor Engine binary not found at: ${resolved}`);
+//   }
+
+//   return resolved;
+// }
 
 
 
@@ -305,6 +305,7 @@ function getBinaryPath() {
 function launchProctorEngine(userId, examId, eventId) {
   const binaryPath = getBinaryPath();
   proctorProcess = spawn(binaryPath, [userId, examId, eventId], {
+    // shell: true,
     stdio: ['ignore', 'pipe'],
     windowsHide: true,
   });
