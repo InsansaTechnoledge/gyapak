@@ -263,7 +263,7 @@ function createWindow() {
     },
   });
 
-  const url = `http://localhost:5173/test?userId=${userId}&examId=${examId}&eventId=${eventId}`;
+  const url = `https://gyapak-test-server.onrender.com/test?userId=${userId}&examId=${examId}&eventId=${eventId}`;
   mainWindow.loadURL(url);
 
   mainWindow.on('closed', () => {
@@ -354,7 +354,7 @@ ipcMain.on('start-proctor-engine', (_event, { userId, examId, eventId }) => {
     return;
   }
 
-  const testPageUrl = `http://localhost:5173/test-page?userId=${userId}&examId=${examId}&eventId=${eventId}`;
+  const testPageUrl = `https://gyapak-test-server.onrender.com/test-page?userId=${userId}&examId=${examId}&eventId=${eventId}`;
   if (mainWindow && !mainWindow.isDestroyed()) {
     mainWindow.loadURL(testPageUrl);
   }
