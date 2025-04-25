@@ -7,7 +7,11 @@
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "dist": "electron-builder",
+    
+    "build:mac": "electron-builder --mac",
+    "build:win": "electron-builder --win"
+
   },
   "build": {
     "appId": "com.gyapak.proctor",

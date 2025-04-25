@@ -11,7 +11,7 @@ const ResultPage = () => {
   return (
     <>
         <Navbar />
-        <div className='px-36 mt-24'>
+        <div className='px-36 pt-24'>
             <ResultDisplay eventId={eventId}/>
         </div>
         <Footer />

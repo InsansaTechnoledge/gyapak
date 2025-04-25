@@ -50,7 +50,6 @@ const __dirname = path.dirname(__filename);
 export const launchProctor = (req, res) => {
   try {
     const { userId, examId, eventId } = req.body;
-
     if (!userId || !examId || !eventId) {
       return res.status(400).json({ message: "Missing required fields" });
     }

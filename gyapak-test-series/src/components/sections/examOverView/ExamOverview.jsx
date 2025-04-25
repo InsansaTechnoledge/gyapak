@@ -105,47 +105,47 @@ const ExamOverview = () => {
     return question.answer;
   };
 
-  // const handleStartTest = async (eventId) => {
-  //   try {
-  //     const body = {
-  //       userId: user._id,
-  //       examId,
-  //       eventId
-  //     };
-
-  //     const res = await axios.post('http://localhost:8383/api/v1i2/proctor/launch', body);
-
-  //     // Axios parses response automatically
-  //     if (res.ok) console.log('🚀 Proctor launched:', res.data.message);
-
-
-
-
-
-  //   } catch (error) {
-  //     const message =
-  //       error?.response?.data?.message || error.message || 'Unknown error';
-  //     console.error('❌ Error launching proctor:', message);
-  //   }
-  // };
-
   const handleStartTest = async (eventId) => {
     try {
-      const body = { userId: user._id, examId, eventId };
+      const body = {
+        userId: user._id,
+        examId,
+        eventId
+      };
+
       const res = await axios.post('http://localhost:8383/api/v1i2/proctor/launch', body);
-  
-      if (res.data?.downloadRequired) {
-        downloadProctorInstaller();
-        alert("Proctor Engine will now download. Please install and reopen the test.");
-      } else {
-        navigate(`/test?userId=${user._id}&examId=${examId}&eventId=${eventId}`);
-      }
-  
+
+      // Axios parses response automatically
+      if (res.ok) console.log('🚀 Proctor launched:', res.data.message);
+
+
+
+
+
     } catch (error) {
-      const message = error?.response?.data?.message || error.message || 'Unknown error';
+      const message =
+        error?.response?.data?.message || error.message || 'Unknown error';
       console.error('❌ Error launching proctor:', message);
     }
   };
+
+  // const handleStartTest = async (eventId) => {
+  //   try {
+  //     const body = { userId: user._id, examId, eventId };
+  //     const res = await axios.post('http://localhost:8383/api/v1i2/proctor/launch', body);
+  
+  //     if (res.data?.downloadRequired) {
+  //       downloadProctorInstaller();
+  //       alert("Proctor Engine will now download. Please install and reopen the test.");
+  //     } else {
+  //       navigate(`/test?userId=${user._id}&examId=${examId}&eventId=${eventId}`);
+  //     }
+  
+  //   } catch (error) {
+  //     const message = error?.response?.data?.message || error.message || 'Unknown error';
+  //     console.error('❌ Error launching proctor:', message);
+  //   }
+  // };
 
   const handleViewResult = (event_id) => {
     navigate(`/result/${event_id}`);
