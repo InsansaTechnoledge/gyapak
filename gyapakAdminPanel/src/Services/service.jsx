@@ -32,15 +32,37 @@ export const getAllBlogsForAdmin = async () => {
 };
 
 
+// export const uploadCurrentAffair = async ({ date, affairs }) => {
+//   const payload = {
+//     date,
+//     affairs: affairs.map((a) => ({
+//       ...a,
+//       tags: Array.isArray(a.tags)
+//         ? a.tags
+//         : a.tags.split(',').map(tag => tag.trim()).filter(Boolean)
+//     }))
+//   };
+
+//   const res = await axios.post(`${API_BASE_URL}/api/v1i2/affair/upload`, payload, {
+//     withCredentials: true,
+//   });
+//   return res.data;
+// };
+
 export const uploadCurrentAffair = async ({ date, affairs }) => {
+  const formattedAffairs = affairs.map((a) => ({
+    ...a,
+    tags: Array.isArray(a.tags)
+      ? a.tags
+      : a.tags.split(',').map(tag => tag.trim()).filter(Boolean),
+    questions: a.questions || [] // ensure questions array is passed
+  }));
+
   const payload = {
     date,
-    affairs: affairs.map((a) => ({
-      ...a,
-      tags: Array.isArray(a.tags)
-        ? a.tags
-        : a.tags.split(',').map(tag => tag.trim()).filter(Boolean)
-    }))
+    month: new Date(date).getMonth() + 1,
+    year: new Date(date).getFullYear(),
+    affairs: formattedAffairs
   };
 
   const res = await axios.post(`${API_BASE_URL}/api/v1i2/affair/upload`, payload, {
@@ -48,6 +70,7 @@ export const uploadCurrentAffair = async ({ date, affairs }) => {
   });
   return res.data;
 };
+
 
 export const updateCurrentAffairById = async (id, payload) => {
   const res = await axios.put(`${API_BASE_URL}/api/v1i2/affair/update/${id}`, payload, {
@@ -69,3 +92,4 @@ export const deleteCurrentAffairById = async (id) => {
   });
   return res.data;
 };
+

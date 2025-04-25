@@ -10,6 +10,8 @@ import {
   fetchMonthlyAffairs,
   fetchYearlyAffairs
 } from '../../Service/currentAffairService';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function CurrentAffairsBlog() {
   const [affairs, setAffairs] = useState([]);
@@ -22,6 +24,13 @@ export default function CurrentAffairsBlog() {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('all');
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  const toDetail = (affair) => {
+    const datePart = affair.date?.split('T')[0];
+    const titleSlug = affair.title?.toLowerCase().replace(/\s+/g, '-');
+    navigate(`/current-affairs/${datePart}/${titleSlug}`);
+  };
 
   const fetchData = async (tab = activeTab) => {
     setLoading(true);
@@ -309,6 +318,12 @@ export default function CurrentAffairsBlog() {
   </div>
 </header>
 
+{/* Instruction Note */}
+<div className="mt-4 text-sm text-gray-600 bg-purple-50 border border-purple-100 rounded-lg p-3 mb-8 flex items-center gap-2">
+  <AlertTriangle className="text-purple-500" size={18} />
+  <span>Click on any card to view probable questions and full details of the current affair.</span>
+</div>
+
 
       {/* Main Content */}
       <main className="container mx-auto px-4  pb-12">
@@ -336,7 +351,8 @@ export default function CurrentAffairsBlog() {
             {/* Featured Story */}
             {featuredAffair && (
   <div className="mb-12">
-    <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
+    <div       onClick={() => toDetail(featuredAffair)}
+ className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
       {(featuredAffair.mediaType === 'image' && featuredAffair.mediaUrl) && (
         <div className="relative aspect-[16/9] sm:h-64 md:h-80 lg:h-[420px] w-full">
           <img 
@@ -346,7 +362,7 @@ export default function CurrentAffairsBlog() {
             onError={(e) => {
               e.target.src = "/api/placeholder/1200/400";
               e.target.alt = "Image unavailable";
-            }}
+            }} 
           />
           <div className="absolute top-4 left-4">
             <span className="bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-medium">
@@ -439,7 +455,8 @@ export default function CurrentAffairsBlog() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {nonFeaturedAffairs.map((affair, index) => (
-          <article key={index} className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden border border-gray-100">
+          <article onClick={() => toDetail(affair)}
+          key={index} className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden border border-gray-100">
             <div className="p-6">
               {renderMedia(affair)}
 
