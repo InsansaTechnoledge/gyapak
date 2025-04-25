@@ -113,7 +113,7 @@ const ExamOverview = () => {
         eventId
       };
 
-      const res = await axios.post('http://localhost:8383/api/v1i2/proctor/launch', body);
+      const res = await axios.post('https://gyapak-test-server.onrender.com/api/v1i2/proctor/launch', body);
 
       // Axios parses response automatically
       if (res.ok) console.log('🚀 Proctor launched:', res.data.message);
