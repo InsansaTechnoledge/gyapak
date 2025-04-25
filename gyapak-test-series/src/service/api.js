@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://gyapak-test-server.onrender.com',
+  baseURL: 'http://localhost:8383/',
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json'

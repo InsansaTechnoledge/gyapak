@@ -267,7 +267,7 @@ function createWindow() {
     },
   });
 
-  const url = `https://gyapak-test-series.vercel.app/test?userId=${userId}&examId=${examId}&eventId=${eventId}`;
+  const url = `http://localhost:5173/test?userId=${userId}&examId=${examId}&eventId=${eventId}`;
   mainWindow.loadURL(url);
 
   mainWindow.on('closed', () => {
@@ -358,7 +358,7 @@ ipcMain.on('start-proctor-engine', (_event, { userId, examId, eventId }) => {
     return;
   }
 
-  const testPageUrl = `https://gyapak-test-series.vercel.app/test-page?userId=${userId}&examId=${examId}&eventId=${eventId}`;
+  const testPageUrl = `http://localhost:5173/test-page?userId=${userId}&examId=${examId}&eventId=${eventId}`;
   if (mainWindow && !mainWindow.isDestroyed()) {
     mainWindow.loadURL(testPageUrl);
   }
@@ -397,10 +397,10 @@ app.on('open-url', (event, url) => {
 
   event.preventDefault();
 
-  console.log('🧠 Protocol triggered:', url);
- 
+  
   if (!mainWindow || mainWindow.isDestroyed()) {
-
+    
+    console.log('🧠 Protocol triggered:', url);
     createWindow(); // just opens window
 
   } else {
