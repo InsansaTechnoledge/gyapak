@@ -253,7 +253,6 @@ function closeUnwantedApps() {
 
 function createWindow() {
   const preloadPath = path.resolve(__dirname, 'preload.js');
-
   mainWindow = new BrowserWindow({
     fullscreen: true,
     webPreferences: {
@@ -275,9 +274,12 @@ function createWindow() {
 }
 
 function getBinaryPath() {
+
   const isWin = process.platform === 'win32';
   const binaryName = isWin ? 'Release/proctor_engine.exe' : 'proctor_engine';
-  return path.resolve(__dirname, '../../ai-proctor-engine/build', binaryName);
+  const binPath = path.resolve(__dirname, '../../ai-proctor-engine/build', binaryName);
+  console.log(binPath , ':/')
+  return binPath
 }
 
 function launchProctorEngine(userId, examId, eventId) {
@@ -316,6 +318,10 @@ function launchProctorEngine(userId, examId, eventId) {
     proctorProcess = null;
   });
 }
+
+app.commandLine.appendSwitch('disable-gpu-shader-disk-cache');
+app.commandLine.appendSwitch('disk-cache-size', '0');
+app.disableHardwareAcceleration();
 
 app.whenReady().then(() => {
   createWindow();
