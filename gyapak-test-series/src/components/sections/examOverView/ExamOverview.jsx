@@ -122,7 +122,12 @@ const ExamOverview = () => {
 
       setTimeout(()=>{
         alert("Download Gyapak");
-        window.open()
+        if(process.platform==='win32'){
+          window.open("https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor.Setup.1.0.0.exe");
+        }
+        else{
+          window.open("https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor-1.0.0-arm64.dmg");
+        }
       },3000);
 
 
