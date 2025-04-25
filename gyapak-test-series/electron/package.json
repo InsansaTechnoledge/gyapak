@@ -16,6 +16,14 @@
   "build": {
     "appId": "com.gyapak.proctor",
     "productName": "GyapakProctor",
+    "protocols": [
+      {
+        "name": "Gyapak Proctor App",
+        "schemes": [
+          "gyapak"
+        ]
+      }
+    ],
     "files": [
       "**/*",
       "bin/**/*"

@@ -214,6 +214,10 @@ const readline = require('readline');
 let mainWindow;
 let proctorProcess = null;
 
+if (!app.isDefaultProtocolClient('gyapak')) {
+  app.setAsDefaultProtocolClient('gyapak');
+}
+
 const [, , userId, examId, eventId] = process.argv;
 
 function safeSend(channel, data) {
@@ -380,6 +384,35 @@ ipcMain.on('close-electron-window', () => {
     mainWindow.close();
   }
 });
+
+if (!app.isDefaultProtocolClient('gyapak')) {
+
+  app.setAsDefaultProtocolClient('gyapak');
+
+}
+ 
+// ✅ Handle protocol call
+
+app.on('open-url', (event, url) => {
+
+  event.preventDefault();
+
+  console.log('🧠 Protocol triggered:', url);
+ 
+  if (!mainWindow || mainWindow.isDestroyed()) {
+
+    createWindow(); // just opens window
+
+  } else {
+
+    mainWindow.show();
+
+    mainWindow.focus();
+
+  }
+
+});
+ 
 
 app.on('window-all-closed', () => {
   if (proctorProcess) {
