@@ -105,47 +105,47 @@ const ExamOverview = () => {
     return question.answer;
   };
 
-  const handleStartTest = async (eventId) => {
-    try {
-      const body = {
-        userId: user._id,
-        examId,
-        eventId
-      };
+  // const handleStartTest = async (eventId) => {
+  //   try {
+  //     const body = {
+  //       userId: user._id,
+  //       examId,
+  //       eventId
+  //     };
 
-      // const res = await axios.post('http://localhost:5173//api/v1i2/proctor/launch', body);
+  //     // const res = await axios.post('http://localhost:5173//api/v1i2/proctor/launch', body);
 
-      // // Axios parses response automatically
-      // if (res.ok) console.log('🚀 Proctor launched:', res.data.message);
+  //     // // Axios parses response automatically
+  //     // if (res.ok) console.log('🚀 Proctor launched:', res.data.message);
 
-        // window.location.href = 'gyapak://open';
-        window.location.href = "https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor.Setup.1.0.0.exe";
+  //       window.location.href = 'gyapak://open';
+  //       // window.location.href = "https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor-1.0.0-arm64.dmg";
  
-      setTimeout(()=>{
-        alert("Download Gyapak");
-        // if(process.platform==='win32'){
-        //   window.open("https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor.Setup.1.0.0.exe");
-        // }
-        // else{
-        //   window.open("https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor-1.0.0-arm64.dmg");
-        // }
-         if (navigator.platform==='win32') {
-          // Use location.href to trigger download directly
-          window.location.href = "https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor.Setup.1.0.0.exe";
-        } else {
-          window.location.href = "https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor-1.0.0-arm64.dmg";
-        }
-      },3000);
+  //     // setTimeout(()=>{
+  //     //   alert("Download Gyapak");
+  //     //   // if(process.platform==='win32'){
+  //     //   //   window.open("https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor.Setup.1.0.0.exe");
+  //     //   // }
+  //     //   // else{
+  //     //   //   window.open("https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor-1.0.0-arm64.dmg");
+  //     //   // }
+  //     //    if (navigator.platform==='win32') {
+  //     //     // Use location.href to trigger download directly
+  //     //     window.location.href = "https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor.Setup.1.0.0.exe";
+  //     //   } else {
+  //     //     window.location.href = "https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor-1.0.0-arm64.dmg";
+  //     //   }
+  //     // },3000);
 
 
 
 
-    } catch (error) {
-      const message =
-        error?.response?.data?.message || error.message || 'Unknown error';
-      console.error('❌ Error launching proctor:', message);
-    }
-  };
+  //   } catch (error) {
+  //     const message =
+  //       error?.response?.data?.message || error.message || 'Unknown error';
+  //     console.error('❌ Error launching proctor:', message);
+  //   }
+  // };
 
   // const handleStartTest = async (eventId) => {
   //   try {
@@ -165,6 +165,23 @@ const ExamOverview = () => {
   //   }
   // };
 
+  const handleStartTest = async (eventId) => {
+    try {
+      const body = {
+        userId: user._id,
+        examId,
+        eventId
+      };
+  
+      const gyapakUrl = `gyapak://open?userId=${user._id}&examId=${examId}&eventId=${eventId}`;
+      window.location.href = gyapakUrl;
+  
+    } catch (error) {
+      const message = error?.response?.data?.message || error.message || 'Unknown error';
+      console.error('❌ Error launching proctor:', message);
+    }
+  };
+  
   const handleViewResult = (event_id) => {
     navigate(`/result/${event_id}`);
   }
