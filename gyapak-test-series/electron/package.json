@@ -12,28 +12,35 @@
     "build:win": "electron-builder --win"
   },
   "build": {
-    "appId": "com.gyapak.proctor",
-    "productName": "GyapakProctor",
-    "protocols": [
-      {
-        "name": "Gyapak Proctor App",
-        "schemes": ["gyapak"]
-      }
-    ],
-    "files": [
-      "**/*",
-      "bin/**/*"
-    ],
-    "directories": {
-      "output": "dist"
-    },
-    "mac": {
-      "target": "dmg"
-    },
-    "win": {
-      "target": "nsis"
+  "appId": "com.gyapak.proctor",
+  "productName": "GyapakProctor",
+  "protocols": [
+    {
+      "name": "Gyapak Proctor App",
+      "schemes": ["gyapak"]
     }
+  ],
+  "files": [
+    "**/*",
+    "!bin/**/*"       
+  ],
+  "extraResources": [
+    {
+      "from": "bin",
+      "to": "bin",
+      "filter": ["**/*"]
+    }
+  ],
+  "directories": {
+    "output": "dist"
   },
+  "mac": {
+    "target": "dmg"
+  },
+  "win": {
+    "target": "nsis"
+  }
+},
   "dependencies": {
   },
   "devDependencies": {
@@ -41,3 +48,5 @@
     "electron-builder": "^26.0.12"
   }
 }
+ 
+ 

@@ -3,35 +3,35 @@ const { spawn, exec } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 const readline = require('readline');
-
+ 
 let mainWindow;
 let proctorProcess = null;
-
+ 
 if (!app.isDefaultProtocolClient('gyapak')) {
   app.setAsDefaultProtocolClient('gyapak');
 }
-
-
+ 
+ 
 const userId = '68022a95181d6d38d41fbc4b';
 const examId = '3ea70332-a6dc-49a0-aede-56208f580fb1';
 const eventId = '4fba7d24-d8ad-4320-be0b-0dca9b861fe4';
-
-
+ 
+ 
 // const [, , userId, examId, eventId] = process.argv;
-
+ 
 function safeSend(channel, data) {
   if (mainWindow && !mainWindow.isDestroyed()) {
     mainWindow.webContents.send(channel, data);
   }
 }
-
+ 
 function closeUnwantedApps() {
   const platform = process.platform;
-
+ 
   console.log(platform);
-
+ 
   // uncomment this in production
-
+ 
   // if (platform === 'darwin') {
   //   // macOS
   //   const appsToKill = ['Safari', 'Google Chrome'];
@@ -51,9 +51,9 @@ function closeUnwantedApps() {
   //     });
   //   });
   // }
-
+ 
 }
-
+ 
 function createWindow(userId, examId, eventId) {
   const preloadPath = path.resolve(__dirname, 'preload.js');
   mainWindow = new BrowserWindow({
@@ -65,55 +65,62 @@ function createWindow(userId, examId, eventId) {
       sandbox: false,
     },
   });
-
-
-  const url = `http://localhost:5173/test?userId=${userId}&examId=${examId}&eventId=${eventId}`;
+ 
+  let url;
+  if (userId && examId && eventId) {
+    url = `http://localhost:5173/test?userId=${userId}&examId=${examId}&eventId=${eventId}`;
+  } else {
+    url = `http://localhost:5173/`; // 👉 Show landing page, or a "waiting" screen
+  }
+ 
   mainWindow.loadURL(url);
-
+ 
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
-
+ 
   closeUnwantedApps(); // 👈 Kill apps once window is created
 }
-
+ 
 // function getBinaryPath() {
-
+ 
 //   const isWin = process.platform === 'win32';
 //   const binaryName = isWin ? 'Release/proctor_engine.exe' : 'proctor_engine';
 //   return path.resolve(__dirname, '../../ai-proctor-engine/build', binaryName);
 // }
-
-
+ 
+ 
 function getBinaryPath() {
   const isWin = process.platform === 'win32';
   const platformDir = isWin ? 'win' : 'mac';
   const binaryName = isWin ? 'proctor_engine.exe' : 'proctor_engine';
-
-  // Resolve from Electron app root
-  const binaryPath = path.join(__dirname, './bin', platformDir, binaryName);
-  const resolved = path.resolve(binaryPath);
-
-  console.log("🛠️ Resolved binary path:", resolved);
-
-  if (!fs.existsSync(resolved)) {
-    throw new Error(`❌ Proctor Engine binary not found at: ${resolved}`);
+ 
+  // Determine base directory safely outside the asar
+  let basePath = path.join(process.resourcesPath, 'bin', platformDir);
+ 
+  const fullPath = path.join(basePath, binaryName);
+ 
+  console.log("🛠️ Resolved binary path:", fullPath);
+ 
+  if (!fs.existsSync(fullPath)) {
+    throw new Error(`❌ Proctor Engine binary not found at: ${fullPath}`);
   }
-
-  return resolved;
+ 
+  return fullPath;
 }
-
-
+ 
+ 
 function launchProctorEngine(userId, examId, eventId) {
   const binaryPath = getBinaryPath();
+  console.log(binaryPath);
   proctorProcess = spawn(binaryPath, [userId, examId, eventId], {
     // shell: true,
     stdio: ['ignore', 'pipe'],
     windowsHide: true,
   });
-
+ 
   const rl = readline.createInterface({ input: proctorProcess.stdout });
-
+ 
   rl.on('line', (line) => {
     try {
       const parsed = JSON.parse(line);
@@ -126,85 +133,124 @@ function launchProctorEngine(userId, examId, eventId) {
       safeSend('proctor-log', line);
     }
   });
-
+ 
   proctorProcess.stderr.on('data', (data) => {
     safeSend('proctor-log', `❌ ERROR: ${data}`);
   });
-
+ 
   proctorProcess.on('exit', (code) => {
     safeSend('proctor-log', `🛑 Proctor Engine exited with code ${code}`);
     proctorProcess = null;
   });
-
+ 
   proctorProcess.on('error', (err) => {
     safeSend('proctor-log', `❌ Failed to start engine: ${err.message}`);
     proctorProcess = null;
   });
 }
-
+ 
 app.commandLine.appendSwitch('disable-gpu-shader-disk-cache');
 app.commandLine.appendSwitch('disk-cache-size', '0');
 app.disableHardwareAcceleration();
-
-app.whenReady().then(() => {
-  // Listen for the custom URL scheme when the app is launched
-  console.log("HHH");
-  if (!app.isDefaultProtocolClient('gyapak')) {
-    app.setAsDefaultProtocolClient('gyapak');
-  }
   
-  app.on('open-url', (event, url) => {
-    console.log('Protocol triggered:', url);
-
-    // Prevent the default behavior
-    event.preventDefault();
-
-    // Parse the URL and extract the query parameters
-    try {
-      const parsedUrl = new URL(url);
-      const userId = parsedUrl.searchParams.get('userId');
-      const examId = parsedUrl.searchParams.get('examId');
-      const eventId = parsedUrl.searchParams.get('eventId');
-
-      // Ensure that the necessary parameters are present
-      if (!userId || !examId || !eventId) {
-        console.error('❌ Missing parameters in URL');
-        return;
+let pendingOpenUrl = null;
+ 
+function checkPendingProtocol() {
+    if (process.platform === 'win32') {
+      // On Windows, protocol URL comes in process.argv
+      const urlArg = process.argv.find(arg => arg.startsWith('gyapak://'));
+      if (urlArg) {
+        console.log('🔵 Windows protocol detected:', urlArg);
+        pendingOpenUrl = urlArg;
       }
-
-      // Create or load the main window
-      if (!mainWindow || mainWindow.isDestroyed()) {
-        createWindow(userId, examId, eventId);
-      } else {
-        const loadUrl = `http://localhost:5173/test?userId=${userId}&examId=${examId}&eventId=${eventId}`;
-        mainWindow.loadURL(loadUrl);  // Load the page with query parameters
-        mainWindow.show();
-        mainWindow.focus();
-      }
-    } catch (error) {
-      console.error('❌ Error parsing URL:', error);
     }
+  }
+ 
+app.setAsDefaultProtocolClient('gyapak');
+ 
+checkPendingProtocol();
+ 
+app.whenReady().then(() => {
+  if (pendingOpenUrl) {
+    // If there was a pending protocol launch during startup
+    handleOpenUrl(pendingOpenUrl);
+    pendingOpenUrl = null;
+  }
+ 
+  app.on('open-url', (event, url) => {
+    event.preventDefault();
+    handleOpenUrl(url);
   });
-
-  // Create the main window if the app was launched directly without a protocol
-  createWindow('68022a95181d6d38d41fbc4b', '3ea70332-a6dc-49a0-aede-56208f580fb1', '4fba7d24-d8ad-4320-be0b-0dca9b861fe4');
 });
-
-
+ 
+function handleOpenUrl(url) {
+  console.log('Protocol triggered:', url);
+ 
+  try {
+    const parsedUrl = new URL(url);
+    const userId = parsedUrl.searchParams.get('userId');
+    const examId = parsedUrl.searchParams.get('examId');
+    const eventId = parsedUrl.searchParams.get('eventId');
+ 
+    if (!userId || !examId || !eventId) {
+      console.error('❌ Missing parameters in URL');
+      return;
+    }
+ 
+    if (!mainWindow || mainWindow.isDestroyed()) {
+      createWindow(userId, examId, eventId);
+    } else {
+      const loadUrl = `http://localhost:5173/test?userId=${userId}&examId=${examId}&eventId=${eventId}`;
+      mainWindow.loadURL(loadUrl);
+      mainWindow.show();
+      mainWindow.focus();
+    }
+  } catch (error) {
+    console.error('❌ Error parsing URL:', error);
+  }
+}
+ 
+// IMPORTANT:
+// macOS: If the app is not running, "open-url" triggers AFTER ready
+app.on('second-instance', (event, argv) => {
+  // Windows specific: sometimes custom URL comes in argv array
+  if (process.platform === 'win32') {
+    const url = argv.find(arg => arg.startsWith('gyapak://'));
+    if (url) {
+      if (app.isReady()) {
+        handleOpenUrl(url);
+      } else {
+        pendingOpenUrl = url;
+      }
+    }
+  }
+});
+ 
+// macOS hack:
+app.on('open-url', (event, url) => {
+  if (app.isReady()) {
+    handleOpenUrl(url);
+  } else {
+    pendingOpenUrl = url;
+  }
+});
+ 
+ 
+ 
 ipcMain.on('start-proctor-engine', (_event, { userId, examId, eventId }) => {
   if (proctorProcess) {
     safeSend('proctor-log', '⚠️ Proctor Engine already running.');
     return;
   }
-
+ 
   const testPageUrl = `http://localhost:5173/test-page?userId=${userId}&examId=${examId}&eventId=${eventId}`;
   if (mainWindow && !mainWindow.isDestroyed()) {
     mainWindow.loadURL(testPageUrl);
   }
-
+ 
   launchProctorEngine(userId, examId, eventId);
 });
-
+ 
 ipcMain.on('stop-proctor-engine', () => {
   if (proctorProcess) {
     proctorProcess.kill('SIGINT');
@@ -212,18 +258,18 @@ ipcMain.on('stop-proctor-engine', () => {
     console.log("🛑 Proctor Engine stopped.");
   }
 });
-
+ 
 ipcMain.on('close-electron-window', () => {
   if (proctorProcess) {
     proctorProcess.kill('SIGINT');
     proctorProcess = null;
   }
-
+ 
   if (mainWindow && !mainWindow.isDestroyed()) {
     mainWindow.close();
   }
 });
-
+ 
 app.on('window-all-closed', () => {
   if (proctorProcess) {
     proctorProcess.kill('SIGTERM');
