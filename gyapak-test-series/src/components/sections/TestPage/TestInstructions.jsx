@@ -15,11 +15,12 @@ const TestInstructions = () => {
 
   const navigate = useNavigate();
   
-  const params = new URLSearchParams(window.location.hash.split('?')[1]);
-  const examId = params.get("examId");
-  const eventId = params.get("eventId");
-  const userId = params.get("userId");
+  const queryParams = new URLSearchParams(window.location.search);
+  const examId = queryParams.get("examId");
+  const eventId = queryParams.get("eventId");
+  const userId = queryParams.get('userId');
 
+  console.log(examId, eventId, userId);
   
   useEffect(() => {
     console.log("🚀 TestInstructions mounted!");
