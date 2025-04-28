@@ -21,18 +21,20 @@ const categories = [
   { Nameid: 'Agriculture', name: 'Agriculture', icon: '🌾' },
 ];
 
-const StateIcon = ({ state, index, updateVisibleStates, setStateDropdownVisible }) => {
+const StateIcon = ({ state, updateVisibleStates, setStateDropdownVisible }) => {
   const navigate = useNavigate();
   return (
     <div
-      key={index}
-      onClick={() => {
 
-        updateVisibleStates(state);
+      key={state._id}
+      onClick={() => {
+        console.log("State clicked:", state);
+        updateVisibleStates(state.name);
         setStateDropdownVisible(false);
-        navigate(`/state?name=${encodeURI(state)}`)
+        navigate(`/state?name=${encodeURI(state.name)}`)
 
       }}
+     
       className="flex items-center p-3 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 group cursor-pointer"
     >
       <div className="h-12 w-12 bg-gradient-to-br from-purple-100 to-blue-100 rounded-xl flex items-center justify-center group-hover:from-purple-200 group-hover:to-blue-200 transition-all duration-300">
@@ -40,7 +42,7 @@ const StateIcon = ({ state, index, updateVisibleStates, setStateDropdownVisible 
       </div>
       <div className="ml-4">
         <span className="text-sm font-medium text-gray-800 group-hover:text-purple-700 transition-colors">
-          {state}
+          {state.name}
         </span>
       </div>
     </div>
@@ -71,7 +73,12 @@ const Navbar = () => {
     try {
       const response = await axios.get(`${apiBaseUrl}/api/state/list`);
       if (response.status === 200) {
-        return response.data;
+        console.log('States fetched successfully:');
+        // return response.data;
+        return response.data.map(state => ({
+          _id: state.stateId,
+          name: state.name
+        }))
       }
     }
     catch (error) {
@@ -104,14 +111,14 @@ const Navbar = () => {
     }
 
     document.addEventListener("mousedown", handleClickOutside);
-    
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
   const { data: states, isLoading } = useQuery({
-    queryKey: ["navbarStates", apiBaseUrl],
+    queryKey: ["navbarStates"],
     queryFn: fetchStates,
     staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
     cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
@@ -279,9 +286,9 @@ const Navbar = () => {
 
   return (
 
-    <nav 
-    ref={navRef}
-className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-lg' : 'bg-transparent'}`}>
+    <nav
+      ref={navRef}
+      className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-lg' : 'bg-transparent'}`}>
       <style>
         {`
           .custom-scrollbar::-webkit-scrollbar {
@@ -333,198 +340,194 @@ className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-whi
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-6">
-  <a
-    href="/blog"
-    className={`px-4 py-2 rounded-lg transition-all duration-300 ${
-      isScrolled
-        ? 'text-gray-700 hover:bg-purple-50'
-        : 'text-white hover:bg-white/10'
-    }`}
-  >
-    Visit Blogs
-  </a>
+            <a
+              href="/blog"
+              className={`px-4 py-2 rounded-lg transition-all duration-300 ${isScrolled
+                  ? 'text-gray-700 hover:bg-purple-50'
+                  : 'text-white hover:bg-white/10'
+                }`}
+            >
+              Visit Blogs
+            </a>
 
-  <a
-    href="/current-affair"
-    className={`px-4 py-2 rounded-lg transition-all duration-300 ${
-      isScrolled
-        ? 'text-gray-700 hover:bg-purple-50'
-        : 'text-white hover:bg-white/10'
-    }`}
-  >
-    Current Affairs
-  </a>
+            <a
+              href="/current-affair"
+              className={`px-4 py-2 rounded-lg transition-all duration-300 ${isScrolled
+                  ? 'text-gray-700 hover:bg-purple-50'
+                  : 'text-white hover:bg-white/10'
+                }`}
+            >
+              Current Affairs
+            </a>
 
-  {/* Categories Dropdown */}
-  <div
-    className="relative"
-    onMouseLeave={() => setCategoryDropdownVisible(false)}
-  >
-    <button
-      onMouseEnter={() => setCategoryDropdownVisible(true)}
-      className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 ${
-        isScrolled
-          ? 'text-gray-700 hover:bg-purple-50'
-          : 'text-white hover:bg-white/10'
-      }`}
-    >
-      <span>Categories</span>
-      <ChevronDown className="w-4 h-4" />
-    </button>
-
-    {categoryDropdownVisible && (
-      <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-[720px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5">
-        <div className="p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
-            Browse Categories
-          </h3>
-          <div className="grid grid-cols-3 gap-4">
-            {visibleCategories.map((category, index) => (
-              <div
-                key={index}
-                onClick={() => {
-                  updateVisibleCategories(category);
-                  setCategoryDropdownVisible(false);
-                  navigate(`/category?name=${encodeURI(category.Nameid)}`);
-                }}
-                className="flex items-center p-3 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 group cursor-pointer"
+            {/* Categories Dropdown */}
+            <div
+              className="relative"
+              onMouseLeave={() => setCategoryDropdownVisible(false)}
+            >
+              <button
+                onMouseEnter={() => setCategoryDropdownVisible(true)}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 ${isScrolled
+                    ? 'text-gray-700 hover:bg-purple-50'
+                    : 'text-white hover:bg-white/10'
+                  }`}
               >
-                <div className="h-12 w-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-purple-100 to-blue-100 text-xl group-hover:from-purple-200 group-hover:to-blue-200 transition-all duration-300">
-                  <span>{category.icon}</span>
+                <span>Categories</span>
+                <ChevronDown className="w-4 h-4" />
+              </button>
+
+              {categoryDropdownVisible && (
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-[720px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5">
+                  <div className="p-6">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                      Browse Categories
+                    </h3>
+                    <div className="grid grid-cols-3 gap-4">
+                      {visibleCategories.map((category, index) => (
+                        <div
+                          key={index}
+                          onClick={() => {
+                            updateVisibleCategories(category);
+                            setCategoryDropdownVisible(false);
+                            navigate(`/category?name=${encodeURI(category.Nameid)}`);
+                          }}
+                          className="flex items-center p-3 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 group cursor-pointer"
+                        >
+                          <div className="h-12 w-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-purple-100 to-blue-100 text-xl group-hover:from-purple-200 group-hover:to-blue-200 transition-all duration-300">
+                            <span>{category.icon}</span>
+                          </div>
+                          <div className="ml-4">
+                            <span className="text-sm font-medium text-gray-800 group-hover:text-purple-700">
+                              {category.name}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-                <div className="ml-4">
-                  <span className="text-sm font-medium text-gray-800 group-hover:text-purple-700">
-                    {category.name}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    )}
-  </div>
-
-  {/* States Dropdown */}
-  <div
-    className="relative"
-    onMouseLeave={() => setStateDropdownVisible(false)}
-  >
-    <button
-      onMouseEnter={() => setStateDropdownVisible(true)}
-      className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 ${
-        isScrolled
-          ? 'text-gray-700 hover:bg-purple-50'
-          : 'text-white hover:bg-white/10'
-      }`}
-    >
-      <span>States</span>
-      <ChevronDown className="w-4 h-4" />
-    </button>
-
-    {stateDropdownVisible && (
-      <div className="absolute top-full left-1/2 transform -translate-x-2/3 w-[900px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5">
-        <div className="p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
-            Browse States
-          </h3>
-          <div className="grid grid-cols-4 gap-4">
-          {(visibleStates || []).map((state, index) => (
-            <StateIcon
-              key={index}
-              state={state}
-              index={index}
-              updateVisibleStates={updateVisibleStates}
-              setStateDropdownVisible={setStateDropdownVisible}
-            />
-          ))}
-
-          </div>
-          <div className="mt-4 flex items-center justify-center gap-3 p-4 bg-purple-700 border border-amber-500/50 rounded-lg hover:border-amber-500 transition-colors duration-300 backdrop-blur-sm">
-            <AlertTriangle className="h-5 w-5 text-purple-50 animate-pulse" />
-            <p className="text-gray-200 text-sm leading-relaxed">
-              Remaining states would be available soon!
-            </p>
-          </div>
-        </div>
-      </div>
-    )}
-  </div>
-
-  {/* Navigation Links */}
-  <a
-    href="/#about"
-    className={`px-4 py-2 rounded-lg transition-all duration-300 ${
-      isScrolled
-        ? 'text-gray-700 hover:bg-purple-50'
-        : 'text-white hover:bg-white/10'
-    }`}
-  >
-    About
-  </a>
-
-  <a
-    href="/#contact"
-    className={`px-4 py-2 rounded-lg transition-all duration-300 ${
-      isScrolled
-        ? 'text-gray-700 hover:bg-purple-50'
-        : 'text-white hover:bg-white/10'
-    }`}
-  >
-    Contact
-  </a>
-
-  {/* Search Input (conditionally rendered) */}
-  {location.pathname !== '/' && (
-    <div className="relative w-64">
-      <input
-        type="text"
-        className="w-full px-4 py-2 text-sm rounded-lg bg-gray-100 text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
-        placeholder="Search..."
-        value={searchQuery}
-        onChange={(e) => inputChangeHandler(e.target.value)}
-        autoComplete="off"
-        onFocus={() => searchQuery && setShowDropdown(true)}
-        onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            navigate(`/search?query=${encodeURI(searchQuery.trim())}`);
-          }
-        }}
-      />
-      <button
-        type="button"
-        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-purple-600 transition-colors"
-      >
-        <Search className="w-5 h-5" />
-      </button>
-
-      {showDropdown && (
-        <div className="absolute z-50 mt-2 w-full bg-white/95 backdrop-blur-sm border border-gray-200 rounded-xl shadow-xl max-h-72 overflow-auto custom-scrollbar">
-          {totalCount > 0 && (
-            <div className="px-4 py-2 bg-gradient-to-r from-purple-50 to-blue-50 border-b border-gray-200 text-xs font-medium text-purple-600">
-              Found {totalCount} total matches
+              )}
             </div>
-          )}
-          <div>
-            {suggestions.authorities?.length > 0 && (
-              <SuggestionList title="States" items={suggestions.authorities} itemKey="name" />
-            )}
-            {suggestions.organizations?.length > 0 && (
-              <SuggestionList title="Organizations" items={suggestions.organizations} itemKey="abbreviation" />
-            )}
-            {suggestions.categories?.length > 0 && (
-              <SuggestionList title="Categories" items={suggestions.categories} itemKey="category" />
-            )}
-            {totalCount === 0 && (
-              <div className="px-4 py-3 text-sm text-gray-500">No suggestions found</div>
+
+            {/* States Dropdown */}
+            <div
+              className="relative"
+              onMouseLeave={() => setStateDropdownVisible(false)}
+            >
+              <button
+                onMouseEnter={() => setStateDropdownVisible(true)}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 ${isScrolled
+                    ? 'text-gray-700 hover:bg-purple-50'
+                    : 'text-white hover:bg-white/10'
+                  }`}
+              >
+                <span>States</span>
+                <ChevronDown className="w-4 h-4" />
+              </button>
+
+              {stateDropdownVisible && (
+                <div className="absolute top-full left-1/2 transform -translate-x-2/3 w-[900px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5">
+                  <div className="p-6">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
+                      Browse States
+                    </h3>
+                    <div className="grid grid-cols-4 gap-4">
+                    
+                      {(visibleStates || []).map((state) => (
+                      
+                        <StateIcon
+                 
+                          key={state._id}
+                          state={state}
+                          updateVisibleStates={updateVisibleStates}
+                          setStateDropdownVisible={setStateDropdownVisible}
+                        />
+                      ))}
+
+                    </div>
+                    <div className="mt-4 flex items-center justify-center gap-3 p-4 bg-purple-700 border border-amber-500/50 rounded-lg hover:border-amber-500 transition-colors duration-300 backdrop-blur-sm">
+                      <AlertTriangle className="h-5 w-5 text-purple-50 animate-pulse" />
+                      <p className="text-gray-200 text-sm leading-relaxed">
+                        Remaining states would be available soon!
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Navigation Links */}
+            <a
+              href="/#about"
+              className={`px-4 py-2 rounded-lg transition-all duration-300 ${isScrolled
+                  ? 'text-gray-700 hover:bg-purple-50'
+                  : 'text-white hover:bg-white/10'
+                }`}
+            >
+              About
+            </a>
+
+            <a
+              href="/#contact"
+              className={`px-4 py-2 rounded-lg transition-all duration-300 ${isScrolled
+                  ? 'text-gray-700 hover:bg-purple-50'
+                  : 'text-white hover:bg-white/10'
+                }`}
+            >
+              Contact
+            </a>
+
+            {/* Search Input (conditionally rendered) */}
+            {location.pathname !== '/' && (
+              <div className="relative w-64">
+                <input
+                  type="text"
+                  className="w-full px-4 py-2 text-sm rounded-lg bg-gray-100 text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
+                  placeholder="Search..."
+                  value={searchQuery}
+                  onChange={(e) => inputChangeHandler(e.target.value)}
+                  autoComplete="off"
+                  onFocus={() => searchQuery && setShowDropdown(true)}
+                  onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      navigate(`/search?query=${encodeURI(searchQuery.trim())}`);
+                    }
+                  }}
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-purple-600 transition-colors"
+                >
+                  <Search className="w-5 h-5" />
+                </button>
+
+                {showDropdown && (
+                  <div className="absolute z-50 mt-2 w-full bg-white/95 backdrop-blur-sm border border-gray-200 rounded-xl shadow-xl max-h-72 overflow-auto custom-scrollbar">
+                    {totalCount > 0 && (
+                      <div className="px-4 py-2 bg-gradient-to-r from-purple-50 to-blue-50 border-b border-gray-200 text-xs font-medium text-purple-600">
+                        Found {totalCount} total matches
+                      </div>
+                    )}
+                    <div>
+                      {suggestions.authorities?.length > 0 && (
+                        <SuggestionList title="States" items={suggestions.authorities} itemKey="name" />
+                      )}
+                      {suggestions.organizations?.length > 0 && (
+                        <SuggestionList title="Organizations" items={suggestions.organizations} itemKey="abbreviation" />
+                      )}
+                      {suggestions.categories?.length > 0 && (
+                        <SuggestionList title="Categories" items={suggestions.categories} itemKey="category" />
+                      )}
+                      {totalCount === 0 && (
+                        <div className="px-4 py-3 text-sm text-gray-500">No suggestions found</div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
             )}
           </div>
-        </div>
-      )}
-    </div>
-  )}
-</div>
 
 
           {/* Mobile menu button */}
@@ -541,7 +544,7 @@ className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-whi
 
       {/* Mobile menu */}
       <div
-        
+
         className={`xl:hidden transition-all duration-500 ease-in-out ${isOpen ? 'max-h-[32rem] opacity-100' : 'max-h-0 opacity-0'} overflow-hidden bg-white/95 backdrop-blur-sm`}>
         <div className="px-6 pt-4 pb-6 space-y-2">
           {/* Search Bar for Mobile */}
@@ -628,7 +631,7 @@ className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-whi
           >
             Top Categories
           </a>
-      
+
           <a
             onClick={() => setIsOpen(false)}
             href="/#landing-result"

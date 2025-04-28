@@ -48,8 +48,11 @@ export const getStateList = async (req,res) => {
 
         const states = await Authority.find({type:"State_Government"});
         
-        const stateList = states.map(state => state.name);
-        
+        const stateList = states.map(state => ({
+            name:state.name,
+            stateId:state._id
+        }));
+        console.log(stateList);
         res.status(200).json(stateList);
     }
     catch(err){
