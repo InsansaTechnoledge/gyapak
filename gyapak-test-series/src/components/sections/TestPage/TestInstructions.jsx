@@ -13,6 +13,8 @@ const TestInstructions = () => {
   const examId = queryParams.get("examId");
   const eventId = queryParams.get("eventId");
   const userId = queryParams.get('userId');
+
+  console.log(examId, eventId, userId);
   
   useEffect(() => {
     const isElectron = navigator.userAgent.includes('Electron');

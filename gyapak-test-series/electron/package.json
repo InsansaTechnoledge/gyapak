@@ -36,7 +36,8 @@
       "target": "nsis"
     }
   },
-  "dependencies": {},
+  "dependencies": {
+  },
   "devDependencies": {
     "electron": "^35.2.0",
     "electron-builder": "^26.0.12"
