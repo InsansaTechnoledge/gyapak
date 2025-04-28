@@ -14,23 +14,42 @@ export const launchProctor = (req, res) => {
     }
 
     const electronMainPath = path.resolve(__dirname, '../../../gyapak-test-series/electron/main.js');
-
-    // Use local electron binary
     const localElectronBinary = path.resolve(__dirname, '../../../gyapak-test-series/node_modules/.bin/electron');
-    if (!existsSync(localElectronBinary)) {
-      return res.status(500).json({ message: 'Electron binary not found. Please run `npm install electron`.' });
+
+    const isInstalled = existsSync(localElectronBinary) && existsSync(electronMainPath);
+
+    if (!isInstalled) {
+      return res.status(200).json({ 
+        downloadRequired: true, 
+        message: "Electron Proctoring App not installed. Prompting download." 
+      });
     }
 
-    const child = spawn(`"${localElectronBinary}"`, [`"${electronMainPath}"`, userId, examId, eventId], {
+    const child = spawn(localElectronBinary, [electronMainPath, userId, examId, eventId], {
       detached: true,
-      stdio: 'inherit',
-      shell: true
+      stdio: ['ignore', 'pipe', 'pipe'],
+      shell: false,
     });
 
+    child.stdout.on('data', (data) => {
+      console.log(`🔵 [Electron stdout]: ${data.toString().trim()}`);
+    });
 
-    child.unref(); // allow the process to continue running
+    child.stderr.on('data', (data) => {
+      console.error(`🔴 [Electron stderr]: ${data.toString().trim()}`);
+    });
 
-    return res.status(200).json({ message: '✅ Proctoring started' });
+    child.on('close', (code) => {
+      console.log(`🛑 [Electron closed with code ${code}]`);
+    });
+
+    child.unref(); // Detach properly so frontend continues
+
+    return res.status(200).json({ 
+      message: '✅ Proctoring started',
+      downloadRequired: false
+    });
+
   } catch (error) {
     console.error('❌ Failed to launch proctor:', error);
     return res.status(500).json({ message: 'Failed to launch proctor' });

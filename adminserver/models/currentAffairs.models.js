@@ -15,6 +15,14 @@ const questionSchema = new Schema({
       required: true
     }
   }, { _id: false });
+
+  const singleLineQuestionSchema = new Schema({
+    text:{
+        type: String,
+        required:true,
+        maxlength: [500, 'question length can be 500 character maximum']
+    }
+  }) 
   
 
 const affairItemSchema = new Schema({
@@ -32,7 +40,7 @@ const affairItemSchema = new Schema({
     category: {
       type: String,
       enum: [
-        'Polity',
+        'Politics',
         'Economy',
         'International',
         'Science & Tech',
@@ -69,7 +77,16 @@ const affairItemSchema = new Schema({
       default: 'public',
     },
 
-    questions: { type: [questionSchema], default: [] }
+    questions: { type: [questionSchema], default: [] },
+
+    singleLineQuestion : { type:  [singleLineQuestionSchema] , default: []},
+
+    details: {
+        type: String,
+        trim: true,
+        maxlength: 10000 
+      },
+      
 
   }, { _id: false });
 

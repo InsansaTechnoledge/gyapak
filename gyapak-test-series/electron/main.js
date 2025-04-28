@@ -10,15 +10,7 @@ let proctorProcess = null;
 if (!app.isDefaultProtocolClient('gyapak')) {
   app.setAsDefaultProtocolClient('gyapak');
 }
- 
- 
-const userId = '68022a95181d6d38d41fbc4b';
-const examId = '3ea70332-a6dc-49a0-aede-56208f580fb1';
-const eventId = '4fba7d24-d8ad-4320-be0b-0dca9b861fe4';
- 
- 
-// const [, , userId, examId, eventId] = process.argv;
- 
+   
 function safeSend(channel, data) {
   if (mainWindow && !mainWindow.isDestroyed()) {
     mainWindow.webContents.send(channel, data);

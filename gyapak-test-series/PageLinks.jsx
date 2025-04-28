@@ -10,15 +10,15 @@ import InstitutePage from './src/pages/ForEducatorPage'
 import TestPage from './src/pages/TestPage'
 import TestInstructions from './src/components/sections/TestPage/TestInstructions'
 import ResultPage from './src/pages/ResultPage'
-
+ 
 const PageLinks = () => {
   const { user, setUser } = useUser();
-
+ 
   useEffect(() => {
-
+ 
     const checkAuthFunction = async () => {
       try {
-
+ 
         const response = await checkAuth();
         if (response.status == 200) {
           setUser(response.data.user);
@@ -28,13 +28,13 @@ const PageLinks = () => {
         console.log(err.response.data.errors[0] || err.message);
       }
     }
-
+ 
     if (!user) {
       checkAuthFunction();
     }
-
+ 
   }, [])
-
+ 
   return (
     <>
       <Router>
@@ -47,11 +47,11 @@ const PageLinks = () => {
           <Route path='/test-page' element={<TestPage /> } />
           <Route path='/test' element={<TestInstructions /> } />
           <Route path='/result/:eventId' element={ <ResultPage /> } />
-
+ 
         </Routes>
       </Router>
     </>
   )
 }
-
+ 
 export default PageLinks
