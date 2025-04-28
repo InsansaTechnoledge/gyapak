@@ -275,5 +275,5 @@ app.on('window-all-closed', () => {
     proctorProcess.kill('SIGTERM');
     proctorProcess = null;
   }
-  if (process.platform !== 'darwin') app.quit();
+  app.quit();
 });
