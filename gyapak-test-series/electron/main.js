@@ -10,15 +10,7 @@ let proctorProcess = null;
 if (!app.isDefaultProtocolClient('gyapak')) {
   app.setAsDefaultProtocolClient('gyapak');
 }
- 
- 
-const userId = '68022a95181d6d38d41fbc4b';
-const examId = '3ea70332-a6dc-49a0-aede-56208f580fb1';
-const eventId = '4fba7d24-d8ad-4320-be0b-0dca9b861fe4';
- 
- 
-// const [, , userId, examId, eventId] = process.argv;
- 
+   
 function safeSend(channel, data) {
   if (mainWindow && !mainWindow.isDestroyed()) {
     mainWindow.webContents.send(channel, data);
@@ -68,9 +60,9 @@ function createWindow(userId, examId, eventId) {
  
   let url;
   if (userId && examId && eventId) {
-    url = `http://localhost:5173/test?userId=${userId}&examId=${examId}&eventId=${eventId}`;
+    url = `https://gyapak-test-series.vercel.app/test?userId=${userId}&examId=${examId}&eventId=${eventId}`;
   } else {
-    url = `http://localhost:5173/`; // 👉 Show landing page, or a "waiting" screen
+    url = `https://gyapak-test-series.vercel.app/`; // 👉 Show landing page, or a "waiting" screen
   }
  
   mainWindow.loadURL(url);
@@ -81,6 +73,14 @@ function createWindow(userId, examId, eventId) {
  
   closeUnwantedApps(); // 👈 Kill apps once window is created
 }
+ 
+// function getBinaryPath() {
+ 
+//   const isWin = process.platform === 'win32';
+//   const binaryName = isWin ? 'Release/proctor_engine.exe' : 'proctor_engine';
+//   return path.resolve(__dirname, '../../ai-proctor-engine/build', binaryName);
+// }
+ 
  
 function getBinaryPath() {
   const isWin = process.platform === 'win32';
@@ -144,10 +144,9 @@ function launchProctorEngine(userId, examId, eventId) {
 app.commandLine.appendSwitch('disable-gpu-shader-disk-cache');
 app.commandLine.appendSwitch('disk-cache-size', '0');
 app.disableHardwareAcceleration();
- 
- 
+  
 let pendingOpenUrl = null;
-
+ 
 function checkPendingProtocol() {
     if (process.platform === 'win32') {
       // On Windows, protocol URL comes in process.argv
@@ -158,42 +157,42 @@ function checkPendingProtocol() {
       }
     }
   }
-
+ 
 app.setAsDefaultProtocolClient('gyapak');
-
+ 
 checkPendingProtocol();
-
+ 
 app.whenReady().then(() => {
   if (pendingOpenUrl) {
     // If there was a pending protocol launch during startup
     handleOpenUrl(pendingOpenUrl);
     pendingOpenUrl = null;
   }
-
+ 
   app.on('open-url', (event, url) => {
     event.preventDefault();
     handleOpenUrl(url);
   });
 });
-
+ 
 function handleOpenUrl(url) {
   console.log('Protocol triggered:', url);
-
+ 
   try {
     const parsedUrl = new URL(url);
     const userId = parsedUrl.searchParams.get('userId');
     const examId = parsedUrl.searchParams.get('examId');
     const eventId = parsedUrl.searchParams.get('eventId');
-
+ 
     if (!userId || !examId || !eventId) {
       console.error('❌ Missing parameters in URL');
       return;
     }
-
+ 
     if (!mainWindow || mainWindow.isDestroyed()) {
       createWindow(userId, examId, eventId);
     } else {
-      const loadUrl = `http://localhost:5173/test?userId=${userId}&examId=${examId}&eventId=${eventId}`;
+      const loadUrl = `https://gyapak-test-series.vercel.app/test?userId=${userId}&examId=${examId}&eventId=${eventId}`;
       mainWindow.loadURL(loadUrl);
       mainWindow.show();
       mainWindow.focus();
@@ -202,7 +201,7 @@ function handleOpenUrl(url) {
     console.error('❌ Error parsing URL:', error);
   }
 }
-
+ 
 // IMPORTANT:
 // macOS: If the app is not running, "open-url" triggers AFTER ready
 app.on('second-instance', (event, argv) => {
@@ -218,7 +217,7 @@ app.on('second-instance', (event, argv) => {
     }
   }
 });
-
+ 
 // macOS hack:
 app.on('open-url', (event, url) => {
   if (app.isReady()) {
@@ -227,7 +226,7 @@ app.on('open-url', (event, url) => {
     pendingOpenUrl = url;
   }
 });
-
+ 
  
  
 ipcMain.on('start-proctor-engine', (_event, { userId, examId, eventId }) => {
@@ -236,7 +235,7 @@ ipcMain.on('start-proctor-engine', (_event, { userId, examId, eventId }) => {
     return;
   }
  
-  const testPageUrl = `http://localhost:5173/test-page?userId=${userId}&examId=${examId}&eventId=${eventId}`;
+  const testPageUrl = `https://gyapak-test-series.vercel.app/test-page?userId=${userId}&examId=${examId}&eventId=${eventId}`;
   if (mainWindow && !mainWindow.isDestroyed()) {
     mainWindow.loadURL(testPageUrl);
   }
@@ -268,6 +267,5 @@ app.on('window-all-closed', () => {
     proctorProcess.kill('SIGTERM');
     proctorProcess = null;
   }
-  // if (process.platform !== 'darwin') 
-    app.quit();
+  app.quit();
 });
