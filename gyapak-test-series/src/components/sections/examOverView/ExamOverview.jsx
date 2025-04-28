@@ -748,11 +748,11 @@ const ExamOverview = () => {
   //       navigate(/test?userId=${user._id}&examId=${examId}&eventId=${eventId});
   //     }
   
-  //   } catch (error) {
-  //     const message = error?.response?.data?.message || error.message || 'Unknown error';
-  //     console.error('❌ Error launching proctor:', message);
-  //   }
-  // };
+    } catch (error) {
+      const message = error?.response?.data?.message || error.message || 'Unknown error';
+      console.error('❌ Error launching proctor:', message);
+    }
+  };
 
   const handleViewResult = (event_id) => {
     navigate(`/result/${event_id}`);
