@@ -28,6 +28,8 @@ const TestWindow = () => {
   const userId = searchParams.get('userId');
   const examId = searchParams.get('examId');
   const eventId = searchParams.get('eventId');
+  // const [proctorStatus, setProctorStatus] = useState('Initializing...');
+
 
   useEffect(() => {
     const handleProctorWarning = (data) => {
@@ -72,6 +74,33 @@ const TestWindow = () => {
       window?.electronAPI?.removeProctorWarningListener?.();
     };
   }, [submitted, proctorRunning]);
+
+  useEffect(() => {
+    const handleProctorEvent = (data) => {
+      console.log("📦 Proctor Event received:", data);  // Already there ✅
+  
+      if (data?.eventType === 'session_start') {
+        console.log("🚀 Received SESSION START in TestWindow!");
+        setProctorStatus('Proctoring Started ✅');
+      }
+      else if (data?.eventType === 'session_end') {
+        console.log("🛑 Received SESSION END in TestWindow!");
+        handleSubmitTest();
+      }
+      else if (data?.eventType === 'info') {
+        console.log("ℹ️ Info Event:", data.details);
+      }
+    };
+  
+    if (window?.electronAPI?.onProctorEvent) {
+      window.electronAPI.onProctorEvent(handleProctorEvent);
+    }
+  
+    return () => {
+      window?.electronAPI?.removeProctorEventListener?.();
+    };
+  }, []);
+  
 
   useEffect(() => {
     const fetchEventDetails = async () => {
@@ -157,6 +186,10 @@ const TestWindow = () => {
 
   return (
     <div className='p-3 flex flex-col'>
+
+    {/* <div className="text-center text-lg font-bold py-2 text-purple-600">
+      {proctorStatus}
+    </div> */}
 
       {warning && (
         <div className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-yellow-100 border-l-4 border-yellow-600 text-yellow-900 px-6 py-3 rounded-xl shadow-lg text-center w-[90%] sm:w-[500px] font-medium">

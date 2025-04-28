@@ -219,6 +219,18 @@ const EditAffairModal = ({ isOpen, onClose, record, onSubmit }) => {
                         className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                       />
                     </div>
+
+                    <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Detailed Notes</label>
+                    <textarea
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                        rows={5}
+                        value={affair.details || ''}
+                        onChange={(e) => handleFieldChange(i, 'details', e.target.value)}
+                        placeholder="Add background, impact, analysis, etc."
+                    />
+                    </div>
+
                     
                     <div>
                       <label className="flex items-center text-sm font-medium text-gray-700 mb-1">
@@ -235,52 +247,97 @@ const EditAffairModal = ({ isOpen, onClose, record, onSubmit }) => {
                     </div>
 
                     {affair.questions && affair.questions.length > 0 && (
-  <div className="mt-6">
-    <h4 className="text-md font-semibold text-purple-800 mb-3">🧠 Edit Questions</h4>
-    {affair.questions.map((q, qIndex) => (
-      <div key={qIndex} className="bg-purple-50 p-4 rounded border border-purple-200 mb-4 space-y-3">
-        <input
-          type="text"
-          value={q.text}
-          onChange={(e) => handleQuestionChange(i, qIndex, 'text', e.target.value)}
-          placeholder="Question text"
-          className="w-full border border-gray-300 p-2 rounded"
-        />
-        {q.options.map((opt, optIndex) => (
-          <input
-            key={optIndex}
-            type="text"
-            value={opt}
-            onChange={(e) => handleOptionChange(i, qIndex, optIndex, e.target.value)}
-            placeholder={`Option ${optIndex + 1}`}
-            className="w-full border border-gray-300 p-2 rounded"
-          />
-        ))}
-        <input
-          type="text"
-          value={q.answer}
-          onChange={(e) => handleQuestionChange(i, qIndex, 'answer', e.target.value)}
-          placeholder="Correct answer"
-          className="w-full border border-green-300 p-2 rounded"
-        />
-        <button
-          type="button"
-          onClick={() => removeQuestion(i, qIndex)}
-          className="text-red-600 text-sm underline"
-        >
-          Remove Question
-        </button>
-      </div>
-    ))}
-    <button
-      type="button"
-      onClick={() => addQuestion(i)}
-      className="text-blue-600 text-sm underline"
-    >
-      + Add Question
-    </button>
-  </div>
-)}
+                    <div className="mt-6">
+                        <h4 className="text-md font-semibold text-purple-800 mb-3">🧠 Edit Questions</h4>
+                        {affair.questions.map((q, qIndex) => (
+                        <div key={qIndex} className="bg-purple-50 p-4 rounded border border-purple-200 mb-4 space-y-3">
+                            <input
+                            type="text"
+                            value={q.text}
+                            onChange={(e) => handleQuestionChange(i, qIndex, 'text', e.target.value)}
+                            placeholder="Question text"
+                            className="w-full border border-gray-300 p-2 rounded"
+                            />
+                            {q.options.map((opt, optIndex) => (
+                            <input
+                                key={optIndex}
+                                type="text"
+                                value={opt}
+                                onChange={(e) => handleOptionChange(i, qIndex, optIndex, e.target.value)}
+                                placeholder={`Option ${optIndex + 1}`}
+                                className="w-full border border-gray-300 p-2 rounded"
+                            />
+                            ))}
+                            <input
+                            type="text"
+                            value={q.answer}
+                            onChange={(e) => handleQuestionChange(i, qIndex, 'answer', e.target.value)}
+                            placeholder="Correct answer"
+                            className="w-full border border-green-300 p-2 rounded"
+                            />
+                            <button
+                            type="button"
+                            onClick={() => removeQuestion(i, qIndex)}
+                            className="text-red-600 text-sm underline"
+                            >
+                            Remove Question
+                            </button>
+                        </div>
+                        ))}
+                        <button
+                        type="button"
+                        onClick={() => addQuestion(i)}
+                        className="text-blue-600 text-sm underline"
+                        >
+                        + Add Question
+                        </button>
+                    </div>
+                    )}
+
+                    {/* Single Line Questions */}
+                    {Array.isArray(affair.singleLineQuestions) &&
+  affair.singleLineQuestions.map((q, qIndex) => (
+    <div key={qIndex} className="flex gap-2 mb-2">
+      <input
+        type="text"
+        value={q.text}
+        onChange={(e) => {
+          const updated = [...formData.affairs];
+          updated[i].singleLineQuestions[qIndex] = {
+            ...updated[i].singleLineQuestions[qIndex],
+            text: e.target.value
+          };
+          setFormData({ ...formData, affairs: updated });
+        }}
+        placeholder={`Question ${qIndex + 1}`}
+        className="w-full border border-gray-300 px-3 py-2 rounded-lg"
+      />
+      <button
+        type="button"
+        onClick={() => {
+          const updated = [...formData.affairs];
+          updated[i].singleLineQuestions.splice(qIndex, 1);
+          setFormData({ ...formData, affairs: updated });
+        }}
+        className="text-red-600 text-xs underline"
+      >
+        Remove
+      </button>
+    </div>
+  ))}
+<button
+  type="button"
+  onClick={() => {
+    const updated = [...formData.affairs];
+    updated[i].singleLineQuestions = updated[i].singleLineQuestions || [];
+    updated[i].singleLineQuestions.push({ text: '' });
+    setFormData({ ...formData, affairs: updated });
+  }}
+  className="text-blue-600 text-sm underline mt-2"
+>
+  + Add Single Line Question
+</button>
+
 
                   </div>
                 </div>
