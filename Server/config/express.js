@@ -25,14 +25,16 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
   "https://gyapak.in",
-  "https://www.gyapak.in"
+  "https://www.gyapak.in",
+  "https://gyapak-test-series.vercel.app"
 ].filter(Boolean); // Remove undefined values
 
 // Backend instances for load balancing
 const backendInstances = [
   // "https://backend.gyapak.in",
   // "http://localhost:5000",
-  "http://localhost:8383"
+  "http://localhost:8383",
+  // 'https://gyapak-test-server.onrender.com'
 ];
 
 let currentIndex = 0;
