@@ -161,7 +161,7 @@ export default function TestSeriesLandingPage() {
     },
     {
       icon: <Search size={24} className="text-primary" />,
-      title: "Detailed Analysis",
+      title: "Detailed Analysis sdge",
       description: "AI-powered performance insights and improvement suggestions"
     },
     {
