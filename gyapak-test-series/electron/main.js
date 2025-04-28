@@ -68,9 +68,9 @@ function createWindow(userId, examId, eventId) {
  
   let url;
   if (userId && examId && eventId) {
-    url = `http://localhost:5173/test?userId=${userId}&examId=${examId}&eventId=${eventId}`;
+    url = `https://gyapak-test-series.vercel.app/test?userId=${userId}&examId=${examId}&eventId=${eventId}`;
   } else {
-    url = `http://localhost:5173/`; // 👉 Show landing page, or a "waiting" screen
+    url = `https://gyapak-test-series.vercel.app/`; // 👉 Show landing page, or a "waiting" screen
   }
  
   mainWindow.loadURL(url);
@@ -200,7 +200,7 @@ function handleOpenUrl(url) {
     if (!mainWindow || mainWindow.isDestroyed()) {
       createWindow(userId, examId, eventId);
     } else {
-      const loadUrl = `http://localhost:5173/test?userId=${userId}&examId=${examId}&eventId=${eventId}`;
+      const loadUrl = `https://gyapak-test-series.vercel.app/test?userId=${userId}&examId=${examId}&eventId=${eventId}`;
       mainWindow.loadURL(loadUrl);
       mainWindow.show();
       mainWindow.focus();
@@ -243,7 +243,7 @@ ipcMain.on('start-proctor-engine', (_event, { userId, examId, eventId }) => {
     return;
   }
  
-  const testPageUrl = `http://localhost:5173/test-page?userId=${userId}&examId=${examId}&eventId=${eventId}`;
+  const testPageUrl = `https://gyapak-test-series.vercel.app/test-page?userId=${userId}&examId=${examId}&eventId=${eventId}`;
   if (mainWindow && !mainWindow.isDestroyed()) {
     mainWindow.loadURL(testPageUrl);
   }
