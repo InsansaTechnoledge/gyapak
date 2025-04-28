@@ -788,47 +788,47 @@ const ExamOverview = () => {
   //     console.error('❌ Error launching proctor:', message);
   //   }
   // };
-  
-  const handleStartTest = async (passedEventId) => {
-    try {
-      const body = {
-        userId: user._id,
-        examId,
-        eventId: passedEventId
-      };
 
-      // const res = await axios.post('http://localhost:5173//api/v1i2/proctor/launch', body);
+  // const handleStartTest = async (passedEventId) => {
+  //   try {
+  //     const body = {
+  //       userId: user._id,
+  //       examId,
+  //       eventId: passedEventId
+  //     };
 
-      // // Axios parses response automatically
-      // if (res.ok) console.log('🚀 Proctor launched:', res.data.message);
-        window.location.href = `gyapak://open?userId=${body.userId}&examId=${body.examId}&eventId=${body.eventId}`;
-        // window.location.href = "https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor-1.0.0-arm64.dmg";
-            // window.open("https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor.Setup.1.0.0.exe");
+  //     // const res = await axios.post('http://localhost:5173//api/v1i2/proctor/launch', body);
+
+  //     // // Axios parses response automatically
+  //     // if (res.ok) console.log('🚀 Proctor launched:', res.data.message);
+  //       window.location.href = `gyapak://open?userId=${body.userId}&examId=${body.examId}&eventId=${body.eventId}`;
+  //       // window.location.href = "https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor-1.0.0-arm64.dmg";
+  //           // window.open("https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor.Setup.1.0.0.exe");
  
-      // setTimeout(()=>{
-      //   alert("Download Gyapak");
-      //   // if(process.platform==='win32'){
-      //   //   window.open("https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor.Setup.1.0.0.exe");
-      //   // }
-      //   // else{
-      //   //   window.open("https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor-1.0.0-arm64.dmg");
-      //   // }
-         if (process.platform==='win32') {
-          // Use location.href to trigger download directly
-          window.location.href = "https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor.Setup.1.0.0.exe";
-        } else {
-          window.location.href = "https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor-1.0.0-arm64.dmg";
-        }
-      // },3000);
+  //     // setTimeout(()=>{
+  //     //   alert("Download Gyapak");
+  //     //   // if(process.platform==='win32'){
+  //     //   //   window.open("https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor.Setup.1.0.0.exe");
+  //     //   // }
+  //     //   // else{
+  //     //   //   window.open("https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor-1.0.0-arm64.dmg");
+  //     //   // }
+  //        if (process.platform==='win32') {
+  //         // Use location.href to trigger download directly
+  //         window.location.href = "https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor.Setup.1.0.0.exe";
+  //       } else {
+  //         window.location.href = "https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor-1.0.0-arm64.dmg";
+  //       }
+  //     // },3000);
 
 
 
 
-    } catch (error) {
-      const message = error?.response?.data?.message || error.message || 'Unknown error';
-      console.error('❌ Error launching proctor:', message);
-    }
-  };
+  //   } catch (error) {
+  //     const message = error?.response?.data?.message || error.message || 'Unknown error';
+  //     console.error('❌ Error launching proctor:', message);
+  //   }
+  // };
 
   // const handleStartTest = async (eventId) => {
   //   try {
@@ -848,6 +848,35 @@ const ExamOverview = () => {
   //   }
   // };
 
+  const handleStartTest = async (passedEventId) => {
+    try {
+      const body = {
+        userId: user._id,
+        examId,
+        eventId: passedEventId
+      };
+  
+      window.location.href = `gyapak://open?userId=${body.userId}&examId=${body.examId}&eventId=${body.eventId}`;
+  
+      setTimeout(() => {
+        const isWindows = navigator.userAgent.includes('Windows');
+        const isMac = navigator.userAgent.includes('Macintosh') || navigator.userAgent.includes('Mac OS');
+  
+        if (isWindows) {
+          window.location.href = "https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor.Setup.1.0.0.exe";
+        } else if (isMac) {
+          window.location.href = "https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor-1.0.0-arm64.dmg";
+        } else {
+          alert("⚠️ Unsupported OS. Please download manually from our website.");
+        }
+      }, 2000);  
+  
+    } catch (error) {
+      const message = error?.response?.data?.message || error.message || 'Unknown error';
+      console.error('❌ Error launching proctor:', message);
+    }
+  };
+  
   const handleViewResult = (event_id) => {
     navigate(`/result/${event_id}`);
   }
