@@ -17,9 +17,7 @@
     "protocols": [
       {
         "name": "Gyapak Proctor App",
-        "schemes": [
-          "gyapak"
-        ]
+        "schemes": ["gyapak"]
       }
     ],
     "files": [

@@ -11,6 +11,12 @@ if (!app.isDefaultProtocolClient('gyapak')) {
   app.setAsDefaultProtocolClient('gyapak');
 }
 
+
+const userId = '68022a95181d6d38d41fbc4b';
+const examId = '3ea70332-a6dc-49a0-aede-56208f580fb1';
+const eventId = '4fba7d24-d8ad-4320-be0b-0dca9b861fe4';
+
+
 // const [, , userId, examId, eventId] = process.argv;
 
 function safeSend(channel, data) {
@@ -141,26 +147,37 @@ app.commandLine.appendSwitch('disk-cache-size', '0');
 app.disableHardwareAcceleration();
 
 app.whenReady().then(() => {
+  // Listen for the custom URL scheme when the app is launched
+  console.log("HHH");
+  if (!app.isDefaultProtocolClient('gyapak')) {
+    app.setAsDefaultProtocolClient('gyapak');
+  }
+  
   app.on('open-url', (event, url) => {
-    event.preventDefault();
-    try {
-      console.log('🧠 Protocol triggered:', url);
+    console.log('Protocol triggered:', url);
 
+    // Prevent the default behavior
+    event.preventDefault();
+
+    // Parse the URL and extract the query parameters
+    try {
       const parsedUrl = new URL(url);
       const userId = parsedUrl.searchParams.get('userId');
       const examId = parsedUrl.searchParams.get('examId');
       const eventId = parsedUrl.searchParams.get('eventId');
 
+      // Ensure that the necessary parameters are present
       if (!userId || !examId || !eventId) {
         console.error('❌ Missing parameters in URL');
         return;
       }
 
+      // Create or load the main window
       if (!mainWindow || mainWindow.isDestroyed()) {
         createWindow(userId, examId, eventId);
       } else {
         const loadUrl = `http://localhost:5173/test?userId=${userId}&examId=${examId}&eventId=${eventId}`;
-        mainWindow.loadURL(loadUrl);
+        mainWindow.loadURL(loadUrl);  // Load the page with query parameters
         mainWindow.show();
         mainWindow.focus();
       }
@@ -169,12 +186,10 @@ app.whenReady().then(() => {
     }
   });
 
-  // Create a dummy window if you want when app starts without protocol (optional)
-  // if (process.argv.length >= 2) {
-  //   console.log(process.argv);
-  //   createWindow(process.argv[2], process.argv[3], process.argv[4]);
-  // }
+  // Create the main window if the app was launched directly without a protocol
+  createWindow('68022a95181d6d38d41fbc4b', '3ea70332-a6dc-49a0-aede-56208f580fb1', '4fba7d24-d8ad-4320-be0b-0dca9b861fe4');
 });
+
 
 ipcMain.on('start-proctor-engine', (_event, { userId, examId, eventId }) => {
   if (proctorProcess) {
