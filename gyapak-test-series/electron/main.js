@@ -11,6 +11,12 @@ if (!app.isDefaultProtocolClient('gyapak')) {
   app.setAsDefaultProtocolClient('gyapak');
 }
  
+ 
+const userId = '68022a95181d6d38d41fbc4b';
+const examId = '3ea70332-a6dc-49a0-aede-56208f580fb1';
+const eventId = '4fba7d24-d8ad-4320-be0b-0dca9b861fe4';
+ 
+ 
 // const [, , userId, examId, eventId] = process.argv;
  
 function safeSend(channel, data) {
@@ -60,8 +66,13 @@ function createWindow(userId, examId, eventId) {
     },
   });
  
+  let url;
+  if (userId && examId && eventId) {
+    url = `http://localhost:5173/test?userId=${userId}&examId=${examId}&eventId=${eventId}`;
+  } else {
+    url = `http://localhost:5173/`; // 👉 Show landing page, or a "waiting" screen
+  }
  
-  const url = `http://localhost:5173/test?userId=${userId}&examId=${examId}&eventId=${eventId}`;
   mainWindow.loadURL(url);
  
   mainWindow.on('closed', () => {
@@ -71,35 +82,29 @@ function createWindow(userId, examId, eventId) {
   closeUnwantedApps(); // 👈 Kill apps once window is created
 }
  
-// function getBinaryPath() {
- 
-//   const isWin = process.platform === 'win32';
-//   const binaryName = isWin ? 'Release/proctor_engine.exe' : 'proctor_engine';
-//   return path.resolve(__dirname, '../../ai-proctor-engine/build', binaryName);
-// }
- 
- 
 function getBinaryPath() {
   const isWin = process.platform === 'win32';
   const platformDir = isWin ? 'win' : 'mac';
   const binaryName = isWin ? 'proctor_engine.exe' : 'proctor_engine';
  
-  // Resolve from Electron app root
-  const binaryPath = path.join(__dirname, './bin', platformDir, binaryName);
-  const resolved = path.resolve(binaryPath);
+  // Determine base directory safely outside the asar
+  let basePath = path.join(process.resourcesPath, 'bin', platformDir);
  
-  console.log("🛠️ Resolved binary path:", resolved);
+  const fullPath = path.join(basePath, binaryName);
  
-  if (!fs.existsSync(resolved)) {
-    throw new Error(`❌ Proctor Engine binary not found at: ${resolved}`);
+  console.log("🛠️ Resolved binary path:", fullPath);
+ 
+  if (!fs.existsSync(fullPath)) {
+    throw new Error(`❌ Proctor Engine binary not found at: ${fullPath}`);
   }
  
-  return resolved;
+  return fullPath;
 }
  
  
 function launchProctorEngine(userId, examId, eventId) {
   const binaryPath = getBinaryPath();
+  console.log(binaryPath);
   proctorProcess = spawn(binaryPath, [userId, examId, eventId], {
     // shell: true,
     stdio: ['ignore', 'pipe'],
@@ -140,41 +145,90 @@ app.commandLine.appendSwitch('disable-gpu-shader-disk-cache');
 app.commandLine.appendSwitch('disk-cache-size', '0');
 app.disableHardwareAcceleration();
  
+ 
+let pendingOpenUrl = null;
+
+function checkPendingProtocol() {
+    if (process.platform === 'win32') {
+      // On Windows, protocol URL comes in process.argv
+      const urlArg = process.argv.find(arg => arg.startsWith('gyapak://'));
+      if (urlArg) {
+        console.log('🔵 Windows protocol detected:', urlArg);
+        pendingOpenUrl = urlArg;
+      }
+    }
+  }
+
+app.setAsDefaultProtocolClient('gyapak');
+
+checkPendingProtocol();
+
 app.whenReady().then(() => {
+  if (pendingOpenUrl) {
+    // If there was a pending protocol launch during startup
+    handleOpenUrl(pendingOpenUrl);
+    pendingOpenUrl = null;
+  }
+
   app.on('open-url', (event, url) => {
     event.preventDefault();
-    try {
-      console.log('🧠 Protocol triggered:', url);
- 
-      const parsedUrl = new URL(url);
-      const userId = parsedUrl.searchParams.get('userId');
-      const examId = parsedUrl.searchParams.get('examId');
-      const eventId = parsedUrl.searchParams.get('eventId');
- 
-      if (!userId || !examId || !eventId) {
-        console.error('❌ Missing parameters in URL');
-        return;
-      }
- 
-      if (!mainWindow || mainWindow.isDestroyed()) {
-        createWindow(userId, examId, eventId);
-      } else {
-        const loadUrl = `http://localhost:5173/test?userId=${userId}&examId=${examId}&eventId=${eventId}`;
-        mainWindow.loadURL(loadUrl);
-        mainWindow.show();
-        mainWindow.focus();
-      }
-    } catch (error) {
-      console.error('❌ Error parsing URL:', error);
-    }
+    handleOpenUrl(url);
   });
- 
-  // Create a dummy window if you want when app starts without protocol (optional)
-  // if (process.argv.length >= 2) {
-  //   console.log(process.argv);
-  //   createWindow(process.argv[2], process.argv[3], process.argv[4]);
-  // }
 });
+
+function handleOpenUrl(url) {
+  console.log('Protocol triggered:', url);
+
+  try {
+    const parsedUrl = new URL(url);
+    const userId = parsedUrl.searchParams.get('userId');
+    const examId = parsedUrl.searchParams.get('examId');
+    const eventId = parsedUrl.searchParams.get('eventId');
+
+    if (!userId || !examId || !eventId) {
+      console.error('❌ Missing parameters in URL');
+      return;
+    }
+
+    if (!mainWindow || mainWindow.isDestroyed()) {
+      createWindow(userId, examId, eventId);
+    } else {
+      const loadUrl = `http://localhost:5173/test?userId=${userId}&examId=${examId}&eventId=${eventId}`;
+      mainWindow.loadURL(loadUrl);
+      mainWindow.show();
+      mainWindow.focus();
+    }
+  } catch (error) {
+    console.error('❌ Error parsing URL:', error);
+  }
+}
+
+// IMPORTANT:
+// macOS: If the app is not running, "open-url" triggers AFTER ready
+app.on('second-instance', (event, argv) => {
+  // Windows specific: sometimes custom URL comes in argv array
+  if (process.platform === 'win32') {
+    const url = argv.find(arg => arg.startsWith('gyapak://'));
+    if (url) {
+      if (app.isReady()) {
+        handleOpenUrl(url);
+      } else {
+        pendingOpenUrl = url;
+      }
+    }
+  }
+});
+
+// macOS hack:
+app.on('open-url', (event, url) => {
+  if (app.isReady()) {
+    handleOpenUrl(url);
+  } else {
+    pendingOpenUrl = url;
+  }
+});
+
+ 
  
 ipcMain.on('start-proctor-engine', (_event, { userId, examId, eventId }) => {
   if (proctorProcess) {
@@ -214,5 +268,6 @@ app.on('window-all-closed', () => {
     proctorProcess.kill('SIGTERM');
     proctorProcess = null;
   }
-  if (process.platform !== 'darwin') app.quit();
+  // if (process.platform !== 'darwin') 
+    app.quit();
 });
