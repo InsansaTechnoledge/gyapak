@@ -8,10 +8,8 @@
     "start": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
-    
     "build:mac": "electron-builder --mac",
     "build:win": "electron-builder --win"
-
   },
   "build": {
     "appId": "com.gyapak.proctor",
@@ -38,7 +36,9 @@
       "target": "nsis"
     }
   },
-  "dependencies": {},
+  "dependencies": {
+    "axios": "^1.9.0"
+  },
   "devDependencies": {
     "electron": "^35.2.0",
     "electron-builder": "^26.0.12"

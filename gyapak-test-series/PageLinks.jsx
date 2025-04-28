@@ -49,18 +49,20 @@ const PageLinks = () => {
 
   return (
     <>
-     <RouterComponent>
-  <Routes>
-    <Route path="" element={<Landing />} />
-    <Route path="exam/*" element={<ExamPage />} />
-    <Route path="institute/*" element={<InstitutePage />} />
-    <Route path="form" element={<ExamSetupForm />} />
-    <Route path="question-upload" element={<UploadQuestionsForm />} />
-    <Route path="test-page" element={<TestPage />} />
-    <Route path="test" element={<TestInstructions />} />
-    <Route path="result/:eventId" element={<ResultPage />} />
-  </Routes>
+<RouterComponent>
+<Routes>
+  <Route path="" element={<Landing />} />
+  <Route path="exam/*" element={<ExamPage />} />
+  <Route path="institute/*" element={<InstitutePage />} />
+  <Route path="form" element={<ExamSetupForm />} />
+  <Route path="question-upload" element={<UploadQuestionsForm />} />
+  <Route path="test" element={<TestInstructions />} />
+  <Route path="test-page" element={<TestPage />} />  
+  <Route path="result/:eventId" element={<ResultPage />} />
+</Routes>
+
 </RouterComponent>
+
 
     </>
   )

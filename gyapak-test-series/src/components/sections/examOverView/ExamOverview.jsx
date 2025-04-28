@@ -165,15 +165,32 @@ const ExamOverview = () => {
   //   }
   // };
 
-  const handleStartTest = async (eventId) => {
+  // const handleStartTest = async (eventId) => {
+  //   try {
+  //     const body = {
+  //       userId: user._id,
+  //       examId,
+  //       eventId
+  //     };
+  
+  //     const gyapakUrl = `gyapak://open?userId=${user._id}&examId=${examId}&eventId=${eventId}`;
+  //     window.location.href = gyapakUrl;
+  
+  //   } catch (error) {
+  //     const message = error?.response?.data?.message || error.message || 'Unknown error';
+  //     console.error('❌ Error launching proctor:', message);
+  //   }
+  // };
+  
+  const handleStartTest = async (passedEventId) => {
     try {
       const body = {
         userId: user._id,
         examId,
-        eventId
+        eventId: passedEventId
       };
   
-      const gyapakUrl = `gyapak://open?userId=${user._id}&examId=${examId}&eventId=${eventId}`;
+      const gyapakUrl = `gyapak://open?userId=${user._id}&examId=${examId}&eventId=${passedEventId}`;
       window.location.href = gyapakUrl;
   
     } catch (error) {

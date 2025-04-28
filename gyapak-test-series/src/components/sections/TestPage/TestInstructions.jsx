@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useUser } from '../../../context/UserContext';
 import { getEventDetails, updateEventAttempsByUser } from '../../../service/event.service';
+import { useNavigate } from 'react-router-dom';
 
 const TestInstructions = () => {
   const [examDetails, setExamDetails] = useState(null);
@@ -8,18 +9,26 @@ const TestInstructions = () => {
   const [error, setError] = useState(null);
   const [proctorStatus, setProctorStatus] = useState('idle');
   const [guidelinesAccepted, setGuidelinesAccepted] = useState(false);
+  const [timeoutReached, setTimeoutReached] = useState(false);
+  const [timeoutId, setTimeoutId] = useState(null); 
+
+
+  const navigate = useNavigate();
   
-  const queryParams = new URLSearchParams(window.location.search);
-  const examId = queryParams.get("examId");
-  const eventId = queryParams.get("eventId");
-  const userId = queryParams.get('userId');
+  const params = new URLSearchParams(window.location.hash.split('?')[1]);
+  const examId = params.get("examId");
+  const eventId = params.get("eventId");
+  const userId = params.get("userId");
+
   
   useEffect(() => {
+    console.log("🚀 TestInstructions mounted!");
+
+    
+
     const isElectron = navigator.userAgent.includes('Electron');
     console.log('🧪 isElectron?', isElectron);
     console.log('✅ electronAPI:', window.electronAPI);
-    
-    window.testBridge?.ping?.();
     
     const fetchEvent = async () => {
       setLoading(true);
@@ -40,34 +49,93 @@ const TestInstructions = () => {
 
     fetchEvent();
 
-    // Log listener
-    if (window?.electronAPI?.onProctorLog) {
-      window.electronAPI.onProctorLog((log) => {
-        console.log("📥 Proctor Log:", log);
-      });
-    }
-
     return () => {
-      window.electronAPI?.stopProctorEngine?.(); // Cleanup on unmount
+      window.electronAPI?.stopProctorEngine?.();
     };
   }, [eventId]);
 
-  const handleStartTest = async () => {
+  useEffect(() => {
+    const handleProctorEvent = (data) => {
+      console.log("📥 Proctor Event in TestInstructions:", data);
+    
+      if (data?.eventType === "session_start" || data?.details?.includes("Face detection normalized")) {
+        setProctorStatus('ready');
+        if (timeoutId) clearTimeout(timeoutId);
+    
+        console.log("✅ Session Started! Navigating to TestWindow...");
+    
+        navigate(`/test-page?userId=${userId}&examId=${examId}&eventId=${eventId}`);
+      }
+    };
+    
+  
+    if (window?.electronAPI?.onProctorEvent) {
+      window.electronAPI.onProctorEvent(handleProctorEvent);
+    }
+  
+    return () => {
+      window?.electronAPI?.removeProctorEventListener?.();
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [navigate, userId, examId, eventId, timeoutId]);
+  
+
+
+const handleStartTest = async () => {
+  try {
     if (window.electronAPI && userId && examId && eventId) {
-      console.log("🔥 Launching Proctor Engine...");
-      console.log(userId, examId, eventId);
+      console.log("🔥  Launching Proctor Engine...");
       window.electronAPI.startProctorEngine(userId, examId, eventId);
-      setProctorStatus('started');
+      setProctorStatus('starting');
+
+      const updatedAttempt = await updateEventAttempsByUser(eventId, userId);
+      if (updatedAttempt.status === 200) {
+        console.log(updatedAttempt.data);
+      }
+
+      const id = setTimeout(() => {
+        setTimeoutReached(true);
+      }, 30000);
+      setTimeoutId(id); // ✅ save timeout ID
     } else {
       console.warn("❌ Missing required params or electronAPI not available");
       setError("Unable to start the proctor. Please ensure you're using the correct application.");
     }
-    const updatedAttempt = await updateEventAttempsByUser(eventId, userId);
-    if(updatedAttempt.status===200){
-        console.log(updatedAttempt.data);
-    }
+  } catch (err) {
+    console.error("Failed to start test:", err);
+  }
 };
 
+useEffect(() => {
+  const handleProctorEvent = (data) => {
+    console.log("📥 Proctor Event in TestInstructions:", data);
+    if (data?.eventType === "session_start") {
+      setProctorStatus('ready');
+
+      if (timeoutId) {
+        clearTimeout(timeoutId); // ✅ clear timeout when session starts
+      }
+
+      console.log("✅ Session Started! Navigating to TestWindow...");
+      navigate(`/test?userId=${userId}&examId=${examId}&eventId=${eventId}`);
+    }
+  };
+
+  if (window?.electronAPI?.onProctorEvent) {
+    window.electronAPI.onProctorEvent(handleProctorEvent);
+  }
+
+  return () => {
+    window?.electronAPI?.removeProctorEventListener?.();
+    if (timeoutId) clearTimeout(timeoutId); // ✅ also clear when unmount
+  };
+}, [navigate, userId, examId, eventId, timeoutId]);
+
+
+  const retryProctor = () => {
+    setTimeoutReached(false);
+    handleStartTest();
+  };
 
   if (loading) {
     return (
@@ -93,6 +161,29 @@ const TestInstructions = () => {
             Try Again
           </button>
         </div>
+      </div>
+    );
+  }
+
+  // 🛡️ Show nice animated loading when initializing proctor
+  if (proctorStatus === 'starting') {
+    return (
+      <div className="flex flex-col justify-center items-center min-h-screen text-center px-4">
+        <div className="w-16 h-16 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mb-6"></div>
+        <h2 className="text-2xl font-semibold text-purple-700 mb-2 animate-pulse">Initializing Proctor System...</h2>
+        <p className="text-gray-600 text-sm mb-8">Please stay calm. Checking your camera and microphone permissions.</p>
+
+        {timeoutReached && (
+          <div className="mt-6">
+            <p className="text-red-600 mb-4">⚠️ Taking too long? Retry launching proctor manually.</p>
+            <button
+              onClick={retryProctor}
+              className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-md font-semibold transition-colors shadow"
+            >
+              Retry Starting Proctor
+            </button>
+          </div>
+        )}
       </div>
     );
   }
