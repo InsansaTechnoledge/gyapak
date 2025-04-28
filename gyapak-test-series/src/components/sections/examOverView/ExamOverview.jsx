@@ -736,12 +736,12 @@ const ExamOverview = () => {
       //   // else{
       //   //   window.open("https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor-1.0.0-arm64.dmg");
       //   // }
-        //  if (navigator.platform==='win32') {
-        //   // Use location.href to trigger download directly
-        //   window.location.href = "https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor.Setup.1.0.0.exe";
-        // } else {
-        //   window.location.href = "https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor-1.0.0-arm64.dmg";
-        // }
+         if (navigator.platform==='win32') {
+          // Use location.href to trigger download directly
+          window.location.href = "https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor.Setup.1.0.0.exe";
+        } else {
+          window.location.href = "https://github.com/InsansaTechnoledge/gyapak/releases/download/01/GyapakProctor-1.0.0-arm64.dmg";
+        }
       // },3000);
 
 
