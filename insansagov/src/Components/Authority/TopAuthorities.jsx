@@ -64,7 +64,7 @@ const TopAuthorities = (props) => {
 
     if (isLoading || !organizations) {
         return <div className='w-full flex flex-col justify-center mb-10'>
-            <h1 className='flex text-center text-2xl justify-center mb-5 font-bold'>Central Government Authorities</h1>
+            <h1 className='flex text-center text-2xl justify-center mb-5 font-bold'>Central authorities hosting upcoming government exams 2025</h1>
             <div className='flex justify-center'>
                 <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
 
@@ -77,7 +77,7 @@ const TopAuthorities = (props) => {
             {
                 props.titleHidden
                     ? null
-                    : <h1 className='flex text-center text-2xl justify-center mb-5 font-bold'>Central Government Authorities</h1>
+                    : <h1 className='flex text-center text-2xl justify-center mb-5 font-bold'>Central authorities hosting upcoming government exams 2025</h1>
             }
             <div className='grid grid-cols-2 lg:grid-cols-4 mb-5 gap-4'>
                 <Suspense fallback={<div><div className='w-full h-screen flex justify-center'>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
 import RelatedAuthorities from '../../Components/Authority/RelatedAuthorities';
 import BackButton from '../../Components/BackButton/BackButton';
@@ -17,8 +17,8 @@ const StatePage = () => {
     const [organizations, setOrganizations] = useState();
 
     // Parse the query parameters
-    const queryParams = new URLSearchParams(location.search);
-    const state = queryParams.get("name");
+    const {keyword} = useParams();
+    const state = keyword.split('-').reverse()[3];
 
     const fetchStateData = async () => {
         try {
@@ -99,12 +99,12 @@ const StatePage = () => {
                     organizations && organizations.length > 0
                         ?
                         <>
-                            <h1 className='font-bold text-2xl text-center mb-10'>Organization under {state}</h1>
+                            <h1 className='font-bold text-2xl text-center mb-10'>Government jobs in {state} for 12th pass</h1>
                             <RelatedAuthorities organizations={organizations} />
                         </>
                         :
                         <>
-                            <h3 className='text-center font-bold text-lg mb-5'>No Organization under {state}!</h3>
+                            <h3 className='text-center font-bold text-lg mb-5'>No government jobs in {state} for 12th pass!</h3>
                             <img src={no_data_image} className='w-5/12 mx-auto' />
                         </>
                 }

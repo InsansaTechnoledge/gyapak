@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { SquareArrowOutUpRight, X } from 'lucide-react'
+import slugGenerator from '../../Utils/SlugGenerator';
 
 const localizer = momentLocalizer(moment);
 
@@ -389,7 +390,7 @@ export default function CalendarView() {
                         {ev.resource.events.map((event, idx) => (
                           <button
                             key={event.slug}
-                            onClick={() => navigate(`/opportunity?id=${encodeURIComponent(event.slug)}`)}
+                            onClick={() => navigate(`/top-exams-for-government-jobs-in-india/${slugGenerator(event.eventName)}?id=${encodeURIComponent(event.slug)}`)}
                             className="flex justify-between w-full hover:bg-gray-100 p-2 cursor-pointer rounded-lg"
                           >
                             <div className="text-left flex-grow">

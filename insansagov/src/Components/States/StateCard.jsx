@@ -8,7 +8,7 @@ const StateCard = ({ state }) => {
 
     return (
         <div
-            onClick={() => navigate(`state?name=${encodeURI(state)}`)}
+            onClick={() => navigate(`/state/government-jobs-in-${state}-for-12th-pass`)}
             className="group bg-white p-3 sm:p-4 rounded-xl border border-purple-100 hover:border-purple-400 
              shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer relative
              overflow-hidden active:bg-purple-50 touch-manipulation"

@@ -86,7 +86,7 @@ const LatestUpdates = ({ titleHidden }) => {
 
     <>
       <div className="flex justify-between mb-5">
-        <div className="font-bold text-2xl flex items-center">Latest Updates</div>
+        <div className="font-bold text-2xl flex items-center">Latest Updates for government jobs after 12th</div>
         <Suspense fallback={<div><div className='w-full h-screen flex justify-center'>
           <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
         </div></div>}>

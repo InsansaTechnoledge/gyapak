@@ -47,3 +47,21 @@ export const getOrganizationsByState = async (req, res) => {
     console.log(err);
   }
 };
+
+export const getAllOrganizations = async (req,res) => {
+  try{
+
+    const organizations = await Organization.find({},{
+      _id: 1,
+      name: 1,
+      abbreviation: 1
+    });
+
+
+    return res.status(200).json({message: "Organizations fetched", organizations: organizations});
+  }
+  catch(err){
+    console.log(err);
+    res.status(500).json({message: err.message});
+  }
+}
