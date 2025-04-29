@@ -112,7 +112,7 @@ const FAQCreate = () => {
     return (
         <>
             <h1 className='text-center text-2xl font-bold'>FAQCreate</h1>
-            <form className='mt-10'>
+            <form className='mt-10 w-1/3 mx-auto space-y-5'>
                 <div className='flex space-x-2'>
                     <label htmlFor='question' className='my-auto font-bold text-lg'>Question: </label>
                     <input 
@@ -126,7 +126,7 @@ const FAQCreate = () => {
                     onChange={(e)=>(onHandleChange(e))} id='answer' name='answer'/> 
                 </div>
                 <div>
-                    <label htmlFor='categories' className='my-auto font-bold text-lg'>Categories:</label>
+                    <label htmlFor='categories' className='my-auto font-bold text-lg'>Categories: </label>
                     <input 
                     className='px-2 py-1 text-lg border-purple-700 rounded-md border-2'
                     id='categories' name='categories' type='text' />
@@ -138,7 +138,7 @@ const FAQCreate = () => {
                     ))
                 }
                 <div>
-                    <label htmlFor='state' className='my-auto font-bold text-lg'>State</label>
+                    <label htmlFor='state' className='my-auto font-bold text-lg'>State: </label>
                     <select 
                     className='px-2 py-1 text-lg border-purple-700 rounded-md border-2'
                     id='state'
@@ -153,7 +153,7 @@ const FAQCreate = () => {
                     </select>
                 </div>
                 <div>
-                    <label htmlFor='seo' className='my-auto font-bold text-lg'>SEO Tags:</label>
+                    <label htmlFor='seo' className='my-auto font-bold text-lg'>SEO Tags: </label>
                     <input 
                     className='px-2 py-1 text-lg border-purple-700 rounded-md border-2'
                     id='seo' name='seo' type='text' />
@@ -165,7 +165,7 @@ const FAQCreate = () => {
                     ))
                 }
                 <div>
-                    <label htmlFor='organizationId' className='my-auto font-bold text-lg'>Organization:</label>
+                    <label htmlFor='organizationId' className='my-auto font-bold text-lg'>Organization: </label>
                     <select 
                     onChange={(e)=>(onHandleChange(e))}
                     className='px-2 py-1 text-lg border-purple-700 rounded-md border-2'
