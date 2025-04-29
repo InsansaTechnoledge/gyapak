@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import OpportunityCarouselCard from '../../Components/OpportunityCarousel/OpportunityCarouselCard'
 import ViewMoreButton from '../../Components/Buttons/ViewMoreButton';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
 import AuthorityLatestUpdates from '../../Components/Authority/AuthorityLatesUpdate';
 import RelatedAuthorities from '../../Components/Authority/RelatedAuthorities';
@@ -29,8 +29,8 @@ const Authority = () => {
 
     // Parse the query parameters
     const queryParams = new URLSearchParams(location.search);
-    const name = queryParams.get("name"); // Access the 'name' parameter
-
+    // const name = queryParams.get("name"); // Access the 'name' parameter
+    const {name} = useParams();
     const fetchOrganization = async () => {
         try {
             const response = await axios.get(`${apiBaseUrl}/api/organization/${name}`);
@@ -198,7 +198,7 @@ const Authority = () => {
                         </>
                         :
                         <>
-                            <h3 className='text-center font-bold text-lg mb-5'>No Active events right now!</h3>
+                            <h3 className='text-center font-bold text-lg mb-5'>No Active events for {organization.abbreviation} right now!</h3>
                             <img src={no_data_image} className='w-5/12 mx-auto' />
                         </>
                 }
@@ -216,7 +216,7 @@ const Authority = () => {
                         ?
                         <>
                             <h1 className='text-2xl xl:text-3xl font-bold text-gray-900 mb-5'>
-                                Related Authorities
+                                Related Authorities for {organization.abbreviation}
                             </h1>
                             <RelatedAuthorities organizations={relatedOrganizations} />
                         </>

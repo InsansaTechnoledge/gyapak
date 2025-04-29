@@ -46,7 +46,7 @@ const SecondRoutes = () => {
                     <Route path='/top-exams-for-government-jobs-in-india/:slug' element={<Opportunities />} />
                     <Route path='/counselor' element={<CounselorChatUI />} />
                     <Route path='/search' element={<SearchPage />} />
-                    <Route path='/organization' element={<Authority />} />
+                    <Route path='/organization/government-competitive-exams-after-12th/:name' element={<Authority />} />
                     <Route path='/category' element={<Category />} />
                     <Route path='/admit-card' element={<AdmitCardPage />} />
                     <Route path='/results' element={<Results />} />

@@ -87,17 +87,17 @@ const FAQCreate = () => {
 
     const RenderCategory = ({category}) => {
         return (
-            <div className='flex'>
-                <div>{category}</div>
-                <button type='button'>Delete</button>
+            <div className='flex space-x-2'>
+                <div className='px-2 border-purple-700 border rounded-lg'>{category}</div>
+                <button type='button' className='bg-red-700 rounded-sm px-2 text-white'>Delete</button>
             </div>
         )
     }
     const RenderSeo = ({seo}) => {
         return (
-            <div className='flex'>
-                <div className='p-2 border-purple-700 border rounded-lg'>{seo}</div>
-                <button type='button'>Delete</button>
+            <div className='flex space-x-2'>
+                <div className='px-2 border-purple-700 border rounded-lg'>{seo}</div>
+                <button type='button' className='bg-red-700 rounded-sm px-2 text-white'>Delete</button>
             </div>
         )
     }
@@ -130,7 +130,9 @@ const FAQCreate = () => {
                     <input 
                     className='px-2 py-1 text-lg border-purple-700 rounded-md border-2'
                     id='categories' name='categories' type='text' />
-                    <button type='button' onClick={addCategory}>Add</button>
+                    <button 
+                    className='bg-purple-700 p-2 text-white rounded-md ml-2'
+                    type='button' onClick={addCategory}>Add</button>
                 </div>
                 {
                     categories.map((cat, idx) => (
@@ -157,7 +159,9 @@ const FAQCreate = () => {
                     <input 
                     className='px-2 py-1 text-lg border-purple-700 rounded-md border-2'
                     id='seo' name='seo' type='text' />
-                    <button type='button' onClick={addSeoTag}>Add</button>
+                    <button 
+                    className='bg-purple-700 p-2 text-white rounded-md ml-2'
+                    type='button' onClick={addSeoTag}>Add</button>
                 </div>
                 {
                     seoTags.map((seo, idx) => (

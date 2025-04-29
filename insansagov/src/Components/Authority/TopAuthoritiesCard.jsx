@@ -8,7 +8,7 @@ const TopAuthoritiesCard = (props) => {
 
   return (
     <div 
-    onClick={()=>navigate(`/organization?name=${encodeURI(props.name)}`)}
+    onClick={()=>navigate(`/organization/government-competitive-exams-after-12th/${encodeURI(props.name)}`)}
     className="flex flex-col items-center justify-center bg-white rounded-lg p-6 max-w-sm mx-auto hover:scale-110 transition-all duration-300 hover:cursor-pointer">
       {/* Logo */}
       <img
