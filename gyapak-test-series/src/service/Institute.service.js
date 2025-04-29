@@ -31,3 +31,24 @@ export const loginInstitue = async (payload) => {
   const res = await api.post('/api/v1i2/institute-register/login', payload);
   return res.data;
 };
+
+export const getCurrentLoggedInInstituteService = async () => {
+  try {
+    const response = await api.get('/api/v1i2/institute-register/institute-fetched');
+    return response.data;
+  } catch (error) {
+    console.error('❌ Error fetching logged-in institute:', error.response?.data?.message || error.message);
+    throw error;
+  }
+};
+
+export const logoutInstituteService = async () => {
+  try {
+    const res = await api.get('/api/v1i2/institute-register/logout');
+    return res.data;
+  } catch (error) {
+    console.error('❌ Error logging out:', error.response?.data?.message || error.message);
+    throw error;
+  }
+};
+

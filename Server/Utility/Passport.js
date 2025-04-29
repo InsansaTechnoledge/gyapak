@@ -142,7 +142,7 @@ passport.deserializeUser(async (obj, done) => {
     }
     else{
       const institiute = await Institute.findById(obj.id);
-      done(null,  institiute ? { ...institiute.toObject(), loginType: 'institiute' } : false);
+      done(null,  institiute ? { ...institiute.toObject(), loginType: 'institute' } : false);
     }
   } catch (err) {
     done(err);

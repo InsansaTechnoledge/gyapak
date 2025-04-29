@@ -126,3 +126,25 @@ export const updateInstitute = async (req, res) => {
       return new APIError(500, [err.message || 'Internal server error']).send(res);
     }
   };
+
+  export const getCurrentLoggedInInstitiute = (req , res) => {
+      return new APIResponse(200 , req.user , 'Institute fetched successfully').send(res)
+  }
+
+  export const logoutInstitute = (req, res) => {
+    req.logout((err) => {
+      if (err) {
+        console.error('Logout error:', err);
+        return new APIError(500, ['Logout failed']).send(res);
+      }
+      req.session.destroy((err) => {
+        if (err) {
+          console.error('Session destroy error:', err);
+          return new APIError(500, ['Session destroy failed']).send(res);
+        }
+        res.clearCookie('connect.sid');
+        return new APIResponse(200, null, 'Institute logged out successfully').send(res);
+      });
+    });
+  };
+  

@@ -9,3 +9,9 @@ export const isLoggedInMiddleware = async (req, res, next) => {
     );
   }
 };
+
+export const isInstituteAuthenticated = async (req , res , next) => {
+  if(req.isAuthenticated() && req.user?.loginType === 'institute') return next();
+
+  return new APIError(401 , ['Not authorized as institute']).send(res);
+}
