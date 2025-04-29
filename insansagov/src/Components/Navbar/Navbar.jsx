@@ -31,7 +31,7 @@ const StateIcon = ({ state, updateVisibleStates, setStateDropdownVisible }) => {
         console.log("State clicked:", state);
         updateVisibleStates(state.name);
         setStateDropdownVisible(false);
-        navigate(`/state?name=${encodeURI(state.name)}`)
+        navigate(`/state/government-jobs-in-${state.name}-for-12th-pass`)
 
       }}
      
@@ -55,7 +55,7 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(location.pathname === '/' ? false : true);
+  const [isScrolled, setIsScrolled] = useState(location.pathname === '/government-jobs-after-12th' ? false : true);
   const [searchQuery, setSearchQuery] = useState("");
   const [totalCount, setTotalCount] = useState(0);
   // const [states, setStates] = useState();
@@ -133,7 +133,7 @@ const Navbar = () => {
   }, [states]);
 
   useEffect(() => {
-    setIsScrolled(location.pathname === '/' ? false : true);
+    setIsScrolled(location.pathname === '/government-jobs-after-12th' ? false : true);
     if (location.pathname == '/state' && states) {
       const currState = searchParams.get("name");
       setVisibleStates(states.filter(st => st !== currState));
@@ -152,7 +152,7 @@ const Navbar = () => {
   }, [location.pathname]);
 
   const updateVisibleStates = (state) => {
-    if (location.pathname == '/state' && states) {
+    if (location.pathname == `/state/government-jobs-in-${state}-for-12th-pass` && states) {
       setVisibleStates(states.filter(st => st !== state));
     }
     else {
@@ -179,12 +179,12 @@ const Navbar = () => {
         setLogoVisible(false);
       }
 
-      if (location.pathname === '/') {
+      if (location.pathname === '/government-jobs-after-12th') {
         setIsScrolled(window.scrollY > 20);
       }
     };
 
-    if (location.pathname === '/') {
+    if (location.pathname === '/government-jobs-after-12th') {
       window.addEventListener('scroll', handleScroll);
     } else {
       setIsScrolled(true);
@@ -478,7 +478,7 @@ const Navbar = () => {
             </a>
 
             {/* Search Input (conditionally rendered) */}
-            {location.pathname !== '/' && (
+            {location.pathname !== '/government-jobs-after-12th' && (
               <div className="relative w-64">
                 <input
                   type="text"
@@ -548,7 +548,7 @@ const Navbar = () => {
         className={`xl:hidden transition-all duration-500 ease-in-out ${isOpen ? 'max-h-[32rem] opacity-100' : 'max-h-0 opacity-0'} overflow-hidden bg-white/95 backdrop-blur-sm`}>
         <div className="px-6 pt-4 pb-6 space-y-2">
           {/* Search Bar for Mobile */}
-          {location.pathname !== '/' && (
+          {location.pathname !== '/government-jobs-after-12th' && (
             <div className="mb-4 relative">
               <form onSubmit={handleSearch} className="relative">
                 <input

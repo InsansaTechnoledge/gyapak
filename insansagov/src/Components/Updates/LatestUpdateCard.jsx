@@ -3,6 +3,7 @@ import moment from 'moment';
 import { Calendar, ChevronRight, Tag } from 'lucide-react';
 import { formatDate } from '../../Utils/dateFormatter';
 import { useNavigate } from 'react-router-dom';
+import slugGenerator from '../../Utils/SlugGenerator';
 
 const LatestUpdateCard = (props) => {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ const LatestUpdateCard = (props) => {
   return (
     <>
       <div 
-      onClick={()=>navigate(`/opportunity?id=${props.id}`)}
+      onClick={()=>navigate(`/top-exams-for-government-jobs-in-india/${slugGenerator(props.name)}?id=${props.id}`)}
       className="group relative overflow-hidden rounded-xl bg-white shadow-md transition-all hover:shadow-lg hover:cursor-pointer">
         <div className="absolute inset-x-0 top-0 h-1 bg-purple-600" />
 

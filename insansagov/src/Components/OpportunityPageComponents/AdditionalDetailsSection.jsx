@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { PlusCircleIcon } from "lucide-react";
 
-const AdditionalDetailsSection = ({ data, existingSections }) => {
+const AdditionalDetailsSection = ({ name, data, existingSections }) => {
   
   // Function to check if data contains at least one key not in existingSections
   const hasNonExistingSection = (data) => {
@@ -99,7 +99,7 @@ return (
   <div className="flex flex-col w-full lg:col-span-2 bg-white shadow-lg p-4 md:p-8 rounded-2xl mb-5">
     <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
       <PlusCircleIcon className="w-6 h-6 text-purple-500" />
-      Additional Details
+      Additional Details for {name}
     </h2>
     <div className="space-y-6 flex">{renderContent(data)}</div>
   </div>

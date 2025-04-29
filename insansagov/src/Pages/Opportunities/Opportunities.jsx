@@ -171,7 +171,7 @@ const ModernExamDetailsPage = () => {
           <>
             <div className="flex flex-grow mt-10">
               {/* Important Links */}
-              <AdditionalDetailsSection data={data.details} existingSections={existingSections} />
+              <AdditionalDetailsSection name={data.name} data={data.details} existingSections={existingSections} />
             </div>
             {data.document_links && data.document_links.length > 0
               ?

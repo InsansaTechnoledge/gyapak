@@ -88,7 +88,7 @@ const Landing = () => {
       <Helmet>
         <title>gyapak</title>
         <meta name="description" content="gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
-        <meta name="keywords" content="government exams, exam dates, admit cards, results, central government jobs, state government jobs, competitive exams, government jobs" />
+        <meta name="keywords" content="government exams, exam dates, admit cards, results, central government jobs, state government jobs, competitive exams, government jobs, government jobs after 12, upcoming government exams 2025" />
         <meta property="og:title" content="gyapak" />
         <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
       </Helmet>
@@ -102,10 +102,6 @@ const Landing = () => {
           {/* Latest updates and state components load next */}
           <LazyRender height="h-96">
             <LatestUpdates />
-          </LazyRender>
-
-          <LazyRender height="h-96">
-            <BlogBrandingPage />
           </LazyRender>
 
           <LazyRender height="h-80" id={"landing-state"}>
@@ -130,11 +126,15 @@ const Landing = () => {
             <ResultsDashboard />
           </LazyRender> */}
 
+          <LazyRender height="h-96">
+            <BlogBrandingPage />
+          </LazyRender>
+
           <LazyRender height="h-96" id={"landing-result"}>
             <ImportantLinksDashboard />
           </LazyRender>
 
-          
+
 
 
         </div>

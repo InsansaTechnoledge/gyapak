@@ -56,7 +56,7 @@ const FeaturePage = () => {
                         Features Designed for Your Success
                     </h1>
                     <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                        Simplify your exam preparation journey with these powerful tools designed to maximize your potential.
+                        {`Simplify your exam preparation journey with these powerful tools designed to maximize your potential.`}
                     </p>
                 </div>
 

@@ -38,7 +38,7 @@ const StateComponent = () => {
 
     // Handle suggestion selection
     const selectSuggestion = (suggestion) => {
-        navigate(`/state/?name=${suggestion}`);
+        navigate(`/state/government-jobs-in-${suggestion}-for-12th-pass`);
         setInput(suggestion);
         setShowDropdown(false);
     };
@@ -247,14 +247,14 @@ const StateComponent = () => {
                 {/* Hero Header Section */}
 
                 <div className="bg-gradient-to-r from-purple-800 to-indigo-800 rounded-t-2xl p-4 sm:p-8 text-white">
-                    <div className="max-w-4xl mx-auto">
+                    <div className="max-w-6xl mx-auto">
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
                             <div>
                                 <h1 className="text-2xl sm:text-3xl font-bold mb-2">
-                                    State Government authorities
+                                    State government authorities
                                 </h1>
                                 <p className="text-purple-200 text-xs sm:text-sm">
-                                    Explore opportunities across India's public sector
+                                    Explore upcoming government exams 2025
                                 </p>
                             </div>
 

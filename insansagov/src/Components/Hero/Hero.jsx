@@ -67,7 +67,7 @@ const Hero = () => {
                         />
                         <img
                             src={HeroBg}
-                            alt="Study preparation background"
+                            alt="government jobs after 12th"
                             loading="eager"
                             fetchpriority="high"
                             className="w-full h-full object-cover"
@@ -87,14 +87,17 @@ const Hero = () => {
                     <div className="max-w-3xl mx-auto">
                         {/* Logo and Heading */}
                         <motion.h1
-                            className="text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter mb-4 text-white"
+                            className="text-2xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter mb-4 text-white"
                             initial={{ scale: 0.9 }}
                             animate={{ scale: 1 }}
                             transition={{ duration: 0.5 }}
                         >
-                            <span className="bg-gradient-to-r from-indigo-400 via-purple-500 to-indigo-400 text-transparent bg-clip-text animate-gradient-x">
-                                gyapak
-                            </span>
+                            <h1 className="bg-gradient-to-r from-indigo-400 via-purple-500 pb-4 to-indigo-400 text-transparent bg-clip-text animate-gradient-x">
+                                {`upcoming government exams ${new Date().getFullYear()}`}
+                                {/* <h1>
+                                {`Latest ${new Date().getFullYear()} updates`}
+                                </h1> */}
+                            </h1>
                         </motion.h1>
 
                         {/* Dynamic Tagline */}
@@ -113,7 +116,7 @@ const Hero = () => {
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                             >
-                                government exams 
+                                government jobs after 12th 
                             </motion.span>
                         </motion.p>
 
@@ -207,7 +210,7 @@ const Hero = () => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.5 }}
                         >
-                            <p className="text-gray-300 text-sm mb-3">Popular searches:</p>
+                            <p className="text-gray-300 text-sm mb-3">Popular searches for government jobs after 12th:</p>
                             <div className="flex flex-wrap justify-center gap-2">
                                 {popularSearches.map(({ query, label }) => (
                                     <motion.div

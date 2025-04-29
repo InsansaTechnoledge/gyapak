@@ -5,7 +5,7 @@ const RelatedStatesCard = (props) => {
     const navigate = useNavigate();
     return (
       <div 
-      onClick={()=>navigate(`/state?name=${encodeURI(props.name)}`)}
+      onClick={()=>navigate(`/state/government-jobs-in-${props.name}-for-12th-pass`)}
       className='flex flex-col justify-center hover:cursor-pointer hover:scale-110 transition-all duration-300'>
           <div className='flex justify-center'>
               <img
