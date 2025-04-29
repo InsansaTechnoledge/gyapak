@@ -7,9 +7,10 @@ const API_BASE_URL = "http://localhost:3000";
 // Fetch landing page FAQs 
 export const getLandingFAQs = async (filters = {}) => {
   const params = new URLSearchParams(filters).toString();
-  const url = params ? `${API_BASE_URL}?${params}` : API_BASE_URL;
+  const url = params ? `${API_BASE_URL}/api/v1i2/faq?${params}` : `${API_BASE_URL}/api/v1i2/faq`;
 
   const response = await axios.get(url);
+
   return response.data;
 };
 

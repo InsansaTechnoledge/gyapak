@@ -23,6 +23,8 @@ export const getAllFAQs = async (req , res) => {
 
         const faqs = await FAQ.find(query).sort({ createdAt: -1 });
 
+        console.log(query);
+
         return new APIResponse(200 , faqs , 'fetched successfully').send(res);
     
     } catch(e) {
@@ -53,6 +55,9 @@ export const getFAQsFromOrganization = async (req , res) => {
           }
 
           const faqs = await FAQ.find(query).sort({ createdAt: -1 });
+
+
+          console.log(faqs)
 
           return new APIResponse(200 , faqs , 'fetched successfully').send(res);
 

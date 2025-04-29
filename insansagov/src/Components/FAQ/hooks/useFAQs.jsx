@@ -17,11 +17,11 @@ export const useFAQ = (initialFAQs = [], orgId = null, filters = {}) => {
     const fetchFAQs = async () => {
       setLoading(true);
       try {
-        const data = orgId
+        const response = orgId
           ? await getOrganizationFAQs(orgId, filters)
           : await getLandingFAQs(filters);
 
-        setFAQs(data || []);
+        setFAQs(response.data || []);
         setError(null);
       } catch (err) {
         console.error('❌ Failed to load FAQs:', err);

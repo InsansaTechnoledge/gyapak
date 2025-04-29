@@ -4,7 +4,7 @@ import FAQList from './Components/FAQLists';
 import { useFAQ } from './hooks/useFAQs';
 
 const FAQ = ({ 
-  title,
+  title = 'frequently asked questions',
   customFAQs,
   orgId = null,
   showSearch = true,
