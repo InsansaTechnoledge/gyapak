@@ -96,7 +96,7 @@ const FAQCreate = () => {
     const RenderSeo = ({seo}) => {
         return (
             <div className='flex'>
-                <div>{seo}</div>
+                <div className='p-2 border-purple-700 border rounded-lg'>{seo}</div>
                 <button type='button'>Delete</button>
             </div>
         )
@@ -104,7 +104,7 @@ const FAQCreate = () => {
 
     const uploadFAQ = async () => {
         const response = await axios.post(`${API_BASE_URL}/api/v1i2/faq`,formData);
-        if(response.status===200){
+        if(response.data.status===200){
             alert(response.data.message);
         }
     }
