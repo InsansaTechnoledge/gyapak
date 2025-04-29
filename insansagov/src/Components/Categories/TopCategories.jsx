@@ -65,7 +65,7 @@ const TopCategories = (props) => {
 
     if (isLoading || !categories) {
         return <div className='w-full flex flex-col justify-center mb-10'>
-            <h1 className='flex text-center text-2xl justify-center mb-5 font-bold'>Top Categories</h1>
+            <h1 className='flex text-center text-2xl justify-center mb-5 font-bold'>Top Categories in government jobs after 12th</h1>
             <div className='flex justify-center'>
                 <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
 
@@ -76,8 +76,8 @@ const TopCategories = (props) => {
     return (
         <>
             {!props.titleHidden && (
-                <h1 className="flex text-center text-2xl justify-center mb-5 font-bold">
-                    Top Categories
+                <h1 className="flex text-center text-2xl justify-center mb-10 font-bold">
+                    Top Categories in government jobs after 12th
                 </h1>
             )}
             <div className="grid grid-cols-2 lg:grid-cols-4 mb-5 gap-4">

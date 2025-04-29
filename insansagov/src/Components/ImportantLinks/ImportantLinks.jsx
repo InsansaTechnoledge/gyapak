@@ -107,7 +107,7 @@ const ImportantLinksDashboard = () => {
         <div className="bg-gradient-to-br from-purple-50 to-white shadow-md rounded-lg p-6 mt-10 mb-10">
             <div className="flex flex-col space-y-4 md:flex-row justify-between items-center mb-6">
                 <div className="flex flex-col">
-                    <h2 className="text-2xl font-bold text-purple-900">Exam's Important Links</h2>
+                    <h2 className="text-2xl font-bold text-purple-900">Important links for upcoming government exams 2025</h2>
                     <p className="text-purple-600 mt-1">Find all examination resources in one place</p>
                 </div>
                 <div className="flex items-center gap-4">

@@ -5,6 +5,7 @@ import axios from 'axios';
 import parse from 'html-react-parser';
 import { DotLoader } from 'react-spinners';
 import { useNavigate } from 'react-router-dom';
+import slugGenerator from '../../Utils/SlugGenerator';
 
 const ChatBot = () => {
 
@@ -105,7 +106,7 @@ const ChatBot = () => {
                 var responseType = 'details'
 
                 if (botResponse) {
-                    responseSet = [botResponse.date_of_commencement, botResponse._id, botResponse.end_date, botResponse.apply_link];
+                    responseSet = [botResponse.date_of_commencement, botResponse._id, botResponse.end_date, botResponse.apply_link, botResponse.name];
                 }
                 else {
                     responseText = `${botResponse.response}`
@@ -423,7 +424,7 @@ const ChatBot = () => {
                                                     className="px-3 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md hover:bg-purple-800"
                                                     onClick={() => {
                                                         const url = message.set[1];
-                                                        navigate(`/opportunity?id=${message.set[1]}`)
+                                                        navigate(`/top-exams-for-government-jobs-in-india/${slugGenerator(message.set[4])}?id=${message.set[1]}`)
                                                         // if (url.startsWith("http://") || url.startsWith("https://")) {
                                                         //     window.location.href = url;
                                                         // } else {

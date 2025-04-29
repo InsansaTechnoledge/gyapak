@@ -60,9 +60,6 @@ export const getFAQsFromOrganization = async (req , res) => {
         return new APIError(500 , 'something went wrong').send(res);
     }
 }
-import FAQ from "../models/FAQ.model.js";
-import { APIError } from "../utils/ApiError.js";
-import { APIResponse } from "../utils/ApiResponse.js";
 
 export const postFAQ = async (req, res) => {
     try {
