@@ -4,6 +4,7 @@ import uploadRoutes from './upload.routes.js';
 import BlogRoutes from './blog.routes.js';
 import eventRoutes from './event.routes.js';
 import affairRoutes from './currentAffair.routes.js'
+// import FAQRoutes from './FAQ.routes.js'
 import FAQRoutes from './FAQ.routes.js'
 
 const route = (app) => {

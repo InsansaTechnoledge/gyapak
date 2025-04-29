@@ -15,7 +15,5 @@ router.delete('/:id', deleteFAQ);
 
 export default router;
 
-import express from 'express';
-
 
 
