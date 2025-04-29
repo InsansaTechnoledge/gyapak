@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
-
+import Organization from './OrganizationModel.js';
+ 
 const faqSchema = new mongoose.Schema({
   question: {
     type: String,
@@ -43,12 +44,16 @@ const faqSchema = new mongoose.Schema({
   },
   updatedAt: Date
 });
-
-faqSchema.pre('save', function (next) {
-  this.updatedAt = new Date();
-  next();
-});
-
+ 
+faqSchema.pre('save', async function (next) {
+    try {
+      this.updatedAt = new Date();  
+      next();
+    } catch (err) {
+      next(err); 
+    }
+  });
+  
 const FAQ = mongoose.model('FAQ', faqSchema);
-
+ 
 export default FAQ;
