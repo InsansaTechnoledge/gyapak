@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import Organization from './OrganizationModel.js';
  
 const faqSchema = new mongoose.Schema({
   question: {
@@ -39,16 +40,20 @@ const faqSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now()
+    default: Date.now
   },
-  updatedAt: Date.now()
+  updatedAt: Date
 });
  
-faqSchema.pre('save', function (next) {
-  this.updatedAt = new Date();
-  next();
-});
- 
+faqSchema.pre('save', async function (next) {
+    try {
+      this.updatedAt = new Date();  
+      next();
+    } catch (err) {
+      next(err); 
+    }
+  });
+  
 const FAQ = mongoose.model('FAQ', faqSchema);
  
 export default FAQ;

@@ -37,7 +37,6 @@ export const InstituteAuthProvider =  ({children}) => {
         setIsLoggedIn(false);
         setInstituteInfo(null);
         setLoading(false); 
-
     }
 
     return (

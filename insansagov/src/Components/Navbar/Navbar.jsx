@@ -28,7 +28,6 @@ const StateIcon = ({ state, updateVisibleStates, setStateDropdownVisible }) => {
 
       key={state._id}
       onClick={() => {
-        console.log("State clicked:", state);
         updateVisibleStates(state.name);
         setStateDropdownVisible(false);
         navigate(`/state/government-jobs-in-${state.name}-for-12th-pass`)
@@ -73,8 +72,6 @@ const Navbar = () => {
     try {
       const response = await axios.get(`${apiBaseUrl}/api/state/list`);
       if (response.status === 200) {
-        console.log('States fetched successfully:');
-        // return response.data;
         return response.data.map(state => ({
           _id: state.stateId,
           name: state.name
@@ -231,7 +228,6 @@ const Navbar = () => {
     }
 
     try {
-      console.log('Fetching suggestions for:', apiBaseUrl);
       const response = await axios.get(`${apiBaseUrl}/api/search/`, { params: { q: query.trim() } });
       setSuggestions(response.data.suggestions);
       setShowDropdown(true);

@@ -12,6 +12,7 @@ import { CheckServer, useApi } from '../../Context/ApiContext';
 import { useQuery } from '@tanstack/react-query';
 import ExamCalendar from '../../Components/Calendar/ExamCalendar';
 import { set } from 'lodash';
+import FAQ from '../../Components/FAQ';
 
 const Authority = () => {
     const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
@@ -23,6 +24,8 @@ const Authority = () => {
     const [filteredEvents, setFilteredEvents] = useState();
     const [relatedOrganizations, setRelatedOrganizations] = useState();
     const [calendarDisplay, setCalendarDidsplay] = useState(false);
+
+    // const FAQ = React.lazy(() => import('../../Components/FAQ/FAQ'));
 
     // Parse the query parameters
     const queryParams = new URLSearchParams(location.search);
@@ -147,7 +150,7 @@ const Authority = () => {
                     <h1 className='text-3xl self-center font-bold mb-5'>{organization.name}</h1>
                     <div className='self-center text-center'>{organization.description}</div>
                 </div>
-
+                
                 {
                     organization.calendar
                     ?
@@ -198,6 +201,14 @@ const Authority = () => {
                             <h3 className='text-center font-bold text-lg mb-5'>No Active events right now!</h3>
                             <img src={no_data_image} className='w-5/12 mx-auto' />
                         </>
+                }
+                
+                {
+                organization._id && (
+                    <div className="px-4 md:px-16 lg:px-64 py-16">
+                    <FAQ orgId={organization._id} />
+                    </div>
+                )
                 }
 
                 {
