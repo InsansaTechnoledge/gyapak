@@ -19,22 +19,22 @@ app.set('trust proxy', true);
 
 // Allowed frontend origins (ensure these are correctly set in .env)
 const allowedOrigins = [
-  CLIENT_BASE_URL_LOCAL,
+  // CLIENT_BASE_URL_LOCAL,
   CLIENT_BASE_URL_LIVE,
   "https://insansa.com",
-  "http://localhost:5173",
-  "http://localhost:5174",
+  // "http://localhost:5173",
+  // "http://localhost:5174",
   "https://gyapak.in",
   "https://www.gyapak.in",
-  "https://gyapak-test-series.vercel.app",
+  // "https://gyapak-test-series.vercel.app",
 ].filter(Boolean); // Remove undefined values
 
 // Backend instances for load balancing
 const backendInstances = [
-  // "https://backend.gyapak.in",
+  "https://backend.gyapak.in",
   // "http://localhost:5000",
-  "http://localhost:8383",
-  'https://gyapak-test-server.onrender.com'
+  // "http://localhost:8383",
+  // 'https://gyapak-test-server.onrender.com'
 ];
 
 let currentIndex = 0;
@@ -47,18 +47,18 @@ const loadBalancer = (req, res, next) => {
   next();
 };
 
-// app.use((req, res, next) => {
-//   if (!req.headers.origin) {
-//     return res.status(403).json({ error: "Direct browser requests are not allowed" });
-//   }
-//   next();
-// });
+app.use((req, res, next) => {
+  if (!req.headers.origin) {
+    return res.status(403).json({ error: "Direct browser requests are not allowed" });
+  }
+  next();
+});
 
 
 // CORS configuration
 const corsOptions = {
   origin: (origin, callback) => {
-    return callback(null, true);
+    // return callback(null, true);
     if (!origin) {
       console.error('CORS denied: No origin');
       return callback(null, false);
