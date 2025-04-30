@@ -69,3 +69,9 @@ export const fetchEventsForCalendar = async (apiBaseUrl, categoryId, stateId, ev
 
   return expandedEvents.sort((a, b) => a.start - b.start);
 };
+
+export const fetchTodaysEvents = async (apiBaseUrl) => {
+  const res = await axios.get(`${apiBaseUrl}/api/event/getTodaysEvents`);
+  console.log('Fetched today\'s events:', res.data);
+  return res.data;
+};
