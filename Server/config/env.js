@@ -1,4 +1,4 @@
-const nodeEnv = 'development';
+const nodeEnv = 'production';
 
 if (nodeEnv !== 'production') {
   const dotenv = await import('dotenv');
