@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { SquareArrowOutUpRight, X } from 'lucide-react'
 import slugGenerator from '../../Utils/SlugGenerator';
-import {useApi,CheckServer} from '../../Context/ApiContext';
+import { useApi, CheckServer } from '../../Context/ApiContext';
 
 const localizer = momentLocalizer(moment);
 
@@ -148,7 +148,7 @@ export default function CalendarView() {
           });
         });
       });
-    
+
       const sortedEvents = expandedEvents.sort((a, b) => a.start - b.start);
       return sortedEvents;
 
@@ -357,6 +357,18 @@ export default function CalendarView() {
 
         </div>
       )}
+      <div>
+        <h1>
+          Stay Updated with Our Interactive Government Calendar for Jobs & Exams
+        </h1>
+        <div>
+          Our all-in-one government calendar is designed to help you stay on top of upcoming government exams and job opportunities across India. Each day on the calendar highlights organizations announcing new events or job openings. Simply click on any organization to view the list of events scheduled for that day, and go deeper by clicking on an event to see full details—such as eligibility, deadlines, and application links.
+
+          You can view the calendar in monthly, weekly, or daily formats, depending on your preference, making it easy to plan and stay organized. Additionally, the calendar allows you to filter events by category (like Banking, Railways, Defence, etc.) or by individual states, so you only see what’s relevant to your goals.
+
+          Whether you're a student, a job seeker, or preparing for competitive exams, our user-friendly government calendar ensures you never miss an important date or update.
+        </div>
+      </div>
     </div>
   );
 }
