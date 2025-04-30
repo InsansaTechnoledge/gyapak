@@ -21,7 +21,7 @@ const AuthorityLatestUpdates = (props) => {
   return (
     <>
         <div className='flex justify-between mb-5'>
-            <div className='font-bold text-2xl flex items-center'>Latest Updates</div>
+            <div className='font-bold text-2xl flex items-center'>Latest Updates for {props.organization}</div>
             {latestUpdates.length >2 &&(
         <ViewMoreButton
           content={isExpanded ? "view less ▲" : "View More ▼"}

@@ -59,7 +59,7 @@ const SecondRoutes = () => {
                     <Route path='/unsubscribe' element={<Unsubscribe />} />
                     <Route path='/blog' element={<BlogPage />} />
                     <Route path="/blog/:slug" element={<BlogDetailPage />} />
-                    <Route path="/calendar" element={<CalendarView />} />
+                    <Route path="/government-calendar" element={<CalendarView />} />
                     <Route path="/current-affairs/:date/:slug" element={<CurrentAffairDetails />} />
 
 
