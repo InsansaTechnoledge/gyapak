@@ -17,7 +17,7 @@ import {
 // Import components from original code
 import EventComponent from './EventComponent';
 import EventModal from './EventModal';
-import { fetchCategories, fetchStates, fetchEventTypes, fetchEventsForCalendar } from './fetchers';
+import { fetchCategories, fetchStates, fetchEventTypes, fetchEventsForCalendar } from '../../Service/calendar'
 import { useApi } from '../../Context/ApiContext';
 import GovernmentCalendarIntro from './CalendarInfo';
 

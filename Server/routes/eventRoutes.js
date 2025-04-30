@@ -4,7 +4,7 @@ import { getEvent, getEventsForCalendar, getEventTypes, getLatestUpdates, getTod
 const router = express.Router();
 
 router.get('/getEventTypes',getEventTypes);
-router.get('/getTodaysEvenets',getTodaysEvents);
+router.get('/getTodaysEvents',getTodaysEvents);
 router.get('/latest', getLatestUpdates)
 router.get('/lastupdated', lastupdated);
 router.get('/', getEventsForCalendar);
