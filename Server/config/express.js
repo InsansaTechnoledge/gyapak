@@ -32,7 +32,7 @@ const allowedOrigins = [
 
 // Backend instances for load balancing
 const backendInstances = [
-  // "https://backend.gyapak.in",
+  // "https://backend.gyapak.in", 
   // "http://localhost:5000",
   "http://localhost:8383",
   // 'https://gyapak-test-server.onrender.com'

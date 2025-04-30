@@ -5,6 +5,7 @@ import curvLine from '../../assets/Landing/curvLine.svg';
 import { Helmet } from "react-helmet-async";
 import StatesLanding from '../../Components/States/StatesLanding';
 
+import GyapakLanding from '../../Components/NewLandingPage/NewLanding';
 // Error Boundary Component
 class ErrorBoundary extends React.Component {
   state = { hasError: false, error: null };
@@ -97,9 +98,11 @@ const Landing = () => {
       </Helmet>
       <div className="min-h-screen">
         {/* Hero section loads immediately with high priority */}
-        <LazyRender height="h-screen" priority={true}>
+        {/* <LazyRender height="h-screen" priority={true}>
           <Hero />
-        </LazyRender>
+        </LazyRender> */}
+
+        <GyapakLanding/>
 
         <div className="px-4 md:px-16 lg:px-64 space-y-16">
           {/* Latest updates and state components load next */}
@@ -140,9 +143,9 @@ const Landing = () => {
             <ImportantLinksDashboard />
           </LazyRender>
 
-          <LazyRender height="h-96" id={"landing-result"}>
+          {/* <LazyRender height="h-96" id={"landing-result"}>
             <WhatsAppGroupJoin />
-          </LazyRender>
+          </LazyRender> */}
 
           <LazyRender height="h-96" id={"landing-result"}>
             <FAQ />

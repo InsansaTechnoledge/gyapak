@@ -212,14 +212,15 @@ const Credits = () => {
         'IRCTC': 'https://th.bing.com/th/id/OIP.EHn6kkNVOvYzlxSE_p6lgwHaEK?rs=1&pid=ImgDetMain',
         'DFCCIL': 'https://www.gkseries.com/blog/wp-content/uploads/2021/04/DFCCIL-logo-683x350.png',
         'ITD': 'https://th.bing.com/th/id/OIP.C8uuy5rbXb5a6zA7L_uixAHaEK?w=768&h=432&rs=1&pid=ImgDetMain',
-        'APDSC': 'https://apdsc.in/wp-content/uploads/2018/03/loggg-Copy.png',
-        'SHSB': 'https://media.licdn.com/dms/image/sync/v2/D5627AQGvH-bkqC_CkA/articleshare-shrink_800/articleshare-shrink_800/0/1711354352056?e=2147483647&v=beta&t=a80Egw47vyFI8Vvzs9iOwq2eGN5f9g3hCupCeeCmLSk',
-        'CCI': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMS0cjgAJf_8yBdrBrIDWPpAe7CtI_OpAwbg&s',
-        'NMRC': 'https://www.nmrcnoida.com/Content/img/nmrc_logo.png',
-        'DIC': 'https://tse1.mm.bing.net/th/id/OIP.S8Be87J_NUT3zspHi-iYWQHaEC?rs=1&pid=ImgDetMain',
-        'DCI': 'https://th.bing.com/th/id/OIP.-bpn7hafka0O6Z00prWn4gHaCI?rs=1&pid=ImgDetMain',
-        'IHM': 'https://images.shiksha.com/mediadata/images/1415083501phpqXrxPk.jpeg',
-        'IIT Patna': 'https://th.bing.com/th/id/OIP.s6uoHM87WhG4OIaPbpMD9AHaHa?rs=1&pid=ImgDetMain',
+        'APDSC':'https://apdsc.in/wp-content/uploads/2018/03/loggg-Copy.png',
+        'SHSB':'https://media.licdn.com/dms/image/sync/v2/D5627AQGvH-bkqC_CkA/articleshare-shrink_800/articleshare-shrink_800/0/1711354352056?e=2147483647&v=beta&t=a80Egw47vyFI8Vvzs9iOwq2eGN5f9g3hCupCeeCmLSk',
+        'CCI':'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMS0cjgAJf_8yBdrBrIDWPpAe7CtI_OpAwbg&s',
+        'NMRC':'https://www.nmrcnoida.com/Content/img/nmrc_logo.png',
+        'DIC':'https://tse1.mm.bing.net/th/id/OIP.S8Be87J_NUT3zspHi-iYWQHaEC?rs=1&pid=ImgDetMain',
+        'DCI':'https://th.bing.com/th/id/OIP.-bpn7hafka0O6Z00prWn4gHaCI?rs=1&pid=ImgDetMain',
+        'IHM':'https://images.shiksha.com/mediadata/images/1415083501phpqXrxPk.jpeg',
+        'IIT Patna':'https://th.bing.com/th/id/OIP.s6uoHM87WhG4OIaPbpMD9AHaHa?rs=1&pid=ImgDetMain',
+        'BPNL':'https://institute.careerguide.com/wp-content/uploads/2022/07/bpnl.jpg',
         "Search Results Not Found": "https://img.freepik.com/free-vector/search-concept-landing-page_52683-13620.jpg?ga=GA1.1.1723539104.1734412094&semt=ais_hybrid",
         "Data Not Found": "https://img.freepik.com/free-vector/postponed-concept_23-2148489217.jpg?ga=GA1.1.1723539104.1734412094&semt=ais_hybrid",
         "Gujarat Heritage": "https://statueofunitytentcity.com/wp-content/uploads/2023/05/Reaching-Statue-of-Unity-from-Ahmedabad.webp",
@@ -238,8 +239,7 @@ const Credits = () => {
         "Uttarakhand Heritage": "https://static.toiimg.com/photo/msid-113713503,width-96,height-65.cms",
         "Andhra Pradesh Heritage": "https://www.trawell.in/admin/images/upload/565594159Kurnool_Main.jpg",
     }
-
-
+    
     const filteredData = Object.entries(creditData).filter(([key]) =>
         key.toLowerCase().includes(searchTerm.toLowerCase())
     );
