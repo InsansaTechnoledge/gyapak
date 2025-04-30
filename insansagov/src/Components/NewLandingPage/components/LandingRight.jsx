@@ -1,7 +1,9 @@
+import ExamHighlightSection from "./HighlightSection";
+
 export default function LandingRight() {
     return (
       <div className="hidden lg:block lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-        <div className="h-full w-full bg-purple-700 opacity-90 flex items-center justify-center">
+        <div className="h-full w-full bg-purple-700 opacity-90 mt-12 flex items-center justify-center">
           <div className="w-full max-w-md px-6">
             <div className="relative">
               <input
@@ -17,6 +19,9 @@ export default function LandingRight() {
             </div>
           </div>
         </div>
+        {/* <ExamHighlightSection/> */}
+
+
       </div>
     );
   }
