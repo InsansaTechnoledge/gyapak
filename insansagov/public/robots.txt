@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://gyapak.in/sitemap.xml
+Sitemap: http://localhost:8383/sitemap.xml

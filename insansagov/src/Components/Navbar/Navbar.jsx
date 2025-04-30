@@ -5,6 +5,39 @@ import { debounce, update } from 'lodash';
 import axios from 'axios';
 import { useApi, CheckServer } from '../../Context/ApiContext';
 import { useQuery } from '@tanstack/react-query';
+import Gujarat from '../../../public/states/Gujarat.webp';
+import Haryana from '../../../public/states/Haryana.jpg'
+import Bihar from '../../../public/states/Bihar.jpg'
+import Karnataka from '../../../public/states/Karnataka.png'
+import Kerala from '../../../public/states/Kerala.jpg'
+import Maharashtra from '../../../public/states/Maharashtra.jpg'
+import Odisha from '../../../public/states/Odisha.jpg'
+import Punjab from '../../../public/states/Punjab.jpg'
+import Rajasthan from '../../../public/states/Rajasthan.jpg'
+import Uttar_pradesh from '../../../public/states/Uttar_pradesh.webp'
+import Madhya_Pradesh from '../../../public/states/Madhya_Pradesh.jpg'
+import Tamil_Nadu from '../../../public/states/Tamil_Nadu.webp'
+import Uttarakhand from '../../../public/states/Uttarakhand.webp'
+import Andhra_Pradesh from '../../../public/states/Andhra_Pradesh.jpg'
+import Himachal_Pradesh from '../../../public/states/Himachal_Pradesh.jpg'
+
+const stateImages = {
+        "Gujarat": Gujarat,
+        "Haryana": Haryana,
+        "Bihar": Bihar,
+        "Karnataka": Karnataka,
+        "Kerala": Kerala,
+        "Maharashtra": Maharashtra,
+        "Odisha": Odisha,
+        "Punjab": Punjab,
+        "Rajasthan": Rajasthan,
+        "Uttar Pradesh": Uttar_pradesh,
+        "Madhya Pradesh": Madhya_Pradesh,
+        "Tamil Nadu": Tamil_Nadu,
+        "Uttarakhand": Uttarakhand,
+        "Andhra Pradesh": Andhra_Pradesh,
+        "Himachal Pradesh": Himachal_Pradesh
+    }
 
 const categories = [
   { Nameid: 'Defence', name: 'Defence', icon: '🛡️' },
@@ -36,11 +69,14 @@ const StateIcon = ({ state, updateVisibleStates, setStateDropdownVisible }) => {
      
       className="flex items-center p-3 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 group cursor-pointer"
     >
-      <div className="h-12 w-12 bg-gradient-to-br from-purple-100 to-blue-100 rounded-xl flex items-center justify-center group-hover:from-purple-200 group-hover:to-blue-200 transition-all duration-300">
-        <MapPin className="w-6 h-6 text-purple-600 group-hover:text-purple-700" />
+      <div className="h-12 w-12 rounded-xl flex items-center justify-center group-hover:from-purple-200 group-hover:to-blue-200 transition-all duration-300">
+        {/* <MapPin className="w-6 h-6 text-purple-600 group-hover:text-purple-700" /> */}
+        <img 
+        className='w-full object-cover h-full rounded-lg'
+        src={stateImages[state.name]} />
       </div>
       <div className="ml-4">
-        <span className="text-sm font-medium text-gray-800 group-hover:text-purple-700 transition-colors">
+        <span className=" font-medium text-gray-800 group-hover:text-purple-700 transition-colors">
           {state.name}
         </span>
       </div>
