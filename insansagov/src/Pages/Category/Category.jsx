@@ -106,13 +106,13 @@ const Category = () => {
                     organizations && organizations.length > 0
                         ?
                         <>
-                            <h1 className='font-bold text-2xl text-center mb-10'>Organizations under {name}</h1>
+                            <h1 className='font-bold text-2xl text-center mb-10'>Government organizations under {name}</h1>
                             <RelatedAuthorities organizations={organizations} />
 
                         </>
                         :
                         <>
-                            <h3 className='text-center font-bold text-lg mb-5'>No Organization under this category!</h3>
+                            <h3 className='text-center font-bold text-lg mb-5'>No government organization under this category!</h3>
                             <img src={no_data_image} className='w-5/12 mx-auto' />
                         </>
                 }

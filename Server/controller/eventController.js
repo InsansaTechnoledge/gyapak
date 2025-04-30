@@ -80,18 +80,12 @@ export const lastupdated = async (req, res) => {
 };
 
 export const getEventsByCategory = async (req, res) => {
-  console.log("Fetching events by category...");
   const { category,state } = req.query;
   try {
-    console.log(req.query);
-    console.log(category);
-    console.log(state);
     let orgs = null;
     if(category && state){
-      console.log("category and state are present");
        orgs = await Authority.findById(state)
         .select('organizations');
-        console.log(orgs);
         const events = await Promise.all(
           orgs.organizations.map(org =>
             Organization.findOne({_id:org,category:category})
@@ -106,15 +100,12 @@ export const getEventsByCategory = async (req, res) => {
        orgs = await Organization.find({ category })
       .select('name abbreviation logo') // Only return these org fields
       .populate('events', 'name date_of_notification end_date exam_type _id');
-      console.log(orgs);
       const filtered =orgs.filter(e =>e && e.events && e.events.length > 0);
-      console.log(filtered);
         return res.status(200).json(filtered);
     }
     else if(!category && state){
       orgs = await Authority.findById(state)
         .select('organizations');
-        console.log(orgs);
         const events = await Promise.all(
           orgs.organizations.map(org =>
             Organization.findById(org)
@@ -124,7 +115,6 @@ export const getEventsByCategory = async (req, res) => {
         );
         
         const filtered = events.filter(e => e &&  e.events && e.events.length > 0);
-        console.log(filtered);
         return res.status(200).json(filtered);
     }
     else return res.status(400).json({message:"Please provide category or state"});
@@ -134,14 +124,3 @@ export const getEventsByCategory = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-
-// const getEventsByState = async (req, res) => {
-//   const { stateId } = req.params;
-//   try {
-//     const events = await Event.find({ stateId });
-//     res.status(200).json(events);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: "Server error" });
-//   }
-// };

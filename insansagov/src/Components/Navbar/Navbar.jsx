@@ -158,7 +158,7 @@ const Navbar = () => {
   }
 
   const updateVisibleCategories = (category) => {
-    if (location.pathname == '/category') {
+    if (location.pathname == '/government-organisations-under-category') {
       setVisibleCategories(categories.filter(cat => cat !== category));
     }
     else {
@@ -269,6 +269,7 @@ const Navbar = () => {
               onClick={() => {
                 selectSuggestion(item[itemKey])
                 setIsOpen(false);
+                setSearchQuery('');
               }}
               className="px-4 py-2.5 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 cursor-pointer text-gray-700 text-sm transition-all duration-300"
             >
@@ -385,7 +386,7 @@ const Navbar = () => {
                           onClick={() => {
                             updateVisibleCategories(category);
                             setCategoryDropdownVisible(false);
-                            navigate(`/category?name=${encodeURI(category.Nameid)}`);
+                            navigate(`/government-organisations-under-category?name=${encodeURI(category.Nameid)}`);
                           }}
                           className="flex items-center p-3 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 group cursor-pointer"
                         >
@@ -488,6 +489,7 @@ const Navbar = () => {
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                       navigate(`/search?query=${encodeURI(searchQuery.trim())}`);
+                      setSearchQuery('');
                     }
                   }}
                 />
