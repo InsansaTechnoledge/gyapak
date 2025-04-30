@@ -52,7 +52,6 @@ export const getStateList = async (req,res) => {
             name:state.name,
             stateId:state._id
         }));
-        console.log(stateList);
         res.status(200).json(stateList);
     }
     catch(err){

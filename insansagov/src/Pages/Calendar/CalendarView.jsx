@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { SquareArrowOutUpRight, X } from 'lucide-react'
 import slugGenerator from '../../Utils/SlugGenerator';
+import {useApi,CheckServer} from '../../Context/ApiContext';
 
 const localizer = momentLocalizer(moment);
 
@@ -16,6 +17,7 @@ export default function CalendarView() {
   const [currentMonth, setCurrentMonth] = useState(moment());
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
+  const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
 
   const {
     data: categories = [],
@@ -25,14 +27,14 @@ export default function CalendarView() {
     queryKey: ['categories'],
     queryFn: async () => {
       try {
-        const res = await axios.get("http://localhost:8383/api/category/getCategories");
+        const res = await axios.get(`${apiBaseUrl}/api/category/getCategories`);
         return res.data.map(cat => ({
           _id: cat._id,
           name: cat.category,
         }));
       } catch (err) {
         console.error("Error fetching categories:", err);
-        throw new Error("Failed to load categories");
+        // throw new Error("Failed to load categories");
       }
     },
     staleTime: Infinity,
@@ -50,16 +52,14 @@ export default function CalendarView() {
     queryKey: ['navbarStates'],
     queryFn: async () => {
       try {
-        const res = await axios.get("http://localhost:8383/api/state/list")
-        console.log(res.data);
-        console.log("States fetched successfully: 🥲");
+        const res = await axios.get(`${apiBaseUrl}/api/state/list`)
         return res.data.map(state => ({
           _id: state.stateId,
           name: state.name,
         }))
       } catch (err) {
         console.error("Error fetching states:", err);
-        throw new Error("Failed to load states");
+        // throw new Error("Failed to load states");
       }
     },
     staleTime: Infinity,
@@ -75,7 +75,6 @@ export default function CalendarView() {
 
   const fetchEventsByCategory = async (categoryId, stateId, month, year) => {
 
-    console.log("Fetching events");
     if (!categoryId && !stateId) return [];
     const params = new URLSearchParams();
     if (categoryId) params.append('category', categoryId);
@@ -86,10 +85,8 @@ export default function CalendarView() {
 
     try {
       console.log(stateId);
-      const res = await axios.get(`http://localhost:8383/api/event${queryString ? `?${queryString}` : ''}`);
+      const res = await axios.get(`${apiBaseUrl}/api/event${queryString ? `?${queryString}` : ''}`);
       const organizations = res.data;
-      console.log("Fetched Organizations with Events:", organizations);
-
       const groupedByDate = {};
 
       organizations.forEach(org => {
@@ -151,13 +148,13 @@ export default function CalendarView() {
           });
         });
       });
-      console.log("Expanded Events:", expandedEvents);
+    
       const sortedEvents = expandedEvents.sort((a, b) => a.start - b.start);
       return sortedEvents;
 
     } catch (err) {
       console.error("Error fetching events:", err);
-      throw new Error("Failed to load events");
+      // throw new Error("Failed to load events");
     }
   };
 
@@ -224,56 +221,9 @@ export default function CalendarView() {
           <img src={`data:image/png;base64,${event.resource.organization.logo}`} className="w-6 h-6 rounded bg-slate-200" />
           <span className="font-semibold text-black">{event.title}</span>
         </div>
-        {/* {showEventModal && selectedDate && (
-            <div className="absolute top-2 bg-white shadow-lg rounded-xl p-6 w-96 z-50">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-semibold">
-                  Events on {selectedDate.format("MMMM D, YYYY")}
-                </h2>
-                <button onClick={() => setShowEventModal(false)} className="text-gray-500 hover:text-black">
-                  ✖
-                </button>
-              </div>
-              <div className="space-y-2 max-h-64 overflow-y-auto">
-                {events
-                  .filter(ev => moment(ev.start).isSame(selectedDate, 'day') && ev.resource.orgId === currentOrganizationSlug)
-                  .map(ev => (
-                    <>
-                    <button 
-                    onClick={() => navigate(`/opportunity?id=${encodeURIComponent(ev.resource.slug)}`)}
-                    
-                    className='flex hover:bg-gray-100 p-2 cursor-pointer rounded-lg'>
-                        <div
-                          key={ev.resource.slug}
-                          className=""
-                        >
-                          {ev.resource.eventName} 
-                        </div>
-                        <SquareArrowOutUpRight className='my-auto w-10 h-10' />
-                    </button>
-                      
-                    </>
-                  ))}
-              </div>
-            </div>
-          )} */}
       </div>
     );
   };
-
-  const handleSelectSlot = useCallback((slotInfo) => {
-    console.log("Selected slot:", slotInfo);
-    // const startDate = moment(slotInfo.start).format('YYYY-MM-DD');
-    // const endDate = moment(slotInfo.end).format('YYYY-MM-DD');
-    // const selectedEvents = calendarEvents.filter(event => {
-    //   const eventDate = moment(event.start).format('YYYY-MM-DD');
-    //   return eventDate === startDate;
-    // });
-
-    // if (selectedEvents.length > 0) {
-    //   navigate(`/opportunity?id=${encodeURIComponent(selectedEvents[0].resource.slug)}`);
-    // }
-  }, [calendarEvents, navigate]);
 
   return (
     <div className="p-4 pt-28">
@@ -351,7 +301,6 @@ export default function CalendarView() {
             popup={true}
             components={{ event: EventComponent }}
             selectable={true}
-            onSelectSlot={handleSelectSlot}
             style={{ minHeight: '90vh' }}
           />
 
