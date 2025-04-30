@@ -1,6 +1,7 @@
 // components/LandingLeft.js
 
 import ExamHighlightSection from "./HighlightSection";
+import MarqueeOrgsWithLogos from "./Marquee";
 
 export default function LandingLeft() {
     return (
@@ -19,6 +20,9 @@ export default function LandingLeft() {
           </div>
         </div> */}
         <ExamHighlightSection/>
+
+        <MarqueeOrgsWithLogos/>
+
       </div>
     );
   }

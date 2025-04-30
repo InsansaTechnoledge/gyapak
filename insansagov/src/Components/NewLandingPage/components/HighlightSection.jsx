@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { fetchOrganizationByName } from '../../../Service/calendar';
 
-const API_BASE_URL = 'http://localhost:8383';
 
-const orgNames = ['UPSC', 'SSC', 'JEE', 'RAILWAYS', 'DEFENCE', 'TEACHING'];
+const orgNames = ['UPSC', 'SSC', 'ISRO', 'NDA', 'IPS', 'DRDO'];
 
 export default function ExamHighlightSection() {
   const [orgData, setOrgData] = useState([]);
@@ -12,11 +11,11 @@ export default function ExamHighlightSection() {
     const loadOrganizations = async () => {
       const promises = orgNames.map(async (name) => {
         try {
-          const org = await fetchOrganizationByName(API_BASE_URL, name);
+          const org = await fetchOrganizationByName(name);
           console.log(`✅ ${name} org data:`, org);
-          return { name, logo: org.logo }; // base64 logo string
+          return { name, logo: org.logo }; 
         } catch (err) {
-          console.warn(`❌ Failed to fetch ${name}:`, err.message);
+          console.warn(`Failed to fetch ${name}:`, err.message);
           return { name, logo: null };
         }
       });

@@ -104,3 +104,14 @@ export const getAllCalendars = async (req,res) => {
     return res.status(500).json({message: err.message});
   }
 }
+
+// GET /api/organization/all
+export const getAllOrganizations = async (req, res) => {
+  try {
+    const organizations = await Organization.find({}, { _id: 1, name: 1, abbreviation: 1, logo: 1 });
+    res.status(200).json(organizations);
+  } catch (err) {
+    console.error("Error fetching all organizations:", err.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
