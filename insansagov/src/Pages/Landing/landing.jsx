@@ -3,6 +3,7 @@ import { useInView } from 'react-intersection-observer';
 import { Loader2 } from 'lucide-react';
 import curvLine from '../../assets/Landing/curvLine.svg';
 import { Helmet } from "react-helmet-async";
+import StatesLanding from '../../Components/States/StatesLanding';
 
 // Error Boundary Component
 class ErrorBoundary extends React.Component {
@@ -106,8 +107,11 @@ const Landing = () => {
             <LatestUpdates />
           </LazyRender>
 
-          <LazyRender height="h-80" id={"landing-state"}>
+          {/* <LazyRender height="h-80" id={"landing-state"}>
             <StateComponent />
+          </LazyRender> */}
+          <LazyRender height="h-80" id={"landing-state"}>
+            <StatesLanding />
           </LazyRender>
 
           <div className="grid md:grid-cols-1 gap-8">

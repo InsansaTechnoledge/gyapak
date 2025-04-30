@@ -7,6 +7,7 @@ import passport from '../Utility/Passport.js';
 import cookieParser from 'cookie-parser';
 import { CLIENT_BASE_URL_LOCAL,CLIENT_BASE_URL_LIVE } from './env.js';
 import bodyParser from 'body-parser';
+import { generateSitemap } from '../controller/mongoController/sitemap.controller.js';
 
 
 const app = express();
@@ -46,6 +47,9 @@ const loadBalancer = (req, res, next) => {
   console.log(`Request routed to: ${req.target}`);
   next();
 };
+
+app.get('/sitemap.xml', generateSitemap);
+
 
 app.use((req, res, next) => {
   if (!req.headers.origin) {
