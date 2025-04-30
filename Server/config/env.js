@@ -1,11 +1,10 @@
 const nodeEnv = 'production';
 
-if (nodeEnv !== 'production') {
   const dotenv = await import('dotenv');
   // dotenv.config({ path: `./.env.${nodeEnv}.local` });
   dotenv.config({ path: `./.env` });
 
-}
+
 
 export const {
   PORT,
