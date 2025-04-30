@@ -22,7 +22,7 @@ const allowedOrigins = [
   // CLIENT_BASE_URL_LOCAL,
   CLIENT_BASE_URL_LIVE,
   "https://insansa.com",
-  // "http://localhost:5173",
+  "http://localhost:5173",
   // "http://localhost:5174",
   "https://gyapak.in",
   "https://www.gyapak.in",
@@ -31,9 +31,9 @@ const allowedOrigins = [
 
 // Backend instances for load balancing
 const backendInstances = [
-  "https://backend.gyapak.in",
+  // "https://backend.gyapak.in", 
   // "http://localhost:5000",
-  // "http://localhost:8383",
+  "http://localhost:8383",
   // 'https://gyapak-test-server.onrender.com'
 ];
 

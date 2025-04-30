@@ -136,9 +136,9 @@ const Landing = () => {
             <ImportantLinksDashboard />
           </LazyRender>
 
-          <LazyRender height="h-96" id={"landing-result"}>
+          {/* <LazyRender height="h-96" id={"landing-result"}>
             <WhatsAppGroupJoin />
-          </LazyRender>
+          </LazyRender> */}
 
           <LazyRender height="h-96" id={"landing-result"}>
             <FAQ />
