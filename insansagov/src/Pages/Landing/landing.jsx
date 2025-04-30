@@ -55,6 +55,7 @@ const StateComponent = React.lazy(() => import('../../Components/States/State'))
 const ImportantLinksDashboard = React.lazy(() => import('../../Components/ImportantLinks/ImportantLinks'))
 const BlogBrandingPage = React.lazy(() => import('../../Components/BolgPage/components/BlogBranfingPage'))
 const FAQ = React.lazy(() => import('../../Components/FAQ/FAQ'))
+const WhatsAppGroupJoin = React.lazy(() => import('../../Components/WhatsAppGroup/whatsGroupJoinButton'))
 // Enhanced LazyRender with loading states and error boundary
 const LazyRender = ({ children, height = "h-64", priority = false, id }) => {
   const { ref, inView } = useInView({
@@ -133,6 +134,10 @@ const Landing = () => {
 
           <LazyRender height="h-96" id={"landing-result"}>
             <ImportantLinksDashboard />
+          </LazyRender>
+
+          <LazyRender height="h-96" id={"landing-result"}>
+            <WhatsAppGroupJoin />
           </LazyRender>
 
           <LazyRender height="h-96" id={"landing-result"}>
