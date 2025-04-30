@@ -8,7 +8,6 @@ export const getLatestUpdates = async (req, res) => {
         // Calculate date range for last year
         const now = new Date();
         const oneYearAgo = new Date(now.getFullYear(), now.getMonth()-1, now.getDate());
-        console.log(oneYearAgo);
         const exams = await Event.aggregate([
           {
             $match: {
@@ -79,7 +78,7 @@ export const lastupdated = async (req, res) => {
   }
 };
 
-export const getEventsByCategory = async (req, res) => {
+export const getEventsForCalendar = async (req, res) => {
   const { category,state } = req.query;
   try {
     let orgs = null;
@@ -90,7 +89,7 @@ export const getEventsByCategory = async (req, res) => {
           orgs.organizations.map(org =>
             Organization.findOne({_id:org,category:category})
               .select('name abbreviation logo')
-              .populate('events', 'name date_of_notification end_date exam_type _id')
+              .populate('events', 'name date_of_notification end_date event_type _id')
           )
         );
         const filtered = events.filter(e => e && e.events && e.events.length > 0);
@@ -99,7 +98,7 @@ export const getEventsByCategory = async (req, res) => {
     else if(category && !state){
        orgs = await Organization.find({ category })
       .select('name abbreviation logo') // Only return these org fields
-      .populate('events', 'name date_of_notification end_date exam_type _id');
+      .populate('events', 'name date_of_notification end_date event_type _id');
       const filtered =orgs.filter(e =>e && e.events && e.events.length > 0);
         return res.status(200).json(filtered);
     }
@@ -110,7 +109,7 @@ export const getEventsByCategory = async (req, res) => {
           orgs.organizations.map(org =>
             Organization.findById(org)
               .select('name abbreviation logo')
-              .populate('events', 'name date_of_notification end_date exam_type _id')
+              .populate('events', 'name date_of_notification end_date event_type _id')
           )
         );
         
@@ -119,6 +118,16 @@ export const getEventsByCategory = async (req, res) => {
     }
     else return res.status(400).json({message:"Please provide category or state"});
     
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const getEventTypes = async (req, res) => {
+  try {
+    const eventTypes = await EventType.find({ type: { $ne: "update" } }).select('type _id');
+    res.status(200).json(eventTypes);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });

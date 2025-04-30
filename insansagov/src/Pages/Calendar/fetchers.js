@@ -10,7 +10,12 @@ export const fetchStates = async (apiBaseUrl) => {
   return res.data.map(state => ({ _id: state.stateId, name: state.name }));
 };
 
-export const fetchEventsByCategory = async (apiBaseUrl, categoryId, stateId, month, year) => {
+export const fetchEventTypes = async (apiBaseUrl) => {
+  const res = await axios.get(`${apiBaseUrl}/api/event/getEventTypes`);
+  return res.data.map(type => ({ _id: type._id, type: type.type }));
+};
+
+export const fetchEventsForCalendar = async (apiBaseUrl, categoryId, stateId, eventType, month, year) => {
   if (!categoryId && !stateId) return [];
 
   const params = new URLSearchParams();
@@ -24,7 +29,13 @@ export const fetchEventsByCategory = async (apiBaseUrl, categoryId, stateId, mon
 
   organizations.forEach(org => {
     const { name, abbreviation, logo, _id: orgId, events } = org;
-    events.forEach(event => {
+    const filteredEvents = eventType
+      ? events.filter(event => {
+        return event.event_type === eventType;
+      })
+      : events;
+
+    filteredEvents.forEach(event => {
       const startDate = new Date(event.date_of_notification);
       const endDate = new Date(event.end_date);
       let current = new Date(startDate);

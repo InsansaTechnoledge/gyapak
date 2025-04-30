@@ -220,11 +220,11 @@ const Credits = () => {
         'DCI':'https://th.bing.com/th/id/OIP.-bpn7hafka0O6Z00prWn4gHaCI?rs=1&pid=ImgDetMain',
         'IHM':'https://images.shiksha.com/mediadata/images/1415083501phpqXrxPk.jpeg',
         'IIT Patna':'https://th.bing.com/th/id/OIP.s6uoHM87WhG4OIaPbpMD9AHaHa?rs=1&pid=ImgDetMain',
+        'BPNL':'https://institute.careerguide.com/wp-content/uploads/2022/07/bpnl.jpg',
         "Search Results Not Found": "https://img.freepik.com/free-vector/search-concept-landing-page_52683-13620.jpg?ga=GA1.1.1723539104.1734412094&semt=ais_hybrid",
         "Data Not Found": "https://img.freepik.com/free-vector/postponed-concept_23-2148489217.jpg?ga=GA1.1.1723539104.1734412094&semt=ais_hybrid"
     }
-
-
+    
     const filteredData = Object.entries(creditData).filter(([key]) =>
         key.toLowerCase().includes(searchTerm.toLowerCase())
     );

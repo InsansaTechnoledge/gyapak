@@ -17,7 +17,7 @@ import {
 // Import components from original code
 import EventComponent from './EventComponent';
 import EventModal from './EventModal';
-import { fetchCategories, fetchStates, fetchEventsByCategory } from './fetchers';
+import { fetchCategories, fetchStates, fetchEventTypes, fetchEventsForCalendar } from './fetchers';
 import { useApi } from '../../Context/ApiContext';
 import GovernmentCalendarIntro from './CalendarInfo';
 
@@ -35,6 +35,7 @@ export default function CalendarView() {
   const [showFilters, setShowFilters] = useState(false);
   const [view, setView] = useState('month');
   const { apiBaseUrl } = useApi();
+  const [selectedEventType, setSelectedEventType] = useState(null);
 
   const month = currentMonth.month() + 1;
   const year = currentMonth.year();
@@ -57,10 +58,19 @@ export default function CalendarView() {
     refetchOnWindowFocus: false,
   });
 
+  const { data: eventTypes = [], isLoading: isEventTypeLoading } = useQuery({
+    queryKey: ['eventTypes'],
+    queryFn: () => fetchEventTypes(apiBaseUrl),
+    staleTime: Infinity,
+    cacheTime: 24 * 60 * 60 * 1000,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false
+  });
+
   const { data: events, isLoading, error: eventError, refetch } = useQuery({
-    queryKey: ['events', selectedCategory?._id, selectedState?._id, month, year],
-    queryFn: () => fetchEventsByCategory(apiBaseUrl, selectedCategory?._id, selectedState?._id, month, year),
-    enabled: !!selectedCategory?._id || !!selectedState?._id,
+    queryKey: ['events', selectedCategory?._id, selectedState?._id,selectedEventType?._id, month, year],
+    queryFn: () => fetchEventsForCalendar(apiBaseUrl, selectedCategory?._id, selectedState?._id,selectedEventType?.type, month, year),
+    enabled: !!selectedCategory?._id || !!selectedState?._id || !!selectedEventType?._id,
     staleTime: Infinity,
     cacheTime: 24 * 60 * 60 * 1000,
     refetchOnMount: false,
@@ -220,10 +230,31 @@ export default function CalendarView() {
                   <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none" size={18} />
                 </div>
               </div>
+
+
+              <div className="mb-4 md:mb-0 md:w-1/2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Select Type of event</label>
+                <div className="relative">
+                  <select 
+                    value={selectedEventType?._id || ""} 
+                    onChange={(e) => {
+                      const selected = eventTypes.find(c => c._id === e.target.value);
+                      setSelectedEventType(selected || null);
+                    }}
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-700 appearance-none"
+                  >
+                    <option value="">All Event</option>
+                    {eventTypes.map(e => <option key={e._id} value={e._id}>{e.type}</option>)}
+                  </select>
+                  <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none" size={18} />
+                </div>
+              </div>
+
+
             </div>
           )}
 
-          {(selectedCategory || selectedState) && (
+          {(selectedCategory || selectedState || selectedEventType) && (
             <div className="mt-4 flex flex-wrap gap-2">
               {selectedCategory && (
                 <div className="inline-flex items-center gap-2 bg-purple-100 text-purple-800 px-3 py-1.5 rounded-full text-sm">
@@ -241,6 +272,17 @@ export default function CalendarView() {
                   <span>State: {selectedState.name}</span>
                   <button 
                     onClick={() => setSelectedState(null)} 
+                    className="text-purple-600 hover:text-purple-800"
+                  >
+                    ×
+                  </button>
+                </div>
+              )}
+               {selectedEventType && (
+                <div className="inline-flex items-center gap-2 bg-purple-100 text-purple-800 px-3 py-1.5 rounded-full text-sm">
+                  <span>Category: {selectedEventType.type}</span>
+                  <button 
+                    onClick={() => setSelectedEventType(null)} 
                     className="text-purple-600 hover:text-purple-800"
                   >
                     ×
