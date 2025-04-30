@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import { fetchTodaysEvents } from '../../../Service/calendar';
+import { useQuery } from '@tanstack/react-query';
+import { useApi } from '../../../Context/ApiContext';
 
 const GovCalendar = () => {
-  const [todaysEvents, setTodaysEvents] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { apiBaseUrl } = useApi();
 
-  useEffect(() => {
-    setTimeout(() => {
-      const mockEvents = [
-        { id: 1, title: "UPSC Civil Services Exam", time: "9:00 AM" },
-        { id: 2, title: "Railway Recruitment Interview", time: "10:30 AM" },
-        { id: 3, title: "SSC Phase II", time: "2:00 PM" }
-      ];
-      setTodaysEvents(mockEvents);
-      setIsLoading(false);
-    }, 500);
-  }, []);
+  const {data: todayEvents=[],
+    isLoading,
+    error
+  } = useQuery({
+    queryKey: ['todaysEvents'],
+    queryFn: () => fetchTodaysEvents(apiBaseUrl),
+    staleTime: Infinity,
+      cacheTime: 24 * 60 * 60 * 1000,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+  });
 
   const today = new Date().toLocaleDateString('en-US', {
     month: 'short',
@@ -52,12 +54,11 @@ const GovCalendar = () => {
           
           {isLoading ? (
             <div className="p-4 text-center text-purple-600">Loading events...</div>
-          ) : todaysEvents.length > 0 ? (
+          ) : todayEvents.length > 0 ? (
             <ul className="divide-y divide-purple-100">
-              {todaysEvents.map(event => (
+              {todayEvents.map(event => (
                 <li key={event.id} className="px-4 py-3 flex justify-between items-center hover:bg-purple-50">
-                  <span className="font-medium text-gray-800">{event.title}</span>
-                  <span className="text-sm text-purple-600">{event.time}</span>
+                  <span className="font-medium text-gray-800">{event.name}</span>
                 </li>
               ))}
             </ul>
