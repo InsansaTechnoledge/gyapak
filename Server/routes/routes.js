@@ -49,7 +49,6 @@ const routes = (app) => {
     app.use('/api/v1i2/proctor', eventAiEngineRoutes);
     app.use('/api/v1i2/proctor', electronRoute);
 
-
     app.get('/api', (req,res) => {
         res.send("Till API");
     });

@@ -222,7 +222,22 @@ const Credits = () => {
         'IIT Patna':'https://th.bing.com/th/id/OIP.s6uoHM87WhG4OIaPbpMD9AHaHa?rs=1&pid=ImgDetMain',
         'BPNL':'https://institute.careerguide.com/wp-content/uploads/2022/07/bpnl.jpg',
         "Search Results Not Found": "https://img.freepik.com/free-vector/search-concept-landing-page_52683-13620.jpg?ga=GA1.1.1723539104.1734412094&semt=ais_hybrid",
-        "Data Not Found": "https://img.freepik.com/free-vector/postponed-concept_23-2148489217.jpg?ga=GA1.1.1723539104.1734412094&semt=ais_hybrid"
+        "Data Not Found": "https://img.freepik.com/free-vector/postponed-concept_23-2148489217.jpg?ga=GA1.1.1723539104.1734412094&semt=ais_hybrid",
+        "Gujarat Heritage": "https://statueofunitytentcity.com/wp-content/uploads/2023/05/Reaching-Statue-of-Unity-from-Ahmedabad.webp",
+        "Punjab Heritage": "https://www.transindiatravels.com/wp-content/uploads/sri-harmandir-sahib.jpg",
+        "Karnataka Heritage": "https://karnatakatourism.org/wp-content/uploads/2020/12/hampi-karnataka.png",
+        "Haryana Heritage": "https://blogmedia.testbook.com/blog/wp-content/uploads/2023/04/adham_khans_tomb-19d8548e.jpg",
+        "Bihar Heritage": "https://s7ap1.scene7.com/is/image/incredibleindia/80-feet-buddha-gaya-1-attr-hero?qlt=82&ts=1726740773690",
+        "Maharashtra Heritage": "https://www.holidify.com/images/cmsuploads/compressed/1030_20190404091854.jpg",
+        "Odisha Heritage": "https://www.capertravelindia.com/images/odisha-1.jpg",
+        "Rajasthan Heritage": "https://travelogyindia.b-cdn.net/blog/wp-content/uploads/2016/03/Hawa-Mahal.jpg",
+        "Uttar Pradesh Heritage": "https://www.indianholiday.com/wordpress/wp-content/uploads/2024/09/taj-mahal-banner-1.jpg",
+        "Kerala Heritage": "https://www.ecstaticindiatours.com/uploads/travel/information/1696510525uc5nf-kerla.jpg",
+        "Himachal Pradesh Heritage": "https://backend.traviyo.com/Images/Packages/AYAN_40981/637659416979097615_temp.jpg",
+        "Tamil Nadu Heritage": "https://i0.wp.com/www.tusktravel.com/blog/wp-content/uploads/2023/02/Ancient-Temples-and-Ashram-Thiruvannamalai-Tamil-Nadu.jpg?resize=1024%2C850&ssl=1",
+        "Madhya Pradesh Heritage": "https://www.mptourandtravels.com/images/monuments/sanchi.jpg",
+        "Uttarakhand Heritage": "https://static.toiimg.com/photo/msid-113713503,width-96,height-65.cms",
+        "Andhra Pradesh Heritage": "https://www.trawell.in/admin/images/upload/565594159Kurnool_Main.jpg",
     }
     
     const filteredData = Object.entries(creditData).filter(([key]) =>
