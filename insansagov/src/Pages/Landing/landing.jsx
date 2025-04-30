@@ -3,7 +3,7 @@ import { useInView } from 'react-intersection-observer';
 import { Loader2 } from 'lucide-react';
 import curvLine from '../../assets/Landing/curvLine.svg';
 import { Helmet } from "react-helmet-async";
-
+import GyapakLanding from '../../Components/NewLandingPage/NewLanding';
 // Error Boundary Component
 class ErrorBoundary extends React.Component {
   state = { hasError: false, error: null };
@@ -96,9 +96,11 @@ const Landing = () => {
       </Helmet>
       <div className="min-h-screen">
         {/* Hero section loads immediately with high priority */}
-        <LazyRender height="h-screen" priority={true}>
+        {/* <LazyRender height="h-screen" priority={true}>
           <Hero />
-        </LazyRender>
+        </LazyRender> */}
+
+        <GyapakLanding/>
 
         <div className="px-4 md:px-16 lg:px-64 space-y-16">
           {/* Latest updates and state components load next */}
