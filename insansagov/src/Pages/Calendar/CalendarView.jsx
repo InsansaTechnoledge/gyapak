@@ -227,7 +227,23 @@ export default function CalendarView() {
 
   return (
     <div className="p-4 pt-28">
-      <div className="mb-4">
+      <div>
+        <section className="bg-white py-10 px-6 md:px-12 max-w-5xl mx-auto shadow-md rounded-lg">
+          <h2 className="text-3xl font-bold text-purple-700 mb-4 text-center">
+            Stay Updated with Our Interactive Government Calendar for Jobs & Exams
+          </h2>
+          <p className="text-gray-700 text-lg mb-4">
+            Our all-in-one <strong>government calendar</strong> is designed to help you stay on top of upcoming government exams and job opportunities across India. Each day on the calendar highlights organizations announcing new events or job openings. Simply click on any organization to view the list of events scheduled for that day, and go deeper by clicking on an event to see full details—such as eligibility, deadlines, and application links.
+          </p>
+          <p className="text-gray-700 text-lg mb-4">
+            You can view the calendar in <strong>monthly</strong>, <strong>weekly</strong>, or <strong>daily</strong> formats, depending on your preference, making it easy to plan and stay organized. Additionally, the calendar allows you to filter events by <strong>category</strong> (like Banking, Railways, Defence, etc.) or by individual <strong>states</strong>, so you only see what’s relevant to your goals.
+          </p>
+          <p className="text-gray-700 text-lg">
+            Whether you're a student, a job seeker, or preparing for competitive exams, our user-friendly <strong>government calendar</strong> ensures you never miss an important date or update.
+          </p>
+        </section>
+      </div>
+      <div className="mb-4 mt-10">
         <label className="font-medium mr-2">Select Category:</label>
         {isCategoryLoading ? (
           <span>Loading categories...</span>
@@ -278,6 +294,7 @@ export default function CalendarView() {
           </select>
         )}
       </div>
+        
 
       {eventError ? (
         <div className="text-center py-10 text-red-500">Failed to load events</div>
@@ -357,18 +374,7 @@ export default function CalendarView() {
 
         </div>
       )}
-      <div>
-        <h1>
-          Stay Updated with Our Interactive Government Calendar for Jobs & Exams
-        </h1>
-        <div>
-          Our all-in-one government calendar is designed to help you stay on top of upcoming government exams and job opportunities across India. Each day on the calendar highlights organizations announcing new events or job openings. Simply click on any organization to view the list of events scheduled for that day, and go deeper by clicking on an event to see full details—such as eligibility, deadlines, and application links.
-
-          You can view the calendar in monthly, weekly, or daily formats, depending on your preference, making it easy to plan and stay organized. Additionally, the calendar allows you to filter events by category (like Banking, Railways, Defence, etc.) or by individual states, so you only see what’s relevant to your goals.
-
-          Whether you're a student, a job seeker, or preparing for competitive exams, our user-friendly government calendar ensures you never miss an important date or update.
-        </div>
-      </div>
+      
     </div>
   );
 }
