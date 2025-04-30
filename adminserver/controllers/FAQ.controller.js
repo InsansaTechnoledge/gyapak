@@ -33,6 +33,19 @@ export const getAllFAQs = async (req , res) => {
 
 }
 
+export const getFaqFromQuestion = async (req,res) => {
+    try{
+        const {question} = req.params;
+        console.log(question);
+        const faq = await FAQ.findOne({question: question});
+        return new APIResponse(200, faq, 'fetched').send(res);
+    }
+    catch(err){
+        console.log(err);
+        return new APIError(500, ['unable to fetch FAQ']).send(res);
+    }
+}
+
 export const getFAQsFromOrganization = async (req , res) => {
     try{
         const {orgId } = req.params;
@@ -86,7 +99,7 @@ export const postFAQ = async (req, res) => {
         new APIResponse(200, newFAQ, 'FAQ created successfully').send(res);
     } catch (error) {
         console.error('Error creating FAQ:', error);
-        res.status(500).json({ message: 'Internal server error.' });
+        new APIError(500, 'Internal server error').send(res);
     }
 };
 
