@@ -6,7 +6,7 @@ import HeroSectionCentral from './OpportunityComponents/HeroSectionCentral';
 import AdditionalDetailsSection from './OpportunityComponents/AdditionalDetailsSection';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
-import BriefEditableSection from './OpportunityPageComponents/BriefEditableSection';
+import BriefEditableSection from './OpportunityPageComponents/BriefDetailsSection';
 
 const CentralEvent = () => {
 

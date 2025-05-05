@@ -37,7 +37,7 @@ const EventSchema = new mongoose.Schema({
 
     briefDetails:{
         type: String,
-        default: 'this is a default briefing'
+        default: ''
     },
     event_type:{
         type:String,
