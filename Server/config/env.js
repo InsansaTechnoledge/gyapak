@@ -1,8 +1,9 @@
-const nodeEnv = 'development';
+// const nodeEnv = 'development';
+const nodeEnv='production';
 
   const dotenv = await import('dotenv');
-  dotenv.config({ path: `./.env.${nodeEnv}.local` });
-  // dotenv.config({ path: `./.env.` });
+  // dotenv.config({ path: `./.env.${nodeEnv}.local` });
+  dotenv.config({ path: `./.env.` });
 
 
 
