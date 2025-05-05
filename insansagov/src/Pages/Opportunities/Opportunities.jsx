@@ -196,7 +196,7 @@ const ModernExamDetailsPage = () => {
         </div>
       </div>
 
-      <OnPageBlog Blogs='Hello this is blog section'/>
+      {/* <OnPageBlog Blogs='Hello this is blog section'/> */}
     </>
   );
 

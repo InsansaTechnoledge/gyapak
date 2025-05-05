@@ -5,6 +5,8 @@ import { debounce, update } from 'lodash';
 import axios from 'axios';
 import { useApi, CheckServer } from '../../Context/ApiContext';
 import { useQuery } from '@tanstack/react-query';
+import logo from '/logo.png'
+import logo2 from '/logo2.png'
 
 const stateImages = {
         "Gujarat": "/states/Gujarat.png",
@@ -331,9 +333,21 @@ const Navbar = () => {
           {/* Desktop Component (Visible on sm and larger) */}
           <div onClick={() => navigate('/')} className="group hidden sm:block hover:cursor-pointer">
             <div className="flex-shrink-0 flex items-center">
-              <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl flex items-center justify-center group-hover:from-purple-700 group-hover:to-blue-700 transition-all duration-300 shadow-md group-hover:shadow-lg">
-                <span className="text-white text-xl pt-3 pb-4 px-4 font-bold">gyapak.in</span>
-              </div>
+            <div className={`rounded-xl flex items-center justify-center `}>
+              {isScrolled ?
+              <img 
+                src={logo} 
+                alt="Gyapak Logo" 
+                className="h-12 w-auto object-contain p-2"
+              />
+              : 
+              <img 
+                src={logo2} 
+                alt="Gyapak Logo" 
+                className="h-12 w-auto object-contain p-2"
+              />
+              }
+            </div>
             </div>
           </div>
 
@@ -344,9 +358,13 @@ const Navbar = () => {
               <div>
                 <div onClick={() => navigate('/')} className="group block sm:hidden">
                   <div className="flex items-center">
-                    <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl flex items-center justify-center group-hover:from-purple-700 group-hover:to-blue-700 transition-all duration-300 shadow-md group-hover:shadow-lg">
-                      <span className="text-white text-xl pt-3 pb-4 px-4 font-bold">gyapak.in</span>
-                    </div>
+                    <div className=" rounded-xl flex items-center justify-center">
+                    <img 
+                      src={logo} 
+                      alt="Gyapak Logo" 
+                      className="h-28 w-28 object-contain p-2"
+                    />                        
+                   </div>
                   </div>
                 </div>
               </div>
