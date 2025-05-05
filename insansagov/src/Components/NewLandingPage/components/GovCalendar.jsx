@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchTodaysEvents } from '../../../Service/calendar';
 import { useApi } from '../../../Context/ApiContext';
+import  slugGenerator from '../../../Utils/SlugGenerator';
 
 const GovCalendar = () => {
   const { apiBaseUrl } = useApi();
@@ -77,13 +78,6 @@ const GovCalendar = () => {
   const indexOfLastEvent = currentPage * itemsPerPage;
   const indexOfFirstEvent = indexOfLastEvent - itemsPerPage;
   const currentEvents = filteredEvents.slice(indexOfFirstEvent, indexOfLastEvent);
-
-  const slugGenerator = (title) => {
-    return title
-      .toLowerCase()
-      .replace(/[^\w\s]/g, '')
-      .replace(/\s+/g, '-');
-  }
 
   // Handle page changes
   const goToPage = (pageNumber) => {

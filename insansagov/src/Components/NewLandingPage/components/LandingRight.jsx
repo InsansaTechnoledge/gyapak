@@ -2,15 +2,17 @@ import React from "react";
 import img1 from '/ggg.jpg'
 import img2 from '/collage.jpg';
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { useApi } from "../../../Context/ApiContext";
 
 
 export default function FullScreenLanding() {
+  const {apiBaseUrl}=useApi();
   const fetchStateCount = async () => {
     try {
         const response = await axios.get(`${apiBaseUrl}/api/state/count`);
-        // setStateCount(response.data);
-        console.log(response.data);
         return response.data;
+        
     } catch (error) {
         if (error.response) {
             if (error.response.status >= 500 && error.response.status < 600) {

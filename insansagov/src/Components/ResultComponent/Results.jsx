@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useApi, CheckServer } from "../../Context/ApiContext";
 import { useQuery } from "@tanstack/react-query";
+import slugGenerator from "../../Utils/SlugGenerator";
 
 const ResultsDashboard = () => {
     const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
@@ -115,13 +116,6 @@ const ResultsDashboard = () => {
     const viewAllResults = () => {
         navigate("/results");
     };
-
-    const slugGenerator = (title) => {
-        return title.
-        toLowerCase()
-        .replace(/[^\w\s]/g, '')
-        .replace(/\s+/g, '-');
-      }
 
     return (
         <div className="bg-gradient-to-br from-purple-100 to-white shadow-md rounded-lg p-6 mt-10 mb-10">
