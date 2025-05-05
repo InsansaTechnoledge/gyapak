@@ -37,6 +37,9 @@ const featuredPosts = posts.filter(post => post.featuredPost === true);
 // Remaining posts
 const regularPosts = posts.filter(post => !post.featuredPost);
 
+
+// take blog author to buttom
+
   return (
     <div className="min-h-screen pt-24 ">
       <BlogHeader />

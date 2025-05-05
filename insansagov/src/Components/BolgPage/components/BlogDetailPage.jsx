@@ -109,8 +109,16 @@ const BlogDetailPage = () => {
             )}
           </div>
           
-          {/* Author info */}
-          <div className="flex items-center mb-8 p-4 bg-purple-50 rounded-lg">
+         
+        </div>
+        
+        {/* Blog content */}
+        <div className="prose max-w-none prose-purple prose-headings:text-gray-800 prose-p:text-gray-600 prose-a:text-purple-600 mb-10">
+          <div dangerouslySetInnerHTML={{ __html: data.content?.replace(/\n/g, '<br/>') }} />
+        </div>
+
+         {/* Author info */}
+         <div className="flex items-center mb-8 p-4 bg-purple-50 rounded-lg">
             <img
               src={data.author?.avatar || "/api/placeholder/64/64"}
               alt={data.author?.name}
@@ -121,12 +129,6 @@ const BlogDetailPage = () => {
               <p className="text-sm text-gray-500">{data.author?.bio}</p>
             </div>
           </div>
-        </div>
-        
-        {/* Blog content */}
-        <div className="prose max-w-none prose-purple prose-headings:text-gray-800 prose-p:text-gray-600 prose-a:text-purple-600 mb-10">
-          <div dangerouslySetInnerHTML={{ __html: data.content?.replace(/\n/g, '<br/>') }} />
-        </div>
         
         {/* Action buttons */}
         <div className="mt-12 mb-8 py-6 border-t border-b border-gray-100 flex flex-wrap justify-between items-center">

@@ -18,6 +18,8 @@ import PositionSection from "../../Components/OpportunityPageComponents/Position
 import SalarySection from "../../Components/OpportunityPageComponents/SalarySection";
 import SelectionSection from "../../Components/OpportunityPageComponents/SelectionProcessSection";
 import AdditionalDetailsSection from "../../Components/OpportunityPageComponents/AdditionalDetailsSection";
+import OnPageBlog from "../../Components/OpportunityPageComponents/OnPageBlog";
+import BriefSection from "../../Components/OpportunityPageComponents/BriefSection";
 import { RingLoader } from "react-spinners";
 import { Helmet } from "react-helmet-async";
 import { useQuery } from "@tanstack/react-query";
@@ -42,6 +44,7 @@ const ModernExamDetailsPage = () => {
         // console.log(response.data);
         setData(response.data.exam);
         setOrganization(response.data.organization.name);
+        console.log(response.data);
         return response.data;
       }
     }
@@ -98,17 +101,21 @@ const ModernExamDetailsPage = () => {
         <meta property="og:title" content="gyapak" />
         <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
       </Helmet>
-      <div className="min-h-screen bg-white text-gray-900 py-20 px-4">
+            
+      <div className="min-h-screen bg-white text-gray-900 py-20 px-4 ">
         {/* Floating Orbs Background */}
         <FloatingOrbsBackground />
 
         {/* Main Content */}
-        <div className="max-w-7xl relative mx-auto">
+        <div className="max-w-7xl relative mx-auto mt-10 sm:mt-16 md:mt-24 ">
           {/* Hero Section */}
           <HeroSection data={data} organization={organization} />
 
+          <BriefSection data={data}/>
           {/* Quick Apply Button */}
+
           <QuickApplyButton data={data} />
+
 
           {
             data.details
@@ -173,6 +180,7 @@ const ModernExamDetailsPage = () => {
               {/* Important Links */}
               <AdditionalDetailsSection name={data.name} data={data.details} existingSections={existingSections} />
             </div>
+     
             {data.document_links && data.document_links.length > 0
               ?
               <ImportantLinksSection data={data} />
@@ -183,6 +191,8 @@ const ModernExamDetailsPage = () => {
 
         </div>
       </div>
+
+      <OnPageBlog Blogs='Hello this is blog section'/>
     </>
   );
 

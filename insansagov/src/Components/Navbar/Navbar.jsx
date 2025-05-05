@@ -511,12 +511,15 @@ const Navbar = () => {
             </a>
 
             {/* Search Input (conditionally rendered) */}
-            {location.pathname !== '/government-jobs-after-12th' && (
+
+
+            {/* {location.pathname !== '/government-jobs-after-12th' && ( */}
+
               <div className="relative w-64">
                 <input
                   type="text"
-                  className="w-full px-4 py-2 text-sm rounded-lg bg-gray-100 text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
-                  placeholder="Search..."
+                  className="w-full px-2 py-4 text-xs rounded-lg bg-gray-100 text-gray-900 border-2 border-black/40 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
+                  placeholder="government categories and org.."
                   value={searchQuery}
                   onChange={(e) => inputChangeHandler(e.target.value)}
                   autoComplete="off"
@@ -533,7 +536,7 @@ const Navbar = () => {
                   type="button"
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-purple-600 transition-colors"
                 >
-                  <Search className="w-5 h-5" />
+                  <Search className=" w-5 h-5" />
                 </button>
 
                 {showDropdown && (
@@ -560,7 +563,8 @@ const Navbar = () => {
                   </div>
                 )}
               </div>
-            )}
+              
+            {/* )} */}
           </div>
 
 

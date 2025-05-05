@@ -5,12 +5,12 @@ import LandingRight from "./components/LandingRight";
 export default function GyapakLanding() {
   return (
     <div className="min-h-screen">
-      <div className="relative bg-white overflow-hidden">
+      {/* <div className="relative bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <LandingLeft />
         </div>
-        <LandingRight />
-      </div>
+      </div> */}
+      <LandingRight />
 
       <GovCalendar />
     </div>

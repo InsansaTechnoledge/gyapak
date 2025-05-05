@@ -6,6 +6,7 @@ import HeroSectionCentral from './OpportunityComponents/HeroSectionCentral';
 import AdditionalDetailsSection from './OpportunityComponents/AdditionalDetailsSection';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
+import BriefEditableSection from './OpportunityPageComponents/BriefEditableSection';
 
 const CentralEvent = () => {
 
@@ -56,7 +57,9 @@ const CentralEvent = () => {
                 alert('End date cannot be earlier than the commencement date.');
                 return;
             }
-    
+            
+            console.log("🔍 Submitting Event Data:", eventData);
+
             const response = await axios.post(`${API_BASE_URL}/api/v1/upload/`, eventData);
     
             if (response.status === 200) {
@@ -96,6 +99,13 @@ const CentralEvent = () => {
                 <h2 className='text-purple-700 text-4xl mb-4 text-center font-bold'>Additional Details</h2>
                 <DetailsSection setEventData={setEventData} />
                 <AdditionalDetailsSection data={eventData.details} />
+                <BriefEditableSection
+                    value={eventData.briefDetails}
+                    onChange={(value) => setEventData(prev => ({ ...prev, briefDetails: value }))}
+                    
+                />
+
+
             </div>
             <div className='flex justify-center w-full mt-5 mb-10'>
                 <button

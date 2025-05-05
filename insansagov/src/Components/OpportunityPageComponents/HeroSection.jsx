@@ -4,10 +4,10 @@ import { formatDate } from '../../Utils/dateFormatter';
 
 const HeroSection = ({ data, organization }) => {
   return (
-    <div className="text-center mb-32">
+    <div className="text-center ">
       <h2 className="text-purple-700 text-lg mb-4 mt-5"><b>Top exams for government jobs in India</b> for {organization}</h2>
       <div className="inline-block relative mx-auto">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold bg-gradient-to-r from-purple-600 via-purple-700 to-purple-800 bg-clip-text text-transparent mb-12">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold bg-gradient-to-r from-purple-600 via-purple-700 to-purple-800 bg-clip-text text-transparent py-8 mb-12">
           {data.name}
         </h1>
 

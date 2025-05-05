@@ -135,9 +135,9 @@ const Landing = () => {
             <ResultsDashboard />
           </LazyRender> */}
 
-          <LazyRender height="h-96">
+          {/* <LazyRender height="h-96">
             <BlogBrandingPage />
-          </LazyRender>
+          </LazyRender> */}
 
           <LazyRender height="h-96" id={"landing-result"}>
             <ImportantLinksDashboard />

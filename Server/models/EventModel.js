@@ -34,6 +34,11 @@ const EventSchema = new mongoose.Schema({
         ref:"Organization",
         required: true
     },
+
+    briefDetails:{
+        type: String,
+        default: 'this is a default briefing'
+    },
     event_type:{
         type:String,
         enum:["Exam","AdmitCard","Result"],

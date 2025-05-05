@@ -1,33 +1,60 @@
-import ExamHighlightSection from "./HighlightSection";
+import React from "react";
 
-export default function LandingRight() {
+export default function FullScreenLanding() {
   return (
-    <div className="hidden lg:block lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-      <div className="relative h-full w-full mt-12 flex items-center justify-center bg-black">
-  {/* Translucent background image */}
-  <div className="absolute inset-0 bg-[url('/collage.jpg')] bg-cover bg-center opacity-40 z-0" />
+    <div className="w-full h-screen flex flex-col lg:flex-row overflow-hidden">
+      <div className="relative h-full w-full flex items-center justify-center">
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-[url('/ggg.jpg')] bg-cover bg-center z-0" />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-blue-900/50 to-purple-800/60" />
+          <div className="absolute inset-0 bg-black/30" /> {/* Additional overlay for better text contrast */}
+        </div>
 
-  {/* Content (like input box) */}
-  <div className="relative z-10 w-full max-w-md px-6">
-    <div className="relative">
-      <input
-        type="text"
-        placeholder="Search jobs, exams, sectors..."
-        className="w-full pl-12 pr-4 py-3 rounded-xl border border-transparent bg-white text-gray-700 placeholder-gray-400 shadow-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-white transition-all duration-200"
-      />
-      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-        <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M16.65 10.65A6 6 0 1110.65 4a6 6 0 016 6.65z" />
-        </svg>
+        <div className="relative z-20 w-full max-w-4xl px-4 sm:px-6 py-10 sm:py-16 flex flex-col items-center">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 text-center leading-tight">
+            Upcoming 
+            <span className="text-purple-300"> Government Exams</span>
+            <span className="block mt-2 text-white">2025 Latest Info</span>
+          </h1>
+          
+          <p className="text-gray-200 text-center mb-8 max-w-xl text-lg sm:text-xl">
+            Your Ultimate Resource for <span className="text-purple-300">Government Jobs After 12th</span> 
+          </p>
+
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 w-full max-w-2xl px-4">
+            <div className="flex flex-col items-center p-4 sm:p-5 bg-purple-500/30 backdrop-blur-md border border-purple-400/40 rounded-2xl shadow-lg transition-all duration-300 hover:bg-purple-500/40">
+              <span className="text-3xl font-bold text-white mb-1">500+</span>
+              <span className="text-sm text-gray-200 font-medium">Exams</span>
+            </div>
+            <div className="flex flex-col items-center p-4 sm:p-5 bg-blue-500/30 backdrop-blur-md border border-blue-400/40 rounded-2xl shadow-lg transition-all duration-300 hover:bg-blue-500/40">
+              <span className="text-3xl font-bold text-white mb-1">10K+</span>
+              <span className="text-sm text-gray-200 font-medium">Vacancies</span>
+            </div>
+            <div className="flex flex-col items-center p-4 sm:p-5 bg-indigo-500/30 backdrop-blur-md border border-indigo-400/40 rounded-2xl shadow-lg transition-all duration-300 hover:bg-indigo-500/40">
+              <span className="text-3xl font-bold text-white mb-1">50+</span>
+              <span className="text-sm text-gray-200 font-medium">Sectors</span>
+            </div>
+          </div>
+          
+          <div className="mt-10 flex flex-col items-center w-full">
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <div className="flex items-center bg-white/15 backdrop-blur-md rounded-full px-4 py-2 border border-white/10 shadow-lg">
+                <svg className="w-5 h-5 text-green-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span className="text-sm text-white font-medium">Verified Info</span>
+              </div>
+              <div className="flex items-center bg-white/15 backdrop-blur-md rounded-full px-4 py-2 border border-white/10 shadow-lg">
+                <svg className="w-5 h-5 text-green-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" />
+                </svg>
+                <span className="text-sm text-white font-medium">Updated Daily</span>
+              </div>
+              
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
-
-
-      {/* <ExamHighlightSection/> */}
-
-
     </div>
   );
 }
