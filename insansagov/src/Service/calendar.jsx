@@ -72,6 +72,5 @@ export const fetchEventsForCalendar = async (apiBaseUrl, categoryId, stateId, ev
 
 export const fetchTodaysEvents = async (apiBaseUrl) => {
   const res = await axios.get(`${apiBaseUrl}/api/event/getTodaysEvents`);
-  console.log('Fetched today\'s events:', res.data);
   return res.data;
 };
