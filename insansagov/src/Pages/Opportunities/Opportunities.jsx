@@ -34,6 +34,8 @@ const ModernExamDetailsPage = () => {
   const [data, setData] = useState();
   const [organization, setOrganization] = useState();
   const existingSections = ['document_links', 'vacancies']
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);   
 
   const fetchEvent = async () => {
     try {
@@ -41,10 +43,8 @@ const ModernExamDetailsPage = () => {
       const response = await axios.get(`${apiBaseUrl}/api/event/${examId}`);
 
       if (response.status === 200) {
-        // console.log(response.data);
         setData(response.data.exam);
         setOrganization(response.data.organization.name);
-        console.log(response.data);
         return response.data;
       }
     }
@@ -57,10 +57,14 @@ const ModernExamDetailsPage = () => {
         }
         else {
           console.error('Error fetching state count:', error);
+          setError(error.response.status);
+          isLoading(false);
         }
       }
       else {
         console.error('Error fetching state count:', error);
+        setError(error);
+        isLoading(false);
       }
     }
   }

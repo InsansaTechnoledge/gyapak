@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getLandingFAQs, getOrganizationFAQs } from '../../../Service/FAQ';
 
-// Optional: fallback if API fails
-import { defaultFAQs } from '../data/Data';
-
 export const useFAQ = (initialFAQs = [], orgId = null, filters = {}) => {
   const [faqs, setFAQs] = useState(initialFAQs);
   const [loading, setLoading] = useState(true);

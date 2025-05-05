@@ -1,20 +1,5 @@
 import React, { useState } from 'react'
 import StateMonumentCard from './StateMonumentCard';
-import Gujarat from '../../../public/states/Gujarat.webp';
-import Haryana from '../../../public/states/Haryana.jpg'
-import Bihar from '../../../public/states/Bihar.jpg'
-import Karnataka from '../../../public/states/Karnataka.png'
-import Kerala from '../../../public/states/Kerala.jpg'
-import Maharashtra from '../../../public/states/Maharashtra.jpg'
-import Odisha from '../../../public/states/Odisha.jpg'
-import Punjab from '../../../public/states/Punjab.jpg'
-import Rajasthan from '../../../public/states/Rajasthan.jpg'
-import Uttar_pradesh from '../../../public/states/Uttar_pradesh.webp'
-import Madhya_Pradesh from '../../../public/states/Madhya_Pradesh.jpg'
-import Tamil_Nadu from '../../../public/states/Tamil_Nadu.webp'
-import Uttarakhand from '../../../public/states/Uttarakhand.webp'
-import Andhra_Pradesh from '../../../public/states/Andhra_Pradesh.jpg'
-import Himachal_Pradesh from '../../../public/states/Himachal_Pradesh.jpg'
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useApi } from '../../Context/ApiContext';
@@ -25,23 +10,22 @@ const StatesLanding = () => {
     const [region, setRegion] = useState('North');
     const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
 
-
     const stateImages = {
-        "Gujarat": Gujarat,
-        "Haryana": Haryana,
-        "Bihar": Bihar,
-        "Karnataka": Karnataka,
-        "Kerala": Kerala,
-        "Maharashtra": Maharashtra,
-        "Odisha": Odisha,
-        "Punjab": Punjab,
-        "Rajasthan": Rajasthan,
-        "Uttar Pradesh": Uttar_pradesh,
-        "Madhya Pradesh": Madhya_Pradesh,
-        "Tamil Nadu": Tamil_Nadu,
-        "Uttarakhand": Uttarakhand,
-        "Andhra Pradesh": Andhra_Pradesh,
-        "Himachal Pradesh": Himachal_Pradesh
+        "Gujarat": "/states/Gujarat.png",
+        "Haryana": "/states/Haryana.png",
+        "Bihar": "/states/Bihar.png",
+        "Karnataka": "/states/Karnataka.png",
+        "Kerala": "/states/Kerala.png",
+        "Maharashtra": "/states/Maharashtra.png",
+        "Odisha": "/states/Odisha.png",
+        "Punjab": "/states/Punjab.png",
+        "Rajasthan": "/states/Rajasthan.png",
+        "Uttar Pradesh": "/states/Uttar_pradesh.png",
+        "Madhya Pradesh": "/states/Madhya Pradesh.png",
+        "Tamil Nadu": "/states/Tamil_Nadu.png",
+        "Uttarakhand": "/states/Uttarakhand.png",
+        "Andhra Pradesh": "/states/Andhra_Pradesh.png",
+        "Himachal Pradesh": "/states/Himachal_Pradesh.png",
     }
 
     const statesByRegion = {

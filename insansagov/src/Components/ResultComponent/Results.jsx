@@ -29,7 +29,7 @@ const ResultsDashboard = () => {
     const fetchResults = async () => {
         try {
 
-            const response = await axios.get(`${apiBaseUrl}/api/result/`);
+            const response = await axios.get(`${apiBaseUrl}/api/result`);
             if (response.status === 201) {
                 return response.data;
             }
@@ -116,6 +116,13 @@ const ResultsDashboard = () => {
         navigate("/results");
     };
 
+    const slugGenerator = (title) => {
+        return title.
+        toLowerCase()
+        .replace(/[^\w\s]/g, '')
+        .replace(/\s+/g, '-');
+      }
+
     return (
         <div className="bg-gradient-to-br from-purple-100 to-white shadow-md rounded-lg p-6 mt-10 mb-10">
             <div className="flex flex-col xl:flex-row space-y-4 justify-between items-center mb-6">
@@ -168,7 +175,7 @@ const ResultsDashboard = () => {
                                 </div>
                                 <div>
                                     <a
-                                        href={result.apply_link}
+                                        href={`/top-exams-for-government-jobs-in-india/${slugGenerator(result.name)}?id=${result._id}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="block mt-4 px-4 py-2 bg-purple-700 text-white text-center rounded-md hover:bg-purple-800 transition-colors"
