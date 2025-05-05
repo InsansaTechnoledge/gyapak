@@ -52,13 +52,15 @@ const Contact = React.lazy(() => import('../../Components/ContactUs/Contact'));
 const FeaturePage = React.lazy(() => import('../../Components/FeatureAdvertisement/Features'));
 const FeatureBand = React.lazy(() => import('../../Components/FeatureAdvertisement/FeatureBand'));
 // const AdmitCardDashboard = React.lazy(() => import('../../Components/AdmitCards/AdmitCard'));
-// const ResultsDashboard = React.lazy(() => import('../../Components/ResultComponent/Results'));
-const StateComponent = React.lazy(() => import('../../Components/States/State'));
-const ImportantLinksDashboard = React.lazy(() => import('../../Components/ImportantLinks/ImportantLinks'))
-const BlogBrandingPage = React.lazy(() => import('../../Components/BolgPage/components/BlogBranfingPage'))
+const ResultsDashboard = React.lazy(() => import('../../Components/ResultComponent/Results'));
+// const StateComponent = React.lazy(() => import('../../Components/States/State'));
+// const ImportantLinksDashboard = React.lazy(() => import('../../Components/ImportantLinks/ImportantLinks'))
+// const BlogBrandingPage = React.lazy(() => import('../../Components/BolgPage/components/BlogBranfingPage'))
 const FAQ = React.lazy(() => import('../../Components/FAQ/FAQ'))
-const WhatsAppGroupJoin = React.lazy(() => import('../../Components/WhatsAppGroup/whatsGroupJoinButton'))
+// const WhatsAppGroupJoin = React.lazy(() => import('../../Components/WhatsAppGroup/whatsGroupJoinButton'))
 // Enhanced LazyRender with loading states and error boundary
+
+
 const LazyRender = ({ children, height = "h-64", priority = false, id }) => {
   const { ref, inView } = useInView({
     triggerOnce: true,
@@ -131,17 +133,17 @@ const Landing = () => {
             <AdmitCardDashboard />
           </LazyRender> */}
 
-          {/* <LazyRender height="h-96" id={"landing-result"}>
+          <LazyRender height="h-96" id={"landing-result"}>
             <ResultsDashboard />
-          </LazyRender> */}
+          </LazyRender>
 
           {/* <LazyRender height="h-96">
             <BlogBrandingPage />
           </LazyRender> */}
 
-          <LazyRender height="h-96" id={"landing-result"}>
+          {/* <LazyRender height="h-96" id={"landing-result"}>
             <ImportantLinksDashboard />
-          </LazyRender>
+          </LazyRender> */}
 
           {/* <LazyRender height="h-96" id={"landing-result"}>
             <WhatsAppGroupJoin />

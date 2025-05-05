@@ -21,7 +21,7 @@ export const getAllResults = async (req, res) => {
                     from: 'organizations', // The name of the organization collection
                 localField: 'organization_id', // Field in the Event collection
                 foreignField: '_id', // Field in the Organization collection
-                as: 'organizationDetails', // The resulting array field
+                as: 'organizationDetails', 
             },
         },
         {

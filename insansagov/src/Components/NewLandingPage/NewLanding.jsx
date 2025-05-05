@@ -1,5 +1,5 @@
 import GovCalendar from "./components/GovCalendar";
-import LandingLeft from "./components/LandingLeft";
+// import LandingLeft from "./components/LandingLeft";
 import LandingRight from "./components/LandingRight";
 
 export default function GyapakLanding() {

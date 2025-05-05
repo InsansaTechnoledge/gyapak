@@ -1,6 +1,7 @@
 import axios from 'axios';
+const API_BASE_URL="https://gyapak-admin2.onrender.com";
+// const API_BASE_URL="http://localhost:3000";
 
-// import { API_BASE_URL } from '../../../gyapakAdminPanel/src/config';
 
 export const fetchCurrentAffairs = async () => {
     const res = await axios.get(`${API_BASE_URL}/api/v1i2/affair/all`, { withCredentials: true });
@@ -8,8 +9,7 @@ export const fetchCurrentAffairs = async () => {
   };
   
 
-const API_BASE_URL="https://gyapak-admin2.onrender.com";
-// const API_BASE_URL="http://localhost:3000";
+
 
 
 export const fetchTodaysAffairs = async () => {

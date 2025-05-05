@@ -53,6 +53,9 @@ export const getEvent = async (req, res) => {
       _id: eventId
     }
     );
+    if (!exam) {
+      return res.status(404).json({ message: "Exam not found" });
+    }
 
     const organizationId = exam.organization_id;
 
