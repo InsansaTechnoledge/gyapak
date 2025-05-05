@@ -4,6 +4,7 @@ import DetailsSection from './OpportunityComponents/DetailsSection';
 import DocumentLinksSection from './OpportunityComponents/DocumentLinksSection';
 import HeroSectionState from './OpportunityComponents/HeroSectionState';
 import AdditionalDetailsSection from './OpportunityComponents/AdditionalDetailsSection';
+import BriefEditableSection from './OpportunityPageComponents/BriefDetailsSection';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
 
@@ -103,6 +104,11 @@ const StateEvent = () => {
                     <h2 className='text-purple-700 text-4xl mb-4 text-center font-bold'>Additional Details</h2>
                     <DetailsSection setEventData={setEventData}/>
                     <AdditionalDetailsSection data={eventData.details}/>
+                    <BriefEditableSection
+                                        value={eventData.briefDetails}
+                                        onChange={(value) => setEventData(prev => ({ ...prev, briefDetails: value }))}
+                                        
+                                    />
                   </>
                   :
                   null

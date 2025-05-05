@@ -6,6 +6,7 @@ import AdditionalDetailsSection from '../OpportunityComponents/AdditionalDetails
 import axios from 'axios';
 import { API_BASE_URL } from '../../config';
 import HeroSectionEdit from '../OpportunityComponents/HeroSectionEdit';
+import BriefEditableSection from '../OpportunityPageComponents/BriefDetailsSection';
 
 const EditEventShowcase = ({data, setEventDataMain, setEventId}) => {
 
@@ -38,7 +39,8 @@ const EditEventShowcase = ({data, setEventDataMain, setEventId}) => {
                 'date_of_commencement',
                 'end_date',
                 'apply_link',
-                'event_type'
+                'event_type',
+                // 'breifDetails',
             ];
     
             for (const field of requiredFields) {
@@ -100,6 +102,11 @@ const EditEventShowcase = ({data, setEventDataMain, setEventId}) => {
                 <h2 className='text-purple-700 text-4xl mb-4 text-center font-bold'>Additional Details</h2>
                 <DetailsSection setEventData={setEventData} eventData={eventData}/>
                 <AdditionalDetailsSection data={eventData.details} />
+                <BriefEditableSection
+                                        value={eventData.briefDetails}
+                                        onChange={(value) => setEventData(prev => ({ ...prev, briefDetails: value }))}
+                                        
+                                    />
             </div>
             <div className='flex justify-center w-full mt-5 mb-10'>
                 <button
