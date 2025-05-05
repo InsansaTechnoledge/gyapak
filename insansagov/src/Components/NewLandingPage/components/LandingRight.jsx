@@ -1,13 +1,43 @@
 import React from "react";
-
-
-// import bgDesktop from '../../assets/bg-desktop.jpg';
-// import bgMobile from '../../assets/bg-mobile.jpg';
-
 import img1 from '/ggg.jpg'
 import img2 from '/collage.jpg';
+import { useQuery } from "@tanstack/react-query";
+
 
 export default function FullScreenLanding() {
+  const fetchStateCount = async () => {
+    try {
+        const response = await axios.get(`${apiBaseUrl}/api/state/count`);
+        // setStateCount(response.data);
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        if (error.response) {
+            if (error.response.status >= 500 && error.response.status < 600) {
+                console.error("🚨 Server Error:", error.response.status, error.response.statusText);
+                const url = CheckServer();
+                setApiBaseUrl(url),
+                    setServerError(error.response.status);
+                fetchStateCount();
+            }
+            else {
+                console.error('Error fetching state count:', error);
+            }
+        }
+        else {
+            console.error('Error fetching state count:', error);
+        }
+
+    }
+};
+   const { data: stateCount, isLoading1 } = useQuery({
+          queryKey: ["stateCount"],
+          queryFn: fetchStateCount,
+          staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
+          cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
+          refetchOnMount: true, // ✅ Prevents refetch when component mounts again
+          refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+      });
   return (
     <div className="w-full h-screen flex flex-col lg:flex-row overflow-hidden">
       <div className="relative h-full w-full flex items-center justify-center">
@@ -42,8 +72,8 @@ export default function FullScreenLanding() {
 
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 w-full max-w-2xl px-4">
             <div className="flex flex-col items-center p-4 sm:p-5 bg-purple-500/30 backdrop-blur-md border border-purple-400/40 rounded-2xl shadow-lg transition-all duration-300 hover:bg-purple-500/40">
-              <span className="text-3xl font-bold text-white mb-1">500+</span>
-              <span className="text-sm text-gray-200 font-medium">Exams</span>
+              <span className="text-3xl font-bold text-white mb-1">{stateCount?.exams}</span>
+              <span className="text-sm text-gray-200 font-medium">Active Exams</span>
             </div>
             <div className="flex flex-col items-center p-4 sm:p-5 bg-blue-500/30 backdrop-blur-md border border-blue-400/40 rounded-2xl shadow-lg transition-all duration-300 hover:bg-blue-500/40">
               <span className="text-3xl font-bold text-white mb-1">10K+</span>
