@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchTodaysEvents } from '../../../Service/calendar';
 import { useApi } from '../../../Context/ApiContext';
@@ -7,6 +7,47 @@ const GovCalendar = () => {
   const { apiBaseUrl } = useApi();
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
+  const [currentPage, setCurrentPage] = useState(1);
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== 'undefined' ? window.innerWidth : 1200
+  );
+  const [itemsPerPage, setItemsPerPage] = useState(
+    getEventsPerPage(windowWidth)
+  );
+  
+  // Calculate events per page based on screen size
+  function getEventsPerPage(width) {
+    if (width < 640) { // Mobile
+      return 6;
+    } else if (width < 1024) { // Tablet
+      return 8;
+    } else { // Desktop
+      return 12;
+    }
+  }
+  
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      const newWidth = window.innerWidth;
+      setWindowWidth(newWidth);
+      setItemsPerPage(getEventsPerPage(newWidth));
+      // Reset to first page when screen size changes to prevent empty pages
+      setCurrentPage(1);
+    };
+    
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', handleResize);
+      // Initial call to set correct width
+      handleResize();
+    }
+    
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', handleResize);
+      }
+    };
+  }, []);
   
   const {
     data: todayEvents = [],
@@ -28,18 +69,36 @@ const GovCalendar = () => {
   });
 
   const filteredEvents = todayEvents.filter(event => 
-    event.name?.toLowerCase().includes(searchQuery.toLowerCase()),
+    event.name?.toLowerCase().includes(searchQuery.toLowerCase())
   );
-  console.log(filteredEvents)
+  
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredEvents.length / itemsPerPage);
+  const indexOfLastEvent = currentPage * itemsPerPage;
+  const indexOfFirstEvent = indexOfLastEvent - itemsPerPage;
+  const currentEvents = filteredEvents.slice(indexOfFirstEvent, indexOfLastEvent);
 
   const slugGenerator = (title) => {
-    return title.
-    toLowerCase()
-    .replace(/[^\w\s]/g, '')
-    .replace(/\s+/g, '-');
+    return title
+      .toLowerCase()
+      .replace(/[^\w\s]/g, '')
+      .replace(/\s+/g, '-');
   }
 
+  // Handle page changes
+  const goToPage = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    // Scroll to top of results when changing pages
+    // document.querySelector('.calendar-results')?.scrollIntoView({ behavior: 'smooth' });
+  };
 
+  // Handle items per page change
+  const handleItemsPerPageChange = (newPerPage) => {
+    const firstItemIndex = (currentPage - 1) * itemsPerPage;
+    const newPage = Math.floor(firstItemIndex / newPerPage) + 1;
+    setItemsPerPage(newPerPage);
+    setCurrentPage(newPage);
+  };
   
   return (
     <div className="bg-white mt-16 mb-16">
@@ -68,7 +127,10 @@ const GovCalendar = () => {
               type="text"
               placeholder="Search exams, events..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setCurrentPage(1); // Reset to first page on new search
+              }}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
             />
             <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
@@ -102,7 +164,7 @@ const GovCalendar = () => {
         
         
         {/* Main content area */}
-        <div className="bg-white rounded-lg shadow-md overflow-hidden border border-purple-200">
+        <div className="bg-white rounded-lg shadow-md overflow-hidden border border-purple-200 calendar-results">
           <div className="bg-purple-600 px-4 py-3 flex justify-between items-center">
             <h3 className="text-lg font-bold text-white">Today's government events - {today}</h3>
             <span className="text-xs bg-white/20 text-white px-2 py-1 rounded-full">
@@ -122,8 +184,8 @@ const GovCalendar = () => {
           ) : filteredEvents.length > 0 ? (
             <>
               {viewMode === 'grid' ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-                  {filteredEvents.map(event => (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
+                  {currentEvents.map(event => (
                     <a 
                       key={event._id} 
                       href={`/top-exams-for-government-jobs-in-india/${slugGenerator(event.name)}?id=${event._id}`}
@@ -141,7 +203,7 @@ const GovCalendar = () => {
                 </div>
               ) : (
                 <div className="divide-y divide-purple-100">
-                  {filteredEvents.map(event => (
+                  {currentEvents.map(event => (
                     <a 
                       key={event._id}
                       href={`/top-exams-for-government-jobs-in-india/${slugGenerator(event.name)}?id=${event._id}`}
@@ -160,6 +222,127 @@ const GovCalendar = () => {
                   ))}
                 </div>
               )}
+              
+              {/* Pagination Controls */}
+              {totalPages > 1 && (
+                <div className="bg-gray-50 px-4 py-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center">
+                      <label htmlFor="itemsPerPage" className="mr-2 text-sm text-gray-700">Show:</label>
+                      <select
+                        id="itemsPerPage"
+                        className="border border-gray-300 rounded-md text-sm"
+                        value={itemsPerPage}
+                        onChange={(e) => handleItemsPerPageChange(parseInt(e.target.value))}
+                      >
+                        <option value="6">6</option>
+                        <option value="12">12</option>
+                        <option value="24">24</option>
+                        <option value="48">48</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                      <div>
+                        <p className="text-sm text-gray-700">
+                          Showing <span className="font-medium">{indexOfFirstEvent + 1}</span> to{" "}
+                          <span className="font-medium">
+                            {indexOfLastEvent > filteredEvents.length ? filteredEvents.length : indexOfLastEvent}
+                          </span>{" "}
+                          of <span className="font-medium">{filteredEvents.length}</span> results
+                        </p>
+                      </div>
+                      <div>
+                        <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                          <button
+                            onClick={() => goToPage(currentPage - 1)}
+                            disabled={currentPage === 1}
+                            className={`relative inline-flex items-center px-2 py-2 rounded-l-md border text-sm font-medium ${
+                              currentPage === 1
+                                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                : "bg-white text-gray-500 hover:bg-gray-50"
+                            }`}
+                          >
+                            <span className="sr-only">Previous</span>
+                            <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                              <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                          </button>
+                          
+                          {/* Page Numbers - Desktop */}
+                          <div className="hidden md:flex">
+                            {[...Array(totalPages)].map((_, i) => (
+                              <button
+                                key={i}
+                                onClick={() => goToPage(i + 1)}
+                                className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
+                                  currentPage === i + 1
+                                    ? "z-10 bg-purple-50 border-purple-500 text-purple-600"
+                                    : "bg-white border-gray-300 text-gray-500 hover:bg-gray-50"
+                                }`}
+                              >
+                                {i + 1}
+                              </button>
+                            ))}
+                          </div>
+                          
+                          {/* Simplified Page Indicator - Mobile */}
+                          <span className="relative md:hidden inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
+                            Page {currentPage} of {totalPages}
+                          </span>
+                          
+                          <button
+                            onClick={() => goToPage(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                            className={`relative inline-flex items-center px-2 py-2 rounded-r-md border text-sm font-medium ${
+                              currentPage === totalPages
+                                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                : "bg-white text-gray-500 hover:bg-gray-50"
+                            }`}
+                          >
+                            <span className="sr-only">Next</span>
+                            <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                              <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                            </svg>
+                          </button>
+                        </nav>
+                      </div>
+                    </div>
+                    
+                    {/* Mobile Pagination Controls */}
+                    <div className="flex justify-between items-center w-full sm:hidden">
+                      <button
+                        onClick={() => goToPage(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className={`relative inline-flex items-center px-4 py-2 text-sm font-medium rounded-md ${
+                          currentPage === 1
+                            ? "text-gray-400 cursor-not-allowed"
+                            : "text-purple-700 hover:bg-purple-50"
+                        }`}
+                      >
+                        Previous
+                      </button>
+                      
+                      <span className="text-sm text-gray-700">
+                        Page {currentPage} of {totalPages}
+                      </span>
+                      
+                      <button
+                        onClick={() => goToPage(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className={`relative inline-flex items-center px-4 py-2 text-sm font-medium rounded-md ${
+                          currentPage === totalPages
+                            ? "text-gray-400 cursor-not-allowed"
+                            : "text-purple-700 hover:bg-purple-50"
+                        }`}
+                      >
+                        Next
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </>
           ) : (
             <div className="p-8 text-center text-gray-500">
@@ -169,7 +352,10 @@ const GovCalendar = () => {
               <p className="mt-2">No events found</p>
               {searchQuery && (
                 <button 
-                  onClick={() => setSearchQuery('')} 
+                  onClick={() => {
+                    setSearchQuery('');
+                    setCurrentPage(1);
+                  }} 
                   className="mt-2 text-purple-600 hover:text-purple-800"
                 >
                   Clear search

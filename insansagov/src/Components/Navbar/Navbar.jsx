@@ -490,36 +490,44 @@ const Navbar = () => {
             </div>
 
             {/* Navigation Links */}
-            <a
-              href="/#about"
-              className={`px-4 py-2 rounded-lg transition-all duration-300 ${isScrolled
-                  ? 'text-gray-700 hover:bg-purple-50'
-                  : 'text-white hover:bg-white/10'
-                }`}
+            <button
+            onClick={() => {
+              setIsOpen(false);
+              const aboutSection = document.getElementById('about');
+              if (aboutSection) {
+                aboutSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+            className={`block px-4 py-3 rounded-lg ${isScrolled ? 'text-gray-700' : 'text-gray-100'}   hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300`}
             >
-              About
-            </a>
+            About
+          </button>
 
-            <a
-              href="/#contact"
-              className={`px-4 py-2 rounded-lg transition-all duration-300 ${isScrolled
-                  ? 'text-gray-700 hover:bg-purple-50'
-                  : 'text-white hover:bg-white/10'
-                }`}
-            >
-              Contact
-            </a>
+          <button
+          onClick={() => {
+            setIsOpen(false);
+            const aboutSection = document.getElementById('contact');
+            if (aboutSection) {
+              aboutSection.scrollIntoView({ behavior: 'smooth' });
+            }
+          }}
+          className={`block px-4 py-3 rounded-lg ${isScrolled ? 'text-gray-700' : 'text-gray-100'}   hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300`}
+        >
+          Contact Us
+        </button>
 
             {/* Search Input (conditionally rendered) */}
 
 
             {/* {location.pathname !== '/government-jobs-after-12th' && ( */}
 
-              <div className="relative w-64">
+              <div className="relative w-64 ">
                 <input
                   type="text"
-                  className="w-full px-2 py-4 text-xs rounded-lg bg-gray-100 text-gray-900 border-2 border-black/40 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
-                  placeholder="government categories and org.."
+                  className={`w-72 px-4 py-4 text-[13px] text-gray-50 
+                    ${isScrolled ? 'placeholder-gray-500' : 'placeholder-gray-100'} 
+                    rounded-2xl bg-gray-200/10 border-2 border-gray-300/40 transition-colors duration-300`}
+                                    placeholder="government categories and org.."
                   value={searchQuery}
                   onChange={(e) => inputChangeHandler(e.target.value)}
                   autoComplete="off"
@@ -534,9 +542,9 @@ const Navbar = () => {
                 />
                 <button
                   type="button"
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-purple-600 transition-colors"
+                  className={`absolute right-1 top-1/2 transform -translate-y-1/2  ${isScrolled ? 'text-gray-500' : 'text-gray-100'} hover:text-purple-600 transition-colors`}
                 >
-                  <Search className=" w-5 h-5" />
+                  <Search className=" w-6 h-6" />
                 </button>
 
                 {showDropdown && (
@@ -677,22 +685,33 @@ const Navbar = () => {
           >
             Important Links
           </a>
-          <a
-            onClick={() => setIsOpen(false)}
-            href="/#about"
-            className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
-          >
-            About
-          </a>
-          <a
-            onClick={() => setIsOpen(false)}
-            href="/#contact"
-            className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
-          >
-            Contact
-          </a>
+          <button
+          onClick={() => {
+            setIsOpen(false);
+            const aboutSection = document.getElementById('about');
+            if (aboutSection) {
+              aboutSection.scrollIntoView({ behavior: 'smooth' });
+            }
+          }}
+          className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+        >
+          About
+        </button>
 
-          <a
+        <button
+          onClick={() => {
+            setIsOpen(false);
+            const aboutSection = document.getElementById('contact');
+            if (aboutSection) {
+              aboutSection.scrollIntoView({ behavior: 'smooth' });
+            }
+          }}
+          className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+        >
+          Contact us
+        </button>
+
+            <a
             onClick={() => setIsOpen(false)}
             href="/blog"
             className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"

@@ -1,24 +1,43 @@
 import React from "react";
 
+
+// import bgDesktop from '../../assets/bg-desktop.jpg';
+// import bgMobile from '../../assets/bg-mobile.jpg';
+
+import img1 from '/ggg.jpg'
+import img2 from '/collage.jpg';
+
 export default function FullScreenLanding() {
   return (
     <div className="w-full h-screen flex flex-col lg:flex-row overflow-hidden">
       <div className="relative h-full w-full flex items-center justify-center">
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-[url('/ggg.jpg')] bg-cover bg-center z-0" />
-          <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-blue-900/50 to-purple-800/60" />
-          <div className="absolute inset-0 bg-black/30" /> {/* Additional overlay for better text contrast */}
-        </div>
+        <>
+          <img
+            src={img2}
+            alt="Mobile Background"
+            className="absolute inset-0 w-full h-full object-cover z-0 sm:hidden"
+          />
+          <img
+            src={img1}
+            alt="Desktop Background"
+            className="absolute inset-0 w-full h-full object-cover z-0 hidden sm:block"
+          />
+        </>
 
+        {/* ✅ Overlay Gradients */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-blue-800/50 to-purple-700/60" />
+        <div className="absolute inset-0 bg-black/30" />
+
+        {/* ✅ Foreground Content */}
         <div className="relative z-20 w-full max-w-4xl px-4 sm:px-6 py-10 sm:py-16 flex flex-col items-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 text-center leading-tight">
-            Upcoming 
+            Upcoming
             <span className="text-purple-300"> Government Exams</span>
             <span className="block mt-2 text-white">2025 Latest Info</span>
           </h1>
-          
+
           <p className="text-gray-200 text-center mb-8 max-w-xl text-lg sm:text-xl">
-            Your Ultimate Resource for <span className="text-purple-300">Government Jobs After 12th</span> 
+            Your Ultimate Resource for <span className="text-purple-300">Government Jobs After 12th</span>
           </p>
 
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 w-full max-w-2xl px-4">
@@ -35,7 +54,7 @@ export default function FullScreenLanding() {
               <span className="text-sm text-gray-200 font-medium">Sectors</span>
             </div>
           </div>
-          
+
           <div className="mt-10 flex flex-col items-center w-full">
             <div className="flex flex-wrap items-center justify-center gap-3">
               <div className="flex items-center bg-white/15 backdrop-blur-md rounded-full px-4 py-2 border border-white/10 shadow-lg">
@@ -50,7 +69,6 @@ export default function FullScreenLanding() {
                 </svg>
                 <span className="text-sm text-white font-medium">Updated Daily</span>
               </div>
-              
             </div>
           </div>
         </div>
