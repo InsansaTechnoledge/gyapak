@@ -114,7 +114,7 @@ const ResultsDashboard = () => {
     }, [categories, results, filter]);
 
     const viewAllResults = () => {
-        navigate("/results");
+        navigate("/exam-sarkari-results/results");
     };
 
     return (

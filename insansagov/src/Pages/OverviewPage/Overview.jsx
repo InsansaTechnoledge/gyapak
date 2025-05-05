@@ -196,13 +196,13 @@ const OverviewPage = () => {
     };
 
     const toggleCalendar = (id) => {
-        document.getElementById('calendar_'+id).classList.toggle('hidden');
+        document.getElementById('calendar_' + id).classList.toggle('hidden');
 
-        if(document.getElementById('calendar_'+id).classList.contains('hidden')){
-            document.getElementById('btn_'+id).innerHTML="View Annual Calendar";
+        if (document.getElementById('calendar_' + id).classList.contains('hidden')) {
+            document.getElementById('btn_' + id).innerHTML = "View Annual Calendar";
         }
-        else{
-            document.getElementById('btn_'+id).innerHTML="Hide Annual Calendar";
+        else {
+            document.getElementById('btn_' + id).innerHTML = "Hide Annual Calendar";
         }
     }
 
@@ -268,7 +268,7 @@ const OverviewPage = () => {
                 </div>
             );
         }
-        else{
+        else {
             return (
                 <div className="col-span-3 bg-white shadow-md rounded-lg overflow-hidden transition-all hover:shadow-lg">
                     <div className={`h-2 ${colorScheme.headerBg}`} />
@@ -296,7 +296,7 @@ const OverviewPage = () => {
                                 {item.title}
                             </p>
 
-                           
+
                         </div>
 
                         <div className="flex gap-3 pt-2">
@@ -310,12 +310,12 @@ const OverviewPage = () => {
                                 {/* <ChevronRight className="h-4 w-4" /> */}
                             </button>
                         </div>
-                            <div 
+                        <div
                             id={`calendar_${item._id}`}
                             className="hidden"
-                            >
-                                <ExamCalendar organizationId={item._id} />
-                            </div>
+                        >
+                            <ExamCalendar organizationId={item._id} />
+                        </div>
                     </div>
                 </div>
             )
@@ -334,7 +334,7 @@ const OverviewPage = () => {
             <Helmet>
                 <title>Overview | gyapak</title>
                 <meta name="description" content="Comprehensive overview of all government exam updates, documents, notifications and schedules." />
-                <meta name="keywords" content="government exams, updates, notifications, documents, schedules, government jobs" />
+                <meta name="keywords" content="government competitive exams after 12th,government organisations, exam sarkari results, government calendar,current affairs,top exams for government jobs in india,Upcoming Government Exams" />
                 <meta property="og:title" content="Overview | gyapak" />
                 <meta property="og:description" content="Find all the latest updates on government exams, documents, and schedules for central and state government jobs." />
             </Helmet>

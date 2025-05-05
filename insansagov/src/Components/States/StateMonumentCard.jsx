@@ -12,7 +12,7 @@ const StateMonumentCard = ({state, region, img}) => {
             <img 
             className='w-full object-cover h-40'
             src={img}
-            alt={`upcoming government exams 2025 for ${state}`}
+            alt={`upcoming government exams ${new Date().getFullYear()} for ${state}`}
             />
         </div>
         <div className='mt-5 mb-5'>
