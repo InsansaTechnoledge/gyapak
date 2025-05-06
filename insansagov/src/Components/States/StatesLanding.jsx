@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useApi } from '../../Context/ApiContext';
 import { formatDate } from '../../Utils/dateFormatter';
+import { Calendar, MapPin , ChevronRight } from 'lucide-react';
 
 const StatesLanding = () => {
 
@@ -20,7 +21,7 @@ const StatesLanding = () => {
         "Odisha": "/states/Odisha.png",
         "Punjab": "/states/Punjab.png",
         "Rajasthan": "/states/Rajasthan.png",
-        "Uttar Pradesh": "/states/Uttar_pradesh.png",
+        "Uttar Pradesh": "/states/UttarPradesh2.jpg",
         "Madhya Pradesh": "/states/Madhya Pradesh.png",
         "Tamil Nadu": "/states/Tamil_Nadu.png",
         "Uttarakhand": "/states/Uttarakhand.png",
@@ -53,6 +54,20 @@ const StatesLanding = () => {
             "Madhya Pradesh"
         ]
     };
+
+    const RegionTab = ({ name, active, onClick }) => (
+        <button
+          className={`px-6 py-2 rounded-full transition-all duration-300 ${
+            active 
+              ? 'bg-purple-600 text-white shadow-md shadow-purple-200' 
+              : 'bg-white text-gray-600 hover:bg-gray-100'
+          }`}
+          onClick={onClick}
+        >
+          {name}
+        </button>
+      );
+
 
     const fetchLastUpdated = async () => {
         try {
@@ -96,54 +111,50 @@ const StatesLanding = () => {
     }
 
     return (
-        <div>
-            <div className='flex justify-between flex-col  lg:flex-row'>
-                <div>
-                    <h1 className="text-2xl sm:text-3xl font-bold mb-2">
-                        State government authorities
-                    </h1>
-                    <p className="text-xs sm:text-sm">
-                        {`Explore upcoming government exams ${new Date().getFullYear()}`}
-                    </p>
-                </div>
-                <div className='flex space-x-2 mt-10 lg:mt-0 flex-wrap'>
-                    <button
-                        className={`mt-5 rounded-full border font-semibold ${region === 'North' ? 'bg-purple-200 text-purple-900 border-purple-900' : 'bg-white text-black border-black'} h-min py-1 px-5`}
-                        onClick={() => (setRegion("North"))}
-                    >
-                        North
-                    </button>
-                    <button
-                        className={`mt-5 rounded-full border font-semibold ${region === 'South' ? 'bg-purple-200 text-purple-900 border-purple-900' : 'bg-white text-black border-black'} h-min py-1 px-5`}
-                        onClick={() => (setRegion("South"))}
-                    >South
-                    </button>
-                    <button
-                        className={`mt-5 rounded-full border font-semibold ${region === 'East' ? 'bg-purple-200 text-purple-900 border-purple-900' : 'bg-white text-black border-black'} h-min py-1 px-5`}
-                        onClick={() => (setRegion("East"))}
-                    >East
-                    </button>
-                    <button
-                        className={`mt-5 rounded-full border font-semibold ${region === 'West' ? 'bg-purple-200 text-purple-900 border-purple-900' : 'bg-white text-black border-black'} h-min py-1 px-5`}
-                        onClick={() => (setRegion("West"))}
-                    >West
-                    </button>
-                </div>
-            </div>
-            <div className='grid lg:grid-cols-3 xl:grid-cols-4 md:grid-cols-2 grid-cols-1 mt-12 gap-10'>
-                {
-                    statesByRegion[region].map(state => (
-                        <StateMonumentCard state={state} region={region} img={stateImages[state]} />
-                    ))
-                }
-            </div>
-            <div className="mt-6 sm:mt-8 text-center">
-                <p className="text-xs sm:text-sm text-purple-600">
-                    Last updated: {lastUpdated}
+        <div className="max-w-screen-xl mx-auto px-4 py-8">
+          <div className="bg-gradient-to-r from-purple-50 to-white rounded-2xl p-6 mb-10 shadow-sm">
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center">
+              <div>
+                <h1 className="text-3xl font-bold text-gray-800 mb-2">
+                  State Government Opportunities
+                </h1>
+                <p className="text-gray-500 text-sm">
+                  Explore upcoming government exams and vacancies across India for {new Date().getFullYear()}
                 </p>
+              </div>
+              
+              <div className="flex items-center text-xs text-gray-500 mt-4 lg:mt-0">
+                <Calendar size={16} className="mr-1 text-purple-500" />
+                Last updated: <span className="ml-1 font-medium text-purple-600">{lastUpdated}</span>
+              </div>
             </div>
+          </div>
+          
+          <div className="flex overflow-x-auto space-x-2 pb-4 mb-8 scrollbar-hide">
+            {Object.keys(statesByRegion).map((r) => (
+                <RegionTab 
+                key={r} 
+                name={r} 
+                active={region === r} 
+                onClick={() => setRegion(r)} 
+                />
+            ))}
+            </div>
+
+          
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {statesByRegion[region].map(state => (
+              <StateMonumentCard 
+                key={state}
+                state={state} 
+                region={region} 
+                img={stateImages[state]} 
+              />
+            ))}
+          </div>
         </div>
-    )
-}
+      );
+    };
+    
 
 export default StatesLanding
