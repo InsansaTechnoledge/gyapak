@@ -1,10 +1,11 @@
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import Credits from './Pages/PrivacyPolicy/Credits';
 import { RingLoader } from 'react-spinners';
 import CounselorChatUI from './Pages/counselor/GyapakCounselor';
 
-// Lazy load the components
 const Landing = lazy(() => import('./Pages/Landing/landing'));
 const Navbar = lazy(() => import('./Components/Navbar/Navbar'));
 const Opportunities = lazy(() => import('./Pages/Opportunities/Opportunities'));
@@ -24,80 +25,93 @@ const PortalCoverPage = lazy(() => import('./Pages/FutureStartPage/PortalCoverPa
 const Unsubscribe = lazy(() => import('./Pages/Unsubscribe/Unsubscribe'));
 const OverviewPage = lazy(() => import('./Pages/OverviewPage/Overview'));
 const BlogPage = lazy(() => import('./Components/BolgPage/BlogPage'));
-const BlogDetailPage = lazy(() => import('./Components/BolgPage/components/BlogDetailPage'))
+const BlogDetailPage = lazy(() => import('./Components/BolgPage/components/BlogDetailPage'));
 const CalendarView = lazy(() => import('./Pages/Calendar/CalendarView'));
-const CurrentAffairPage = lazy(() => import('./Components/currentAffairs/currentAffairPage'))
-const CurrentAffairDetails = lazy(() => import('./Components/currentAffairs/CurrentAffairDetailPage'))
-
+const CurrentAffairPage = lazy(() => import('./Components/currentAffairs/currentAffairPage'));
+const CurrentAffairDetails = lazy(() => import('./Components/currentAffairs/CurrentAffairDetailPage'));
 
 const SecondRoutes = () => {
-    const location = useLocation();
+  const location = useLocation();
+  if (location.pathname === '/government-jobs-after-12th') {
+    return null;
+  }
 
-    if (location.pathname === '/government-jobs-after-12th') {
-        return null;
-    }
-
-    return (
-        <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
-            <Suspense fallback={<div><div className='w-full h-screen flex justify-center'>
-                <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
-            </div></div>}>
-                <Routes>
-                    <Route path='/top-exams-for-government-jobs-in-india/:slug' element={<Opportunities />} />
-                    <Route path='/counselor' element={<CounselorChatUI />} />
-                    <Route path='/search' element={<SearchPage />} />
-                    <Route path='/organization/government-competitive-exams-after-12th/:name' element={<Authority />} />
-                    <Route path='/government-organisations-under-category' element={<Category />} />
-                    <Route path='/admit-card' element={<AdmitCardPage />} />
-                    <Route path='/results' element={<Results />} />
-                    <Route path='/trending' element={<TrendingPage />} />
-                    <Route path='/overview' element={<OverviewPage />} />
-
-                    <Route path='/state/:keyword' element={<StatePage />} />
-                    <Route path='/privacy-policy' element={<PrivacyPolicy />} />
-                    <Route path='/credits' element={<Credits />} />
-                    <Route path='/unsubscribe' element={<Unsubscribe />} />
-                    <Route path='/blog' element={<BlogPage />} />
-                    <Route path="/blog/:slug" element={<BlogDetailPage />} />
-                    <Route path="/government-calendar" element={<CalendarView />} />
-                    <Route path="/current-affairs/:date/:slug" element={<CurrentAffairDetails />} />
-
-
-
-                    <Route path="/current-affair" element={<CurrentAffairPage />} />
-
-
-                    <Route path='*' element={<ErrorPage code={404} message={"Oops! Page Not Found"} subMessage={"The page you’re looking for doesn’t exist or has been moved."} />} />
-
-
-                </Routes>
-            </Suspense>
+  return (
+    <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
+      <Suspense fallback={
+        <div className='w-full h-screen flex justify-center'>
+          <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
         </div>
-    );
+      }>
+        <Routes>
+          <Route path='/top-exams-for-government-jobs-in-india/:slug' element={<Opportunities />} />
+          <Route path='/counselor' element={<CounselorChatUI />} />
+          <Route path='/search' element={<SearchPage />} />
+          <Route path='/organization/government-competitive-exams-after-12th/:name' element={<Authority />} />
+          <Route path='/government-organisations-under-category' element={<Category />} />
+          <Route path='/admit-card' element={<AdmitCardPage />} />
+          <Route path='/results' element={<Results />} />
+          <Route path='/trending' element={<TrendingPage />} />
+          <Route path='/overview' element={<OverviewPage />} />
+          <Route path='/state/:keyword' element={<StatePage />} />
+          <Route path='/privacy-policy' element={<PrivacyPolicy />} />
+          <Route path='/credits' element={<Credits />} />
+          <Route path='/unsubscribe' element={<Unsubscribe />} />
+          <Route path='/blog' element={<BlogPage />} />
+          <Route path="/blog/:slug" element={<BlogDetailPage />} />
+          <Route path="/government-calendar" element={<CalendarView />} />
+          <Route path="/current-affairs/:date/:slug" element={<CurrentAffairDetails />} />
+          <Route path="/current-affair" element={<CurrentAffairPage />} />
+          <Route path='*' element={<ErrorPage code={404} message={"Oops! Page Not Found"} subMessage={"The page you’re looking for doesn’t exist or has been moved."} />} />
+        </Routes>
+      </Suspense>
+    </div>
+  );
 };
 
 const PageLinks = () => {
-    return (
-        <Router>
-            <Suspense fallback={<div><div className='w-full h-screen flex justify-center'>
-                <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
-            </div></div>}>
-                <Routes>
-                    <Route path='/cover' element={<PortalCoverPage />} />
-                </Routes>
-                <ScrollToTop />
-                <Navbar />
-                <Routes>
-                    <Route path='/' element={<Navigate to="/government-jobs-after-12th" replace />} />
-                    <Route path='/government-jobs-after-12th' element={<Landing />} />
-                </Routes>
-                <SecondRoutes />
-                <ChatBot />
-                <Footer />
-            </Suspense>
+  const location = useLocation();
+  const hideChatBotOn = ['/', '/government-calendar'];
 
-        </Router>
-    );
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Set initial state
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+
+    // Add resize listener
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const shouldHideChatBot = isMobile && hideChatBotOn.includes(location.pathname);
+
+
+  return (
+    <Suspense fallback={
+      <div className='w-full h-screen flex justify-center'>
+        <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
+      </div>
+    }>
+      <Routes>
+        <Route path='/cover' element={<PortalCoverPage />} />
+      </Routes>
+
+      <ScrollToTop />
+      <Navbar />
+
+      <Routes>
+        <Route path='/' element={<Navigate to="/government-jobs-after-12th" replace />} />
+        <Route path='/government-jobs-after-12th' element={<Landing />} />
+      </Routes>
+
+      <SecondRoutes />
+
+      {!shouldHideChatBot && <ChatBot />}
+      <Footer />
+    </Suspense>
+  );
 };
 
 export default PageLinks;

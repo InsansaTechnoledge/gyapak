@@ -200,9 +200,6 @@ const ModernExamDetailsPage = () => {
     </>
   );
 
-
-
-
 };
 
 export default ModernExamDetailsPage;

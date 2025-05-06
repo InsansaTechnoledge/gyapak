@@ -8,7 +8,7 @@ const QuickApplyButton = ({ data }) => {
 
   return (
     <div className="text-center mb-20">
-      {console.log(data.apply_link)}
+      {/* {console.log(data.apply_link)} */}
       <a
         href={
           typeof (data.apply_link) === 'string'
