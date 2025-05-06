@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import Credits from './Pages/PrivacyPolicy/Credits';
@@ -30,48 +29,9 @@ const CalendarView = lazy(() => import('./Pages/Calendar/CalendarView'));
 const CurrentAffairPage = lazy(() => import('./Components/currentAffairs/currentAffairPage'));
 const CurrentAffairDetails = lazy(() => import('./Components/currentAffairs/CurrentAffairDetailPage'));
 
-const SecondRoutes = () => {
-  const location = useLocation();
-  if (location.pathname === '/government-jobs-after-12th') {
-    return null;
-  }
-
-  return (
-    <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
-      <Suspense fallback={
-        <div className='w-full h-screen flex justify-center'>
-          <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
-        </div>
-      }>
-        <Routes>
-          <Route path='/top-exams-for-government-jobs-in-india/:slug' element={<Opportunities />} />
-          <Route path='/counselor' element={<CounselorChatUI />} />
-          <Route path='/search' element={<SearchPage />} />
-          <Route path='/organization/government-competitive-exams-after-12th/:name' element={<Authority />} />
-          <Route path='/government-organisations-under-category' element={<Category />} />
-          <Route path='/admit-card' element={<AdmitCardPage />} />
-          <Route path='/exam-sarkari-results/results' element={<Results />} />
-          <Route path='/trending' element={<TrendingPage />} />
-          <Route path='/overview' element={<OverviewPage />} />
-          <Route path='/state/:keyword' element={<StatePage />} />
-          <Route path='/privacy-policy' element={<PrivacyPolicy />} />
-          <Route path='/credits' element={<Credits />} />
-          <Route path='/unsubscribe' element={<Unsubscribe />} />
-          <Route path='/blog' element={<BlogPage />} />
-          <Route path="/blog/:slug" element={<BlogDetailPage />} />
-          <Route path="/government-calendar" element={<CalendarView />} />
-          <Route path="/current-affairs/:date/:slug" element={<CurrentAffairDetails />} />
-          <Route path="/current-affair" element={<CurrentAffairPage />} />
-          <Route path='*' element={<ErrorPage code={404} message={"Oops! Page Not Found"} subMessage={"The page you’re looking for doesn’t exist or has been moved."} />} />
-        </Routes>
-      </Suspense>
-    </div>
-  );
-};
-
 const PageLinks = () => {
   const location = useLocation();
-  const hideChatBotOn = ['/', '/government-calendar'];
+  const hideChatBotOn = ['/', '/government-calendar', '/government-jobs-after-12th'];
 
   const [isMobile, setIsMobile] = useState(false);
 
@@ -87,26 +47,182 @@ const PageLinks = () => {
 
   const shouldHideChatBot = isMobile && hideChatBotOn.includes(location.pathname);
 
+  const Loading = () => (
+    <div className='w-full h-screen flex justify-center'>
+      <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
+    </div>
+  );
 
   return (
-    <Suspense fallback={
-      <div className='w-full h-screen flex justify-center'>
-        <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
-      </div>
-    }>
-      <Routes>
-        <Route path='/cover' element={<PortalCoverPage />} />
-      </Routes>
-
+    <Suspense fallback={<Loading />}>
       <ScrollToTop />
       <Navbar />
-
+      
       <Routes>
         <Route path='/' element={<Navigate to="/government-jobs-after-12th" replace />} />
         <Route path='/government-jobs-after-12th' element={<Landing />} />
+        <Route path='/cover' element={<PortalCoverPage />} />
+        
+        {/* Routes that use the content container */}
+        <Route 
+          path='/top-exams-for-government-jobs-in-india/:slug' 
+          element={
+            <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
+              <Opportunities />
+            </div>
+          } 
+        />
+        <Route 
+          path='/counselor' 
+          element={
+            <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
+              <CounselorChatUI />
+            </div>
+          }
+        />
+        <Route 
+          path='/search' 
+          element={
+            <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
+              <SearchPage />
+            </div>
+          }
+        />
+        <Route 
+          path='/organization/government-competitive-exams-after-12th/:name' 
+          element={
+            <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
+              <Authority />
+            </div>
+          }
+        />
+        <Route 
+          path='/government-organisations-under-category' 
+          element={
+            <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
+              <Category />
+            </div>
+          }
+        />
+        <Route 
+          path='/admit-card' 
+          element={
+            <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
+              <AdmitCardPage />
+            </div>
+          }
+        />
+        <Route 
+          path='/results' 
+          element={
+            <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
+              <Results />
+            </div>
+          }
+        />
+        <Route 
+          path='/trending' 
+          element={
+            <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
+              <TrendingPage />
+            </div>
+          }
+        />
+        <Route 
+          path='/overview' 
+          element={
+            <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
+              <OverviewPage />
+            </div>
+          }
+        />
+        <Route 
+          path='/state/:keyword' 
+          element={
+            <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
+              <StatePage />
+            </div>
+          }
+        />
+        <Route 
+          path='/privacy-policy' 
+          element={
+            <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
+              <PrivacyPolicy />
+            </div>
+          }
+        />
+        <Route 
+          path='/credits' 
+          element={
+            <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
+              <Credits />
+            </div>
+          }
+        />
+        <Route 
+          path='/unsubscribe' 
+          element={
+            <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
+              <Unsubscribe />
+            </div>
+          }
+        />
+        <Route 
+          path='/blog' 
+          element={
+            <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
+              <BlogPage />
+            </div>
+          }
+        />
+        <Route 
+          path="/blog/:slug" 
+          element={
+            <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
+              <BlogDetailPage />
+            </div>
+          }
+        />
+        <Route 
+          path="/government-calendar" 
+          element={
+            <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
+              <CalendarView />
+            </div>
+          }
+        />
+        <Route 
+          path="/current-affairs/:date/:slug" 
+          element={
+            <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
+              <CurrentAffairDetails />
+            </div>
+          }
+        />
+        <Route 
+          path="/current-affair" 
+          element={
+            <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
+              <CurrentAffairPage />
+            </div>
+          }
+        />
+        
+        {/* Catch-all route for 404s */}
+        <Route 
+          path='*' 
+          element={
+            <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
+              <ErrorPage 
+                code={404} 
+                message={"Oops! Page Not Found"} 
+                subMessage={"The page you're looking for doesn't exist or has been moved."} 
+              />
+            </div>
+          }
+        />
       </Routes>
-
-      <SecondRoutes />
 
       {!shouldHideChatBot && <ChatBot />}
       <Footer />

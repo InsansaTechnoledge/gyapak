@@ -1,17 +1,18 @@
 import PageLinks from "./PageLinks";
-import React , {useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from "react-helmet-async";
 import { BrowserRouter as Router } from 'react-router-dom';
 
 const App = () => {
+  const [hasLogged, setHasLogged] = useState(false);
 
-  let count = 1
   useEffect(() => {
-    if(count === 1) {
-    console.log('Thank you for visiting gyapak 💜');
+    if (!hasLogged) {
+      console.log('Thank you for visiting gyapak 💜');
+      setHasLogged(true);
     }
-    count++;
-  }, []);
+  }, [hasLogged]);
+
   return (
     <>
       <Helmet>
