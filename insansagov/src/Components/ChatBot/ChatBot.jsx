@@ -6,6 +6,7 @@ import parse from 'html-react-parser';
 import { DotLoader } from 'react-spinners';
 import { useNavigate } from 'react-router-dom';
 import slugGenerator from '../../Utils/SlugGenerator';
+import { formatDate } from '../../Utils/dateFormatter';
 
 const ChatBot = () => {
 
@@ -106,7 +107,7 @@ const ChatBot = () => {
                 var responseType = 'details'
 
                 if (botResponse) {
-                    responseSet = [botResponse.date_of_commencement, botResponse._id, botResponse.end_date, botResponse.apply_link, botResponse.name];
+                    responseSet = [botResponse.date_of_commencement, botResponse._id, formatDate(botResponse.end_date), botResponse.apply_link, botResponse.name];
                 }
                 else {
                     responseText = `${botResponse.response}`
