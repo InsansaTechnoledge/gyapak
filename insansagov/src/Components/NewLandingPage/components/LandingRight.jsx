@@ -1,6 +1,7 @@
 import React from "react";
 import img1 from '/ggg.jpg'
 import img2 from '/collage.jpg';
+import MobileCover from '/MobileCover.jpg'
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useApi } from "../../../Context/ApiContext";
@@ -45,13 +46,13 @@ export default function FullScreenLanding() {
       <div className="relative h-full w-full flex items-center justify-center">
         <>
           <img
-            src={img2}
-            alt="Mobile Background"
+            src={MobileCover}
+            alt="Upcoming Government Exams 2025"
             className="absolute inset-0 w-full h-full object-cover z-0 sm:hidden"
           />
           <img
             src={img1}
-            alt="Desktop Background"
+            alt="Upcoming Government Exams 2025"
             className="absolute inset-0 w-full h-full object-cover z-0 hidden sm:block"
           />
         </>

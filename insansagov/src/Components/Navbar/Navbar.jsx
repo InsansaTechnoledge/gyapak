@@ -374,7 +374,7 @@ const Navbar = () => {
           {!isHomePage && (
             <button
               onClick={() => navigate('/government-jobs-after-12th')}
-              className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg bg-white text-purple-700 hover:bg-purple-50 transition-all duration-300 font-medium"
+              className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg bg-white text-gray-700 hover:text-white hover:bg-purple-800 transition-all duration-300 font-medium"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-home">
                 <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>

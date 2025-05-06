@@ -132,10 +132,7 @@ const Landing = () => {
 
           {/* <LazyRender height="h-96" id={"landing-admit"}>
             <AdmitCardDashboard />
-          </LazyRender> */}
-
-          <LazyRender height="h-96" id={"landing-result"}>
-            <ResultsDashboard />
+          </Lax            <ResultsDashboard />
           </LazyRender>
 
           {/* <LazyRender height="h-96">

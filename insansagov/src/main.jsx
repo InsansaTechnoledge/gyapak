@@ -27,7 +27,7 @@ const queryClient = new QueryClient({
 // });
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+ 
     <HelmetProvider>
       <ApiProvider>
         <QueryClientProvider client={queryClient}>
@@ -35,5 +35,5 @@ createRoot(document.getElementById('root')).render(
         </QueryClientProvider>
       </ApiProvider>
     </HelmetProvider>
-  </StrictMode>,
+  
 )
