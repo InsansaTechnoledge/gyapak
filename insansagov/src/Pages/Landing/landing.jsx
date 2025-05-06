@@ -107,7 +107,15 @@ const Landing = () => {
 
         <GyapakLanding />
 
+       
+
         <div className="px-4 md:px-16 lg:px-64 space-y-16">
+
+        <LazyRender height="h-96" id={"landing-admit"}>
+            {/* <AdmitCardDashboard /> */}
+            <ResultsDashboard />
+          </LazyRender>
+          
           {/* Latest updates and state components load next */}
           <LazyRender height="h-96">
             <LatestUpdates />
@@ -130,10 +138,7 @@ const Landing = () => {
             </LazyRender>
           </div>
 
-          {/* <LazyRender height="h-96" id={"landing-admit"}>
-            <AdmitCardDashboard />
-          </Lax            <ResultsDashboard />
-          </LazyRender>
+          
 
           {/* <LazyRender height="h-96">
             <BlogBrandingPage />
