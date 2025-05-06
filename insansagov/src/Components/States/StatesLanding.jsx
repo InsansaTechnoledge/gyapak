@@ -133,7 +133,12 @@ const StatesLanding = () => {
             <div className='grid lg:grid-cols-3 xl:grid-cols-4 md:grid-cols-2 grid-cols-1 mt-12 gap-10'>
                 {
                     statesByRegion[region].map(state => (
-                        <StateMonumentCard state={state} region={region} img={stateImages[state]} />
+                        <StateMonumentCard
+                            key={state}
+                            state={state}
+                            region={region}
+                            img={stateImages[state]}
+                        />
                     ))
                 }
             </div>
