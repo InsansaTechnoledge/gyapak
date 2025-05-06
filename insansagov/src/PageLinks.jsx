@@ -41,7 +41,7 @@ const PageLinks = () => {
 
 
   const location = useLocation();
-  const hideChatBotOn = ['/', '/government-calendar', '/government-jobs-after-12th'];
+  const hideChatBotOn = ['/government-calendar'];
 
   const [isMobile, setIsMobile] = useState(false);
 
