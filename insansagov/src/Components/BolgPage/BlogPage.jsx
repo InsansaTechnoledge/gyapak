@@ -6,6 +6,7 @@ import FeaturedPostCarousel from './components/FeaturePost';
 import Sidebar from './components/SideBar';
 // import { fetchBlogPosts } from './components/BlogFeature';
 import { getAllBlogs } from '../../Service/Service';
+import { RingLoader } from 'react-spinners';
 
 const BlogPage = () => {
   const [posts, setPosts] = useState([]);
@@ -39,6 +40,19 @@ const regularPosts = posts.filter(post => !post.featuredPost);
 
 
 // take blog author to buttom
+
+const Loading = () => (
+  <div className='w-full h-screen flex justify-center'>
+    <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
+  </div>
+);
+
+
+if(isLoading || !posts){
+    return (
+      <Loading />
+    )
+  }
 
   return (
     <div className="min-h-screen pt-24 ">

@@ -86,6 +86,7 @@ const LazyRender = ({ children, height = "h-64", priority = false, id }) => {
   );
 };
 
+
 const Landing = () => {
 
 

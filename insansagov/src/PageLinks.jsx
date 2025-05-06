@@ -4,6 +4,7 @@ import { Suspense, lazy } from 'react';
 import Credits from './Pages/PrivacyPolicy/Credits';
 import { RingLoader } from 'react-spinners';
 import CounselorChatUI from './Pages/counselor/GyapakCounselor';
+import { useApi } from './Context/ApiContext';
 
 const Landing = lazy(() => import('./Pages/Landing/landing'));
 const Navbar = lazy(() => import('./Components/Navbar/Navbar'));
@@ -30,6 +31,15 @@ const CurrentAffairPage = lazy(() => import('./Components/currentAffairs/current
 const CurrentAffairDetails = lazy(() => import('./Components/currentAffairs/CurrentAffairDetailPage'));
 
 const PageLinks = () => {
+  const {apiBaseUrl} = useApi();
+
+  const Loading = () => (
+    <div className='w-full h-screen flex justify-center'>
+      <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
+    </div>
+  );
+
+
   const location = useLocation();
   const hideChatBotOn = ['/', '/government-calendar', '/government-jobs-after-12th'];
 
@@ -47,20 +57,19 @@ const PageLinks = () => {
 
   const shouldHideChatBot = isMobile && hideChatBotOn.includes(location.pathname);
 
-  const Loading = () => (
-    <div className='w-full h-screen flex justify-center'>
-      <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
-    </div>
-  );
+ 
+
+  
 
   return (
-    <Suspense fallback={<Loading />}>
+    <>
+     {/* <Suspense fallback={<Loading />}> */}
       <ScrollToTop />
       <Navbar />
       
       <Routes>
-        <Route path='/' element={<Navigate to="/government-jobs-after-12th" replace />} />
         <Route path='/government-jobs-after-12th' element={<Landing />} />
+        <Route path='/' element={<Navigate to="/government-jobs-after-12th" replace />} />
         <Route path='/cover' element={<PortalCoverPage />} />
         
         {/* Routes that use the content container */}
@@ -226,7 +235,9 @@ const PageLinks = () => {
 
       {!shouldHideChatBot && <ChatBot />}
       <Footer />
-    </Suspense>
+    {/* </Suspense> */}
+    </>
+    
   );
 };
 
