@@ -18,7 +18,8 @@ const StatePage = () => {
 
     // Parse the query parameters
     const { keyword } = useParams();
-    const state = keyword.split('-').reverse()[3];
+    const state = keyword?.split("-in-")[1]?.replace("-for-12th-pass", "");
+
 
     const fetchStateData = async () => {
         try {
