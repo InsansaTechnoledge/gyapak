@@ -31,7 +31,7 @@ export default function ExamHighlightSection() {
     <section className="py-12 bg-white mt-8">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold text-purple-800">Upcoming Government Exams 2025</h2>
+          <h2 className="text-3xl font-bold text-purple-800">{`Upcoming Government Exams ${new Date().getFullYear()}`}</h2>
           <div className="w-16 h-1 bg-purple-600 mx-auto mt-3 mb-4"></div>
         </div>
 

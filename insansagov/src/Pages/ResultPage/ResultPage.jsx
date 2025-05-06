@@ -3,6 +3,7 @@ import { Search, Calendar, Building2, Filter } from "lucide-react";
 import axios from "axios";
 import { Helmet } from "react-helmet-async";
 import { useApi, CheckServer } from "../../Context/ApiContext";
+import slugGenerator from "../../Utils/SlugGenerator";
 
 
 const Results = () => {
@@ -91,12 +92,12 @@ const Results = () => {
             <Helmet>
                 <title>gyapak</title>
                 <meta name="description" content="gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
-                <meta name="keywords" content="government exams, exam dates, admit cards, results, central government jobs, state government jobs, competitive exams, government jobs" />
+                <meta name="keywords" content="government competitive exams after 12th,government organisations, exam sarkari results, government calendar,current affairs,top exams for government jobs in india,Upcoming Government Exams" />
                 <meta property="og:title" content="gyapak" />
                 <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
             </Helmet>
             <div className="bg-white pt-28 rounded-lg">
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">Latest Results</h2>
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">{`latest exam sarkari results ${new Date().getFullYear()}`}</h2>
 
                 {/* Search and Filter Section */}
                 <div className="flex flex-col sm:flex-row gap-4 mb-6">
@@ -156,7 +157,7 @@ const Results = () => {
                                         </div>
                                         <div>
                                             <a
-                                                href={result.apply_link}
+                                                href={`/top-exams-for-government-jobs-in-india/${slugGenerator(result.name)}?id=${result._id}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="block mt-4 px-4 py-2 bg-purple-800 text-white text-center rounded-md hover:bg-purple-900 transition-colors"

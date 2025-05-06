@@ -254,7 +254,7 @@ const StateComponent = () => {
                                     State government authorities
                                 </h1>
                                 <p className="text-purple-200 text-xs sm:text-sm">
-                                    Explore upcoming government exams 2025
+                                    {`Explore upcoming government exams ${new Date().getFullYear()}`}
                                 </p>
                             </div>
 

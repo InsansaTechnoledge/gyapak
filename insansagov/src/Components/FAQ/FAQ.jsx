@@ -13,7 +13,7 @@ const FAQ = ({
   showStateFilter = false,
   showSEOTags = true,
   className = '',
-  metaDescription = 'frequently asked questions and answers about government jobs and exams: latest 2025 updates'
+  metaDescription = `frequently asked questions and answers about government jobs and exams: latest ${new Date().getFullYear()} updates`
 }) => {
   const { 
     faqs, 

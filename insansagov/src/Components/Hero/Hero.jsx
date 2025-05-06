@@ -47,7 +47,7 @@ const Hero = () => {
             <HelmetProvider >
                 <title>gyapak</title>
                 <meta name="description" content="gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
-                <meta name="keywords" content="government exams, exam dates, admit cards, results, central government jobs, state government jobs, competitive exams, government jobs" />
+                <meta name="keywords" content="government competitive exams after 12th,government organisations, exam sarkari results, government calendar,current affairs,top exams for government jobs in india,Upcoming Government Exams" />
                 <link rel="canonical" href="https://gyapak.in" />
             </HelmetProvider>
 
@@ -108,7 +108,7 @@ const Hero = () => {
                             transition={{ delay: 0.3 }}
                         >
                             <span className="inline-block border-b-4 border-indigo-500 pb-1 hover:border-purple-500 transition-colors duration-300">
-                                Your Ultimate Resource 
+                                Your Ultimate Resource
                             </span>
                             <span className="block xs:inline-block px-2">for</span>
                             <motion.span
@@ -116,7 +116,7 @@ const Hero = () => {
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                             >
-                                government jobs after 12th 
+                                government jobs after 12th
                             </motion.span>
                         </motion.p>
 

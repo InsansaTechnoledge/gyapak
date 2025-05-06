@@ -1,49 +1,11 @@
-import { useState } from 'react';
 import { Calendar, CheckCircle, Clock, FileText, MapPin, Search, User, ArrowRight } from 'lucide-react';
 
 export default function GovernmentCalendarIntro() {
-  const [activeTab, setActiveTab] = useState('all');
-  
-  const categories = [
-    { id: 'all', label: 'All Events' },
-    { id: 'exams', label: 'Exams' },
-    { id: 'jobs', label: 'Jobs' },
-    { id: 'results', label: 'Results' }
-  ];
-  
-  const upcomingEvents = [
-    { 
-      id: 1, 
-      title: 'UPSC Civil Services Prelims', 
-      date: 'May 15, 2025', 
-      category: 'exams',
-      icon: FileText 
-    },
-    { 
-      id: 2, 
-      title: 'Railway Recruitment Board', 
-      date: 'June 2, 2025', 
-      category: 'jobs',
-      icon: User 
-    },
-    { 
-      id: 3, 
-      title: 'SSC Combined Graduate Level', 
-      date: 'June 10, 2025', 
-      category: 'exams',
-      icon: FileText 
-    }
-  ];
-  
-  const filteredEvents = activeTab === 'all' 
-    ? upcomingEvents 
-    : upcomingEvents.filter(event => event.category === activeTab);
-
   return (
     <section className="max-w-6xl mx-auto mb-16">
       {/* SEO Header - Visually hidden but available for search engines */}
       <div className="sr-only">
-        <h1>Government Calendar 2025 - Official Exam Schedule and Job Notifications</h1>
+        <h1>{`Government Calendar ${new Date().getFullYear()} - Official Exam Schedule and Job Notifications`}</h1>
         <p>Complete Government Calendar with UPSC, SSC, Banking, Railway exam dates and government job notifications across India.</p>
       </div>
       

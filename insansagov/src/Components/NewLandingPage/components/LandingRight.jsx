@@ -12,7 +12,7 @@ export default function FullScreenLanding() {
     try {
         const response = await axios.get(`${apiBaseUrl}/api/state/count`);
         return response.data;
-        
+
     } catch (error) {
         if (error.response) {
             if (error.response.status >= 500 && error.response.status < 600) {
@@ -65,26 +65,28 @@ export default function FullScreenLanding() {
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 text-center leading-tight">
             Upcoming
             <span className="text-purple-300"> Government Exams</span>
-            <span className="block mt-2 text-white">2025 Latest Info</span>
+            <span className="block mt-2 text-white">{`${new Date().getFullYear()} Latest Info`}</span>
           </h1>
 
           <p className="text-gray-200 text-center mb-8 max-w-xl text-lg sm:text-xl">
             Your Ultimate Resource for <span className="text-purple-300">Government Jobs After 12th</span>
           </p>
+{/* 
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 w-full max-w-2xl px-4"> */}
+          <div className="mt-6 flex justify-center w-full px-4">
 
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 w-full max-w-2xl px-4">
             <div className="flex flex-col items-center p-4 sm:p-5 bg-purple-500/30 backdrop-blur-md border border-purple-400/40 rounded-2xl shadow-lg transition-all duration-300 hover:bg-purple-500/40">
               <span className="text-3xl font-bold text-white mb-1">{stateCount?.exams}</span>
               <span className="text-sm text-gray-200 font-medium">Active Exams</span>
             </div>
-            <div className="flex flex-col items-center p-4 sm:p-5 bg-blue-500/30 backdrop-blur-md border border-blue-400/40 rounded-2xl shadow-lg transition-all duration-300 hover:bg-blue-500/40">
+            {/* <div className="flex flex-col items-center p-4 sm:p-5 bg-blue-500/30 backdrop-blur-md border border-blue-400/40 rounded-2xl shadow-lg transition-all duration-300 hover:bg-blue-500/40">
               <span className="text-3xl font-bold text-white mb-1">10K+</span>
               <span className="text-sm text-gray-200 font-medium">Vacancies</span>
             </div>
             <div className="flex flex-col items-center p-4 sm:p-5 bg-indigo-500/30 backdrop-blur-md border border-indigo-400/40 rounded-2xl shadow-lg transition-all duration-300 hover:bg-indigo-500/40">
               <span className="text-3xl font-bold text-white mb-1">50+</span>
               <span className="text-sm text-gray-200 font-medium">Sectors</span>
-            </div>
+            </div> */}
           </div>
 
           <div className="mt-10 flex flex-col items-center w-full">

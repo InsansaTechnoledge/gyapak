@@ -103,7 +103,7 @@ const StatesLanding = () => {
                         State government authorities
                     </h1>
                     <p className="text-xs sm:text-sm">
-                        Explore upcoming government exams 2025
+                        {`Explore upcoming government exams ${new Date().getFullYear()}`}
                     </p>
                 </div>
                 <div className='flex space-x-2 mt-10 lg:mt-0 flex-wrap'>

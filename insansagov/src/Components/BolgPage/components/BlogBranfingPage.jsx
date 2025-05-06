@@ -14,7 +14,7 @@ const GyapakBlogBanner = () => {
       <Helmet>
         <title>Gyapak Blog - Expert Resources for Government Exams & Tech</title>
         <meta name="description" content="Access premium study materials, expert tips, and the latest trends for government exams and technology. Boost your preparation with Gyapak's trusted resources." />
-        <meta name="keywords" content="government exams, UPSC, SSC, tech trends, study materials, exam preparation, Gyapak, current affairs" />
+        <meta name="keywords" content="government competitive exams after 12th,government organisations, exam sarkari results, government calendar,current affairs,top exams for government jobs in india,Upcoming Government Exams" />
         <meta property="og:title" content="Gyapak Blog - Your Ultimate Resource for Exam Success" />
         <meta property="og:description" content="Premium study materials and expert guidance for government exams and technology trends." />
         <meta property="og:type" content="website" />
@@ -27,7 +27,7 @@ const GyapakBlogBanner = () => {
         <link rel="canonical" href="https://gyapak.com/blog" />
       </Helmet>
 
-      <section 
+      <section
         ref={bannerRef}
         className="relative overflow-hidden bg-gradient-to-br from-purple-800 via-indigo-900 to-purple-950 text-white rounded-2xl shadow-2xl p-6 md:p-10 my-8"
       >
@@ -38,9 +38,9 @@ const GyapakBlogBanner = () => {
               <span className="animate-pulse mr-2 w-2 h-2 bg-purple-300 rounded-full"></span>
               The Ultimate Learning Resource
             </div>
-            
-            <h1 
-              ref={titleRef} 
+
+            <h1
+              ref={titleRef}
               className="text-3xl md:text-5xl font-extrabold leading-tight mb-4 tracking-tight"
             >
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200">
@@ -48,15 +48,15 @@ const GyapakBlogBanner = () => {
               </span>
             </h1>
 
-            <h4 
+            <h4
               className="text-xl md:text-2xl font-extrabold leading-tight mb-6 tracking-tight"
             >
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200">
                 ~ the blogs
               </span>
             </h4>
-             
-            <div 
+
+            <div
               ref={featuresRef}
               className="mb-6"
             >
@@ -79,30 +79,30 @@ const GyapakBlogBanner = () => {
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
               </span>
             </Link>
-            
+
             <div className="mt-6 flex items-center justify-center md:justify-start space-x-1 text-purple-200 text-sm">
-             
+
               <span>Join <span className="font-bold text-white">thousands</span> of students already achieving exam success</span>
             </div>
           </div>
-          
+
           {/* Right Side - Current Affairs Promotion */}
           <div className="md:w-1/2 text-center md:text-left md:border-l md:pl-8 border-purple-300 border-opacity-30">
             <div className="inline-flex items-center px-4 py-1 rounded-full bg-teal-100 bg-opacity-20 backdrop-blur-sm text-teal-100 text-sm font-medium mb-6 border border-teal-300 border-opacity-30">
               <span className="pulse-animation mr-2 w-2 h-2 bg-teal-300 rounded-full"></span>
               Just Launched
             </div>
-            
+
             <h2 className="text-3xl md:text-5xl font-extrabold leading-tight mb-4 tracking-tight">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-200 to-white">
                 Current Affairs
               </span>
             </h2>
-            
+
             <h4 className="text-xl md:text-2xl font-bold mb-6 text-teal-100">
               Day-to-day Updates for Exam Success
             </h4>
-            
+
             <div className="grid gap-4 mb-6">
               <div className="bg-white bg-opacity-10 backdrop-blur-sm p-4 rounded-xl border border-teal-300 border-opacity-20 flex items-start">
                 <Newspaper className="h-6 w-6 text-teal-200 mr-3 mt-1 flex-shrink-0" />
@@ -111,7 +111,7 @@ const GyapakBlogBanner = () => {
                   <p className="text-teal-100 text-sm">Curated news summaries relevant for all government exams</p>
                 </div>
               </div>
-              
+
               <div className="bg-white bg-opacity-10 backdrop-blur-sm p-4 rounded-xl border border-teal-300 border-opacity-20 flex items-start">
                 <Calendar className="h-6 w-6 text-teal-200 mr-3 mt-1 flex-shrink-0" />
                 <div>
@@ -119,7 +119,7 @@ const GyapakBlogBanner = () => {
                   <p className="text-teal-100 text-sm">Fresh content to keep you consistently informed</p>
                 </div>
               </div>
-              
+
               <div className="bg-white bg-opacity-10 backdrop-blur-sm p-4 rounded-xl border border-teal-300 border-opacity-20 flex items-start">
                 <Globe className="h-6 w-6 text-teal-200 mr-3 mt-1 flex-shrink-0" />
                 <div>
@@ -128,7 +128,7 @@ const GyapakBlogBanner = () => {
                 </div>
               </div>
             </div>
-            
+
             <Link
               to="/current-affair"
               className="relative inline-flex items-center px-6 py-3 rounded-full bg-gradient-to-r from-teal-500 to-emerald-600 text-white font-bold text-lg shadow-lg hover:from-teal-600 hover:to-emerald-700 transition duration-300 group overflow-hidden"
@@ -142,7 +142,7 @@ const GyapakBlogBanner = () => {
             </Link>
           </div>
         </div>
-        
+
         {/* Adding some decorative elements */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
           <div className="absolute -top-12 -left-12 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-10"></div>

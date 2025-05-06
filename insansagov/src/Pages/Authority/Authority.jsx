@@ -30,7 +30,7 @@ const Authority = () => {
     // Parse the query parameters
     const queryParams = new URLSearchParams(location.search);
     // const name = queryParams.get("name"); // Access the 'name' parameter
-    const {name} = useParams();
+    const { name } = useParams();
     const fetchOrganization = async () => {
         try {
             const response = await axios.get(`${apiBaseUrl}/api/organization/${name}`);
@@ -125,14 +125,14 @@ const Authority = () => {
     }
 
     const toggleCalendarDisplay = () => {
-        if(calendarDisplay){
-            document.getElementById('view-calendar').innerHTML='View annual calendar'
+        if (calendarDisplay) {
+            document.getElementById('view-calendar').innerHTML = 'View annual calendar'
         }
-        else{
-            document.getElementById('view-calendar').innerHTML='Hide annual calendar'
+        else {
+            document.getElementById('view-calendar').innerHTML = 'Hide annual calendar'
         }
         setCalendarDidsplay(!calendarDisplay);
-        
+
     }
 
     return (
@@ -140,7 +140,7 @@ const Authority = () => {
             <Helmet>
                 <title>gyapak</title>
                 <meta name="description" content="gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
-                <meta name="keywords" content="government exams, exam dates, admit cards, results, central government jobs, state government jobs, competitive exams, government jobs" />
+                <meta name="keywords" content="government competitive exams after 12th,government organisations, exam sarkari results, government calendar,current affairs,top exams for government jobs in india,Upcoming Government Exams" />
                 <meta property="og:title" content="gyapak" />
                 <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
             </Helmet>
@@ -150,35 +150,35 @@ const Authority = () => {
                     <h1 className='text-3xl self-center font-bold mb-5'>{organization.name}</h1>
                     <div className='self-center text-center'>{organization.description}</div>
                 </div>
-                
+
                 {
                     organization.calendar
-                    ?
-                    <div className='flex justify-end mb-10'>
-                        <button
-                        id='view-calendar' 
-                        onClick={toggleCalendarDisplay}
-                        className='py-3 px-4 rounded-md bg-purple-700 text-white font-medium'>
-                            View annual calendar
-                        </button>
+                        ?
+                        <div className='flex justify-end mb-10'>
+                            <button
+                                id='view-calendar'
+                                onClick={toggleCalendarDisplay}
+                                className='py-3 px-4 rounded-md bg-purple-700 text-white font-medium'>
+                                View annual calendar
+                            </button>
 
-                    </div>
-                    :
-                    null
+                        </div>
+                        :
+                        null
                 }
                 {
                     calendarDisplay
-                    ?
-                    <ExamCalendar organizationId={organization._id}/>
-                    :
-                    null
+                        ?
+                        <ExamCalendar organizationId={organization._id} />
+                        :
+                        null
                 }
 
                 {
                     filteredEvents.length > 0
                         ?
                         <>
-                            <AuthorityLatestUpdates latestUpdates={latestUpdates} name={organization.abbreviation} organization={organization.name}/>
+                            <AuthorityLatestUpdates latestUpdates={latestUpdates} name={organization.abbreviation} organization={organization.name} />
                             <div className='font-bold text-2xl flex items-center mb-5'>Events under {organization.name}</div>
                             <div className='grid grid-cols-1 md:grid-cols-3 gap-7 mb-10'>
                                 {filteredEvents && filteredEvents.map((item, index) => (
@@ -202,13 +202,13 @@ const Authority = () => {
                             <img src={no_data_image} className='w-5/12 mx-auto' />
                         </>
                 }
-                
+
                 {
-                organization._id && (
-                    <div className="px-4 md:px-16 lg:px-64 py-16">
-                    <FAQ orgId={organization._id} title={`frequently asked questions for ${organization.abbreviation}`} />
-                    </div>
-                )
+                    organization._id && (
+                        <div className="px-4 md:px-16 lg:px-64 py-16">
+                            <FAQ orgId={organization._id} title={`frequently asked questions for ${organization.abbreviation}`} />
+                        </div>
+                    )
                 }
 
                 {
