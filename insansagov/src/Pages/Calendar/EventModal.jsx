@@ -17,11 +17,6 @@ export default function EventModal({ selectedDate, onClose, events, currentOrgan
 
   const hasEvents = filteredEvents.length > 0;
 
-  // For debugging — optional
-  console.log('🗓 selectedDate:', selectedDate);
-  console.log('🔑 selectedDateKey:', selectedDateKey);
-  console.log('📅 filteredEvents:', filteredEvents);
-
   // Format date with responsive considerations
   const formatDate = (date) => {
     const dateObj = new Date(date?.start || date);
