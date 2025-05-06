@@ -65,7 +65,7 @@ export default function FullScreenLanding() {
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 text-center leading-tight">
             Upcoming
             <span className="text-purple-300"> Government Exams</span>
-            <span className="block mt-2 text-white">{`${new Date().getFullYear()} Latest Info`}</span>
+            <span className="block mt-2 text-white">{`${new Date().getFullYear()} Latest Information`}</span>
           </h1>
 
           <p className="text-gray-200 text-center mb-8 max-w-xl text-lg sm:text-xl">

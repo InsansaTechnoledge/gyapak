@@ -5,8 +5,8 @@ import { debounce, update } from 'lodash';
 import axios from 'axios';
 import { useApi, CheckServer } from '../../Context/ApiContext';
 import { useQuery } from '@tanstack/react-query';
-import logo from '/logo.png'
-import logo2 from '/logo2.png'
+import logo3 from '/logo3.png'
+import logo4 from '/logo4.png'
 
 const stateImages = {
         "Gujarat": "/states/Gujarat.png",
@@ -333,13 +333,13 @@ const Navbar = () => {
             <div className={`rounded-xl flex items-center justify-center `}>
               {isScrolled ?
               <img 
-                src={logo} 
+                src={logo3} 
                 alt="Gyapak Logo" 
                 className="h-12 w-auto object-contain p-2"
               />
               : 
               <img 
-                src={logo2} 
+                src={logo4} 
                 alt="Gyapak Logo" 
                 className="h-12 w-auto object-contain p-2"
               />
@@ -357,7 +357,7 @@ const Navbar = () => {
                   <div className="flex items-center">
                     <div className=" rounded-xl flex items-center justify-center">
                     <img 
-                      src={logo} 
+                      src={logo3} 
                       alt="Gyapak Logo" 
                       className="h-28 w-28 object-contain p-2"
                     />                        
@@ -370,7 +370,7 @@ const Navbar = () => {
           }
 
           {/* Desktop Navigation */}
-          
+
           {!isHomePage && (
             <button
               onClick={() => navigate('/government-jobs-after-12th')}
@@ -603,7 +603,7 @@ const Navbar = () => {
           {isOpen && (
           <div className="flex justify-center py-4">
             <img
-              src={logo} // or logo2 if needed
+              src={logo3} // or logo2 if needed
               alt="Gyapak Logo"
               className="h-12 w-auto"
             />

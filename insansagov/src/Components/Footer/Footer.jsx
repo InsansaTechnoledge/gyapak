@@ -7,7 +7,7 @@ import { useApi, CheckServer } from '../../Context/ApiContext';
 import axios from 'axios';
 import { RingLoader } from 'react-spinners';
 import ErrorAlert from '../Error/ErrorAlert';
-import logo from '/logo2.png'
+import logo4 from '/logo4.png'
 
 const Footer = () => {
 
@@ -95,7 +95,7 @@ const Footer = () => {
             <div className="transform hover:scale-105 transition-transform duration-300">
               <div className="h-12 w-24 border-2 border-white/30 rounded-2xl flex items-center justify-center shadow-lg hover:shadow-purple-500/20">
               <img 
-                src={logo} 
+                src={logo4} 
                 alt="Gyapak Logo" 
                 className="object-contain p-2"
               />              
