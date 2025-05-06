@@ -7,7 +7,7 @@ import  slugGenerator from '../../../Utils/SlugGenerator';
 const GovCalendar = () => {
   const { apiBaseUrl } = useApi();
   const [searchQuery, setSearchQuery] = useState('');
-  const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
+  const [viewMode, setViewMode] = useState('list'); // Default to 'list' for all devices
   const [currentPage, setCurrentPage] = useState(1);
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== 'undefined' ? window.innerWidth : 1200
@@ -33,13 +33,19 @@ const GovCalendar = () => {
       const newWidth = window.innerWidth;
       setWindowWidth(newWidth);
       setItemsPerPage(getEventsPerPage(newWidth));
+      
+      // Set viewMode based on screen size
+      if (newWidth < 640) { // Mobile
+        setViewMode('list'); // Always list view on mobile
+      }
+      
       // Reset to first page when screen size changes to prevent empty pages
       setCurrentPage(1);
     };
     
     if (typeof window !== 'undefined') {
       window.addEventListener('resize', handleResize);
-      // Initial call to set correct width
+      // Initial call to set correct width and viewMode
       handleResize();
     }
     
@@ -134,26 +140,29 @@ const GovCalendar = () => {
             </div>
           </div>
           
-          <div className="flex items-center space-x-4">
-            <div className="flex border border-gray-300 rounded-lg">
-              <button
-                onClick={() => setViewMode('grid')}
-                className={`p-2 ${viewMode === 'grid' ? 'bg-purple-100 text-purple-600' : 'text-gray-500'}`}
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                </svg>
-              </button>
-              <button
-                onClick={() => setViewMode('list')}
-                className={`p-2 ${viewMode === 'list' ? 'bg-purple-100 text-purple-600' : 'text-gray-500'}`}
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-                </svg>
-              </button>
+          {/* Only show grid/list toggle on tablet and larger screens */}
+          {windowWidth >= 640 && (
+            <div className="flex items-center space-x-4">
+              <div className="flex border border-gray-300 rounded-lg">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={`p-2 ${viewMode === 'grid' ? 'bg-purple-100 text-purple-600' : 'text-gray-500'}`}
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                  </svg>
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`p-2 ${viewMode === 'list' ? 'bg-purple-100 text-purple-600' : 'text-gray-500'}`}
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                  </svg>
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
         
         
@@ -177,7 +186,7 @@ const GovCalendar = () => {
             </div>
           ) : filteredEvents.length > 0 ? (
             <>
-              {viewMode === 'grid' ? (
+              {windowWidth >= 640 && viewMode === 'grid' ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
                   {currentEvents.map(event => (
                     <a 

@@ -5,8 +5,8 @@ import { debounce, update } from 'lodash';
 import axios from 'axios';
 import { useApi, CheckServer } from '../../Context/ApiContext';
 import { useQuery } from '@tanstack/react-query';
-import logo from '/logo.png'
-import logo2 from '/logo2.png'
+import logo3 from '/logo3.png'
+import logo4 from '/logo4.png'
 
 const stateImages = {
         "Gujarat": "/states/Gujarat.png",
@@ -333,13 +333,13 @@ const Navbar = () => {
             <div className={`rounded-xl flex items-center justify-center `}>
               {isScrolled ?
               <img 
-                src={logo} 
+                src={logo3} 
                 alt="Gyapak Logo" 
                 className="h-12 w-auto object-contain p-2"
               />
               : 
               <img 
-                src={logo2} 
+                src={logo4} 
                 alt="Gyapak Logo" 
                 className="h-12 w-auto object-contain p-2"
               />
@@ -357,7 +357,7 @@ const Navbar = () => {
                   <div className="flex items-center">
                     <div className=" rounded-xl flex items-center justify-center">
                     <img 
-                      src={logo} 
+                      src={logo3} 
                       alt="Gyapak Logo" 
                       className="h-28 w-28 object-contain p-2"
                     />                        
@@ -370,8 +370,22 @@ const Navbar = () => {
           }
 
           {/* Desktop Navigation */}
+
+          {!isHomePage && (
+            <button
+              onClick={() => navigate('/government-jobs-after-12th')}
+              className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg bg-white text-purple-700 hover:bg-purple-50 transition-all duration-300 font-medium"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-home">
+                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+              Home
+            </button>
+          )}
+
           <div className="hidden lg:flex items-center gap-6">
-            <a
+            <a  
               href="/blog"
               className={`px-4 py-2 rounded-lg transition-all duration-300 ${isScrolled
                   ? 'text-gray-700 hover:bg-purple-50'
@@ -586,6 +600,15 @@ const Navbar = () => {
       {/* Mobile menu */}
       <div
         className={`lg:hidden transition-all duration-500 ease-in-out ${isOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'} overflow-hidden bg-white/95 backdrop-blur-sm`}>
+          {isOpen && (
+          <div className="flex justify-center py-4">
+            <img
+              src={logo3} // or logo2 if needed
+              alt="Gyapak Logo"
+              className="h-12 w-auto"
+            />
+          </div>
+        )}
         <div className="px-6 pt-4 pb-6 space-y-2 custom-scrollbar max-h-[80vh] overflow-y-auto">
           {/* Search Bar for Mobile */}
           <div className="mb-4 relative">
@@ -653,6 +676,22 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Menu Items */}
+          {
+            !isHomePage && (
+              <button
+                  onClick={() => {
+                    setIsOpen(false);
+                    navigate('/government-jobs-after-12th')
+                  }}
+                  
+                  className="block w-full text-center text-left px-4 py-3 rounded-lg text-white bg-purple-800 transition-all duration-300"
+                  >
+                    Home
+              </button>
+            )
+          
+          }
+
           <a
             onClick={() => setIsOpen(false)}
             href="/blog"
@@ -758,6 +797,7 @@ const Navbar = () => {
             )}
           </div>
 
+          
           {/* About and Contact Mobile Links */}
           {
              isHomePage && (

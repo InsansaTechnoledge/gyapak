@@ -65,7 +65,7 @@ export default function FullScreenLanding() {
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 text-center leading-tight">
             Upcoming
             <span className="text-purple-300"> Government Exams</span>
-            <span className="block mt-2 text-white">{`${new Date().getFullYear()} Latest Info`}</span>
+            <span className="block mt-2 text-white">{`${new Date().getFullYear()} Latest Information`}</span>
           </h1>
 
           <p className="text-gray-200 text-center mb-8 max-w-xl text-lg sm:text-xl">
@@ -92,17 +92,28 @@ export default function FullScreenLanding() {
           <div className="mt-10 flex flex-col items-center w-full">
             <div className="flex flex-wrap items-center justify-center gap-3">
               <div className="flex items-center bg-white/15 backdrop-blur-md rounded-full px-4 py-2 border border-white/10 shadow-lg">
-                <svg className="w-5 h-5 text-green-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-6 h-6 text-green-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
                 <span className="text-sm text-white font-medium">Verified Info</span>
               </div>
               <div className="flex items-center bg-white/15 backdrop-blur-md rounded-full px-4 py-2 border border-white/10 shadow-lg">
-                <svg className="w-5 h-5 text-green-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" />
-                </svg>
-                <span className="text-sm text-white font-medium">Updated Daily</span>
+              <div className="relative mr-2">
+                {/* Outer Dark Green Circle */}
+                <div className="w-6 h-6 rounded-full bg-green-700 flex items-center justify-center">
+                  {/* Inner Light Green Circle */}
+                  <div className="w-4 h-4 rounded-full bg-green-400 flex items-center justify-center">
+                    {/* Checkmark Icon */}
+                    {/* <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg> */}
+                  </div>
+                </div>
               </div>
+
+              <span className="text-sm text-white font-medium">Updated Daily</span>
+            </div>
+
             </div>
           </div>
         </div>
