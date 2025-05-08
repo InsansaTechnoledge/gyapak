@@ -61,15 +61,16 @@ export const SERVER_URLS = [
       Check();
     }, []);
 
-    useEffect(() => {
-      if (!apiBaseUrl) {
-        setError("🚨 No API servers are available!");
-      }
-      else{
-        setError(null);
-      }
+    // useEffect(() => {
+    //   if (!apiBaseUrl) {
+    //     console.log("HH");
+    //     setError("🚨 No API servers are available!");
+    //   }
+    //   else{
+    //     setError(null);
+    //   }
 
-    }, [apiBaseUrl]);
+    // }, [apiBaseUrl]);
   
     if (loading) {
       return (

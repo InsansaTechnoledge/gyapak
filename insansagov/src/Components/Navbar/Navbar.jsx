@@ -684,7 +684,7 @@ const Navbar = () => {
                     navigate('/government-jobs-after-12th')
                   }}
                   
-                  className="block w-full text-center text-left px-4 py-3 rounded-lg text-white bg-purple-800 transition-all duration-300"
+                  className="block w-full text-center px-4 py-3 rounded-lg text-white bg-purple-800 transition-all duration-300"
                   >
                     Home
               </button>
