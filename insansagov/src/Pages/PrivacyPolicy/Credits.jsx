@@ -238,6 +238,27 @@ const Credits = () => {
         "Madhya Pradesh Heritage": "https://www.mptourandtravels.com/images/monuments/sanchi.jpg",
         "Uttarakhand Heritage": "https://static.toiimg.com/photo/msid-113713503,width-96,height-65.cms",
         "Andhra Pradesh Heritage": "https://www.trawell.in/admin/images/upload/565594159Kurnool_Main.jpg",
+        "IIT Madras": "https://doe.iitm.ac.in/wp-content/uploads/2021/06/245-2451831_iit-madras-logo.png",
+        "BIS": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Bureau_of_Indian_Standards_Logo.svg/2560px-Bureau_of_Indian_Standards_Logo.svg.png",
+        "BCAS": "https://bcasindia.gov.in/bcas/public/slides/1737529595_1736330413_1735826173_bcas_final.jpg",
+        "IIM": "Tiruchirappalli: https://www.uxdt.nic.in/wp-content/uploads/2024/06/iit-tiruchirappalli-feature-01.jpg?x90705",
+        "MoPSW": "https://shipmin.gov.in/sites/default/files/national-embelum.png",
+        "DoT": "https://shipmin.gov.in/sites/default/files/national-embelum.png",
+        "IIM Ahmedabad": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cd/IIM%2C_Ahmedabad_Logo.svg/1200px-IIM%2C_Ahmedabad_Logo.svg.png",
+        "PRL": "https://www.prl.res.in/prl-eng/sites/default/files/images/prl_logo/prl-logo-with-text-1000x1005.png",
+        "NWDA": "https://www.insightsonindia.com/wp-content/uploads/2017/06/National-water-Development-Agency-NWDA.jpg",
+        "DPA": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7mRUA7IZe5VKOJNUOCMcGttIiB0dQwdRBiw&s",
+        "NIA": "https://nia.gov.in/writereaddata/images/logo1.png",
+        "DFPD": "https://shipmin.gov.in/sites/default/files/national-embelum.png",
+        "CWC": "https://upload.wikimedia.org/wikipedia/commons/6/61/Cwclogo.jpg",
+        "NSIC": "https://nsic.co.in/images/newNS.png",
+        "IIT Bombay": "https://upload.wikimedia.org/wikipedia/en/thumb/1/1d/Indian_Institute_of_Technology_Bombay_Logo.svg/1200px-Indian_Institute_of_Technology_Bombay_Logo.svg.png",
+        "IIT Kanpur": "https://upload.wikimedia.org/wikipedia/en/thumb/a/a3/IIT_Kanpur_Logo.svg/1200px-IIT_Kanpur_Logo.svg.png",
+        "CCRAS": "https://pbs.twimg.com/profile_images/1570355495051067392/GT2F96ng_400x400.jpg",
+        "IGTR": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRBwI3mxBhnQ5Im_K-Pl81Knnx-2azqDWfGQ&s",
+        "NALCO": "https://nalcoindia.com/wp-content/uploads/2018/11/image-not-available.jpg",
+        "Northern Coalfields Limited": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDjCJbrABOqkAMXP8_vsDLThift5FvJRGKbg&s",
+
     }
 
     const filteredData = Object.entries(creditData).filter(([key]) =>
