@@ -258,6 +258,14 @@ const Credits = () => {
         "IGTR": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRBwI3mxBhnQ5Im_K-Pl81Knnx-2azqDWfGQ&s",
         "NALCO": "https://nalcoindia.com/wp-content/uploads/2018/11/image-not-available.jpg",
         "Northern Coalfields Limited": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDjCJbrABOqkAMXP8_vsDLThift5FvJRGKbg&s",
+        "BRLPS": "https://shop.brlps.in/web/image/website/1/social_default_image?unique=4b985c4",
+        "CBI": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRL4eQAv8YVZQJnFAtnxqs-zoMtsJryohcScg&s",
+        "UBI": "https://companieslogo.com/img/orig/UNIONBANK.NS-5bba728d.png?t=1720244494",
+        "PHC": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Logo_of_the_High_Court_of_Patna.png/250px-Logo_of_the_High_Court_of_Patna.png",
+        "APHC": "https://play-lh.googleusercontent.com/-Zs2urVhRuTU0IgtMQkaeDbwRexcA5JS_YgpryjXanaoPLPnjWfM3HD9ltv5EEy0fA",
+        "AIIMS Mangalagiri": "https://upload.wikimedia.org/wikipedia/en/a/aa/All_India_Institute_of_Medical_Sciences%2C_Mangalagiri_Logo.png",
+
+
 
     }
 
