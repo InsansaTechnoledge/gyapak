@@ -264,6 +264,20 @@ const Credits = () => {
         "PHC": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Logo_of_the_High_Court_of_Patna.png/250px-Logo_of_the_High_Court_of_Patna.png",
         "APHC": "https://play-lh.googleusercontent.com/-Zs2urVhRuTU0IgtMQkaeDbwRexcA5JS_YgpryjXanaoPLPnjWfM3HD9ltv5EEy0fA",
         "AIIMS Mangalagiri": "https://upload.wikimedia.org/wikipedia/en/a/aa/All_India_Institute_of_Medical_Sciences%2C_Mangalagiri_Logo.png",
+        "NADP": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVfnyWQOqcWDiICE9qbdfNmvOOu5NDljHMGg&s",
+        "ICAR": "https://upload.wikimedia.org/wikipedia/en/5/55/Logo_of_Indian_Council_of_Agricultural_Research.png",
+        "IIM Udaipur": "https://upload.wikimedia.org/wikipedia/en/e/ec/Indian_Institute_of_Management_Udaipur_Logo.png",
+        "ECHS": "https://mahavirhospitalraj.com/wp-content/uploads/2023/03/1600x960_225052-echs-polyclinic-dimapur.jpg",
+        "IIT Mandi": "https://www.iitmandi.ac.in/images/logo_hires.jpg",
+        "NIT Hamirpur": "https://upload.wikimedia.org/wikipedia/en/b/b8/National_Institute_of_Technology%2C_Hamirpur_Logo.png",
+        "ADA": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyjgdVV52kXCsYpQ4a-eYt7c6EacgEqnUjKQ&s",
+        "IIT Dharwad": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtHuvTklVZ62PWO6d3f32yVUIe_NWYSCr3TQ&s",
+        "UIDAI": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cf/Aadhaar_Logo.svg/1200px-Aadhaar_Logo.svg.png",
+        "CPRI": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9nqFVnTWfYAjZaczCw9I6OZEfzoiR0aW_Xg&s",
+        "NIT Calicut": "https://upload.wikimedia.org/wikipedia/en/a/ae/Correct_Logo_of_NIT_Calicut.svg",
+        "PB": "https://upload.wikimedia.org/wikipedia/commons/e/eb/Prasar_Bharati_logo.png",
+        "CMD Kerala": "https://media.licdn.com/dms/image/v2/D560BAQFtyYgBnlIGKg/company-logo_200_200/company-logo_200_200/0/1711020674027/cmdkerala_logo?e=2147483647&v=beta&t=VunHzFA2Sy4j_UFlRyir0RboIEjkZdtTbdMy5IA71J0",
+        "NAM Kerala": "https://www.ism.kerala.gov.in/eng/images/gallery/About/NAM.jpeg"
 
 
 
