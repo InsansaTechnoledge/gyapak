@@ -283,6 +283,15 @@ const Credits = () => {
         "CDAC": "https://www.presentations.gov.in/wp-content/uploads/2020/06/Preview-22.png",
         "HOCL": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-lo0OX2pRaMGtMtIlMz3gwO0fOfTigcE11A&s",
         "FDDI": "https://education.indianexpress.com/storage/images/footwear-design-and-development-institute-fddi-noidalogo_1724221925.png",
+        "NAM Kerala": "https://www.ism.kerala.gov.in/eng/images/gallery/About/NAM.jpeg",
+        "ICSI": "https://upload.wikimedia.org/wikipedia/commons/3/32/ICSI_Logo.PNG",
+        "TMC": "https://upload.wikimedia.org/wikipedia/commons/0/0a/Tata_Memorial_Center_logo.jpg",
+        "ECIL": "https://media.licdn.com/dms/image/v2/C560BAQGq-I3gfKxgOA/company-logo_200_200/company-logo_200_200/0/1630652613712?e=2147483647&v=beta&t=nN4w33PHZ9P8L1483U6TiTK1Z7KEYZO12VE9GxWy9uI",
+        "AIIMS Nagpur": "https://upload.wikimedia.org/wikipedia/en/8/80/All_India_Institute_of_Medical_Sciences%2C_Nagpur_logo.png",
+        "MIL": "https://upload.wikimedia.org/wikipedia/en/e/ec/Munitions_India_Limited%27s_logo.jpg",
+        "NHAI": "https://upload.wikimedia.org/wikipedia/en/thumb/4/4e/National_Highways_Authority_of_India_logo.svg/1200px-National_Highways_Authority_of_India_logo.svg.png",
+
+
 
     }
 
