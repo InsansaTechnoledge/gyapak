@@ -277,7 +277,7 @@ const Credits = () => {
         "NIT Calicut": "https://upload.wikimedia.org/wikipedia/en/a/ae/Correct_Logo_of_NIT_Calicut.svg",
         "PB": "https://upload.wikimedia.org/wikipedia/commons/e/eb/Prasar_Bharati_logo.png",
         "CMD Kerala": "https://media.licdn.com/dms/image/v2/D560BAQFtyYgBnlIGKg/company-logo_200_200/company-logo_200_200/0/1711020674027/cmdkerala_logo?e=2147483647&v=beta&t=VunHzFA2Sy4j_UFlRyir0RboIEjkZdtTbdMy5IA71J0",
-        "NAM Kerala": "https://www.ism.kerala.gov.in/eng/images/gallery/About/NAM.jpeg", 
+        "NAM Kerala": "https://www.ism.kerala.gov.in/eng/images/gallery/About/NAM.jpeg",
         "THSTI": "https://thsti.res.in/public/upload/home/1734153527img.png",
         "CSEZ": "https://lh4.googleusercontent.com/proxy/2unLfw4gvDSmDjIsu8115sk4iwYJipZCy_JVV9uVc6GKazOJmxjcos4xxzsu6ZOiKhl0R0nZ4XnAtA",
         "CDAC": "https://www.presentations.gov.in/wp-content/uploads/2020/06/Preview-22.png",
@@ -290,6 +290,20 @@ const Credits = () => {
         "AIIMS Nagpur": "https://upload.wikimedia.org/wikipedia/en/8/80/All_India_Institute_of_Medical_Sciences%2C_Nagpur_logo.png",
         "MIL": "https://upload.wikimedia.org/wikipedia/en/e/ec/Munitions_India_Limited%27s_logo.jpg",
         "NHAI": "https://upload.wikimedia.org/wikipedia/en/thumb/4/4e/National_Highways_Authority_of_India_logo.svg/1200px-National_Highways_Authority_of_India_logo.svg.png",
+        "IDTR Jamshedpur": "https://dyncdn.exampathfinder.net/epf_n_attachments/organisation/ltB6Y34Y/logo.png",
+        "BEE": "https://cdn.brandfetch.io/beeindia.gov.in/fallback/lettermark/theme/dark/h/256/w/256/icon?c=1bfwsmEH20zzEfSNTed",
+        "CTTC Bhubaneswar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJe7OlMmZEY10rep1J2uZkHoCaRHn59TjKqw&s",
+        "NIT Kurukshetra": "https://upload.wikimedia.org/wikipedia/en/7/75/National_Institute_of_Technology%2C_Kurukshetra_Logo.png",
+        "CFSL": "https://www.presentations.gov.in/wp-content/uploads/2020/06/Preview-10.png",
+        "NTPC": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6XIlAh5QGUnLoshbaZEpa3YhhVsEwk_5bsg&s",
+        "AIIMS Bhopal": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnZBNzh-hJh7t6zuhwY4xoOAgPZ2DZ-wk35A&s",
+        "Coir Board": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1vWKszOjJGNjGLYHSSMpT-dVFp5XhRLYaUA&s",
+        "BPRD": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQci1Q_vJbPtRAFT5nofg8AOSJZDFtIBboQcw&s",
+        "MEA": "https://upload.wikimedia.org/wikipedia/commons/0/09/Ministry_of_External_Affairs_India.svg",
+        "GRSE": "https://upload.wikimedia.org/wikipedia/en/thumb/8/8c/Garden_Reach_Shipbuilders_%26_Engineers.svg/1200px-Garden_Reach_Shipbuilders_%26_Engineers.svg.png",
+        "NCLT": "https://efiling.nclt.gov.in/layouts/beforeLogin/js/nclt-logo.png",
+        "NIACL": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/New_India_Assurance.svg/1200px-New_India_Assurance.svg.png",
+
 
 
 

@@ -1,13 +1,17 @@
 
 
 import React, { useState } from 'react';
-import { Mail, ArrowRight, AlertTriangle, Twitter, Linkedin , Instagram} from 'lucide-react';
+import { Mail, ArrowRight, AlertTriangle, Twitter, Linkedin, Instagram, MessageCircle, Send } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useApi, CheckServer } from '../../Context/ApiContext';
 import axios from 'axios';
 import { RingLoader } from 'react-spinners';
 import ErrorAlert from '../Error/ErrorAlert';
 import logo4 from '/logo4.png'
+import whatsappIcon from '../../assets/Footer/whatsapp.svg';
+import metaIcon from '../../assets/Footer/meta.svg';
+import whatsappIconSelected from '../../assets/Footer/whatsapp-selected.svg';
+import metaIconSelected from '../../assets/Footer/meta-selected.svg';
 
 const Footer = () => {
 
@@ -94,11 +98,11 @@ const Footer = () => {
           <div className="space-y-6">
             <div className="transform hover:scale-105 transition-transform duration-300">
               <div className="h-12 w-24 border-2 border-white/30 rounded-2xl flex items-center justify-center shadow-lg hover:shadow-purple-500/20">
-              <img 
-                src={logo4} 
-                alt="Gyapak Logo" 
-                className="object-contain p-2"
-              />              
+                <img
+                  src={logo4}
+                  alt="Gyapak Logo"
+                  className="object-contain p-2"
+                />
               </div>
             </div>
             <div className="space-y-3">
@@ -120,7 +124,7 @@ const Footer = () => {
             </div>
             <div className="flex space-x-4">
               <a
-                href="https://www.linkedin.com/company/insansa-technologies/"
+                href="https://www.linkedin.com/company/107316884/"
                 className="group"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -142,6 +146,74 @@ const Footer = () => {
                             group-hover:via-red-500 group-hover:to-yellow-500 shadow-md group-hover:shadow-lg"
                 >
                   <Instagram className="h-5 w-5 text-gray-400 transition-colors duration-300 group-hover:text-white" />
+                </div>
+              </a>
+              <a
+                href="https://whatsapp.com/channel/0029Vb5pMSm6buMNuc5uLH1C"
+                className="group"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="relative w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center transition-all duration-300 
+                  group-hover:scale-110 group-hover:bg-gradient-to-tr group-hover:from-green-500 
+                  group-hover:via-green-400 group-hover:to-green-300 shadow-md group-hover:shadow-lg">
+
+                  {/* Default Icon */}
+                  <img
+                    src={whatsappIcon}
+                    className="h-5 w-5 transition-opacity duration-100 group-hover:opacity-0"
+                    alt="WhatsApp Icon"
+                  />
+
+                  {/* Hover Icon */}
+                  <img
+                    src={whatsappIconSelected}
+                    className="h-5 w-5  absolute transition-opacity duration-100 opacity-0 group-hover:opacity-80"
+                    alt="WhatsApp Icon Hover"
+                  />
+                </div>
+              </a>
+
+              <a
+                href="https://www.facebook.com/profile.php?id=61576739133116"
+                className="group"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div
+                  className="relative w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center transition-all duration-300 
+               group-hover:scale-110 group-hover:bg-gradient-to-tr group-hover:from-blue-500 
+               group-hover:via-sky-400 group-hover:to-blue-300 shadow-sm group-hover:shadow-md"
+                >
+                  {/* Default Meta Icon */}
+                  <img
+                    src={metaIcon}
+                    className="h-5 w-5 transition-opacity duration-300 group-hover:opacity-0"
+                    alt="Meta Icon"
+                  />
+
+                  {/* Hover Meta Icon */}
+                  <img
+                    src={metaIconSelected}
+                    className="h-5 w-5 absolute opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    alt="Meta Icon Hover"
+                  />
+                </div>
+              </a>
+
+              <a
+                href="https://t.me/gyapakdaily"
+                className="group"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div
+                  className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center transition-all duration-300 
+           group-hover:scale-110 group-hover:bg-gradient-to-tr group-hover:from-sky-500 
+           group-hover:via-blue-400 group-hover:to-cyan-300 shadow-sm group-hover:shadow-md"
+
+                >
+                  <Send className="h-5 w-5 text-gray-400 transition-colors duration-300 group-hover:text-white" />
                 </div>
               </a>
 
