@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect, useRef } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { Loader2 } from 'lucide-react';
 import curvLine from '../../assets/Landing/curvLine.svg';
@@ -6,6 +6,7 @@ import { Helmet } from "react-helmet-async";
 import StatesLanding from '../../Components/States/StatesLanding';
 
 import GyapakLanding from '../../Components/NewLandingPage/NewLanding';
+import { useLocation } from 'react-router-dom';
 // Error Boundary Component
 class ErrorBoundary extends React.Component {
   state = { hasError: false, error: null };
@@ -57,7 +58,7 @@ const ResultsDashboard = React.lazy(() => import('../../Components/ResultCompone
 // const ImportantLinksDashboard = React.lazy(() => import('../../Components/ImportantLinks/ImportantLinks'))
 // const BlogBrandingPage = React.lazy(() => import('../../Components/BolgPage/components/BlogBranfingPage'))
 const FAQ = React.lazy(() => import('../../Components/FAQ/FAQ'))
-// const WhatsAppGroupJoin = React.lazy(() => import('../../Components/WhatsAppGroup/whatsGroupJoinButton'))
+const WhatsAppGroupJoin = React.lazy(() => import('../../Components/WhatsAppGroup/whatsGroupJoinButton'))
 // Enhanced LazyRender with loading states and error boundary
 
 
@@ -90,6 +91,16 @@ const LazyRender = ({ children, height = "h-64", priority = false, id }) => {
 const Landing = () => {
 
 
+  const location = useLocation();
+  const contactRef = useRef(null);
+
+  useEffect(() => {
+    if (location.hash === '#contact' && contactRef.current) {
+      contactRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [location]);
+
+
   return (
     <>
       <Helmet>
@@ -107,15 +118,15 @@ const Landing = () => {
 
         <GyapakLanding />
 
-       
+
 
         <div className="px-4 md:px-16 lg:px-64 space-y-16">
 
-        <LazyRender height="h-96" id={"landing-admit"}>
+          <LazyRender height="h-96" id={"landing-admit"}>
             {/* <AdmitCardDashboard /> */}
             <ResultsDashboard />
           </LazyRender>
-          
+
           {/* Latest updates and state components load next */}
           <LazyRender height="h-96">
             <LatestUpdates />
@@ -138,7 +149,7 @@ const Landing = () => {
             </LazyRender>
           </div>
 
-          
+
 
           {/* <LazyRender height="h-96">
             <BlogBrandingPage />
@@ -148,9 +159,9 @@ const Landing = () => {
             <ImportantLinksDashboard />
           </LazyRender> */}
 
-          {/* <LazyRender height="h-96" id={"landing-result"}>
+          <LazyRender height="h-96" id={"landing-result"}>
             <WhatsAppGroupJoin />
-          </LazyRender> */}
+          </LazyRender>
 
           <LazyRender height="h-96" id={"landing-result"}>
             <FAQ />
@@ -171,9 +182,9 @@ const Landing = () => {
         />
 
         <div id="about">
-          <LazyRender height="h-48">
+          {/* <LazyRender height="h-48"> */}
             <FeatureBand />
-          </LazyRender>
+          {/* </LazyRender> */}
         </div>
 
 
@@ -184,8 +195,8 @@ const Landing = () => {
           </LazyRender>
 
           {/* Contact section */}
-          <div id="contact">
-            <LazyRender height="h-80">
+          <div id="contact" ref={contactRef}>
+            <LazyRender>
               <Contact />
             </LazyRender>
           </div>

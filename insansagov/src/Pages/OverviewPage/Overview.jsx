@@ -332,7 +332,7 @@ const OverviewPage = () => {
     return (
         <>
             <Helmet>
-                <title>Overview | gyapak</title>
+                <title>Overview</title>
                 <meta name="description" content="Comprehensive overview of all government exam updates, documents, notifications and schedules." />
                 <meta name="keywords" content="government competitive exams after 12th,government organisations, exam sarkari results, government calendar,current affairs,top exams for government jobs in india,Upcoming Government Exams" />
                 <meta property="og:title" content="Overview | gyapak" />

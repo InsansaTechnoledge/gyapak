@@ -238,6 +238,75 @@ const Credits = () => {
         "Madhya Pradesh Heritage": "https://www.mptourandtravels.com/images/monuments/sanchi.jpg",
         "Uttarakhand Heritage": "https://static.toiimg.com/photo/msid-113713503,width-96,height-65.cms",
         "Andhra Pradesh Heritage": "https://www.trawell.in/admin/images/upload/565594159Kurnool_Main.jpg",
+        "IIT Madras": "https://doe.iitm.ac.in/wp-content/uploads/2021/06/245-2451831_iit-madras-logo.png",
+        "BIS": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Bureau_of_Indian_Standards_Logo.svg/2560px-Bureau_of_Indian_Standards_Logo.svg.png",
+        "BCAS": "https://bcasindia.gov.in/bcas/public/slides/1737529595_1736330413_1735826173_bcas_final.jpg",
+        "IIM": "Tiruchirappalli: https://www.uxdt.nic.in/wp-content/uploads/2024/06/iit-tiruchirappalli-feature-01.jpg?x90705",
+        "MoPSW": "https://shipmin.gov.in/sites/default/files/national-embelum.png",
+        "DoT": "https://shipmin.gov.in/sites/default/files/national-embelum.png",
+        "IIM Ahmedabad": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cd/IIM%2C_Ahmedabad_Logo.svg/1200px-IIM%2C_Ahmedabad_Logo.svg.png",
+        "PRL": "https://www.prl.res.in/prl-eng/sites/default/files/images/prl_logo/prl-logo-with-text-1000x1005.png",
+        "NWDA": "https://www.insightsonindia.com/wp-content/uploads/2017/06/National-water-Development-Agency-NWDA.jpg",
+        "DPA": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7mRUA7IZe5VKOJNUOCMcGttIiB0dQwdRBiw&s",
+        "NIA": "https://nia.gov.in/writereaddata/images/logo1.png",
+        "DFPD": "https://shipmin.gov.in/sites/default/files/national-embelum.png",
+        "CWC": "https://upload.wikimedia.org/wikipedia/commons/6/61/Cwclogo.jpg",
+        "NSIC": "https://nsic.co.in/images/newNS.png",
+        "IIT Bombay": "https://upload.wikimedia.org/wikipedia/en/thumb/1/1d/Indian_Institute_of_Technology_Bombay_Logo.svg/1200px-Indian_Institute_of_Technology_Bombay_Logo.svg.png",
+        "IIT Kanpur": "https://upload.wikimedia.org/wikipedia/en/thumb/a/a3/IIT_Kanpur_Logo.svg/1200px-IIT_Kanpur_Logo.svg.png",
+        "CCRAS": "https://pbs.twimg.com/profile_images/1570355495051067392/GT2F96ng_400x400.jpg",
+        "IGTR": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRBwI3mxBhnQ5Im_K-Pl81Knnx-2azqDWfGQ&s",
+        "NALCO": "https://nalcoindia.com/wp-content/uploads/2018/11/image-not-available.jpg",
+        "Northern Coalfields Limited": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDjCJbrABOqkAMXP8_vsDLThift5FvJRGKbg&s",
+        "BRLPS": "https://shop.brlps.in/web/image/website/1/social_default_image?unique=4b985c4",
+        "CBI": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRL4eQAv8YVZQJnFAtnxqs-zoMtsJryohcScg&s",
+        "UBI": "https://companieslogo.com/img/orig/UNIONBANK.NS-5bba728d.png?t=1720244494",
+        "PHC": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Logo_of_the_High_Court_of_Patna.png/250px-Logo_of_the_High_Court_of_Patna.png",
+        "APHC": "https://play-lh.googleusercontent.com/-Zs2urVhRuTU0IgtMQkaeDbwRexcA5JS_YgpryjXanaoPLPnjWfM3HD9ltv5EEy0fA",
+        "AIIMS Mangalagiri": "https://upload.wikimedia.org/wikipedia/en/a/aa/All_India_Institute_of_Medical_Sciences%2C_Mangalagiri_Logo.png",
+        "NADP": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVfnyWQOqcWDiICE9qbdfNmvOOu5NDljHMGg&s",
+        "ICAR": "https://upload.wikimedia.org/wikipedia/en/5/55/Logo_of_Indian_Council_of_Agricultural_Research.png",
+        "IIM Udaipur": "https://upload.wikimedia.org/wikipedia/en/e/ec/Indian_Institute_of_Management_Udaipur_Logo.png",
+        "ECHS": "https://mahavirhospitalraj.com/wp-content/uploads/2023/03/1600x960_225052-echs-polyclinic-dimapur.jpg",
+        "IIT Mandi": "https://www.iitmandi.ac.in/images/logo_hires.jpg",
+        "NIT Hamirpur": "https://upload.wikimedia.org/wikipedia/en/b/b8/National_Institute_of_Technology%2C_Hamirpur_Logo.png",
+        "ADA": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyjgdVV52kXCsYpQ4a-eYt7c6EacgEqnUjKQ&s",
+        "IIT Dharwad": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtHuvTklVZ62PWO6d3f32yVUIe_NWYSCr3TQ&s",
+        "UIDAI": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cf/Aadhaar_Logo.svg/1200px-Aadhaar_Logo.svg.png",
+        "CPRI": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9nqFVnTWfYAjZaczCw9I6OZEfzoiR0aW_Xg&s",
+        "NIT Calicut": "https://upload.wikimedia.org/wikipedia/en/a/ae/Correct_Logo_of_NIT_Calicut.svg",
+        "PB": "https://upload.wikimedia.org/wikipedia/commons/e/eb/Prasar_Bharati_logo.png",
+        "CMD Kerala": "https://media.licdn.com/dms/image/v2/D560BAQFtyYgBnlIGKg/company-logo_200_200/company-logo_200_200/0/1711020674027/cmdkerala_logo?e=2147483647&v=beta&t=VunHzFA2Sy4j_UFlRyir0RboIEjkZdtTbdMy5IA71J0",
+        "NAM Kerala": "https://www.ism.kerala.gov.in/eng/images/gallery/About/NAM.jpeg",
+        "THSTI": "https://thsti.res.in/public/upload/home/1734153527img.png",
+        "CSEZ": "https://lh4.googleusercontent.com/proxy/2unLfw4gvDSmDjIsu8115sk4iwYJipZCy_JVV9uVc6GKazOJmxjcos4xxzsu6ZOiKhl0R0nZ4XnAtA",
+        "CDAC": "https://www.presentations.gov.in/wp-content/uploads/2020/06/Preview-22.png",
+        "HOCL": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-lo0OX2pRaMGtMtIlMz3gwO0fOfTigcE11A&s",
+        "FDDI": "https://education.indianexpress.com/storage/images/footwear-design-and-development-institute-fddi-noidalogo_1724221925.png",
+        "NAM Kerala": "https://www.ism.kerala.gov.in/eng/images/gallery/About/NAM.jpeg",
+        "ICSI": "https://upload.wikimedia.org/wikipedia/commons/3/32/ICSI_Logo.PNG",
+        "TMC": "https://upload.wikimedia.org/wikipedia/commons/0/0a/Tata_Memorial_Center_logo.jpg",
+        "ECIL": "https://media.licdn.com/dms/image/v2/C560BAQGq-I3gfKxgOA/company-logo_200_200/company-logo_200_200/0/1630652613712?e=2147483647&v=beta&t=nN4w33PHZ9P8L1483U6TiTK1Z7KEYZO12VE9GxWy9uI",
+        "AIIMS Nagpur": "https://upload.wikimedia.org/wikipedia/en/8/80/All_India_Institute_of_Medical_Sciences%2C_Nagpur_logo.png",
+        "MIL": "https://upload.wikimedia.org/wikipedia/en/e/ec/Munitions_India_Limited%27s_logo.jpg",
+        "NHAI": "https://upload.wikimedia.org/wikipedia/en/thumb/4/4e/National_Highways_Authority_of_India_logo.svg/1200px-National_Highways_Authority_of_India_logo.svg.png",
+        "IDTR Jamshedpur": "https://dyncdn.exampathfinder.net/epf_n_attachments/organisation/ltB6Y34Y/logo.png",
+        "BEE": "https://cdn.brandfetch.io/beeindia.gov.in/fallback/lettermark/theme/dark/h/256/w/256/icon?c=1bfwsmEH20zzEfSNTed",
+        "CTTC Bhubaneswar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJe7OlMmZEY10rep1J2uZkHoCaRHn59TjKqw&s",
+        "NIT Kurukshetra": "https://upload.wikimedia.org/wikipedia/en/7/75/National_Institute_of_Technology%2C_Kurukshetra_Logo.png",
+        "CFSL": "https://www.presentations.gov.in/wp-content/uploads/2020/06/Preview-10.png",
+        "NTPC": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6XIlAh5QGUnLoshbaZEpa3YhhVsEwk_5bsg&s",
+        "AIIMS Bhopal": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnZBNzh-hJh7t6zuhwY4xoOAgPZ2DZ-wk35A&s",
+        "Coir Board": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1vWKszOjJGNjGLYHSSMpT-dVFp5XhRLYaUA&s",
+        "BPRD": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQci1Q_vJbPtRAFT5nofg8AOSJZDFtIBboQcw&s",
+        "MEA": "https://upload.wikimedia.org/wikipedia/commons/0/09/Ministry_of_External_Affairs_India.svg",
+        "GRSE": "https://upload.wikimedia.org/wikipedia/en/thumb/8/8c/Garden_Reach_Shipbuilders_%26_Engineers.svg/1200px-Garden_Reach_Shipbuilders_%26_Engineers.svg.png",
+        "NCLT": "https://efiling.nclt.gov.in/layouts/beforeLogin/js/nclt-logo.png",
+        "NIACL": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/New_India_Assurance.svg/1200px-New_India_Assurance.svg.png",
+
+
+
+
     }
 
     const filteredData = Object.entries(creditData).filter(([key]) =>
@@ -286,7 +355,7 @@ const Credits = () => {
     return (
         <>
             <Helmet>
-                <title>gyapak</title>
+                <title>Credits for Gyapak</title>
                 <meta name="description" content="gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
                 <meta name="keywords" content="government competitive exams after 12th,government organisations, exam sarkari results, government calendar,current affairs,top exams for government jobs in india,Upcoming Government Exams" />
                 <meta property="og:title" content="gyapak" />

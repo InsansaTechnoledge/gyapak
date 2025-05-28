@@ -169,11 +169,11 @@ const TestWindow = () => {
         return [...acc, ...objs];
       }, []);
 
-      await deleteEventAttemptsByUser(eventId, userId);
-      const response = await checkUsersAnswers(answers, userId, eventDetails.exam_id, eventDetails.id);
-      if (response.status === 200) {
-        console.log('✅ Test submitted successfully.');
-      }
+      // await deleteEventAttemptsByUser(eventId, userId);
+      // const response = await checkUsersAnswers(answers, userId, eventDetails.exam_id, eventDetails.id);
+      // if (response.status === 200) {
+      //   console.log('✅ Test submitted successfully.');
+      // }
     } catch (err) {
       console.log(err);
     }

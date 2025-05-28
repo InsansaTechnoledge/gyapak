@@ -28,7 +28,7 @@ const ImportantLinksSection = ({ data }) => {
 
               link.startsWith("http")
                 ?
-                <PrintLink idx={idx} link={link} />
+                <PrintLink key={idx} link={link} />
                 
                 :
                 (null)

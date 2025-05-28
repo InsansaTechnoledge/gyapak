@@ -25,6 +25,8 @@ const Authority = () => {
     const [relatedOrganizations, setRelatedOrganizations] = useState();
     const [calendarDisplay, setCalendarDidsplay] = useState(false);
 
+    const metaTitle = location.pathname.split('/')[2];
+
     // const FAQ = React.lazy(() => import('../../Components/FAQ/FAQ'));
 
     // Parse the query parameters
@@ -138,7 +140,7 @@ const Authority = () => {
     return (
         <>
             <Helmet>
-                <title>gyapak</title>
+                <title>{metaTitle}</title>
                 <meta name="description" content="gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
                 <meta name="keywords" content="government competitive exams after 12th,government organisations, exam sarkari results, government calendar,current affairs,top exams for government jobs in india,Upcoming Government Exams" />
                 <meta property="og:title" content="gyapak" />
