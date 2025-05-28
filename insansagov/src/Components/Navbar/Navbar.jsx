@@ -18,7 +18,7 @@ const stateImages = {
         "Odisha": "/states/Odisha.png",
         "Punjab": "/states/Punjab.png",
         "Rajasthan": "/states/Rajasthan.png",
-        "Uttar Pradesh": "/states/UttarPradesh2.png",
+        "Uttar Pradesh": "/states/UttarPradesh2.jpg",
         "Madhya Pradesh": "/states/Madhya Pradesh.png",
         "Tamil Nadu": "/states/Tamil_Nadu.png",
         "Uttarakhand": "/states/Uttarakhand.png",
