@@ -59,7 +59,7 @@ const FAQ = ({
     <>
       {showSEOTags && (
         <Helmet>
-          <title>{displayTitle} | gyapak</title>
+          {/* <title>{displayTitle} | gyapak</title> */}
           <meta name="description" content={metaDescription} />
           <script type="application/ld+json">
             {generateFAQSchema()}

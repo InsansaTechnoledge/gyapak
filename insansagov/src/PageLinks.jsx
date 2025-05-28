@@ -64,6 +64,7 @@ const PageLinks = () => {
   return (
     <>
      {/* <Suspense fallback={<Loading />}> */}
+     
       <ScrollToTop />
       <Navbar />
       

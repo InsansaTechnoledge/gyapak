@@ -24,6 +24,7 @@ import EventModal from './EventModal';
 import { fetchCategories, fetchStates, fetchEventTypes, fetchEventsForCalendar } from '../../Service/calendar'
 import { useApi } from '../../Context/ApiContext';
 import GovernmentCalendarIntro from './CalendarInfo';
+import { Helmet } from 'react-helmet';
 
 const localizer = momentLocalizer(moment);
 
@@ -165,6 +166,14 @@ export default function CalendarView() {
     const sortedDates = Object.keys(groupedEvents).sort();
 
     return (
+      <>
+      <Helmet>
+        <title>Gyapak Exam Calendar</title>
+        <meta name="description" content="gyapak.in is a trusted source for the latest government exam updates, including exam dates, notifications, admit cards, and results for both central and state government departments. Stay updated with real-time information on competitive exams, application deadlines, and result announcements!" />
+        <meta name="keywords" content="government competitive exams after 12th,government organisations, exam sarkari results, government calendar,current affairs,top exams for government jobs in india,Upcoming Government Exams" />
+        <meta property="og:title" content="gyapak" />
+        <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
+      </Helmet>
       <div className="space-y-4">
         {sortedDates.map(dateKey => (
           <div key={dateKey} className="border border-gray-200 rounded-lg overflow-hidden">
@@ -205,6 +214,8 @@ export default function CalendarView() {
           </div>
         ))}
       </div>
+      </>
+      
     );
   };
 
