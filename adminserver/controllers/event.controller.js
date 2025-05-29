@@ -36,14 +36,16 @@ export const getEvent = async (req, res) => {
 
         const oldEventType = (await Event.findByIdAndUpdate(id,cleanEvent)).event_type;
 
-        await Promise.all([
-            EventType.findOneAndUpdate({type: oldEventType}, {
-                $pull: { events: id }
-            }),
-            EventType.findOneAndUpdate({type: event.event_type}, {
-                $push: { events: id }
-            })
-        ])
+        if(oldEventType!=event.event_type){
+            await Promise.all([
+                EventType.findOneAndUpdate({type: oldEventType}, {
+                    $pull: { events: id }
+                }),
+                EventType.findOneAndUpdate({type: event.event_type}, {
+                    $push: { events: id }
+                })
+            ])
+        }
 
 
         
