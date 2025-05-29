@@ -1,9 +1,16 @@
+
+// DO NOT CHANGE THIS - IT AFFECTS ONLY DEVELOPMENT NOT VPS(LIVE)
 const nodeEnv = 'development';
 // const nodeEnv='production';
 
   const dotenv = await import('dotenv');
-  // dotenv.config({ path: `./.env.${nodeEnv}.local` });
-  dotenv.config({ path: `./.env` }); //do not change this 
+  
+  // This is for development
+  dotenv.config({ path: `./.env.${nodeEnv}.local` });
+
+
+  // This is for VPS
+  // dotenv.config({ path: `./.env` }); //do not change this 
 
 
 
