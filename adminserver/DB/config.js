@@ -15,7 +15,7 @@ const ConnectMongo = async function () {
         const indexes = await mongoose.connection.db.collection('events').indexes();
         console.log('Indexes on events collection:', indexes);
 
-        scheduler(); // Start the scheduler after success
+        // scheduler(); // Start the scheduler after success
 
       }
     )
