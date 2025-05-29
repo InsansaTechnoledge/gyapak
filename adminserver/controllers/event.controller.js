@@ -34,12 +34,21 @@ export const getEvent = async (req, res) => {
         const event = req.body;
         const { _id, __v, createdAt, updatedAt, ...cleanEvent } = event;
 
-        const newEvent = await Event.findByIdAndUpdate(id,cleanEvent,{
-            new: true
-        });
+        const oldEventType = (await Event.findByIdAndUpdate(id,cleanEvent)).event_type;
+
+        await Promise.all([
+            EventType.findOneAndUpdate({type: oldEventType}, {
+                $pull: { events: id }
+            }),
+            EventType.findOneAndUpdate({type: event.event_type}, {
+                $push: { events: id }
+            })
+        ])
+
+
         
-        if(newEvent){
-            res.status(200).json({newEvent, message: "Event updated"});
+        if(oldEventType){
+            res.status(200).json({oldEventType, message: "Event updated"});
         }
         else{
             res.status(404).json({message:"Event not found"});
