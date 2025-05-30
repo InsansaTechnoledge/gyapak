@@ -3,14 +3,14 @@
 const nodeEnv = 'development';
 // const nodeEnv='production';
 
-  const dotenv = await import('dotenv');
-  
-  // This is for development
-  dotenv.config({ path: `./.env.${nodeEnv}.local` });
+const dotenv = await import('dotenv');
+
+// This is for development
+dotenv.config({ path: `./.env.${nodeEnv}.local` });
 
 
-  // This is for VPS
-  // dotenv.config({ path: `./.env` }); //do not change this 
+// This is for VPS
+// dotenv.config({ path: `./.env` }); //do not change this 
 
 
 
