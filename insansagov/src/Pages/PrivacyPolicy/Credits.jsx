@@ -303,6 +303,11 @@ const Credits = () => {
         "GRSE": "https://upload.wikimedia.org/wikipedia/en/thumb/8/8c/Garden_Reach_Shipbuilders_%26_Engineers.svg/1200px-Garden_Reach_Shipbuilders_%26_Engineers.svg.png",
         "NCLT": "https://efiling.nclt.gov.in/layouts/beforeLogin/js/nclt-logo.png",
         "NIACL": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/New_India_Assurance.svg/1200px-New_India_Assurance.svg.png",
+        "IGIMS": "https://upload.wikimedia.org/wikipedia/commons/e/ee/AIIMS_New_Delhi.png",
+        "MMRCL": "https://legaldir.in/wp-content/uploads/2022/05/MMRCL.png",
+        "JIPMER": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr_ilsJLd6TgCiDdL911Zju9N27pjhlgiubg&s",
+        "RCFL": "https://upload.wikimedia.org/wikipedia/en/thumb/4/47/Rashtriya_Chemicals_%26_Fertilizers_Logo.svg/1200px-Rashtriya_Chemicals_%26_Fertilizers_Logo.svg.png",
+        "AIIMS New Delhi": "https://upload.wikimedia.org/wikipedia/en/thumb/8/85/All_India_Institute_of_Medical_Sciences%2C_Delhi.svg/1200px-All_India_Institute_of_Medical_Sciences%2C_Delhi.svg.png"
 
 
 
