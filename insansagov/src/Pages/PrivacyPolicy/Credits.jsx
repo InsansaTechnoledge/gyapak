@@ -307,7 +307,49 @@ const Credits = () => {
         "MMRCL": "https://legaldir.in/wp-content/uploads/2022/05/MMRCL.png",
         "JIPMER": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr_ilsJLd6TgCiDdL911Zju9N27pjhlgiubg&s",
         "RCFL": "https://upload.wikimedia.org/wikipedia/en/thumb/4/47/Rashtriya_Chemicals_%26_Fertilizers_Logo.svg/1200px-Rashtriya_Chemicals_%26_Fertilizers_Logo.svg.png",
-        "AIIMS New Delhi": "https://upload.wikimedia.org/wikipedia/en/thumb/8/85/All_India_Institute_of_Medical_Sciences%2C_Delhi.svg/1200px-All_India_Institute_of_Medical_Sciences%2C_Delhi.svg.png"
+        "AIIMS New Delhi": "https://upload.wikimedia.org/wikipedia/en/thumb/8/85/All_India_Institute_of_Medical_Sciences%2C_Delhi.svg/1200px-All_India_Institute_of_Medical_Sciences%2C_Delhi.svg.png",
+        "AIIMS Patna": "https://aiimspatna.edu.in/",
+
+        "GoB": "https://state.bihar.gov.in/main/CitizenHome.html",
+
+        "NICL": "https://nationalinsurance.nic.co.in/",
+
+        "MGCUB": "https://mgcub.ac.in/index.php",
+
+        "MWCD": "https://wcd.gov.in/",
+
+        "CCRH": "https://ccrhindia.ayush.gov.in/",
+
+        "DHFW": "https://health.delhi.gov.in/",
+
+        "SAI": "https://sportsauthorityofindia.nic.in/sai_new",
+        "LIC": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FLife_Insurance_Corporation&psig=AOvVaw2qjLs2319Jo-btmMYRNBsW&ust=1750831534503000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCPjn9e6xiY4DFQAAAAAdAAAAABAE",
+
+        "FSNL": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.fsnl.co.in%2F&psig=AOvVaw0LpI9x7C8nV1NYSE2oCm9s&ust=1750831571775000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCOCs_4CyiY4DFQAAAAAdAAAAABAK",
+
+        "MOE": "https://health.delhi.gov.in/",
+
+        "NIT Andhra Pradesh": "https://www.google.com/url?sa=i&url=https%3A%2F%2Funiversitykart.com%2Funiversity%2Funiversitydetails%2Fnational-institute-of-technology-tadepalligudem&psig=AOvVaw0zJxHRjtd_3B7zNfXVHyDU&ust=1750831810485000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCNDE9fWyiY4DFQAAAAAdAAAAABAE",
+
+        "GOAP": "https://ap.gov.in/#/home",
+
+        "HSL": "https://hslvizag.in/",
+
+        "IIPE": "https://iipe.ac.in/index.php",
+
+        "TRIFED": "https://www.google.com/imgres?q=TRIFED&imgurl=https%3A%2F%2Ftrifed.tribal.gov.in%2Fsites%2Fdefault%2Ffiles%2Finline-images%2FTribesIndiaLogo_snipped_4.png&imgrefurl=https%3A%2F%2Ftrifed.tribal.gov.in%2Fretail-marketing%2Fpublicity&docid=7VpqrU3Zfhi1NM&tbnid=FwrbronHkjrWWM&vet=12ahUKEwiznqvms4mOAxXTcWwGHY6PFKAQM3oECBcQAA..i&w=518&h=736&hcb=2&ved=2ahUKEwiznqvms4mOAxXTcWwGHY6PFKAQM3oECBcQAA",
+
+        "DAE": "https://dae.gov.in/",
+
+        "GoTN": "https://www.tn.gov.in/index.php",
+
+        "NIT Trichy": "https://www.nitt.edu/#",
+
+        "CMRL": "https://chennaimetrorail.org/",
+
+        "DFS": "https://financialservices.gov.in/beta/en",
+
+        "MoD": "https://mod.gov.in/hi",
 
 
 
