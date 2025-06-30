@@ -351,6 +351,44 @@ const Credits = () => {
 
         "MoD": "https://mod.gov.in/hi",
 
+        "MNNIT Allahabad": "https://www.mnnit.ac.in/",
+
+        "UPMRCL": "https://upmetrorail.com/",
+
+        "IIT BHU": "https://www.iitbhu.ac.in/",
+
+        "AIIMS Gorakhpur": "https://www.google.com/imgres?q=logo%20aiims%20gorakhpur&imgurl=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fen%2Fthumb%2F5%2F52%2FAll_India_Institute_of_Medical_Sciences%252C_Gorakhpur_Logo.png%2F250px-All_India_Institute_of_Medical_Sciences%252C_Gorakhpur_Logo.png&imgrefurl=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FAll_India_Institute_of_Medical_Sciences%2C_Gorakhpur&docid=x9QpAX2YiTYbeM&tbnid=wdiQDFKcuC26ZM&vet=12ahUKEwjgg4f2zI6OAxX5klYBHXRGO14QM3oECBgQAA..i&w=250&h=250&hcb=2&ved=2ahUKEwjgg4f2zI6OAxX5klYBHXRGO14QM3oECBgQAA",
+
+        "UPPWD": "https://www.google.com/imgres?q=UPPWD&imgurl=https%3A%2F%2Fpbs.twimg.com%2Fprofile_images%2F1816878779429703680%2FKPWBwE8S_400x400.jpg&imgrefurl=https%3A%2F%2Fx.com%2Fuppwdofficial&docid=GZMdjdLnmNxPJM&tbnid=K5zauBLSvgtc_M&vet=12ahUKEwjo5J_XzY6OAxWyh1YBHVYTMZIQM3oECBkQAA..i&w=400&h=400&hcb=2&ved=2ahUKEwjo5J_XzY6OAxWyh1YBHVYTMZIQM3oECBkQAA",
+
+        "AIIMS Jodhpur": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FAll_India_Institute_of_Medical_Sciences%2C_Jodhpur&psig=AOvVaw2vtSeR0dKkcnqtcLkJiy0z&ust=1751011071802000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCNCbpNnOjo4DFQAAAAAdAAAAABAE",
+
+        "ICMR": "https://www.icmr.gov.in/",
+
+        "IIT Kota": "https://en.wikipedia.org/wiki/File:Indian_Institute_of_Information_Technology,_Kota_Logo.png",
+
+        "IIT Gandhinagar": "https://en.wikipedia.org/wiki/File:Indian_Institute_of_Technology_Gandhinagar_Logo.svg",
+
+        "GoG": "https://gujaratindia.gov.in/index",
+
+        "CoHEG": "https://www.rascheguj.in/ContactUs.aspx#",
+
+        "AIIMS Rajkot": "https://aiimsrajkot.edu.in/",
+
+        "MoLE": "https://labour.gov.in/",
+
+        "MoCI": "https://www.commerce.gov.in/",
+
+        "MoST": "https://dst.gov.in/",
+
+        "GoK": "https://kerala.gov.in/",
+
+        "KIAL": "https://kannurairport.aero/",
+
+        "MeitY": "https://en.wikipedia.org/wiki/File:Ministry_of_Electronics_and_Information_Technology.svg",
+
+        "MHI": "https://heavyindustries.gov.in/",
+
 
 
 
