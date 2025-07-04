@@ -388,6 +388,21 @@ const Credits = () => {
         "MeitY": "https://en.wikipedia.org/wiki/File:Ministry_of_Electronics_and_Information_Technology.svg",
 
         "MHI": "https://heavyindustries.gov.in/",
+        "NIT Hamirpur": "https://en.wikipedia.org/wiki/File:National_Institute_of_Technology,_Hamirpur_Logo.png",
+
+        "IIM Bangalore": "https://en.wikipedia.org/wiki/File:IIM_Bangalore_Logo.svg",
+
+        "MoTA": "https://tribal.nic.in/Home.aspx",
+
+        "AIIMS Bhubaneswar": "https://aiimsbhubaneswar.edu.in/AIIMSBBSR",
+
+        "GoO": "https://odisha.gov.in/",
+
+        "IIT Bhubaneswar": "https://www.iitbbs.ac.in/",
+
+        "OHPC": "https://www.google.com/url?sa=i&url=http%3A%2F%2Fwww.ohpcltd.com%2FDocument%2Fannual_report%2Fohpc2016-17.pdf&psig=AOvVaw3RgcKlJS6ZlfDFB4JHDES-&ust=1751609808498000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCOjT5ZSFoI4DFQAAAAAdAAAAABAE",
+
+        "MoPNG": "https://en.wikipedia.org/wiki/File:Ministry_of_Petroleum_India.svg",
 
 
 
