@@ -404,8 +404,35 @@ const Credits = () => {
 
         "MoPNG": "https://en.wikipedia.org/wiki/File:Ministry_of_Petroleum_India.svg",
 
+        "NCDRC" : "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gconnect.in%2Frecruitment%2Fncdrc-member-recruitment-2024.html&psig=AOvVaw33TjQkNYuciAc2hAEMshME&ust=1752040260972000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCMD8qN7IrI4DFQAAAAAdAAAAABAE",
 
+"AIIMS Madurai": "https://en.wikipedia.org/wiki/File:AIIMS_Madurai_Unofficial_Logo.jpg",
 
+"GAIL" : "https://en.wikipedia.org/wiki/File:GAIL.svg",
+
+"MoAYUSH" : "https://en.wikipedia.org/wiki/File:Logo_Ministry_of_AYUSH.png",
+
+"MoCoo" : "https://en.wikipedia.org/wiki/File:MINISTRY_OF_CO-OPERATION.jpg",
+
+"Indian Bank" : "https://en.wikipedia.org/wiki/File:Indian_Bank_logo.svg",
+
+"IIM Kozhikode" : "https://en.wikipedia.org/wiki/File:IIM_Kozhikode_Logo.svg",
+
+"MoCF" : "https://en.wikipedia.org/wiki/File:Ministry_of_Chemicals_and_Fertilizers.svg",
+
+"MoES" : "https://en.wikipedia.org/wiki/File:Ministry_of_Earth_Sciences.jpg",
+
+"RNSB" : "https://rnsbindia.com/RNSB/index.php",
+
+"Govt of Karnataka" : "https://karnataka.gov.in/english#",
+
+"BMRCL" : "https://english.bmrc.co.in/",
+
+"NIMHANS" : "https://www.nimhans.ac.in/",
+
+"NIT Karnataka" : "https://www.nitk.ac.in/",
+
+"Bombay High Court" : "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pngegg.com%2Fen%2Fsearch%3Fq%3Dsatyameva%2BJayate&psig=AOvVaw3pctFBpp1qsZO_0TmEjY71&ust=1752256638133000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCIidpObuso4DFQAAAAAdAAAAABAE",
 
     }
 
