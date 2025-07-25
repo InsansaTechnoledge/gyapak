@@ -303,9 +303,136 @@ const Credits = () => {
         "GRSE": "https://upload.wikimedia.org/wikipedia/en/thumb/8/8c/Garden_Reach_Shipbuilders_%26_Engineers.svg/1200px-Garden_Reach_Shipbuilders_%26_Engineers.svg.png",
         "NCLT": "https://efiling.nclt.gov.in/layouts/beforeLogin/js/nclt-logo.png",
         "NIACL": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/New_India_Assurance.svg/1200px-New_India_Assurance.svg.png",
+        "IGIMS": "https://upload.wikimedia.org/wikipedia/commons/e/ee/AIIMS_New_Delhi.png",
+        "MMRCL": "https://legaldir.in/wp-content/uploads/2022/05/MMRCL.png",
+        "JIPMER": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr_ilsJLd6TgCiDdL911Zju9N27pjhlgiubg&s",
+        "RCFL": "https://upload.wikimedia.org/wikipedia/en/thumb/4/47/Rashtriya_Chemicals_%26_Fertilizers_Logo.svg/1200px-Rashtriya_Chemicals_%26_Fertilizers_Logo.svg.png",
+        "AIIMS New Delhi": "https://upload.wikimedia.org/wikipedia/en/thumb/8/85/All_India_Institute_of_Medical_Sciences%2C_Delhi.svg/1200px-All_India_Institute_of_Medical_Sciences%2C_Delhi.svg.png",
+        "AIIMS Patna": "https://aiimspatna.edu.in/",
 
+        "GoB": "https://state.bihar.gov.in/main/CitizenHome.html",
 
+        "NICL": "https://nationalinsurance.nic.co.in/",
 
+        "MGCUB": "https://mgcub.ac.in/index.php",
+
+        "MWCD": "https://wcd.gov.in/",
+
+        "CCRH": "https://ccrhindia.ayush.gov.in/",
+
+        "DHFW": "https://health.delhi.gov.in/",
+
+        "SAI": "https://sportsauthorityofindia.nic.in/sai_new",
+        "LIC": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FLife_Insurance_Corporation&psig=AOvVaw2qjLs2319Jo-btmMYRNBsW&ust=1750831534503000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCPjn9e6xiY4DFQAAAAAdAAAAABAE",
+
+        "FSNL": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.fsnl.co.in%2F&psig=AOvVaw0LpI9x7C8nV1NYSE2oCm9s&ust=1750831571775000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCOCs_4CyiY4DFQAAAAAdAAAAABAK",
+
+        "MOE": "https://health.delhi.gov.in/",
+
+        "NIT Andhra Pradesh": "https://www.google.com/url?sa=i&url=https%3A%2F%2Funiversitykart.com%2Funiversity%2Funiversitydetails%2Fnational-institute-of-technology-tadepalligudem&psig=AOvVaw0zJxHRjtd_3B7zNfXVHyDU&ust=1750831810485000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCNDE9fWyiY4DFQAAAAAdAAAAABAE",
+
+        "GOAP": "https://ap.gov.in/#/home",
+
+        "HSL": "https://hslvizag.in/",
+
+        "IIPE": "https://iipe.ac.in/index.php",
+
+        "TRIFED": "https://www.google.com/imgres?q=TRIFED&imgurl=https%3A%2F%2Ftrifed.tribal.gov.in%2Fsites%2Fdefault%2Ffiles%2Finline-images%2FTribesIndiaLogo_snipped_4.png&imgrefurl=https%3A%2F%2Ftrifed.tribal.gov.in%2Fretail-marketing%2Fpublicity&docid=7VpqrU3Zfhi1NM&tbnid=FwrbronHkjrWWM&vet=12ahUKEwiznqvms4mOAxXTcWwGHY6PFKAQM3oECBcQAA..i&w=518&h=736&hcb=2&ved=2ahUKEwiznqvms4mOAxXTcWwGHY6PFKAQM3oECBcQAA",
+
+        "DAE": "https://dae.gov.in/",
+
+        "GoTN": "https://www.tn.gov.in/index.php",
+
+        "NIT Trichy": "https://www.nitt.edu/#",
+
+        "CMRL": "https://chennaimetrorail.org/",
+
+        "DFS": "https://financialservices.gov.in/beta/en",
+
+        "MoD": "https://mod.gov.in/hi",
+
+        "MNNIT Allahabad": "https://www.mnnit.ac.in/",
+
+        "UPMRCL": "https://upmetrorail.com/",
+
+        "IIT BHU": "https://www.iitbhu.ac.in/",
+
+        "AIIMS Gorakhpur": "https://www.google.com/imgres?q=logo%20aiims%20gorakhpur&imgurl=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fen%2Fthumb%2F5%2F52%2FAll_India_Institute_of_Medical_Sciences%252C_Gorakhpur_Logo.png%2F250px-All_India_Institute_of_Medical_Sciences%252C_Gorakhpur_Logo.png&imgrefurl=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FAll_India_Institute_of_Medical_Sciences%2C_Gorakhpur&docid=x9QpAX2YiTYbeM&tbnid=wdiQDFKcuC26ZM&vet=12ahUKEwjgg4f2zI6OAxX5klYBHXRGO14QM3oECBgQAA..i&w=250&h=250&hcb=2&ved=2ahUKEwjgg4f2zI6OAxX5klYBHXRGO14QM3oECBgQAA",
+
+        "UPPWD": "https://www.google.com/imgres?q=UPPWD&imgurl=https%3A%2F%2Fpbs.twimg.com%2Fprofile_images%2F1816878779429703680%2FKPWBwE8S_400x400.jpg&imgrefurl=https%3A%2F%2Fx.com%2Fuppwdofficial&docid=GZMdjdLnmNxPJM&tbnid=K5zauBLSvgtc_M&vet=12ahUKEwjo5J_XzY6OAxWyh1YBHVYTMZIQM3oECBkQAA..i&w=400&h=400&hcb=2&ved=2ahUKEwjo5J_XzY6OAxWyh1YBHVYTMZIQM3oECBkQAA",
+
+        "AIIMS Jodhpur": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FAll_India_Institute_of_Medical_Sciences%2C_Jodhpur&psig=AOvVaw2vtSeR0dKkcnqtcLkJiy0z&ust=1751011071802000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCNCbpNnOjo4DFQAAAAAdAAAAABAE",
+
+        "ICMR": "https://www.icmr.gov.in/",
+
+        "IIT Kota": "https://en.wikipedia.org/wiki/File:Indian_Institute_of_Information_Technology,_Kota_Logo.png",
+
+        "IIT Gandhinagar": "https://en.wikipedia.org/wiki/File:Indian_Institute_of_Technology_Gandhinagar_Logo.svg",
+
+        "GoG": "https://gujaratindia.gov.in/index",
+
+        "CoHEG": "https://www.rascheguj.in/ContactUs.aspx#",
+
+        "AIIMS Rajkot": "https://aiimsrajkot.edu.in/",
+
+        "MoLE": "https://labour.gov.in/",
+
+        "MoCI": "https://www.commerce.gov.in/",
+
+        "MoST": "https://dst.gov.in/",
+
+        "GoK": "https://kerala.gov.in/",
+
+        "KIAL": "https://kannurairport.aero/",
+
+        "MeitY": "https://en.wikipedia.org/wiki/File:Ministry_of_Electronics_and_Information_Technology.svg",
+
+        "MHI": "https://heavyindustries.gov.in/",
+        "NIT Hamirpur": "https://en.wikipedia.org/wiki/File:National_Institute_of_Technology,_Hamirpur_Logo.png",
+
+        "IIM Bangalore": "https://en.wikipedia.org/wiki/File:IIM_Bangalore_Logo.svg",
+
+        "MoTA": "https://tribal.nic.in/Home.aspx",
+
+        "AIIMS Bhubaneswar": "https://aiimsbhubaneswar.edu.in/AIIMSBBSR",
+
+        "GoO": "https://odisha.gov.in/",
+
+        "IIT Bhubaneswar": "https://www.iitbbs.ac.in/",
+
+        "OHPC": "https://www.google.com/url?sa=i&url=http%3A%2F%2Fwww.ohpcltd.com%2FDocument%2Fannual_report%2Fohpc2016-17.pdf&psig=AOvVaw3RgcKlJS6ZlfDFB4JHDES-&ust=1751609808498000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCOjT5ZSFoI4DFQAAAAAdAAAAABAE",
+
+        "MoPNG": "https://en.wikipedia.org/wiki/File:Ministry_of_Petroleum_India.svg",
+
+        "NCDRC" : "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gconnect.in%2Frecruitment%2Fncdrc-member-recruitment-2024.html&psig=AOvVaw33TjQkNYuciAc2hAEMshME&ust=1752040260972000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCMD8qN7IrI4DFQAAAAAdAAAAABAE",
+
+"AIIMS Madurai": "https://en.wikipedia.org/wiki/File:AIIMS_Madurai_Unofficial_Logo.jpg",
+
+"GAIL" : "https://en.wikipedia.org/wiki/File:GAIL.svg",
+
+"MoAYUSH" : "https://en.wikipedia.org/wiki/File:Logo_Ministry_of_AYUSH.png",
+
+"MoCoo" : "https://en.wikipedia.org/wiki/File:MINISTRY_OF_CO-OPERATION.jpg",
+
+"Indian Bank" : "https://en.wikipedia.org/wiki/File:Indian_Bank_logo.svg",
+
+"IIM Kozhikode" : "https://en.wikipedia.org/wiki/File:IIM_Kozhikode_Logo.svg",
+
+"MoCF" : "https://en.wikipedia.org/wiki/File:Ministry_of_Chemicals_and_Fertilizers.svg",
+
+"MoES" : "https://en.wikipedia.org/wiki/File:Ministry_of_Earth_Sciences.jpg",
+
+"RNSB" : "https://rnsbindia.com/RNSB/index.php",
+
+"Govt of Karnataka" : "https://karnataka.gov.in/english#",
+
+"BMRCL" : "https://english.bmrc.co.in/",
+
+"NIMHANS" : "https://www.nimhans.ac.in/",
+
+"NIT Karnataka" : "https://www.nitk.ac.in/",
+
+"Bombay High Court" : "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pngegg.com%2Fen%2Fsearch%3Fq%3Dsatyameva%2BJayate&psig=AOvVaw3pctFBpp1qsZO_0TmEjY71&ust=1752256638133000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCIidpObuso4DFQAAAAAdAAAAABAE",
 
     }
 
