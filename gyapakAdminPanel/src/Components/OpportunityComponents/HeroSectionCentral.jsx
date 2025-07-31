@@ -3,6 +3,8 @@ import { Calendar, Clock } from 'lucide-react';
 import axios from 'axios';
 import { API_BASE_URL } from '../../config';
 
+// const API_BASE_URL='https://gyapak-g9ec.onrender.com'
+
 const HeroSectionCentral = ({handleEventDataChange, eventData }) => {
     const [organizations, setOrganizations] = useState();
 
