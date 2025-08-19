@@ -404,36 +404,53 @@ const Credits = () => {
 
         "MoPNG": "https://en.wikipedia.org/wiki/File:Ministry_of_Petroleum_India.svg",
 
-        "NCDRC" : "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gconnect.in%2Frecruitment%2Fncdrc-member-recruitment-2024.html&psig=AOvVaw33TjQkNYuciAc2hAEMshME&ust=1752040260972000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCMD8qN7IrI4DFQAAAAAdAAAAABAE",
+        "NCDRC": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gconnect.in%2Frecruitment%2Fncdrc-member-recruitment-2024.html&psig=AOvVaw33TjQkNYuciAc2hAEMshME&ust=1752040260972000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCMD8qN7IrI4DFQAAAAAdAAAAABAE",
 
-"AIIMS Madurai": "https://en.wikipedia.org/wiki/File:AIIMS_Madurai_Unofficial_Logo.jpg",
+        "AIIMS Madurai": "https://en.wikipedia.org/wiki/File:AIIMS_Madurai_Unofficial_Logo.jpg",
 
-"GAIL" : "https://en.wikipedia.org/wiki/File:GAIL.svg",
+        "GAIL": "https://en.wikipedia.org/wiki/File:GAIL.svg",
 
-"MoAYUSH" : "https://en.wikipedia.org/wiki/File:Logo_Ministry_of_AYUSH.png",
+        "MoAYUSH": "https://en.wikipedia.org/wiki/File:Logo_Ministry_of_AYUSH.png",
 
-"MoCoo" : "https://en.wikipedia.org/wiki/File:MINISTRY_OF_CO-OPERATION.jpg",
+        "MoCoo": "https://en.wikipedia.org/wiki/File:MINISTRY_OF_CO-OPERATION.jpg",
 
-"Indian Bank" : "https://en.wikipedia.org/wiki/File:Indian_Bank_logo.svg",
+        "Indian Bank": "https://en.wikipedia.org/wiki/File:Indian_Bank_logo.svg",
 
-"IIM Kozhikode" : "https://en.wikipedia.org/wiki/File:IIM_Kozhikode_Logo.svg",
+        "IIM Kozhikode": "https://en.wikipedia.org/wiki/File:IIM_Kozhikode_Logo.svg",
 
-"MoCF" : "https://en.wikipedia.org/wiki/File:Ministry_of_Chemicals_and_Fertilizers.svg",
+        "MoCF": "https://en.wikipedia.org/wiki/File:Ministry_of_Chemicals_and_Fertilizers.svg",
 
-"MoES" : "https://en.wikipedia.org/wiki/File:Ministry_of_Earth_Sciences.jpg",
+        "MoES": "https://en.wikipedia.org/wiki/File:Ministry_of_Earth_Sciences.jpg",
 
-"RNSB" : "https://rnsbindia.com/RNSB/index.php",
+        "RNSB": "https://rnsbindia.com/RNSB/index.php",
 
-"Govt of Karnataka" : "https://karnataka.gov.in/english#",
+        "Govt of Karnataka": "https://karnataka.gov.in/english#",
 
-"BMRCL" : "https://english.bmrc.co.in/",
+        "BMRCL": "https://english.bmrc.co.in/",
 
-"NIMHANS" : "https://www.nimhans.ac.in/",
+        "NIMHANS": "https://www.nimhans.ac.in/",
 
-"NIT Karnataka" : "https://www.nitk.ac.in/",
+        "NIT Karnataka": "https://www.nitk.ac.in/",
 
-"Bombay High Court" : "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pngegg.com%2Fen%2Fsearch%3Fq%3Dsatyameva%2BJayate&psig=AOvVaw3pctFBpp1qsZO_0TmEjY71&ust=1752256638133000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCIidpObuso4DFQAAAAAdAAAAABAE",
+        "Bombay High Court": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pngegg.com%2Fen%2Fsearch%3Fq%3Dsatyameva%2BJayate&psig=AOvVaw3pctFBpp1qsZO_0TmEjY71&ust=1752256638133000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCIidpObuso4DFQAAAAAdAAAAABAE",
 
+        "GIC Re": "https://www.gicre.in/",
+
+        "MGIRI": "https://mgiri.org/",
+
+        "IIM Lucknow": "https://www.iiml.ac.in/",
+
+        "CEL": "https://en.wikipedia.org/wiki/File:Central_Electronics_Limited.svg",
+
+        "IIIT Allahabad": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fit.iiita.ac.in%2F&psig=AOvVaw1wsQah2M9w8X-MqvU1M6k7&ust=1755582938656000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCMjisaDWk48DFQAAAAAdAAAAABAE",
+
+        "IOB": "https://www.iob.in/Default.aspx",
+
+        "HPRCA": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.facebook.com%2Fhprca%2F&psig=AOvVaw1TSQ09YzXL0-ndvTHBOy-U&ust=1755583091123000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCMDJ057Xk48DFQAAAAAdAAAAABAE",
+
+        "NTH": "https://nth.gov.in/hi",
+
+        "IASc": "https://en.wikipedia.org/wiki/File:Indian_Academy_of_Sciences_Logo.png",
     }
 
     const filteredData = Object.entries(creditData).filter(([key]) =>
