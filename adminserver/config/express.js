@@ -12,7 +12,7 @@ ExpressApp.use(express.urlencoded({ extended: true }));
 
 ExpressApp.use(
     cors({
-      origin: ['http://localhost:5174', 'http://localhost:5173', 'https://gyapak.in' , 'https://gyapak-admin-upload-data.vercel.app'],
+      origin: ['http://localhost:5174', 'http://localhost:5173', 'https://gyapak.in' , 'https://gyapak-admin-upload-data.vercel.app', 'https://d3paexwp5ivh8p.cloudfront.net'],
       credentials: true,
     })
   );
