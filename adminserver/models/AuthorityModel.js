@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 if(process.env.NODE_ENV !== "production"){
     (await import('dotenv')).config();
   }
-const CLIENT_BASE_URL_LIVE = process.env.DEFAULT_LOGO;
+const CLIENT_BASE_URL_LIVE = process.env.DEFAULT_LOGO || 'https://default-logo-url.com';
 let base64String = "";
 try{
     const response = await fetch(CLIENT_BASE_URL_LIVE);
