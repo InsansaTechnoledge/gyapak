@@ -37,7 +37,7 @@ const backendInstances = [
   // "http://localhost:5000",
   // "http://localhost:8383",
   // 'https://gyapak-test-server.onrender.com'
-     "http://35.175.38.246"
+     "https://35.175.38.246"
 ];
 
 let currentIndex = 0;
