@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // import { API_BASE_URL } from '../../../gyapakAdminPanel/src/config';
 
-const API_BASE_URL="https://gyapak-admin2.onrender.com";
+const API_BASE_URL="https://gyapak-admin2.onrender.com" || "http://35.175.38.246";
 
 
 // export const getAllBlogs = async (tag = null) => {

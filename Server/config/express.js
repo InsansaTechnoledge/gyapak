@@ -25,6 +25,7 @@ const allowedOrigins = [
   "https://insansa.com",
   "http://localhost:5173",
   // "http://localhost:5174",
+  "https://d3paexwp5ivh8p.cloudfront.net/",
   "https://gyapak.in",
   "https://www.gyapak.in",
   // "https://gyapak-test-series.vercel.app",
@@ -34,8 +35,9 @@ const allowedOrigins = [
 const backendInstances = [
   // "https://backend.gyapak.in", 
   // "http://localhost:5000",
-  "http://localhost:8383",
+  // "http://localhost:8383",
   // 'https://gyapak-test-server.onrender.com'
+     "http://35.175.38.246"
 ];
 
 let currentIndex = 0;
