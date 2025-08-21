@@ -5,7 +5,9 @@ const imageUrl = DEFAULT_LOGO;
 let base64String = "";
 try{
     const response = await fetch(imageUrl);
-    const imageBuffer = await response.buffer();
+    const arrayBuffer = await response.arrayBuffer();
+    const imageBuffer = Buffer.from(arrayBuffer);
+
      base64String = imageBuffer.toString('base64');
 }catch(error){
     console.error('Error fetching image:', error);
