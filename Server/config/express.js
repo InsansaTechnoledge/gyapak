@@ -20,12 +20,12 @@ app.set('trust proxy', true);
 
 // Allowed frontend origins (ensure these are correctly set in .env)
 const allowedOrigins = [
+  "https://d2gcq65jmgagh2.cloudfront.net",
   // CLIENT_BASE_URL_LOCAL,
   CLIENT_BASE_URL_LIVE,
   "https://insansa.com",
   "http://localhost:5173",
   // "http://localhost:5174",
-  "https://d3paexwp5ivh8p.cloudfront.net/",
   "https://gyapak.in",
   "https://www.gyapak.in",
   // "https://gyapak-test-series.vercel.app",
