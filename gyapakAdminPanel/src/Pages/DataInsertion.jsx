@@ -8,6 +8,7 @@ import UploadCurrentAffairsPage from './CurrentAffairUpload';
 import CurrentAffairManager from '../Components/currentAffairs/currentAffairManager';
 import FAQCreate from '../Components/FAQ/FAQCreate';
 import DeleteFAQ from '../Components/FAQ/DeleteFAQ';
+import DailyQuestions from '../Components/DailyQuestions/DailyQuestion';
 
 const DataInsertion = () => {
   const [organizationType, setOrganizationType] = useState(null);
@@ -21,7 +22,8 @@ const DataInsertion = () => {
     {id: "affair" , label: "create today's current affair"},
     {id: "manage-affair" , label: "manage all current affair"},
     {id: "post-FAQ", label: "Create a FAQ"},
-    {id: "delete-FAQ", label: "Delete a FAQ"}
+    {id: "delete-FAQ", label: "Delete a FAQ"},
+    {id:"Today's Question", label: "Today's Question"}
 
   ];
 
@@ -68,6 +70,7 @@ const DataInsertion = () => {
           {organizationType === "manage-affair" && <CurrentAffairManager />}
           {organizationType === "post-FAQ" && <FAQCreate />}
           {organizationType === "delete-FAQ" && <DeleteFAQ />}
+          {organizationType === "Today's Question" && <DailyQuestions />}
 
 
         </div>
