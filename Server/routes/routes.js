@@ -21,6 +21,7 @@ import adminRoutes from './supabase/admin.routes.js'
 import instituteRoutes from './mongoRoutes/institute.routes.js';
 import eventAiEngineRoutes from './mongoRoutes/eventAiEngine.routes.js'
 import electronRoute from './electronRoutes/electron.routes.js'
+import questionRoute from './questionRoutes.js'
 
 const routes = (app) => {
 
@@ -33,7 +34,8 @@ const routes = (app) => {
     app.use('/api/admitCard', admitCardRoute);
     app.use('/api/result', resultRoute);
     app.use('/api/subscriber', subscriber);
-    
+    app.use('/api/question', questionRoute);
+
     app.use('/api/v1i2/auth', authRoutes);
     app.use('/api/v1i2/user', userRoutes);
     app.use('/api/v1i2/subject' , subjectRouter);

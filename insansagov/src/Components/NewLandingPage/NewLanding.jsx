@@ -3,6 +3,7 @@ import GovCalendar from "./components/GovCalendar";
 // import LandingLeft from "./components/LandingLeft";
 import LandingRight from "./components/LandingRight";
 import { RingLoader } from "react-spinners";
+import QuizComponent from "./QuizComponent";
 
 export default function GyapakLanding() {
 
@@ -22,6 +23,8 @@ export default function GyapakLanding() {
       <Suspense fallback={<Loading />}>
         <LandingRight />
 
+
+<QuizComponent />
         <GovCalendar />
       </Suspense>
     </div>
