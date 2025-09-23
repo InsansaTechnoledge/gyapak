@@ -154,13 +154,18 @@ const FAQCreate = () => {
                     className='px-2 py-1 text-lg border-purple-700 rounded-md border-2'
                     onChange={(e)=>(onHandleChange(e))} id='question' name='question' type='text' /> 
                 </div>
-                <div className='flex space-x-2'>
-                    <label htmlFor='answer' className='my-auto font-bold text-lg'>Answer: </label>
+                <div className='flex flex-col space-y-2'>
+                    <label htmlFor='answer' className='font-bold text-lg'>Answer: </label>
                     <textarea 
-                    required
-                    value={formData?.answer || ''}
-                    className='px-2 py-1 text-lg border-purple-700 rounded-md border-2'
-                    onChange={(e)=>(onHandleChange(e))} id='answer' name='answer'/> 
+                        required
+                        value={formData?.answer || ''}
+                        className='px-2 py-1 text-lg border-purple-700 rounded-md border-2'
+                        onChange={(e) => onHandleChange(e)} 
+                        id='answer' 
+                        name='answer' 
+                        rows="6"
+                        placeholder="Enter the detailed answer..."
+                    />
                 </div>
                 <div>
                     <label htmlFor='categories' className='my-auto font-bold text-lg'>Categories: </label>

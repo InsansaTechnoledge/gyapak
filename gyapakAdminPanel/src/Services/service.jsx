@@ -94,3 +94,40 @@ export const deleteCurrentAffairById = async (id) => {
   return res.data;
 };
 
+// Event Management Services
+export const fetchAllEvents = async () => {
+  try {
+    console.log('Making request to:', `${API_BASE_URL}/api/v1i2/event`);
+    const res = await axios.get(`${API_BASE_URL}/api/v1i2/event`, {
+      withCredentials: true
+    });
+    console.log('Response received:', res.data);
+    return res.data;
+  } catch (error) {
+    console.error('Service error:', error);
+    throw error;
+  }
+};
+
+export const getEventById = async (eventId) => {
+  const res = await axios.get(`${API_BASE_URL}/api/v1i2/event/${eventId}`, {
+    withCredentials: true
+  });
+  return res.data;
+};
+
+export const updateEventById = async (id, eventData) => {
+  const res = await axios.post(`${API_BASE_URL}/api/v1i2/event/${id}`, eventData, {
+    withCredentials: true
+  });
+  return res.data;
+};
+
+export const deleteEventById = async (organizationId, eventId) => {
+  const res = await axios.delete(`${API_BASE_URL}/api/v1i2/event`, {
+    data: { organizationId, eventId },
+    withCredentials: true
+  });
+  return res.data;
+};
+

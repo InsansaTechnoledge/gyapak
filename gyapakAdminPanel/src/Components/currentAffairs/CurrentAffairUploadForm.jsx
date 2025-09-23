@@ -7,7 +7,7 @@ const categoryOptions = [
   'Environment', 'Sports', 'Awards', 'Obituaries', 'Miscellaneous'
 ];
 
-const initialAffair = {
+const getNewInitialAffair = () => ({
   title: '',
   content: '',
   tags: '',
@@ -17,8 +17,9 @@ const initialAffair = {
   source: '',
   imageUrl: '',
   videoUrl: '',
-  questions: [
+  questions: [  
     {
+      id: Date.now() + Math.random(),
       text: '',
       options: ['', '', '', ''],
       answer: ''
@@ -31,12 +32,11 @@ const initialAffair = {
   ],
   details: '',
 
-  
-};
+});
 
 export default function CurrentAffairUploadForm() {
   const [date, setDate] = useState('');
-  const [affairs, setAffairs] = useState([{ ...initialAffair }]);
+  const [affairs, setAffairs] = useState([{ ...getNewInitialAffair() }]);
   const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
@@ -48,7 +48,7 @@ export default function CurrentAffairUploadForm() {
   };
 
   const addAffair = () => {
-    setAffairs([...affairs, { ...initialAffair }]);
+    setAffairs([...affairs, { ...getNewInitialAffair() }]);
   };
 
   const removeAffair = (index) => {
@@ -69,14 +69,15 @@ export default function CurrentAffairUploadForm() {
   };
   
   const addQuestion = (affairIndex) => {
-    const updated = [...affairs];
-    updated[affairIndex].questions.push({
-      text: '',
-      options: ['', '', '', ''],
-      answer: ''
-    });
-    setAffairs(updated);
-  };
+  const updated = [...affairs];
+  updated[affairIndex].questions.push({
+    id: Date.now() + Math.random(),
+    text: '',
+    options: ['', '', '', ''],
+    answer: ''
+  });
+  setAffairs(updated);
+};
   
   const removeQuestion = (affairIndex, qIndex) => {
     const updated = [...affairs];
@@ -120,7 +121,7 @@ export default function CurrentAffairUploadForm() {
       console.log('✅ Response:', res);
       setSuccessMsg('Current affairs uploaded successfully!');
       setErrorMsg('');
-      setAffairs([{ ...initialAffair }]);
+      setAffairs([{ ...getNewInitialAffair() }]);
       setDate('');
     } catch (err) {
       console.error('❌ Upload failed:', err);
@@ -329,6 +330,22 @@ export default function CurrentAffairUploadForm() {
                     placeholder="https://example.com/image.jpg"
                     className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                   />
+                    {affair.imageUrl && (
+                      <div className="mt-2 flex justify-center">
+                        <img
+                          src={affair.imageUrl}
+                          alt="Preview"
+                          style={{
+                            maxWidth: '100%',
+                            height: 'auto',
+                            maxHeight: '200px',
+                            objectFit: 'contain',
+                            borderRadius: '0.5rem',
+                            boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
+                          }}
+                        />
+                      </div>
+                    )}
                 </div>
 
                 <div>
@@ -348,7 +365,7 @@ export default function CurrentAffairUploadForm() {
                 <div className="mt-6">
                 <h4 className="text-md font-semibold text-purple-800 mb-3">🧠 Add Questions</h4>
                 {affair.questions.map((q, qIndex) => (
-                    <div key={qIndex} className="bg-purple-50 p-4 rounded border border-purple-200 mb-4 space-y-3">
+                    <div key={q.id} className="bg-purple-50 p-4 rounded border border-purple-200 mb-4 space-y-3">
                     <input
                         type="text"
                         value={q.text}

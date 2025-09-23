@@ -1,13 +1,14 @@
 import React from 'react'
 import PageLinks from './PageLinks'
 import Navbar from './Components/Navbar/Navbar'
+import { AuthProvider } from './Components/Auth/AuthContext'
 
 const App = () => {
   return (
-    <>
-    {/* <Navbar/> */}
-    <PageLinks />
-    </>
+    <AuthProvider>
+      <Navbar/>
+      <PageLinks />
+    </AuthProvider>
   )
 }
 

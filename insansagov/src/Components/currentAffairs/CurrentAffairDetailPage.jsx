@@ -152,39 +152,67 @@ export default function AffairDetailPage() {
               )}
 
               {/* MCQ questions converted to discussion format */}
-              {questions.length > 0 && (
-                <div>
-                  <h3 className="text-lg font-medium text-gray-800 mb-3">Discussion Points</h3>
-                  <div className="space-y-4">
-                    {questions.map((q, index) => (
-                      <div key={index} className="bg-white rounded-lg p-5 shadow-sm border border-gray-100">
-                        <div className="mb-3">
-                          <div className="flex items-start">
-                            <div className="flex-shrink-0 mr-3">
-                              <span className="inline-flex items-center justify-center h-6 w-6 rounded-full bg-blue-100 text-blue-700 text-sm font-medium">
-                                {index + 1}
-                              </span>
-                            </div>
-                            <p className="text-base md:text-lg font-medium text-gray-800">{q.text}</p>
-                          </div>
-                        </div>
+{questions.length > 0 && (
+  <div>
+    <h3 className="text-lg font-medium text-gray-800 mb-3">Discussion Points</h3>
+    <div className="space-y-4">
+      {questions.map((q, index) => (
+        <div key={index} className="bg-white rounded-lg p-5 shadow-sm border border-gray-100">
+          <div className="mb-3">
+            <div className="flex items-start">
+              <div className="flex-shrink-0 mr-3">
+                <span className="inline-flex items-center justify-center h-6 w-6 rounded-full bg-blue-100 text-blue-700 text-sm font-medium">
+                  {index + 1}
+                </span>
+              </div>
+              <p className="text-base md:text-lg font-medium text-gray-800">{q.text}</p>
+            </div>
+          </div>
 
-                        <div className="ml-9 bg-blue-50 p-4 rounded-md">
-                          <div className="font-medium text-blue-700 mb-2">Key Point</div>
-                          <p className="text-gray-700">{q.answer}</p>
+          {/* Options */}
+          {q.options && (
+            <div className="ml-9 mb-4">
+              {q.options.map((option, optIdx) => {
+                const isSelected = selectedOptions[index] === option;
+                const isCorrect = option === q.answer;
+                let optionClass = "px-4 py-2 rounded-md border cursor-pointer mb-2 block text-left";
+                if (isSelected) {
+                  optionClass += isCorrect
+                    ? " bg-green-100 border-green-400 text-green-800"
+                    : " bg-red-100 border-red-400 text-red-800";
+                } else {
+                  optionClass += " bg-white border-gray-200 hover:bg-blue-50";
+                }
+                return (
+                  <button
+                    key={optIdx}
+                    className={optionClass}
+                    onClick={() => handleOptionClick(index, option)}
+                    disabled={selectedOptions[index] !== undefined}
+                  >
+                    {option}
+                  </button>
+                );
+              })}
+            </div>
+          )}
 
-                          {q.explanation && (
-                            <div className="mt-3 pt-3 border-t border-blue-200">
-                              <div className="font-medium text-blue-700 mb-1">Further Analysis</div>
-                              <p className="text-gray-700 text-sm">{q.explanation}</p>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+          <div className="ml-9 bg-blue-50 p-4 rounded-md">
+            <div className="font-medium text-blue-700 mb-2">Key Point</div>
+            <p className="text-gray-700">{q.answer}</p>
+
+            {q.explanation && (
+              <div className="mt-3 pt-3 border-t border-blue-200">
+                <div className="font-medium text-blue-700 mb-1">Further Analysis</div>
+                <p className="text-gray-700 text-sm">{q.explanation}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
             </div>
           ) : (
             <>

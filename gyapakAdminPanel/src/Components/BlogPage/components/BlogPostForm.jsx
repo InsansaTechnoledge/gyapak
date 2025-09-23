@@ -230,15 +230,14 @@ const BlogPostForm = ({ post, onSave, onCancel, isSaving }) => {
               <label htmlFor="excerpt" className="block text-sm font-medium text-gray-700 mb-1">
                 Write a compelling excerpt (this appears in previews) *
               </label>
-              <textarea 
-                id="excerpt" 
-                name="excerpt" 
-                required
-                rows="3"
-                value={formData.excerpt} 
-                onChange={handleChange}
+              <textarea
+                id="excerpt"
+                value={formData.excerpt}
+                onChange={(e) => setFormData(prev => ({ ...prev, excerpt: e.target.value }))}
                 placeholder="Give readers a taste of your amazing content... (maximum 500 char)"
-                className="block w-full border-2 border-purple-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+                className="w-full p-3 border-2 border-purple-300 rounded-lg focus:border-purple-500 focus:ring-0 min-h-[120px] bg-white"
+                maxLength={500}
+                required
               />
             </div>
             
@@ -247,15 +246,14 @@ const BlogPostForm = ({ post, onSave, onCancel, isSaving }) => {
               <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1">
                 Your awesome blog content *
               </label>
-              <textarea 
-                id="content" 
-                name="content" 
-                required
-                rows="12"
-                value={formData.content} 
-                onChange={handleChange}
+              <textarea
+                id="content"
+                value={formData.content}
+                onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
                 placeholder="Share your thoughts, insights, and creativity here... (minimum 100 char)"
-                className="block w-full border-2 border-purple-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+                className="w-full p-3 border-2 border-purple-300 rounded-lg focus:border-purple-500 focus:ring-0 min-h-[300px] bg-white resize-y"
+                minLength={100}
+                required
               />
             </div>
           </div>

@@ -7,7 +7,9 @@ import {
   Video, 
   Globe, 
   Layers,
-  Link
+  Link,
+  FileText,
+  Plus
 } from 'lucide-react';
 
 const categoryOptions = [
@@ -50,7 +52,9 @@ const EditAffairModal = ({ isOpen, onClose, record, onSubmit }) => {
   
   const addQuestion = (affairIndex) => {
     const updated = [...formData.affairs];
-    updated[affairIndex].questions = updated[affairIndex].questions || [];
+    if (!updated[affairIndex].questions) {
+      updated[affairIndex].questions = [];
+    }
     updated[affairIndex].questions.push({
       text: '',
       options: ['', '', '', ''],
@@ -63,6 +67,33 @@ const EditAffairModal = ({ isOpen, onClose, record, onSubmit }) => {
     const updated = [...formData.affairs];
     updated[affairIndex].questions.splice(qIndex, 1);
     setFormData({ ...formData, affairs: updated });
+  };
+
+  const addAffair = () => {
+    const newAffair = {
+      title: '',
+      content: '',
+      category: '',
+      language: 'en',
+      tags: '',
+      source: '',
+      imageUrl: '',
+      videoUrl: '',
+      details: '',
+      questions: [],
+      singleLineQuestions: []
+    };
+    setFormData({ 
+      ...formData, 
+      affairs: [...formData.affairs, newAffair] 
+    });
+  };
+
+  const removeAffair = (affairIndex) => {
+    if (formData.affairs.length > 1) {
+      const updated = formData.affairs.filter((_, i) => i !== affairIndex);
+      setFormData({ ...formData, affairs: updated });
+    }
   };
   
 
@@ -119,8 +150,18 @@ const EditAffairModal = ({ isOpen, onClose, record, onSubmit }) => {
           <form onSubmit={handleSubmit} className="space-y-6">
             {formData.affairs && formData.affairs.map((affair, i) => (
               <div key={i} className="border border-gray-200 rounded-lg overflow-hidden">
-                <div className="bg-gray-50 px-4 py-3 border-b border-gray-200">
+                <div className="bg-gray-50 px-4 py-3 border-b border-gray-200 flex justify-between items-center">
                   <h3 className="font-medium text-gray-700">Current Affair #{i + 1}</h3>
+                  {formData.affairs.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeAffair(i)}
+                      className="p-1.5 text-red-600 hover:bg-red-50 rounded transition"
+                      title="Remove this current affair"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  )}
                 </div>
                 
                 <div className="p-4 space-y-4">
@@ -135,13 +176,16 @@ const EditAffairModal = ({ isOpen, onClose, record, onSubmit }) => {
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Content</label>
+                    <label className="flex items-center text-sm font-medium text-gray-700 mb-1">
+                      <FileText className="h-4 w-4 mr-1 text-blue-600" />
+                      Content
+                    </label>
                     <textarea
                       className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                      rows={3}
                       value={affair.content || ''}
                       onChange={(e) => handleFieldChange(i, 'content', e.target.value)}
-                      placeholder="Enter content"
+                      placeholder="Enter content..."
+                      rows="6"
                     />
                   </div>
                   
@@ -221,14 +265,17 @@ const EditAffairModal = ({ isOpen, onClose, record, onSubmit }) => {
                     </div>
 
                     <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Detailed Notes</label>
-                    <textarea
+                      <label className="flex items-center text-sm font-medium text-gray-700 mb-1">
+                        <FileText className="h-4 w-4 mr-1 text-blue-600" />
+                        Detailed Notes
+                      </label>
+                      <textarea
                         className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                        rows={5}
                         value={affair.details || ''}
                         onChange={(e) => handleFieldChange(i, 'details', e.target.value)}
-                        placeholder="Add background, impact, analysis, etc."
-                    />
+                        placeholder="Add background, impact, analysis, etc..."
+                        rows="8"
+                      />
                     </div>
 
                     
@@ -246,10 +293,9 @@ const EditAffairModal = ({ isOpen, onClose, record, onSubmit }) => {
                       />
                     </div>
 
-                    {affair.questions && affair.questions.length > 0 && (
                     <div className="mt-6">
-                        <h4 className="text-md font-semibold text-purple-800 mb-3">🧠 Edit Questions</h4>
-                        {affair.questions.map((q, qIndex) => (
+                        <h4 className="text-md font-semibold text-purple-800 mb-3">🧠 Add Questions</h4>
+                        {affair.questions && affair.questions.map((q, qIndex) => (
                         <div key={qIndex} className="bg-purple-50 p-4 rounded border border-purple-200 mb-4 space-y-3">
                             <input
                             type="text"
@@ -292,7 +338,6 @@ const EditAffairModal = ({ isOpen, onClose, record, onSubmit }) => {
                         + Add Question
                         </button>
                     </div>
-                    )}
 
                     {/* Single Line Questions */}
                     {Array.isArray(affair.singleLineQuestions) &&
@@ -343,6 +388,18 @@ const EditAffairModal = ({ isOpen, onClose, record, onSubmit }) => {
                 </div>
               </div>
             ))}
+
+            {/* Add Another Current Affair Button */}
+            <div className="flex justify-center pt-4">
+              <button
+                type="button"
+                onClick={addAffair}
+                className="flex items-center justify-center text-blue-600 border border-blue-200 bg-blue-50 hover:bg-blue-100 transition px-4 py-2 rounded-lg"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                <span>Add Another Current Affair</span>
+              </button>
+            </div>
           </form>
         </div>
         
