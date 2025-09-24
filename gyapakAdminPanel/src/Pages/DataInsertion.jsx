@@ -26,7 +26,7 @@ const DataInsertion = () => {
   const options = [
     { id: "add-org", label: "Add Organization" },
     { id: "manage-events", label: "Manage Events"},
-    {id: "affair" , label: "create today's current affair"},
+    {id: "affair" , label: "Create today's current affair"},
     {id: "manage-affair" , label: "Manage all current affair"},
     {id: "manage-faq", label: "Manage FAQ"},
     {id:"Today's Question", label: "Today's Question"}
