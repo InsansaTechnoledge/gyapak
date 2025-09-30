@@ -32,6 +32,11 @@ const CurrentAffairManager = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('date');
   const [sortOrder, setSortOrder] = useState('desc');
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10); // Number of records per page
+  const [totalPages, setTotalPages] = useState(0);
+  const [paginatedRecords, setPaginatedRecords] = useState([]);
 
   const fetchData = async () => {
     setLoading(true);
@@ -108,6 +113,27 @@ const CurrentAffairManager = () => {
     setExpandedRows(newExpanded);
   };
 
+  // Pagination logic
+  const updatePagination = (recordsToPage, page = currentPage) => {
+    const total = Math.ceil(recordsToPage.length / itemsPerPage);
+    setTotalPages(total);
+    
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginated = recordsToPage.slice(startIndex, endIndex);
+    
+    setPaginatedRecords(paginated);
+  };
+
+  // Handle page change
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    // Clear expanded rows when changing pages
+    setExpandedRows(new Set());
+    // Scroll to top of table
+    document.querySelector('.current-affairs-table')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   const filteredAndSortedRecords = records
     .filter(record => {
       if (!searchTerm) return true;
@@ -130,6 +156,18 @@ const CurrentAffairManager = () => {
       }
       return 0;
     });
+
+  // Effect to update pagination when records change
+  useEffect(() => {
+    // Reset to first page and update pagination when records or filters change
+    setCurrentPage(1);
+    updatePagination(filteredAndSortedRecords, 1);
+  }, [records, searchTerm, sortBy, sortOrder]);
+
+  // Effect to update pagination when page changes
+  useEffect(() => {
+    updatePagination(filteredAndSortedRecords, currentPage);
+  }, [currentPage, filteredAndSortedRecords, itemsPerPage]);
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
@@ -215,7 +253,7 @@ const CurrentAffairManager = () => {
             </p>
           </div>
         ) : (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+          <div className="current-affairs-table bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
             {/* Table Header */}
             <div className="bg-gray-50 border-b border-gray-200">
               <div className="grid grid-cols-12 gap-4 p-4 font-medium text-gray-700">
@@ -230,14 +268,14 @@ const CurrentAffairManager = () => {
 
             {/* Table Body */}
             <div className="divide-y divide-gray-200">
-              {filteredAndSortedRecords.map((rec, index) => (
+              {paginatedRecords.map((rec, index) => (
                 <React.Fragment key={rec._id}>
                   {/* Main Row */}
                   <div className="hover:bg-gray-50 transition-colors">
                     <div className="grid grid-cols-12 gap-4 p-4 items-center">
                       {/* Row Number */}
                       <div className="col-span-1 text-center text-sm font-medium text-gray-500">
-                        {index + 1}
+                        {((currentPage - 1) * itemsPerPage) + index + 1}
                       </div>
 
                       {/* Date */}
@@ -378,17 +416,103 @@ const CurrentAffairManager = () => {
               ))}
             </div>
 
-            {/* Table Footer */}
-            <div className="bg-gray-50 border-t border-gray-200 p-4">
-              <div className="flex justify-between items-center text-sm text-gray-600">
+            {/* Table Footer with Pagination */}
+            <div className="bg-gray-50 border-t border-gray-200">
+              {/* Current page stats */}
+              <div className="flex justify-between items-center text-sm text-gray-600 p-4 border-b border-gray-200">
                 <span>
-                  Showing {filteredAndSortedRecords.length} of {records.length} records
+                  Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, filteredAndSortedRecords.length)} of {filteredAndSortedRecords.length} records
                   {searchTerm && ` (filtered by "${searchTerm}")`}
                 </span>
                 <span>
                   Total Affairs: {filteredAndSortedRecords.reduce((acc, rec) => acc + rec.affairs.length, 0)}
                 </span>
               </div>
+
+              {/* Pagination Component */}
+              {totalPages > 1 && (
+                <div className="flex items-center justify-between p-4">
+                  <div className="flex items-center text-sm text-gray-700">
+                    <span>Page {currentPage} of {totalPages}</span>
+                  </div>
+                  
+                  <div className="flex items-center space-x-2">
+                    {/* Previous Button */}
+                    <button
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
+                      className={`px-3 py-2 rounded-lg text-sm font-medium transition ${
+                        currentPage === 1
+                          ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                          : 'bg-gray-100 text-gray-700 hover:bg-blue-100 hover:text-blue-700'
+                      }`}
+                    >
+                      Previous
+                    </button>
+
+                    {/* Page Numbers */}
+                    <div className="flex items-center space-x-1">
+                      {Array.from({ length: totalPages }, (_, index) => {
+                        const page = index + 1;
+                        const isCurrentPage = page === currentPage;
+                        
+                        // Show first page, last page, current page, and pages around current page
+                        if (
+                          page === 1 ||
+                          page === totalPages ||
+                          Math.abs(page - currentPage) <= 1
+                        ) {
+                          return (
+                            <button
+                              key={page}
+                              onClick={() => handlePageChange(page)}
+                              className={`px-3 py-2 rounded-lg text-sm font-medium transition ${
+                                isCurrentPage
+                                  ? 'bg-blue-600 text-white'
+                                  : 'bg-gray-100 text-gray-700 hover:bg-blue-100 hover:text-blue-700'
+                              }`}
+                            >
+                              {page}
+                            </button>
+                          );
+                        }
+                        
+                        // Show ellipsis for gaps
+                        if (page === 2 && currentPage > 4) {
+                          return (
+                            <span key={page} className="px-2 text-gray-400">
+                              ...
+                            </span>
+                          );
+                        }
+                        
+                        if (page === totalPages - 1 && currentPage < totalPages - 3) {
+                          return (
+                            <span key={page} className="px-2 text-gray-400">
+                              ...
+                            </span>
+                          );
+                        }
+                        
+                        return null;
+                      })}
+                    </div>
+
+                    {/* Next Button */}
+                    <button
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                      className={`px-3 py-2 rounded-lg text-sm font-medium transition ${
+                        currentPage === totalPages
+                          ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                          : 'bg-gray-100 text-gray-700 hover:bg-blue-100 hover:text-blue-700'
+                      }`}
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )}
