@@ -109,21 +109,30 @@ const FAQCreate = () => {
 
     const RenderCategory = ({category}) => {
         return (
-            <div className='flex space-x-2'>
-                <div className='px-2 border-purple-700 border rounded-lg'>{category.category}</div>
+            <div className="flex items-center gap-2 bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">
+                <span>{category.category}</span>
                 <button 
-                onClick={()=>deleteCategory(category.id)}
-                type='button' className='bg-red-700 rounded-sm px-2 text-white'>Delete</button>
+                    onClick={() => deleteCategory(category.id)}
+                    type="button" 
+                    className="bg-red-500 hover:bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs transition"
+                >
+                    ×
+                </button>
             </div>
         )
     }
+    
     const RenderSeo = ({seo}) => {
         return (
-            <div className='flex space-x-2'>
-                <div className='px-2 border-purple-700 border rounded-lg'>{seo.seo}</div>
+            <div className="flex items-center gap-2 bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+                <span>#{seo.seo}</span>
                 <button 
-                onClick={()=>deleteSeoTags(seo.id)}
-                type='button' className='bg-red-700 rounded-sm px-2 text-white'>Delete</button>
+                    onClick={() => deleteSeoTags(seo.id)}
+                    type="button" 
+                    className="bg-red-500 hover:bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs transition"
+                >
+                    ×
+                </button>
             </div>
         )
     }
@@ -141,99 +150,166 @@ const FAQCreate = () => {
     }
 
     return (
-        <>
-            <h1 className='text-center text-2xl font-bold'>FAQCreate</h1>
-            <form className='mt-10 w-1/3 mx-auto space-y-5'
-            onSubmit={uploadFAQ}
-            >
-                <div className='flex space-x-2'>
-                    <label htmlFor='question' className='my-auto font-bold text-lg'>Question: </label>
-                    <input 
-                    required
-                    value={formData?.question || ''}
-                    className='px-2 py-1 text-lg border-purple-700 rounded-md border-2'
-                    onChange={(e)=>(onHandleChange(e))} id='question' name='question' type='text' /> 
-                </div>
-                <div className='flex flex-col space-y-2'>
-                    <label htmlFor='answer' className='font-bold text-lg'>Answer: </label>
-                    <textarea 
-                        required
-                        value={formData?.answer || ''}
-                        className='px-2 py-1 text-lg border-purple-700 rounded-md border-2'
-                        onChange={(e) => onHandleChange(e)} 
-                        id='answer' 
-                        name='answer' 
-                        rows="6"
-                        placeholder="Enter the detailed answer..."
-                    />
-                </div>
-                <div>
-                    <label htmlFor='categories' className='my-auto font-bold text-lg'>Categories: </label>
-                    <input 
-                    className='px-2 py-1 text-lg border-purple-700 rounded-md border-2'
-                    id='categories' name='categories' type='text' />
-                    <button 
-                    className='bg-purple-700 p-2 text-white rounded-md ml-2'
-                    type='button' onClick={addCategory}>Add</button>
-                </div>
-                {
-                    categories.map((cat, idx) => (
-                        <RenderCategory category={cat} key={idx} />
-                    ))
-                }
-                <div>
-                    <label htmlFor='state' className='my-auto font-bold text-lg'>State: </label>
-                    <select 
-                    className='px-2 py-1 text-lg border-purple-700 rounded-md border-2'
-                    id='state'
-                    name='state'
-                    value={formData?.state || ''}
-                    onChange={(e)=>onHandleChange(e)}
-                    >
-                        {
-                            stateList.map((state, idx) => (
-                                <option key={idx} value={state}>{state}</option>
-                            ))
-                        }
-                    </select>
-                </div>
-                <div>
-                    <label htmlFor='seo' className='my-auto font-bold text-lg'>SEO Tags: </label>
-                    <input 
-                    className='px-2 py-1 text-lg border-purple-700 rounded-md border-2'
-                    id='seo' name='seo' type='text' />
-                    <button 
-                    className='bg-purple-700 p-2 text-white rounded-md ml-2'
-                    type='button' onClick={addSeoTag}>Add</button>
-                </div>
-                {
-                    seoTags.map((seo, idx) => (
-                        <RenderSeo seo={seo} key={idx} />
-                    ))
-                }
-                <div>
-                    <label htmlFor='organizationId' className='my-auto font-bold text-lg'>Organization: </label>
-                    <select 
-                    onChange={(e)=>(onHandleChange(e))}
-                    className='px-2 py-1 text-lg border-purple-700 rounded-md border-2'
-                    value={formData?.organizationId || ''}
-                    id='organizationId' name='organizationId'>
-                        <option value=''>None</option>
-                        {
-                            organizations.map(org => (
-                                <option key={org._id} value={org._id}>{org.name}</option>
-                            ))
-                        }
-                    </select>
-                </div>
-                        
-                        <button 
-                        className='bg-purple-700 text-white p-2 rounded-md '
-                        type='submit'
-                        >Upload FAQ</button>
-            </form>
+        <div className="space-y-6">
+            {/* Header Section */}
+            <div className="text-center mb-8">
+                <h2 className="text-3xl font-bold text-purple-800 mb-3">Create FAQ</h2>
+                <p className="text-gray-600 text-lg">
+                    Add new frequently asked questions to help users
+                </p>
+            </div>
 
-        </>
+            {/* FAQ Form */}
+            <form onSubmit={uploadFAQ} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div className="space-y-6">
+                    {/* Question Field */}
+                    <div>
+                        <label htmlFor="question" className="block text-sm font-medium text-gray-700 mb-2">
+                            Question *
+                        </label>
+                        <input
+                            required
+                            value={formData?.question || ''}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            onChange={(e) => onHandleChange(e)}
+                            id="question"
+                            name="question"
+                            type="text"
+                            placeholder="Enter the FAQ question"
+                        />
+                    </div>
+
+                    {/* Answer Field */}
+                    <div>
+                        <label htmlFor="answer" className="block text-sm font-medium text-gray-700 mb-2">
+                            Answer *
+                        </label>
+                        <textarea
+                            required
+                            value={formData?.answer || ''}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            onChange={(e) => onHandleChange(e)}
+                            id="answer"
+                            name="answer"
+                            rows="6"
+                            placeholder="Enter the detailed answer..."
+                        />
+                    </div>
+
+                    {/* Categories Section */}
+                    <div>
+                        <label htmlFor="categories" className="block text-sm font-medium text-gray-700 mb-2">
+                            Categories
+                        </label>
+                        <div className="flex gap-2">
+                            <input
+                                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                id="categories"
+                                name="categories"
+                                type="text"
+                                placeholder="Enter category name"
+                            />
+                            <button
+                                className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition"
+                                type="button"
+                                onClick={addCategory}
+                            >
+                                Add
+                            </button>
+                        </div>
+                        
+                        {/* Category Tags */}
+                        {categories.length > 0 && (
+                            <div className="mt-3 flex flex-wrap gap-2">
+                                {categories.map((cat, idx) => (
+                                    <RenderCategory category={cat} key={idx} />
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    {/* State Selection */}
+                    <div>
+                        <label htmlFor="state" className="block text-sm font-medium text-gray-700 mb-2">
+                            State
+                        </label>
+                        <select
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            id="state"
+                            name="state"
+                            value={formData?.state || ''}
+                            onChange={(e) => onHandleChange(e)}
+                        >
+                            <option value="">Select a state</option>
+                            {stateList.map((state, idx) => (
+                                <option key={idx} value={state}>{state}</option>
+                            ))}
+                        </select>
+                    </div>
+
+                    {/* SEO Tags Section */}
+                    <div>
+                        <label htmlFor="seo" className="block text-sm font-medium text-gray-700 mb-2">
+                            SEO Tags
+                        </label>
+                        <div className="flex gap-2">
+                            <input
+                                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                id="seo"
+                                name="seo"
+                                type="text"
+                                placeholder="Enter SEO tag"
+                            />
+                            <button
+                                className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition"
+                                type="button"
+                                onClick={addSeoTag}
+                            >
+                                Add
+                            </button>
+                        </div>
+                        
+                        {/* SEO Tags */}
+                        {seoTags.length > 0 && (
+                            <div className="mt-3 flex flex-wrap gap-2">
+                                {seoTags.map((seo, idx) => (
+                                    <RenderSeo seo={seo} key={idx} />
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Organization Selection */}
+                    <div>
+                        <label htmlFor="organizationId" className="block text-sm font-medium text-gray-700 mb-2">
+                            Organization
+                        </label>
+                        <select
+                            onChange={(e) => onHandleChange(e)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            value={formData?.organizationId || ''}
+                            id="organizationId"
+                            name="organizationId"
+                        >
+                            <option value="">None</option>
+                            {organizations.map(org => (
+                                <option key={org._id} value={org._id}>{org.name}</option>
+                            ))}
+                        </select>
+                    </div>
+
+                    {/* Submit Button */}
+                    <div className="flex justify-end pt-6 border-t border-gray-200">
+                        <button
+                            className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition"
+                            type="submit"
+                        >
+                            Create FAQ
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     )
 }
 
