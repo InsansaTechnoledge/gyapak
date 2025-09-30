@@ -28,6 +28,11 @@ const DataInsertion = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedOrganization, setSelectedOrganization] = useState(null);
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(12); // Number of organizations per page
+  const [totalPages, setTotalPages] = useState(0);
+  const [paginatedOrganizations, setPaginatedOrganizations] = useState([]);
   const [formData, setFormData] = useState({
     name: '',
     abbreviation: '',
@@ -181,6 +186,32 @@ const DataInsertion = () => {
     }
 
     setFilteredOrganizations(filtered);
+    
+    // Reset to first page when filtering
+    setCurrentPage(1);
+    
+    // Update pagination
+    updatePagination(filtered, 1);
+  };
+
+  // Pagination logic
+  const updatePagination = (organizationsToPage = filteredOrganizations, page = currentPage) => {
+    const total = Math.ceil(organizationsToPage.length / itemsPerPage);
+    setTotalPages(total);
+    
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginated = organizationsToPage.slice(startIndex, endIndex);
+    
+    setPaginatedOrganizations(paginated);
+  };
+
+  // Handle page change
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    updatePagination(filteredOrganizations, page);
+    // Scroll to top of organization list
+    document.querySelector('.organizations-grid')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   // Effect to filter organizations when search term or category changes
@@ -188,6 +219,11 @@ const DataInsertion = () => {
     filterOrganizations();
     console.log(selectedCategory)
   }, [searchTerm, selectedCategory, organizations]);
+
+  // Effect to update pagination when filteredOrganizations or currentPage changes
+  useEffect(() => {
+    updatePagination();
+  }, [filteredOrganizations, currentPage, itemsPerPage]);
 
   // Effect to fetch categories and authorities when add-org is selected
   useEffect(() => {
@@ -770,73 +806,164 @@ const DataInsertion = () => {
         </div>
 
         {/* Organizations Grid */}
-        {filteredOrganizations.length === 0 ? (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
-            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Building className="w-8 h-8 text-gray-400" />
+        <div className="organizations-grid">
+          {filteredOrganizations.length === 0 ? (
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
+              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Building className="w-8 h-8 text-gray-400" />
+              </div>
+              <h3 className="text-xl font-medium text-gray-700 mb-2">No Organizations Found</h3>
+              <p className="text-gray-500 max-w-md mx-auto">
+                {searchTerm || selectedCategory 
+                  ? "Try adjusting your search criteria or filters." 
+                  : "No organizations are available at the moment."}
+              </p>
             </div>
-            <h3 className="text-xl font-medium text-gray-700 mb-2">No Organizations Found</h3>
-            <p className="text-gray-500 max-w-md mx-auto">
-              {searchTerm || selectedCategory 
-                ? "Try adjusting your search criteria or filters." 
-                : "No organizations are available at the moment."}
-            </p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredOrganizations.map((org) => (
-              <div
-                key={org._id}
-                className="bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow cursor-pointer"
-                onClick={() => setSelectedOrganization(org)}
-              >
-                <div className="p-6">
-                  {/* Logo and Header */}
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center">
-                      {org.logo ? (
-                        <img
-                          src={`data:image/png;base64,${org.logo}`}
-                          alt={`${org.name} logo`}
-                          className="w-12 h-12 rounded-lg object-cover mr-3"
-                        />
-                      ) : (
-                        <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
-                          <Building className="w-6 h-6 text-purple-600" />
+          ) : (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {paginatedOrganizations.map((org) => (
+                  <div
+                    key={org._id}
+                    className="bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow cursor-pointer"
+                    onClick={() => setSelectedOrganization(org)}
+                  >
+                    <div className="p-6">
+                      {/* Logo and Header */}
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-center">
+                          {org.logo ? (
+                            <img
+                              src={`data:image/png;base64,${org.logo}`}
+                              alt={`${org.name} logo`}
+                              className="w-12 h-12 rounded-lg object-cover mr-3"
+                            />
+                          ) : (
+                            <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
+                              <Building className="w-6 h-6 text-purple-600" />
+                            </div>
+                          )}
+                          <div>
+                            <h3 className="font-semibold text-gray-900 text-lg leading-tight">
+                              {org.name}
+                            </h3>
+                            <p className="text-sm text-purple-600 font-medium">
+                              {org.abbreviation}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                        {org.description || "No description available."}
+                      </p>
+
+                      {/* Category Badge */}
+                      {org.category && (
+                        <div className="flex items-center justify-between">
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                            {org.category.category}
+                          </span>
+                          <button className="text-purple-600 hover:text-purple-800 text-sm font-medium">
+                            View Details →
+                          </button>
                         </div>
                       )}
-                      <div>
-                        <h3 className="font-semibold text-gray-900 text-lg leading-tight">
-                          {org.name}
-                        </h3>
-                        <p className="text-sm text-purple-600 font-medium">
-                          {org.abbreviation}
-                        </p>
-                      </div>
                     </div>
                   </div>
-
-                  {/* Description */}
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                    {org.description || "No description available."}
-                  </p>
-
-                  {/* Category Badge */}
-                  {org.category && (
-                    <div className="flex items-center justify-between">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
-                        {org.category.category}
-                      </span>
-                      <button className="text-purple-600 hover:text-purple-800 text-sm font-medium">
-                        View Details →
-                      </button>
-                    </div>
-                  )}
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
-        )}
+
+              {/* Pagination Component */}
+              {totalPages > 1 && (
+                <div className="mt-8 flex items-center justify-between bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                  <div className="flex items-center text-sm text-gray-700">
+                    <span>
+                      Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, filteredOrganizations.length)} of {filteredOrganizations.length} organizations
+                    </span>
+                  </div>
+                  
+                  <div className="flex items-center space-x-2">
+                    {/* Previous Button */}
+                    <button
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
+                      className={`px-3 py-2 rounded-lg text-sm font-medium transition ${
+                        currentPage === 1
+                          ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                          : 'bg-gray-100 text-gray-700 hover:bg-purple-100 hover:text-purple-700'
+                      }`}
+                    >
+                      Previous
+                    </button>
+
+                    {/* Page Numbers */}
+                    <div className="flex items-center space-x-1">
+                      {Array.from({ length: totalPages }, (_, index) => {
+                        const page = index + 1;
+                        const isCurrentPage = page === currentPage;
+                        
+                        // Show first page, last page, current page, and pages around current page
+                        if (
+                          page === 1 ||
+                          page === totalPages ||
+                          Math.abs(page - currentPage) <= 1
+                        ) {
+                          return (
+                            <button
+                              key={page}
+                              onClick={() => handlePageChange(page)}
+                              className={`px-3 py-2 rounded-lg text-sm font-medium transition ${
+                                isCurrentPage
+                                  ? 'bg-purple-600 text-white'
+                                  : 'bg-gray-100 text-gray-700 hover:bg-purple-100 hover:text-purple-700'
+                              }`}
+                            >
+                              {page}
+                            </button>
+                          );
+                        }
+                        
+                        // Show ellipsis for gaps
+                        if (page === 2 && currentPage > 4) {
+                          return (
+                            <span key={page} className="px-2 text-gray-400">
+                              ...
+                            </span>
+                          );
+                        }
+                        
+                        if (page === totalPages - 1 && currentPage < totalPages - 3) {
+                          return (
+                            <span key={page} className="px-2 text-gray-400">
+                              ...
+                            </span>
+                          );
+                        }
+                        
+                        return null;
+                      })}
+                    </div>
+
+                    {/* Next Button */}
+                    <button
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                      className={`px-3 py-2 rounded-lg text-sm font-medium transition ${
+                        currentPage === totalPages
+                          ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                          : 'bg-gray-100 text-gray-700 hover:bg-purple-100 hover:text-purple-700'
+                      }`}
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+        </div>
 
         {/* Organization Detail Modal */}
         {selectedOrganization && (
@@ -960,11 +1087,11 @@ const DataInsertion = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex">
+    <div className="relative min-h-screen">
       <FloatingOrbsBackground />
       
       {/* Left Sidebar */}
-      <div className="w-80 bg-white shadow-lg p-6 relative z-10">
+      <div className="fixed left-0 top-20 h-full w-80 bg-white shadow-lg p-6 z-10 overflow-y-auto">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-purple-800">
             Dashboard
@@ -1027,7 +1154,7 @@ const DataInsertion = () => {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 p-6">
+      <div className="ml-80 p-6">
         <div className="max-w-6xl mx-auto bg-white rounded-lg shadow-lg p-6">
           {renderComponent()}
         </div>
