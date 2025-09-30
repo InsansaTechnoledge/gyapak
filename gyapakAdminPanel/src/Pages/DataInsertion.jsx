@@ -15,7 +15,7 @@ import axios from 'axios';
 import { API_BASE_URL } from '../config';
 
 const DataInsertion = () => {
-  const [organizationType, setOrganizationType] = useState(null);
+  const [organizationType, setOrganizationType] = useState("add-org");
   const [subOrgType, setSubOrgType] = useState(null);
   const [eventActionType, setEventActionType] = useState(null);
   const [faqActionType, setFaqActionType] = useState(null);
@@ -425,8 +425,6 @@ const DataInsertion = () => {
                 ))}
               </select>
             </div>
-
-            {/* Parent Authority */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Parent Authority *
