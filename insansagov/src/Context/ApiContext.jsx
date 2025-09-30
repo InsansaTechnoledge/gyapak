@@ -15,6 +15,7 @@ export const SERVER_URLS = [
     // "http://localhost:5000",
     // "http://localhost:3000",
     // "https://backend.gyapak.in",
+    "http://3.111.196.146",
     "https://admin.harshvaidya.tech"
     // "http://localhost:8383"
   ];

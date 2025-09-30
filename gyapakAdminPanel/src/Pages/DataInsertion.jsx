@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CentralEvent from '../Components/CentralEvent';
 import StateEvent from '../Components/StateEvent';
 import AdminBlogPage from '../Components/BlogPage/AdminBlogPage';
@@ -11,12 +11,16 @@ import DeleteFAQ from '../Components/FAQ/DeleteFAQ';
 import DailyQuestions from '../Components/DailyQuestions/DailyQuestion';
 import { useAuth } from '../Components/Auth/AuthContext';
 import { LogOut } from 'lucide-react';
+import axios from 'axios';
 
 const DataInsertion = () => {
   const [organizationType, setOrganizationType] = useState(null);
   const [subOrgType, setSubOrgType] = useState(null);
   const [eventActionType, setEventActionType] = useState(null);
   const [faqActionType, setFaqActionType] = useState(null);
+  const [organizations, setOrganizations] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const { logout } = useAuth();
 
   const handleLogout = () => {
@@ -24,12 +28,14 @@ const DataInsertion = () => {
   };
 
   const options = [
-    { id: "add-org", label: "Add Organization" },
+    {id: "add-org", label: "Add Organization" },
+    {id: "add-events", label: "Add Events"},
     { id: "manage-events", label: "Manage Events"},
     {id: "affair" , label: "Create today's current affair"},
     {id: "manage-affair" , label: "Manage all current affair"},
     {id: "manage-faq", label: "Manage FAQ"},
-    {id:"Today's Question", label: "Today's Question"}
+    {id:"Today's Question", label: "Today's Question"},
+    { id: "manage-organizations", label: "Manage Organizations" }
   ];
 
   const orgSubOptions = [
@@ -46,6 +52,23 @@ const DataInsertion = () => {
     { id: "create", label: "Create FAQ" },
     { id: "delete", label: "Delete FAQ" }
   ];
+
+  // Fetch organizations from the backend
+  const fetchOrganizations = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get('<backend_url>/organizations');
+      setOrganizations(response.data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrganizations();
+  }, []);
 
   // Render Manage FAQ page with internal tabs
   const renderManageFAQPage = () => {
@@ -129,9 +152,9 @@ const DataInsertion = () => {
       <div className="space-y-6">
         {/* Header Section */}
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-purple-800 mb-3">Add Organization</h2>
+          <h2 className="text-3xl font-bold text-purple-800 mb-3">Add Events</h2>
           <p className="text-gray-600 text-lg">
-            Create and manage government organizations for Central and State authorities
+            Create and manage government events for Central and State authorities
           </p>
         </div>
 
@@ -248,10 +271,30 @@ const DataInsertion = () => {
     );
   };
 
+  // Render Organization Management UI
+  const renderOrganizationManagement = () => {
+    if (loading) return <p>Loading organizations...</p>;
+    if (error) return <p>Error: {error}</p>;
+
+    return (
+      <div>
+        <h2 className="text-2xl font-bold text-purple-800 mb-4">Manage Organizations</h2>
+        <ul>
+          {organizations.map((org) => (
+            <li key={org._id} className="mb-4">
+              <h3 className="text-lg font-semibold">{org.name}</h3>
+              <p>{org.description}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
+
   // Render component based on selection
   const renderComponent = () => {
     switch (organizationType) {
-      case "add-org":
+      case "add-events":
         return renderAddOrgPage();
       case "manage-events":
         return renderManageEventsPage();
@@ -263,6 +306,8 @@ const DataInsertion = () => {
         return renderManageFAQPage();
       case "Today's Question":
         return <DailyQuestions />;
+      case "manage-organizations":
+        return renderOrganizationManagement();
       default:
         return (
           <div className="flex items-center justify-center h-64">
@@ -298,7 +343,7 @@ const DataInsertion = () => {
               onClick={() => {
                 setOrganizationType(option.id);
                 // Reset subOrgType when switching main options, but set default for add-org
-                if (option.id === "add-org") {
+                if (option.id === "add-events") {
                   setSubOrgType("Central"); // Default to Central
                   setEventActionType(null);
                   setFaqActionType(null);
