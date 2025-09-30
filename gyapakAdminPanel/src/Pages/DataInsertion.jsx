@@ -1091,7 +1091,7 @@ const DataInsertion = () => {
       <FloatingOrbsBackground />
       
       {/* Left Sidebar */}
-      <div className="fixed left-0 top-20 h-full w-80 bg-white shadow-lg p-6 z-10 overflow-y-auto">
+      <div className="fixed left-0 top-20 h-[calc(100vh-5rem)] w-80 bg-white shadow-lg p-6 z-10 overflow-y-auto">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-purple-800">
             Dashboard
@@ -1154,7 +1154,7 @@ const DataInsertion = () => {
       </div>
 
       {/* Main Content Area */}
-      <div className="ml-80 p-6">
+      <div className="ml-80 mt-20 p-6">
         <div className="max-w-6xl mx-auto bg-white rounded-lg shadow-lg p-6">
           {renderComponent()}
         </div>
