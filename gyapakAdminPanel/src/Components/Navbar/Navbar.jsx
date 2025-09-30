@@ -4,8 +4,8 @@ import { Bell, Settings, User, LogOut } from 'lucide-react';
 
 const Navbar = () => {
   return (
-    <header className="bg-white shadow-md">
-      <div className="container mx-auto px-4 py-4">
+    <header className="fixed top-0 left-0 right-0 bg-white shadow-md z-20">
+      <div className="container mx-auto px-3 py-1">
         <div className="flex justify-between items-center">
           <div className="flex items-center justify-between">
   {/* Left Side (Logo) */}
