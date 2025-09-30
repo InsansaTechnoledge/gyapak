@@ -1,10 +1,20 @@
 import express from 'express'
-import { getCentralOrganization, getOrganizationsByState, getAllOrganizations } from '../controllers/organization.controller.js';
+import { 
+  getCentralOrganization, 
+  getOrganizationsByState, 
+  getAllOrganizations,
+  getAllCategories,
+  getAllAuthorities,
+  createOrganizations
+} from '../controllers/organization.controller.js';
 
 const router = express.Router();
 
 router.get('/central', getCentralOrganization);
 router.get('/state', getOrganizationsByState);
+router.get('/categories', getAllCategories);
+router.get('/authorities', getAllAuthorities);
 router.get('/', getAllOrganizations);
+router.post('/', createOrganizations);
 
 export default router;
