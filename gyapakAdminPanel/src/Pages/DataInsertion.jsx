@@ -186,6 +186,7 @@ const DataInsertion = () => {
   // Effect to filter organizations when search term or category changes
   useEffect(() => {
     filterOrganizations();
+    console.log(selectedCategory)
   }, [searchTerm, selectedCategory, organizations]);
 
   // Effect to fetch categories and authorities when add-org is selected
@@ -452,25 +453,62 @@ const DataInsertion = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Organization Logo
               </label>
-              <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-purple-400 transition">
+              <div 
+                onClick={() => document.getElementById('logo-upload').click()}
+                className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-purple-400 transition cursor-pointer"
+              >
                 <div className="space-y-1 text-center">
-                  <svg
-                    className="mx-auto h-12 w-12 text-gray-400"
-                    stroke="currentColor"
-                    fill="none"
-                    viewBox="0 0 48 48"
-                  >
-                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                  <div className="flex text-sm text-gray-600">
-                    <label htmlFor="logo-upload" className="relative cursor-pointer bg-white rounded-md font-medium text-purple-600 hover:text-purple-500">
-                      <span>Upload a file</span>
-                      <input id="logo-upload" name="logo-upload" type="file" className="sr-only" accept="image/*" />
-                    </label>
-                    <p className="pl-1">or drag and drop</p>
-                  </div>
-                  <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                  {formData.logo ? (
+                    <img
+                      src={URL.createObjectURL(formData.logo)}
+                      alt="Organization Logo"
+                      className="mx-auto h-32 w-32 object-cover rounded-lg"
+                    />
+                  ) : (
+                    <>
+                      <svg
+                        className="mx-auto h-12 w-12 text-gray-400"
+                        stroke="currentColor"
+                        fill="none"
+                        viewBox="0 0 48 48"
+                      >
+                        <path 
+                          d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" 
+                          strokeWidth={2} 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                        />
+                      </svg>
+                      <div className="flex text-sm text-gray-600 justify-center">
+                        <span className="relative bg-white rounded-md font-medium text-purple-600 hover:text-purple-500">
+                          Upload a file
+                        </span>
+                        <p className="pl-1">or drag and drop</p>
+                      </div>
+                      <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                    </>
+                  )}
                 </div>
+                <input
+                  id="logo-upload"
+                  name="logo-upload"
+                  type="file"
+                  className="sr-only"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                      if (file.size > 10 * 1024 * 1024) { // 10MB limit
+                        alert('File size should not exceed 10MB');
+                        return;
+                      }
+                      setFormData(prev => ({
+                        ...prev,
+                        logo: file
+                      }));
+                    }
+                  }}
+                />
               </div>
             </div>
 
@@ -861,7 +899,9 @@ const DataInsertion = () => {
                   <div>
                     <h3 className="text-sm font-medium text-gray-700 mb-2">Description</h3>
                     <p className="text-gray-600">
-                      {selectedOrganization.description || "No description available."}
+                      {selectedOrganization?.description
+                        ? selectedOrganization.description
+                        : "No description available."}
                     </p>
                   </div>
 
