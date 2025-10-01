@@ -131,11 +131,9 @@ export const createOrganizations = async (req, res) => {
       // Find parent authority
       const parent = await Authority.findOne({ name: org.parent_organization });
       if (!parent) {
-        return res
-          .status(400)
-          .json({
-            error: `Parent authority not found: ${org.parent_organization}`,
-          });
+        return res.status(400).json({
+          error: `Parent authority not found: ${org.parent_organization}`,
+        });
       }
 
       // Find or create category
