@@ -13,10 +13,10 @@ export const SERVER_URLS = [
     // "https://gyapak-3.onrender.com",
     // "https://gyapak-4.onrender.com"
     // "http://localhost:5000",
-    "http://localhost:3000",
+    // "http://localhost:3000",
     // "https://backend.gyapak.in",
     // "http://3.111.196.146",
-    // "https://admin.harshvaidya.tech"
+    "https://admin.harshvaidya.tech"
     // "http://localhost:8383"
   ];
 
