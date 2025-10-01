@@ -5,7 +5,9 @@ import {
   getAllOrganizations,
   getAllCategories,
   getAllAuthorities,
-  createOrganizations
+  createOrganizations,
+  createOrganizationWithUpload,
+  upload
 } from '../controllers/organization.controller.js';
 
 const router = express.Router();
@@ -16,5 +18,6 @@ router.get('/categories', getAllCategories);
 router.get('/authorities', getAllAuthorities);
 router.get('/', getAllOrganizations);
 router.post('/', createOrganizations);
+router.post('/upload', upload.single('logo'), createOrganizationWithUpload);
 
 export default router;

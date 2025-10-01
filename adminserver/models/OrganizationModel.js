@@ -1,47 +1,51 @@
-import fetch from 'node-fetch';
-if(process.env.NODE_ENV !== "production"){
-    (await import('dotenv')).config();
-  }
 import mongoose from "mongoose";
-const CLIENT_BASE_URL_LIVE = process.env.DEFAULT_LOGO || 'https://default-logo-url.com';
-let base64String = "";
-try{
-    const response = await fetch(CLIENT_BASE_URL_LIVE);
-    const arrayBuffer = await response.arrayBuffer();
-    const imageBuffer = Buffer.from(arrayBuffer);
-     base64String = imageBuffer.toString('base64');
-}catch(error){
-    console.error('Error fetching image:', error);
-}
+import fetch from 'node-fetch';
+import dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
+
+// Function to get default logo as base64
+export const getDefaultLogoBase64 = async () => {
+    try {
+        const CLIENT_BASE_URL_LIVE = process.env.DEFAULT_LOGO || 'https://default-logo-url.com';
+        const response = await fetch(CLIENT_BASE_URL_LIVE);
+        const arrayBuffer = await response.arrayBuffer();
+        const imageBuffer = Buffer.from(arrayBuffer);
+        return imageBuffer.toString('base64');
+    } catch (error) {
+        console.error('Error fetching default logo:', error);
+        return "";
+    }
+};
 
 const organizationSchema = new mongoose.Schema({
-    name:{
+    name: {
         type: String,
         required: true
     },
-    abbreviation:{
+    abbreviation: {
         type: String,
         required: true
     },
-    description:{
+    description: {
         type: String
     },
-    logo:{
-        type: String,
-        default:base64String
+    logo: {
+        type: String, // Will store base64 string
+        default: ""
     },
-    events:[{
+    events: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Event'
     }],
-    category:{
+    category: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:"Category"
+        ref: "Category"
     },
-    calendar:{
+    calendar: {
         type: String
     }
-    
 });
 
 const Organization = mongoose.model('Organization', organizationSchema);

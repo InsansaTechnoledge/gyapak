@@ -14,7 +14,7 @@ const FAQCreate = () => {
         'Delhi', 'Jammu and Kashmir', 'Ladakh', 'Lakshadweep', 'Puducherry', 'All'
       ];
 
-      const [categories, setCategories] = useState([]);
+    //   const [categories, setCategories] = useState([]);
       const [organizations, setOrganizations] = useState([]);
       const [formData, setFormData] = useState({});
       const [seoTags, setSeoTags] = useState([]);
@@ -54,22 +54,22 @@ const FAQCreate = () => {
         )
     }
 
-    useEffect(()=>{
-        if(categories){
-            setFormData(prev => ({
-                ...prev,
-                categories: categories.map(category => category.category)
-            }));
-        }
-    },[categories])
-    useEffect(()=>{
-        if(seoTags){
-            setFormData(prev => ({
-                ...prev,
-                seoTags: seoTags.map(seo => seo.seo)
-            }));
-        }
-    },[seoTags])
+    // useEffect(()=>{
+    //     if(categories){
+    //         setFormData(prev => ({
+    //             ...prev,
+    //             categories: categories.map(category => category.category)
+    //         }));
+    //     }
+    // },[categories])
+    // useEffect(()=>{
+    //     if(seoTags){
+    //         setFormData(prev => ({
+    //             ...prev,
+    //             seoTags: seoTags.map(seo => seo.seo)
+    //         }));
+    //     }
+    // },[seoTags])
 
     const addCategory = () => {
         const category = document.getElementById('categories').value;
@@ -98,30 +98,30 @@ const FAQCreate = () => {
         document.getElementById('seo').value='';
     }
 
-    const deleteCategory = (id) => {
-        setCategories(categories.filter(cat => cat.id != id));
-    }
+    // const deleteCategory = (id) => {
+    //     setCategories(categories.filter(cat => cat.id != id));
+    // }
 
     const deleteSeoTags = (id) => {
         setSeoTags(seoTags.filter(seo => seo.id != id));
     }
 
 
-    const RenderCategory = ({category}) => {
-        return (
-            <div className="flex items-center gap-2 bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">
-                <span>{category.category}</span>
-                <button 
-                    onClick={() => deleteCategory(category.id)}
-                    type="button" 
-                    className="bg-red-500 hover:bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs transition"
-                >
-                    ×
-                </button>
-            </div>
-        )
-    }
-    
+    // const RenderCategory = ({category}) => {
+    //     return (
+    //         <div className="flex items-center gap-2 bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">
+    //             <span>{category.category}</span>
+    //             <button 
+    //                 onClick={() => deleteCategory(category.id)}
+    //                 type="button" 
+    //                 className="bg-red-500 hover:bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs transition"
+    //             >
+    //                 ×
+    //             </button>
+    //         </div>
+    //     )
+    // }
+
     const RenderSeo = ({seo}) => {
         return (
             <div className="flex items-center gap-2 bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
@@ -145,7 +145,7 @@ const FAQCreate = () => {
         }
 
         setSeoTags([]);
-        setCategories([]);
+        // setCategories([]);
         setFormData({});
     }
 
@@ -194,38 +194,6 @@ const FAQCreate = () => {
                             rows="6"
                             placeholder="Enter the detailed answer..."
                         />
-                    </div>
-
-                    {/* Categories Section */}
-                    <div>
-                        <label htmlFor="categories" className="block text-sm font-medium text-gray-700 mb-2">
-                            Categories
-                        </label>
-                        <div className="flex gap-2">
-                            <input
-                                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                                id="categories"
-                                name="categories"
-                                type="text"
-                                placeholder="Enter category name"
-                            />
-                            <button
-                                className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition"
-                                type="button"
-                                onClick={addCategory}
-                            >
-                                Add
-                            </button>
-                        </div>
-                        
-                        {/* Category Tags */}
-                        {categories.length > 0 && (
-                            <div className="mt-3 flex flex-wrap gap-2">
-                                {categories.map((cat, idx) => (
-                                    <RenderCategory category={cat} key={idx} />
-                                ))}
-                            </div>
-                        )}
                     </div>
 
                     {/* State Selection */}

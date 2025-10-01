@@ -44,7 +44,10 @@ const DataInsertion = () => {
   const { logout } = useAuth();
 
   const handleLogout = () => {
-    logout();
+    const confirmed = window.confirm("Are you sure you want to logout?");
+    if (confirmed) {
+      logout();
+    }
   };
 
   const options = [
@@ -324,6 +327,20 @@ const DataInsertion = () => {
   };
 
   // Handle form submission
+  // Helper function to convert file to base64
+  const fileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        // Remove the data URL prefix to get only the base64 string
+        const base64 = reader.result.split(',')[1];
+        resolve(base64);
+      };
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     
@@ -342,6 +359,18 @@ const DataInsertion = () => {
         category: formData.category,
         parent_organization: formData.parent_organization
       };
+
+      // Convert logo to base64 if file is selected
+      if (formData.logo) {
+        try {
+          const logoBase64 = await fileToBase64(formData.logo);
+          organizationData.logo = logoBase64;
+        } catch (err) {
+          console.error('Error converting image to base64:', err);
+          setError('Error processing image file');
+          return;
+        }
+      }
 
       const result = await createOrganization(organizationData);
       
