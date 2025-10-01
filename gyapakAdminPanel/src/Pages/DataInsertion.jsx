@@ -158,11 +158,30 @@ const DataInsertion = () => {
   // Create new organization
   const createOrganization = async (organizationData) => {
     setLoading(true);
-    try {
-      const response = await axios.post(`${API_BASE_URL}/api/v1/organizations`, [organizationData]);
-      if (response.data.savedOrganizations) {
+    try {    
+      // Create FormData for multipart/form-data request
+      const formData = new FormData();
+      formData.append('name', organizationData.name);
+      formData.append('abbreviation', organizationData.abbreviation);
+      formData.append('description', organizationData.description || '');
+      formData.append('category', organizationData.category);
+      formData.append('parent_organization', organizationData.parent_organization);
+      
+      
+      // Append logo file if provided
+      if (organizationData.logo) {
+        formData.append('logo', organizationData.logo);
+      }
+
+      const response = await axios.post(`${API_BASE_URL}/api/v1/organizations/upload`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      
+      if (response.data.organization) {
         setError(null);
-        return response.data.savedOrganizations[0];
+        return response.data.organization;
       }
     } catch (err) {
       setError(err.response?.data?.error || err.message);
@@ -327,23 +346,8 @@ const DataInsertion = () => {
   };
 
   // Handle form submission
-  // Helper function to convert file to base64
-  const fileToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        // Remove the data URL prefix to get only the base64 string
-        const base64 = reader.result.split(',')[1];
-        resolve(base64);
-      };
-      reader.onerror = (error) => reject(error);
-    });
-  };
-
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    
     // Basic validation
     if (!formData.name || !formData.abbreviation || !formData.category || !formData.parent_organization) {
       setError('Please fill in all required fields');
@@ -351,32 +355,20 @@ const DataInsertion = () => {
     }
 
     try {
-      // Prepare organization data according to backend format
+      // Prepare organization data - send file directly to backend
       const organizationData = {
         name: formData.name,
         abbreviation: formData.abbreviation,
         description: formData.description,
         category: formData.category,
-        parent_organization: formData.parent_organization
+        parent_organization: formData.parent_organization,
+        logo: formData.logo // Send the file object directly
       };
-
-      // Convert logo to base64 if file is selected
-      if (formData.logo) {
-        try {
-          const logoBase64 = await fileToBase64(formData.logo);
-          organizationData.logo = logoBase64;
-        } catch (err) {
-          console.error('Error converting image to base64:', err);
-          setError('Error processing image file');
-          return;
-        }
-      }
 
       const result = await createOrganization(organizationData);
       
       if (result) {
         alert('Organization created successfully!');
-        // Reset form
         setFormData({
           name: '',
           abbreviation: '',

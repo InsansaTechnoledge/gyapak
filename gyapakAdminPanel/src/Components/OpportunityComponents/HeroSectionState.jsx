@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Calendar, Clock } from 'lucide-react';
 import axios from 'axios';
 import { API_BASE_URL } from '../../config';
+import SearchableDropdown from '../SearchableDropdown';
 
 const HeroSectionState = ({handleEventDataChange, eventData, setStateId, stateId }) => {
     const [organizations, setOrganizations] = useState();
@@ -40,38 +41,36 @@ const HeroSectionState = ({handleEventDataChange, eventData, setStateId, stateId
 
     return (
         <div className="text-center mb-16">
-            <h2 className="text-purple-700 text-lg mb-4">
-                <select 
-                name='state_id'
-                className='border-2 rounded-md border-purple-700'
-                onChange={(e)=>{
-                    setStateId(e.target.value)
-                    }}>
-                    <option value={""}>select state</option>
-                    {
-                        states.map(state => (
-                            <option key={state._id} value={state._id}>{state.name}</option>
-                        ))
-                    }
-                </select>
-            </h2>
+            <div className="mb-4">
+                <SearchableDropdown
+                    options={states || []}
+                    placeholder="Select state"
+                    onSelect={(e) => setStateId(e.target.value)}
+                    value={stateId || ''}
+                    name="state_id"
+                    displayKey="name"
+                    valueKey="_id"
+                    searchKeys={['name']}
+                    className="max-w-md mx-auto"
+                />
+            </div>
             {
                 stateId && organizations
                 ?
                 <>
-                    <h2 className="text-purple-700 text-lg mb-4">
-                        <select 
-                        name='organization_id'
-                        className='border-2 rounded-md border-purple-700'
-                        onChange={(e)=>handleEventDataChange(e)}>
-                            <option value={""}>select organization</option>
-                            {
-                                organizations.map(org => (
-                                    <option key={org._id} value={org._id} >{org.name}, {org.abbreviation}</option>
-                                ))
-                            }
-                        </select>
-                    </h2>
+                    <div className="mb-4">
+                        <SearchableDropdown
+                            options={organizations || []}
+                            placeholder="Select organization"
+                            onSelect={handleEventDataChange}
+                            value={eventData?.organization_id || ''}
+                            name="organization_id"
+                            displayKey={(org) => `${org.name}, ${org.abbreviation}`}
+                            valueKey="_id"
+                            searchKeys={['name', 'abbreviation']}
+                            className="max-w-md mx-auto"
+                        />
+                    </div>
                     <div className="inline-block relative mx-auto">
                         {/* <h1 className="
                         text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-bold bg-gradient-to-r from-purple-600 via-purple-700 to-purple-800 bg-clip-text text-transparent mb-12"> */}

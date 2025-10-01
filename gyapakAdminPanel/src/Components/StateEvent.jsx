@@ -8,6 +8,7 @@ import AdditionalDetailsSection from './OpportunityComponents/AdditionalDetailsS
 import BriefEditableSection from './OpportunityPageComponents/BriefDetailsSection';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
+import SearchableDropdown from './SearchableDropdown';
 
 const StateEvent = () => {
   
@@ -92,16 +93,17 @@ const StateEvent = () => {
                     <label className="block text-lg font-semibold text-purple-800 mb-3">
                         Select Event Type
                     </label>
-                    <select 
-                        name='event_type'
-                        className='w-full px-4 py-3 border-2 border-purple-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors bg-white text-lg'
-                        onChange={(e) => handleEventDataChange(e)}
-                    >
-                        <option value="">Select Event Type</option>
-                        {["Exam", "AdmitCard", "Result"].map((type, idx) => (
-                            <option key={idx} value={type}>{type}</option>
-                        ))}
-                    </select>
+                    <SearchableDropdown
+                        options={["Exam", "AdmitCard", "Result"].map(type => ({ type, name: type }))}
+                        placeholder="Select Event Type"
+                        onSelect={handleEventDataChange}
+                        value={eventData?.event_type || ''}
+                        name="event_type"
+                        displayKey="name"
+                        valueKey="type"
+                        searchKeys={['name']}
+                        className="w-full"
+                    />
                 </div>
 
                 {/* State and Organization Selection */}
