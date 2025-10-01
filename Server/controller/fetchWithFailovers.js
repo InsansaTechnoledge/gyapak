@@ -3,6 +3,7 @@ const API_URLS = [
   "https://gyapak-2.onrender.com",
   "https://gyapak.onrender.com",
   "https://gyapak-3.onrender.com",
+  "http://localhost:3000"
 ];
 
 // Initial index to start with first URL
