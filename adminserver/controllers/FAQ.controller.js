@@ -2,36 +2,16 @@ import { APIError } from "../../Server/Utility/ApiError.js";
 import { APIResponse } from "../../Server/Utility/ApiResponse.js";
 import FAQ from "../models/FAQ.model.js";
 
-export const getAllFAQs = async (req , res) => {
+export const getAllFAQs = async (req, res) => {
+    try {
+        // Fetch all FAQs without any filters
+        const faqs = await FAQ.find({}).sort({ createdAt: -1 });
 
-    try{
-        const {state, category , seoTags} = req.query
-        
-        const query = {}
-
-        if(state && state !== 'All') {
-            query.state = state
-        }
-
-        if(category) {
-            query.category = category
-        }
-
-        if(seoTags) {
-            query.seoTags = seoTags
-        }
-
-        const faqs = await FAQ.find(query).sort({ createdAt: -1 });
-
-        console.log(query);
-
-        return new APIResponse(200 , faqs , 'fetched successfully').send(res);
-    
-    } catch(e) {
-        return new APIError(500 , 'something went wrong').send(res);
+        return new APIResponse(200, faqs, 'Fetched all FAQs successfully').send(res);
+    } catch (e) {
+        return new APIError(500, 'Something went wrong').send(res);
     }
-
-}
+};
 
 export const getFaqFromQuestion = async (req,res) => {
     try{
@@ -118,3 +98,45 @@ export const deleteFAQ = async (req, res) => {
     };
 
 };
+
+export const updateFAQ = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { question, answer, categories, state, seoTags, organizationId } = req.body;
+
+        // Find and update the FAQ
+        const updatedFAQ = await FAQ.findByIdAndUpdate(
+            id,
+            {
+                question,
+                answer,
+                categories,
+                state,
+                seoTags,
+                organizationId,
+                updatedAt: Date.now()
+            },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedFAQ) {
+            return new APIError(404, 'FAQ not found').send(res);
+        }
+
+        return new APIResponse(200, updatedFAQ, 'FAQ updated successfully').send(res);
+    } catch (error) {
+        console.error('Error updating FAQ:', error);
+        return new APIError(500, 'Internal server error').send(res);
+    }
+};
+
+export const getStateEnums = async (req, res) => {
+    try {
+        const stateEnums = FAQ.schema.path('state').enumValues;
+        return new APIResponse(200, stateEnums, 'State options fetched successfully').send(res);
+    } catch (error) {
+        console.error('Error fetching state enums:', error);
+        return new APIError(500, 'Unable to fetch state options').send(res);
+    }
+};
+
