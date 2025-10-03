@@ -277,7 +277,6 @@ const Credits = () => {
         "NIT Calicut": "https://upload.wikimedia.org/wikipedia/en/a/ae/Correct_Logo_of_NIT_Calicut.svg",
         "PB": "https://upload.wikimedia.org/wikipedia/commons/e/eb/Prasar_Bharati_logo.png",
         "CMD Kerala": "https://media.licdn.com/dms/image/v2/D560BAQFtyYgBnlIGKg/company-logo_200_200/company-logo_200_200/0/1711020674027/cmdkerala_logo?e=2147483647&v=beta&t=VunHzFA2Sy4j_UFlRyir0RboIEjkZdtTbdMy5IA71J0",
-        "NAM Kerala": "https://www.ism.kerala.gov.in/eng/images/gallery/About/NAM.jpeg",
         "THSTI": "https://thsti.res.in/public/upload/home/1734153527img.png",
         "CSEZ": "https://lh4.googleusercontent.com/proxy/2unLfw4gvDSmDjIsu8115sk4iwYJipZCy_JVV9uVc6GKazOJmxjcos4xxzsu6ZOiKhl0R0nZ4XnAtA",
         "CDAC": "https://www.presentations.gov.in/wp-content/uploads/2020/06/Preview-22.png",
@@ -363,8 +362,6 @@ const Credits = () => {
 
         "AIIMS Jodhpur": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FAll_India_Institute_of_Medical_Sciences%2C_Jodhpur&psig=AOvVaw2vtSeR0dKkcnqtcLkJiy0z&ust=1751011071802000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCNCbpNnOjo4DFQAAAAAdAAAAABAE",
 
-        "ICMR": "https://www.icmr.gov.in/",
-
         "IIT Kota": "https://en.wikipedia.org/wiki/File:Indian_Institute_of_Information_Technology,_Kota_Logo.png",
 
         "IIT Gandhinagar": "https://en.wikipedia.org/wiki/File:Indian_Institute_of_Technology_Gandhinagar_Logo.svg",
@@ -388,7 +385,6 @@ const Credits = () => {
         "MeitY": "https://en.wikipedia.org/wiki/File:Ministry_of_Electronics_and_Information_Technology.svg",
 
         "MHI": "https://heavyindustries.gov.in/",
-        "NIT Hamirpur": "https://en.wikipedia.org/wiki/File:National_Institute_of_Technology,_Hamirpur_Logo.png",
 
         "IIM Bangalore": "https://en.wikipedia.org/wiki/File:IIM_Bangalore_Logo.svg",
 
