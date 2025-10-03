@@ -4,6 +4,32 @@ import { fetchAffairDetail } from '../../Service/currentAffairService';
 import noData from '../../assets/Landing/no_data.jpg';
 import { Helmet } from 'react-helmet';
 
+// Helper function to format content with proper bullet points and line breaks
+const formatContent = (content) => {
+  if (!content) return content;
+  
+  // Split content into lines
+  const lines = content.split('\n').map(line => line.trim()).filter(line => line);
+  
+  return lines.map((line, index) => {
+    // Check if line starts with bullet point indicators
+    if (line.startsWith('•') || line.startsWith('-') || line.startsWith('*')) {
+      return (
+        <div key={index} className="flex items-start mb-2">
+          <span className="text-blue-600 mr-2 mt-1">•</span>
+          <span>{line.substring(1).trim()}</span>
+        </div>
+      );
+    }
+    // Regular paragraph
+    return (
+      <div key={index} className="mb-3">
+        {line}
+      </div>
+    );
+  });
+};
+
 export default function AffairDetailPage() {
   const { date, slug } = useParams();
   const [affair, setAffair] = useState(null);
@@ -118,7 +144,7 @@ export default function AffairDetailPage() {
             )}
 
             <div className="prose max-w-none text-gray-700 leading-relaxed text-base md:text-lg">
-              <p>{affair.content}</p>
+              {formatContent(affair.content)}
             </div>
           </div>
 

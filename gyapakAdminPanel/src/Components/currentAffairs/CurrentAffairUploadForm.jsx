@@ -203,11 +203,14 @@ export default function CurrentAffairUploadForm() {
                 <textarea
                   value={affair.content}
                   onChange={(e) => handleChange(index, 'content', e.target.value)}
-                  placeholder="Enter the detailed content here"
+                  placeholder="Enter the detailed content here. Use bullet points by starting lines with • or - for better formatting."
                   required
-                  rows={4}
+                  rows={6}
                   className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                 />
+                <p className="text-sm text-gray-500 mt-1">
+                  💡 <strong>Formatting tip:</strong> Start lines with • or - to create bullet points. Use line breaks to separate paragraphs.
+                </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

@@ -10,9 +10,37 @@ import {
   fetchMonthlyAffairs,
   fetchYearlyAffairs
 } from '../../Service/currentAffairService';
+import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
 
+// Helper function to format content preview with bullet points
+const formatContentPreview = (content, maxLength = 200) => {
+  if (!content) return content;
+  
+  // Truncate content if too long
+  let truncatedContent = content.length > maxLength ? content.substring(0, maxLength) + '...' : content;
+  
+  // Split content into lines and format
+  const lines = truncatedContent.split('\n').map(line => line.trim()).filter(line => line);
+  
+  return lines.map((line, index) => {
+    // Check if line starts with bullet point indicators
+    if (line.startsWith('•') || line.startsWith('-') || line.startsWith('*')) {
+      return (
+        <div key={index} className="flex items-start mb-1">
+          <span className="text-blue-600 mr-2 mt-0.5 text-sm">•</span>
+          <span className="text-sm">{line.substring(1).trim()}</span>
+        </div>
+      );
+    }
+    // Regular paragraph
+    return (
+      <div key={index} className="mb-1 text-sm">
+        {line}
+      </div>
+    );
+  });
+};
 
 export default function CurrentAffairsBlog() {
   const [affairs, setAffairs] = useState([]);
@@ -422,7 +450,9 @@ export default function CurrentAffairsBlog() {
           {featuredAffair.title}
         </h3>
 
-        <p className="text-gray-700 mb-5 leading-relaxed text-lg">{featuredAffair.content}</p>
+        <div className="text-gray-700 mb-5 leading-relaxed text-lg">
+          {formatContentPreview(featuredAffair.content, 400)}
+        </div>
 
         <div className="flex flex-wrap gap-2 mb-5">
           {featuredAffair.tags?.map((tag, idx) => (
@@ -492,7 +522,11 @@ export default function CurrentAffairsBlog() {
                 {affair.title}
               </h3>
 
-              <p className="text-gray-700 mb-5 leading-relaxed line-clamp-3">{affair.content}</p>
+              <div className="text-gray-700 mb-5 leading-relaxed">
+                <div className="line-clamp-3">
+                  {formatContentPreview(affair.content, 150)}
+                </div>
+              </div>
 
               <div className="flex flex-wrap gap-2 mb-5">
                 {affair.tags && affair.tags.map((tag, idx) => (
