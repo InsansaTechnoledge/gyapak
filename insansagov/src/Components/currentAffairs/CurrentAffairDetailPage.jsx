@@ -11,6 +11,8 @@ export default function AffairDetailPage() {
   const [singleLineQuestions, setSingleLineQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedOptions, setSelectedOptions] = useState({});
+  const [showResults, setShowResults] = useState({});
 
   useEffect(() => {
     (async () => {
@@ -28,6 +30,17 @@ export default function AffairDetailPage() {
       }
     })();
   }, [date, slug]);
+
+  const handleOptionClick = (questionIndex, selectedOption) => {
+    setSelectedOptions(prev => ({
+      ...prev,
+      [questionIndex]: selectedOption
+    }));
+    setShowResults(prev => ({
+      ...prev,
+      [questionIndex]: true
+    }));
+  };
 
   if (loading) {
     return (
@@ -154,7 +167,7 @@ export default function AffairDetailPage() {
               {/* MCQ questions converted to discussion format */}
 {questions.length > 0 && (
   <div>
-    <h3 className="text-lg font-medium text-gray-800 mb-3">Discussion Points</h3>
+    <h3 className="text-lg font-medium text-gray-800 mb-3">MCQ Questions</h3>
     <div className="space-y-4">
       {questions.map((q, index) => (
         <div key={index} className="bg-white rounded-lg p-5 shadow-sm border border-gray-100">
@@ -172,42 +185,73 @@ export default function AffairDetailPage() {
           {/* Options */}
           {q.options && (
             <div className="ml-9 mb-4">
-              {q.options.map((option, optIdx) => {
-                const isSelected = selectedOptions[index] === option;
-                const isCorrect = option === q.answer;
-                let optionClass = "px-4 py-2 rounded-md border cursor-pointer mb-2 block text-left";
-                if (isSelected) {
-                  optionClass += isCorrect
-                    ? " bg-green-100 border-green-400 text-green-800"
-                    : " bg-red-100 border-red-400 text-red-800";
-                } else {
-                  optionClass += " bg-white border-gray-200 hover:bg-blue-50";
-                }
-                return (
-                  <button
-                    key={optIdx}
-                    className={optionClass}
-                    onClick={() => handleOptionClick(index, option)}
-                    disabled={selectedOptions[index] !== undefined}
-                  >
-                    {option}
-                  </button>
-                );
-              })}
+              <div className="space-y-2">
+                {q.options.map((option, optIdx) => {
+                  const isSelected = selectedOptions[index] === option;
+                  const isCorrect = option === q.answer;
+                  const showResult = showResults[index];
+                  
+                  let optionClass = "w-full px-4 py-3 rounded-lg border text-left transition-colors duration-200 ";
+                  
+                  if (showResult) {
+                    if (isCorrect) {
+                      optionClass += "bg-green-100 border-green-400 text-green-800 ";
+                    } else if (isSelected && !isCorrect) {
+                      optionClass += "bg-red-100 border-red-400 text-red-800 ";
+                    } else {
+                      optionClass += "bg-gray-50 border-gray-200 text-gray-600 ";
+                    }
+                  } else {
+                    optionClass += isSelected 
+                      ? "bg-blue-100 border-blue-400 text-blue-800 " 
+                      : "bg-white border-gray-200 hover:bg-blue-50 hover:border-blue-300 ";
+                  }
+                  
+                  return (
+                    <button
+                      key={optIdx}
+                      className={optionClass}
+                      onClick={() => handleOptionClick(index, option)}
+                      disabled={showResults[index]}
+                    >
+                      <div className="flex items-center">
+                        <span className="font-semibold mr-2">
+                          {String.fromCharCode(65 + optIdx)}.
+                        </span>
+                        <span>{option}</span>
+                        {showResult && isCorrect && (
+                          <span className="ml-auto text-green-600">✓</span>
+                        )}
+                        {showResult && isSelected && !isCorrect && (
+                          <span className="ml-auto text-red-600">✗</span>
+                        )}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           )}
 
-          <div className="ml-9 bg-blue-50 p-4 rounded-md">
-            <div className="font-medium text-blue-700 mb-2">Key Point</div>
-            <p className="text-gray-700">{q.answer}</p>
-
-            {q.explanation && (
-              <div className="mt-3 pt-3 border-t border-blue-200">
-                <div className="font-medium text-blue-700 mb-1">Further Analysis</div>
-                <p className="text-gray-700 text-sm">{q.explanation}</p>
+          {/* Result and Explanation */}
+          {showResults[index] && (
+            <div className="ml-9">
+              <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-md">
+                <div className="font-medium text-blue-700 mb-2">
+                  {selectedOptions[index] === q.answer ? "Correct!" : "Incorrect"}
+                </div>
+                <p className="text-gray-700 mb-2">
+                  <span className="font-medium">Answer:</span> {q.answer}
+                </p>
+                {q.explanation && (
+                  <div className="mt-3 pt-3 border-t border-blue-200">
+                    <div className="font-medium text-blue-700 mb-1">Explanation</div>
+                    <p className="text-gray-700 text-sm">{q.explanation}</p>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       ))}
     </div>
