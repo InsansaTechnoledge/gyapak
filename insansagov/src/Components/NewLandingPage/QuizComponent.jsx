@@ -17,7 +17,7 @@ const QuizComponent = () => {
 
   const fetchTodaysQuestionsService = async()=>{
     try {
-      const response = await axios.get(`${apiBaseUrl}/api/question`);
+      const response = await axios.get(`${apiBaseUrl}/api/v1i2/question/today`);
       return response.data;
     } catch (error) {
       console.error("Error fetching today's questions:", error);

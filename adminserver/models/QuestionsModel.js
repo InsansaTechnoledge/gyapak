@@ -18,7 +18,8 @@ const QuestionSchema = new mongoose.Schema({
     },
     explanation:{
         type: String,
-        required: true
+        required: false,
+        default: ''
     },
     createdAt:{
         type: Date,

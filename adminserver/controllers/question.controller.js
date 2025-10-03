@@ -1,5 +1,50 @@
 import Question from "../models/QuestionsModel.js";
 
+// Get today's questions for the website quiz component
+export const getTodaysQuestions = async (req, res) => {
+  try {
+    const today = new Date();
+    const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const endOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+    
+    // First try to get questions that were marked as used today
+    let questions = await Question.find({
+      lastUsed: {
+        $gte: startOfToday,
+        $lt: endOfToday
+      }
+    });
+
+    // If no questions found for today, get random questions and mark them as used today
+    if (questions.length === 0) {
+      // Get 5 random questions
+      questions = await Question.aggregate([
+        { $sample: { size: 5 } }
+      ]);
+      
+      // Update their lastUsed date to today
+      const questionIds = questions.map(q => q._id);
+      await Question.updateMany(
+        { _id: { $in: questionIds } },
+        { lastUsed: new Date() }
+      );
+    }
+
+    res.status(200).json({ 
+      success: true,
+      questions: questions,
+      message: `Found ${questions.length} questions for today`
+    });
+  } catch (error) {
+    console.error("Error fetching today's questions:", error);
+    res.status(500).json({ 
+      success: false,
+      error: "Failed to fetch today's questions",
+      message: error.message 
+    });
+  }
+};
+
 export const getQuestionList = async (req, res) => {
   try {
     let { page = 1, limit = 10, search = '', category = '', difficulty = '' } = req.query;
@@ -49,12 +94,53 @@ export const getQuestionList = async (req, res) => {
 };
 
 export const createQuestion = async (req, res) => {
-  const newQuestion = new Question(req.body);
   try {
-    await newQuestion.save();
-    res.status(200).json(newQuestion);
+    console.log("Received question data:", req.body);
+    
+    // Validate required fields
+    const { question, options, correctAnswer, category } = req.body;
+    
+    if (!question || !options || correctAnswer === undefined || !category) {
+      return res.status(400).json({ 
+        success: false,
+        message: "Missing required fields",
+        required: ["question", "options", "correctAnswer", "category"]
+      });
+    }
+
+    // Validate options array
+    if (!Array.isArray(options) || options.length < 2) {
+      return res.status(400).json({ 
+        success: false,
+        message: "Options must be an array with at least 2 items"
+      });
+    }
+
+    // Validate correctAnswer index
+    if (correctAnswer < 0 || correctAnswer >= options.length) {
+      return res.status(400).json({ 
+        success: false,
+        message: "correctAnswer must be a valid index for the options array"
+      });
+    }
+
+    const newQuestion = new Question(req.body);
+    const savedQuestion = await newQuestion.save();
+    
+    console.log("Question created successfully:", savedQuestion._id);
+    res.status(201).json({
+      success: true,
+      question: savedQuestion,
+      message: "Question created successfully"
+    });
   } catch (error) {
-    res.status(500).json({ message: "Error creating question" });
+    console.error("Error creating question:", error);
+    res.status(500).json({ 
+      success: false,
+      message: "Error creating question",
+      error: error.message,
+      details: error.name === 'ValidationError' ? error.errors : undefined
+    });
   }
 };
 
