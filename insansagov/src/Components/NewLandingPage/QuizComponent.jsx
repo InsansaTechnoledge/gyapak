@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Calendar, Clock, CheckCircle, XCircle, RotateCcw, Trophy, BookOpen, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useApi } from '../../Context/ApiContext';
 import axios from 'axios';
+import { API_BASE_URL } from '../../../../gyapakAdminPanel/src/config';
 
 const QuizComponent = () => {
   const [questions, setQuestions] = useState([]);
@@ -17,7 +18,7 @@ const QuizComponent = () => {
 
   const fetchTodaysQuestionsService = async()=>{
     try {
-      const response = await axios.get(`${apiBaseUrl}/api/v1i2/question/today`);
+      const response = await axios.get(`${API_BASE_URL}/api/v1i2/question/today`);
       return response.data;
     } catch (error) {
       console.error("Error fetching today's questions:", error);
