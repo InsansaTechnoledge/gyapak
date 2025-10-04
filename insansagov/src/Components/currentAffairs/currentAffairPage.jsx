@@ -110,6 +110,10 @@ export default function CurrentAffairsBlog() {
           });
         }
       });
+
+      if (tab === 'all') {
+        flattened.sort((a, b) => new Date(b.date) - new Date(a.date));
+      }
   
     //   console.log("📦 Flattened Affairs:", flattened);
       setAffairs(flattened);
@@ -174,7 +178,7 @@ export default function CurrentAffairsBlog() {
     const matchesMediaType = selectedMediaType === '' || affair.mediaType === selectedMediaType;
     
     return matchesSearch && matchesCategory && matchesYear && matchesMonth && matchesMediaType;
-  });
+  }).sort((a, b) => new Date(b.date) - new Date(a.date));
 
   const groupedAffairs = filteredAffairs.reduce((groups, affair) => {
     const date = affair.date?.split('T')[0];
@@ -252,16 +256,14 @@ export default function CurrentAffairsBlog() {
   const getFeaturedAffair = () => {
     if (filteredAffairs.length === 0) return null;
   
-    // Filter only affairs with media (image or video)
-    const mediaAffairs = filteredAffairs.filter(
+    const sortedAffairs = [...filteredAffairs].sort((a, b) => new Date(b.date) - new Date(a.date));
+    const mediaAffairs = sortedAffairs.filter(
       affair => affair.mediaType === 'image' || affair.mediaType === 'video'
     );
   
-    const candidates = mediaAffairs.length > 0 ? mediaAffairs : filteredAffairs;
+    const candidates = mediaAffairs.length > 0 ? mediaAffairs : sortedAffairs;
     
-    // Pick a random index
-    const randomIndex = Math.floor(Math.random() * candidates.length);
-    return candidates[randomIndex];
+    return candidates[0];
   };
   
 
@@ -315,17 +317,6 @@ export default function CurrentAffairsBlog() {
             <X size={16} />
           </button>
         )}
-      </div>
-
-      {/* Action Buttons */}
-      <div className="flex items-center gap-3 ml-4">
-        <button
-          className={`p-2 rounded-full hover:bg-purple-50 text-gray-600 ${loading ? 'animate-spin' : ''}`}
-          onClick={handleRefresh}
-          disabled={loading}
-        >
-          <RefreshCw size={20} />
-        </button>
       </div>
     </div>
 
