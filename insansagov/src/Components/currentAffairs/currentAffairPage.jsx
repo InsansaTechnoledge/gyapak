@@ -210,11 +210,11 @@ export default function CurrentAffairsBlog() {
     switch (affair.mediaType) {
       case 'image':
         return (
-          <div className="mb-4 relative aspect-video rounded-lg overflow-hidden">
+          <div className="mb-4 relative rounded-lg overflow-hidden bg-gray-100">
             <img 
               src={affair.mediaUrl || "/api/placeholder/800/450"} 
               alt={affair.title} 
-              className="w-full h-full object-cover"
+              className="w-full h-auto object-contain max-h-64"
               onError={(e) => {
                 e.target.src = "/api/placeholder/800/450";
                 e.target.alt = "Image unavailable";
@@ -383,11 +383,11 @@ export default function CurrentAffairsBlog() {
     <div       onClick={() => toDetail(featuredAffair)}
  className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
       {(featuredAffair.mediaType === 'image' && featuredAffair.mediaUrl) && (
-        <div className="relative aspect-[16/9] sm:h-64 md:h-80 lg:h-[420px] w-full">
+        <div className="relative bg-gray-100 rounded-t-xl overflow-hidden">
           <img 
             src={featuredAffair.mediaUrl || "/api/placeholder/1200/400"} 
             alt={featuredAffair.title} 
-            className="absolute inset-0 w-full h-full object-cover"
+            className="w-full h-auto object-contain max-h-[420px]"
             onError={(e) => {
               e.target.src = "/api/placeholder/1200/400";
               e.target.alt = "Image unavailable";
