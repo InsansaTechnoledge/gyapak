@@ -46,7 +46,14 @@ const organizationSchema = new mongoose.Schema({
     calendar: {
         type: String
     }
+}, { 
+    timestamps: true // Add timestamps for createdAt and updatedAt
 });
+
+// Add indexes for better performance
+organizationSchema.index({ name: 1 }); // For sorting and searching by name
+organizationSchema.index({ abbreviation: 1 }); // For searching by abbreviation
+organizationSchema.index({ category: 1 }); // For filtering by category
 
 const Organization = mongoose.model('Organization', organizationSchema);
 export default Organization;

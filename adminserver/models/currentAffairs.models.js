@@ -54,7 +54,7 @@ const affairItemSchema = new Schema({
     },
     tags: {
       type: [String],
-      index: true,
+      // Removed index: true to avoid duplicate with schema.index() below
     },
     source: {
       type: String,
@@ -120,7 +120,8 @@ const currentAffariSchema = new Schema({
 
 }, {timestamps : true})
 
-currentAffariSchema.index({ date: 1 });
+// Note: date already has unique index from schema definition above
+// currentAffariSchema.index({ date: 1 }); // Removed duplicate index
 currentAffariSchema.index({ month: 1, year: 1 });
 currentAffariSchema.index({ 'affairs.tags': 1 });
 currentAffariSchema.index({ 'affairs.category': 1 });

@@ -3,10 +3,14 @@ import {
   getCentralOrganization, 
   getOrganizationsByState, 
   getAllOrganizations,
+  getOrganizationById,
   getAllCategories,
   getAllAuthorities,
   createOrganizations,
   createOrganizationWithUpload,
+  getOrganizationDependencies,
+  cascadeDeleteOrganization,
+  updateOrganization,
   upload
 } from '../controllers/organization.controller.js';
 
@@ -17,7 +21,11 @@ router.get('/state', getOrganizationsByState);
 router.get('/categories', getAllCategories);
 router.get('/authorities', getAllAuthorities);
 router.get('/', getAllOrganizations);
+router.get('/:organizationId/dependencies', getOrganizationDependencies);
+router.get('/:organizationId', getOrganizationById); // Get single organization with logo
 router.post('/', createOrganizations);
 router.post('/upload', upload.single('logo'), createOrganizationWithUpload);
+router.put('/:organizationId', updateOrganization);
+router.delete('/:organizationId/cascade', cascadeDeleteOrganization);
 
 export default router;

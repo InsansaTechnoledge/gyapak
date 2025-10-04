@@ -5,21 +5,21 @@ import { scheduler } from './scheduleDeletion.js';
 dotenv.config();
 
 const ConnectMongo = async function () {
-    mongoose.connect(process.env.MONGO_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-      })
-      .then(async() => {console.log('MongoDB connected successfully');
-         console.log(`MongoDb connected on ${mongoose.connection.name }`);
+    try {
+        await mongoose.connect(process.env.MONGO_URI);
+        
+        console.log('MongoDB connected successfully');
+        console.log(`MongoDb connected on ${mongoose.connection.name}`);
 
         const indexes = await mongoose.connection.db.collection('events').indexes();
         console.log('Indexes on events collection:', indexes);
 
         // scheduler(); // Start the scheduler after success
 
-      }
-    )
-      .catch((err) => console.error('MongoDB connection error:', err));
+    } catch (err) {
+        console.error('MongoDB connection error:', err);
+        throw err; // Re-throw to prevent server from starting with failed DB connection
+    }
 };
 
 export default ConnectMongo;

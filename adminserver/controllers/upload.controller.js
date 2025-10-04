@@ -4,14 +4,7 @@ import Organization from "../models/OrganizationModel.js";
 
 export const uploadEvent = async (req, res) => {
   try {
-    // 🔍 Log incoming request data
-    console.log("📥 Received Data:", req.body);
-
-    // Check that briefDetails is actually coming in
-    if (!req.body.briefDetails) {
-      console.warn("⚠️ Warning: 'briefDetails' not provided in request body.");
-    }
-
+  
     // Create the new event in MongoDB
     const newEvent = await Event.create(req.body);
 

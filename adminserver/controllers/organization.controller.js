@@ -1,8 +1,11 @@
 import Organization from "../models/OrganizationModel.js";
 import Authority from "../models/AuthorityModel.js";
 import Category from "../models/CategoryModel.js";
+import Event from "../models/EventModel.js";
+import FAQ from "../models/FAQ.model.js";
 import { bufferToBase64Raw, getDefaultLogoBase64, isValidImage } from "../utils/imageUtils.js";
 import multer from 'multer';
+import mongoose from 'mongoose';
 
 // Configure multer for file uploads
 const storage = multer.memoryStorage();
@@ -67,21 +70,72 @@ export const getOrganizationsByState = async (req, res) => {
   }
 };
 
+export const getOrganizationById = async (req, res) => {
+  try {
+    const { organizationId } = req.params;
+
+    // Validate organization ID
+    if (!mongoose.Types.ObjectId.isValid(organizationId)) {
+      return res.status(400).json({ 
+        error: "Invalid organization ID format" 
+      });
+    }
+
+    // Get organization with all details including logo
+    const organization = await Organization.findById(organizationId)
+      .populate('category', 'category description')
+      .select('_id name abbreviation description logo category createdAt updatedAt');
+
+    if (!organization) {
+      return res.status(404).json({ 
+        error: "Organization not found" 
+      });
+    }
+
+    return res.status(200).json({
+      message: "Organization details fetched successfully",
+      organization: organization
+    });
+  } catch (err) {
+    console.error("getOrganizationById Error:", err.message);
+    res.status(500).json({ 
+      error: "Failed to fetch organization details",
+      details: err.message 
+    });
+  }
+};
+
 export const getAllOrganizations = async (req, res) => {
   try {
-    const organizations = await Organization.find(
-      {},
-      {
-        _id: 1,
-        name: 1,
-        abbreviation: 1,
-        description: 1,
-      }
-    );
+    // Add pagination and limit to handle large datasets
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 1000; // Default to 1000 organizations max
+    const skip = (page - 1) * limit;
+
+    // Get organizations with sorting (now supported by index)
+    // Exclude logo field for faster loading in list view
+    const organizations = await Organization.find({})
+      .populate('category', 'category description')
+      .select('_id name abbreviation description category createdAt')
+      .sort({ name: 1 }) // Now safe with index
+      .skip(skip)
+      .limit(limit);
+
+    // Get total count for pagination info
+    const totalCount = await Organization.countDocuments({});
 
     return res
       .status(200)
-      .json({ message: "Organizations fetched", organizations: organizations });
+      .json({ 
+        message: "Organizations fetched", 
+        organizations: organizations,
+        pagination: {
+          page,
+          limit,
+          totalCount,
+          totalPages: Math.ceil(totalCount / limit)
+        }
+      });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: err.message });
@@ -251,5 +305,279 @@ export const createOrganizationWithUpload = async (req, res) => {
   } catch (error) {
     console.error("createOrganizationWithUpload Error:", error.message);
     res.status(500).json({ error: "Failed to create organization" });
+  }
+};
+
+// Get organization dependencies before deletion
+export const getOrganizationDependencies = async (req, res) => {
+  try {
+    const { organizationId } = req.params;
+
+    // Validate organization ID
+    if (!mongoose.Types.ObjectId.isValid(organizationId)) {
+      return res.status(400).json({ 
+        error: "Invalid organization ID format" 
+      });
+    }
+
+    // Check if organization exists
+    const organization = await Organization.findById(organizationId);
+    if (!organization) {
+      return res.status(404).json({ 
+        error: "Organization not found" 
+      });
+    }
+
+    // Find all events associated with this organization
+    const events = await Event.find({ organization_id: organizationId })
+      .select('name event_type date_of_notification date_of_commencement createdAt')
+      .sort({ createdAt: -1 });
+
+    // Find all FAQs associated with this organization
+    const faqs = await FAQ.find({ organizationId: organizationId })
+      .select('question state categories createdAt')
+      .sort({ createdAt: -1 });
+
+    // Find authorities that reference this organization
+    const authorities = await Authority.find({ organizations: organizationId })
+      .select('name type description');
+
+    // Find categories that reference this organization
+    const categories = await Category.find({ organizations: organizationId })
+      .select('category description');
+
+    // Calculate total dependencies
+    const totalDependencies = events.length + faqs.length;
+
+    const dependencyData = {
+      organization: {
+        _id: organization._id,
+        name: organization.name,
+        abbreviation: organization.abbreviation,
+        description: organization.description
+      },
+      dependencies: {
+        events: {
+          count: events.length,
+          items: events
+        },
+        faqs: {
+          count: faqs.length,
+          items: faqs
+        },
+        authorities: {
+          count: authorities.length,
+          items: authorities
+        },
+        categories: {
+          count: categories.length,
+          items: categories
+        }
+      },
+      totalDependencies,
+      canDelete: true, // Can be modified based on business rules
+      warnings: []
+    };
+
+    // Add warnings based on dependencies
+    if (events.length > 0) {
+      dependencyData.warnings.push(`${events.length} event(s) will be permanently deleted`);
+    }
+    if (faqs.length > 0) {
+      dependencyData.warnings.push(`${faqs.length} FAQ(s) will be permanently deleted`);
+    }
+    if (authorities.length > 0) {
+      dependencyData.warnings.push(`Organization will be removed from ${authorities.length} authority(ies)`);
+    }
+    if (categories.length > 0) {
+      dependencyData.warnings.push(`Organization will be removed from ${categories.length} category(ies)`);
+    }
+
+    res.status(200).json({
+      message: "Organization dependencies retrieved successfully",
+      data: dependencyData
+    });
+
+  } catch (error) {
+    console.error("getOrganizationDependencies Error:", error.message);
+    res.status(500).json({ 
+      error: "Failed to retrieve organization dependencies",
+      details: error.message 
+    });
+  }
+};
+
+// Cascade delete organization and all its dependencies
+export const cascadeDeleteOrganization = async (req, res) => {
+  const session = await mongoose.startSession();
+  
+  try {
+    await session.startTransaction();
+    
+    const { organizationId } = req.params;
+
+    // Validate organization ID
+    if (!mongoose.Types.ObjectId.isValid(organizationId)) {
+      await session.abortTransaction();
+      return res.status(400).json({ 
+        error: "Invalid organization ID format" 
+      });
+    }
+
+    // Check if organization exists
+    const organization = await Organization.findById(organizationId).session(session);
+    if (!organization) {
+      await session.abortTransaction();
+      return res.status(404).json({ 
+        error: "Organization not found" 
+      });
+    }
+
+    // Store deletion summary for response
+    const deletionSummary = {
+      organization: {
+        _id: organization._id,
+        name: organization.name,
+        abbreviation: organization.abbreviation
+      },
+      deletedItems: {
+        events: 0,
+        faqs: 0,
+        authorityReferences: 0,
+        categoryReferences: 0
+      }
+    };
+
+    // Delete all events associated with this organization
+    const deletedEvents = await Event.deleteMany({ 
+      organization_id: organizationId 
+    }).session(session);
+    deletionSummary.deletedItems.events = deletedEvents.deletedCount;
+
+    // Delete all FAQs associated with this organization
+    const deletedFaqs = await FAQ.deleteMany({ 
+      organizationId: organizationId 
+    }).session(session);
+    deletionSummary.deletedItems.faqs = deletedFaqs.deletedCount;
+
+    // Remove organization reference from authorities
+    const updatedAuthorities = await Authority.updateMany(
+      { organizations: organizationId },
+      { $pull: { organizations: organizationId } }
+    ).session(session);
+    deletionSummary.deletedItems.authorityReferences = updatedAuthorities.modifiedCount;
+
+    // Remove organization reference from categories
+    const updatedCategories = await Category.updateMany(
+      { organizations: organizationId },
+      { $pull: { organizations: organizationId } }
+    ).session(session);
+    deletionSummary.deletedItems.categoryReferences = updatedCategories.modifiedCount;
+
+    // Finally, delete the organization itself
+    await Organization.findByIdAndDelete(organizationId).session(session);
+
+    // Commit the transaction
+    await session.commitTransaction();
+
+    res.status(200).json({
+      message: "Organization and all dependencies deleted successfully",
+      data: deletionSummary
+    });
+
+  } catch (error) {
+    // Abort the transaction on error
+    await session.abortTransaction();
+    console.error("cascadeDeleteOrganization Error:", error.message);
+    res.status(500).json({ 
+      error: "Failed to delete organization and dependencies",
+      details: error.message 
+    });
+  } finally {
+    // End the session
+    await session.endSession();
+  }
+};
+
+// Update organization with validation
+export const updateOrganization = async (req, res) => {
+  try {
+    const { organizationId } = req.params;
+    const updates = req.body;
+
+    // Validate organization ID
+    if (!mongoose.Types.ObjectId.isValid(organizationId)) {
+      return res.status(400).json({ 
+        error: "Invalid organization ID format" 
+      });
+    }
+
+    // Check if organization exists
+    const organization = await Organization.findById(organizationId);
+    if (!organization) {
+      return res.status(404).json({ 
+        error: "Organization not found" 
+      });
+    }
+
+    // Validate required fields if provided
+    if (updates.name && typeof updates.name !== 'string') {
+      return res.status(400).json({ 
+        error: "Organization name must be a string" 
+      });
+    }
+
+    if (updates.abbreviation && typeof updates.abbreviation !== 'string') {
+      return res.status(400).json({ 
+        error: "Organization abbreviation must be a string" 
+      });
+    }
+
+    // Handle category lookup if category is provided as a string
+    if (updates.category && typeof updates.category === 'string') {
+      const categoryDoc = await Category.findOne({ category: updates.category });
+      if (categoryDoc) {
+        updates.category = categoryDoc._id;
+      } else {
+        return res.status(400).json({ 
+          error: `Category '${updates.category}' not found` 
+        });
+      }
+    }
+
+    // Update the organization
+    const updatedOrganization = await Organization.findByIdAndUpdate(
+      organizationId,
+      { 
+        ...updates,
+        updatedAt: new Date()
+      },
+      { 
+        new: true, 
+        runValidators: true,
+        populate: { path: 'category', select: 'category description' }
+      }
+    );
+
+    res.status(200).json({
+      message: "Organization updated successfully",
+      organization: updatedOrganization
+    });
+
+  } catch (error) {
+    console.error("updateOrganization Error:", error.message);
+    
+    // Handle validation errors
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ 
+        error: "Validation failed",
+        details: Object.values(error.errors).map(err => err.message)
+      });
+    }
+
+    res.status(500).json({ 
+      error: "Failed to update organization",
+      details: error.message 
+    });
   }
 };
