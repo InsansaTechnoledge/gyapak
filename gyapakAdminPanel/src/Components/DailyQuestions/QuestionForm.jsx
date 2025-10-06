@@ -38,7 +38,6 @@ const QuestionForm = ({
         difficulty: 'Medium',
         explanation: '',
         year: ''
-
       });
     }
   }, [editingQuestion, isOpen]);
@@ -91,166 +90,200 @@ const QuestionForm = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg w-full max-w-3xl max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center p-6 border-b">
-          <h3 className="text-2xl font-bold text-purple-800">
-            {editingQuestion ? 'Edit MCQ Question' : 'Create New MCQ Question'}
-          </h3>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 p-1"
-          >
-            <X size={24} />
-          </button>
-        </div>
-
-        <div className="p-6 space-y-6">
-          {/* Question */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Question *
-            </label>
-            <textarea
-              value={formData.question}
-              onChange={(e) => setFormData(prev => ({ ...prev, question: e.target.value }))}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-              rows="3"
-              placeholder="Enter your MCQ question here..."
-            />
-          </div>
-
-          {/* Options */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Answer Options *
-            </label>
-            <div className="space-y-3">
-              {formData.options.map((option, index) => (
-                <div key={index} className="flex items-center gap-3">
-                  <div className="flex items-center">
-                    <input
-                      type="radio"
-                      name="correctAnswer"
-                      checked={formData.correctAnswer === index}
-                      onChange={() => setFormData(prev => ({ ...prev, correctAnswer: index }))}
-                      className="text-purple-600 focus:ring-purple-500"
-                      disabled={!option.trim()}
-                    />
-                    <span className="ml-2 text-sm font-medium text-gray-600">
-                      {String.fromCharCode(65 + index)}
-                    </span>
-                  </div>
-                  <input
-                    type="text"
-                    value={option}
-                    onChange={(e) => handleOptionChange(index, e.target.value)}
-                    className="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    placeholder={`Option ${String.fromCharCode(65 + index)}`}
-                  />
-                  {formData.options.length > 2 && (
-                    <button
-                      type="button"
-                      onClick={() => removeOption(index)}
-                      className="text-red-600 hover:text-red-700 p-1"
-                    >
-                      <Minus size={18} />
-                    </button>
-                  )}
-                </div>
-              ))}
-              
-              {formData.options.length < 6 && (
-                <button
-                  type="button"
-                  onClick={addOption}
-                  className="flex items-center gap-2 text-purple-600 hover:text-purple-700 px-3 py-1 rounded hover:bg-purple-50 transition-colors"
-                >
-                  <Plus size={16} />
-                  Add Option
-                </button>
-              )}
-            </div>
-            <p className="text-xs text-gray-500 mt-2">
-              Select the radio button next to the correct answer
-            </p>
-          </div>
-
-          {/* Category and Difficulty */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="fixed inset-0 bg-white/20 backdrop-blur-md flex items-center justify-center p-4 z-50">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl h-[90vh] flex flex-col border border-gray-200">
+        {/* Header with gradient */}
+        <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-6 rounded-t-2xl flex-shrink-0">
+          <div className="flex justify-between items-center">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Category *
-              </label>
-              <select
-                value={formData.category}
-                onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-              >
-                <option value="">Select Category</option>
-                {categories.map(category => (
-                  <option key={category} value={category}>{category}</option>
-                ))}
-              </select>
+              <h3 className="text-2xl font-bold text-white">
+                {editingQuestion ? 'Edit MCQ Question' : 'Create New MCQ Question'}
+              </h3>
+              <p className="text-indigo-100 mt-1">
+                {editingQuestion ? 'Update question details below' : 'Fill in the details to create a new multiple choice question'}
+              </p>
             </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Difficulty Level
-              </label>
-              <select
-                value={formData.difficulty}
-                onChange={(e) => setFormData(prev => ({ ...prev, difficulty: e.target.value }))}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-              >
-                <option value="Easy">Easy</option>
-                <option value="Medium">Medium</option>
-                <option value="Hard">Hard</option>
-              </select>
-            </div>
-          </div>
-
-          {/* Year asked the question in */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              previously asked in Year *
-            </label>
-            <input
-              type="text"
-              value={formData.year}
-              onChange={(e) => setFormData(prev => ({ ...prev, year: e.target.value }))}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-              placeholder="Enter the year"
-            />
-          </div>
-
-          {/* Explanation */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Explanation (Optional)
-            </label>
-            <textarea
-              value={formData.explanation}
-              onChange={(e) => setFormData(prev => ({ ...prev, explanation: e.target.value }))}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-              rows="3"
-              placeholder="Provide an explanation for the correct answer..."
-            />
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex gap-4 pt-4 border-t">
-            <button
-              onClick={handleSubmit}
-              className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors font-medium"
-            >
-              {editingQuestion ? 'Update Question' : 'Create Question'}
-            </button>
             <button
               onClick={onClose}
-              className="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors font-medium"
+              className="text-white/80 hover:text-white hover:bg-white/10 p-2 rounded-full transition-all duration-200"
+            >
+              <X size={24} />
+            </button>
+          </div>
+        </div>
+
+        {/* Scrollable Content Area */}
+        <div className="flex-1 overflow-y-auto">
+          <div className="p-8 space-y-8 bg-gray-50/50">
+            {/* Question Section */}
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+              <label className="flex items-center text-sm font-semibold text-gray-800 mb-3">
+                <span className="w-2 h-2 bg-indigo-500 rounded-full mr-2"></span>
+                Question *
+              </label>
+              <textarea
+                value={formData.question}
+                onChange={(e) => setFormData(prev => ({ ...prev, question: e.target.value }))}
+                className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 resize-none bg-gray-50 focus:bg-white"
+                rows="4"
+                placeholder="Enter your multiple choice question here..."
+              />
+            </div>
+
+            {/* Answer Options Section */}
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+              <label className="flex items-center text-sm font-semibold text-gray-800 mb-4">
+                <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                Answer Options *
+              </label>
+              <div className="space-y-4">
+                {formData.options.map((option, index) => (
+                  <div key={index} className="group">
+                    <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl border-2 border-transparent hover:border-gray-200 transition-all duration-200">
+                      <div className="flex items-center">
+                        <input
+                          type="radio"
+                          name="correctAnswer"
+                          checked={formData.correctAnswer === index}
+                          onChange={() => setFormData(prev => ({ ...prev, correctAnswer: index }))}
+                          className="w-4 h-4 text-indigo-600 focus:ring-indigo-500 focus:ring-2"
+                          disabled={!option.trim()}
+                        />
+                        <span className="ml-3 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center text-sm font-semibold">
+                          {String.fromCharCode(65 + index)}
+                        </span>
+                      </div>
+                      <input
+                        type="text"
+                        value={option}
+                        onChange={(e) => handleOptionChange(index, e.target.value)}
+                        className="flex-1 border-2 border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 bg-white"
+                        placeholder={`Enter option ${String.fromCharCode(65 + index)}`}
+                      />
+                      {formData.options.length > 2 && (
+                        <button
+                          type="button"
+                          onClick={() => removeOption(index)}
+                          className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg transition-all duration-200"
+                        >
+                          <Minus size={18} />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+                
+                {formData.options.length < 6 && (
+                  <button
+                    type="button"
+                    onClick={addOption}
+                    className="flex items-center gap-2 text-indigo-600 hover:text-indigo-700 px-4 py-3 rounded-xl hover:bg-indigo-50 transition-all duration-200 border-2 border-dashed border-indigo-200 hover:border-indigo-300 w-full justify-center"
+                  >
+                    <Plus size={18} />
+                    Add Another Option
+                  </button>
+                )}
+              </div>
+              <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                <p className="text-sm text-blue-700 flex items-center">
+                  <span className="w-4 h-4 bg-blue-500 rounded-full mr-2 flex items-center justify-center text-white text-xs">!</span>
+                  Select the radio button next to the correct answer
+                </p>
+              </div>
+            </div>
+
+            {/* Category and Difficulty Section */}
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+              <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                <span className="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>
+                Question Classification
+              </h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Category *
+                  </label>
+                  <select
+                    value={formData.category}
+                    onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
+                    className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 bg-gray-50 focus:bg-white"
+                  >
+                    <option value="">Select Category</option>
+                    {categories.map(category => (
+                      <option key={category} value={category}>{category}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Difficulty Level
+                  </label>
+                  <select
+                    value={formData.difficulty}
+                    onChange={(e) => setFormData(prev => ({ ...prev, difficulty: e.target.value }))}
+                    className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 bg-gray-50 focus:bg-white"
+                  >
+                    <option value="Easy">🟢 Easy</option>
+                    <option value="Medium">🟡 Medium</option>
+                    <option value="Hard">🔴 Hard</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {/* Year Section */}
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+              <label className="flex items-center text-sm font-semibold text-gray-800 mb-3">
+                <span className="w-2 h-2 bg-orange-500 rounded-full mr-2"></span>
+                Previously Asked in Year *
+              </label>
+              <input
+                type="text"
+                value={formData.year}
+                onChange={(e) => setFormData(prev => ({ ...prev, year: e.target.value }))}
+                className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 bg-gray-50 focus:bg-white"
+                placeholder="e.g., 2023, 2024"
+              />
+            </div>
+
+            {/* Explanation Section */}
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+              <label className="flex items-center text-sm font-semibold text-gray-800 mb-3">
+                <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                Explanation (Optional)
+              </label>
+              <textarea
+                value={formData.explanation}
+                onChange={(e) => setFormData(prev => ({ ...prev, explanation: e.target.value }))}
+                className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 resize-none bg-gray-50 focus:bg-white"
+                rows="4"
+                placeholder="Provide a detailed explanation for the correct answer..."
+              />
+              <p className="text-sm text-gray-500 mt-2">
+                Help students understand why this is the correct answer
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Action Buttons - Fixed at bottom */}
+        <div className="bg-white border-t border-gray-200 px-8 py-6 flex flex-col sm:flex-row gap-4 sm:justify-between sm:items-center rounded-b-2xl flex-shrink-0">
+          <div className="text-sm text-gray-600">
+            <span className="text-red-500">*</span> Required fields
+          </div>
+          <div className="flex gap-3">
+            <button
+              onClick={onClose}
+              className="px-6 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all duration-200 font-medium border border-gray-200"
             >
               Cancel
+            </button>
+            <button
+              onClick={handleSubmit}
+              className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+            >
+              {editingQuestion ? '✓ Update Question' : '+ Create Question'}
             </button>
           </div>
         </div>
