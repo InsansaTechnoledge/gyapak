@@ -95,8 +95,7 @@ export const getQuestionList = async (req, res) => {
 
 export const createQuestion = async (req, res) => {
   try {
-    console.log("Received question data:", req.body);
-    
+  
     // Validate required fields
     const { question, options, correctAnswer, category } = req.body;
     

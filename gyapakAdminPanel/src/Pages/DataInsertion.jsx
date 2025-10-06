@@ -1534,11 +1534,20 @@ const DataInsertion = () => {
       console.log('Opening edit for organization:', org);
       console.log('Available categories:', categories);
       
-      // Navigate to edit form or open edit modal
-      setSelectedOrganization({...org, isEditing: true});
+      // Fetch full organization details with logo for editing
+      const fullOrganization = await getOrganizationDetails(org._id);
+      if (fullOrganization) {
+        console.log('Full organization data for edit:', fullOrganization);
+        setSelectedOrganization({...fullOrganization, isEditing: true});
+      } else {
+        // Fallback to using the existing data if fetch fails
+        setSelectedOrganization({...org, isEditing: true});
+      }
     } catch (error) {
       console.error('Error opening edit:', error);
       setError(error.message);
+      // Fallback to using the existing data
+      setSelectedOrganization({...org, isEditing: true});
     }
   };
 
@@ -1574,25 +1583,74 @@ const DataInsertion = () => {
         cleanData.category = cleanData.category.category;
       }
 
-      // Remove logo from updates for now (logo updates can be handled separately)
-      delete cleanData.logo;
-
       console.log('Updating organization with data:', cleanData);
+      console.log('Logo in cleanData:', cleanData.logo);
+      console.log('Logo instanceof File:', cleanData.logo instanceof File);
 
-      const response = await axios.put(
-        `${API_BASE_URL}/api/v1/organizations/${selectedOrganization._id}`,
-        cleanData,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
+      let updateResponse;
+      
+      // Check if logo is a File object (new upload) or if it's been changed
+      if (cleanData.logo && cleanData.logo instanceof File) {
+        console.log('Converting logo file to base64 for update...');
+        
+        // Convert file to base64 and include in JSON request
+        const convertFileToBase64 = (file) => {
+          return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+              // Remove data:image/...;base64, prefix to get just the base64 string
+              const base64String = reader.result.split(',')[1];
+              resolve(base64String);
+            };
+            reader.onerror = error => reject(error);
+          });
+        };
+        
+        try {
+          const logoBase64 = await convertFileToBase64(cleanData.logo);
+          console.log('Logo converted to base64, length:', logoBase64.length);
+          
+          // Update with base64 logo in JSON request
+          const updateData = {
+            ...cleanData,
+            logo: logoBase64
+          };
+          
+          console.log('Updating with base64 logo via JSON request');
+          updateResponse = await axios.put(
+            `${API_BASE_URL}/api/v1/organizations/${selectedOrganization._id}`,
+            updateData,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }
+          );
+        } catch (conversionError) {
+          console.error('Error converting file to base64:', conversionError);
+          throw new Error('Failed to process logo file');
         }
-      );
+      } else {
+        // Update without logo change (remove logo from updates)
+        const { logo, ...dataWithoutLogo } = cleanData;
+        
+        console.log('Updating without logo change');
+        updateResponse = await axios.put(
+          `${API_BASE_URL}/api/v1/organizations/${selectedOrganization._id}`,
+          dataWithoutLogo,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+      }
 
-      if (response.status === 200) {
+      if (updateResponse.status === 200) {
         // Update organizations in state
         const updatedOrgs = organizations.map(org => 
-          org._id === selectedOrganization._id ? response.data.organization : org
+          org._id === selectedOrganization._id ? updateResponse.data.organization : org
         );
         setOrganizations(updatedOrgs);
         setFilteredOrganizations(updatedOrgs);
