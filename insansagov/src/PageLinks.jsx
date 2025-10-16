@@ -69,8 +69,8 @@ const PageLinks = () => {
       <Navbar />
       
       <Routes>
-        <Route path='/government-jobs-after-12th' element={<Landing />} />
-        <Route path='/' element={<Navigate to="/government-jobs-after-12th" replace />} />
+        <Route path='/' element={<Landing />} />
+        {/* <Route path='/' element={<Navigate to="/government-jobs-after-12th" replace />} /> */}
         <Route path='/cover' element={<PortalCoverPage />} />
         
         {/* Routes that use the content container */}
