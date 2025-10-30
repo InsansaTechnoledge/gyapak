@@ -24,7 +24,7 @@ export default function GyapakLanding() {
         <LandingRight />
 
 
-<QuizComponent />
+{/* <QuizComponent /> */}
         <GovCalendar />
       </Suspense>
     </div>
