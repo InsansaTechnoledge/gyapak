@@ -194,7 +194,6 @@ export default function CurrentAffairsPdfGrid({ data = [] , handleDeletePdf }) {
           </h1>
           <p className="mt-1 text-sm text-slate-400">Browse, preview, and share the latest uploads.</p>
         </div>
-       
       </header>
 
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
