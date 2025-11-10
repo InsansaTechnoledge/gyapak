@@ -106,7 +106,7 @@ const ModernExamDetailsPage = () => {
         <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
       </Helmet>
 
-      <div className="min-h-screen bg-white text-gray-900 py-20 px-4 ">
+      <div className="min-h-screen bg-white text-gray-900 py-20 px-0 md:px-4 ">
         {/* Floating Orbs Background */}
         <FloatingOrbsBackground />
 

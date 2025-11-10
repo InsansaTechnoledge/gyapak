@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import { PlusCircleIcon } from "lucide-react";
+import { MinusCircleIcon, PlusCircleIcon, Minus, Plus } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const AdditionalDetailsSection = ({ name, data, existingSections }) => {
+
+  const [isOpen, setIsOpen] = useState(true);
   
   // Function to check if data contains at least one key not in existingSections
   const hasNonExistingSection = (data) => {
@@ -96,12 +99,24 @@ if (!hasNonExistingSection(data)) {
 }
 
 return (
-  <div className="flex flex-col w-full lg:col-span-2 bg-white shadow-lg p-4 md:p-8 rounded-2xl mb-5">
-    <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
-      <PlusCircleIcon className="w-6 h-6 text-purple-500" />
+  <div className="flex flex-col w-full lg:col-span-2 bg-white shadow-lg p-4 rounded-2xl mb-5">
+    <h2 onClick={()=>setIsOpen(!isOpen)}className="text-2xl font-bold  flex items-center gap-3 hover:cursor-pointer">
+      
+      {isOpen?<Minus className="w-32 md:w-6 h-32 md:h-6 text-purple-500" />:<Plus className="w-32 md:w-6 h-32 md:h-6 text-purple-500" />}
       Additional Details for {name}
     </h2>
-    <div className="space-y-6 flex">{renderContent(data)}</div>
+    <AnimatePresence>
+    {isOpen && 
+      <motion.div
+        initial={{ opacity: 0, height: 0 }}
+        animate={{ opacity: 1, height: "auto" }}
+        exit={{ opacity: 0, height: 0 }}
+        transition={{ duration: 0.1, ease: "easeInOut" }}
+      >
+        <div className="space-y-6 flex mt-6 ">{renderContent(data)}</div>
+      </motion.div>
+    }
+    </AnimatePresence>
   </div>
 );
 };

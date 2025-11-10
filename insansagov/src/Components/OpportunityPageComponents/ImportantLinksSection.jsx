@@ -4,7 +4,6 @@ const ImportantLinksSection = ({ data }) => {
 
   const PrintLink = ({idx,link}) => {
     return (<a
-      key={idx}
       href={link}
       rel="noopener noreferrer"
       className="w-full text-center font-medium px-6 py-3 bg-purple-50 rounded-xl hover:bg-purple-100 transition-all shadow"
@@ -15,12 +14,12 @@ const ImportantLinksSection = ({ data }) => {
   }
 
   return (
-    <footer className="flex-grow lg:col-span-2 bg-white shadow-lg p-8 rounded-2xl">
+    <footer className="flex-grow lg:col-span-2 bg-white shadow-lg p-8 pl-12 rounded-2xl">
       <h2 className="text-2xl font-bold mb-6">Important Links for {data.name}</h2>
       <div className="flex flex-wrap justify-center gap-4">
         {data?.document_links ? (
           typeof data.document_links === "string" ? (
-            <div className="p-4 bg-purple-50 rounded-lg">
+            <div className="p-4 bg-purple-50 rounded-lg ">
               <p>{data.document_links}</p>
             </div>
           ) : Array.isArray(data.document_links) ? (
@@ -28,7 +27,7 @@ const ImportantLinksSection = ({ data }) => {
 
               link.startsWith("http")
                 ?
-                <PrintLink key={idx} link={link} />
+                <PrintLink key={idx} idx={idx} link={link} />
                 
                 :
                 (null)
