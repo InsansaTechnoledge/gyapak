@@ -42,7 +42,7 @@ export default function FullScreenLanding() {
           refetchOnWindowFocus: false, 
       });
   return (
-    <div className="w-full h-screen flex flex-col lg:flex-row overflow-hidden">
+    <div className="w-full h-screen flex flex-col lg:flex-row overflow-hidden md:mt-24 mt-16">
       <div className="relative h-full w-full flex items-center justify-center">
         <>
           <img

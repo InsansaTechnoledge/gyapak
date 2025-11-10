@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const AdditionalDetailsSection = ({ name, data, existingSections }) => {
 
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   
   // Function to check if data contains at least one key not in existingSections
   const hasNonExistingSection = (data) => {
@@ -100,11 +100,23 @@ if (!hasNonExistingSection(data)) {
 
 return (
   <div className="flex flex-col w-full lg:col-span-2 bg-white shadow-lg p-4 rounded-2xl mb-5">
-    <h2 onClick={()=>setIsOpen(!isOpen)}className="text-2xl font-bold  flex items-center gap-3 hover:cursor-pointer">
-      
-      {isOpen?<Minus className="w-32 md:w-6 h-32 md:h-6 text-purple-500" />:<Plus className="w-32 md:w-6 h-32 md:h-6 text-purple-500" />}
-      Additional Details for {name}
-    </h2>
+   <h2
+  onClick={() => setIsOpen(!isOpen)}
+  className="text-2xl font-semibold flex items-center gap-3 hover:cursor-pointer text-gray-800"
+>
+  <span className="flex-shrink-0 flex items-center justify-center">
+    {isOpen ? (
+      <Minus className="w-5 h-5 text-purple-500" />
+    ) : (
+      <Plus className="w-5 h-5 text-purple-500" />
+    )}
+  </span>
+
+  <span className="flex-1">
+    Additional Details for {name}
+  </span>
+</h2>
+
     <AnimatePresence>
     {isOpen && 
       <motion.div
