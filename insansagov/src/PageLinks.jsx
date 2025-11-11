@@ -29,6 +29,7 @@ const BlogDetailPage = lazy(() => import('./Components/BolgPage/components/BlogD
 const CalendarView = lazy(() => import('./Pages/Calendar/CalendarView'));
 const CurrentAffairPage = lazy(() => import('./Components/currentAffairs/currentAffairPage'));
 const CurrentAffairDetails = lazy(() => import('./Components/currentAffairs/CurrentAffairDetailPage'));
+const DailyUpdatesReels = lazy(() => import('./Components/DailyUpdatePdf/DailyUpdatesReels'))
 
 const PageLinks = () => {
   const {apiBaseUrl} = useApi();
@@ -69,9 +70,9 @@ const PageLinks = () => {
       <Navbar />
       
       <Routes>
-        <Route path='/government-jobs-after-12th' element={<Landing />} />
-        <Route path='/' element={<Navigate to="/government-jobs-after-12th" replace />} />
-        <Route path='/cover' element={<PortalCoverPage />} />
+        <Route path='/' element={<Landing />} />
+        {/* <Route path='/' element={<Navigate to="/government-jobs-after-12th" replace />} /> */}
+        {/* <Route path='/cover' element={<PortalCoverPage />} /> */}
         
         {/* Routes that use the content container */}
         <Route 
@@ -210,6 +211,17 @@ const PageLinks = () => {
             </div>
           }
         />
+
+         <Route 
+          path="/daily-updates" 
+          element={
+            <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
+              <DailyUpdatesReels />
+            </div>
+          }
+        />
+        {/* <Route path="/daily-updates" element={<DailyUpdatesReels />} /> */}
+
         <Route 
           path="/current-affair" 
           element={

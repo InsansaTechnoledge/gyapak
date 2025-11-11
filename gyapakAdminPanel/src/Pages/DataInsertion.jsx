@@ -16,6 +16,7 @@ import { LogOut, Search, Building, Users, Filter, Edit, Trash2 } from 'lucide-re
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
 import Report from './Report';
+import SummarizationComponent from '../Components/AI/SummarizationComponent';
 
 const DataInsertion = () => {
   const [organizationType, setOrganizationType] = useState("add-org");
@@ -660,6 +661,8 @@ const DataInsertion = () => {
             Create and manage government events for Central and State authorities
           </p>
         </div>
+
+        <SummarizationComponent/>
 
         {/* Enhanced Tab Navigation */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">

@@ -1,10 +1,14 @@
 import express from 'express';
 
 import { uploadCurrentAffair , updateCurrentAffair , fetchAllCurrentAffairs , deleteCurrentAffair , fetchTodaysCurrentAffairs , fetchMonthlyCurrentAffairs , fetchYearlyCurrentAffairs , getAffairWithQuestions} from '../controllers/currentAffairs.controller.js';
+import { addNewPdf, deletePdfByID, fetchPdf } from '../controllers/DailyCurrentAffair.controller.js';
 
 const router = express.Router()
 
 router.post('/upload', uploadCurrentAffair);
+router.post('/upload-pdf', addNewPdf)
+router.get('/get-pdf', fetchPdf)
+router.delete('/delete-pdf', deletePdfByID);
 router.put('/update/:id', updateCurrentAffair);
 router.get('/all', fetchAllCurrentAffairs);
 router.delete('/delete/:id', deleteCurrentAffair);
