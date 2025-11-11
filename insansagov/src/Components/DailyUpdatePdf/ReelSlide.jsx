@@ -65,6 +65,7 @@ function looksLikePdf(url) {
   return /\.pdf(\?|$)/i.test(url);
 }
 
+/** Share route on your site rather than raw file */
 function buildWebsiteShareUrl(itemId, title) {
   const baseUrl = window.location.origin;
   return `${baseUrl}/daily-updates`;
@@ -120,10 +121,10 @@ const ScrollHint = ({ className = "" }) => (
 const ReelSlide = ({ item, isLast, minH }) => {
   const [copied, setCopied] = useState(false);
   const iframeWrapRef = useRef(null);
-  const [showMore, setShowMore] = useState(false);
+  const [showMore , setShowMore] = useState(false);
 
   const rawDesc = (item?.description ?? "").trim();
-  const MAX_CHARS = 25;
+  const MAX_CHARS = 25; // tweak as you like
   const isLong = rawDesc.length > MAX_CHARS;
   const visibleText = showMore ? rawDesc : rawDesc.slice(0, MAX_CHARS);
 
@@ -134,6 +135,7 @@ const ReelSlide = ({ item, isLast, minH }) => {
     return null;
   }, [item.pdfLink]);
 
+  // prevent parent page scroll when user scrolls inside the embed
   useEffect(() => {
     const el = iframeWrapRef.current;
     if (!el) return;
@@ -162,6 +164,7 @@ const ReelSlide = ({ item, isLast, minH }) => {
         /* fall back */
       }
     }
+    // Fallback buttons are visible below.
   }, [item.id, item.title]);
 
   const copyLink = async () => {
@@ -176,22 +179,27 @@ const ReelSlide = ({ item, isLast, minH }) => {
   };
 
   const startDownload = () => {
+    // Prefer Drive download if possible
     const dl = driveDownloadUrl(item.pdfLink);
     const isDirectPdf = looksLikePdf(item.pdfLink);
 
     const href = dl || (isDirectPdf ? item.pdfLink : null);
 
     if (!href) {
+      // fallback: open original link (may be non-embeddable)
       window.open(item.pdfLink, "_blank", "noopener,noreferrer");
       return;
     }
 
+    // Attempt to trigger a download/open. Cross-origin headers may force this to open a new tab.
     const a = document.createElement("a");
     a.href = href;
-    a.target = "_blank";
+    a.target = "_blank"; // safest for cross-origin
+    // Suggest a filename for direct PDFs (browsers may ignore for cross-origin)
     const safeTitle =
       (item.title || "daily-update").replace(/[^\w.-]+/g, "_") + ".pdf";
     if (!dl) {
+      // only set download name for same-origin or direct PDFs; Drive url will handle download server-side
       a.setAttribute("download", safeTitle);
     }
     document.body.appendChild(a);
@@ -305,31 +313,37 @@ const ReelSlide = ({ item, isLast, minH }) => {
                   </p>
                 )}
 
-                {item?.description && (
-                  <div className="mt-2 sm:mt-4">
-                    <p className="text-xs sm:text-sm md:text-base font-medium leading-snug text-white/80">
-                      {rawDesc
-                        ? (
-                          <>
-                            {visibleText}
-                            {!showMore && isLong && "…"}
-                          </>
-                        )
-                        : "Daily Update"}
-                    </p>
+                {
+                  item?.description && (
+                    <div className="mt-2 sm:mt-4">
+                  {/* text */}
+                      <p className="text-xs sm:text-sm md:text-base font-medium leading-snug text-white/80">
+                        {rawDesc
+                          ? (
+                            <>
+                              {visibleText}
+                              {!showMore && isLong && "…"}
+                            </>
+                          )
+                          : "Daily Update"}
+                      </p>
 
-                    {isLong && (
-                      <button
-                        type="button"
-                        onClick={() => setShowMore((prev) => !prev)}
-                        className="mt-1 text-blue-400 hover:text-blue-500 underline underline-offset-2 text-xs sm:text-sm"
-                        aria-expanded={showMore}
-                      >
-                        {showMore ? "Read less" : "Read more"}
-                      </button>
-                    )}
-                  </div>
-                )}
+                      {/* read more/less */}
+                      {isLong && (
+                        <button
+                          type="button"
+                          onClick={() => setShowMore((prev) => !prev)}
+                          className="mt-1 text-blue-400 hover:text-blue-500 underline underline-offset-2 text-xs sm:text-sm"
+                          aria-expanded={showMore}
+                        >
+                          {showMore ? "Read less" : "Read more"}
+                        </button>
+                      )}
+                    </div>
+                  )
+                }
+                
+
               </div>
               <div className="flex items-center gap-1 sm:gap-1.5">
                 <IconBtn title="Download PDF" onClick={startDownload}>
@@ -364,6 +378,14 @@ const ReelSlide = ({ item, isLast, minH }) => {
               >
                 Telegram
               </a>
+              {/* <a
+                href={twitter}
+                target="_blank"
+                rel="noreferrer"
+                className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-white/95 hover:bg-white text-slate-800 text-xs font-medium shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 ring-1 ring-black/5"
+              >
+                X
+              </a> */}
               <IconBtn
                 title="Copy link"
                 onClick={copyLink}
@@ -385,23 +407,9 @@ const ReelSlide = ({ item, isLast, minH }) => {
           className="absolute bottom-2 sm:bottom-4 left-1/2 -translate-x-1/2 z-30"
         />
       )}
+
     </section>
   );
 };
 
-// Demo
-export default function App() {
-const demoItem = {
-  id: "1",
-  title: "Daily Market Update",
-  date: "2025-11-11",
-  description: "Important market trends and analysis for today's trading session with key insights.",
-  pdfLink: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
-};
-
-return (
-  <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800">
-    <ReelSlide item={demoItem} isLast={false} minH="100vh" />
-  </div>
-);
-}
+export default ReelSlide
