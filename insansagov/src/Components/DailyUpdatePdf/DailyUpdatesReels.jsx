@@ -3,7 +3,10 @@ import { Loader2, Filter, X } from "lucide-react";
 import axios from "axios";
 import ReelSlide from "./ReelSlide";
 
-const API_BASE = "http://localhost:3000/api/v1i2/affair"; // keep your path
+
+// const API_BASE = "https://admin.harshvaidya.tech/api/v1i2/affair"; 
+
+const API_BASE = "http://localhost:3000/api/v1i2/affair"
 
 // The enum you used in Mongoose
 const CATEGORIES = ["Current Affairs", "Editorial", "MCQs", "Monthly Summary"];
@@ -142,7 +145,7 @@ export default function DailyUpdatesReels() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-white">
+    <div className="min-h-screen w-full mt-10 bg-white">
       {/* Header */}
       <header
         ref={headerRef}

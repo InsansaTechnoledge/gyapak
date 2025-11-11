@@ -335,14 +335,14 @@ const Navbar = () => {
       <nav ref={navRef} className={`w-full flex flex-col fixed top-0 left-0 z-50`}>
       {/* --- Top Strip --- */}
       <div
-        className={`bg-[#f8e2fd] flex items-center justify-between h-16 px-6 gap-2 md:px-36 transition-transform duration-500 fixed top-0 left-0 w-full md:w-full z-50
+        className={`bg-[#2a0d31] flex items-center justify-between h-16 px-6 gap-2 md:px-36 transition-transform duration-500 fixed top-0 left-0 w-full md:w-full z-50
           ${showTop  ? 'translate-0 md:translate-0' :  'translate-0 md:-translate-y-full'}
         `}
       >
         {/* Left side with Logo + Add button */}
         <div className="flex items-center gap-4 ">
           <div className="text-pink-600 font-bold text-xl">
-            <a href="/"> <img src={logo3} alt="gyapak logo" height={32} width={120} /></a>
+            <a href="/"> <img src={logo4} alt="gyapak logo" height={32} width={120} /></a>
           </div>
           
         </div>
@@ -350,7 +350,7 @@ const Navbar = () => {
         {/* Right side */}
         <div className="flex items-center gap-3 md:gap-6 text-sm ">
           {/* Search */}
-          <div className="flex items-center gap-2 px-3 py-2 h-10  bg-purple-50 rounded-xl hover:bg-purple-100 transition-all w-fit">
+          <div className="flex items-center gap-2 px-3 py-2 h-10  bg-gray-50 rounded-xl hover:bg-purple-50 transition-all w-fit">
           <Newspaper className="flex w-5 h-5 text-purple-600" />
           <a
             href="/daily-updates"
@@ -382,7 +382,7 @@ const Navbar = () => {
                   }
                 }
               }}
-              > </input>
+              />
             <span className="ml-2 absolute right-4">
               <Search size={18} className="text-slate-400 " />
             </span>
