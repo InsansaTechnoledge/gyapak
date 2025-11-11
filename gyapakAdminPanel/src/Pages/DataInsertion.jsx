@@ -15,6 +15,7 @@ import { useAuth } from '../Components/Auth/AuthContext';
 import { LogOut, Search, Building, Users, Filter, Edit, Trash2 } from 'lucide-react';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
+import Report from './Report';
 import SummarizationComponent from '../Components/AI/SummarizationComponent';
 
 const DataInsertion = () => {
@@ -67,7 +68,8 @@ const DataInsertion = () => {
     {id: "manage-affair" , label: "Manage all current affair"},
     {id: "manage-faq", label: "Manage FAQ"},
     {id:"Today's Question", label: "Today's Question"},
-    { id: "manage-organizations", label: "Manage Organizations" }
+    { id: "manage-organizations", label: "Manage Organizations" },
+    { id: "create-report", label: "Generate Report" }
   ];
 
   const orgSubOptions = [
@@ -84,6 +86,7 @@ const DataInsertion = () => {
     { id: "create", label: "Create FAQ" },
     { id: "delete", label: "Delete FAQ" }
   ];
+
 
   // Get organization details with logo for viewing
   const getOrganizationDetails = async (organizationId) => {
@@ -1510,6 +1513,8 @@ const DataInsertion = () => {
         return <DailyQuestions />;
       case "manage-organizations":
         return renderOrganizationManagement();
+      case "create-report":
+        return <Report/>;
       default:
         return (
           <div className="flex items-center justify-center h-64">
