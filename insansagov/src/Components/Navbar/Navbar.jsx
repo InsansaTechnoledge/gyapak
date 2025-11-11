@@ -7,6 +7,8 @@ import { useApi, CheckServer } from '../../Context/ApiContext';
 import { useQuery } from '@tanstack/react-query';
 import logo3 from '/logo3.png';
 import logo4 from '/logo4.png';
+import { MdKeyboardArrowUp, MdOutlineTranslate, MdKeyboardArrowDown } from "react-icons/md";
+
 
 const stateImages = {
   "Gujarat": "/states/Gujarat.png",
@@ -88,6 +90,20 @@ const Navbar = () => {
   const [categoryDropdownVisible, setCategoryDropdownVisible] = useState(false);
   const [mobileStateDropdownVisible, setMobileStateDropdownVisible] = useState(false);
   const [mobileCategoryDropdownVisible, setMobileCategoryDropdownVisible] = useState(false);
+
+  //new one
+  const [activeMenu, setActiveMenu] = useState(null);
+
+  const [showTop, setShowTop] = useState(true);
+  const [mobileSub, setMobileSub] = useState(null); // 'govJob' | 'exam' | null
+
+   // toggle dropdown
+  const handleMenuClick = (menu) => {
+    setActiveMenu(activeMenu === menu ? null : menu);
+    
+  };
+
+
   const navRef = useRef(null);
 
   const isHomePage = location.pathname === '/government-jobs-after-12th';
@@ -127,6 +143,8 @@ const Navbar = () => {
         setIsOpen(false);
         setMobileStateDropdownVisible(false);
         setMobileCategoryDropdownVisible(false);
+        setActiveMenu(null);
+
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -210,7 +228,7 @@ const Navbar = () => {
 
   const handleSearch = (suggestion) => {
     const trimmedSuggestion = suggestion.trim();
-    navigate(`/search/?query=${encodeURI(trimmedSuggestion)}`);
+    navigate(`/search?query=${encodeURI(trimmedSuggestion)}`);
     setSearchQuery("");
   };
 
@@ -256,7 +274,7 @@ const Navbar = () => {
   const SuggestionList = ({ title, items, itemKey }) => {
     if (!items || items.length === 0) return null;
     return (
-      <div className="mb-2">
+      <div className="mb-2 ">
         <div className="flex items-center justify-between text-sm font-semibold text-gray-600 px-4 py-2 bg-gradient-to-r from-purple-50 to-blue-50">
           <span>{title}</span>
           <span className="bg-white text-purple-600 px-2 py-0.5 rounded-full text-xs font-bold">
@@ -282,283 +300,259 @@ const Navbar = () => {
     );
   };
 
+
+   useEffect(() => {
+
+    let lastY = window.scrollY;
+
+    const controlNavbar = () => {
+      //this function will call on each scroll
+
+      const currentY = window.scrollY;
+      const diff = currentY-lastY;
+
+      if (diff>40 && currentY>80) {
+        //going down then hide only show the second strip
+        setShowTop(false);
+        lastY = currentY;
+      } else if(diff<-40) {
+        //goes up then show the both
+        setShowTop(true);
+        lastY = currentY;
+      }
+      
+    };
+
+    window.addEventListener("scroll", controlNavbar);
+
+    return () => {
+      window.removeEventListener("scroll", controlNavbar);
+    };
+  }, []);
+
   return (
-    <nav
-      ref={navRef}
-      className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-lg' : 'bg-transparent'}`}
-    >
-      <style>
-        {`
-          .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-          .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #9333ea; border-radius: 4px; }
-          .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: #7e22ce; }
-          .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    // <nav
+      <nav ref={navRef} className={`w-full flex flex-col fixed top-0 left-0 z-50`}>
+      {/* --- Top Strip --- */}
+      <div
+        className={`bg-[#f8e2fd] flex items-center justify-between h-16 px-6 gap-2 md:px-36 transition-transform duration-500 fixed top-0 left-0 w-full md:w-full z-50
+          ${showTop  ? 'translate-0 md:translate-0' :  'translate-0 md:-translate-y-full'}
         `}
-      </style>
-
-      <div className=" px-8 sm:px-6 lg:px-12">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo - Desktop */}
-          <div onClick={() => navigate('/')} className="group hidden sm:block hover:cursor-pointer">
-            <div className=" flex items-center">
-              <div className="rounded-xl flex items-center justify-center">
-                {isScrolled ? (
-                  <img src={logo3} alt="Gyapak Logo" className="h-32 w-32 object-contain p-2" />
-                ) : (
-                  <img src={logo4} alt="Gyapak Logo" className="h-32 w-32 object-contain p-2" />
-                )}
-              </div>
-            </div>
+      >
+        {/* Left side with Logo + Add button */}
+        <div className="flex items-center gap-4 ">
+          <div className="text-pink-600 font-bold text-xl">
+            <a href="/"> <img src={logo3} alt="gyapak logo" height={32} width={120} /></a>
           </div>
+          
+        </div>
 
-          {/* Logo - Mobile (appear on scroll) */}
-          {logoVisible ? (
-            <div onClick={() => navigate('/')} className="group block sm:hidden">
-              <div className="flex items-center">
-                <div className="rounded-xl flex items-center justify-center">
-                  <img src={logo3} alt="Gyapak Logo" className="h-28 w-28 object-contain p-2" />
-                </div>
-              </div>
-            </div>
-          ) : null}
+        {/* Right side */}
+        <div className="flex items-center gap-3 md:gap-6 text-sm ">
+          {/* Search */}
+          <div className="flex items-center gap-2 px-3 py-2 h-10  bg-purple-50 rounded-xl hover:bg-purple-100 transition-all w-fit">
+          <Newspaper className="flex w-5 h-5 text-purple-600" />
+          <a
+            href="/daily-updates"
+            className="font-medium text-gray-800 hover:text-purple-700 transition-colors"
+          >
+            Daily Updates
+          </a>
+          <span className="hidden md:block text-xs font-semibold bg-purple-600 text-white px-2 py-[2px] rounded-full uppercase tracking-wide">
+            New
+          </span>
+        </div>
 
-          {/* Home button (not on homepage) */}
-          {!isHomePage && (
-            <button
-              onClick={() => navigate('/')}
-              className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg bg-white text-gray-700 hover:text-white hover:bg-purple-800 transition-all duration-300 font-medium whitespace-nowrap"
-            >
-              Home
-            </button>
-          )}
-
-          {/* Desktop nav row */}
-          <div className="hidden lg:flex items-center gap-4 xl:gap-6">
-            <a
-              href="/blog"
-              className={`px-4 py-2 rounded-lg whitespace-nowrap transition-all duration-300 ${
-                isScrolled ? 'text-gray-700 hover:bg-purple-50' : 'text-white hover:bg-white/10'
-              }`}
-            >
-              Visit Blogs
-            </a>
-
-            <button
-              onClick={goDailyUpdates}
-              className={`relative px-4 py-2 rounded-lg whitespace-nowrap transition-all duration-300 ${
-                isScrolled ? 'text-gray-700 hover:bg-purple-50' : 'text-white hover:bg-white/10'
-              }`}
-            >
-              <span className="inline-flex items-center gap-2">
-                <Newspaper className="w-4 h-4" />
-                Daily Updates
-                <span className="ml-2 text-[10px] font-semibold tracking-wide px-2 py-0.5 rounded-full bg-purple-600 text-white">
-                  New
-                </span>
-              </span>
-            </button>
-
-            <a
-              href="/current-affair"
-              className={`px-4 py-2 rounded-lg whitespace-nowrap transition-all duration-300 ${
-                isScrolled ? 'text-gray-700 hover:bg-purple-50' : 'text-white hover:bg-white/10'
-              }`}
-            >
-              Current Affairs
-            </a>
-
-            {/* Categories Dropdown */}
-            <div className="relative" onMouseLeave={() => setCategoryDropdownVisible(false)}>
-              <button
-                onMouseEnter={() => setCategoryDropdownVisible(true)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg whitespace-nowrap transition-all duration-300 ${
-                  isScrolled ? 'text-gray-700 hover:bg-purple-50' : 'text-white hover:bg-white/10'
-                }`}
-              >
-                <span>Categories</span>
-                <ChevronDown className="w-4 h-4" />
-              </button>
-
-              {categoryDropdownVisible && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 w-[660px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5">
-                  <div className="p-6">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                      Browse Categories
-                    </h3>
-                    <div className="grid grid-cols-3 gap-3">
-                      {visibleCategories.map((category, index) => (
-                        <div
-                          key={index}
-                          onClick={() => {
-                            updateVisibleCategories(category);
-                            setCategoryDropdownVisible(false);
-                            navigate(`/government-organisations-under-category?name=${encodeURI(category.Nameid)}`);
-                          }}
-                          className="flex items-center p-2.5 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 group cursor-pointer min-w-0"
-                        >
-                          <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-gradient-to-br from-purple-100 to-blue-100 text-lg flex-shrink-0 group-hover:from-purple-200 group-hover:to-blue-200">
-                            <span>{category.icon}</span>
-                          </div>
-                          <div className="ml-3 min-w-0">
-                            <span className="block text-sm font-medium text-gray-800 group-hover:text-purple-700 whitespace-nowrap truncate max-w-[180px]">
-                              {category.name}
-                            </span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* States Dropdown */}
-            <div className="relative" onMouseLeave={() => setStateDropdownVisible(false)}>
-              <button
-                onMouseEnter={() => setStateDropdownVisible(true)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg whitespace-nowrap transition-all duration-300 ${
-                  isScrolled ? 'text-gray-700 hover:bg-purple-50' : 'text-white hover:bg-white/10'
-                }`}
-              >
-                <span>States</span>
-                <ChevronDown className="w-4 h-4" />
-              </button>
-
-              {stateDropdownVisible && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 w-[820px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5">
-                  <div className="p-6">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
-                      Browse States
-                    </h3>
-                    <div className="grid grid-cols-4 gap-3">
-                      {(visibleStates || []).map((state) => (
-                        <StateIcon
-                          key={state._id}
-                          state={state}
-                          updateVisibleStates={updateVisibleStates}
-                          setStateDropdownVisible={setStateDropdownVisible}
-                        />
-                      ))}
-                    </div>
-                    <div className="mt-4 flex items-center justify-center gap-3 p-4 bg-purple-700 border border-amber-500/50 rounded-lg hover:border-amber-500 transition-colors duration-300 backdrop-blur-sm">
-                      <AlertTriangle className="h-5 w-5 text-purple-50 animate-pulse" />
-                      <p className="text-gray-200 text-sm leading-relaxed">
-                        Remaining states would be available soon!
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* In-page links on homepage */}
-            {isHomePage && (
-              <>
-                <button
-                  onClick={() => {
-                    setIsOpen(false);
-                    const aboutSection = document.getElementById('about');
-                    if (aboutSection) {
-                      aboutSection.scrollIntoView({ behavior: 'smooth' });
-                    }
-                  }}
-                  className={`block px-4 py-3 rounded-lg whitespace-nowrap ${isScrolled ? 'text-gray-700' : 'text-gray-100'} hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300`}
-                >
-                  About
-                </button>
-
-                <button
-                  onClick={() => {
-                    setIsOpen(false);
-                    const aboutSection = document.getElementById('contact');
-                    if (aboutSection) {
-                      aboutSection.scrollIntoView({ behavior: 'smooth' });
-                    }
-                  }}
-                  className={`block px-4 py-3 rounded-lg whitespace-nowrap ${isScrolled ? 'text-gray-700' : 'text-gray-100'} hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300`}
-                >
-                  Contact Us
-                </button>
-              </>
-            )}
-
-            {/* Search */}
-            <div className="relative w-56 xl:w-72">
-              <input
-                type="text"
-                className={`w-full px-4 py-3 text-[13px] ${isScrolled ? 'text-gray-600' : 'text-gray-50'} ${isScrolled ? 'placeholder-gray-500' : 'placeholder-gray-100'} rounded-2xl bg-gray-200/10 border-2 border-gray-300/40 transition-colors duration-300`}
-                placeholder="government categories and org.."
-                value={searchQuery}
-                onChange={(e) => inputChangeHandler(e.target.value)}
-                autoComplete="off"
-                onFocus={() => searchQuery && setShowDropdown(true)}
-                onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
+          <div className="hidden md:flex items-center  rounded-full px-2 py-2 w-full md:w-[420px] relative">
+            <input
+              value={searchQuery}
+              onChange={(e) => inputChangeHandler(e.target.value)}
+              type="text"
+              placeholder="Government exam prepration . . ."
+              className="outline-none text-gray-600 text-sm w-full px-4 py-1.5 rounded-xl shadow-accertinity focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:border-gray-300 focus:bg-gray-100 border-transparent transition-all  duration-200 "
+              // shadow-accertinity inline px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:border-gray-300 focus:bg-gray-100 border-transparent transition-all  duration-200 outline-none
+              onFocus={() => searchQuery && setShowDropdown(true)}
+              onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  if (searchQuery.trim()) {
                     navigate(`/search?query=${encodeURI(searchQuery.trim())}`);
                     setSearchQuery('');
+                    setShowDropdown(false);
                   }
-                }}
-              />
-              <button
-                type="button"
-                className={`absolute right-1 top-1/2 transform -translate-y-1/2 ${isScrolled ? 'text-gray-500' : 'text-gray-100'} hover:text-purple-600 transition-colors`}
-              >
-                <Search className="w-6 h-6" />
-              </button>
+                }
+              }}
+              > </input>
+            <span className="ml-2 absolute right-4">
+              <Search size={18} className="text-slate-400 " />
+            </span>
 
-              {showDropdown && (
-                <div className="absolute z-50 mt-2 w-full bg-white/95 backdrop-blur-sm border border-gray-200 rounded-xl shadow-xl max-h-72 overflow-auto custom-scrollbar">
-                  {totalCount > 0 && (
-                    <div className="px-4 py-2 bg-gradient-to-r from-purple-50 to-blue-50 border-b border-gray-200 text-xs font-medium text-purple-600">
-                      Found {totalCount} total matches
-                    </div>
-                  )}
-                  <div>
-                    {suggestions.authorities?.length > 0 && (
-                      <SuggestionList title="States" items={suggestions.authorities} itemKey="name" />
-                    )}
-                    {suggestions.organizations?.length > 0 && (
-                      <SuggestionList title="Organizations" items={suggestions.organizations} itemKey="abbreviation" />
-                    )}
-                    {suggestions.categories?.length > 0 && (
-                      <SuggestionList title="Categories" items={suggestions.categories} itemKey="category" />
-                    )}
-                    {totalCount === 0 && (
-                      <div className="px-4 py-3 text-sm text-gray-500">No suggestions found</div>
-                    )}
+            {showDropdown && (
+              <div className="absolute left-0 top-full z-[9999] mt-2 w-full bg-white/95 backdrop-blur-sm border border-gray-200 rounded-xl shadow-xl max-h-72 overflow-auto custom-scrollbar">
+                {totalCount > 0 && (
+                  <div className="px-4 py-2 bg-gradient-to-r from-purple-50 to-blue-50 border-b border-gray-200 text-xs font-medium text-purple-600">
+                    Found {totalCount} total matches
                   </div>
+                )}
+                <div>
+                  {suggestions.authorities?.length > 0 && (
+                    <SuggestionList title="States" items={suggestions.authorities} itemKey="name" />
+                  )}
+                  {suggestions.organizations?.length > 0 && (
+                    <SuggestionList title="Organizations" items={suggestions.organizations} itemKey="abbreviation" />
+                  )}
+                  {suggestions.categories?.length > 0 && (
+                    <SuggestionList title="Categories" items={suggestions.categories} itemKey="category" />
+                  )}
+                  {totalCount === 0 && (
+                    <div className="px-4 py-3 text-sm text-gray-500">No suggestions found</div>
+                  )}
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
 
-          {/* Mobile menu button */}
-          <div className="lg:hidden">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className={`p-2 rounded-lg ${isScrolled ? 'text-gray-700 hover:bg-purple-50' : 'text-white hover:bg-white/10'} transition-all duration-300`}
-            >
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </button>
-          </div>
+          
+
+          
+
+          {/* Mobile hamburger */}
+          <button
+            className="md:hidden p-2 rounded-md bg-white hover:bg-gray-50 active:bg-gray-100"
+            aria-label="Open menu"
+            onClick={() => setIsOpen((v) => !v)}
+          >
+            {isOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
         </div>
       </div>
 
+{/* --- Bottom Menu Strip (desktop only) --- */}
+      <div
+        className={` hidden md:flex bg-white items-center h-12 px-6 md:px-36 transition-transform duration-500 top-0 left-0 z-45 w-full fixed
+          ${showTop ? 'translate-0 md:translate-y-16' : ' top-0  '}`}
+      >
+        {/* Menu left */}
+        <div className="flex gap-6 font-medium text-gray-700 items-center">
+        
+
+          {/* <button className="hover:text-pink-600">Current Affairs</button> */}
+          <a  href="/current-affair" className={`hover:text-pink-600 transition-all duration-300`}>
+            Current Affairs
+            </a>
+            <a  href="/blog" className={`hover:text-pink-600 transition-all duration-300`}>
+            Blogs
+            </a>
+            <button
+            className="hover:text-pink-600 flex items-center gap-1 "
+            onClick={() => handleMenuClick("categories")}
+          >
+            Categories {activeMenu === "categories" ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
+          </button>
+
+          <button
+            className="hover:text-pink-600 flex items-center gap-1"
+            onClick={() => handleMenuClick("state")}
+          >
+            State {activeMenu === "state" ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
+          </button>
+          {/* <button className="hover:text-pink-600">Educational News</button>
+          <button className="hover:text-pink-600">E-Books</button>
+          <button className="hover:text-pink-600">Colleges</button>
+          <button className="hover:text-pink-600">Libraries</button> */}
+        </div>
+
+        {/* Menu right */}
+        <div className="ml-auto flex gap-6 font-medium text-gray-700">
+          {/* <button className="hover:text-pink-600">Mock Test</button> */}
+          <a href="" className='hover:text-pink-600'>About</a>
+          <a href="" className='hover:text-pink-600'>Contact</a>
+        </div>
+      </div>
+
+{/* --- Dropdowns for desktop menu --- */}
+{activeMenu === "categories" && (
+  <div className={`fixed left-1/2 top-[112px] -translate-x-1/2 w-[660px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5 z-50`}>
+    <div className="p-6">
+      <h3 className="text-lg font-semibold text-gray-900 mb-4">
+        Browse Categories
+      </h3>
+      <div className="grid grid-cols-3 gap-3">
+        {visibleCategories.map((category, index) => (
+          <div
+            key={index}
+            onClick={() => {
+              updateVisibleCategories(category);
+              setActiveMenu(null);
+              navigate(`/government-organisations-under-category?name=${encodeURI(category.Nameid)}`);
+            }}
+            className="flex items-center p-2.5 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 group cursor-pointer min-w-0"
+          >
+            <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-gradient-to-br from-purple-100 to-blue-100 text-lg flex-shrink-0 group-hover:from-purple-200 group-hover:to-blue-200">
+              <span>{category.icon}</span>
+            </div>
+            <div className="ml-3 min-w-0">
+              <span className="block text-sm font-medium text-gray-800 group-hover:text-purple-700 whitespace-nowrap truncate max-w-[180px]">
+                {category.name}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+)}
+
+{activeMenu === "state" && (
+  <div className={`fixed left-1/2 top-[112px] -translate-x-1/2 w-[820px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5 z-50`}>
+    <div className="p-6">
+      <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
+        Browse States
+      </h3>
+      <div className="grid grid-cols-4 gap-3">
+        {(visibleStates || []).map((state) => (
+          <StateIcon
+            key={state._id}
+            state={state}
+            updateVisibleStates={updateVisibleStates}
+            setStateDropdownVisible={() => setActiveMenu(null)}
+          />
+        ))}
+      </div>
+      <div className="mt-4 flex items-center justify-center gap-3 p-4 bg-purple-700 border border-amber-500/50 rounded-lg hover:border-amber-500 transition-colors duration-300 backdrop-blur-sm">
+        <AlertTriangle className="h-5 w-5 text-purple-50 animate-pulse" />
+        <p className="text-gray-200 text-sm leading-relaxed">
+          Remaining states would be available soon!
+        </p>
+      </div>
+    </div>
+  </div>
+)}
+
       {/* Mobile menu */}
-      <div className={`lg:hidden transition-all duration-500 ease-in-out ${isOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'} overflow-hidden bg-white/95 backdrop-blur-sm`}>
+      <div className={`lg:hidden transition-all duration-500 mt-[60px] ease-in-out ${isOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'} overflow-hidden bg-white/95 backdrop-blur-sm`}>
         {isOpen && (
           <div className="flex justify-center py-4">
-            <img src={logo3} alt="Gyapak Logo" className="h-12 w-auto" />
+            {/* <img src={logo3} alt="Gyapak Logo" className="h-18 w-auto" /> */}
           </div>
         )}
         <div className="px-6 pt-4 pb-6 space-y-2 custom-scrollbar max-h-[80vh] overflow-y-auto">
           {/* Search Bar - Mobile */}
           <div className="mb-4 relative">
-            <form onSubmit={handleSearch} className="relative">
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              if (searchQuery.trim()) {
+                navigate(`/search?query=${encodeURI(searchQuery.trim())}`);
+                setSearchQuery('');
+                setShowDropdown(false);
+                setIsOpen(false);
+              }
+            }} className="relative">
               <input
                 type="text"
-                className="w-full px-4 py-2.5 text-sm rounded-lg bg-gray-100 text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
+                // className="w-full px-4 py-2.5 text-sm rounded-lg bg-gray-100 text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
+                              className="outline-none text-gray-600 text-sm w-full px-4 py-1.5 rounded-xl shadow-accertinity focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:border-gray-300 focus:bg-gray-100 border-transparent transition-all  duration-200 "
+
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => inputChangeHandler(e.target.value)}
@@ -605,7 +599,7 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Mobile Items */}
+          {/* Mobile Items
           {!isHomePage && (
             <button
               onClick={() => {
@@ -616,7 +610,7 @@ const Navbar = () => {
             >
               Home
             </button>
-          )}
+          )} */}
 
           <a
             onClick={() => setIsOpen(false)}
