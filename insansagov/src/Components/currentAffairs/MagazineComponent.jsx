@@ -1,20 +1,24 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Calendar } from "lucide-react";
+import { useQueryClient , useQuery } from '@tanstack/react-query'
+import {useApi} from "../../Context/ApiContext"
 import { ToastContainer, toast } from 'react-toastify';
-import { useApi } from "../../Context/ApiContext";
-
 
 
 export default function MagazineComponent() {
   const currentDate = new Date();
-  const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
+  const {apiBaseUrl} = useApi();
+  const queryClient = useQueryClient();
+
 
   // Loading states
   const [loadingKey, setLoadingKey] = useState(null);
   const [customLoading, setCustomLoading] = useState(false);
 
-  const [customMonth, setCustomMonth] = useState(currentDate.getMonth() + 4);
+  //for select option
+  const [customMonth, setCustomMonth] = useState(currentDate.getMonth() + 1);
   const [customYear, setCustomYear] = useState(currentDate.getFullYear());
+
 
   const monthNames = [
     "January", "February", "March", "April", "May", "June",
@@ -22,6 +26,7 @@ export default function MagazineComponent() {
   ];
 
   const magazines = useMemo(() => {
+    // This useMemo prevents unnecessary recalculations during re-renders. on heavy calculatino functions like filtering and sorting, here i'm doing data manipulation
     const arr = [];
     for (let i = 0; i < 3; i++) {
       const d = new Date(currentDate.getFullYear(), currentDate.getMonth() - i);
@@ -34,33 +39,58 @@ export default function MagazineComponent() {
     return arr;
   }, []);
 
-  // ---- NO REACT QUERY ----
-  const fetchMagazinePdf = async (month, year) => {
-    const res = await fetch(
-      `${apiBaseUrl}/api/v1/magazine/generate?month=${month}&year=${year}`
-    );
+  const variable = useMemo(()=>{
+    //calculating the heavy factorial
+  },[]);
 
-    if (!res.ok) throw new Error("Magazine not found"); //try catch will catch it
+    // This function will auto-check cache --> return cached OR fetch fresh
+  const getOrFetchPdf = async (monthValue, yearValue) => {
+    return await queryClient.ensureQueryData({
+      queryKey: ["pdf", monthValue, yearValue],
 
-    return res.blob();
+      queryFn: async () => {
+        const res = await fetch(
+          `${apiBaseUrl}/api/v1/magazine/generate?month=${monthValue}&year=${yearValue}`
+        );
+
+        console.log(res);
+        if (res.status !== 200) {
+          throw new Error("This magazine is currently not available");
+        }
+
+        return res.blob();
+      },
+
+      staleTime: 1000 * 60 * 60,   // 1 hour
+      gcTime: 1000 * 60 * 60 * 24, // 24 hours
+    });
   };
 
-  const handleDownload = async (month, year, isCustom = false, key = "") => {
+
+  const handleCustomDownload = async (monthValue, yearValue, isCustom, label) => {
     try {
-      if (isCustom) setCustomLoading(true);
-      else setLoadingKey(key);
+      // console.log("clicked for custom downlaod");
+      if (isCustom) {
+        setCustomLoading(true);
+      } else {
+        setLoadingKey(label);
+      }
 
-      const blob = await fetchMagazinePdf(month, year);
 
-      const url = URL.createObjectURL(blob);
-      window.open(url);
+    const pdfBlob = await getOrFetchPdf(monthValue, yearValue);
+
+    const url = window.URL.createObjectURL(pdfBlob);
+    window.open(url, "_blank");
+
     } catch (err) {
       toast.error(err.message);
     } finally {
-      setLoadingKey(null);
       setCustomLoading(false);
+      setLoadingKey(null);
     }
   };
+  
+
 
   return (
     <div className="max-w-3xl mx-auto mt-10">
@@ -77,7 +107,7 @@ export default function MagazineComponent() {
           <div className="flex flex-col md:flex-row items-center md:items-start gap-3 w-full md:w-auto">
 
             <select
-              className="border border-gray-300 rounded-lg px-3 py-2 text-sm w-full md:w-auto"
+              className="border focus:ring-2 outline-none ring-slate-300 ring-offset-1 border-gray-300 rounded-lg px-3 py-2 text-sm w-full md:w-auto"
               value={customMonth}
               onChange={(e) => setCustomMonth(Number(e.target.value))}
             >
@@ -87,7 +117,7 @@ export default function MagazineComponent() {
             </select>
 
             <select
-              className="border border-gray-300 rounded-lg px-3 py-2 text-sm w-full md:w-auto"
+              className="border focus:ring-2 outline-none ring-slate-300 ring-offset-1 border-gray-300 rounded-lg px-3 py-2 text-sm w-full md:w-auto"
               value={customYear}
               onChange={(e) => setCustomYear(Number(e.target.value))}
             >
@@ -97,9 +127,9 @@ export default function MagazineComponent() {
             </select>
 
             <button
-              onClick={() => handleDownload(customMonth, customYear, true)}
+              onClick={() => handleCustomDownload(customMonth, customYear, true, "custom")}
               disabled={customLoading}
-              className="px-4 py-2 bg-purple-600 text-white text-sm rounded-lg hover:bg-purple-700 transition disabled:opacity-50 w-full md:w-auto whitespace-nowrap">
+              className="px-4 py-2 focus:ring-2 outline-none ring-slate-400 ring-offset-1 bg-purple-600 text-white text-sm rounded-lg hover:bg-purple-700 transition disabled:opacity-50 w-full md:w-auto whitespace-nowrap">
               {customLoading ? "Generating..." : "Generate PDF"}
             </button>
 
@@ -116,25 +146,23 @@ export default function MagazineComponent() {
         {magazines.map((item) => (
           <div
             key={item.label}
-            className="flex justify-between items-center bg-white p-4  gap-4 rounded-xl shadow-sm border hover:shadow-md transition"
+            className="w-full flex-1 md:flex space-y-1 justify-between items-center bg-white p-4 gap-3 rounded-xl shadow-sm border hover:shadow-md transition"
           >
-            <span className="text-gray-700 font-medium">{item.label}</span>
+            <span className="text-gray-700  font-medium text-center md:text-left">{item.label}</span>
 
             <button
               onClick={() =>
-                handleDownload(item.monthNumber, item.year, false, item.label)
+                handleCustomDownload(item.monthNumber, item.year, false, item.label)
               }
               disabled={loadingKey === item.label}
-              className="px-4 py-2 w-3/4 md:w-32 bg-purple-600 text-white text-sm rounded-lg hover:bg-purple-700 transition disabled:opacity-50"
+              className="px-4 py-2 w-full md:w-32 focus:ring-2 outline-none ring-slate-400 ring-offset-1 bg-purple-600 text-white text-sm rounded-lg hover:bg-purple-700 transition disabled:opacity-50"
             >
               {loadingKey === item.label ? "Generating..." : "Open PDF"}
             </button>
           </div>
         ))}
       </div>
-
       <ToastContainer />
-
     </div>
   );
 }
