@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { 
   Search, Calendar, Tag, Filter, MoreHorizontal, Clock, 
   ExternalLink, RefreshCw, X, ChevronDown, AlertTriangle,
@@ -55,6 +55,8 @@ export default function CurrentAffairsBlog() {
   const [activeTab, setActiveTab] = useState('all');
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const tabRefs = useRef({});
+
 
   const toDetail = (affair) => {
     const datePart = affair.date?.split('T')[0];
@@ -129,6 +131,14 @@ export default function CurrentAffairsBlog() {
 
   useEffect(() => {
     fetchData();
+
+    // if (tabRefs.current[activeTab]) {
+    tabRefs.current[activeTab].scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+      block: "nearest"
+    });
+  // }
   }, [activeTab]);
 
   const categories = [...new Set(affairs.map(item => item.category))];
@@ -326,39 +336,54 @@ export default function CurrentAffairsBlog() {
     </div>
 
     {/* Tabs */}
-    <div className="mt-5 flex flex-wrap gap-4 border-t border-gray-100 pt-4">
-      {['all', 'today', 'monthly', 'yearly','magazine'].map((tab, index, tabs) => (
-        <button
-          key={tab}
-          className={`px-4 py-2 text-sm font-medium rounded-full transition ${
-            activeTab === tab
-              ? 'bg-purple-100 text-purple-800 shadow-sm'
-              : 'text-gray-600 hover:text-purple-600 hover:bg-gray-100'
-          }`}
-          onClick={() => handleTabChange(tab)}
-        >
-          {tab === 'all' && 'All Affairs'}
-          {tab === 'today' && "Today's Highlights"}
-          {tab === 'monthly' && 'Monthly Archive'}
-          {tab === 'yearly' && 'Yearly Archive'}
-          {tab === 'magazine' && 'Magazine'}
-          {index===tabs.length-1 &&(
-             <span className="ml-2 relative inline-flex items-center">
-          <span className="text-[10px] font-semibold bg-purple-800 text-white px-2 py-[1px] rounded-full uppercase tracking-wider">
-            New
-          </span>
-          {/* Pulse effect */}
-          { activeTab!=='magazine' && <span className="absolute -top-1 -right-1 flex h-3 w-3">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-            <span className="relative inline-flex h-3 w-3 rounded-full bg-green-500/90"></span>
-          </span>}
-        </span>
-          )}
-          
+    <div className="mt-5 border-gray-100 pt-4">
 
-        </button>
-      ))}
-    </div>
+  {/* Horizontal Scroll on Mobile, Wrap on Desktop */}
+  <div className="flex gap-3 p-3  overflow-x-auto scrollbar-hide md:flex-wrap md:overflow-visible">
+    {['all', 'magazine', 'monthly', 'yearly', 'today'].map((tab, index, tabs) => (
+      
+      <button
+        key={tab}
+        ref={(el)=>(tabRefs.current[tab] = el)} //adding current tab ref
+        className={`px-4 py-2 text-sm whitespace-nowrap font-medium rounded-full transition focus:ring-2 outline-none ring-purple-300 ring-offset-2 ${
+          activeTab === tab
+            ? 'bg-purple-100 text-purple-800 shadow-sm'
+            : 'text-gray-600 hover:text-purple-600 hover:bg-gray-100'
+        }`}
+        onClick={() => handleTabChange(tab)}
+      >
+        {tab === 'all' && 'All Affairs'}
+        {tab === 'today' && "Today's Highlights"}
+        {tab === 'monthly' && 'Monthly Archive'}
+        {tab === 'yearly' && 'Yearly Archive'}
+        {tab === 'magazine' && 'Magazine'}
+
+        {index === tabs.length - 4 && (
+          <span className="ml-2 relative inline-flex items-center">
+            <span className="text-[10px] font-semibold bg-purple-800 text-white px-2 py-[1px] rounded-full uppercase tracking-wider">
+              New
+            </span>
+
+            {activeTab !== 'magazine' && (
+              <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex h-3 w-3 rounded-full bg-green-500/90"></span>
+              </span>
+            )}
+          </span>
+        )}
+      </button>
+    ))}
+
+ 
+
+  </div>
+  <div className="mt-2 flex justify-center md:hidden">
+    <div className="h-[3px] w-16 bg-purple-300 rounded-full"></div>
+  </div>
+
+</div>
+
 
     {/* Filters (optional, toggle below this header) */}
     {showFilters && (
@@ -368,14 +393,8 @@ export default function CurrentAffairsBlog() {
 </header>
 
 
-
-  
-
-
-
-
       {/* Main Content */}
-      <main className="container mx-auto px-4 mt-2 pb-12">
+      <main className="container mx-auto px-0 md:px-4 mt-2 pb-12">
            {activeTab==='magazine' ? (
           <MagazineComponent/>
         ):

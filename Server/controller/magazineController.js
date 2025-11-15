@@ -29,9 +29,7 @@ export const generateMagazine = async (req, res) => {
     // if required i can format in custom data structure 
 
     const pdfBuffer = await generatePdf(allCurrentAffairs); // it will return the generated pdf of passed year and month
-
-    console.log(pdfBuffer);
-
+    
     if (!pdfBuffer || pdfBuffer.length === 0) {
       return res.status(500).json({ error: "Failed to generate PDF" });
     }
