@@ -1,11 +1,7 @@
 User-agent: *
-Allow: /
 Disallow: /private/
 Disallow: /tmp/
 Disallow: /admin/
 Disallow: /login/
 Disallow: /search/
-Disallow: /*?*       # Blocks URLs with query parameters (adjust if needed)
-
-# Sitemap Location (Crucial for indexing)
 Sitemap: https://gyapak.in/sitemap.xml
