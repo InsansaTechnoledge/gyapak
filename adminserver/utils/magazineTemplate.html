@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monthly Insight Magazine</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Custom Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandPurple: '#5B21B6',
+            brandIndigo: '#4338CA',
+            lightBg: '#F9FAFB',
+            textDark: '#1F2937',
+            accent: '#8B5CF6'
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            serif: ['Playfair Display', 'Georgia', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+  
+  <style>
+    @page {
+      margin: 40px 40px;
+    }
+    .page-break { page-break-before: always; }
+    .no-break { page-break-inside: avoid; }
+    .gradient-text {
+      background: linear-gradient(135deg, #5B21B6 0%, #8B5CF6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .footer {
+      position: fixed;
+      bottom: 15px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 10px;
+      color: #9CA3AF;
+      border-top: 1px solid #E5E7EB;
+      padding-top: 15px;
+    }
+    .page-break { page-break-before: always; }
+    .no-break { page-break-inside: avoid; }
+
+  </style>
+</head>
+
+<body class="bg-white text-textDark font-sans">
+
+  <!-- COVER PAGE -->
+  <section class="h-screen flex flex-col justify-between bg-white relative overflow-hidden">
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-gradient-to-r from-purple-700 to-purple-900 opacity-60 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+
+    <!-- First page -->
+     <!-- Cover Page -->
+<div class="min-h-screen flex flex-col justify-between px-12 py-0 bg-white text-gray-900 font-sans">
+  <!-- Top Branding -->
+  <div class="flex justify-between items-start">
+    <div class="bg-white/20 p-2 rounded-xl">
+    <img src="https://res.cloudinary.com/dzdt11nsx/image/upload/v1762860816/Asset_2_5_i5wwrh.png" alt="Gyapak Logo" class="w-20" />
+  </div>  
+
+    <div class="text-sm font-medium text-gray-600">
+    </div>
+  </div>
+
+  <!-- Middle Title -->
+ <div class="text-center mt-24">
+
+  <h2 class="text-lg font-semibold tracking-wide text-gray-700">
+    WEEKLY JOB POSTINGS BOOKLET
+  </h2>
+
+  <h3 class="text-xl font-bold text-purple-600 mt-1">
+    Expiring Soon • Urgent • Upcoming Opportunities
+  </h3>
+
+  <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mt-10 leading-snug">
+    A CURATED GUIDE TO<br />
+    THIS WEEK'S MOST IMPORTANT<br />
+    JOBS & DEADLINES.
+  </h1>
+
+</div>
+
+
+  <!-- Bottom Footer -->
+  <div class="text-center border-t border-gray-300 pt-4 mt-20 text-sm tracking-wide text-gray-700">
+    IAS | BANKING | SSC | NDA/CDS | AND OTHER COMPETITIVE EXAMS
+    <br />
+    <a href="https://gyapak.in" class="text-purple-600 font-medium hover:underline mt-2 inline-block">
+      www.gyapak.in
+    </a>
+  </div>
+</div>
+
+    
+ <!-- Header -->
+  <div class="flex justify-between items-center px-12 py-6 bg-purple-800 text-white border-b-4 border-purple-600">
+    <div class="flex items-center space-x-3">
+      <img src="https://gyapak.in/logo4.png" alt="Logo" class="w-20 invert brightness-0" />
+    </div>
+    <div class="text-lg font-semibold tracking-wide">
+      CURRENT AFFAIRS | NOVEMBER 2025
+    </div>
+  </div>
+
+
+    <!-- Main Content -->
+    <div class="relative z-10 px-12 pb-32">
+      <div class="max-w-2xl">
+        <p class="text-sm font-semibold text-brandPurple tracking-widest uppercase mb-4">Weekly Edition</p>
+        <h1 class="text-7xl font-black font-serif mb-6 leading-tight gradient-text">
+          WEEKLY<br/>INSIGHT
+        </h1>
+        <p class="text-2xl text-gray-600 mb-8 font-light">Your Current Affairs Digest</p>
+        <div class="flex items-center gap-6 text-sm text-gray-500">
+          <div class="flex flex-col">
+            <span class="font-semibold text-gray-700">WEEK OF</span>
+            <span>{{week}}</span>
+          </div>
+          <div class="w-px h-12 bg-gray-300"></div>
+          <div class="flex flex-col">
+            <span class="font-semibold text-gray-700">COMPILED BY</span>
+            <span>Gyapak Editorial Team</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="relative z-10 px-12 pb-4 text-xs border-t text-gray-400">
+      <div class="flex justify-between items-center border-t border-gray-200 pt-6">
+        <span>Copyright © www.gyapak.in</span>
+        <span>{Page} of {totalPage}</span> 
+      </div>
+    </div>
+  </section>
+
+  <!-- TABLE OF CONTENTS -->
+  <section class="page-break px-12 py-16">
+    <div class="mb-12">
+      <p class="text-sm font-semibold text-brandPurple tracking-widest uppercase mb-2">Contents</p>
+      <h2 class="text-4xl font-bold text-gray-900 mb-3">This Week's Coverage</h2>
+      <div class="w-20 h-1 bg-brandPurple"></div>
+    </div>
+    
+    <ul id="toc"></ul>
+  </section>
+
+  <!-- ARTICLES -->
+  <section id="articles"></section>
+
+  <!-- FOOTER -->
+  <!-- <div class="footer">
+
+  </div> -->
+
+  <script>
+    // Puppeteer script will replace {{week}} and inject data
+  </script>
+</body>
+</html>
