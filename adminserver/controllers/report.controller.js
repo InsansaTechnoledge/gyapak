@@ -107,25 +107,24 @@ export const generateReportData = async (period = '7days') => {
   // Upcoming events categories and recently added
   const [urgentEvents, soonEvents, upcomingEvents, recentlyAddedEvents] = await Promise.all([
     Event.find({ end_date: { $gte: now, $lte: twoDaysFromNow } })
-      .populate('organization_id', 'name abbreviation')
+      .populate({ path:'organization_id', select:'name abbreviation category' ,populate:{ path:'category', select:'category' } })
       .select('name date_of_commencement end_date event_type organization_id apply_link briefDetails createdAt')
-      .sort({ end_date: 1 })
-      .limit(20),
+      .sort({ end_date: 1 }),
 
     Event.find({ end_date: { $gt: twoDaysFromNow, $lte: fiveDaysFromNow } })
-      .populate('organization_id', 'name abbreviation')
+      .populate({ path:'organization_id', select:'name abbreviation category' ,populate:{ path:'category', select:'category' } })
       .select('name date_of_commencement end_date event_type organization_id briefDetails')
       .sort({ end_date: 1 })
       .limit(20),
 
     Event.find({ end_date: { $gt: fiveDaysFromNow, $lte: sevenDaysFromNow } })
-      .populate('organization_id', 'name abbreviation')
+      .populate({ path:'organization_id', select:'name abbreviation category' ,populate:{ path:'category', select:'category' } })
       .select('name date_of_commencement end_date event_type organization_id briefDetails')
       .sort({ end_date: 1 })
       .limit(20),
 
     Event.find({ createdAt: { $gte: startDate } })
-      .populate('organization_id', 'name abbreviation')
+      .populate({ path:'organization_id', select:'name abbreviation category' ,populate:{ path:'category', select:'category' } })
       .select('name event_type createdAt organization_id briefDetails')
       .sort({ createdAt: -1 })
       .limit(20)

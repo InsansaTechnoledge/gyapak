@@ -34,7 +34,8 @@ export const generateCriticalEventsBookletPDF = async (report) => {
       abbreviation: (e.organization_id && e.organization_id.abbreviation) || "",
       apply_link: e.apply_link || "https://gyapak.in",
       briefDetails: (e.briefDetails && String(e.briefDetails).trim() !== "") ? e.briefDetails : null,
-      imageUrl: e.imageUrl || e.heroImage || null
+      imageUrl: e.imageUrl || e.heroImage || null,
+      category: (e.organization_id && e.organization_id.category && e.organization_id.category.category) || "General",
     };
   }
 
@@ -129,6 +130,7 @@ export const generateCriticalEventsBookletPDF = async (report) => {
     const daysText = (typeof ev.daysRemaining === "number") ? `${ev.daysRemaining} Days Remaining` : `${ev.daysRemaining}`;
     const orgLine = escapeHtml(ev.orgName) + (ev.abbreviation ? ` (${escapeHtml(ev.abbreviation)})` : "");
     const detailsHtml = ev.briefDetails ? ev.briefDetails : `<p style="color:#6b7280;font-size:14px;margin:0;">(No additional details available. Visit Gyapak for full info.)</p>`;
+    const category = ev.category || "General";
 
     return `
       <article style="background:#fff;border:1px solid #e6e6e6;border-radius:12px;padding:20px;margin-bottom:28px;box-sizing:border-box;page-break-inside:avoid;">
@@ -148,6 +150,10 @@ export const generateCriticalEventsBookletPDF = async (report) => {
 
         <div style="font-size:15px;color:#374151;line-height:1.6;">
           ${detailsHtml}
+        </div>
+
+        <div style="margin-top:16px;font-size:13px;color:#6b7280;">
+          <strong>Category:</strong> ${escapeHtml(category)}
         </div>
 
        <div style="text-align:center;margin-top:16px;">
