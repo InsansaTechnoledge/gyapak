@@ -1,10 +1,12 @@
 import express from 'express';
-import { getWeeklyReport } from '../controllers/report.controller.js';
+import { downloadExcel, downloadPDF, getReport } from '../controllers/report.controller.js';
 
 const router = express.Router();
 
-router.get('/weekly', getWeeklyReport);
+router.get('/', getReport);
 
-// router.get('/comparison', getWeeklyComparison);
+router.get('/download/pdf', downloadPDF);
+
+router.get('/download/excel', downloadExcel);
 
 export default router;
