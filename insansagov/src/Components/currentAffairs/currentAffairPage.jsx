@@ -12,7 +12,6 @@ import {
 } from '../../Service/currentAffairService';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
-import MagazineComponent from "./MagazineComponent"
 
 // Helper function to format content preview with bullet points
 const formatContentPreview = (content, maxLength = 200) => {
@@ -158,9 +157,7 @@ export default function CurrentAffairsBlog() {
   const handleTabChange = (tab) => {
     
     setActiveTab(tab);
-    if(activeTab!=='magazine'){
-      fetchData(tab);
-    }
+    fetchData(tab);
     
   };
 
@@ -340,7 +337,7 @@ export default function CurrentAffairsBlog() {
 
   {/* Horizontal Scroll on Mobile, Wrap on Desktop */}
   <div className="flex gap-3 p-3  overflow-x-auto scrollbar-hide md:flex-wrap md:overflow-visible">
-    {['all', 'magazine', 'monthly', 'yearly', 'today'].map((tab, index, tabs) => (
+    {['all','monthly', 'yearly', 'today'].map((tab, index, tabs) => (
       
       <button
         key={tab}
@@ -356,22 +353,7 @@ export default function CurrentAffairsBlog() {
         {tab === 'today' && "Today's Highlights"}
         {tab === 'monthly' && 'Monthly Archive'}
         {tab === 'yearly' && 'Yearly Archive'}
-        {tab === 'magazine' && 'Magazine'}
-
-        {index === tabs.length - 4 && (
-          <span className="ml-2 relative inline-flex items-center">
-            <span className="text-[10px] font-semibold bg-purple-800 text-white px-2 py-[1px] rounded-full uppercase tracking-wider">
-              New
-            </span>
-
-            {activeTab !== 'magazine' && (
-              <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                <span className="relative inline-flex h-3 w-3 rounded-full bg-green-500/90"></span>
-              </span>
-            )}
-          </span>
-        )}
+        
       </button>
     ))}
 
@@ -395,9 +377,7 @@ export default function CurrentAffairsBlog() {
 
       {/* Main Content */}
       <main className="container mx-auto px-0 md:px-4 mt-2 pb-12">
-           {activeTab==='magazine' ? (
-          <MagazineComponent/>
-        ):
+           {
         loading ? (
           <div className="flex justify-center py-20">
             <div className="bg-white p-8 rounded-lg shadow-sm pt-28 text-center">

@@ -30,6 +30,7 @@ const CalendarView = lazy(() => import('./Pages/Calendar/CalendarView'));
 const CurrentAffairPage = lazy(() => import('./Components/currentAffairs/currentAffairPage'));
 const CurrentAffairDetails = lazy(() => import('./Components/currentAffairs/CurrentAffairDetailPage'));
 const DailyUpdatesReels = lazy(() => import('./Components/DailyUpdatePdf/DailyUpdatesReels'))
+const Pdfpage = lazy(()=>import('../src/Components/PdfPage/PdfPage'));
 
 const PageLinks = () => {
   const {apiBaseUrl} = useApi();
@@ -229,6 +230,14 @@ const PageLinks = () => {
               <CurrentAffairPage />
             </div>
           }
+        />
+        <Route
+        path='/pdf'
+        element={
+            <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
+              <Pdfpage/>
+            </div>
+        }
         />
         
         {/* Catch-all route for 404s */}
