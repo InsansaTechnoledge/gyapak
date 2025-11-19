@@ -145,7 +145,7 @@ export const getTodaysEvents = async (req, res) => {
     const events = await Event.find({
       date_of_notification: { $lte: today },
       end_date: { $gte: new Date() }
-    }).select('name _id');
+    }).select('name _id').sort({ createdAt: -1 });
     res.status(200).json(events);
 
   } catch (err) {

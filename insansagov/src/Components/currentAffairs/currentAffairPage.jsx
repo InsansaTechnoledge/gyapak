@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { 
   Search, Calendar, Tag, Filter, MoreHorizontal, Clock, 
   ExternalLink, RefreshCw, X, ChevronDown, AlertTriangle,
@@ -12,6 +12,7 @@ import {
 } from '../../Service/currentAffairService';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
+import MagazineComponent from "./MagazineComponent"
 
 // Helper function to format content preview with bullet points
 const formatContentPreview = (content, maxLength = 200) => {
@@ -54,6 +55,8 @@ export default function CurrentAffairsBlog() {
   const [activeTab, setActiveTab] = useState('all');
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const tabRefs = useRef({});
+
 
   const toDetail = (affair) => {
     const datePart = affair.date?.split('T')[0];
@@ -84,9 +87,9 @@ export default function CurrentAffairsBlog() {
           break;
         }
         case 'all':
-        default:
           res = await fetchCurrentAffairs();
           break;
+        // default:
       }
   
     //   console.log("🧪 Raw Response:", res.data);
@@ -128,7 +131,15 @@ export default function CurrentAffairsBlog() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+
+    // if (tabRefs.current[activeTab]) {
+    tabRefs.current[activeTab].scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+      block: "nearest"
+    });
+  // }
+  }, [activeTab]);
 
   const categories = [...new Set(affairs.map(item => item.category))];
   const years = [...new Set(affairs.map(item => item.date?.split('-')[0]))];
@@ -145,8 +156,12 @@ export default function CurrentAffairsBlog() {
   };
 
   const handleTabChange = (tab) => {
+    
     setActiveTab(tab);
-    fetchData(tab);
+    if(activeTab!=='magazine'){
+      fetchData(tab);
+    }
+    
   };
 
   const handleRefresh = () => {
@@ -321,24 +336,54 @@ export default function CurrentAffairsBlog() {
     </div>
 
     {/* Tabs */}
-    <div className="mt-5 flex flex-wrap gap-4 border-t border-gray-100 pt-4">
-      {['all', 'today', 'monthly', 'yearly'].map((tab) => (
-        <button
-          key={tab}
-          className={`px-4 py-2 text-sm font-medium rounded-full transition ${
-            activeTab === tab
-              ? 'bg-purple-100 text-purple-800 shadow-sm'
-              : 'text-gray-600 hover:text-purple-600 hover:bg-gray-100'
-          }`}
-          onClick={() => handleTabChange(tab)}
-        >
-          {tab === 'all' && 'All Affairs'}
-          {tab === 'today' && "Today's Highlights"}
-          {tab === 'monthly' && 'Monthly Archive'}
-          {tab === 'yearly' && 'Yearly Archive'}
-        </button>
-      ))}
-    </div>
+    <div className="mt-5 border-gray-100 pt-4">
+
+  {/* Horizontal Scroll on Mobile, Wrap on Desktop */}
+  <div className="flex gap-3 p-3  overflow-x-auto scrollbar-hide md:flex-wrap md:overflow-visible">
+    {['all', 'magazine', 'monthly', 'yearly', 'today'].map((tab, index, tabs) => (
+      
+      <button
+        key={tab}
+        ref={(el)=>(tabRefs.current[tab] = el)} //adding current tab ref
+        className={`px-4 py-2 text-sm whitespace-nowrap font-medium rounded-full transition focus:ring-2 outline-none ring-purple-300 ring-offset-2 ${
+          activeTab === tab
+            ? 'bg-purple-100 text-purple-800 shadow-sm'
+            : 'text-gray-600 hover:text-purple-600 hover:bg-gray-100'
+        }`}
+        onClick={() => handleTabChange(tab)}
+      >
+        {tab === 'all' && 'All Affairs'}
+        {tab === 'today' && "Today's Highlights"}
+        {tab === 'monthly' && 'Monthly Archive'}
+        {tab === 'yearly' && 'Yearly Archive'}
+        {tab === 'magazine' && 'Magazine'}
+
+        {index === tabs.length - 4 && (
+          <span className="ml-2 relative inline-flex items-center">
+            <span className="text-[10px] font-semibold bg-purple-800 text-white px-2 py-[1px] rounded-full uppercase tracking-wider">
+              New
+            </span>
+
+            {activeTab !== 'magazine' && (
+              <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex h-3 w-3 rounded-full bg-green-500/90"></span>
+              </span>
+            )}
+          </span>
+        )}
+      </button>
+    ))}
+
+ 
+
+  </div>
+  <div className="mt-2 flex justify-center md:hidden">
+    <div className="h-[3px] w-16 bg-purple-300 rounded-full"></div>
+  </div>
+
+</div>
+
 
     {/* Filters (optional, toggle below this header) */}
     {showFilters && (
@@ -347,16 +392,13 @@ export default function CurrentAffairsBlog() {
   </div>
 </header>
 
-{/* Instruction Note */}
-<div className="mt-4 text-sm text-gray-600 bg-purple-50 border border-purple-100 rounded-lg p-3 mb-8 flex items-center gap-2">
-  <AlertTriangle className="text-purple-500" size={18} />
-  <span>Click on any card to view probable questions and full details of the current affair.</span>
-</div>
-
 
       {/* Main Content */}
-      <main className="container mx-auto px-4  pb-12">
-        {loading ? (
+      <main className="container mx-auto px-0 md:px-4 mt-2 pb-12">
+           {activeTab==='magazine' ? (
+          <MagazineComponent/>
+        ):
+        loading ? (
           <div className="flex justify-center py-20">
             <div className="bg-white p-8 rounded-lg shadow-sm pt-28 text-center">
               <div className="animate-spin w-12 h-12 border-4 border-purple-300 border-t-purple-600 rounded-full mx-auto mb-4"></div>
@@ -379,148 +421,74 @@ export default function CurrentAffairsBlog() {
           <>
             {/* Featured Story */}
             {featuredAffair && (
-  <div className="mb-12">
-    <div       onClick={() => toDetail(featuredAffair)}
- className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
-      {(featuredAffair.mediaType === 'image' && featuredAffair.mediaUrl) && (
-        <div className="relative bg-gray-100 rounded-t-xl overflow-hidden">
-          <img 
-            src={featuredAffair.mediaUrl || "/api/placeholder/1200/400"} 
-            alt={featuredAffair.title} 
-            className="w-full h-auto object-contain max-h-[420px]"
-            onError={(e) => {
-              e.target.src = "/api/placeholder/1200/400";
-              e.target.alt = "Image unavailable";
-            }} 
-          />
-          <div className="absolute top-4 left-4">
-            <span className="bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-              {featuredAffair.category}
-            </span>
-          </div>
-        </div>
-      )}
-
-      {(featuredAffair.mediaType === 'video' && featuredAffair.mediaUrl) && (
-        <div className="relative aspect-video w-full">
-          <video 
-            src={featuredAffair.mediaUrl} 
-            className="w-full h-full object-cover" 
-            controls
-            poster="/api/placeholder/1200/400"
-          >
-            Your browser does not support the video tag.
-          </video>
-          <div className="absolute top-4 left-4">
-            <span className="bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-              {featuredAffair.category}
-            </span>
-          </div>
-        </div>
-      )}
-
-      {/* Content */}
-      <div className="p-6">
-        <div className="flex items-center text-sm text-gray-500 mb-3">
-          <span className="flex items-center">
-            <Clock size={14} className="mr-1" />
-            {formatDate(featuredAffair.date)}
-          </span>
-          {featuredAffair.mediaType && (
-            <>
-              <span className="mx-2">•</span>
-              <span className="flex items-center">
-                {getMediaTypeIcon(featuredAffair.mediaType)}
-                <span className="ml-1">{featuredAffair.mediaType.charAt(0).toUpperCase() + featuredAffair.mediaType.slice(1)}</span>
-              </span>
-            </>
-          )}
-        </div>
-
-        <h3 className="text-2xl font-bold text-gray-900 mb-3 hover:text-purple-700 transition-colors">
-          {featuredAffair.title}
-        </h3>
-
-        <div className="text-gray-700 mb-5 leading-relaxed text-lg">
-          {formatContentPreview(featuredAffair.content, 400)}
-        </div>
-
-        <div className="flex flex-wrap gap-2 mb-5">
-          {featuredAffair.tags?.map((tag, idx) => (
-            <span key={idx} className="inline-flex items-center text-xs text-purple-600 bg-purple-50 px-3 py-1 rounded-full">
-              <Tag size={12} className="mr-1" />
-              {tag}
-            </span>
-          ))}
-        </div>
-
-        {featuredAffair.source && (
-          <div className="flex items-center text-sm text-purple-600 hover:text-purple-800">
-            <ExternalLink size={14} className="mr-1" />
-            <a href={featuredAffair.source} target="_blank" rel="noopener noreferrer" className="hover:underline">
-              Source: {featuredAffair.source.replace(/(^\w+:|^)\/\//, '').split('/')[0]}
-            </a>
-          </div>
-        )}
-      </div>
-    </div>
-  </div>
-)}
-
-
-            {/* Regular Stories by Date */}
-            {sortedDates.map(date => {
-  const dateAffairs = groupedAffairs[date];
-  const nonFeaturedAffairs = dateAffairs.filter(affair => affair !== featuredAffair);
-
-  if (nonFeaturedAffairs.length === 0) return null;
-
-  return (
-    <div key={date} className="mb-10">
-      <div className="flex items-center mb-4">
-        <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mr-3">
-          <Calendar className="text-purple-700" size={20} />
-        </div>
-        <h2 className="text-lg font-bold text-purple-800">{formatDate(date)}</h2>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {nonFeaturedAffairs.map((affair, index) => (
-          <article onClick={() => toDetail(affair)}
-          key={index} className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden border border-gray-100">
-            <div className="p-6">
-              {renderMedia(affair)}
-
-              <div className="flex items-center justify-between mb-3">
-                <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-medium">
-                  {affair.category}
-                </span>
-                <div className="flex gap-2 items-center">
-                  {affair.mediaType && (
-                    <span className="flex items-center text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                      {getMediaTypeIcon(affair.mediaType)}
-                      <span className="ml-1">{affair.mediaType.charAt(0).toUpperCase() + affair.mediaType.slice(1)}</span>
-                    </span>
-                  )}
-                  <span className="flex items-center text-sm text-gray-500">
-                    <Clock size={14} className="mr-1" />
-                    {formatDate(affair.date)}
+        <div className="mb-12">
+          <div       onClick={() => toDetail(featuredAffair)}
+      className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
+            {(featuredAffair.mediaType === 'image' && featuredAffair.mediaUrl) && (
+              <div className="relative bg-gray-100 rounded-t-xl overflow-hidden">
+                <img 
+                  src={featuredAffair.mediaUrl || "/api/placeholder/1200/400"} 
+                  alt={featuredAffair.title} 
+                  className="w-full h-auto object-contain max-h-[420px]"
+                  onError={(e) => {
+                    e.target.src = "/api/placeholder/1200/400";
+                    e.target.alt = "Image unavailable";
+                  }} 
+                />
+                <div className="absolute top-4 left-4">
+                  <span className="bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                    {featuredAffair.category}
                   </span>
                 </div>
               </div>
+            )}
 
-              <h3 className="text-xl font-bold text-gray-900 mb-3 hover:text-purple-700 transition-colors">
-                {affair.title}
+            {(featuredAffair.mediaType === 'video' && featuredAffair.mediaUrl) && (
+              <div className="relative aspect-video w-full">
+                <video 
+                  src={featuredAffair.mediaUrl} 
+                  className="w-full h-full object-cover" 
+                  controls
+                  poster="/api/placeholder/1200/400"
+                >
+                  Your browser does not support the video tag.
+                </video>
+                <div className="absolute top-4 left-4">
+                  <span className="bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                    {featuredAffair.category}
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* Content */}
+            <div className="p-6">
+              <div className="flex items-center text-sm text-gray-500 mb-3">
+                <span className="flex items-center">
+                  <Clock size={14} className="mr-1" />
+                  {formatDate(featuredAffair.date)}
+                </span>
+                {featuredAffair.mediaType && (
+                  <>
+                    <span className="mx-2">•</span>
+                    <span className="flex items-center">
+                      {getMediaTypeIcon(featuredAffair.mediaType)}
+                      <span className="ml-1">{featuredAffair.mediaType.charAt(0).toUpperCase() + featuredAffair.mediaType.slice(1)}</span>
+                    </span>
+                  </>
+                )}
+              </div>
+
+              <h3 className="text-2xl font-bold text-gray-900 mb-3 hover:text-purple-700 transition-colors">
+                {featuredAffair.title}
               </h3>
 
-              <div className="text-gray-700 mb-5 leading-relaxed">
-                <div className="line-clamp-3">
-                  {formatContentPreview(affair.content, 150)}
-                </div>
+              <div className="text-gray-700 mb-5 leading-relaxed text-lg">
+                {formatContentPreview(featuredAffair.content, 400)}
               </div>
 
               <div className="flex flex-wrap gap-2 mb-5">
-                {affair.tags && affair.tags.map((tag, idx) => (
+                {featuredAffair.tags?.map((tag, idx) => (
                   <span key={idx} className="inline-flex items-center text-xs text-purple-600 bg-purple-50 px-3 py-1 rounded-full">
                     <Tag size={12} className="mr-1" />
                     {tag}
@@ -528,21 +496,95 @@ export default function CurrentAffairsBlog() {
                 ))}
               </div>
 
-              {affair.source && (
+              {featuredAffair.source && (
                 <div className="flex items-center text-sm text-purple-600 hover:text-purple-800">
                   <ExternalLink size={14} className="mr-1" />
-                  <a href={affair.source} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                    Source: {affair.source.replace(/(^\w+:|^)\/\//, '').split('/')[0]}
+                  <a href={featuredAffair.source} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                    Source: {featuredAffair.source.replace(/(^\w+:|^)\/\//, '').split('/')[0]}
                   </a>
                 </div>
               )}
             </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  );
-})}
+          </div>
+        </div>
+      )}
+
+
+            {/* Regular Stories by Date */}
+        {sortedDates.map(date => {
+        const dateAffairs = groupedAffairs[date];
+        const nonFeaturedAffairs = dateAffairs.filter(affair => affair !== featuredAffair);
+
+        if (nonFeaturedAffairs.length === 0) return null;
+
+        return (
+          <div key={date} className="mb-10">
+            <div className="flex items-center mb-4">
+              <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                <Calendar className="text-purple-700" size={20} />
+              </div>
+              <h2 className="text-lg font-bold text-purple-800">{formatDate(date)}</h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {nonFeaturedAffairs.map((affair, index) => (
+                <article onClick={() => toDetail(affair)}
+                key={index} className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden border border-gray-100">
+                  <div className="p-6">
+                    {renderMedia(affair)}
+
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-medium">
+                        {affair.category}
+                      </span>
+                      <div className="flex gap-2 items-center">
+                        {affair.mediaType && (
+                          <span className="flex items-center text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                            {getMediaTypeIcon(affair.mediaType)}
+                            <span className="ml-1">{affair.mediaType.charAt(0).toUpperCase() + affair.mediaType.slice(1)}</span>
+                          </span>
+                        )}
+                        <span className="flex items-center text-sm text-gray-500">
+                          <Clock size={14} className="mr-1" />
+                          {formatDate(affair.date)}
+                        </span>
+                      </div>
+                    </div>
+
+                    <h3 className="text-xl font-bold text-gray-900 mb-3 hover:text-purple-700 transition-colors">
+                      {affair.title}
+                    </h3>
+
+                    <div className="text-gray-700 mb-5 leading-relaxed">
+                      <div className="line-clamp-3">
+                        {formatContentPreview(affair.content, 150)}
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap gap-2 mb-5">
+                      {affair.tags && affair.tags.map((tag, idx) => (
+                        <span key={idx} className="inline-flex items-center text-xs text-purple-600 bg-purple-50 px-3 py-1 rounded-full">
+                          <Tag size={12} className="mr-1" />
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    {affair.source && (
+                      <div className="flex items-center text-sm text-purple-600 hover:text-purple-800">
+                        <ExternalLink size={14} className="mr-1" />
+                        <a href={affair.source} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                          Source: {affair.source.replace(/(^\w+:|^)\/\//, '').split('/')[0]}
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        );
+      })}
 
           </>
         ) : (
