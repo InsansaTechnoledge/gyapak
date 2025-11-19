@@ -31,7 +31,7 @@ function generateArticleLink(publishedDate, title) {
   return `https://gyapak.in/current-affairs/${formattedDate}/${slug}`;
 }
 
-export default async function generatePdf(allCurrentAffairs) {
+export default async function generateMagazinePdf(allCurrentAffairs) {
 
   // For simplicity, assume only one "week" batch per generation
   const { publishedDate, affair } = allCurrentAffairs[0];
@@ -114,8 +114,6 @@ export default async function generatePdf(allCurrentAffairs) {
     const page = await browser.newPage();
 
     await page.setContent(html, { waitUntil: "networkidle0", timeout: 30000 });
-
-
 
     const pdfBuffer = await page.pdf({
       format: "A4",

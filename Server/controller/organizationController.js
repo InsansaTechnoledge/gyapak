@@ -50,7 +50,7 @@ export const getOrganization = async (req, res) => {
     const category = await Category.findOne({ _id: categoryId });
 
     const organizationIds = category.organizations;
-
+    
     const relatedOrganizations = await Organization.find({
       _id: { $in: organizationIds },
     });
@@ -115,3 +115,17 @@ export const getAllOrganizations = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+export const getOrganizationByCategoryId = async (req, res)=>{
+ try {
+   const {categoryId} = req.params;
+   const organizations = await Organization.find({category:categoryId});
+   return res.status(200).json(organizations);
+ } catch (err) {
+    console.error("Error fetching organization by categoryID", err.message);
+    return res.status(500).json({ message: "Internal server error" });
+ }
+
+  
+
+}
