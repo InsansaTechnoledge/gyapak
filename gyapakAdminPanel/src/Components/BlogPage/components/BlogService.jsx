@@ -3,8 +3,8 @@ import axios from "axios";
 import { API_BASE_URL } from "../../../config";
 
 
-// const API_BASE_URI = API_BASE_URL ;
-const API_BASE_URI = "http://localhost:3000"
+const API_BASE_URI = API_BASE_URL ;
+// const API_BASE_URI = "http://localhost:3000"
 const API_BASE = `${API_BASE_URI}/api/v1i2/blog`;
 
 // Helper: unwrap your APIResponse { statusCode, data, message }

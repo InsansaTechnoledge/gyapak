@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const AdditionalDetailsSection = ({ name, data, existingSections }) => {
   const [isOpen, setIsOpen] = useState(true);
 
-  // ✅ Check if there's any data not in existingSections
+  // ✅ Check if there's any data not in existingSections (top-level only)
   const hasNonExistingSection = (data) => {
     if (typeof data === "object" && data !== null) {
       return Object.keys(data).some((key) => !existingSections.includes(key));
@@ -13,8 +13,11 @@ const AdditionalDetailsSection = ({ name, data, existingSections }) => {
     return false;
   };
 
-  // ✅ Recursive content renderer
-  const renderContent = (data) => {
+  console.log("check", data);
+
+  // ✅ Recursive content renderer with depth
+  const renderContent = (data, level = 0) => {
+    // primitives
     if (typeof data === "string" || typeof data === "number") {
       return (
         <div className="p-2 md:p-4 bg-purple-50 border border-purple-200 rounded-lg shadow-sm flex flex-grow flex-wrap">
@@ -31,45 +34,51 @@ const AdditionalDetailsSection = ({ name, data, existingSections }) => {
       );
     }
 
+    // arrays
     if (Array.isArray(data)) {
       return (
         <ul className="list-inside space-y-2 flex flex-col flex-grow flex-wrap">
           {data.map((item, index) => (
-            <li key={index}>{renderContent(item)}</li>
+            <li key={index}>{renderContent(item, level + 1)}</li>
           ))}
         </ul>
       );
     }
 
+    // objects
     if (typeof data === "object" && data !== null) {
-      if (Object.keys(data).length === 0) return null;
+      const entries = Object.entries(data);
+      if (entries.length === 0) return null;
 
       return (
         <div className="gap-4 flex flex-wrap flex-grow">
-          {Object.entries(data).map(([key, value]) => {
-            if (!existingSections.includes(key)) {
-              return (
-                <div
-                  key={key}
-                  className="p-3 bg-white border border-purple-300 rounded-lg shadow-md flex flex-col flex-wrap flex-grow"
-                >
-                  <h3 className="font-medium text-purple-600 mb-2 capitalize">
-                    {key.replace(/_/g, " ")}
-                  </h3>
-                  {typeof value === "boolean" || value ? (
-                    <div className="space-y-2 flex flex-grow flex-wrap">
-                      {renderContent(value)}
-                    </div>
-                  ) : null}
-                </div>
-              );
-            }
-            return null;
+          {entries.map(([key, value]) => {
+            const isTopLevel = level === 0;
+            const shouldSkip = isTopLevel && existingSections.includes(key);
+
+            if (shouldSkip) return null; // only filter top-level keys
+
+            return (
+              <div
+                key={`${level}-${key}`}
+                className="p-3 bg-white border border-purple-300 rounded-lg shadow-md flex flex-col flex-wrap flex-grow"
+              >
+                <h3 className="font-medium text-purple-600 mb-2 capitalize">
+                  {key.replace(/_/g, " ")}
+                </h3>
+                {typeof value === "boolean" || value ? (
+                  <div className="space-y-2 flex flex-grow flex-wrap">
+                    {renderContent(value, level + 1)}
+                  </div>
+                ) : null}
+              </div>
+            );
           })}
         </div>
       );
     }
 
+    // fallback
     return (
       <div className="p-4 bg-red-50 border border-red-200 rounded-lg shadow-sm">
         <p className="text-red-700">Unsupported Data Type</p>
@@ -117,7 +126,9 @@ const AdditionalDetailsSection = ({ name, data, existingSections }) => {
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}
           >
-            <div className="space-y-6 flex mt-6">{renderContent(data)}</div>
+            <div className="space-y-6 flex mt-6">
+              {renderContent(data)}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
