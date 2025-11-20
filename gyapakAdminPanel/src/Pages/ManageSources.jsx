@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../config";
 
-const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:3000";
 
+const API_BASE = API_BASE_URL;
+// const API_BASE = "http://localhost:3000";
 const initialForm = {
   code: "",
   name: "",
