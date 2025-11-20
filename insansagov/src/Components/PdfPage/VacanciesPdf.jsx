@@ -89,10 +89,10 @@ export default function VacanciesPdf() {
         const url = buildUrl();
         const res = await fetch(url, { responseType: "blob" });
 
-        console.log(res);
-
-        if (res.status !== 200) {
-          throw new Error(res?.statusText);
+        if(!res.ok){
+          const result = await res.json();
+          console.log(result.message);
+          return result;
         }
 
         return res.blob();
@@ -102,19 +102,41 @@ export default function VacanciesPdf() {
     })
   }
 
+
   const handleGenerate = async () => {
-    if (!orgId) return alert("Please select an organization");
+    if (!orgId){
+      toast.info("Please select an organization with category");
+      return;
+    }
+    if(Object.keys(dateFilter).length===0){
+      toast.info("Please select an Date Filter");
+      return;
+    }
+    if(!type){
+      toast.info("Please select Type");
+      return;
+    }
+
 
     try {
       setLoading(true);
 
-      const pdfBlob = await getOrFetchPdf();
+      const pdfResponse = await getOrFetchPdf();
 
-      const url = window.URL.createObjectURL(pdfBlob);
-      window.open(url, "_blank");
+      if(!pdfResponse.type && !pdfResponse.success){
+        // console.log("there is no pdf");
+        toast.info(pdfResponse.message);
+      }
+
+      if(pdfResponse.type==='application/pdf'){
+        // console.log("there is pdf")
+        const url = window.URL.createObjectURL(pdfResponse);
+        window.open(url, "_blank");
+      }
+      
     } catch (err) {
-      toast.error(err || err.message);
       console.log(err);
+      toast.error(err.message);
     } finally {
       setLoading(false);
     }
@@ -131,7 +153,6 @@ export default function VacanciesPdf() {
 
     return () => window.removeEventListener("mousedown", handleClick);
   })
-  console.log(dateFilter?.value);
 
 
   return (
@@ -233,7 +254,7 @@ export default function VacanciesPdf() {
             }}
 
           >
-            <option value="">Select Date Filter</option>
+            <option value='{}'>Select Date Filter</option>
             <option value='{"type":"year","value":1}'>Last 1 year</option>
             <option value='{"type":"year","value":2}'>Last 2 years</option>
             <option value='{"type":"month","value":3}'>Last 3 months</option>
@@ -253,8 +274,8 @@ export default function VacanciesPdf() {
           >
             <option value="">All Types</option>
             <option value="exam">Exam</option>
-            {/* <option value="admitcard">Admit Card</option> */}
-            {/* <option value="result">Result</option> */}
+            <option disabled={true} value="admitcard">Admit Card</option>
+            <option disabled={true} value="result">Result</option>
           </select>
         </div>
 
