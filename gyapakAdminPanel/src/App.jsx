@@ -6,7 +6,7 @@ import { AuthProvider } from './Components/Auth/AuthContext'
 const App = () => {
   return (
     <AuthProvider>
-      <Navbar/>
+
       <PageLinks />
     </AuthProvider>
   )

@@ -35,7 +35,7 @@ export default function DailyUpdatesReels() {
   const [sort, setSort] = useState("-date");
 
   // UI helpers
-  const [showFilters, setShowFilters] = useState(true);
+  const [showFilters, setShowFilters] = useState(false);
   const [typing, setTyping] = useState(false);
 
   // measure header height for full-screen slides
