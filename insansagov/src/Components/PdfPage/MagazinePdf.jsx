@@ -53,9 +53,9 @@ export default function MagazinePdf() {
           `${apiBaseUrl}/api/v1/magazine/generateMagazine?month=${monthValue}&year=${yearValue}`
         );
 
-        console.log(res);
-        if (res.status !== 200) {
-          throw new Error("This magazine is currently not available");
+        if (!res.ok) {
+          const result = await res.json();
+          return result;
         }
 
         return res.blob();
@@ -77,12 +77,21 @@ export default function MagazinePdf() {
       }
 
 
-    const pdfBlob = await getOrFetchPdf(monthValue, yearValue);
+    const pdfResponse = await getOrFetchPdf(monthValue, yearValue);
 
-    const url = window.URL.createObjectURL(pdfBlob);
-    window.open(url, "_blank");
+    if(!pdfResponse.type && !pdfResponse.success){
+      //no pdf only json res
+      toast.info(pdfResponse.message);
+    }
+
+    if(pdfResponse.type==='application/pdf'){
+      //pdf
+      const url = window.URL.createObjectURL(pdfBlob);
+      window.open(url, "_blank");
+    }
 
     } catch (err) {
+      console.log(err);
       toast.error(err.message);
     } finally {
       setCustomLoading(false);

@@ -11,14 +11,14 @@ export const generateMagazine = async (req, res) => {
     const {month, year} = req.query;
 
     if(!month && !year){
-        return res.status(400).json({message:'check the passed query'});
+        return res.status(400).json({success:false, message:'check the passed query'});
     }
 
     const currentAffairsDocs  = await CurrentAffair.find({month, year});
 
     
     if(!currentAffairsDocs.length){
-      return res.status(404).json({ message: 'No Current affairs found for this month/year' });
+      return res.status(404).json({success:false, message: 'No Current affairs found for this month/year' });
     }
     
 
@@ -35,7 +35,7 @@ export const generateMagazine = async (req, res) => {
     const pdfBuffer = await generateMagazinePdf(allCurrentAffairs); // it will return the generated pdf of passed year and month
     
     if (!pdfBuffer || pdfBuffer.length === 0) {
-      return res.status(500).json({ error: "Failed to generate PDF" });
+      return res.status(500).json({success:false, error: "Failed to generate PDF" });
     }
     
      res.writeHead(200,{
@@ -47,7 +47,7 @@ export const generateMagazine = async (req, res) => {
     return res.end(pdfBuffer);
   } catch (error) {
     console.error('generateMagazine error:', error);
-    return res.status(500).json({ message: 'Failed to generate PDF', error: String(error) });
+    return res.status(500).json({success:false, message: 'Failed to generate PDF', error: String(error) });
   }
 };
 
