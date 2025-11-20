@@ -108,7 +108,7 @@ export const genarateVacencies = async (req, res)=>{
 
 
     if (!vacancies || vacancies.length === 0) {
-      return res.status(404).json({ message: "No vacancies found" });
+      return res.status(404).json({success:false, message: "No vacancies found" });
     }
 
     vacancies = vacancies.map(v=>({
@@ -121,7 +121,7 @@ export const genarateVacencies = async (req, res)=>{
     // return res.status(500).json({ message: "PDF generation failed",vacancies});
 
     if (!result.success) {
-      return res.status(500).json({ message: "PDF generation failed", error: result.error });
+      return res.status(500).json({success:false, message: "PDF generation failed", error: result.error });
     }
 
     const {pdfBuffer} = result;
