@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Upload, Plus, Edit, BookOpen, Image, Clock, Tag, User, Smile, Award } from 'lucide-react';
-import { createBlog, updateBlog } from '../../../Services/service';
+import { X, Upload, Plus, Edit, BookOpen, Image, Clock, Tag, User, Award } from 'lucide-react';
 
 const BlogPostForm = ({ post, onSave, onCancel, isSaving }) => {
   const [formData, setFormData] = useState({
@@ -27,28 +26,40 @@ const BlogPostForm = ({ post, onSave, onCancel, isSaving }) => {
     if (post) {
       setFormData({
         ...post,
-        tags: post.tags || []
+        tags: post.tags || [],
+        author: {
+          name: post.author?.name || '',
+          avatar: post.author?.avatar || '',
+          bio: post.author?.bio || ''
+        }
       });
     }
   }, [post]);
+
+  // convenience flags for validation
+  const isBasicsActive = activeSection === 'basics';
+  const isContentActive = activeSection === 'content';
+  const isMediaActive = activeSection === 'media';
+  const isMetadataActive = activeSection === 'metadata';
+  const isAuthorActive = activeSection === 'author';
   
   const handleChange = (e) => {
     const { name, value } = e.target;
     
-    if (name.startsWith('author.')) {
+    if (name && name.startsWith('author.')) {
       const authorField = name.split('.')[1];
-      setFormData({
-        ...formData,
+      setFormData((prev) => ({
+        ...prev,
         author: {
-          ...formData.author,
+          ...prev.author,
           [authorField]: value
         }
-      });
+      }));
     } else {
-      setFormData({
-        ...formData,
+      setFormData((prev) => ({
+        ...prev,
         [name]: value
-      });
+      }));
     }
   };
   
@@ -56,45 +67,37 @@ const BlogPostForm = ({ post, onSave, onCancel, isSaving }) => {
     if (e.key === 'Enter' && currentTag.trim()) {
       e.preventDefault();
       if (!formData.tags.includes(currentTag.trim())) {
-        setFormData({
-          ...formData,
-          tags: [...formData.tags, currentTag.trim()]
-        });
+        setFormData((prev) => ({
+          ...prev,
+          tags: [...prev.tags, currentTag.trim()]
+        }));
       }
       setCurrentTag('');
     }
   };
   
   const removeTag = (tagToRemove) => {
-    setFormData({
-      ...formData,
-      tags: formData.tags.filter(tag => tag !== tagToRemove)
-    });
+    setFormData((prev) => ({
+      ...prev,
+      tags: prev.tags.filter(tag => tag !== tagToRemove)
+    }));
   };
   
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
   
     let submitData = { ...formData };
   
-    if (!submitData.slug.trim()) {
-      submitData.slug = submitData.title
+    // auto-generate slug if empty
+    if (!submitData.slug || !submitData.slug.trim()) {
+      submitData.slug = (submitData.title || '')
         .toLowerCase()
         .replace(/[^\w\s]/gi, '')
         .replace(/\s+/g, '-');
     }
-  
-    try {
-      if (post) {
-        await updateBlog(post._id, submitData);
-      } else {
-        await createBlog(submitData);
-      }
-      onSave();
-    } catch (error) {
-      console.error("❌ Blog submission failed", error);
-      alert("There was an error saving the blog post.");
-    }
+
+    // pass data up; AdminBlogPage decides create vs update
+    onSave(submitData);
   };
 
   // Calculate progress through the form
@@ -125,11 +128,11 @@ const BlogPostForm = ({ post, onSave, onCancel, isSaving }) => {
     <div className="bg-gray-50 rounded-xl shadow-xl overflow-hidden">
       <div className="px-6 py-4 bg-gradient-to-r from-purple-600 to-purple-600 border-b border-purple-200 flex justify-between items-center">
         <h2 className="text-xl font-bold text-white flex items-center">
-          {/* <Smile className="h-6 w-6 mr-2" /> */}
           {post ? 'Edit Blog Post' : 'Create Blog Post'}
         </h2>
         <button 
           onClick={onCancel}
+          type="button"
           className="text-white hover:text-purple-200 transition-colors"
         >
           <X className="h-5 w-5" />
@@ -156,6 +159,7 @@ const BlogPostForm = ({ post, onSave, onCancel, isSaving }) => {
           {sections.map((section) => (
             <button
               key={section.id}
+              type="button"
               onClick={() => setActiveSection(section.id)}
               className={`flex items-center px-4 py-2 rounded-lg transition-all ${
                 activeSection === section.id 
@@ -172,7 +176,7 @@ const BlogPostForm = ({ post, onSave, onCancel, isSaving }) => {
       
       <form onSubmit={handleSubmit} className="p-6">
         {/* Basic Info Section */}
-        <div className={`${activeSection === 'basics' ? 'block' : 'hidden'} space-y-6 animate-fadeIn`}>
+        <div className={`${isBasicsActive ? 'block' : 'hidden'} space-y-6 animate-fadeIn`}>
           <div className="bg-white p-6 rounded-xl shadow-md">
             <h3 className="text-lg font-medium text-purple-800 mb-4 flex items-center">
               <Edit className="h-5 w-5 mr-2 text-purple-600" />
@@ -188,7 +192,7 @@ const BlogPostForm = ({ post, onSave, onCancel, isSaving }) => {
                 type="text" 
                 id="title" 
                 name="title" 
-                required
+                required={isBasicsActive}
                 value={formData.title} 
                 onChange={handleChange}
                 placeholder="My Awesome Blog Post (maximum 100 char)"
@@ -218,7 +222,7 @@ const BlogPostForm = ({ post, onSave, onCancel, isSaving }) => {
         </div>
         
         {/* Content Section */}
-        <div className={`${activeSection === 'content' ? 'block' : 'hidden'} space-y-6 animate-fadeIn`}>
+        <div className={`${isContentActive ? 'block' : 'hidden'} space-y-6 animate-fadeIn`}>
           <div className="bg-white p-6 rounded-xl shadow-md">
             <h3 className="text-lg font-medium text-purple-800 mb-4 flex items-center">
               <BookOpen className="h-5 w-5 mr-2 text-purple-600" />
@@ -232,12 +236,15 @@ const BlogPostForm = ({ post, onSave, onCancel, isSaving }) => {
               </label>
               <textarea
                 id="excerpt"
+                name="excerpt"
                 value={formData.excerpt}
-                onChange={(e) => setFormData(prev => ({ ...prev, excerpt: e.target.value }))}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, excerpt: e.target.value }))
+                }
                 placeholder="Give readers a taste of your amazing content... (maximum 500 char)"
                 className="w-full p-3 border-2 border-purple-300 rounded-lg focus:border-purple-500 focus:ring-0 min-h-[120px] bg-white"
                 maxLength={500}
-                required
+                required={isContentActive}
               />
             </div>
             
@@ -248,19 +255,22 @@ const BlogPostForm = ({ post, onSave, onCancel, isSaving }) => {
               </label>
               <textarea
                 id="content"
+                name="content"
                 value={formData.content}
-                onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, content: e.target.value }))
+                }
                 placeholder="Share your thoughts, insights, and creativity here... (minimum 100 char)"
                 className="w-full p-3 border-2 border-purple-300 rounded-lg focus:border-purple-500 focus:ring-0 min-h-[300px] bg-white resize-y"
-                minLength={100}
-                required
+                minLength={isContentActive ? 100 : undefined}
+                required={isContentActive}
               />
             </div>
           </div>
         </div>
         
         {/* Media Section */}
-        <div className={`${activeSection === 'media' ? 'block' : 'hidden'} space-y-6 animate-fadeIn`}>
+        <div className={`${isMediaActive ? 'block' : 'hidden'} space-y-6 animate-fadeIn`}>
           <div className="bg-white p-6 rounded-xl shadow-md">
             <h3 className="text-lg font-medium text-purple-800 mb-4 flex items-center">
               <Image className="h-5 w-5 mr-2 text-purple-600" />
@@ -314,7 +324,7 @@ const BlogPostForm = ({ post, onSave, onCancel, isSaving }) => {
         </div>
         
         {/* Metadata Section */}
-        <div className={`${activeSection === 'metadata' ? 'block' : 'hidden'} space-y-6 animate-fadeIn`}>
+        <div className={`${isMetadataActive ? 'block' : 'hidden'} space-y-6 animate-fadeIn`}>
           <div className="bg-white p-6 rounded-xl shadow-md">
             <h3 className="text-lg font-medium text-purple-800 mb-4 flex items-center">
               <Tag className="h-5 w-5 mr-2 text-purple-600" />
@@ -332,7 +342,7 @@ const BlogPostForm = ({ post, onSave, onCancel, isSaving }) => {
                   type="number" 
                   id="readTime" 
                   name="readTime" 
-                  required
+                  required={isMetadataActive}
                   min="1"
                   value={formData.readTime} 
                   onChange={handleChange}
@@ -383,10 +393,10 @@ const BlogPostForm = ({ post, onSave, onCancel, isSaving }) => {
                     onClick={() => {
                       if (currentTag.trim()) {
                         if (!formData.tags.includes(currentTag.trim())) {
-                          setFormData({
-                            ...formData,
-                            tags: [...formData.tags, currentTag.trim()]
-                          });
+                          setFormData((prev) => ({
+                            ...prev,
+                            tags: [...prev.tags, currentTag.trim()]
+                          }));
                         }
                         setCurrentTag('');
                       }
@@ -407,7 +417,12 @@ const BlogPostForm = ({ post, onSave, onCancel, isSaving }) => {
                   id="featuredPost"
                   name="featuredPost"
                   checked={formData.featuredPost}
-                  onChange={(e) => setFormData({ ...formData, featuredPost: e.target.checked })}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      featuredPost: e.target.checked
+                    }))
+                  }
                   className="h-5 w-5 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
                 />
                 <label htmlFor="featuredPost" className="ml-3 block text-sm text-gray-700 flex items-center">
@@ -421,7 +436,7 @@ const BlogPostForm = ({ post, onSave, onCancel, isSaving }) => {
         </div>
         
         {/* Author Section */}
-        <div className={`${activeSection === 'author' ? 'block' : 'hidden'} space-y-6 animate-fadeIn`}>
+        <div className={`${isAuthorActive ? 'block' : 'hidden'} space-y-6 animate-fadeIn`}>
           <div className="bg-white p-6 rounded-xl shadow-md">
             <h3 className="text-lg font-medium text-purple-800 mb-4 flex items-center">
               <User className="h-5 w-5 mr-2 text-purple-600" />
@@ -437,7 +452,7 @@ const BlogPostForm = ({ post, onSave, onCancel, isSaving }) => {
                   type="text" 
                   id="author.name" 
                   name="author.name" 
-                  required
+                  required={isAuthorActive}
                   value={formData.author.name} 
                   onChange={handleChange}
                   placeholder="Jane Doe"
@@ -510,17 +525,6 @@ const BlogPostForm = ({ post, onSave, onCancel, isSaving }) => {
           </button>
         </div>
       </form>
-      
-      {/* Animation styles */}
-      {/* <style jsx>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fadeIn {
-          animation: fadeIn 0.3s ease-out forwards;
-        }
-      `}</style> */}
     </div>
   );
 };

@@ -69,7 +69,9 @@ const DataInsertion = () => {
     {id: "manage-faq", label: "Manage FAQ"},
     {id:"Today's Question", label: "Today's Question"},
     { id: "manage-organizations", label: "Manage Organizations" },
-    { id: "create-report", label: "Generate Report" }
+    { id: "create-report", label: "Generate Report" },
+    { id: "post-blog", label: "Create Blog" }
+
   ];
 
   const orgSubOptions = [
@@ -1515,6 +1517,8 @@ const DataInsertion = () => {
         return renderOrganizationManagement();
       case "create-report":
         return <Report/>;
+      case "post-blog":
+        return <AdminBlogPage/>
       default:
         return (
           <div className="flex items-center justify-center h-64">

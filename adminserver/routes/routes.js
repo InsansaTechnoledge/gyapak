@@ -7,6 +7,9 @@ import affairRoutes from './currentAffair.routes.js'
 import FAQRoutes from './faq.routes.js'
 import questionRoutes from './question.routes.js';
 import reportRoutes from './report.routes.js';
+import sourceRoutes from "./source.routes.js";
+import notificationRoutes from "./notification.routes.js";
+
 
 import airoutes from './openai.routes.js'
 const route = (app) => {
@@ -20,6 +23,10 @@ app.use('/api/v1i2/faq', FAQRoutes);
 app.use('/api/v1i2/question', questionRoutes);
 app.use('/api/v1i2/reports', reportRoutes);
 app.use('/api/v1/convert', airoutes);
+app.use("/api/sources", sourceRoutes);
+app.use("/api/notifications", notificationRoutes);
+
+
 };
 
 export default route;
