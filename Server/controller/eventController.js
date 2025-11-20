@@ -141,11 +141,13 @@ export const getEventTypes = async (req, res) => {
 export const getTodaysEvents = async (req, res) => {
   try {
 
+    const {limit = 10, page = 1} = req.query;
+    const offset = (page-1)*limit;
     const today = new Date().toISOString().split('T')[0];
     const events = await Event.find({
       date_of_notification: { $lte: today },
       end_date: { $gte: new Date() }
-    }).select('name _id');
+    }).skip(offset).limit(limit).select('name _id');
     res.status(200).json(events);
 
   } catch (err) {

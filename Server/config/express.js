@@ -55,12 +55,12 @@ const loadBalancer = (req, res, next) => {
 app.get('/sitemap.xml', generateSitemap);
 
 
-app.use((req, res, next) => {
-  if (!req.headers.origin) {
-    return res.status(403).json({ error: "Direct browser requests are not allowed" });
-  }
-  next();
-});
+// app.use((req, res, next) => {
+//   if (!req.headers.origin) {
+//     return res.status(403).json({ error: "Direct browser requests are not allowed" });
+//   }
+//   next();
+// });
 
 
 // CORS configuration
