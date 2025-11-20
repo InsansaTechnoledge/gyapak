@@ -4,6 +4,11 @@ import { Server as SocketIOServer } from 'socket.io';
 import cron from 'node-cron';
 import { monitorAllSources } from './Jobs/monitorSources.job.js';
 
+import  {File, Blob} from 'node:buffer';
+
+globalThis.File = File;
+globalThis.Blob = Blob;
+
 // import { monitorAllSources } from './jobs/monitorSources.job.js';
 
 dotenv.config();

@@ -23,6 +23,7 @@
     "express": "^4.21.2",
     "mongoose": "^8.13.0",
     "multer": "^2.0.2",
+    "node-buffer": "^1.0.3",
     "node-cron": "^3.0.3",
     "node-fetch": "^3.3.2",
     "openai": "^6.8.1",
