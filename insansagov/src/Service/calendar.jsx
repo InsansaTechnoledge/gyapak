@@ -71,6 +71,6 @@ export const fetchEventsForCalendar = async (apiBaseUrl, categoryId, stateId, ev
 };
 
 export const fetchTodaysEvents = async (apiBaseUrl) => {
-  const res = await axios.get(`${apiBaseUrl}/api/event/getTodaysEvents`);
+  const res = await axios.get(`${apiBaseUrl}/api/event/getTodaysEvents?limit=100`);
   return res.data;
 };
