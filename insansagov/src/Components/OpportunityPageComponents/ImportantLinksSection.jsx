@@ -6,17 +6,19 @@ const ImportantLinksSection = ({ data }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const PrintLink = ({ idx, link }) => {
-    const visibleLink = link.length>=80? link.slice(0, 77) +'...': link;
+    const visibleLink = link.length>=40? link.slice(0, 77) +'...': link;
     return (
-      <a
+        <a
         href={link}
         rel="noopener noreferrer"
-        className="w-full  text-center font-medium px-6 py-3 bg-purple-50 rounded-xl
-                   hover:bg-purple-100 hover:-translate-y-0.5 transition-all duration-200
-                   shadow-sm hover:shadow-md"
+        className="w-full break-words text-center font-medium px-6 py-3 
+                  bg-purple-50 rounded-xl
+                  hover:bg-purple-100 hover:-translate-y-0.5 transition-all duration-200
+                  shadow-sm hover:shadow-md"
       >
-      {visibleLink}
+        {visibleLink}
       </a>
+
     );
   };
 
