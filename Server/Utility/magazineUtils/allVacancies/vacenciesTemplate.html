@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Vacancies PDF</title>
+
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  @page {
+    margin: 20mm;
+  }
+  
+  .page-break { page-break-before: always; }
+  .no-break { page-break-inside: avoid; }
+  .gradient-text {
+    background: linear-gradient(135deg, #5B21B6 0%, #8B5CF6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .footer {
+    position: fixed;
+    bottom: 15px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 10px;
+    color: #9CA3AF;
+    border-top: 1px solid #E5E7EB;
+    padding-top: 15px;
+  }
+  .page-break { page-break-before: always; }
+  .no-break { page-break-inside: avoid; }
+</style>
+</head>
+
+<body class="bg-white">
+
+   <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-gradient-to-r from-purple-700 to-purple-900 opacity-60 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+
+    <!-- First page -->
+     <!-- Cover Page -->
+<div class="min-h-screen flex flex-col justify-between  bg-white text-gray-900 font-sans">
+  <!-- Top Branding -->
+  <div class="flex justify-between items-start">
+    <div class="bg-white/20 p-2 rounded-xl">
+    <img src="https://res.cloudinary.com/dzdt11nsx/image/upload/v1762860816/Asset_2_5_i5wwrh.png" alt="Gyapak Logo" class="w-20" />
+  </div>  
+
+    <div class="text-sm font-medium text-gray-600">
+    </div>
+  </div>
+
+  <!-- Middle Title -->
+  <div class="text-center mt-24">
+    <h2 class="text-lg font-semibold tracking-wide ">VACENCIES EBOOK</h2>
+    <h3 class="text-xl font-bold text-purple-600 mt-1">2025</h3>
+
+    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mt-10 leading-snug">
+      COMPLETE VACENCIES EBOOK<br />
+      ALL EVENTS OF THE MONTH AND YEAR.
+    </h1>
+  </div>
+
+  <!-- Bottom Footer -->
+  <div class="text-center border-t border-gray-300 pt-4 mt-20 text-sm tracking-wide text-gray-700">
+    IAS | BANKING | SSC | NDA/CDS | AND OTHER COMPETITIVE EXAMS
+    <br />
+    <a href="https://gyapak.in" class="text-purple-600 font-medium hover:underline mt-2 inline-block">
+      www.gyapak.in
+    </a>
+  </div>
+</div>
+
+  <!-- HEADER -->
+  <header class="w-full pb-3 mb-6">
+    <h1 class="text-xl font-bold text-center">Vacancy Report</h1>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <div id="content">
+    {{content}}
+  </div>
+
+  <!-- FOOTER -->
+  <!-- <footer class="w-full border-t pt-3 mt-10 text-center text-xs text-gray-500"> -->
+    <!-- Page <span class="pageNumber"></span> of <span class="totalPages"></span> -->
+    
+  <!-- </footer> -->
+
+</body>
+</html>

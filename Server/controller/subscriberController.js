@@ -41,7 +41,7 @@ export const updateMail = async (email, name,unsubscribeToken) => {
             `
         };
         await transporter.sendMail(mailOptions);
-        console.log('Update email sent');
+        // console.log('Update email sent');
     } catch (error) {
         console.error('Error sending email:', error);
         throw new Error('Internal Server Error');

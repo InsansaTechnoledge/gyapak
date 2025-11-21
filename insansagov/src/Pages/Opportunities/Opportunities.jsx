@@ -18,6 +18,7 @@ import PositionSection from "../../Components/OpportunityPageComponents/Position
 import SalarySection from "../../Components/OpportunityPageComponents/SalarySection";
 import SelectionSection from "../../Components/OpportunityPageComponents/SelectionProcessSection";
 import AdditionalDetailsSection from "../../Components/OpportunityPageComponents/AdditionalDetailsSection";
+import RecentVacencies from "../../Components/OpportunityPageComponents/RecentVacencies.jsx";
 import OnPageBlog from "../../Components/OpportunityPageComponents/OnPageBlog";
 import BriefSection from "../../Components/OpportunityPageComponents/BriefSection";
 import { RingLoader } from "react-spinners";
@@ -180,9 +181,12 @@ const ModernExamDetailsPage = () => {
               null
           }
           <>
-            <div className="flex flex-grow mt-10">
+            <div className="flex flex-grow mt-10 flex-col">
               {/* Important Links */}
               <AdditionalDetailsSection name={data.name} data={data.details} existingSections={existingSections} />
+              
+              {/* this component for internal backlinking */}
+            
             </div>
 
             {data.document_links && data.document_links.length > 0
@@ -191,6 +195,7 @@ const ModernExamDetailsPage = () => {
               :
               null
             }
+            <RecentVacencies/>
           </>
 
         </div>

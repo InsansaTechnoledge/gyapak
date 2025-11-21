@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X, ChevronDown, Search, MapPin, AlertTriangle, Newspaper } from 'lucide-react';
+import { Menu, X, ChevronDown, Search, MapPin, AlertTriangle, Newspaper, FileText } from 'lucide-react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { debounce, update } from 'lodash';
 import axios from 'axios';
@@ -348,20 +348,33 @@ const Navbar = () => {
         </div>
 
         {/* Right side */}
-        <div className="flex items-center gap-3 md:gap-6 text-sm ">
+        <div className="flex items-center gap-2  md:gap-6 text-sm ">
           {/* Search */}
-          <div className="flex items-center gap-2 px-3 py-2 h-10  bg-gray-50 rounded-xl hover:bg-purple-50 transition-all w-fit">
-          <Newspaper className="flex w-5 h-5 text-purple-600" />
+         <a
+            href="/pdf"
+            className="flex items-center gap-2 px-2 md:px-3 py-2 h-8 md:h-10 bg-gray-50 rounded-xl hover:bg-purple-50 transition-all w-fit"
+          >
+            <FileText className="flex w-5 h-5 text-purple-600" />
+            <span className="font-medium text-gray-800 hover:text-purple-700 transition-colors">
+              PDF
+            </span>
+            <span className="hidden md:block text-xs font-semibold bg-purple-600 text-white px-2 py-[2px] rounded-full uppercase tracking-wide">
+              New
+            </span>
+          </a>
+
           <a
             href="/daily-updates"
-            className="font-medium text-gray-800 hover:text-purple-700 transition-colors"
+            className="hidden md:inline-flex font-medium text-gray-800 hover:text-purple-700 transition-colors"
           >
+          <div className="flex items-center gap-2 px-2 md:px-3 py-2 h-8 md:h-10  bg-gray-50 rounded-xl hover:bg-purple-50 transition-all w-fit">
+          <Newspaper className="flex w-5 h-5 text-purple-600" />
             Daily Updates
-          </a>
           <span className="hidden md:block text-xs font-semibold bg-purple-600 text-white px-2 py-[2px] rounded-full uppercase tracking-wide">
             New
           </span>
         </div>
+          </a>
 
           <div className="hidden md:flex items-center  rounded-full px-2 py-2 w-full md:w-[420px] relative">
             <input
@@ -369,7 +382,7 @@ const Navbar = () => {
               onChange={(e) => inputChangeHandler(e.target.value)}
               type="text"
               placeholder="Government exam prepration . . ."
-              className="outline-none text-gray-600 text-sm w-full px-4 py-1.5 rounded-xl shadow-accertinity focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:border-gray-300 focus:bg-gray-100 border-transparent transition-all  duration-200 "
+              className="outline-none text-gray-600 text-sm w-full px-4 py-1.5 rounded-xl shadow-accertinity focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:border-gray-300 focus:bg-gray-100 border-transparent transition-all duration-200 "
               // shadow-accertinity inline px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:border-gray-300 focus:bg-gray-100 border-transparent transition-all  duration-200 outline-none
               onFocus={() => searchQuery && setShowDropdown(true)}
               onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
@@ -418,7 +431,7 @@ const Navbar = () => {
 
           {/* Mobile hamburger */}
           <button
-            className="md:hidden p-2 rounded-md bg-white hover:bg-gray-50 active:bg-gray-100"
+            className="md:hidden p-1.5 -mr-4 rounded-md bg-white hover:bg-gray-50 active:bg-gray-100"
             aria-label="Open menu"
             onClick={() => setIsOpen((v) => !v)}
           >

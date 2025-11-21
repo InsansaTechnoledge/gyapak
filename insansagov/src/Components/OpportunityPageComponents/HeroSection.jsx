@@ -1,8 +1,10 @@
 import React from 'react';
 import { Calendar, Clock } from 'lucide-react';
-import { formatDate } from '../../Utils/dateFormatter';
+import { formatDate, dateFormat } from '../../Utils/dateFormatter';
 
 const HeroSection = ({ data, organization }) => {
+
+
   return (
     <div className="text-center mb-10">
       <h2 className="text-purple-700 text-lg mb-4 mt-5"><b>Top exams for government jobs in India</b> for {organization}</h2>
@@ -19,7 +21,7 @@ const HeroSection = ({ data, organization }) => {
             <div className="transform -rotate-3 bg-purple-200 p-6 rounded-lg shadow-lg">
               <Calendar className="w-8 h-8 mb-2 text-purple-700" />
               <p className="text-sm text-purple-900">Notification Date</p>
-              <p className="font-bold text-purple-800">{data.date_of_notification}</p>
+              <p className="font-bold text-purple-800">{dateFormat(data.date_of_commencement)}</p>
             </div>
             :
             null
@@ -30,7 +32,7 @@ const HeroSection = ({ data, organization }) => {
             <div className="transform rotate-3 bg-purple-300 p-6 rounded-lg shadow-lg">
               <Calendar className="w-8 h-8 mb-2 text-purple-800" />
               <p className="text-sm text-purple-900">Start Date</p>
-              <p className="font-bold text-purple-900">{data.date_of_commencement}</p>
+              <p className="font-bold text-purple-900">{dateFormat(data.date_of_commencement)}</p>
             </div>
             :
             null

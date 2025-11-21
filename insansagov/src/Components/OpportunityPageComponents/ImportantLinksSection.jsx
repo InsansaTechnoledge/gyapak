@@ -6,15 +6,16 @@ const ImportantLinksSection = ({ data }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const PrintLink = ({ idx, link }) => {
+    const visibleLink = link.length>=80? link.slice(0, 77) +'...': link;
     return (
       <a
         href={link}
         rel="noopener noreferrer"
-        className="w-full md:w-1/2 text-center font-medium px-6 py-3 bg-purple-50 rounded-xl
+        className="w-full  text-center font-medium px-6 py-3 bg-purple-50 rounded-xl
                    hover:bg-purple-100 hover:-translate-y-0.5 transition-all duration-200
                    shadow-sm hover:shadow-md"
       >
-        Link {idx + 1} for {data.name}
+      {visibleLink}
       </a>
     );
   };

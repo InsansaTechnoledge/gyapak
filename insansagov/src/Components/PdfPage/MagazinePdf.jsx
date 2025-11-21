@@ -1,11 +1,11 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { Calendar } from "lucide-react";
-import { useQueryClient , useQuery } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import {useApi} from "../../Context/ApiContext"
 import { ToastContainer, toast } from 'react-toastify';
 
 
-export default function MagazineComponent() {
+export default function MagazinePdf() {
   const currentDate = new Date();
   const {apiBaseUrl} = useApi();
   const queryClient = useQueryClient();
@@ -50,12 +50,12 @@ export default function MagazineComponent() {
 
       queryFn: async () => {
         const res = await fetch(
-          `${apiBaseUrl}/api/v1/magazine/generate?month=${monthValue}&year=${yearValue}`
+          `${apiBaseUrl}/api/v1/magazine/generateMagazine?month=${monthValue}&year=${yearValue}`
         );
 
-        console.log(res);
-        if (res.status !== 200) {
-          throw new Error("This magazine is currently not available");
+        if (!res.ok) {
+          const result = await res.json();
+          return result;
         }
 
         return res.blob();
@@ -77,12 +77,21 @@ export default function MagazineComponent() {
       }
 
 
-    const pdfBlob = await getOrFetchPdf(monthValue, yearValue);
+    const pdfResponse = await getOrFetchPdf(monthValue, yearValue);
 
-    const url = window.URL.createObjectURL(pdfBlob);
-    window.open(url, "_blank");
+    if(!pdfResponse.type && !pdfResponse.success){
+      //no pdf only json res
+      toast.info(pdfResponse.message);
+    }
+
+    if(pdfResponse.type==='application/pdf'){
+      //pdf
+      const url = window.URL.createObjectURL(pdfBlob);
+      window.open(url, "_blank");
+    }
 
     } catch (err) {
+      console.log(err);
       toast.error(err.message);
     } finally {
       setCustomLoading(false);
