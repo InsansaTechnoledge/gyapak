@@ -8,8 +8,8 @@ router.get('/calendar/all', getAllCalendars);
 router.get('/all' , getAllOrganizations)
 router.get('/calendar/:id', getCalendar);
 router.get('/logo', getCentralLogos);
-router.get('/:categoryId', getOrganizationByCategoryId); // new one
 router.get('/:name', getOrganization);
+router.get('/category/:categoryId', getOrganizationByCategoryId); // new one
 router.get('/more/:category', getMoreOrganization);
 
 export default router;
