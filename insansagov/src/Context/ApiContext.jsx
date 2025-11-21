@@ -17,7 +17,7 @@ export const SERVER_URLS = [
     "https://backend.gyapak.in",
     // "http://3.111.196.146",
     // "https://13.201.147.131"
-    "http://localhost:8383"
+    // "http://localhost:8383"
   ];
 
   export const CheckServer = async () => {
