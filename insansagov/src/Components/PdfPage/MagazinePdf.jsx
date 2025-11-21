@@ -86,7 +86,7 @@ export default function MagazinePdf() {
 
     if(pdfResponse.type==='application/pdf'){
       //pdf
-      const url = window.URL.createObjectURL(pdfBlob);
+      const url = window.URL.createObjectURL(pdfResponse);
       window.open(url, "_blank");
     }
 

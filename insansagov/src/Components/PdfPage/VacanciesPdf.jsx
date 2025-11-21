@@ -47,7 +47,7 @@ export default function VacanciesPdf() {
   const fetchOrganizations = async () => {
     try {
       const { data } = await axios.get(
-        `${apiBaseUrl}/api/organization/${selectedCategoryId}`
+        `${apiBaseUrl}/api/organization/category/${selectedCategoryId}`
       );
 
       // backend might return array or inside {organizations:[]}
@@ -283,7 +283,7 @@ export default function VacanciesPdf() {
         {dateFilter.type === "custom" && (
           <div className="col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="font-semibold block mb-1">From</label>
+              <label className="font-semibold block mb-1 after:content-['*'] after:ml-0.5 after:text-red-500">From</label>
               <input
                 type="date"
                 className="w-full p-3 border  rounded-xl shadow-accertinity focus:outline-none focus:ring-1 focus:ring-gray-300 focus:ring-offset-2 focus:border-gray-300 focus:bg-gray-100 transition-all duration-200 "
@@ -293,7 +293,7 @@ export default function VacanciesPdf() {
             </div>
 
             <div>
-              <label className="font-semibold block mb-1">To</label>
+              <label className="font-semibold block mb-1 after:content-['*'] after:ml-0.5 after:text-red-500">To</label>
               <input
                 type="date"
                 className="w-full p-3 border rounded-xl shadow-accertinity focus:outline-none focus:ring-1 focus:ring-gray-300 focus:ring-offset-2 focus:border-gray-300 focus:bg-gray-100 transition-all duration-200"
