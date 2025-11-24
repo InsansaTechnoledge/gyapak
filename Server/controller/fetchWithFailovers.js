@@ -1,5 +1,5 @@
 const API_URLS = [
-  "https://13.201.147.131",
+  "https://adminpanel.gyapak.in",
   "https://gyapak-2.onrender.com",
   "https://gyapak.onrender.com",
   "https://gyapak-3.onrender.com",

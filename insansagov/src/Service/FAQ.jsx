@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL="https://13.201.147.131" || "https://gyapak-admin2.onrender.com";
+const API_BASE_URL="https://adminpanel.gyapak.in" || "https://gyapak-admin2.onrender.com";
 // const API_BASE_URL = "http://localhost:3000";
 
 

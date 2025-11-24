@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // import { API_BASE_URL } from '../../../gyapakAdminPanel/src/config';
 //Prod URL
-const API_BASE_URL="https://13.201.147.131" || "https://gyapak-admin2.onrender.com";
+const API_BASE_URL="https://adminpanel.gyapak.in" || "https://gyapak-admin2.onrender.com";
 // DEV URL
 // const API_BASE_URL="http://localhost:3000";
 
