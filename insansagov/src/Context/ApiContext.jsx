@@ -15,14 +15,11 @@ export const SERVER_URLS = [
     // "http://localhost:5000",
     // "http://localhost:3000",
     "https://backend.gyapak.in",
-    // "http://3.111.196.146",
+     //"http://196.146",
     // "https://13.201.147.131"
-<<<<<<< HEAD
 //    "http://localhost:8383"
-=======
     // "http://localhost:8383"
->>>>>>> c3d6426 (changes express url for prod testing)
-  ];
+    ];
 
   export const CheckServer = async () => {
     for (let url of SERVER_URLS) {
