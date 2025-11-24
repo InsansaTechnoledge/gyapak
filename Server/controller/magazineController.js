@@ -15,6 +15,7 @@ export const generateMagazine = async (req, res) => {
     }
 
     const currentAffairsDocs  = await CurrentAffair.find({month, year});
+   //i can use here aggirgation also, but with this filter it works
 
     
     if(!currentAffairsDocs.length){
@@ -32,7 +33,8 @@ export const generateMagazine = async (req, res) => {
 
     // if required i can format in custom data structure 
 
-    const pdfBuffer = await generateMagazinePdf(allCurrentAffairs); // it will return the generated pdf of passed year and month
+    const pdfBuffer = await generateMagazinePdf(allCurrentAffairs);
+    // await generateMagazinePdf(allCurrentAffairs); // it will return the generated pdf of passed year and month
     
     if (!pdfBuffer || pdfBuffer.length === 0) {
       return res.status(500).json({success:false, error: "Failed to generate PDF" });

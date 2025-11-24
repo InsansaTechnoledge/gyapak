@@ -22,20 +22,20 @@ function generateArticleLink(publishedDate, title) {
   const formattedDate = date.toISOString().split("T")[0]; // e.g. "2025-10-29"
 
   // Slugify title — convert to lowercase, replace spaces/symbols
-  const slug = title
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, "") // remove punctuation/symbols
-    .replace(/\s+/g, "-");    // spaces -> dashes
-
+  const slug = title?.toLowerCase().trim().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-"); 
+  // remove punctuation/symbols: replace with space
+  // spaces -> dashes : replace with -
+       
   return `https://gyapak.in/current-affairs/${formattedDate}/${slug}`;
 }
 
 export default async function generateMagazinePdf(allCurrentAffairs) {
 
   // For simplicity, assume only one "week" batch per generation
-  const { publishedDate, affair } = allCurrentAffairs[0];
+  const { publishedDate } = allCurrentAffairs[0];
 
+  const affair = allCurrentAffairs.flatMap(item=>item.affair); [{}]// now it will be array of obj
+  
   const weekDate = new Date(publishedDate);
   const formattedWeek = weekDate.toLocaleDateString("en-IN", {
     day: "numeric",
