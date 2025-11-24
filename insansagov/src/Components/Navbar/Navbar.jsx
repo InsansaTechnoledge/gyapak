@@ -1,14 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Menu, X, ChevronDown, Search, MapPin, AlertTriangle, Newspaper, FileText } from 'lucide-react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { debounce, update } from 'lodash';
+import { debounce } from 'lodash';
 import axios from 'axios';
 import { useApi, CheckServer } from '../../Context/ApiContext';
 import { useQuery } from '@tanstack/react-query';
 import logo3 from '/logo3.png';
 import logo4 from '/logo4.png';
 import { MdKeyboardArrowUp, MdOutlineTranslate, MdKeyboardArrowDown } from "react-icons/md";
-
 
 const stateImages = {
   "Gujarat": "/states/Gujarat.png",
@@ -43,17 +42,10 @@ const categories = [
   { Nameid: 'Agriculture', name: 'Agriculture', icon: '🌾' },
 ];
 
-/** Compact, single-line tile with truncation for better laptop alignment */
-const StateIcon = ({ state, updateVisibleStates, setStateDropdownVisible }) => {
-  const navigate = useNavigate();
+const StateIcon = ({ state, onStateClick }) => {
   return (
     <div
-      key={state._id}
-      onClick={() => {
-        updateVisibleStates(state.name);
-        setStateDropdownVisible(false);
-        navigate(`/state/government-jobs-in-${state.name}-for-12th-pass`);
-      }}
+      onClick={() => onStateClick(state.name)}
       className="flex items-center p-2 lg:p-3 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 group cursor-pointer min-w-0"
     >
       <div className="h-10 w-10 lg:h-12 lg:w-12 rounded-xl flex-shrink-0 overflow-hidden">
@@ -72,48 +64,54 @@ const StateIcon = ({ state, updateVisibleStates, setStateDropdownVisible }) => {
   );
 };
 
+const SuggestionList = ({ title, items, itemKey, onSelect }) => {
+  if (!items || items.length === 0) return null;
+  
+  return (
+    <div className="mb-2">
+      <div className="flex items-center justify-between text-sm font-semibold text-gray-600 px-4 py-2 bg-gradient-to-r from-purple-50 to-blue-50">
+        <span>{title}</span>
+        <span className="bg-white text-purple-600 px-2 py-0.5 rounded-full text-xs font-bold">
+          {items.length}
+        </span>
+      </div>
+      <div className="custom-scrollbar">
+        {items.map((item, index) => (
+          <div
+            key={index}
+            onClick={() => onSelect(item[itemKey])}
+            className="px-4 py-2.5 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 cursor-pointer text-gray-700 text-sm transition-all duration-300 whitespace-nowrap truncate"
+          >
+            {item[itemKey]}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const Navbar = () => {
   const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
   const location = useLocation();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  
+  // State management
   const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(location.pathname === '/government-jobs-after-12th' ? false : true);
+  const [isScrolled, setIsScrolled] = useState(location.pathname !== '/government-jobs-after-12th');
   const [searchQuery, setSearchQuery] = useState("");
-  const [totalCount, setTotalCount] = useState(0);
   const [suggestions, setSuggestions] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [logoVisible, setLogoVisible] = useState(false);
-  const [searchParams] = useSearchParams();
-  const [visibleStates, setVisibleStates] = useState();
-  const [stateDropdownVisible, setStateDropdownVisible] = useState(false);
-  const [visibleCategories, setVisibleCategories] = useState(categories);
-  const [categoryDropdownVisible, setCategoryDropdownVisible] = useState(false);
+  const [activeMenu, setActiveMenu] = useState(null);
+  const [showTop, setShowTop] = useState(true);
   const [mobileStateDropdownVisible, setMobileStateDropdownVisible] = useState(false);
   const [mobileCategoryDropdownVisible, setMobileCategoryDropdownVisible] = useState(false);
 
-  //new one
-  const [activeMenu, setActiveMenu] = useState(null);
-
-  const [showTop, setShowTop] = useState(true);
-  const [mobileSub, setMobileSub] = useState(null); // 'govJob' | 'exam' | null
-
-   // toggle dropdown
-  const handleMenuClick = (menu) => {
-    setActiveMenu(activeMenu === menu ? null : menu);
-    
-  };
-
-
   const navRef = useRef(null);
-
   const isHomePage = location.pathname === '/government-jobs-after-12th';
 
-  const goDailyUpdates = () => {
-    setIsOpen(false);
-    navigate('/daily-updates');
-  };
-
-  const fetchStates = async () => {
+  // Fetch states
+  const fetchStates = useCallback(async () => {
     try {
       const response = await axios.get(`${apiBaseUrl}/api/state/list`);
       if (response.status === 200) {
@@ -124,9 +122,10 @@ const Navbar = () => {
       }
     } catch (error) {
       if (error.response || error.request) {
-        if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+        if ((error.response && error.response.status >= 500 && error.response.status < 600) || 
+            (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
           const url = await CheckServer();
-          setApiBaseUrl(url),
+          setApiBaseUrl(url);
           setServerError(error.response?.status);
         } else {
           console.error('Error fetching state count:', error);
@@ -135,21 +134,7 @@ const Navbar = () => {
         console.error('Error fetching state count:', error);
       }
     }
-  };
-
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (navRef.current && !navRef.current.contains(event.target)) {
-        setIsOpen(false);
-        setMobileStateDropdownVisible(false);
-        setMobileCategoryDropdownVisible(false);
-        setActiveMenu(null);
-
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => { document.removeEventListener("mousedown", handleClickOutside); };
-  }, []);
+  }, [apiBaseUrl, setApiBaseUrl, setServerError]);
 
   const { data: states } = useQuery({
     queryKey: ["navbarStates"],
@@ -160,246 +145,190 @@ const Navbar = () => {
     refetchOnWindowFocus: false,
   });
 
-  useEffect(() => {
-    if (states) setVisibleStates(states);
-  }, [states]);
-
-  useEffect(() => {
-    setIsScrolled(location.pathname === '/government-jobs-after-12th' ? false : true);
-    if (location.pathname == '/state' && states) {
+  // Memoized visible states and categories
+  const visibleStates = useMemo(() => {
+    if (!states) return [];
+    
+    if (location.pathname.startsWith('/state/')) {
       const currState = searchParams.get("name");
-      setVisibleStates(states.filter(st => st !== currState));
-    } else {
-      setVisibleStates(states);
+      return states.filter(st => st.name !== currState);
     }
+    return states;
+  }, [states, location.pathname, searchParams]);
 
-    if (location.pathname == '/category') {
+  const visibleCategories = useMemo(() => {
+    if (location.pathname === '/government-organisations-under-category') {
       const currCategory = searchParams.get("name");
-      setVisibleCategories(categories.filter(cat => cat !== currCategory));
-    } else {
-      setVisibleCategories(categories);
+      return categories.filter(cat => cat.Nameid !== currCategory);
     }
-  }, [location.pathname]);
+    return categories;
+  }, [location.pathname, searchParams]);
 
-  const updateVisibleStates = (state) => {
-    if (location.pathname == `/state/government-jobs-in-${state}-for-12th-pass` && states) {
-      setVisibleStates(states.filter(st => st !== state));
-    } else {
-      setVisibleStates(states);
-    }
-  };
-
-  const updateVisibleCategories = (category) => {
-    if (location.pathname == '/government-organisations-under-category') {
-      setVisibleCategories(categories.filter(cat => cat !== category));
-    } else {
-      setVisibleCategories(categories);
-    }
-  };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 20) setLogoVisible(true);
-      else setLogoVisible(false);
-
-      if (location.pathname === '/') {
-        setIsScrolled(window.scrollY > 20);
-      }
-    };
-
-    if (location.pathname === '/') {
-      window.addEventListener('scroll', handleScroll);
-    } else {
-      setIsScrolled(true);
-    }
-
-    return () => { window.removeEventListener('scroll', handleScroll); };
-  }, [location.pathname]);
-
-  useEffect(() => {
-    if (suggestions.organizations || suggestions.authorities || suggestions.categories) {
-      const total =
-        (suggestions.organizations?.length || 0) +
-        (suggestions.authorities?.length || 0) +
-        (suggestions.categories?.length || 0);
-      setTotalCount(total);
-    }
+  // Total count for suggestions
+  const totalCount = useMemo(() => {
+    return (suggestions.organizations?.length || 0) +
+           (suggestions.authorities?.length || 0) +
+           (suggestions.categories?.length || 0);
   }, [suggestions]);
 
-  const handleSearch = (suggestion) => {
-    const trimmedSuggestion = suggestion.trim();
-    navigate(`/search?query=${encodeURI(trimmedSuggestion)}`);
-    setSearchQuery("");
-  };
+  // Handlers
+  const handleMenuClick = useCallback((menu) => {
+    setActiveMenu(prev => prev === menu ? null : menu);
+  }, []);
 
-  const inputChangeHandler = (val) => {
+  const closeAllMenus = useCallback(() => {
+    setIsOpen(false);
+    setActiveMenu(null);
+    setMobileStateDropdownVisible(false);
+    setMobileCategoryDropdownVisible(false);
+  }, []);
+
+  const handleSearch = useCallback((query) => {
+    const trimmedQuery = query.trim();
+    if (trimmedQuery) {
+      navigate(`/search?query=${encodeURI(trimmedQuery)}`);
+      setSearchQuery("");
+      setShowDropdown(false);
+      closeAllMenus();
+    }
+  }, [navigate, closeAllMenus]);
+
+  const selectSuggestion = useCallback((suggestion) => {
+    handleSearch(suggestion);
+  }, [handleSearch]);
+
+  const handleStateClick = useCallback((stateName) => {
+    closeAllMenus();
+    navigate(`/state/government-jobs-in-${stateName}-for-12th-pass`);
+  }, [navigate, closeAllMenus]);
+
+  const handleCategoryClick = useCallback((category) => {
+    closeAllMenus();
+    navigate(`/government-organisations-under-category?name=${encodeURI(category.Nameid)}`);
+  }, [navigate, closeAllMenus]);
+
+  // Debounced search suggestions
+  const fetchSuggestions = useMemo(
+    () => debounce(async (query) => {
+      if (!query) {
+        setSuggestions([]);
+        setShowDropdown(false);
+        return;
+      }
+      try {
+        const response = await axios.get(`${apiBaseUrl}/api/search/`, { 
+          params: { q: query.trim() } 
+        });
+        setSuggestions(response.data.suggestions);
+        setShowDropdown(true);
+      } catch (error) {
+        console.error('Error fetching suggestions:', error);
+        if (error.response?.status >= 500 && error.response?.status < 600) {
+          const url = await CheckServer();
+          setApiBaseUrl(url);
+          setServerError(error.response.status);
+        }
+      }
+    }, 600),
+    [apiBaseUrl, setApiBaseUrl, setServerError]
+  );
+
+  const inputChangeHandler = useCallback((val) => {
     setSearchQuery(val);
     fetchSuggestions(val);
-  };
+  }, [fetchSuggestions]);
 
-  const selectSuggestion = (suggestion) => {
-    handleSearch(suggestion);
-    setSearchQuery(suggestion);
-    setShowDropdown(false);
-  };
-
-  const fetchSuggestions = debounce(async (query) => {
-    if (!query) {
-      setSuggestions([]);
-      setShowDropdown(false);
-      return;
-    }
-    try {
-      const response = await axios.get(`${apiBaseUrl}/api/search/`, { params: { q: query.trim() } });
-      setSuggestions(response.data.suggestions);
-      setShowDropdown(true);
-    } catch (error) {
-      console.error('Error fetching suggestions:', error);
-      if (error.response) {
-        if (error.response.status >= 500 && error.response.status < 600) {
-          console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-          const url = CheckServer();
-          setApiBaseUrl(url),
-          setServerError(error.response.status);
-          fetchSuggestions();
-        } else {
-          console.error('Error fetching state count:', error);
-        }
-      } else {
-        console.error('Error fetching state count:', error);
+  // Click outside handler
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (navRef.current && !navRef.current.contains(event.target)) {
+        closeAllMenus();
       }
     }
-  }, 600);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [closeAllMenus]);
 
-  const SuggestionList = ({ title, items, itemKey }) => {
-    if (!items || items.length === 0) return null;
-    return (
-      <div className="mb-2 ">
-        <div className="flex items-center justify-between text-sm font-semibold text-gray-600 px-4 py-2 bg-gradient-to-r from-purple-50 to-blue-50">
-          <span>{title}</span>
-          <span className="bg-white text-purple-600 px-2 py-0.5 rounded-full text-xs font-bold">
-            {items.length}
-          </span>
-        </div>
-        <div className="custom-scrollbar">
-          {items.map((item, index) => (
-            <div
-              key={index}
-              onClick={() => {
-                selectSuggestion(item[itemKey]);
-                setIsOpen(false);
-                setSearchQuery('');
-              }}
-              className="px-4 py-2.5 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 cursor-pointer text-gray-700 text-sm transition-all duration-300 whitespace-nowrap truncate"
-            >
-              {item[itemKey]}
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
-
-
-   useEffect(() => {
-
+  // Scroll handler for navbar visibility
+  useEffect(() => {
     let lastY = window.scrollY;
 
     const controlNavbar = () => {
-      //this function will call on each scroll
-
       const currentY = window.scrollY;
-      const diff = currentY-lastY;
+      const diff = currentY - lastY;
 
-      if (diff>40 && currentY>80) {
-        //going down then hide only show the second strip
+      if (diff > 40 && currentY > 80) {
         setShowTop(false);
         lastY = currentY;
-      } else if(diff<-40) {
-        //goes up then show the both
+      } else if (diff < -40) {
         setShowTop(true);
         lastY = currentY;
       }
-      
     };
 
     window.addEventListener("scroll", controlNavbar);
-
-    return () => {
-      window.removeEventListener("scroll", controlNavbar);
-    };
+    return () => window.removeEventListener("scroll", controlNavbar);
   }, []);
 
+  // Update scroll state based on route
+  useEffect(() => {
+    setIsScrolled(location.pathname !== '/government-jobs-after-12th');
+    closeAllMenus();
+  }, [location.pathname, closeAllMenus]);
+
   return (
-    // <nav
-      <nav ref={navRef} className={`w-full flex flex-col fixed top-0 left-0 z-50`}>
-      {/* --- Top Strip --- */}
+    <nav ref={navRef} className="w-full flex flex-col fixed top-0 left-0 z-50">
+      {/* Top Strip */}
       <div
-        className={`bg-[#2a0d31] flex items-center justify-between h-16 px-6 gap-2 md:px-36 transition-transform duration-500 fixed top-0 left-0 w-full md:w-full z-50
-          ${showTop  ? 'translate-0 md:translate-0' :  'translate-0 md:-translate-y-full'}
-        `}
+        className={`bg-[#1d0922] flex items-center justify-between h-16 px-6 gap-2 md:px-36 transition-transform duration-500 fixed top-0 left-0 w-full z-50
+          ${showTop ? 'translate-0 md:translate-0' : 'translate-0 md:-translate-y-full'}`}
       >
-        {/* Left side with Logo + Add button */}
-        <div className="flex items-center gap-4 ">
+        {/* Logo */}
+        <div className="flex items-center gap-4">
           <div className="text-pink-600 font-bold text-xl">
-            <a href="/"> <img src={logo4} alt="gyapak logo" height={32} width={120} /></a>
+            <a href="/">
+              <img src={logo4} alt="gyapak logo" height={32} width={120} />
+            </a>
           </div>
-          
         </div>
 
         {/* Right side */}
-        <div className="flex items-center gap-2  md:gap-6 text-sm ">
-          {/* Search */}
-         <a
-            href="/pdf"
-            className="flex items-center gap-2 px-2 md:px-3 py-2 h-8 md:h-10 bg-gray-50 rounded-xl hover:bg-purple-50 transition-all w-fit"
-          >
-            <FileText className="flex w-5 h-5 text-purple-600" />
-            <span className="font-medium text-gray-800 hover:text-purple-700 transition-colors">
-              PDF
-            </span>
-            <span className="hidden md:block text-xs font-semibold bg-purple-600 text-white px-2 py-[2px] rounded-full uppercase tracking-wide">
-              New
-            </span>
-          </a>
-
+        <div className="flex items-center gap-2 md:gap-6 text-sm">
+          {/* Daily Updates */}
           <a
             href="/daily-updates"
             className="hidden md:inline-flex font-medium text-gray-800 hover:text-purple-700 transition-colors"
           >
-          <div className="flex items-center gap-2 px-2 md:px-3 py-2 h-8 md:h-10  bg-gray-50 rounded-xl hover:bg-purple-50 transition-all w-fit">
-          <Newspaper className="flex w-5 h-5 text-purple-600" />
-            Daily Updates
-          <span className="hidden md:block text-xs font-semibold bg-purple-600 text-white px-2 py-[2px] rounded-full uppercase tracking-wide">
-            New
-          </span>
-        </div>
+            <div className="flex items-center gap-2 px-2 md:px-3 py-2 h-8 md:h-10 bg-gray-50 rounded-xl hover:bg-purple-50 transition-all w-fit">
+              <Newspaper className="flex w-5 h-5 text-purple-600" />
+              Daily Updates
+              <span className="hidden md:block text-xs font-semibold bg-purple-600 text-white px-2 py-[2px] rounded-full uppercase tracking-wide">
+                New
+              </span>
+            </div>
           </a>
 
-          <div className="hidden md:flex items-center  rounded-full px-2 py-2 w-full md:w-[420px] relative">
+          {/* Search - Desktop */}
+          <div className="hidden md:flex items-center rounded-full px-2 py-2 w-full md:w-[420px] relative">
             <input
               value={searchQuery}
               onChange={(e) => inputChangeHandler(e.target.value)}
               type="text"
-              placeholder="Government exam prepration . . ."
-              className="outline-none text-gray-600 text-sm w-full px-4 py-1.5 rounded-xl shadow-accertinity focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:border-gray-300 focus:bg-gray-100 border-transparent transition-all duration-200 "
-              // shadow-accertinity inline px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:border-gray-300 focus:bg-gray-100 border-transparent transition-all  duration-200 outline-none
+              placeholder="Government exam preparation . . ."
+              className="outline-none text-gray-600 text-sm w-full px-4 py-1.5 rounded-xl shadow-accertinity focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:border-gray-300 focus:bg-gray-100 border-transparent transition-all duration-200"
               onFocus={() => searchQuery && setShowDropdown(true)}
               onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
-                  if (searchQuery.trim()) {
-                    navigate(`/search?query=${encodeURI(searchQuery.trim())}`);
-                    setSearchQuery('');
-                    setShowDropdown(false);
-                  }
+                  handleSearch(searchQuery);
                 }
               }}
-              />
+            />
             <span className="ml-2 absolute right-4">
-              <Search size={18} className="text-slate-400 " />
+              <Search size={18} className="text-slate-400" />
             </span>
 
+            {/* Search Dropdown */}
             {showDropdown && (
               <div className="absolute left-0 top-full z-[9999] mt-2 w-full bg-white/95 backdrop-blur-sm border border-gray-200 rounded-xl shadow-xl max-h-72 overflow-auto custom-scrollbar">
                 {totalCount > 0 && (
@@ -408,15 +337,24 @@ const Navbar = () => {
                   </div>
                 )}
                 <div>
-                  {suggestions.authorities?.length > 0 && (
-                    <SuggestionList title="States" items={suggestions.authorities} itemKey="name" />
-                  )}
-                  {suggestions.organizations?.length > 0 && (
-                    <SuggestionList title="Organizations" items={suggestions.organizations} itemKey="abbreviation" />
-                  )}
-                  {suggestions.categories?.length > 0 && (
-                    <SuggestionList title="Categories" items={suggestions.categories} itemKey="category" />
-                  )}
+                  <SuggestionList 
+                    title="States" 
+                    items={suggestions.authorities} 
+                    itemKey="name"
+                    onSelect={selectSuggestion}
+                  />
+                  <SuggestionList 
+                    title="Organizations" 
+                    items={suggestions.organizations} 
+                    itemKey="abbreviation"
+                    onSelect={selectSuggestion}
+                  />
+                  <SuggestionList 
+                    title="Categories" 
+                    items={suggestions.categories} 
+                    itemKey="category"
+                    onSelect={selectSuggestion}
+                  />
                   {totalCount === 0 && (
                     <div className="px-4 py-3 text-sm text-gray-500">No suggestions found</div>
                   )}
@@ -425,159 +363,126 @@ const Navbar = () => {
             )}
           </div>
 
-          
-
-          
-
           {/* Mobile hamburger */}
           <button
             className="md:hidden p-1.5 -mr-4 rounded-md bg-white hover:bg-gray-50 active:bg-gray-100"
             aria-label="Open menu"
-            onClick={() => setIsOpen((v) => !v)}
+            onClick={() => setIsOpen(v => !v)}
           >
             {isOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </div>
 
-{/* --- Bottom Menu Strip (desktop only) --- */}
+      {/* Bottom Menu Strip (desktop only) */}
       <div
-        className={` hidden md:flex bg-white items-center h-12 px-6 md:px-36 transition-transform duration-500 top-0 left-0 z-45 w-full fixed
-          ${showTop ? 'translate-0 md:translate-y-16' : ' top-0  '}`}
+        className={`hidden md:flex bg-white items-center h-12 px-6 md:px-36 transition-transform duration-500 top-0 left-0 z-45 w-full fixed
+          ${showTop ? 'translate-0 md:translate-y-16' : 'top-0'}`}
       >
         {/* Menu left */}
         <div className="flex gap-6 font-medium text-gray-700 items-center">
-        
-
-          {/* <button className="hover:text-pink-600">Current Affairs</button> */}
-          <a  href="/current-affair" className={`hover:text-pink-600 transition-all duration-300`}>
-            Current Affairs
-            </a>
-            <a  href="/blog" className={`hover:text-pink-600 transition-all duration-300`}>
+          <a href="/blog" className="hover:text-pink-600 transition-all duration-300">
             Blogs
-            </a>
-            <button
-            className="hover:text-pink-600 flex items-center gap-1 "
+          </a>
+          <button
+            className="hover:text-pink-600 flex items-center gap-1"
             onClick={() => handleMenuClick("categories")}
           >
             Categories {activeMenu === "categories" ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
           </button>
-
           <button
             className="hover:text-pink-600 flex items-center gap-1"
             onClick={() => handleMenuClick("state")}
           >
             State {activeMenu === "state" ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
           </button>
-          {/* <button className="hover:text-pink-600">Educational News</button>
-          <button className="hover:text-pink-600">E-Books</button>
-          <button className="hover:text-pink-600">Colleges</button>
-          <button className="hover:text-pink-600">Libraries</button> */}
         </div>
 
         {/* Menu right */}
         <div className="ml-auto flex gap-6 font-medium text-gray-700">
-          {/* <button className="hover:text-pink-600">Mock Test</button> */}
-          <a href="" className='hover:text-pink-600'>About</a>
-          <a href="" className='hover:text-pink-600'>Contact</a>
+          <a href="" className="hover:text-pink-600">About</a>
+          <a href="" className="hover:text-pink-600">Contact</a>
         </div>
       </div>
 
-{/* --- Dropdowns for desktop menu --- */}
-{activeMenu === "categories" && (
-  <div className={`fixed left-1/2 top-[112px] -translate-x-1/2 w-[660px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5 z-50`}>
-    <div className="p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        Browse Categories
-      </h3>
-      <div className="grid grid-cols-3 gap-3">
-        {visibleCategories.map((category, index) => (
-          <div
-            key={index}
-            onClick={() => {
-              updateVisibleCategories(category);
-              setActiveMenu(null);
-              navigate(`/government-organisations-under-category?name=${encodeURI(category.Nameid)}`);
-            }}
-            className="flex items-center p-2.5 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 group cursor-pointer min-w-0"
-          >
-            <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-gradient-to-br from-purple-100 to-blue-100 text-lg flex-shrink-0 group-hover:from-purple-200 group-hover:to-blue-200">
-              <span>{category.icon}</span>
-            </div>
-            <div className="ml-3 min-w-0">
-              <span className="block text-sm font-medium text-gray-800 group-hover:text-purple-700 whitespace-nowrap truncate max-w-[180px]">
-                {category.name}
-              </span>
+      {/* Categories Dropdown - Desktop */}
+      {activeMenu === "categories" && (
+        <div
+          className="fixed left-1/2 -translate-x-1/2 w-[660px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5 z-50"
+          style={{ top: showTop ? "112px" : "48px" }}
+        >
+          <div className="p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              Browse Categories
+            </h3>
+            <div className="grid grid-cols-3 gap-3">
+              {visibleCategories.map((category) => (
+                <div
+                  key={category.Nameid}
+                  onClick={() => handleCategoryClick(category)}
+                  className="flex items-center p-2.5 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 group cursor-pointer min-w-0"
+                >
+                  <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-gradient-to-br from-purple-100 to-blue-100 text-lg flex-shrink-0 group-hover:from-purple-200 group-hover:to-blue-200">
+                    <span>{category.icon}</span>
+                  </div>
+                  <div className="ml-3 min-w-0">
+                    <span className="block text-sm font-medium text-gray-800 group-hover:text-purple-700 whitespace-nowrap truncate max-w-[180px]">
+                      {category.name}
+                    </span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-        ))}
-      </div>
-    </div>
-  </div>
-)}
+        </div>
+      )}
 
-{activeMenu === "state" && (
-  <div className={`fixed left-1/2 top-[112px] -translate-x-1/2 w-[820px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5 z-50`}>
-    <div className="p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
-        Browse States
-      </h3>
-      <div className="grid grid-cols-4 gap-3">
-        {(visibleStates || []).map((state) => (
-          <StateIcon
-            key={state._id}
-            state={state}
-            updateVisibleStates={updateVisibleStates}
-            setStateDropdownVisible={() => setActiveMenu(null)}
-          />
-        ))}
-      </div>
-      <div className="mt-4 flex items-center justify-center gap-3 p-4 bg-purple-700 border border-amber-500/50 rounded-lg hover:border-amber-500 transition-colors duration-300 backdrop-blur-sm">
-        <AlertTriangle className="h-5 w-5 text-purple-50 animate-pulse" />
-        <p className="text-gray-200 text-sm leading-relaxed">
-          Remaining states would be available soon!
-        </p>
-      </div>
-    </div>
-  </div>
-)}
+      {/* States Dropdown - Desktop */}
+      {activeMenu === "state" && (
+        <div
+          className="fixed left-1/2 -translate-x-1/2 w-[820px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5 z-50"
+          style={{ top: showTop ? "112px" : "48px" }}
+        >
+          <div className="p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
+              Browse States
+            </h3>
+            <div className="grid grid-cols-4 gap-3">
+              {visibleStates.map((state) => (
+                <StateIcon
+                  key={state._id}
+                  state={state}
+                  onStateClick={handleStateClick}
+                />
+              ))}
+            </div>
+            <div className="mt-4 flex items-center justify-center gap-3 p-4 bg-purple-700 border border-amber-500/50 rounded-lg hover:border-amber-500 transition-colors duration-300 backdrop-blur-sm">
+              <AlertTriangle className="h-5 w-5 text-purple-50 animate-pulse" />
+              <p className="text-gray-200 text-sm leading-relaxed">
+                Remaining states would be available soon!
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
-      {/* Mobile menu */}
+      {/* Mobile Menu */}
       <div className={`lg:hidden transition-all duration-500 mt-[60px] ease-in-out ${isOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'} overflow-hidden bg-white/95 backdrop-blur-sm`}>
-        {isOpen && (
-          <div className="flex justify-center py-4">
-            {/* <img src={logo3} alt="Gyapak Logo" className="h-18 w-auto" /> */}
-          </div>
-        )}
         <div className="px-6 pt-4 pb-6 space-y-2 custom-scrollbar max-h-[80vh] overflow-y-auto">
           {/* Search Bar - Mobile */}
           <div className="mb-4 relative">
             <form onSubmit={(e) => {
               e.preventDefault();
-              if (searchQuery.trim()) {
-                navigate(`/search?query=${encodeURI(searchQuery.trim())}`);
-                setSearchQuery('');
-                setShowDropdown(false);
-                setIsOpen(false);
-              }
+              handleSearch(searchQuery);
             }} className="relative">
               <input
                 type="text"
-                // className="w-full px-4 py-2.5 text-sm rounded-lg bg-gray-100 text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
-                              className="outline-none text-gray-600 text-sm w-full px-4 py-1.5 rounded-xl shadow-accertinity focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:border-gray-300 focus:bg-gray-100 border-transparent transition-all  duration-200 "
-
+                className="outline-none text-gray-600 text-sm w-full px-4 py-1.5 rounded-xl shadow-accertinity focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:border-gray-300 focus:bg-gray-100 border-transparent transition-all duration-200"
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => inputChangeHandler(e.target.value)}
                 onFocus={() => searchQuery && setShowDropdown(true)}
                 onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    navigate(`/search?query=${encodeURI(searchQuery.trim())}`);
-                    setSearchQuery('');
-                    setShowDropdown(false);
-                  }
-                }}
               />
               <button
                 type="submit"
@@ -587,6 +492,7 @@ const Navbar = () => {
               </button>
             </form>
 
+            {/* Mobile Search Dropdown */}
             {showDropdown && (
               <div className="custom-scrollbar max-h-72 overflow-auto absolute top-full mt-2 w-full bg-white/95 backdrop-blur-sm border border-gray-200 rounded-xl shadow-xl z-50">
                 {totalCount > 0 && (
@@ -595,15 +501,24 @@ const Navbar = () => {
                   </div>
                 )}
                 <div>
-                  {suggestions.authorities?.length > 0 && (
-                    <SuggestionList title="States" items={suggestions.authorities} itemKey="name" />
-                  )}
-                  {suggestions.organizations?.length > 0 && (
-                    <SuggestionList title="Organizations" items={suggestions.organizations} itemKey="abbreviation" />
-                  )}
-                  {suggestions.categories?.length > 0 && (
-                    <SuggestionList title="Categories" items={suggestions.categories} itemKey="category" />
-                  )}
+                  <SuggestionList 
+                    title="States" 
+                    items={suggestions.authorities} 
+                    itemKey="name"
+                    onSelect={selectSuggestion}
+                  />
+                  <SuggestionList 
+                    title="Organizations" 
+                    items={suggestions.organizations} 
+                    itemKey="abbreviation"
+                    onSelect={selectSuggestion}
+                  />
+                  <SuggestionList 
+                    title="Categories" 
+                    items={suggestions.categories} 
+                    itemKey="category"
+                    onSelect={selectSuggestion}
+                  />
                   {totalCount === 0 && (
                     <div className="px-4 py-3 text-sm text-gray-500">No suggestions found</div>
                   )}
@@ -612,21 +527,9 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Mobile Items
-          {!isHomePage && (
-            <button
-              onClick={() => {
-                setIsOpen(false);
-                navigate('/government-jobs-after-12th');
-              }}
-              className="block w-full text-center px-4 py-3 rounded-lg text-white bg-purple-800 transition-all duration-300"
-            >
-              Home
-            </button>
-          )} */}
-
+          {/* Mobile Navigation Links */}
           <a
-            onClick={() => setIsOpen(false)}
+            onClick={closeAllMenus}
             href="/blog"
             className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
           >
@@ -634,19 +537,20 @@ const Navbar = () => {
           </a>
 
           <a
-            onClick={() => setIsOpen(false)}
+            onClick={closeAllMenus}
             href="/current-affair"
             className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
           >
             Current Affairs
           </a>
 
-          <button
-            onClick={goDailyUpdates}
-            className="block w-full text-left px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+          <a
+            onClick={closeAllMenus}
+            href="/daily-updates"
+            className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
           >
             Daily Updates
-          </button>
+          </a>
 
           {/* Mobile Categories */}
           <div className="relative">
@@ -661,21 +565,16 @@ const Navbar = () => {
             {mobileCategoryDropdownVisible && (
               <div className="mt-2 rounded-xl ring-1 ring-black/5 p-4 max-h-64 overflow-y-auto custom-scrollbar">
                 <div className="grid grid-cols-1 gap-3">
-                  {visibleCategories.map((category, index) => (
+                  {visibleCategories.map((category) => (
                     <div
-                      key={index}
-                      onClick={() => {
-                        updateVisibleCategories(category);
-                        setMobileCategoryDropdownVisible(false);
-                        setIsOpen(false);
-                        navigate(`/government-organisations-under-category?name=${encodeURI(category.Nameid)}`);
-                      }}
+                      key={category.Nameid}
+                      onClick={() => handleCategoryClick(category)}
                       className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-br from-purple-50 to-blue-50 hover:from-purple-100 hover:to-blue-100 cursor-pointer transition-all duration-300"
                     >
                       <div className="flex items-center justify-center h-10 w-10 rounded-full bg-gradient-to-br from-purple-200 to-blue-200 text-xl font-semibold text-purple-800 shadow-sm">
                         {category.icon}
                       </div>
-                      <span className="text-sm font-medium text-gray-800 group-hover:text-purple-700">
+                      <span className="text-sm font-medium text-gray-800">
                         {category.name}
                       </span>
                     </div>
@@ -698,15 +597,10 @@ const Navbar = () => {
             {mobileStateDropdownVisible && (
               <div className="mt-2 bg-white/80 rounded-lg p-2 custom-scrollbar max-h-64 overflow-y-auto">
                 <div className="grid grid-cols-1 gap-2">
-                  {(visibleStates || []).map((state) => (
+                  {visibleStates.map((state) => (
                     <div
                       key={state._id}
-                      onClick={() => {
-                        updateVisibleStates(state.name);
-                        setMobileStateDropdownVisible(false);
-                        setIsOpen(false);
-                        navigate(`/state/government-jobs-in-${state.name}-for-12th-pass`);
-                      }}
+                      onClick={() => handleStateClick(state.name)}
                       className="flex items-center p-3 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 group cursor-pointer"
                     >
                       <div className="h-10 w-10 rounded-xl flex items-center justify-center">
@@ -735,7 +629,7 @@ const Navbar = () => {
             <>
               <button
                 onClick={() => {
-                  setIsOpen(false);
+                  closeAllMenus();
                   const aboutSection = document.getElementById('about');
                   if (aboutSection) aboutSection.scrollIntoView({ behavior: 'smooth' });
                 }}
@@ -746,7 +640,7 @@ const Navbar = () => {
 
               <button
                 onClick={() => {
-                  setIsOpen(false);
+                  closeAllMenus();
                   const contactSection = document.getElementById('contact');
                   if (contactSection) contactSection.scrollIntoView({ behavior: 'smooth' });
                 }}

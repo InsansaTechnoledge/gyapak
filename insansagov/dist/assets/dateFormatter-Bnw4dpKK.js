@@ -1,0 +1,1 @@
+const n=t=>new Date(t).toLocaleDateString("en-GB",{day:"2-digit",month:"2-digit",year:"numeric"}).replace(",","").replaceAll("/","-"),o=t=>{const[e,a,r]=t.split("-");return`${r}-${a}-${e}`};export{o as d,n as f};

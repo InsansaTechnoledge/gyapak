@@ -1,0 +1,21 @@
+import{e as r,j as e}from"./index-D_avnfe6.js";import{C as i}from"./calendar-CXeZfW48.js";import"./pdf.worker-D6-XlEtG.js";/**
+ * @license lucide-react v0.469.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const n=r("Globe",[["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}],["path",{d:"M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20",key:"13o1zl"}],["path",{d:"M2 12h20",key:"9i4pu4"}]]);/**
+ * @license lucide-react v0.469.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const s=r("Shield",[["path",{d:"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z",key:"oel41y"}]]);/**
+ * @license lucide-react v0.469.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const c=r("Smartphone",[["rect",{width:"14",height:"20",x:"5",y:"2",rx:"2",ry:"2",key:"1yt0o3"}],["path",{d:"M12 18h.01",key:"mhygvu"}]]);/**
+ * @license lucide-react v0.469.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const d=r("Star",[["path",{d:"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z",key:"r04s7s"}]]),x=()=>{const a=[{icon:i,title:"Accurate Dates",description:"Get reliable and updated information on all government exam schedules.",color:"bg-blue-100",iconColor:"text-blue-600"},{icon:s,title:"Secure Information",description:"Access verified and trustworthy data with complete peace of mind.",color:"bg-purple-100",iconColor:"text-purple-600"},{icon:c,title:"Mobile Friendly",description:"Check exam dates anytime, anywhere with our responsive design.",color:"bg-green-100",iconColor:"text-green-600"},{icon:n,title:"National Coverage",description:"Stay updated with exam dates from all over the country.",color:"bg-orange-100",iconColor:"text-orange-600"},{icon:d,title:"User-Friendly Interface",description:"Navigate effortlessly through our intuitive and simple platform.",color:"bg-teal-100",iconColor:"text-teal-600"}];return e.jsx("div",{className:"min-h-screen ",children:e.jsxs("div",{className:"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12",children:[e.jsx("div",{className:"text-center mb-20",children:e.jsx("h1",{className:"text-5xl font-bold text-gray-900 mb-16 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600",children:"Features Designed for Your Success"})}),e.jsx("div",{className:"grid gap-8 md:grid-cols-2 lg:grid-cols-3",children:a.map((t,o)=>{const l=t.icon;return e.jsxs("div",{className:"group relative bg-white rounded-2xl p-8 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1",children:[e.jsx("div",{className:`${t.color} w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`,children:e.jsx(l,{className:`w-8 h-8 ${t.iconColor}`})}),e.jsx("h3",{className:"text-2xl font-semibold text-gray-900 mb-4",children:t.title}),e.jsx("p",{className:"text-gray-600 leading-relaxed",children:t.description}),e.jsx("div",{className:"absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-transparent to-transparent group-hover:via-blue-500 transition-all duration-300 rounded-b-2xl"})]},o)})})]})})};export{x as default};

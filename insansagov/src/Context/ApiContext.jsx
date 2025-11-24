@@ -17,11 +17,7 @@ export const SERVER_URLS = [
     "https://backend.gyapak.in",
     // "http://3.111.196.146",
     // "https://admin.harshvaidya.tech"
-<<<<<<< HEAD
-//    "http://localhost:8383"
-=======
-    // "http://localhost:8383"
->>>>>>> c3d6426 (changes express url for prod testing)
+   "http://localhost:8383"
   ];
 
   export const CheckServer = async () => {
