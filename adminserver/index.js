@@ -35,7 +35,7 @@ const initialize = async () => {
     const io = new SocketIOServer(server, {
       cors: {
         origin: [
-          'https://harshvaidya.tech',
+          'https://d3bxc62b4f5pj5.cloudfront.net',
           'http://localhost:5174',
           'http://localhost:5173',
           'https://gyapak.in',

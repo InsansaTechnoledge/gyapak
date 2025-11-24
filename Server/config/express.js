@@ -38,7 +38,7 @@ const backendInstances = [
   // "http://localhost:5000",
   // "http://localhost:8383",
   // 'https://gyapak-test-server.onrender.com'
-  // "https://admin.harshvaidya.tech"
+  // "https://13.201.147.131"
     // "http://localhost:3000"
 ];
 
