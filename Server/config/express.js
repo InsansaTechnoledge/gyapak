@@ -8,7 +8,7 @@ import cookieParser from 'cookie-parser';
 import { CLIENT_BASE_URL_LOCAL,CLIENT_BASE_URL_LIVE } from './env.js';
 import bodyParser from 'body-parser';
 import { generateSitemap } from '../controller/mongoController/sitemap.controller.js';
-
+import sitemapRoutes from '../routes/sitemap.routes.js'
 
 const app = express();
 
@@ -27,6 +27,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
   "http://localhost:5175",
+  "http://localhost:5176",
   "https://gyapak.in",
   "https://www.gyapak.in",
   // "https://gyapak-test-series.vercel.app",
@@ -52,7 +53,8 @@ const loadBalancer = (req, res, next) => {
   next();
 };
 
-app.get('/sitemap.xml', generateSitemap);
+// app.get('/sitemap.xml', generateSitemap);
+app.get("/sitemap.xml", sitemapRoutes);
 
 
 app.use((req, res, next) => {
@@ -109,6 +111,7 @@ app.use(passport.session()); // If using sessions
 
 // Your routes
 routes(app);
+
 
 // Apply load balancer middleware
 app.use(loadBalancer);
