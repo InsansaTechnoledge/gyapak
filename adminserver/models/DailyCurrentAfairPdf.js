@@ -5,7 +5,7 @@ const DailyPdfSchema = new Schema(
     date: {
       type: Date,
       required: [true, 'Date is required'],
-      unique: [true, 'Duplicate entry of data not allowed'],
+      // unique: [true, 'Duplicate entry of data not allowed'],
     },
 
     title: {

@@ -13,10 +13,10 @@ export const addNewPdf = async (req, res) => {
     }
 
     // Optional: prevent duplicate entry
-    const existing = await DailyCurrentAffairPdf.findOne({ date });
-    if (existing) {
-      return res.status(409).json({ message: "PDF for this date already exists." });
-    }
+    // const existing = await DailyCurrentAffairPdf.findOne({ date });
+    // if (existing) {
+    //   return res.status(409).json({ message: "PDF for this date already exists." });
+    // }
 
     const newPdf = new DailyCurrentAffairPdf({
       date,
