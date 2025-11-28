@@ -93,7 +93,7 @@ const StatesLanding = () => {
   }
 
   return (
-    <div className="max-w-screen-xl mx-auto px-4 py-8">
+    <div className=" mx-auto px-4 py-8">
       <div className="bg-gradient-to-r from-purple-50 to-white rounded-2xl p-6 mb-10 shadow-sm">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center">
           <div>

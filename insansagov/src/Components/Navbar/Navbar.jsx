@@ -9,7 +9,6 @@ import logo3 from '/logo3.png';
 import logo4 from '/logo4.png';
 import { MdKeyboardArrowUp, MdOutlineTranslate, MdKeyboardArrowDown } from "react-icons/md";
 
-
 const stateImages = {
   "Gujarat": "/states/Gujarat.png",
   "Haryana": "/states/Haryana.png",
@@ -90,23 +89,26 @@ const Navbar = () => {
   const [categoryDropdownVisible, setCategoryDropdownVisible] = useState(false);
   const [mobileStateDropdownVisible, setMobileStateDropdownVisible] = useState(false);
   const [mobileCategoryDropdownVisible, setMobileCategoryDropdownVisible] = useState(false);
+  const [isSearched, setIsSearched] = useState(false);
 
-  //new one
+
+
+  // new one
   const [activeMenu, setActiveMenu] = useState(null);
 
   const [showTop, setShowTop] = useState(true);
   const [mobileSub, setMobileSub] = useState(null); // 'govJob' | 'exam' | null
 
-   // toggle dropdown
+  // toggle dropdown
   const handleMenuClick = (menu) => {
     setActiveMenu(activeMenu === menu ? null : menu);
-    
   };
 
-
   const navRef = useRef(null);
+  const desktopSearchInputRef = useRef(null);
 
   const isHomePage = location.pathname === '/government-jobs-after-12th';
+  const dailyaffairsPage = location.pathname === '/daily-updates'
 
   const goDailyUpdates = () => {
     setIsOpen(false);
@@ -144,7 +146,8 @@ const Navbar = () => {
         setMobileStateDropdownVisible(false);
         setMobileCategoryDropdownVisible(false);
         setActiveMenu(null);
-
+        setIsSearched(false);       // close desktop search on outside click
+        setShowDropdown(false);     // hide suggestions
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -300,27 +303,23 @@ const Navbar = () => {
     );
   };
 
-
-   useEffect(() => {
-
+  useEffect(() => {
     let lastY = window.scrollY;
 
     const controlNavbar = () => {
       //this function will call on each scroll
-
       const currentY = window.scrollY;
-      const diff = currentY-lastY;
+      const diff = currentY - lastY;
 
-      if (diff>40 && currentY>80) {
+      if (diff > 40 && currentY > 80) {
         //going down then hide only show the second strip
         setShowTop(false);
         lastY = currentY;
-      } else if(diff<-40) {
+      } else if (diff < -40) {
         //goes up then show the both
         setShowTop(true);
         lastY = currentY;
       }
-      
     };
 
     window.addEventListener("scroll", controlNavbar);
@@ -331,76 +330,103 @@ const Navbar = () => {
   }, []);
 
   return (
-    // <nav
-      <nav ref={navRef} className={`w-full flex flex-col fixed top-0 left-0 z-50`}>
+    <nav ref={navRef} className={`w-full flex flex-col fixed top-0 left-0 z-50`}>
       {/* --- Top Strip --- */}
       <div
-        className={`bg-[#2a0d31] flex items-center justify-between h-16 px-6 gap-2 md:px-36 transition-transform duration-500 fixed top-0 left-0 w-full md:w-full z-50
-          ${showTop  ? 'translate-0 md:translate-0' :  'translate-0 md:-translate-y-full'}
-        `}
+        className={`bg-gradient-to-r from-violet-950 to-purple-900  flex items-center justify-between h-20  px-6 gap-2 md:px-36 transition-transform duration-500 fixed top-0 left-0 w-full md:w-full z-50
+            ${showTop ? 'translate-0 md:translate-0' : 'translate-0 md:-translate-y-full'}
+          `}
       >
         {/* Left side with Logo + Add button */}
-        <div className="flex items-center gap-4 ">
+        <div className="flex items-center gap-4">
           <div className="text-pink-600 font-bold text-xl">
             <a href="/"> <img src={logo4} alt="gyapak logo" height={32} width={120} /></a>
           </div>
-          
         </div>
+
+        {
+          !dailyaffairsPage && (
+            <a
+              href="/daily-updates"
+              className="hidden md:inline-flex font-medium text-gray-800 hover:text-purple-700 transition-colors"
+            >
+              <div className="flex items-center gap-1 border-black border-2 text-gray-500 px-2 md:px-3 py-2 h-8 md:h-10  bg-gray-100 rounded-full transition-all w-fit">
+                <span className="hidden md:block text-xs font-semibold bg-green-600 animate-pulse text-white px-2 py-[2px] rounded-full uppercase tracking-wide">
+                  New
+                </span>
+                Today's Current Affairs in Hindi
+              </div>
+            </a>
+          )
+        }
 
         {/* Right side */}
         <div className="flex items-center gap-2  md:gap-6 text-sm ">
-          {/* Search */}
-         <a
-            href="/pdf"
-            className="flex items-center gap-2 px-2 md:px-3 py-2 h-8 md:h-10 bg-gray-50 rounded-xl hover:bg-purple-50 transition-all w-fit"
+          {/* Desktop search with smooth transition */}
+          <div
+            className={`
+              hidden md:flex items-center relative
+              transition-all duration-300 ease-out
+              ${isSearched ? 'w-[420px] bg-gray-50 px-3 py-1.5 rounded-xl shadow-accertinity' : 'w-9 justify-center'}
+            `}
           >
-            <FileText className="flex w-5 h-5 text-purple-600" />
-            <span className="font-medium text-gray-800 hover:text-purple-700 transition-colors">
-              PDF
-            </span>
-            <span className="hidden md:block text-xs font-semibold bg-purple-600 text-white px-2 py-[2px] rounded-full uppercase tracking-wide">
-              New
-            </span>
-          </a>
-
-          <a
-            href="/daily-updates"
-            className="hidden md:inline-flex font-medium text-gray-800 hover:text-purple-700 transition-colors"
-          >
-          <div className="flex items-center gap-2 px-2 md:px-3 py-2 h-8 md:h-10  bg-gray-50 rounded-xl hover:bg-purple-50 transition-all w-fit">
-          <Newspaper className="flex w-5 h-5 text-purple-600" />
-            Daily Updates
-          <span className="hidden md:block text-xs font-semibold bg-purple-600 text-white px-2 py-[2px] rounded-full uppercase tracking-wide">
-            New
-          </span>
-        </div>
-          </a>
-
-          <div className="hidden md:flex items-center  rounded-full px-2 py-2 w-full md:w-[420px] relative">
-            <input
-              value={searchQuery}
-              onChange={(e) => inputChangeHandler(e.target.value)}
-              type="text"
-              placeholder="Government exam prepration . . ."
-              className="outline-none text-gray-600 text-sm w-full px-4 py-1.5 rounded-xl shadow-accertinity focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:border-gray-300 focus:bg-gray-100 border-transparent transition-all duration-200 "
-              // shadow-accertinity inline px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:border-gray-300 focus:bg-gray-100 border-transparent transition-all  duration-200 outline-none
-              onFocus={() => searchQuery && setShowDropdown(true)}
-              onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  if (searchQuery.trim()) {
-                    navigate(`/search?query=${encodeURI(searchQuery.trim())}`);
-                    setSearchQuery('');
+            {isSearched && (
+              <input
+                ref={desktopSearchInputRef}
+                value={searchQuery}
+                onChange={(e) => inputChangeHandler(e.target.value)}
+                type="text"
+                placeholder="search states/categories . . ."
+                className="flex-1 bg-transparent outline-none text-gray-600 text-sm pr-8"
+                onFocus={() => searchQuery && setShowDropdown(true)}
+                onBlur={() => {
+                  setTimeout(() => {
+                    setShowDropdown(false);
+                    if (!searchQuery.trim()) {
+                      setIsSearched(false);
+                    }
+                  }, 150);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    if (searchQuery.trim()) {
+                      navigate(`/search?query=${encodeURI(searchQuery.trim())}`);
+                      setSearchQuery('');
+                      setShowDropdown(false);
+                      setIsSearched(false);
+                    }
+                  } else if (e.key === 'Escape') {
+                    setIsSearched(false);
                     setShowDropdown(false);
                   }
+                }}
+              />
+            )}
+
+            <button
+              type="button"
+              onClick={() => {
+                if (!isSearched) {
+                  setIsSearched(true);
+                  setTimeout(() => {
+                    desktopSearchInputRef.current?.focus();
+                  }, 0);
+                } else if (!searchQuery.trim()) {
+                  setIsSearched(false);
+                  setShowDropdown(false);
+                } else {
+                  navigate(`/search?query=${encodeURI(searchQuery.trim())}`);
+                  setSearchQuery('');
+                  setShowDropdown(false);
+                  setIsSearched(false);
                 }
               }}
-              />
-            <span className="ml-2 absolute right-4">
-              <Search size={18} className="text-slate-400 " />
-            </span>
+              className={`flex items-center justify-center ${isSearched ? 'ml-2' : ''}`}
+            >
+              <Search size={24} className={`${isSearched ? 'text-slate-500' : 'text-slate-100'}`} />
+            </button>
 
-            {showDropdown && (
+            {isSearched && showDropdown && (
               <div className="absolute left-0 top-full z-[9999] mt-2 w-full bg-white/95 backdrop-blur-sm border border-gray-200 rounded-xl shadow-xl max-h-72 overflow-auto custom-scrollbar">
                 {totalCount > 0 && (
                   <div className="px-4 py-2 bg-gradient-to-r from-purple-50 to-blue-50 border-b border-gray-200 text-xs font-medium text-purple-600">
@@ -425,38 +451,30 @@ const Navbar = () => {
             )}
           </div>
 
-          
-
-          
-
           {/* Mobile hamburger */}
-          <button
-            className="md:hidden p-1.5 -mr-4 rounded-md bg-white hover:bg-gray-50 active:bg-gray-100"
-            aria-label="Open menu"
-            onClick={() => setIsOpen((v) => !v)}
-          >
-            {isOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
+          <div className="flex flex-col items-center gap-3">
+            <button
+              className="md:hidden p-3 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 hover:bg-white/20 hover:border-white/40 active:scale-95 transition-all duration-300 shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:shadow-[0_0_30px_rgba(168,85,247,0.6)]"
+              aria-label="Open menu"
+              onClick={() => setIsOpen((v) => !v)}
+            >
+              {isOpen ? <X size={20} className="text-white" /> : <Menu size={20} className="text-white" />}
+            </button>
+          
+          </div>
         </div>
       </div>
 
-{/* --- Bottom Menu Strip (desktop only) --- */}
       <div
-        className={` hidden md:flex bg-white items-center h-12 px-6 md:px-36 transition-transform duration-500 top-0 left-0 z-45 w-full fixed
-          ${showTop ? 'translate-0 md:translate-y-16' : ' top-0  '}`}
+        className={` hidden md:flex bg-white items-center h-20 px-6 md:px-36 transition-transform duration-500 top-0 left-0 z-45 w-full fixed
+            ${showTop ? 'translate-0 md:translate-y-16' : ' top-0  '}`}
       >
         {/* Menu left */}
         <div className="flex gap-6 font-medium text-gray-700 items-center">
-        
-
-          {/* <button className="hover:text-pink-600">Current Affairs</button> */}
-          <a  href="/current-affair" className={`hover:text-pink-600 transition-all duration-300`}>
-            Current Affairs
-            </a>
-            <a  href="/blog" className={`hover:text-pink-600 transition-all duration-300`}>
+          <a href="/blog" className={`hover:text-pink-600 transition-all duration-300`}>
             Blogs
-            </a>
-            <button
+          </a>
+          <button
             className="hover:text-pink-600 flex items-center gap-1 "
             onClick={() => handleMenuClick("categories")}
           >
@@ -469,78 +487,72 @@ const Navbar = () => {
           >
             State {activeMenu === "state" ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
           </button>
-          {/* <button className="hover:text-pink-600">Educational News</button>
-          <button className="hover:text-pink-600">E-Books</button>
-          <button className="hover:text-pink-600">Colleges</button>
-          <button className="hover:text-pink-600">Libraries</button> */}
         </div>
 
         {/* Menu right */}
         <div className="ml-auto flex gap-6 font-medium text-gray-700">
-          {/* <button className="hover:text-pink-600">Mock Test</button> */}
           <a href="" className='hover:text-pink-600'>About</a>
           <a href="" className='hover:text-pink-600'>Contact</a>
         </div>
       </div>
 
-{/* --- Dropdowns for desktop menu --- */}
-{activeMenu === "categories" && (
-  <div className={`fixed left-1/2 top-[112px] -translate-x-1/2 w-[660px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5 z-50`}>
-    <div className="p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        Browse Categories
-      </h3>
-      <div className="grid grid-cols-3 gap-3">
-        {visibleCategories.map((category, index) => (
-          <div
-            key={index}
-            onClick={() => {
-              updateVisibleCategories(category);
-              setActiveMenu(null);
-              navigate(`/government-organisations-under-category?name=${encodeURI(category.Nameid)}`);
-            }}
-            className="flex items-center p-2.5 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 group cursor-pointer min-w-0"
-          >
-            <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-gradient-to-br from-purple-100 to-blue-100 text-lg flex-shrink-0 group-hover:from-purple-200 group-hover:to-blue-200">
-              <span>{category.icon}</span>
-            </div>
-            <div className="ml-3 min-w-0">
-              <span className="block text-sm font-medium text-gray-800 group-hover:text-purple-700 whitespace-nowrap truncate max-w-[180px]">
-                {category.name}
-              </span>
+      {activeMenu === "categories" && (
+        <div className={`fixed left-1/2 top-[112px] -translate-x-1/2 w-[660px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5 z-50`}>
+          <div className="p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              Browse Categories
+            </h3>
+            <div className="grid grid-cols-3 gap-3">
+              {visibleCategories.map((category, index) => (
+                <div
+                  key={index}
+                  onClick={() => {
+                    updateVisibleCategories(category);
+                    setActiveMenu(null);
+                    navigate(`/government-organisations-under-category?name=${encodeURI(category.Nameid)}`);
+                  }}
+                  className="flex items-center p-2.5 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 group cursor-pointer min-w-0"
+                >
+                  <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-gradient-to-br from-purple-100 to-blue-100 text-lg flex-shrink-0 group-hover:from-purple-200 group-hover:to-blue-200">
+                    <span>{category.icon}</span>
+                  </div>
+                  <div className="ml-3 min-w-0">
+                    <span className="block text-sm font-medium text-gray-800 group-hover:text-purple-700 whitespace-nowrap truncate max-w-[180px]">
+                      {category.name}
+                    </span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-        ))}
-      </div>
-    </div>
-  </div>
-)}
+        </div>
+      )}
 
-{activeMenu === "state" && (
-  <div className={`fixed left-1/2 top-[112px] -translate-x-1/2 w-[820px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5 z-50`}>
-    <div className="p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
-        Browse States
-      </h3>
-      <div className="grid grid-cols-4 gap-3">
-        {(visibleStates || []).map((state) => (
-          <StateIcon
-            key={state._id}
-            state={state}
-            updateVisibleStates={updateVisibleStates}
-            setStateDropdownVisible={() => setActiveMenu(null)}
-          />
-        ))}
-      </div>
-      <div className="mt-4 flex items-center justify-center gap-3 p-4 bg-purple-700 border border-amber-500/50 rounded-lg hover:border-amber-500 transition-colors duration-300 backdrop-blur-sm">
-        <AlertTriangle className="h-5 w-5 text-purple-50 animate-pulse" />
-        <p className="text-gray-200 text-sm leading-relaxed">
-          Remaining states would be available soon!
-        </p>
-      </div>
-    </div>
-  </div>
-)}
+      {activeMenu === "state" && (
+        <div className={`fixed left-1/2 top-[112px] -translate-x-1/2 w-[820px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5 z-50`}>
+          <div className="p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
+              Browse States
+            </h3>
+            <div className="grid grid-cols-4 gap-3">
+              {(visibleStates || []).map((state) => (
+                <StateIcon
+                  key={state._id}
+                  state={state}
+                  updateVisibleStates={updateVisibleStates}
+                  setStateDropdownVisible={() => setActiveMenu(null)}
+                />
+              ))}
+            </div>
+            <div className="mt-4 flex items-center justify-center gap-3 p-4 bg-purple-700 border border-amber-500/50 rounded-lg hover:border-amber-500 transition-colors duration-300 backdrop-blur-sm">
+              <AlertTriangle className="h-5 w-5 text-purple-50 animate-pulse" />
+              <p className="text-gray-200 text-sm leading-relaxed">
+                Remaining states would be available soon!
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Mobile menu */}
       <div className={`lg:hidden transition-all duration-500 mt-[60px] ease-in-out ${isOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'} overflow-hidden bg-white/95 backdrop-blur-sm`}>
@@ -563,9 +575,7 @@ const Navbar = () => {
             }} className="relative">
               <input
                 type="text"
-                // className="w-full px-4 py-2.5 text-sm rounded-lg bg-gray-100 text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
-                              className="outline-none text-gray-600 text-sm w-full px-4 py-1.5 rounded-xl shadow-accertinity focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:border-gray-300 focus:bg-gray-100 border-transparent transition-all  duration-200 "
-
+                className="outline-none text-gray-600 text-sm w-full px-4 py-1.5 rounded-xl shadow-accertinity focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:border-gray-300 focus:bg-gray-100 border-transparent transition-all  duration-200 "
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => inputChangeHandler(e.target.value)}
@@ -612,19 +622,6 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Mobile Items
-          {!isHomePage && (
-            <button
-              onClick={() => {
-                setIsOpen(false);
-                navigate('/government-jobs-after-12th');
-              }}
-              className="block w-full text-center px-4 py-3 rounded-lg text-white bg-purple-800 transition-all duration-300"
-            >
-              Home
-            </button>
-          )} */}
-
           <a
             onClick={() => setIsOpen(false)}
             href="/blog"
@@ -633,19 +630,11 @@ const Navbar = () => {
             Visit Blogs
           </a>
 
-          <a
-            onClick={() => setIsOpen(false)}
-            href="/current-affair"
-            className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
-          >
-            Current Affairs
-          </a>
-
           <button
             onClick={goDailyUpdates}
             className="block w-full text-left px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
           >
-            Daily Updates
+            Today's Current Affairs in Hindi
           </button>
 
           {/* Mobile Categories */}

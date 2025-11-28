@@ -12,7 +12,7 @@ const ImportantLinksSection = ({ data }) => {
         href={link}
         rel="noopener noreferrer"
         className="w-full break-words text-center font-medium px-6 py-3 
-                  bg-purple-50 rounded-xl
+                  bg-purple-50/60 rounded-xl
                   hover:bg-purple-100 hover:-translate-y-0.5 transition-all duration-200
                   shadow-sm hover:shadow-md"
       >

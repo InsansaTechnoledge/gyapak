@@ -112,17 +112,14 @@ const Landing = () => {
         <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
       </Helmet>
       <div className="min-h-screen">
-        {/* Hero section loads immediately with high priority */}
-        {/* <LazyRender height="h-screen" priority={true}>
-          <Hero />
-        </LazyRender> */}
-
+        
+       
         <GyapakLanding />
         
         {/* <DailyQuestions/> */}
 
 
-        <div className="px-4 md:px-16 lg:px-64 space-y-16">
+        <div className="px-4 md:px-16 space-y-16">
 
           <LazyRender height="h-96" id={"landing-admit"}>
             {/* <AdmitCardDashboard /> */}
@@ -190,7 +187,7 @@ const Landing = () => {
         </div>
 
 
-        <div className="px-4 md:px-16 lg:px-64 space-y-16">
+        <div className="px-4 md:px-16 space-y-16">
 
           <LazyRender height="h-96">
             <FeaturePage />

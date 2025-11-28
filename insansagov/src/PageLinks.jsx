@@ -68,7 +68,9 @@ const PageLinks = () => {
      {/* <Suspense fallback={<Loading />}> */}
      
       <ScrollToTop />
-      <Navbar />
+      <div className='mb-20'>
+        <Navbar />
+      </div>
       
       <Routes>
         <Route path='/' element={<Landing />} />
@@ -79,7 +81,7 @@ const PageLinks = () => {
         <Route 
           path='/top-exams-for-government-jobs-in-india/:slug' 
           element={
-            <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
+            <div className='px-5 md:px-16 lg:px-32 '>
               <Opportunities />
             </div>
           } 
@@ -223,14 +225,14 @@ const PageLinks = () => {
         />
         {/* <Route path="/daily-updates" element={<DailyUpdatesReels />} /> */}
 
-        <Route 
+        {/* <Route 
           path="/current-affair" 
           element={
             <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
               <CurrentAffairPage />
             </div>
           }
-        />
+        /> */}
         <Route
         path='/pdf'
         element={

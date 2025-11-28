@@ -17,7 +17,7 @@ const FAQList = ({ faqs, filterOptions = {} }) => {
   });
 
   return (
-    <div className="space-y-8 max-w-4xl mx-auto">
+    <div className="space-y-8  mx-auto">
       {filterOptions.showFilters && (
         <div className="bg-purple-50 p-6 rounded-xl shadow-sm mb-8 border border-purple-100">
           <h2 className="text-lg font-semibold text-purple-800 mb-4">Filter FAQs</h2>

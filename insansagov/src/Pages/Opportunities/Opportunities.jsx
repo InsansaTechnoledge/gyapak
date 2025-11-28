@@ -25,6 +25,7 @@ import { RingLoader } from "react-spinners";
 import { Helmet } from "react-helmet-async";
 import { useQuery } from "@tanstack/react-query";
 import { useApi, CheckServer } from "../../Context/ApiContext";
+import logo from '/logo3.png'
 
 const ModernExamDetailsPage = () => {
   const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
@@ -96,7 +97,6 @@ const ModernExamDetailsPage = () => {
     </div>
   }
 
-
   return (
     <>
       <Helmet>
@@ -109,10 +109,17 @@ const ModernExamDetailsPage = () => {
 
       <div className="min-h-screen bg-white text-gray-900 py-20 px-0 md:px-4 ">
         {/* Floating Orbs Background */}
-        <FloatingOrbsBackground />
+        {/* <FloatingOrbsBackground /> */}
 
+        <div className="hidden md:flex flex-col justify-center items-center">
+          <img src={logo} className="w-26 h-10"/>
+          <p className="mt-2 text-gray-500 text-sm shadow-xl">Stay updated. Stay ahead.
+          Your trusted partner for government exams</p>
+        </div>
+        <div className="hidden md:block w-3xl mt-4 shadow-lg rounded-full border-2 bg-gray-700"></div>
+       
         {/* Main Content */}
-        <div className="max-w-7xl relative mx-auto mt-10 sm:mt-16 md:mt-24 ">
+        <div className="relative max-w-screen  mx-auto mt-10 sm:mt-16 md:mt-24 ">
           {/* Hero Section */}
           <HeroSection data={data} organization={organization} />
 
@@ -130,22 +137,12 @@ const ModernExamDetailsPage = () => {
                 {<VacanciesSection data={data} existingSections={existingSections} />}
                 <div className="flex w-full flex-wrap gap-10">
 
-                  {/* Vacancies Section */}
-
-
-                  {/* Eligibility Grid */}
-
-                  {/* Nationality */}
                   {<NationalitySection data={data} existingSections={existingSections} />}
-
-
-                  {/* Age Limits */}
+                  
                   {
                     <AgeLimitSection data={data} existingSections={existingSections} />
                   }
-
-                  {/* Education & Fee Details */}
-                  {/* Education */}
+                 
                   {
                     <EducationSection data={data} existingSections={existingSections} />
                   }
@@ -154,27 +151,14 @@ const ModernExamDetailsPage = () => {
                   <SalarySection data={data} existingSections={existingSections} />
                   <SelectionSection data={data} existingSections={existingSections} />
 
-                  {/* Fee Details */}
-                  {/* {<FeeDetailsSection data={data} existingSections={existingSections} />} */}
-
-
-                  {/* Important Dates and Exam Centers */}
-                  {/* Important Dates */}
                   {
                     <ImportantDatesSection data={data} existingSections={existingSections} />
                   }
-
-
-                  {/* Exam Centers */}
                   {<ExamCentresSection data={data} existingSections={existingSections} />}
 
-
-                  {/* Contact Details */}
                   {
                     <ContactDetailsSection data={data} existingSections={existingSections} />
                   }
-
-
                 </div>
               </>
               :
@@ -189,7 +173,7 @@ const ModernExamDetailsPage = () => {
             
             </div>
 
-            {data.document_links && data.document_links.length > 0
+            {data.document_links[0] && data.document_links.length > 0
               ?
               <ImportantLinksSection data={data} />
               :

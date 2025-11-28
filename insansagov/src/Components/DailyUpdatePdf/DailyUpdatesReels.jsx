@@ -156,7 +156,7 @@ export default function DailyUpdatesReels() {
             {/* Title */}
             <div className="flex-1 mt-16 md:mt-20 text-center md:text-left">
               <h1 className="text-4xl sm:text-5xl font-bold text-purple-800 mb-3 relative inline-block">
-                <span className="relative z-10">Gyapak&apos;s Daily Updates</span>
+                <span className="relative z-10">Gyapak&apos;s Daily Updates in Hindi</span>
                 <span className="absolute -bottom-2 left-0 w-full h-2 bg-purple-200 transform -rotate-1 rounded z-0"></span>
               </h1>
               <p className="text-base sm:text-lg text-gray-600 mt-1 max-w-xl mx-auto md:mx-0">

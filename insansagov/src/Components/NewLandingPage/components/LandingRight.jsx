@@ -19,7 +19,7 @@ export default function FullScreenLanding() {
             if (error.response.status >= 500 && error.response.status < 600) {
                 console.error("🚨 Server Error:", error.response.status, error.response.statusText);
                 const url = CheckServer();
-                setApiBaseUrl(url),
+                // setApiBaseUrl(url),
                     setServerError(error.response.status);
                 fetchStateCount();
             }

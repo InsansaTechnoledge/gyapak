@@ -81,7 +81,7 @@ const GovCalendar = () => {
 
   const filteredEvents = todayEvents.filter((event) =>
     event.name?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  );  
 
   // Calculate pagination
   const totalPages = Math.ceil(filteredEvents.length / itemsPerPage);
@@ -109,7 +109,7 @@ const GovCalendar = () => {
 
   return (
     <div className="bg-white mt-16 mb-16">
-      <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+      <div className=" mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <div className="bg-gradient-to-r from-purple-50 to-white rounded-2xl p-6 mb-10 shadow-sm">
           <div className="lg:flex lg:items-center lg:justify-between mb-4">
             <h2 className="text-2xl font-extrabold tracking-tight text-purple-800 sm:text-4xl">
@@ -223,7 +223,7 @@ const GovCalendar = () => {
         <div className="bg-white rounded-lg shadow-md overflow-hidden border border-purple-200 calendar-results">
           <div className="bg-purple-600 px-4 py-3 flex justify-between items-center">
             <h3 className="text-lg font-bold text-white">
-              Today's government events - {today}
+              Active government postings {today}
             </h3>
             <span className="text-xs bg-white/20 text-white px-2 py-1 rounded-full">
               {filteredEvents.length}{" "}
