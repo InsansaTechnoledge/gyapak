@@ -344,7 +344,7 @@ const Navbar = () => {
           </div>
         </div>
 
-        {
+        {/* {
           !dailyaffairsPage && (
             <a
               href="/daily-updates"
@@ -358,7 +358,7 @@ const Navbar = () => {
               </div>
             </a>
           )
-        }
+        } */}
 
         {/* Right side */}
         <div className="flex items-center gap-2  md:gap-6 text-sm ">

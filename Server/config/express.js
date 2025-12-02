@@ -37,9 +37,9 @@ const allowedOrigins = [
 const backendInstances = [
   "https://backend.gyapak.in", 
   // "http://localhost:5000",
-  // "http://localhost:8383",
+  "http://localhost:8383",
   // 'https://gyapak-test-server.onrender.com'
-  // "https://adminpanel.gyapak.in"
+  "https://adminpanel.gyapak.in"
     // "http://localhost:3000"
 ];
 
@@ -57,12 +57,12 @@ const loadBalancer = (req, res, next) => {
 app.get("/sitemap.xml", sitemapRoutes);
 
 
-app.use((req, res, next) => {
-  if (!req.headers.origin) {
-    return res.status(403).json({ error: "Direct browser requests are not allowed" });
-  }
-  next();
-});
+// app.use((req, res, next) => {
+//   if (!req.headers.origin) {
+//     return res.status(403).json({ error: "Direct browser requests are not allowed" });
+//   }
+//   next();
+// });
 
 
 // CORS configuration

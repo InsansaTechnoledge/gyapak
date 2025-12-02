@@ -148,7 +148,8 @@ const Authority = () => {
             </Helmet>
             <div className='pt-28 bg-red'>
                 <div className='flex flex-col justify-center mb-20'>
-                    <img src={`data:image/png;base64,${organization.logo}`} className='w-32 self-center mb-5' />
+                    {/* <img src={`data:image/png;base64,${organization.logo}`} className='w-32 self-center mb-5' /> */}
+                    <img src={organization.logo} className='w-32 self-center mb-5' alt="" />
                     <h1 className='text-3xl self-center font-bold mb-5'>{organization.name}</h1>
                     <div className='self-center text-center'>{organization.description}</div>
                 </div>

@@ -13,7 +13,8 @@ const TopAuthoritiesCard = (props) => {
       {/* Logo */}
       <img
         className='xl:w-20 w-10'
-        src={`data:image/png;base64,${props.logo}`}
+        // src={`data:image/png;base64,${props.logo}`}
+        src={props.logo}
         alt="Authority Logo"
         // width={60}
       />

@@ -3,7 +3,7 @@ import { Minus, Plus } from "lucide-react";
 import React, { useState } from "react";
 
 const ImportantLinksSection = ({ data }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   const PrintLink = ({ idx, link }) => {
     const visibleLink = link.length>=40? link.slice(0, 77) +'...': link;

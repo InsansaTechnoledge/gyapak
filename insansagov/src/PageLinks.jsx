@@ -5,6 +5,7 @@ import Credits from './Pages/PrivacyPolicy/Credits';
 import { RingLoader } from 'react-spinners';
 import CounselorChatUI from './Pages/counselor/GyapakCounselor';
 import { useApi } from './Context/ApiContext';
+import MonthlyMagzine from './Components/monthlyUpdate/MonthlyMagzine';
 
 const Landing = lazy(() => import('./Pages/Landing/landing'));
 const Navbar = lazy(() => import('./Components/Navbar/Navbar'));
@@ -220,6 +221,15 @@ const PageLinks = () => {
           element={
             <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
               <DailyUpdatesReels />
+            </div>
+          }
+        />
+
+        <Route 
+          path="/monthly-magazine" 
+          element={
+            <div className='px-5 md:px-16  '>
+              <MonthlyMagzine />
             </div>
           }
         />

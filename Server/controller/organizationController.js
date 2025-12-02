@@ -3,29 +3,95 @@ import Organization from "../models/OrganizationModel.js";
 import Category from "../models/CategoryModel.js";
 import Event from "../models/EventModel.js";
 
+// export const getCentralLogos = async (req, res) => {
+//   try {
+    
+//     const centralAuthority = await Authority.findOne({type: "Central_Government"})
+
+//     console.log("check" , centralAuthority);
+    
+//     if(!centralAuthority){
+//       return res.status(200).json({'centralOrganizations':[]});
+//     }
+//     const centralOrganizationIds = centralAuthority.organizations;
+
+//     const centralOrganizations = await Organization.find(
+//       { _id: { $in: centralOrganizationIds } },
+//       { _id: 1, abbreviation: 1, logo: 1 } // 1 to include fields, 0 to exclude
+//     );
+
+
+//     // Return the data to the frontend
+//     res.status(200).json(centralOrganizations);
+//   } catch (error) {
+//     console.error("Error fetching logos:", error);
+//     res.status(500).json({ error: "An error occurred while fetching logos." });
+//   }
+// };
+
+
+// controller
 export const getCentralLogos = async (req, res) => {
   try {
-    
-    const centralAuthority = await Authority.findOne({type: "Central_Government"})
+    // page & limit from query params, with safe defaults
+    const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
+    const limitRaw = parseInt(req.query.limit, 10) || 8;
+    const limit = Math.max(Math.min(limitRaw, 50), 1); // cap at 50 per page
 
-    if(!centralAuthority){
-      return res.status(200).json({'centralOrganizations':[]});
+    // 1) Get only the organizations array for Central_Government
+    const centralAuthority = await Authority.findOne(
+      { type: "Central_Government" },
+      { organizations: 1, _id: 0 }
+    ).lean();
+
+    if (!centralAuthority || !centralAuthority.organizations?.length) {
+      return res.status(200).json({
+        data: [],
+        total: 0,
+        page,
+        limit,
+      });
     }
+
     const centralOrganizationIds = centralAuthority.organizations;
+    const total = centralOrganizationIds.length;
 
-    const centralOrganizations = await Organization.find(
-      { _id: { $in: centralOrganizationIds } },
-      { _id: 1, abbreviation: 1, logo: 1 } // 1 to include fields, 0 to exclude
-    );
+    const start = (page - 1) * limit;
+    const end = start + limit;
 
+    // slice the ids for this page
+    const pageIds = centralOrganizationIds.slice(start, end);
 
-    // Return the data to the frontend
-    res.status(200).json(centralOrganizations);
+    // 2) Fetch organizations with logo for this page
+    const orgs = await Organization.find(
+      { _id: { $in: pageIds } },
+      { _id: 1, abbreviation: 1, logo: 1 }
+    ).lean();
+
+    // keep order same as in pageIds
+    const orgMap = new Map(orgs.map((o) => [o._id.toString(), o]));
+    const orderedOrgs = pageIds
+      .map((id) => orgMap.get(id.toString()))
+      .filter(Boolean);
+
+    return res.status(200).json({
+      data: orderedOrgs,
+      total,
+      page,
+      limit,
+    });
   } catch (error) {
     console.error("Error fetching logos:", error);
-    res.status(500).json({ error: "An error occurred while fetching logos." });
+    return res.status(500).json({
+      error: "An error occurred while fetching central organizations.",
+    });
   }
 };
+
+
+
+
+
 
 export const getOrganization = async (req, res) => {
   try {

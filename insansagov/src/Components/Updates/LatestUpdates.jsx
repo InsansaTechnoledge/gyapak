@@ -77,7 +77,10 @@ const LatestUpdates = ({ titleHidden }) => {
   }, [latestUpdates]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="mx-auto flex justify-center items-center">
+        <RingLoader/>
+      </div>;
+    
   }
 
   return (
