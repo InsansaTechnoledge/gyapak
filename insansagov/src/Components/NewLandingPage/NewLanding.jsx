@@ -230,7 +230,7 @@ export default function GyapakLanding() {
                 <div className="my-4 h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
 
                 {/* Critical posts block */}
-                <div className="flex-1 flex flex-col gap-3">
+                {/* <div className="flex-1 flex flex-col gap-3">
                   <div className="flex items-center justify-between">
                     <p className="text-sm font-semibold text-slate-800">
                       Critical Jobs & Exams
@@ -277,7 +277,7 @@ export default function GyapakLanding() {
                   >
                     View expiring jobs & exams →
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

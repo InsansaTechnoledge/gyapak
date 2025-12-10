@@ -71,6 +71,15 @@ export const fetchEventsForCalendar = async (apiBaseUrl, categoryId, stateId, ev
 };
 
 export const fetchTodaysEvents = async (apiBaseUrl) => {
-  const res = await axios.get(`${apiBaseUrl}/api/event/getTodaysEvents?limit=100`);
+  const res = await axios.get(
+    `${apiBaseUrl}/api/event/getTodaysEvents?limit=100`
+  );
+  return res.data;
+};
+
+export const fetchEventsByMonth = async (apiBaseUrl, year, month) => {
+  const res = await axios.get(`${apiBaseUrl}/api/event/by-month`, {
+    params: { year, month },
+  });
   return res.data;
 };
