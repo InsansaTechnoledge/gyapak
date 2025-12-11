@@ -48,7 +48,11 @@ const SocialGroupsJoin = () => {
       ),
       members: "320+ members",
       activity: "Daily posts and pinned resources.",
-      benefits: ["Secure updates", "File sharing", "Pinned preparation material"],
+      benefits: [
+        "Secure updates",
+        "File sharing",
+        "Pinned preparation material",
+      ],
     },
   ];
 
@@ -92,7 +96,7 @@ const SocialGroupsJoin = () => {
                 </div>
 
                 <span
-                  className={`text-[11px] px-2 py-1 rounded-full ${platform.pillColor}`}
+                  className={`text-[11px] px-3 py-2 md:px-2 md:py-1 rounded-full capitalize ${platform.pillColor}`}
                 >
                   Free to join
                 </span>

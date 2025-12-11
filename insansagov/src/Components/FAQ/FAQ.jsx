@@ -1,47 +1,42 @@
-import { useState, useEffect } from 'react';
-import { Search } from 'lucide-react';
-import FAQList from './Components/FAQLists';
-import { useFAQ } from './hooks/useFAQs';
-import { Helmet } from 'react-helmet'; // Use React Helmet for managing head tags
+import { useState, useEffect } from "react";
+import { Search } from "lucide-react";
+import FAQList from "./Components/FAQLists";
+import { useFAQ } from "./hooks/useFAQs";
+import { Helmet } from "react-helmet"; // Use React Helmet for managing head tags
 
-const FAQ = ({ 
-  title = 'frequently asked questions',
+const FAQ = ({
+  title = "Frequently Asked Questions",
   customFAQs,
   orgId = null,
   showSearch = true,
   showCategoryFilter = true,
   showStateFilter = false,
   showSEOTags = true,
-  className = '',
-  metaDescription = `frequently asked questions and answers about government jobs and exams: latest ${new Date().getFullYear()} updates`
+  className = "",
+  metaDescription = `frequently asked questions and answers about government jobs and exams: latest ${new Date().getFullYear()} updates`,
 }) => {
-  const { 
-    faqs, 
-    loading, 
-    error, 
-    searchFAQs
-  } = useFAQ(customFAQs, orgId);
+  const { faqs, loading, error, searchFAQs } = useFAQ(customFAQs, orgId);
 
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const filteredFAQs = searchTerm ? searchFAQs(searchTerm) : faqs;
-  
+
   // Create FAQ Schema for SEO
   const generateFAQSchema = () => {
     if (!faqs || faqs.length === 0) return null;
-    
+
     const faqSchema = {
       "@context": "https://schema.org",
       "@type": "FAQPage",
-      "mainEntity": faqs.map(faq => ({
+      mainEntity: faqs.map((faq) => ({
         "@type": "Question",
-        "name": faq.question,
-        "acceptedAnswer": {
+        name: faq.question,
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": faq.answer
-        }
-      }))
+          text: faq.answer,
+        },
+      })),
     };
-    
+
     return JSON.stringify(faqSchema);
   };
 
@@ -53,7 +48,11 @@ const FAQ = ({
     return <div className="text-center py-8 text-red-500">{error}</div>;
   }
 
-  const displayTitle = title || (orgId ? "frequently asked questions for This Organization" : "frequently asked questions");
+  const displayTitle =
+    title ||
+    (orgId
+      ? "Frequently Asked Questions For This Organization"
+      : "Frequently Asked Questions");
 
   return (
     <>
@@ -61,14 +60,12 @@ const FAQ = ({
         <Helmet>
           {/* <title>{displayTitle} | gyapak</title> */}
           <meta name="description" content={metaDescription} />
-          <script type="application/ld+json">
-            {generateFAQSchema()}
-          </script>
+          <script type="application/ld+json">{generateFAQSchema()}</script>
         </Helmet>
       )}
-      
+
       <div className={`max-w-3xl mx-auto px-4 py-8 ${className}`}>
-        <h1 className="text-3xl font-bold text-center text-gray-900 mb-8">
+        <h1 className="text-3xl font-bold text-center text-gray-900 mb-8 capitalize">
           {displayTitle}
         </h1>
 
@@ -90,12 +87,12 @@ const FAQ = ({
           </div>
         )}
 
-        <FAQList 
-          faqs={filteredFAQs} 
+        <FAQList
+          faqs={filteredFAQs}
           filterOptions={{
             showFilters: showCategoryFilter || showStateFilter,
             showCategoryFilter,
-            showStateFilter
+            showStateFilter,
           }}
         />
 
