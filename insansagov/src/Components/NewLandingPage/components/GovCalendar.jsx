@@ -116,7 +116,7 @@ const GovCalendar = () => {
               <span className="block capitalize">
                 upcoming government exams
               </span>
-              <span className="block text-purple-600 text-2xl mt-2">{`Latest for ${new Date().getFullYear()} at Gyapak with government calendar`}</span>
+              <span className="block text-purple-600 text-2xl mt-2 capitalize ">{`Latest for ${new Date().getFullYear()} at Gyapak with government calendar`}</span>
             </h2>
             <div className="mt-6 lg:mt-0 lg:flex-shrink-0">
               <div className="inline-flex rounded-md shadow">

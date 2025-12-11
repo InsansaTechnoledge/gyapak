@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect, useRef } from "react";
 import { useInView } from "react-intersection-observer";
 import { Loader2 } from "lucide-react";
-
+import curvLine from "../../assets/Landing/curvLine.svg";
 import { Helmet } from "react-helmet-async";
 import StatesLanding from "../../Components/States/StatesLanding";
 

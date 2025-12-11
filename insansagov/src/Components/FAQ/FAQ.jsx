@@ -51,8 +51,8 @@ const FAQ = ({
   const displayTitle =
     title ||
     (orgId
-      ? "frequently asked questions for This Organization"
-      : "frequently asked questions");
+      ? "Frequently Asked Questions For This Organization"
+      : "Frequently Asked Questions");
 
   return (
     <>
@@ -65,7 +65,7 @@ const FAQ = ({
       )}
 
       <div className={`max-w-3xl mx-auto px-4 py-8 ${className}`}>
-        <h1 className="text-3xl font-bold text-center text-gray-900 mb-8">
+        <h1 className="text-3xl font-bold text-center text-gray-900 mb-8 capitalize">
           {displayTitle}
         </h1>
 

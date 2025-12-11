@@ -77,17 +77,18 @@ const LatestUpdates = ({ titleHidden }) => {
   }, [latestUpdates]);
 
   if (isLoading) {
-    return <div className="mx-auto flex justify-center items-center">
-        <RingLoader/>
-      </div>;
-    
+    return (
+      <div className="mx-auto flex justify-center items-center">
+        <RingLoader />
+      </div>
+    );
   }
 
   return (
     <>
       <div className="bg-gradient-to-r from-purple-50 to-white rounded-2xl p-6 mb-10 shadow-sm">
         <div className="flex justify-between mb-2">
-          <div className="font-bold text-2xl flex items-center">
+          <div className="font-bold text-2xl flex items-center capitalize">
             Latest Updates for government jobs after 12th
           </div>
 
