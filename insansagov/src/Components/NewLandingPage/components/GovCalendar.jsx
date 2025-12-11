@@ -81,7 +81,7 @@ const GovCalendar = () => {
 
   const filteredEvents = todayEvents.filter((event) =>
     event.name?.toLowerCase().includes(searchQuery.toLowerCase())
-  );  
+  );
 
   // Calculate pagination
   const totalPages = Math.ceil(filteredEvents.length / itemsPerPage);
@@ -113,7 +113,9 @@ const GovCalendar = () => {
         <div className="bg-gradient-to-r from-purple-50 to-white rounded-2xl p-6 mb-10 shadow-sm">
           <div className="lg:flex lg:items-center lg:justify-between mb-4">
             <h2 className="text-2xl font-extrabold tracking-tight text-purple-800 sm:text-4xl">
-              <span className="block">upcoming government exams</span>
+              <span className="block capitalize">
+                upcoming government exams
+              </span>
               <span className="block text-purple-600 text-2xl mt-2">{`Latest for ${new Date().getFullYear()} at Gyapak with government calendar`}</span>
             </h2>
             <div className="mt-6 lg:mt-0 lg:flex-shrink-0">
