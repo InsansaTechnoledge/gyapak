@@ -8,6 +8,7 @@ import {
   AlertTriangle,
   Newspaper,
   FileText,
+  LogIn,
 } from "lucide-react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { debounce, update } from "lodash";
@@ -474,36 +475,45 @@ const Navbar = () => {
               />
             )}
 
-            <button
-              type="button"
-              onClick={() => {
-                if (!isSearched) {
-                  setIsSearched(true);
-                  setTimeout(() => {
-                    desktopSearchInputRef.current?.focus();
-                  }, 0);
-                } else if (!searchQuery.trim()) {
-                  setIsSearched(false);
-                  setShowDropdown(false);
-                } else {
-                  navigate(`/search?query=${encodeURI(searchQuery.trim())}`);
-                  setSearchQuery("");
-                  setShowDropdown(false);
-                  setIsSearched(false);
-                }
-              }}
-              className={`flex items-center justify-center ${
-                isSearched ? "ml-2" : ""
-              }`}
-            >
-              <Search
-                size={24}
-                className={`${
-                  isSearched ? "text-slate-500" : "text-slate-100"
+            <div className="flex items-centre gap-3 ">
+              <button
+                type="button"
+                onClick={() => {
+                  if (!isSearched) {
+                    setIsSearched(true);
+                    setTimeout(() => {
+                      desktopSearchInputRef.current?.focus();
+                    }, 0);
+                  } else if (!searchQuery.trim()) {
+                    setIsSearched(false);
+                    setShowDropdown(false);
+                  } else {
+                    navigate(`/search?query=${encodeURI(searchQuery.trim())}`);
+                    setSearchQuery("");
+                    setShowDropdown(false);
+                    setIsSearched(false);
+                  }
+                }}
+                className={`flex items-center justify-center ${
+                  isSearched ? "ml-2" : ""
                 }`}
-              />
-            </button>
-
+              >
+                <Search
+                  size={24}
+                  className={`${
+                    isSearched ? "text-slate-500" : "text-slate-100"
+                  }`}
+                />
+              </button>
+              <button
+                onClick={() => {
+                  navigate("/login");
+                }}
+                className="text-white flex gap-2 items-center justify-center hover:scale-105 transition-transform   font-semibold text-xl  pv-1 px-2"
+              >
+                <LogIn /> Login
+              </button>
+            </div>
             {isSearched && showDropdown && (
               <div className="absolute left-0 top-full z-[9999] mt-2 w-full bg-white/95 backdrop-blur-sm border border-gray-200 rounded-xl shadow-xl max-h-72 overflow-auto custom-scrollbar">
                 {totalCount > 0 && (
@@ -924,6 +934,17 @@ const Navbar = () => {
               </button>
             </>
           )}
+
+          <div>
+            <button
+              onClick={() => {
+                navigate("/login");
+              }}
+              className="text-black flex gap-2 items-center justify-center hover:scale-105 transition-transform  text-xl  pv-1 px-2"
+            >
+              <LogIn /> Login
+            </button>
+          </div>
         </div>
       </div>
     </nav>
