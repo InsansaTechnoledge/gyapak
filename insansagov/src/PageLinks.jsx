@@ -10,6 +10,11 @@ import NewCalendarPage from "./Pages/Calendar/NewCalendarPage";
 import UpcommingEvent from "./Pages/Calendar/upcommingEvent/UpcommingEvent";
 import Login from "./Pages/Login/Login";
 import Signup from "./Pages/Signup/Signup";
+import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
+import DashboardLayout from "./Pages/Dashboard/DashboardLayout";
+import Dashboard from "./Pages/Dashboard/Dashboard";
+import Profile from "./Pages/Dashboard/Profile";
+import ExamHistory from "./Pages/Dashboard/ExamHistory";
 
 const Landing = lazy(() => import("./Pages/Landing/landing"));
 const Navbar = lazy(() => import("./Components/Navbar/Navbar"));
@@ -62,7 +67,10 @@ const PageLinks = () => {
   );
 
   const location = useLocation();
-  const hideChatBotOn = ["/government-calendar"];
+  const hideChatBotOn = ["/government-calendar","/login","/signup","/forgot-password"];
+  
+  // Hide navbar on dashboard routes
+  const hideNavbarOn = location.pathname.startsWith("/dashboard");
 
   const [isMobile, setIsMobile] = useState(false);
 
@@ -84,9 +92,11 @@ const PageLinks = () => {
       {/* <Suspense fallback={<Loading />}> */}
 
       <ScrollToTop />
-      <div className="mb-20">
-        <Navbar />
-      </div>
+      {!hideNavbarOn && (
+        <div className="mb-20">
+          <Navbar />
+        </div>
+      )}
 
       <Routes>
         <Route path="/" element={<Landing />} />
@@ -266,6 +276,21 @@ const PageLinks = () => {
             </div>
           }
         />
+
+        {/* Protected Dashboard Routes */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<Dashboard />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="exam-history" element={<ExamHistory />} />
+        </Route>
+
 
         <Route
           path="/monthly-magazine"

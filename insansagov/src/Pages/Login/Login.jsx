@@ -4,9 +4,11 @@ import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../Context/AuthContext";
 
 function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -17,10 +19,18 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = { status: true };
-    if (response.status) {
-      toast.success("login success");
-    }
+    // axios.post
+
+    //test part
+    const userData = {
+      name: email.split("@")[0],
+      email: email,
+      joinDate: "December 2024",
+    };
+
+    login(userData);
+    toast.success("Login successful!");
+    navigate("/dashboard");
   };
 
   const handleOauth = () => {

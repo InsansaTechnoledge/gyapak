@@ -2,6 +2,7 @@ import PageLinks from "./PageLinks";
 import React, { useState, useEffect } from 'react';
 import { Helmet } from "react-helmet-async";
 import { BrowserRouter as Router } from 'react-router-dom';
+import { AuthProvider } from "./Context/AuthContext";
 
 const App = () => {
  
@@ -23,9 +24,11 @@ const App = () => {
         <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
       </Helmet>
 
-      <Router>
-        <PageLinks />
-      </Router>
+      <AuthProvider>
+        <Router>
+          <PageLinks />
+        </Router>
+      </AuthProvider>
     </>
   );
 };

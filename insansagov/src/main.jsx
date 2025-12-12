@@ -30,11 +30,7 @@ createRoot(document.getElementById("root")).render(
   <HelmetProvider>
     <ApiProvider>
       <QueryClientProvider client={queryClient}>
-        <Toaster
-          toastOptions={{
-            duration: 6000, // 6 seconds
-          }}
-        />
+        <Toaster/>
         <AuthProvider>
           <App />
         </AuthProvider>

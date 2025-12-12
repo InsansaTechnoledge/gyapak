@@ -1,27 +1,25 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Menu,
   X,
   ChevronDown,
   Search,
-  MapPin,
   AlertTriangle,
-  Newspaper,
-  FileText,
   LogIn,
+  LayoutDashboard,
+
 } from "lucide-react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { debounce, update } from "lodash";
+import { debounce } from "lodash";
 import axios from "axios";
 import { useApi, CheckServer } from "../../Context/ApiContext";
 import { useQuery } from "@tanstack/react-query";
-import logo3 from "/logo3.png";
 import logo4 from "/logo4.png";
 import {
   MdKeyboardArrowUp,
-  MdOutlineTranslate,
   MdKeyboardArrowDown,
 } from "react-icons/md";
+import { useAuth } from "../../Context/AuthContext";
 
 const stateImages = {
   Gujarat: "/states/Gujarat.png",
@@ -94,6 +92,7 @@ const StateIcon = ({ state, updateVisibleStates, setStateDropdownVisible }) => {
 };
 
 const Navbar = () => {
+  const { isAuthenticated } = useAuth();
   const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
   const location = useLocation();
   const navigate = useNavigate();
@@ -385,6 +384,8 @@ const Navbar = () => {
     };
   }, []);
 
+  console.info(isAuthenticated);
+
   return (
     <nav
       ref={navRef}
@@ -505,7 +506,15 @@ const Navbar = () => {
                   }`}
                 />
               </button>
-              <button
+           {isAuthenticated ? <button
+                onClick={() => {
+                  navigate("/dashboard");
+                }}
+                className="text-white flex gap-2 items-center justify-center hover:scale-105 transition-transform   font-semibold text-xl  pv-1 px-2"
+              >
+                <LayoutDashboard /> Dashboard
+              </button> :
+           <button
                 onClick={() => {
                   navigate("/login");
                 }}
@@ -513,6 +522,7 @@ const Navbar = () => {
               >
                 <LogIn /> Login
               </button>
+}
             </div>
             {isSearched && showDropdown && (
               <div className="absolute left-0 top-full z-[9999] mt-2 w-full bg-white/95 backdrop-blur-sm border border-gray-200 rounded-xl shadow-xl max-h-72 overflow-auto custom-scrollbar">
@@ -935,16 +945,29 @@ const Navbar = () => {
             </>
           )}
 
-          <div>
+          {isAuthenticated ? (
             <button
               onClick={() => {
+                setIsOpen(false);
+                navigate("/dashboard");
+              }}
+              className="block w-full text-left px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 flex items-center gap-2"
+            >
+              <LayoutDashboard size={20} />
+              <span>Dashboard</span>
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                setIsOpen(false);
                 navigate("/login");
               }}
-              className="text-black flex gap-2 items-center justify-center hover:scale-105 transition-transform  text-xl  pv-1 px-2"
+              className="block w-full text-left px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 flex items-center gap-2"
             >
-              <LogIn /> Login
+              <LogIn size={20} />
+              <span>Login</span>
             </button>
-          </div>
+          )}
         </div>
       </div>
     </nav>
