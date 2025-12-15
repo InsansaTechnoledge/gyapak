@@ -1,6 +1,7 @@
 import { DailyCurrentAffairPdf } from "../models/DailyCurrentAfairPdf.js";
 
 export const publishScheduledPdfs = async () => {
+  console.log("job works");
   try {
     const now = new Date();
 
@@ -14,6 +15,7 @@ export const publishScheduledPdfs = async () => {
         $set: { isPublished: true },
       }
     );
+
     if (result) console.log("db fetch success", result);
 
     if (result.modifiedCount > 0) {
