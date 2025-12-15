@@ -9,6 +9,8 @@ const UploadCurrentAffairsPage = () => {
   const [category , setCategory] = useState('');
   const [description , setDescription] = useState('');
   const [tags , setTags] = useState([]);
+  const [isScheduled, setIsScheduled] = useState(false);
+  const [scheduledPublishDate, setScheduledPublishDate] = useState('');
   
   const CategoryDropdown = ['Current Affairs', 'Editorial', 'MCQs', 'Monthly Summary'];
   const [tagInput, setTagInput] = useState('');
@@ -29,6 +31,18 @@ const UploadCurrentAffairsPage = () => {
   };
 
   const handleUpload = async () => {
+    // Validation for category selection
+    if (!category) {
+      alert('Please select a category before uploading');
+      return;
+    }
+
+    // Validation for scheduled uploads
+    if (isScheduled && !scheduledPublishDate) {
+      alert('Please select a scheduled publish date and time');
+      return;
+    }
+
     const formdata = {
       date,
       pdfLink,
@@ -36,11 +50,28 @@ const UploadCurrentAffairsPage = () => {
       category,
       description,
       tags,
+      isScheduled,
+      scheduledPublishDate: isScheduled ? scheduledPublishDate : null,
     }
-    await createNewPdf(formdata);
-    console.log("asd", formdata);
-    alert('done')
     
+    try {
+      await createNewPdf(formdata);
+      console.log("Upload data:", formdata);
+      alert(isScheduled ? 'PDF scheduled successfully!' : 'PDF uploaded successfully!');
+      
+      // Reset form
+      setDate('');
+      setPdfLink('');
+      setTitle('');
+      setCategory('');
+      setDescription('');
+      setTags([]);
+      setIsScheduled(false);
+      setScheduledPublishDate('');
+    } catch (error) {
+      console.error('Upload error:', error);
+      alert('Failed to upload PDF. Please try again.');
+    }
   }
 
 
@@ -99,7 +130,14 @@ const UploadCurrentAffairsPage = () => {
           <label className="text-md font-medium text-gray-700">Choose Category</label>
           <select 
             value={category} 
-            onChange={(e) => setCategory(e.target.value)}             
+            onChange={(e) => {
+              setCategory(e.target.value);
+              // Reset scheduling when category changes
+              if (e.target.value !== 'Monthly Summary') {
+                setIsScheduled(false);
+                setScheduledPublishDate('');
+              }
+            }}             
             className="border border-gray-300 rounded-xl px-4 py-2 text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none"
           >
             <option className='text-sm text-gray-400' value="">--Choose Category--</option>
@@ -108,6 +146,53 @@ const UploadCurrentAffairsPage = () => {
             ))}
           </select>
         </div>
+
+        {/* Scheduling Options - Only for Monthly Summary */}
+        {category === 'Monthly Summary' && (
+          <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-8">
+            <div className="flex items-center gap-3 mb-4">
+              <input
+                type="checkbox"
+                id="scheduleCheckbox"
+                checked={isScheduled}
+                onChange={(e) => {
+                  setIsScheduled(e.target.checked);
+                  if (!e.target.checked) {
+                    setScheduledPublishDate('');
+                  }
+                }}
+                className="w-5 h-5 text-blue-600 rounded focus:ring-2 focus:ring-blue-400"
+              />
+              <label htmlFor="scheduleCheckbox" className="text-md font-medium text-gray-700 cursor-pointer">
+                Schedule Upload
+              </label>
+            </div>
+
+            {isScheduled && (
+              <div className="flex flex-col gap-3 mt-4">
+                <label className="text-sm font-medium text-gray-700">
+                  Select Publish Date & Time
+                </label>
+                <input
+                  type="datetime-local"
+                  value={scheduledPublishDate}
+                  onChange={(e) => setScheduledPublishDate(e.target.value)}
+                  min={new Date().toISOString().slice(0, 16)}
+                  className="border border-gray-300 rounded-xl px-4 py-2 text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                />
+                <p className="text-xs text-gray-500">
+                  The PDF will become visible to users after this date and time (Server timezone)
+                </p>
+              </div>
+            )}
+
+            {!isScheduled && (
+              <p className="text-sm text-gray-600 mt-2">
+                ✓ This PDF will be published immediately upon upload
+              </p>
+            )}
+          </div>
+        )}
 
         {/* PDF Link */}
         <div className="flex flex-col gap-3 mb-8">
@@ -151,7 +236,9 @@ const UploadCurrentAffairsPage = () => {
           </div>
         </div>
 
-        <button className='border-1 py-3 px-4 rounded-2xl mb-4 bg-purple-700 text-gray-100' onClick={handleUpload}>Upload Pdf</button>
+        <button className='border-1 py-3 px-4 rounded-2xl mb-4 bg-purple-700 text-gray-100 hover:bg-purple-800 transition-colors' onClick={handleUpload}>
+          {isScheduled ? 'Schedule PDF Upload' : 'Upload PDF Immediately'}
+        </button>
 
         {/* Upload Form */}
         <div className="border-t pt-6">
