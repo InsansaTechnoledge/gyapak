@@ -43,6 +43,19 @@ const UploadCurrentAffairsPage = () => {
       return;
     }
 
+    // Convert scheduledPublishDate from local time to UTC
+    let scheduledDateUTC = null;
+    if (isScheduled && scheduledPublishDate) {
+      // datetime-local gives us "2025-12-15T17:28" in LOCAL timezone
+      // We need to convert it to UTC ISO string
+      const localDate = new Date(scheduledPublishDate);
+      scheduledDateUTC = localDate.toISOString();
+      
+      console.log('Local scheduled time:', scheduledPublishDate);
+      console.log('UTC scheduled time:', scheduledDateUTC);
+      console.log('User timezone offset:', -localDate.getTimezoneOffset() / 60, 'hours');
+    }
+
     const formdata = {
       date,
       pdfLink,
@@ -51,7 +64,7 @@ const UploadCurrentAffairsPage = () => {
       description,
       tags,
       isScheduled,
-      scheduledPublishDate: isScheduled ? scheduledPublishDate : null,
+      scheduledPublishDate: scheduledDateUTC,
     }
     
     try {
@@ -181,7 +194,7 @@ const UploadCurrentAffairsPage = () => {
                   className="border border-gray-300 rounded-xl px-4 py-2 text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none"
                 />
                 <p className="text-xs text-gray-500">
-                  The PDF will become visible to users after this date and time (Server timezone)
+                  The PDF will become visible to users after this date and time (in your local timezone)
                 </p>
               </div>
             )}
