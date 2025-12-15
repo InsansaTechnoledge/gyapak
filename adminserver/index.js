@@ -76,7 +76,8 @@ const initialize = async () => {
     // 🔹 5) Cron job: publish scheduled PDFs every 30 minutes
     cron.schedule("*/1 * * * *", async () => {
       console.log("Cron: running publishScheduledPdfs...");
-      await publishScheduledPdfs();
+      const result = await publishScheduledPdfs();
+      console.log("Cron job result:", JSON.stringify(result, null, 2));
     });
 
     // 🔹 6) Start HTTP server (NOT appInstance.listen anymore)
