@@ -23,22 +23,20 @@ export const addNewPdf = async (req, res) => {
 
     // Validate scheduled publish date if scheduling is enabled
     if (isScheduled && !scheduledPublishDate) {
-      return res
-        .status(400)
-        .json({
-          message:
-            "Scheduled publish date is required when scheduling is enabled.",
-        });
-    }
-
-    const existing = await DailyCurrentAffairPdf.findOne({
-      $and: [{ date: date }, { category: category }],
-    });
-    if (existing) {
-      return res.status(409).json({
-        message: `PDF for this date and category (${category}) already exists.`,
+      return res.status(400).json({
+        message:
+          "Scheduled publish date is required when scheduling is enabled.",
       });
     }
+
+    // const existing = await DailyCurrentAffairPdf.findOne({
+    //   $and: [{ date: date }, { category: category }],
+    // });
+    // if (existing) {
+    //   return res.status(409).json({
+    //     message: `PDF for this date and category (${category}) already exists.`,
+    //   });
+    // }
 
     const pdfData = {
       date,
@@ -65,12 +63,10 @@ export const addNewPdf = async (req, res) => {
     });
   } catch (e) {
     console.error("Error adding PDF:", e);
-    return res
-      .status(500)
-      .json({
-        message: "Something went wrong while adding the PDF.",
-        error: e,
-      });
+    return res.status(500).json({
+      message: "Something went wrong while adding the PDF.",
+      error: e,
+    });
   }
 };
 
