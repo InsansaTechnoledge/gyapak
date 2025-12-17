@@ -1,10 +1,17 @@
 // routes/sitemap.routes.js
 import express from "express";
-import { getSitemap } from "../controller/sitemap.controller.js";
+import { generateAllSitemaps, serveSitemap } from "../controller/sitemap.controller.js";
 
 const router = express.Router();
 
-// GET /sitemap.xml
-router.get("/sitemap.xml", getSitemap);
+// Generate all sitemaps (call this API to create/update all sitemap files)
+router.post("/generate-sitemaps", generateAllSitemaps);
+
+// Serve sitemap files
+router.get("/sitemap.xml", serveSitemap);
+router.get("/sitemap-:filename.xml", (req, res) => {
+  req.params.filename = `sitemap-${req.params.filename}.xml`;
+  serveSitemap(req, res);
+});
 
 export default router;
