@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
+// import Pagination from "../components/ui/Pagination";
 import { API_BASE_URL } from "../config";
-
+import Pagination from "./SEO/Components/Pagination";
 
 const API_BASE = API_BASE_URL;
-// const API_BASE = "http://localhost:3000";
+
 const initialForm = {
   code: "",
   name: "",
@@ -15,23 +16,28 @@ const initialForm = {
   intervalMinutes: 5,
 };
 
-const ManageSources = () => {
-  const [sources, setSources] = useState([]);
+export default function ManageSources() {
+  const [allSources, setAllSources] = useState([]);
   const [form, setForm] = useState(initialForm);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [error, setError] = useState("");
 
-  // Load all sources
+  // table controls
+  const [q, setQ] = useState("");
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+
   const fetchSources = async () => {
     setLoading(true);
     setError("");
     try {
+      // client-side pagination for reliability (works even if backend doesn't support page/limit)
       const res = await axios.get(`${API_BASE}/api/sources`, {
         withCredentials: true,
       });
-      setSources(res?.data?.data || []);
+      setAllSources(res?.data?.data || []);
     } catch (err) {
       console.error("Error loading sources", err);
       setError("Failed to load sources");
@@ -44,14 +50,36 @@ const ManageSources = () => {
     fetchSources();
   }, []);
 
+  const filteredSources = useMemo(() => {
+    const query = q.trim().toLowerCase();
+    if (!query) return allSources;
+
+    return allSources.filter((s) => {
+      const hay = `${s.code || ""} ${s.name || ""} ${s.type || ""} ${s.baseUrl || ""}`.toLowerCase();
+      return hay.includes(query);
+    });
+  }, [allSources, q]);
+
+  const total = filteredSources.length;
+  const totalPages = Math.max(1, Math.ceil(total / limit));
+
+  const pagedSources = useMemo(() => {
+    const safePage = Math.min(page, totalPages);
+    const start = (safePage - 1) * limit;
+    return filteredSources.slice(start, start + limit);
+  }, [filteredSources, page, totalPages, limit]);
+
+  useEffect(() => {
+    // if filtering reduces pages, clamp page
+    if (page > totalPages) setPage(totalPages);
+    // eslint-disable-next-line
+  }, [totalPages]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({
       ...prev,
-      [name]:
-        name === "intervalMinutes"
-          ? Number(value || 0)
-          : value,
+      [name]: name === "intervalMinutes" ? Number(value || 0) : value,
     }));
   };
 
@@ -62,12 +90,10 @@ const ManageSources = () => {
 
     try {
       if (editingId) {
-        // Update
         await axios.put(`${API_BASE}/api/sources/${editingId}`, form, {
           withCredentials: true,
         });
       } else {
-        // Create
         await axios.post(`${API_BASE}/api/sources`, form, {
           withCredentials: true,
         });
@@ -78,9 +104,7 @@ const ManageSources = () => {
       setEditingId(null);
     } catch (err) {
       console.error("Error saving source", err);
-      setError(
-        err?.response?.data?.message || "Failed to save source"
-      );
+      setError(err?.response?.data?.message || "Failed to save source");
     } finally {
       setSaving(false);
     }
@@ -97,6 +121,7 @@ const ManageSources = () => {
       selector: source.selector || "",
       intervalMinutes: source.intervalMinutes || 5,
     });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleCancelEdit = () => {
@@ -132,10 +157,14 @@ const ManageSources = () => {
   };
 
   return (
-    <div className=" mx-auto px-4 py-8">
-      <h1 className="text-2xl font-semibold mb-4">
-        Manage Sources 
-      </h1>
+    <div className="mx-auto px-4 py-6">
+      <div className="flex items-end justify-between gap-3 mb-4">
+        <div>
+          <h1 className="text-2xl font-semibold text-slate-800">Manage Sources</h1>
+          <p className="text-sm text-slate-500">Create, edit, activate/deactivate sources.</p>
+        </div>
+        {loading && <span className="text-xs text-slate-500">Loading…</span>}
+      </div>
 
       {error && (
         <div className="mb-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md px-3 py-2">
@@ -146,79 +175,78 @@ const ManageSources = () => {
       {/* Form */}
       <form
         onSubmit={handleSubmit}
-        className="mb-8 grid gap-4 md:grid-cols-2 bg-white border border-slate-200 rounded-xl p-4 shadow-sm"
+        className="mb-6 grid gap-4 md:grid-cols-2 bg-white border border-slate-200 rounded-xl p-4 shadow-sm"
       >
-        <div className="md:col-span-2">
-          <h2 className="text-lg font-medium">
+        <div className="md:col-span-2 flex items-center justify-between">
+          <h2 className="text-lg font-medium text-slate-800">
             {editingId ? "Edit Source" : "Add New Source"}
           </h2>
+          {editingId && (
+            <button
+              type="button"
+              onClick={handleCancelEdit}
+              className="text-sm px-3 py-1.5 rounded-md border border-slate-300 text-slate-700 hover:bg-slate-50"
+            >
+              Cancel Edit
+            </button>
+          )}
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">
-            Code (unique)
-          </label>
+          <label className="block text-sm font-medium mb-1">Code (unique)</label>
           <input
             name="code"
             value={form.code}
             onChange={handleChange}
             required
-            className="w-full border border-slate-300 rounded-md px-2 py-1.5 text-sm"
+            className="w-full border border-slate-300 rounded-md px-2 py-2 text-sm"
             placeholder="CENTRAL_UPSC"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">
-            Name
-          </label>
+          <label className="block text-sm font-medium mb-1">Name</label>
           <input
             name="name"
             value={form.name}
             onChange={handleChange}
             required
-            className="w-full border border-slate-300 rounded-md px-2 py-1.5 text-sm"
+            className="w-full border border-slate-300 rounded-md px-2 py-2 text-sm"
             placeholder="UPSC"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">
-            Base URL
-          </label>
+          <label className="block text-sm font-medium mb-1">Base URL</label>
           <input
             name="baseUrl"
             value={form.baseUrl}
             onChange={handleChange}
             required
-            className="w-full border border-slate-300 rounded-md px-2 py-1.5 text-sm"
+            className="w-full border border-slate-300 rounded-md px-2 py-2 text-sm"
             placeholder="https://www.upsc.gov.in"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">
-            Notification URL
-          </label>
+          <label className="block text-sm font-medium mb-1">Notification URL</label>
           <input
             name="notificationUrl"
             value={form.notificationUrl}
             onChange={handleChange}
             required
-            className="w-full border border-slate-300 rounded-md px-2 py-1.5 text-sm"
+            className="w-full border border-slate-300 rounded-md px-2 py-2 text-sm"
             placeholder="https://www.upsc.gov.in/recruitment/recruitment-advertisement"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">
-            Type
-          </label>
+          <label className="block text-sm font-medium mb-1">Type</label>
           <select
             name="type"
             value={form.type}
             onChange={handleChange}
-            className="w-full border border-slate-300 rounded-md px-2 py-1.5 text-sm"
+            className="w-full border border-slate-300 rounded-md px-2 py-2 text-sm"
           >
             <option value="html">HTML</option>
             <option value="rss">RSS</option>
@@ -227,16 +255,14 @@ const ManageSources = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">
-            Interval (minutes)
-          </label>
+          <label className="block text-sm font-medium mb-1">Interval (minutes)</label>
           <input
             name="intervalMinutes"
             type="number"
             min={1}
             value={form.intervalMinutes}
             onChange={handleChange}
-            className="w-full border border-slate-300 rounded-md px-2 py-1.5 text-sm"
+            className="w-full border border-slate-300 rounded-md px-2 py-2 text-sm"
           />
         </div>
 
@@ -248,11 +274,11 @@ const ManageSources = () => {
             name="selector"
             value={form.selector}
             onChange={handleChange}
-            className="w-full border border-slate-300 rounded-md px-2 py-1.5 text-sm"
+            className="w-full border border-slate-300 rounded-md px-2 py-2 text-sm"
             placeholder=".notice-list a  or  #content table a"
           />
           <p className="text-xs text-slate-500 mt-1">
-            Leave empty to scan all links under &lt;body&gt; (not recommended for complex pages).
+            Leave empty to scan all links under &lt;body&gt; (not recommended).
           </p>
         </div>
 
@@ -260,42 +286,48 @@ const ManageSources = () => {
           <button
             type="submit"
             disabled={saving}
-            className="px-4 py-1.5 text-sm rounded-md bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-60"
+            className="px-4 py-2 text-sm rounded-md bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-60"
           >
-            {saving
-              ? editingId
-                ? "Updating..."
-                : "Saving..."
-              : editingId
-              ? "Update Source"
-              : "Add Source"}
+            {saving ? (editingId ? "Updating..." : "Saving...") : editingId ? "Update Source" : "Add Source"}
           </button>
-          {editingId && (
-            <button
-              type="button"
-              onClick={handleCancelEdit}
-              className="px-3 py-1.5 text-sm rounded-md border border-slate-300 text-slate-700"
-            >
-              Cancel
-            </button>
-          )}
         </div>
       </form>
 
-      {/* Sources table */}
+      {/* Table */}
       <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-lg font-medium">All Sources</h2>
-          {loading && <span className="text-xs text-slate-500">Loading…</span>}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-3">
+          <div className="flex items-center gap-2">
+            <input
+              value={q}
+              onChange={(e) => {
+                setQ(e.target.value);
+                setPage(1);
+              }}
+              placeholder="Search code / name / url..."
+              className="w-full md:w-72 border border-slate-300 rounded-md px-3 py-2 text-sm"
+            />
+            <select
+              value={limit}
+              onChange={(e) => {
+                setLimit(Number(e.target.value));
+                setPage(1);
+              }}
+              className="border border-slate-300 rounded-md px-2 py-2 text-sm"
+            >
+              <option value={10}>10 / page</option>
+              <option value={20}>20 / page</option>
+              <option value={50}>50 / page</option>
+            </select>
+          </div>
+
+          <div className="text-sm text-slate-600">
+            Total: <span className="font-semibold">{total}</span>
+          </div>
         </div>
 
-        {sources.length === 0 && !loading && (
-          <p className="text-sm text-slate-500">
-            No sources yet. Add one using the form above.
-          </p>
-        )}
-
-        {sources.length > 0 && (
+        {total === 0 && !loading ? (
+          <p className="text-sm text-slate-500">No sources found.</p>
+        ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full text-sm">
               <thead>
@@ -309,7 +341,7 @@ const ManageSources = () => {
                 </tr>
               </thead>
               <tbody>
-                {sources.map((s) => (
+                {pagedSources.map((s) => (
                   <tr key={s._id} className="border-t border-slate-100">
                     <td className="px-2 py-2 font-mono">{s.code}</td>
                     <td className="px-2 py-2">{s.name}</td>
@@ -330,13 +362,13 @@ const ManageSources = () => {
                     <td className="px-2 py-2 text-right space-x-2">
                       <button
                         onClick={() => handleEdit(s)}
-                        className="text-xs px-2 py-1 rounded-md border border-slate-300"
+                        className="text-xs px-2 py-1 rounded-md border border-slate-300 hover:bg-slate-50"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => handleDelete(s._id)}
-                        className="text-xs px-2 py-1 rounded-md border border-red-300 text-red-600"
+                        className="text-xs px-2 py-1 rounded-md border border-red-300 text-red-600 hover:bg-red-50"
                       >
                         Delete
                       </button>
@@ -347,9 +379,11 @@ const ManageSources = () => {
             </table>
           </div>
         )}
+
+        <div className="mt-4">
+          <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+        </div>
       </div>
     </div>
   );
-};
-
-export default ManageSources;
+}

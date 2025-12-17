@@ -6,6 +6,8 @@ import { fetchTodaysEvents } from '../../../Service/calendar';
 
 const API_BASE_URL = 'http://localhost:8383';
 
+// const API_BASE_URL = "https://backend.gyapak.in";
+
 const makeSlug = (title = '') =>
   title
     .toLowerCase()

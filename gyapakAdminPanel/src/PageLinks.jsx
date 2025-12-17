@@ -13,6 +13,7 @@ import ProtectedRoute from "./Components/Auth/ProtectedRoute";
 import { useAuth } from "./Components/Auth/AuthContext";
 import TrackNewUpdates from "./Pages/TrackNewUpdates";
 import Navbar from "./Components/Navbar/Navbar"; // ⬅️ move import here
+import SeoTools from "./Pages/SEO/SeoTools";
 
 const PageLinks = () => {
   const { isAuthenticated, login } = useAuth();
@@ -65,6 +66,8 @@ const PageLinks = () => {
             )
           }
         />
+
+        <Route path="/seo-tools" element={<SeoTools/>}/>
       </Routes>
     </Router>
   );

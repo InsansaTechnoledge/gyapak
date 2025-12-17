@@ -8,10 +8,11 @@ import {
   fetchEventsByMonth
 } from '../../Service/calendar';
 import { useNavigate } from 'react-router-dom';
-import { ArrowBigRight, ArrowRight, ChevronDown, ChevronRight, MoveDown } from 'lucide-react';
-import UpcommingEvent from './upcommingEvent/UpcommingEvent';
+import { ArrowRight, ChevronDown, ChevronRight } from 'lucide-react';
 
 const API_BASE_URL = 'http://localhost:8383';
+
+// const API_BASE_URL = "https://backend.gyapak.in";
 
 const makeSlug = (title = "") =>
   title
