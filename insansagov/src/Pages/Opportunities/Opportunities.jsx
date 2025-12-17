@@ -107,9 +107,30 @@ const ModernExamDetailsPage = () => {
     );
   }
 
+  const examName = data?.name || "Government Exam";
+  const orgName = organization || "gyapak";
+
+  const seoTitle = `${examName} Recruitment ${new Date().getFullYear()} | ${orgName}`;
+  const seoDescription =
+    data?.meta_description ||
+    `Apply for ${examName} by ${orgName}. Check vacancies, eligibility, age limit, fees, important dates, exam centres and how to apply online on gyapak.`;
+
+  const seoKeywords = [
+    "gyapak",
+    examName,
+    `${examName} notification`,
+    `${examName} recruitment`,
+    `${examName} vacancies`,
+    "government jobs",
+    "sarkari exam",
+    "government exam notifications",
+  ].join(", ");
+
+  
+
   return (
     <>
-      <Helmet>
+      {/* <Helmet>
         <title>{`top-exams-for-government-jobs-in-india`}</title>
         <meta
           name="description"
@@ -120,10 +141,26 @@ const ModernExamDetailsPage = () => {
           content="government competitive exams after 12th,government organisations, exam sarkari results, government calendar,current affairs,top exams for government jobs in india,Upcoming Government Exams"
         />
         <meta property="og:title" content="gyapak" />
-        <meta
-          property="og:description"
-          content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs."
-        />
+        <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
+      </Helmet> */}
+
+      <Helmet>
+        <title>{seoTitle}</title>
+        <meta name="description" content={seoDescription} />
+        <meta name="keywords" content={seoKeywords} />
+        {/* <link rel="canonical" href={canonicalUrl} /> */}
+
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={seoTitle} />
+        <meta property="og:description" content={seoDescription} />
+        {/* <meta property="og:url" content={canonicalUrl} /> */}
+        <meta property="og:site_name" content="gyapak" />
+        <meta property="og:image" content="https://gyapak.in/logo3.png" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={seoTitle} />
+        <meta name="twitter:description" content={seoDescription} />
+        <meta name="twitter:image" content="https://gyapak.in/logo3.png" />
       </Helmet>
 
       <div className="min-h-screen bg-white text-gray-900 py-20 px-0 md:px-4 ">

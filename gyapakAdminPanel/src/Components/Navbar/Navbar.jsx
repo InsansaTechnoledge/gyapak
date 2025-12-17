@@ -24,6 +24,12 @@ const Navbar = () => {
                     Magic
                   </button>
                 </div>
+                
+                <div className="flex px-3 py-2 rounded-2xl bg-purple-700 gap-3">
+                  <button onClick={() => navigate("/seo-tools" )} className=" text-lg cursor-pointer text-white ">
+                    SEO TOOLS
+                  </button>
+                </div>
               </div>
             </div>
           </div>

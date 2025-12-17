@@ -21,6 +21,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "googleapis": "^168.0.0",
     "mongoose": "^8.13.0",
     "multer": "^2.0.2",
     "node-buffer": "^1.0.3",
