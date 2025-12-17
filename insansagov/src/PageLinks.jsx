@@ -112,7 +112,7 @@ const PageLinks = () => {
           }
         />
         <Route 
-          path='/government-organisations-under-category' 
+          path='/government-organisations-under-category/:categorySlug' 
           element={
             <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
               <Category />
@@ -207,14 +207,16 @@ const PageLinks = () => {
             </div>
           }
         />
-        <Route 
+
+        {/* Current Affairs Route commented out for now DO NOT DELETE IT*/}
+        {/* <Route 
           path="/current-affairs/:date/:slug" 
           element={
             <div className='px-5 md:px-16 lg:px-32 xl:px-64'>
               <CurrentAffairDetails />
             </div>
           }
-        />
+        /> */}
 
          <Route 
           path="/daily-updates" 

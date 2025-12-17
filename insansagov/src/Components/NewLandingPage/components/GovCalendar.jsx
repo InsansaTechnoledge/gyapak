@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchTodaysEvents } from "../../../Service/calendar";
 import { useApi } from "../../../Context/ApiContext";
-import slugGenerator from "../../../Utils/SlugGenerator";
+import { generateSlugUrl } from "../../../Utils/urlUtils.utils";
 
 const GovCalendar = () => {
   const { apiBaseUrl } = useApi();
@@ -81,7 +81,7 @@ const GovCalendar = () => {
 
   const filteredEvents = todayEvents.filter((event) =>
     event.name?.toLowerCase().includes(searchQuery.toLowerCase())
-  );  
+  );
 
   // Calculate pagination
   const totalPages = Math.ceil(filteredEvents.length / itemsPerPage);
@@ -247,9 +247,7 @@ const GovCalendar = () => {
                   {currentEvents.map((event) => (
                     <a
                       key={event._id}
-                      href={`/top-exams-for-government-jobs-in-india/${slugGenerator(
-                        event.name
-                      )}?id=${event._id}`}
+                      href={generateSlugUrl(event.name, event._id)}
                       className="block p-4 bg-white border border-purple-100 rounded-lg hover:border-purple-300 hover:shadow-md transition-all"
                     >
                       <h4 className="font-medium text-purple-800 mb-2">
@@ -273,9 +271,7 @@ const GovCalendar = () => {
                   {currentEvents.map((event) => (
                     <a
                       key={event._id}
-                      href={`/top-exams-for-government-jobs-in-india/${slugGenerator(
-                        event.name
-                      )}?id=${event._id}`}
+                      href={generateSlugUrl(event.name, event._id)}
                       className="px-4 py-3 flex justify-between items-center hover:bg-purple-50 transition-colors"
                     >
                       <div>

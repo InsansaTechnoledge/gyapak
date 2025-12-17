@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useApi } from "../../Context/ApiContext";
 import { Link } from "react-router-dom";
 import { Briefcase, ArrowRight, Building2, CalendarDays } from "lucide-react";
+import { generateSlugUrl } from "../../Utils/urlUtils.utils";
 
 export default function RecentVacencies() {
   const { apiBaseUrl } = useApi();
@@ -25,7 +26,9 @@ export default function RecentVacencies() {
       <div className="p-4">
         <div className="flex items-center gap-2 mb-4">
           <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-          <p className="text-sm text-gray-600">Fetching today&apos;s vacancies…</p>
+          <p className="text-sm text-gray-600">
+            Fetching today&apos;s vacancies…
+          </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[1, 2, 3].map((i) => (
@@ -80,7 +83,8 @@ export default function RecentVacencies() {
 
       {!hasVacancies && (
         <div className="mt-4 rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-4 text-sm text-gray-600">
-          No vacancies were posted today. Check back later for new opportunities.
+          No vacancies were posted today. Check back later for new
+          opportunities.
         </div>
       )}
 
@@ -127,7 +131,6 @@ export default function RecentVacencies() {
                 <div className="flex flex-col flex-1 p-4 pt-5 gap-3">
                   {/* Badge row */}
                   <div className="flex items-center justify-between gap-2">
-
                     {dateLabel && (
                       <span className="inline-flex items-center gap-1 text-[11px] text-gray-500">
                         <CalendarDays className="w-3 h-3" />
@@ -172,12 +175,5 @@ export default function RecentVacencies() {
 }
 
 function generateLink(e) {
-  const base = "https://gyapak.in/top-exams-for-government-jobs-in-india";
-
-  const slug = e.name
-    ?.toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-
-  return `${base}/${slug}?id=${e._id}`;
+  return generateSlugUrl(e.name, e._id);
 }

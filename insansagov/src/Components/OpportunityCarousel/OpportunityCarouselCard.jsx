@@ -1,33 +1,41 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Building2, Clock } from 'lucide-react';
-import { formatDate } from '../../Utils/dateFormatter';
-import slugGenerator from '../../Utils/SlugGenerator';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { Building2, Clock } from "lucide-react";
+import { formatDate } from "../../Utils/dateFormatter";
+import { generateSlugUrl } from "../../Utils/urlUtils.utils";
 
 const OpportunityCarouselCard = (props) => {
   const navigate = useNavigate();
   return (
-    <div className='w-full bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-purple-100'>
-      <div className='p-4 flex flex-col h-full'>
-        <div className='flex-1'>
-          <h3 className='text-lg font-semibold text-gray-800 mb-2 line-clamp-2'>
-            {props.item?.name || 'No Name Available'}
+    <div className="w-full bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-purple-100">
+      <div className="p-4 flex flex-col h-full">
+        <div className="flex-1">
+          <h3 className="text-lg font-semibold text-gray-800 mb-2 line-clamp-2">
+            {props.item?.name || "No Name Available"}
           </h3>
-          <div className='flex items-center text-gray-600 mb-4'>
-            <Building2 className='w-4 h-4 mr-2' />
-            <span className='text-sm'>{props.authority}</span>
+          <div className="flex items-center text-gray-600 mb-4">
+            <Building2 className="w-4 h-4 mr-2" />
+            <span className="text-sm">{props.authority}</span>
           </div>
         </div>
 
-        <div className='mt-4 pt-4 border-t border-gray-100'>
-          <div className='flex items-center justify-between'>
-            <div className='flex items-center text-gray-500'>
-              <Clock className='w-4 h-4 mr-2' />
-              <span className='text-sm'>
-                Updated: {props.item.updatedAt ? formatDate (props.item.updatedAt) : 'N/A'}
+        <div className="mt-4 pt-4 border-t border-gray-100">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center text-gray-500">
+              <Clock className="w-4 h-4 mr-2" />
+              <span className="text-sm">
+                Updated:{" "}
+                {props.item.updatedAt
+                  ? formatDate(props.item.updatedAt)
+                  : "N/A"}
               </span>
             </div>
-            <button onClick= {()=> navigate(`/top-exams-for-government-jobs-in-india/${slugGenerator(props.item.name)}?id=${encodeURI(props.item._id)}`)} className='bg-purple-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-purple-700 transition-colors'>
+            <button
+              onClick={() =>
+                navigate(generateSlugUrl(props.item.name, props.item._id))
+              }
+              className="bg-purple-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-purple-700 transition-colors"
+            >
               View Details
             </button>
           </div>

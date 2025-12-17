@@ -56,12 +56,9 @@ export default function GyapakLanding() {
     <div className="min-h-screen">
       <Suspense fallback={<Loading />}>
         <main className="mx-auto  px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 lg:pt-28">
-         
           <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
-          
             <div className="flex-1 flex flex-col gap-6">
               <div className="grid grid-cols-1 md:grid-cols-2 items-start">
-              
                 <section className="md:pl-10 md:mt-10 md:mb-3 ">
                   <h1 className="text-[11vw] sm:text-[4.2vw] lg:text-[3.6vw] font-black tracking-tight lowercase text-purple-600 leading-[1.05] mb-4">
                     Gyapak
@@ -90,7 +87,6 @@ export default function GyapakLanding() {
                   )}
                 </section>
 
-              
                 <div className="flex flex-col gap-4 ">
                   {/* Exam count card */}
                   <section className="flex justify-center md:justify-end">
@@ -137,7 +133,10 @@ export default function GyapakLanding() {
 
                   {/* Today’s current affairs card */}
                   <section className="flex justify-center md:justify-end">
-                    <a href="/daily-updates" className="block w-full max-w-xs sm:max-w-sm">
+                    <a
+                      href="/daily-updates"
+                      className="block w-full max-w-xs sm:max-w-sm"
+                    >
                       <div className="group relative flex flex-col gap-3 rounded-2xl border border-purple-100 bg-white/80 backdrop-blur-sm p-5 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 cursor-pointer">
                         <span className="inline-flex items-center px-3 py-1 rounded-full bg-green-600 text-white text-xs font-semibold uppercase tracking-wide animate-pulse w-fit">
                           New • Daily
@@ -180,7 +179,6 @@ export default function GyapakLanding() {
               </div>
             </div>
 
-            
             <div className="w-full lg:w-1/3">
               <div className="flex h-full flex-col rounded-2xl border border-slate-200 bg-white/90 backdrop-blur-sm p-5 shadow-sm hover:shadow-lg transition-shadow duration-300">
                 {/* Header */}
@@ -193,7 +191,6 @@ export default function GyapakLanding() {
                       Magazine & Critical Alerts Booklet Store
                     </h2>
                   </div>
-
                 </div>
 
                 {/* Monthly Magazine block */}
@@ -219,7 +216,7 @@ export default function GyapakLanding() {
                     // onClick={() =>
                     //   (window.location.href = "/monthly-magazine")
                     // }
-                    to={'/monthly-magazine'}
+                    to={"/monthly-magazine"}
                     className="mt-2 inline-flex items-center justify-center rounded-lg bg-purple-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-purple-700 transition-colors"
                   >
                     Download Monthly Magazine
@@ -230,7 +227,7 @@ export default function GyapakLanding() {
                 <div className="my-4 h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
 
                 {/* Critical posts block */}
-                <div className="flex-1 flex flex-col gap-3">
+                {/* <div className="flex-1 flex flex-col gap-3">
                   <div className="flex items-center justify-between">
                     <p className="text-sm font-semibold text-slate-800">
                       Critical Jobs & Exams
@@ -277,7 +274,7 @@ export default function GyapakLanding() {
                   >
                     View expiring jobs & exams →
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

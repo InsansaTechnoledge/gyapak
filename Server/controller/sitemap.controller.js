@@ -4,32 +4,16 @@ import { buildUrlset } from "../Utility/sitemapBuilder.js";
 import { slugGenerator } from "../Utility/slugGenerator.js";
 
 
-const BASE_URL = "https://gyapak.in";
+const BASE_URL = "http://localhost:5173";
 
 // 🔹 Convert an Event document into the correct frontend URL
+// All event types (Exam, AdmitCard, Result) use the same detail page with slug-based URLs
 const getEventUrl = (event) => {
   const id = event._id.toString();
-
-  switch (event.event_type) {
-    case "Exam": {
-      const slug = slugGenerator(event.name || "");
-      const path = `/top-exams-for-government-jobs-in-india/${slug}`;
-      return `${BASE_URL}${path}?id=${id}`;
-    }
-
-    case "AdmitCard": {
-      return `${BASE_URL}/admit-card?id=${id}`;
-    }
-
-    case "Result": {
-      return `${BASE_URL}/results?id=${id}`;
-    }
-
-    default: {
-      const slug = slugGenerator(event.name || "");
-      return `${BASE_URL}/events/${slug}?id=${id}`;
-    }
-  }
+  const slug = slugGenerator(event.name || "");
+  // Using double hyphen (--) to separate slug from ID
+  const path = `/top-exams-for-government-jobs-in-india/${slug}--${id}`;
+  return `${BASE_URL}${path}`;
 };
 
 export const getSitemap = async (req, res) => {

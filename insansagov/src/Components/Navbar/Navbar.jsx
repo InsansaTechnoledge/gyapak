@@ -193,7 +193,7 @@ const Navbar = () => {
   };
 
   const updateVisibleCategories = (category) => {
-    if (location.pathname == '/government-organisations-under-category') {
+    if (location.pathname.startsWith('/government-organisations-under-category/')) {
       setVisibleCategories(categories.filter(cat => cat !== category));
     } else {
       setVisibleCategories(categories);
@@ -509,7 +509,7 @@ const Navbar = () => {
                   onClick={() => {
                     updateVisibleCategories(category);
                     setActiveMenu(null);
-                    navigate(`/government-organisations-under-category?name=${encodeURI(category.Nameid)}`);
+                    navigate(`/government-organisations-under-category/${encodeURIComponent(category.Nameid)}`);
                   }}
                   className="flex items-center p-2.5 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 group cursor-pointer min-w-0"
                 >
@@ -657,7 +657,7 @@ const Navbar = () => {
                         updateVisibleCategories(category);
                         setMobileCategoryDropdownVisible(false);
                         setIsOpen(false);
-                        navigate(`/government-organisations-under-category?name=${encodeURI(category.Nameid)}`);
+                        navigate(`/government-organisations-under-category/${encodeURIComponent(category.Nameid)}`);
                       }}
                       className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-br from-purple-50 to-blue-50 hover:from-purple-100 hover:to-blue-100 cursor-pointer transition-all duration-300"
                     >
