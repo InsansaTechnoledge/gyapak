@@ -1,63 +1,58 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchTodaysEvents } from "../../../Service/calendar";
 import { useApi } from "../../../Context/ApiContext";
 import { generateSlugUrl } from "../../../Utils/urlUtils.utils";
+import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
+import slugGenerator from "../../../Utils/SlugGenerator";
+import { useEventRouting } from "../../../Utils/useEventRouting";
 
 const GovCalendar = () => {
   const { apiBaseUrl } = useApi();
+  const navigate = useNavigate();
+
+  // Calculate events per page based on screen size
+  const getEventsPerPage = (width) => {
+    if (width < 640) return 6; // Mobile
+    if (width < 1024) return 8; // Tablet
+    return 12; // Desktop
+  };
+
+  const { getEventHref, handleEventClick, prefetchEventRoute } = useEventRouting({
+    fallback: "old", 
+  });
+  
+
   const [searchQuery, setSearchQuery] = useState("");
-  const [viewMode, setViewMode] = useState("list"); // Default to 'list' for all devices
+  const [viewMode, setViewMode] = useState("list");
   const [currentPage, setCurrentPage] = useState(1);
+
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== "undefined" ? window.innerWidth : 1200
   );
-  const [itemsPerPage, setItemsPerPage] = useState(
-    getEventsPerPage(windowWidth)
-  );
 
-  // Calculate events per page based on screen size
-  function getEventsPerPage(width) {
-    if (width < 640) {
-      // Mobile
-      return 6;
-    } else if (width < 1024) {
-      // Tablet
-      return 8;
-    } else {
-      // Desktop
-      return 12;
-    }
-  }
+  const [itemsPerPage, setItemsPerPage] = useState(() =>
+    getEventsPerPage(typeof window !== "undefined" ? window.innerWidth : 1200)
+  );
 
   // Handle window resize
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     const handleResize = () => {
       const newWidth = window.innerWidth;
       setWindowWidth(newWidth);
       setItemsPerPage(getEventsPerPage(newWidth));
 
-      // Set viewMode based on screen size
-      if (newWidth < 640) {
-        // Mobile
-        setViewMode("list"); // Always list view on mobile
-      }
-
-      // Reset to first page when screen size changes to prevent empty pages
+      if (newWidth < 640) setViewMode("list"); // Always list on mobile
       setCurrentPage(1);
     };
 
-    if (typeof window !== "undefined") {
-      window.addEventListener("resize", handleResize);
-      // Initial call to set correct width and viewMode
-      handleResize();
-    }
+    window.addEventListener("resize", handleResize);
+    handleResize();
 
-    return () => {
-      if (typeof window !== "undefined") {
-        window.removeEventListener("resize", handleResize);
-      }
-    };
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const {
@@ -65,10 +60,11 @@ const GovCalendar = () => {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["todaysEvents"],
+    queryKey: ["todaysEvents", apiBaseUrl],
     queryFn: () => fetchTodaysEvents(apiBaseUrl),
-    staleTime: Infinity,
-    cacheTime: 24 * 60 * 60 * 1000,
+    enabled: !!apiBaseUrl,
+    staleTime: 5 * 60 * 1000, // 5 min (Infinity can stop updates)
+    gcTime: 24 * 60 * 60 * 1000, // react-query v5 (was cacheTime in v4)
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
@@ -79,34 +75,35 @@ const GovCalendar = () => {
     year: "numeric",
   });
 
-  const filteredEvents = todayEvents.filter((event) =>
-    event.name?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredEvents = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) return Array.isArray(todayEvents) ? todayEvents : [];
+    return (Array.isArray(todayEvents) ? todayEvents : []).filter((event) =>
+      event.name?.toLowerCase().includes(q)
+    );
+  }, [todayEvents, searchQuery]);
 
-  // Calculate pagination
-  const totalPages = Math.ceil(filteredEvents.length / itemsPerPage);
+  const totalPages = Math.max(1, Math.ceil(filteredEvents.length / itemsPerPage));
+
   const indexOfLastEvent = currentPage * itemsPerPage;
   const indexOfFirstEvent = indexOfLastEvent - itemsPerPage;
-  const currentEvents = filteredEvents.slice(
-    indexOfFirstEvent,
-    indexOfLastEvent
-  );
 
-  // Handle page changes
+  const currentEvents = useMemo(() => {
+    return filteredEvents.slice(indexOfFirstEvent, indexOfLastEvent);
+  }, [filteredEvents, indexOfFirstEvent, indexOfLastEvent]);
+
   const goToPage = (pageNumber) => {
-    setCurrentPage(pageNumber);
-    // Scroll to top of results when changing pages
-    // document.querySelector('.calendar-results')?.scrollIntoView({ behavior: 'smooth' });
+    const next = Math.min(Math.max(1, pageNumber), totalPages);
+    setCurrentPage(next);
   };
 
-  // Handle items per page change
   const handleItemsPerPageChange = (newPerPage) => {
     const firstItemIndex = (currentPage - 1) * itemsPerPage;
     const newPage = Math.floor(firstItemIndex / newPerPage) + 1;
     setItemsPerPage(newPerPage);
     setCurrentPage(newPage);
   };
-
+  
   return (
     <div className="bg-white mt-16 mb-16">
       <div className=" mx-auto py-8 px-4 sm:px-6 lg:px-8">
@@ -118,16 +115,17 @@ const GovCalendar = () => {
             </h2>
             <div className="mt-6 lg:mt-0 lg:flex-shrink-0">
               <div className="inline-flex rounded-md shadow">
-                <a
-                  href="/government-calendar"
+                <Link
+                  to="/government-calendar"
                   className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700"
                 >
                   Full Calendar View
-                </a>
+                </Link>
               </div>
             </div>
           </div>
-          <div className="   text-gray-500 text-sm max-w-xl mt-2">
+
+          <div className="text-gray-500 text-sm max-w-xl mt-2">
             Stay ahead with Gyapak’s Government Exam Calendar 2025. Explore
             upcoming state and central government exam dates, notification
             alerts, and key deadlines for UPSC, SSC, Banking, Railway, Defence,
@@ -145,23 +143,13 @@ const GovCalendar = () => {
               value={searchQuery}
               onChange={(e) => {
                 setSearchQuery(e.target.value);
-                setCurrentPage(1); // Reset to first page on new search
+                setCurrentPage(1);
               }}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
             />
             <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-              <svg
-                className="w-5 h-5 text-gray-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
+              <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
           </div>
@@ -171,47 +159,21 @@ const GovCalendar = () => {
             <div className="flex items-center space-x-4">
               <div className="flex border border-gray-300 rounded-lg">
                 <button
+                  type="button"
                   onClick={() => setViewMode("grid")}
-                  className={`p-2 ${
-                    viewMode === "grid"
-                      ? "bg-purple-100 text-purple-600"
-                      : "text-gray-500"
-                  }`}
+                  className={`p-2 ${viewMode === "grid" ? "bg-purple-100 text-purple-600" : "text-gray-500"}`}
                 >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
-                    />
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                   </svg>
                 </button>
                 <button
+                  type="button"
                   onClick={() => setViewMode("list")}
-                  className={`p-2 ${
-                    viewMode === "list"
-                      ? "bg-purple-100 text-purple-600"
-                      : "text-gray-500"
-                  }`}
+                  className={`p-2 ${viewMode === "list" ? "bg-purple-100 text-purple-600" : "text-gray-500"}`}
                 >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M4 6h16M4 10h16M4 14h16M4 18h16"
-                    />
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
                   </svg>
                 </button>
               </div>
@@ -222,18 +184,15 @@ const GovCalendar = () => {
         {/* Main content area */}
         <div className="bg-white rounded-lg shadow-md overflow-hidden border border-purple-200 calendar-results">
           <div className="bg-purple-600 px-4 py-3 flex justify-between items-center">
-            <h3 className="text-lg font-bold text-white">
-              Active government postings {today}
-            </h3>
+            <h3 className="text-lg font-bold text-white">Active government postings {today}</h3>
             <span className="text-xs bg-white/20 text-white px-2 py-1 rounded-full">
-              {filteredEvents.length}{" "}
-              {filteredEvents.length === 1 ? "Event" : "Events"}
+              {filteredEvents.length} {filteredEvents.length === 1 ? "Event" : "Events"}
             </span>
           </div>
 
           {isLoading ? (
             <div className="p-8 text-center">
-              <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-purple-500 border-t-transparent"></div>
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-purple-500 border-t-transparent" />
               <p className="mt-2 text-purple-600">Loading events...</p>
             </div>
           ) : error ? (
@@ -245,49 +204,43 @@ const GovCalendar = () => {
               {windowWidth >= 640 && viewMode === "grid" ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
                   {currentEvents.map((event) => (
-                    <a
+                    <Link
                       key={event._id}
-                      href={generateSlugUrl(event.name, event._id)}
+                      to={getEventHref(event)}
+                      onClick={(e) => handleEventClick(e, event)}
+                      onMouseEnter={() => prefetchEventRoute(event)} // optional
                       className="block p-4 bg-white border border-purple-100 rounded-lg hover:border-purple-300 hover:shadow-md transition-all"
                     >
-                      <h4 className="font-medium text-purple-800 mb-2">
-                        {event.name}
-                      </h4>
-                      {event.date && (
-                        <p className="text-sm text-gray-600 mb-2">
-                          {event.date}
-                        </p>
-                      )}
+                      <h4 className="font-medium text-purple-800 mb-2">{event.name}</h4>
+                      {event.date && <p className="text-sm text-gray-600 mb-2">{event.date}</p>}
                       {event.status && (
                         <span className="inline-block px-2 py-1 text-xs rounded-full bg-purple-100 text-purple-800">
                           {event.status}
                         </span>
                       )}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               ) : (
                 <div className="divide-y divide-purple-100">
                   {currentEvents.map((event) => (
-                    <a
+                    <Link
                       key={event._id}
-                      href={generateSlugUrl(event.name, event._id)}
-                      className="px-4 py-3 flex justify-between items-center hover:bg-purple-50 transition-colors"
+                      to={getEventHref(event)}
+                      onClick={(e) => handleEventClick(e, event)}
+                      onMouseEnter={() => prefetchEventRoute(event)} // optional
+                      className="block p-4 bg-white border border-purple-100 rounded-lg hover:border-purple-300 hover:shadow-md transition-all"
                     >
                       <div>
-                        <h4 className="font-medium text-purple-800">
-                          {event.name}
-                        </h4>
-                        {event.date && (
-                          <p className="text-sm text-gray-600">{event.date}</p>
-                        )}
+                        <h4 className="font-medium text-purple-800">{event.name}</h4>
+                        {event.date && <p className="text-sm text-gray-600">{event.date}</p>}
                       </div>
                       {event.status && (
                         <span className="px-2 py-1 text-xs rounded-full bg-purple-100 text-purple-800 whitespace-nowrap">
                           {event.status}
                         </span>
                       )}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               )}
@@ -297,19 +250,14 @@ const GovCalendar = () => {
                 <div className="bg-gray-50 px-4 py-3">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center">
-                      <label
-                        htmlFor="itemsPerPage"
-                        className="mr-2 text-sm text-gray-700"
-                      >
+                      <label htmlFor="itemsPerPage" className="mr-2 text-sm text-gray-700">
                         Show:
                       </label>
                       <select
                         id="itemsPerPage"
                         className="border border-gray-300 rounded-md text-sm"
                         value={itemsPerPage}
-                        onChange={(e) =>
-                          handleItemsPerPageChange(parseInt(e.target.value))
-                        }
+                        onChange={(e) => handleItemsPerPageChange(parseInt(e.target.value, 10))}
                       >
                         <option value="6">6</option>
                         <option value="12">12</option>
@@ -318,132 +266,62 @@ const GovCalendar = () => {
                       </select>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                      <div>
-                        <p className="text-sm text-gray-700">
-                          Showing{" "}
-                          <span className="font-medium">
-                            {indexOfFirstEvent + 1}
-                          </span>{" "}
-                          to{" "}
-                          <span className="font-medium">
-                            {indexOfLastEvent > filteredEvents.length
-                              ? filteredEvents.length
-                              : indexOfLastEvent}
-                          </span>{" "}
-                          of{" "}
-                          <span className="font-medium">
-                            {filteredEvents.length}
-                          </span>{" "}
-                          results
-                        </p>
-                      </div>
-                      <div>
-                        <nav
-                          className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
-                          aria-label="Pagination"
-                        >
-                          <button
-                            onClick={() => goToPage(currentPage - 1)}
-                            disabled={currentPage === 1}
-                            className={`relative inline-flex items-center px-2 py-2 rounded-l-md border text-sm font-medium ${
-                              currentPage === 1
-                                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                                : "bg-white text-gray-500 hover:bg-gray-50"
-                            }`}
-                          >
-                            <span className="sr-only">Previous</span>
-                            <svg
-                              className="h-5 w-5"
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                              aria-hidden="true"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                          </button>
 
-                          {/* Page Numbers - Desktop */}
-                          <div className="hidden md:flex">
-                            {[...Array(totalPages)].map((_, i) => (
-                              <button
-                                key={i}
-                                onClick={() => goToPage(i + 1)}
-                                className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
-                                  currentPage === i + 1
-                                    ? "z-10 bg-purple-50 border-purple-500 text-purple-600"
-                                    : "bg-white border-gray-300 text-gray-500 hover:bg-gray-50"
-                                }`}
-                              >
-                                {i + 1}
-                              </button>
-                            ))}
-                          </div>
+                  <div className="flex justify-between items-center w-full sm:hidden">
+                    <button
+                      onClick={() => goToPage(currentPage - 1)}
+                      disabled={currentPage === 1}
+                      className={`px-4 py-2 text-sm font-medium rounded-md ${
+                        currentPage === 1 ? "text-gray-400 cursor-not-allowed" : "text-purple-700 hover:bg-purple-50"
+                      }`}
+                    >
+                      Previous
+                    </button>
 
-                          {/* Simplified Page Indicator - Mobile */}
-                          <span className="relative md:hidden inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
-                            Page {currentPage} of {totalPages}
-                          </span>
+                    <span className="text-sm text-gray-700">
+                      Page {currentPage} of {totalPages}
+                    </span>
 
-                          <button
-                            onClick={() => goToPage(currentPage + 1)}
-                            disabled={currentPage === totalPages}
-                            className={`relative inline-flex items-center px-2 py-2 rounded-r-md border text-sm font-medium ${
-                              currentPage === totalPages
-                                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                                : "bg-white text-gray-500 hover:bg-gray-50"
-                            }`}
-                          >
-                            <span className="sr-only">Next</span>
-                            <svg
-                              className="h-5 w-5"
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                              aria-hidden="true"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                          </button>
-                        </nav>
-                      </div>
-                    </div>
+                    <button
+                      onClick={() => goToPage(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                      className={`px-4 py-2 text-sm font-medium rounded-md ${
+                        currentPage === totalPages ? "text-gray-400 cursor-not-allowed" : "text-purple-700 hover:bg-purple-50"
+                      }`}
+                    >
+                      Next
+                    </button>
+                  </div>
 
-                    {/* Mobile Pagination Controls */}
-                    <div className="flex justify-between items-center w-full sm:hidden">
+                  <div className="hidden sm:flex sm:items-center sm:justify-between">
+                    <p className="text-sm text-gray-700">
+                      Showing <span className="font-medium">{indexOfFirstEvent + 1}</span> to{" "}
+                      <span className="font-medium">
+                        {Math.min(indexOfLastEvent, filteredEvents.length)}
+                      </span>{" "}
+                      of <span className="font-medium">{filteredEvents.length}</span> results
+                    </p>
+
+                    <div className="flex items-center gap-2">
                       <button
                         onClick={() => goToPage(currentPage - 1)}
                         disabled={currentPage === 1}
-                        className={`relative inline-flex items-center px-4 py-2 text-sm font-medium rounded-md ${
-                          currentPage === 1
-                            ? "text-gray-400 cursor-not-allowed"
-                            : "text-purple-700 hover:bg-purple-50"
+                        className={`px-3 py-2 rounded-md border text-sm ${
+                          currentPage === 1 ? "bg-gray-100 text-gray-400" : "bg-white text-gray-700 hover:bg-gray-50"
                         }`}
                       >
-                        Previous
+                        Prev
                       </button>
 
                       <span className="text-sm text-gray-700">
-                        Page {currentPage} of {totalPages}
+                        {currentPage} / {totalPages}
                       </span>
 
                       <button
                         onClick={() => goToPage(currentPage + 1)}
                         disabled={currentPage === totalPages}
-                        className={`relative inline-flex items-center px-4 py-2 text-sm font-medium rounded-md ${
-                          currentPage === totalPages
-                            ? "text-gray-400 cursor-not-allowed"
-                            : "text-purple-700 hover:bg-purple-50"
+                        className={`px-3 py-2 rounded-md border text-sm ${
+                          currentPage === totalPages ? "bg-gray-100 text-gray-400" : "bg-white text-gray-700 hover:bg-gray-50"
                         }`}
                       >
                         Next
@@ -455,19 +333,6 @@ const GovCalendar = () => {
             </>
           ) : (
             <div className="p-8 text-center text-gray-500">
-              <svg
-                className="w-12 h-12 mx-auto text-gray-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M12 14h.01M19 21a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
               <p className="mt-2">No events found</p>
               {searchQuery && (
                 <button
@@ -485,12 +350,9 @@ const GovCalendar = () => {
 
           {filteredEvents.length > 0 && (
             <div className="bg-gray-50 px-4 py-3 flex items-center justify-center">
-              <a
-                href="/government-calendar"
-                className="text-sm text-purple-600 hover:text-purple-800 font-medium"
-              >
+              <Link to="/government-calendar" className="text-sm text-purple-600 hover:text-purple-800 font-medium">
                 View all upcoming exams and events →
-              </a>
+              </Link>
             </div>
           )}
         </div>

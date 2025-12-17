@@ -43,6 +43,10 @@ const EventSchema = new mongoose.Schema({
         type:String,
         enum:["Exam","AdmitCard","Result"],
         required: true
+    },
+    isNewEvent:{
+        type:Boolean,
+        default:false
     }
 },{
     timestamps: true

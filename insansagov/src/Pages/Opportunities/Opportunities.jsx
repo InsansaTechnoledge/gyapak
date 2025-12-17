@@ -27,14 +27,15 @@ import { useQuery } from "@tanstack/react-query";
 import { useApi, CheckServer } from "../../Context/ApiContext";
 import { extractIdFromSlug } from "../../Utils/urlUtils.utils.js";
 import logo from "/logo3.png";
+import { extractExamId } from "../../Utils/extractExamId.jsx";
 
 const ModernExamDetailsPage = () => {
   const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
   const location = useLocation();
-  const { slug } = useParams(); // Get slug from URL path
+  const { slug } = useParams();         // e.g. "ssc-cgl-2024--507f..."
+const { search } = useLocation();     // e.g. "?id=507f..."
 
-  // Extract ID from slug using utility function
-  const examId = extractIdFromSlug(slug);
+const examId = extractExamId({ slug, search });
 
   const [data, setData] = useState();
   const [organization, setOrganization] = useState();

@@ -6,7 +6,7 @@ import ServerPage from "../Pages/Error/ServerPage";
 const ApiContext = createContext();
 
 export const SERVER_URLS = [
-  "https://backend.gyapak.in",
+  // "https://backend.gyapak.in",
   // "http://localhost:5000",
   // "http://localhost:3000",
   "http://localhost:8383",

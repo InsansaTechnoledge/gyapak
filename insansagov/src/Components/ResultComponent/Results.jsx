@@ -5,6 +5,7 @@ import axios from "axios";
 import { useApi, CheckServer } from "../../Context/ApiContext";
 import { useQuery } from "@tanstack/react-query";
 import { generateSlugUrl } from "../../Utils/urlUtils.utils";
+import { useEventRouting } from "../../Utils/useEventRouting";
 
 const ResultsDashboard = () => {
   const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
@@ -26,6 +27,11 @@ const ResultsDashboard = () => {
   //         return matchesSearch && matchesFilter;
   //     })
   //     : [];
+
+  const { getEventHref, handleEventClick, prefetchEventRoute } = useEventRouting({
+    fallback: "old",
+  });
+  
 
   const fetchResults = async () => {
     try {
@@ -188,14 +194,16 @@ const ResultsDashboard = () => {
                   </div>
                 </div>
                 <div>
-                  <a
-                    href={generateSlugUrl(result.name, result._id)}
-                    // target="_blank"
-                    rel="noopener noreferrer"
-                    className="block mt-4 px-4 py-2 bg-purple-700 text-white text-center rounded-md hover:bg-purple-800 transition-colors"
-                  >
-                    View Result
-                  </a>
+                <a
+                  href={getEventHref(result)}
+                  onMouseEnter={() => prefetchEventRoute(result)}   
+                  onClick={(e) => handleEventClick(e, result)}      
+                  rel="noopener noreferrer"
+                  className="block mt-4 px-4 py-2 bg-purple-700 text-white text-center rounded-md hover:bg-purple-800 transition-colors"
+                >
+                  View Result
+                </a>
+
                 </div>
               </div>
             ))}

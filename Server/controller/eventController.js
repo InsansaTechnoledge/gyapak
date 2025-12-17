@@ -43,6 +43,24 @@ export const getLatestUpdates = async (req, res) => {
   }
 };
 
+export const getNewEvents = async (req, res) => {
+  try {
+    const { event_id } = req.params;
+
+    const event = await Event.findById(event_id).select("isNewEvent name").lean();
+
+    if (!event) return res.status(404).json({ isNewEvent: false });
+
+    return res.status(200).json({
+      isNewEvent: !!event.isNewEvent,
+      name: event.name,
+    });
+  } catch (e) {
+    return res.status(500).json({ message: "error", error: e?.message || e });
+  }
+};
+
+
 
 export const getEvent = async (req, res) => {
   try {
