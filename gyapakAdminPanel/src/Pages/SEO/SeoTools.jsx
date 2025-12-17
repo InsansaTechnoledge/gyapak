@@ -6,8 +6,8 @@ import GSCPagesPage from "./Components/GSCPagesPage";
 import GSCToolsPage from "./Components/GSCToolsPage";
 import IndexingApiPage from "./Components/IndexingApiPage";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api";
-
+// const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api"; 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://adminpanel.gyapak.in/api"; 
 const LS_ACCESS_KEY = "gyapak_seo_access_v1";
 
 const readAccessLevel = () => {
