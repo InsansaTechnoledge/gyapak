@@ -22,9 +22,11 @@ const Results = lazy(() => import("./Pages/ResultPage/ResultPage"));
 const TrendingPage = lazy(() => import("./Pages/Trending/Trending"));
 const StatePage = lazy(() => import("./Pages/State/StatePage"));
 const PrivacyPolicy = lazy(() => import("./Pages/PrivacyPolicy/Privacy"));
+const Contact = lazy(() => import("./Components/ContactUs/Contact"));
 const PortalCoverPage = lazy(() =>
   import("./Pages/FutureStartPage/PortalCoverPage")
 );
+const ThankYou = lazy(() => import("./Pages/ThankYou/thankYou"));
 const Unsubscribe = lazy(() => import("./Pages/Unsubscribe/Unsubscribe"));
 const OverviewPage = lazy(() => import("./Pages/OverviewPage/Overview"));
 const BlogPage = lazy(() => import("./Components/BolgPage/BlogPage"));
@@ -161,6 +163,22 @@ const PageLinks = () => {
           element={
             <div className="px-5 md:px-16 lg:px-32 xl:px-64">
               <Unsubscribe />
+            </div>
+          }
+        />
+        <Route
+          path="/contact-us"
+          element={
+            <div className="px-5 md:px-16 lg:px-32 xl:px-64">
+              <Contact />
+            </div>
+          }
+        />
+         <Route
+          path="/thank-you"
+          element={
+            <div className="px-5 md:px-16 lg:px-32 xl:px-64">
+              <ThankYou />
             </div>
           }
         />

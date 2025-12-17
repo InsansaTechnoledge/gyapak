@@ -11,7 +11,7 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const BASE_URL = "http://localhost:5713";
+const BASE_URL =   "https://gyapak.in" 
 const EVENTS_PER_PAGE = 1000;
 const SITEMAP_DIR = path.join(__dirname, "../public/sitemaps");
 
@@ -31,14 +31,18 @@ const getEventUrl = (event) => {
 // Helper function to convert Organization document to URL
 const getOrganizationUrl = (org) => {
   const id = org._id.toString();
-  const slug = slugGenerator(org.name || "");
-  const path = `/organization/government-competitive-exams-after-12th/${slug}--${id}`;
+  // const slug = slugGenerator(org.name || "");
+  const path = `/organization/government-competitive-exams-after-12th/${encodeURIComponent(
+    org.abbreviation
+  )}`;
   return `${BASE_URL}${path}`;
 };
 
 // Helper function to convert State name to URL
 const getStateUrl = (stateName) => {
-  return `${BASE_URL}/state/${stateName}`;
+  return `${BASE_URL}/state/government-jobs-in-${encodeURIComponent(
+    stateName
+  )}-for-12th-pass`;
 };
 
 // Helper function to write file
@@ -105,19 +109,19 @@ const generateMainSitemapIndex = async (eventPages) => {
 
   const sitemaps = [
     {
-      loc: `${BASE_URL}/sitemaps/sitemap-general.xml`,
+      loc: `${BASE_URL}/sitemap-general.xml`,
       lastmod: now,
     },
     {
-      loc: `${BASE_URL}/sitemaps/sitemap-events.xml`,
+      loc: `${BASE_URL}/sitemap-events.xml`,
       lastmod: now,
     },
     {
-      loc: `${BASE_URL}/sitemaps/sitemap-organizations.xml`,
+      loc: `${BASE_URL}/sitemap-organizations.xml`,
       lastmod: now,
     },
     {
-      loc: `${BASE_URL}/sitemaps/sitemap-state.xml`,
+      loc: `${BASE_URL}/sitemap-state.xml`,
       lastmod: now,
     },
   ];
@@ -148,6 +152,16 @@ const generateGeneralSitemapFile = async () => {
     },
     {
       loc: `${BASE_URL}/credits`,
+      changefreq: "yearly",
+      priority: "0.7",
+    },
+    {
+      loc: `${BASE_URL}/contact-us`,
+      changefreq: "yearly",
+      priority: "0.7",
+    },
+    {
+      loc: `${BASE_URL}/thank-you`,
       changefreq: "yearly",
       priority: "0.7",
     },
@@ -208,7 +222,7 @@ const generateEventsSitemapFiles = async () => {
   const eventSitemaps = [];
   for (let i = 1; i <= eventPages; i++) {
     eventSitemaps.push({
-      loc: `${BASE_URL}/sitemaps/sitemap-events-${i}.xml`,
+      loc: `${BASE_URL}/sitemap-events-${i}.xml`,
       lastmod: now,
     });
   }
@@ -223,7 +237,9 @@ const generateEventsSitemapFiles = async () => {
 // Generate Organizations Sitemap File
 // ========================================
 const generateOrganizationsSitemapFile = async () => {
-  const organizations = await Organization.find({}).select("name").lean();
+  const organizations = await Organization.find({})
+    .select("abbreviation")
+    .lean();
 
   const orgUrls = organizations.map((org) => ({
     loc: getOrganizationUrl(org),

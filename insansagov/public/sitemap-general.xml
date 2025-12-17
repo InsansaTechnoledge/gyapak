@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+  <loc>https://gyapak.in/government-calendar</loc>
+  
+  <changefreq>daily</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://gyapak.in/daily-updates</loc>
+  
+  <changefreq>daily</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://gyapak.in/privacy-policy</loc>
+  
+  <changefreq>yearly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://gyapak.in/credits</loc>
+  
+  <changefreq>yearly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://gyapak.in/contact-us</loc>
+  
+  <changefreq>yearly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://gyapak.in/thank-you</loc>
+  
+  <changefreq>yearly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://gyapak.in/overview</loc>
+  
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://gyapak.in/admit-card</loc>
+  
+  <changefreq>daily</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://gyapak.in/results</loc>
+  
+  <changefreq>daily</changefreq>
+  <priority>0.7</priority>
+</url>
+</urlset>

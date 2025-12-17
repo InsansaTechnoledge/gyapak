@@ -53,9 +53,6 @@ const loadBalancer = (req, res, next) => {
   next();
 };
 
-// Serve static sitemap files
-app.use('/sitemaps', express.static('public/sitemaps'));
-
 // app.get('/sitemap.xml', generateSitemap);
 app.use("/", sitemapRoutes);
 

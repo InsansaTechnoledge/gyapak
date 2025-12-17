@@ -60,7 +60,7 @@ const TopAuthorities = React.lazy(() =>
 const TopCategories = React.lazy(() =>
   import("../../Components/Categories/TopCategories")
 );
-const Contact = React.lazy(() => import("../../Components/ContactUs/Contact"));
+// const Contact = React.lazy(() => import("../../Components/ContactUs/Contact"));
 const FeaturePage = React.lazy(() =>
   import("../../Components/FeatureAdvertisement/Features")
 );
@@ -204,11 +204,11 @@ const Landing = () => {
           </LazyRender>
 
           {/* Contact section */}
-          <div id="contact" ref={contactRef}>
+          {/* <div id="contact" ref={contactRef}>
             <LazyRender>
               <Contact />
             </LazyRender>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
