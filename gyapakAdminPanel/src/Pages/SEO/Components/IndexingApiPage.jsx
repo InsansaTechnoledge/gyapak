@@ -1,7 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 
-const API_BASE = "http://localhost:3000/api/index";
+// const API_BASE = "http://localhost:3000/api/index"; 
+
+const API_BASE = 'https://adminpanel.gyapak.in/api/index';
 const LS_KEY = "gyapak_indexing_history_v1";
 
 const isValidUrl = (value) => {
