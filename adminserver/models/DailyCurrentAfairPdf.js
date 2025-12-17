@@ -46,6 +46,16 @@ const DailyPdfSchema = new Schema(
       type: Boolean,
       default: true,
     },
+
+    isScheduled: {
+      type: Boolean,
+      default: false,
+    },
+
+    scheduledPublishDate: {
+      type: Date,
+      default: null,
+    },
   },
   { timestamps: true } // auto-adds createdAt & updatedAt
 );
