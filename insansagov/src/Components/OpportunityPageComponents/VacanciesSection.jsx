@@ -2,7 +2,7 @@ import React from "react";
 import { Users } from "lucide-react";
 
 const VacanciesSection = ({ data, existingSections }) => {
-  console.log("new" , data)
+  // console.log("new" , data)
   if (!data?.details?.vacancies) {
     return null; // Return early if there are no vacancies
   }

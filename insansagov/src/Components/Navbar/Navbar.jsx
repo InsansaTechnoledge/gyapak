@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, ChevronDown, Search, MapPin, AlertTriangle, Newspaper, FileText } from 'lucide-react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { debounce, update } from 'lodash';
 import axios from 'axios';
 import { useApi, CheckServer } from '../../Context/ApiContext';
 import { useQuery } from '@tanstack/react-query';
 import logo3 from '/logo3.png';
 import logo4 from '/logo4.png';
 import { MdKeyboardArrowUp, MdOutlineTranslate, MdKeyboardArrowDown } from "react-icons/md";
+import { debounce } from '../../Utils/debounce';
 
 const stateImages = {
   "Gujarat": "/states/Gujarat.png",
@@ -79,8 +79,12 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(location.pathname === '/government-jobs-after-12th' ? false : true);
   const [searchQuery, setSearchQuery] = useState("");
   const [totalCount, setTotalCount] = useState(0);
-  const [suggestions, setSuggestions] = useState([]);
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [suggestions, setSuggestions] = useState({
+    organizations: [],
+    authorities: [],
+    categories: [],
+  });
+    const [showDropdown, setShowDropdown] = useState(false);
   const [logoVisible, setLogoVisible] = useState(false);
   const [searchParams] = useSearchParams();
   const [visibleStates, setVisibleStates] = useState();
@@ -237,8 +241,9 @@ const Navbar = () => {
 
   const inputChangeHandler = (val) => {
     setSearchQuery(val);
-    fetchSuggestions(val);
+    fetchSuggestionsDebounced.current?.(val);
   };
+  
 
   const selectSuggestion = (suggestion) => {
     handleSearch(suggestion);
@@ -246,33 +251,45 @@ const Navbar = () => {
     setShowDropdown(false);
   };
 
-  const fetchSuggestions = debounce(async (query) => {
-    if (!query) {
-      setSuggestions([]);
-      setShowDropdown(false);
-      return;
-    }
-    try {
-      const response = await axios.get(`${apiBaseUrl}/api/search/`, { params: { q: query.trim() } });
-      setSuggestions(response.data.suggestions);
-      setShowDropdown(true);
-    } catch (error) {
-      console.error('Error fetching suggestions:', error);
-      if (error.response) {
-        if (error.response.status >= 500 && error.response.status < 600) {
-          console.error("🚨 Server Error:", error.response.status, error.response.statusText);
-          const url = CheckServer();
-          setApiBaseUrl(url),
-          setServerError(error.response.status);
-          fetchSuggestions();
-        } else {
-          console.error('Error fetching state count:', error);
-        }
-      } else {
-        console.error('Error fetching state count:', error);
+
+
+  const fetchSuggestionsDebounced = useRef(null);
+
+  useEffect(() => {
+    fetchSuggestionsDebounced.current = debounce(async (query) => {
+      if (!query) {
+        setSuggestions({
+          organizations: [],
+          authorities: [],
+          categories: [],
+        });
+        setShowDropdown(false);
+        return;
       }
-    }
-  }, 600);
+  
+      try {
+        const response = await axios.get(`${apiBaseUrl}/api/search/`, {
+          params: { q: query.trim() },
+        });
+  
+        setSuggestions(response.data.suggestions);
+        setShowDropdown(true);
+      } catch (error) {
+        console.error('Error fetching suggestions:', error);
+        if (error.response && error.response.status >= 500 && error.response.status < 600) {
+          const url = await CheckServer();
+          setApiBaseUrl(url);
+          setServerError(error.response.status);
+        }
+      }
+    }, 600);
+  
+    return () => {
+      fetchSuggestionsDebounced.current?.cancel?.();
+    };
+  }, [apiBaseUrl, setApiBaseUrl, setServerError]);
+  
+  
 
   const SuggestionList = ({ title, items, itemKey }) => {
     if (!items || items.length === 0) return null;

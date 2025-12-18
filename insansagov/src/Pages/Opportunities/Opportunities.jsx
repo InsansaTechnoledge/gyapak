@@ -27,14 +27,15 @@ import { useQuery } from "@tanstack/react-query";
 import { useApi, CheckServer } from "../../Context/ApiContext";
 import { extractIdFromSlug } from "../../Utils/urlUtils.utils.js";
 import logo from "/logo3.png";
+import { extractExamId } from "../../Utils/extractExamId.jsx";
 
 const ModernExamDetailsPage = () => {
   const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
   const location = useLocation();
-  const { slug } = useParams(); // Get slug from URL path
+  const { slug } = useParams();         // e.g. "ssc-cgl-2024--507f..."
+const { search } = useLocation();     // e.g. "?id=507f..."
 
-  // Extract ID from slug using utility function
-  const examId = extractIdFromSlug(slug);
+const examId = extractExamId({ slug, search });
 
   const [data, setData] = useState();
   const [organization, setOrganization] = useState();
@@ -81,10 +82,10 @@ const ModernExamDetailsPage = () => {
   const { data: completeData, isLoading } = useQuery({
     queryKey: ["opportunity/" + examId, apiBaseUrl],
     queryFn: fetchEvent,
-    staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
-    cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
-    refetchOnMount: true, // ✅ Prevents refetch when component mounts again
-    refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+    staleTime: Infinity, 
+    cacheTime: 24 * 60 * 60 * 1000, 
+    refetchOnMount: true, 
+    refetchOnWindowFocus: false, 
   });
 
   useEffect(() => {
@@ -107,9 +108,30 @@ const ModernExamDetailsPage = () => {
     );
   }
 
+  const examName = data?.name || "Government Exam";
+  const orgName = organization || "gyapak";
+
+  const seoTitle = `${examName} Recruitment ${new Date().getFullYear()} | ${orgName}`;
+  const seoDescription =
+    data?.meta_description ||
+    `Apply for ${examName} by ${orgName}. Check vacancies, eligibility, age limit, fees, important dates, exam centres and how to apply online on gyapak.`;
+
+  const seoKeywords = [
+    "gyapak",
+    examName,
+    `${examName} notification`,
+    `${examName} recruitment`,
+    `${examName} vacancies`,
+    "government jobs",
+    "sarkari exam",
+    "government exam notifications",
+  ].join(", ");
+
+  
+
   return (
     <>
-      <Helmet>
+      {/* <Helmet>
         <title>{`top-exams-for-government-jobs-in-india`}</title>
         <meta
           name="description"
@@ -120,10 +142,26 @@ const ModernExamDetailsPage = () => {
           content="government competitive exams after 12th,government organisations, exam sarkari results, government calendar,current affairs,top exams for government jobs in india,Upcoming Government Exams"
         />
         <meta property="og:title" content="gyapak" />
-        <meta
-          property="og:description"
-          content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs."
-        />
+        <meta property="og:description" content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs." />
+      </Helmet> */}
+
+      <Helmet>
+        <title>{seoTitle}</title>
+        <meta name="description" content={seoDescription} />
+        <meta name="keywords" content={seoKeywords} />
+        {/* <link rel="canonical" href={canonicalUrl} /> */}
+
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={seoTitle} />
+        <meta property="og:description" content={seoDescription} />
+        {/* <meta property="og:url" content={canonicalUrl} /> */}
+        <meta property="og:site_name" content="gyapak" />
+        <meta property="og:image" content="https://gyapak.in/logo3.png" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={seoTitle} />
+        <meta name="twitter:description" content={seoDescription} />
+        <meta name="twitter:image" content="https://gyapak.in/logo3.png" />
       </Helmet>
 
       <div className="min-h-screen bg-white text-gray-900 py-20 px-0 md:px-4 ">

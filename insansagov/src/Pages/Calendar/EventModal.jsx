@@ -1,5 +1,6 @@
 import { X, SquareArrowOutUpRight, Calendar } from "lucide-react";
-import { generateSlugUrl } from "../../Utils/urlUtils.utils";
+// import { generateSlugUrl } from "../../Utils/urlUtils.utils";
+import { useEventRouting } from "../../Utils/useEventRouting";
 
 export default function EventModal({
   selectedDate,
@@ -13,6 +14,8 @@ export default function EventModal({
     if (!date) return "";
     return new Date(date).toISOString().split("T")[0];
   };
+
+  const { navigateToEvent, prefetchEventRoute } = useEventRouting({ fallback: "old" });
 
   const selectedDateKey = getDateKey(selectedDate?.start || selectedDate);
 
@@ -89,20 +92,20 @@ export default function EventModal({
                   </div>
                   <div className="space-y-2">
                     {ev.resource.events.map((event) => (
-                      <button
-                        key={event.slug}
-                        onClick={() =>
-                          navigate(generateSlugUrl(event.eventName, event.slug))
-                        }
-                        className="flex justify-between w-full hover:bg-purple-50 p-2 sm:p-3 cursor-pointer rounded-lg transition-colors group"
-                      >
-                        <div className="text-left flex-grow font-medium text-sm sm:text-base text-gray-700 group-hover:text-purple-800 truncate mr-2">
-                          {event.eventName}
-                        </div>
-                        <div className="bg-purple-100 group-hover:bg-purple-200 rounded-full p-1 transition-colors flex-shrink-0">
-                          <SquareArrowOutUpRight className="w-3 h-3 sm:w-4 sm:h-4 text-purple-600" />
-                        </div>
-                      </button>
+                     <button
+                      key={event.slug}
+                      onMouseEnter={() => prefetchEventRoute({ _id: event.slug, name: event.eventName })}
+                      onClick={() => navigateToEvent({ _id: event.slug, name: event.eventName })}
+                      className="flex justify-between w-full hover:bg-purple-50 p-2 sm:p-3 cursor-pointer rounded-lg transition-colors group"
+                    >
+                      <div className="text-left flex-grow font-medium text-sm sm:text-base text-gray-700 group-hover:text-purple-800 truncate mr-2">
+                        {event.eventName}
+                      </div>
+                      <div className="bg-purple-100 group-hover:bg-purple-200 rounded-full p-1 transition-colors flex-shrink-0">
+                        <SquareArrowOutUpRight className="w-3 h-3 sm:w-4 sm:h-4 text-purple-600" />
+                      </div>
+                   </button>
+                   
                     ))}
                   </div>
                 </div>

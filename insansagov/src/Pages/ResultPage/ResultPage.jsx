@@ -4,6 +4,7 @@ import axios from "axios";
 import { Helmet } from "react-helmet-async";
 import { useApi, CheckServer } from "../../Context/ApiContext";
 import { generateSlugUrl } from "../../Utils/urlUtils.utils";
+import { useEventRouting } from "../../Utils/useEventRouting";
 
 const Results = () => {
   const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
@@ -12,6 +13,11 @@ const Results = () => {
   const [categories, setCategories] = useState();
   const [filteredResults, setFilteredResults] = useState();
   const [results, setResults] = useState();
+
+  const { getEventHref, handleEventClick, prefetchEventRoute } = useEventRouting({
+    fallback: "old",
+  });
+  
 
   // const categories = ["All", "Civil Services", "Staff Selection", "Banking", "Defense"];
 
@@ -174,14 +180,17 @@ const Results = () => {
                       </div>
                     </div>
                     <div>
-                      <a
-                        href={generateSlugUrl(result.name, result._id)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block mt-4 px-4 py-2 bg-purple-800 text-white text-center rounded-md hover:bg-purple-900 transition-colors"
-                      >
-                        View Result
-                      </a>
+                    <a
+                      href={getEventHref(result)}                         
+                      onMouseEnter={() => prefetchEventRoute(result)}     
+                      onClick={(e) => handleEventClick(e, result)}        
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block mt-4 px-4 py-2 bg-purple-800 text-white text-center rounded-md hover:bg-purple-900 transition-colors"
+                    >
+                      View Result
+                    </a>
+
                     </div>
                   </div>
                 ))}
