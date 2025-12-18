@@ -11,7 +11,7 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const BASE_URL =   "https://gyapak.in" 
+const BASE_URL = "https://gyapak.in";
 const EVENTS_PER_PAGE = 1000;
 const SITEMAP_DIR = path.join(__dirname, "../public/sitemaps");
 
@@ -20,12 +20,23 @@ if (!fs.existsSync(SITEMAP_DIR)) {
   fs.mkdirSync(SITEMAP_DIR, { recursive: true });
 }
 
-// Helper function to convert Event document to URL
-const getEventUrl = (event) => {
-  const id = event._id.toString();
+// Helper function to convert Event document to one or more URLs
+// If `isNewEvent` is true -> return only the `--id` URL
+// If `isNewEvent` is false -> return both `?id=` and `--id` URLs
+const getEventUrls = (event) => {
+  const isNewEvent = event.isNewEvent;
+  const id = event._id ? event._id.toString() : "";
   const slug = slugGenerator(event.name || "");
-  const path = `/top-exams-for-government-jobs-in-india/${slug}--${id}`;
-  return `${BASE_URL}${path}`;
+  const basePath = `/top-exams-for-government-jobs-in-india/${slug}`;
+  const dashedPath = `${basePath}--${id}`;
+  const queryPath = `${basePath}?id=${id}`;
+
+  if (isNewEvent) {
+    return [`${BASE_URL}${dashedPath}`];
+  }
+
+  // For older events, include both forms for sitemap
+  return [`${BASE_URL}${queryPath}`, `${BASE_URL}${dashedPath}`];
 };
 
 // Helper function to convert Organization document to URL
@@ -200,20 +211,30 @@ const generateEventsSitemapFiles = async () => {
     const skip = (page - 1) * EVENTS_PER_PAGE;
 
     const events = await Event.find({})
-      .select("name event_type updatedAt")
+      .select("name event_type isNewEvent updatedAt ")
       .sort({ updatedAt: -1 })
       .skip(skip)
       .limit(EVENTS_PER_PAGE)
       .lean();
 
-    const eventUrls = events.map((ev) => ({
-      loc: getEventUrl(ev),
-      lastmod: ev.updatedAt ? new Date(ev.updatedAt).toISOString() : undefined,
-      changefreq: "daily",
-      priority: "0.9",
-    }));
+    // Build URL entries; some events may produce multiple URLs
+    const urlEntries = [];
+    events.forEach((ev) => {
+      const urls = getEventUrls(ev);
+      const lastmod = ev.updatedAt
+        ? new Date(ev.updatedAt).toISOString()
+        : undefined;
+      urls.forEach((u) => {
+        urlEntries.push({
+          loc: u,
+          lastmod,
+          changefreq: "daily",
+          priority: "0.9",
+        });
+      });
+    });
 
-    const xml = buildUrlset(eventUrls);
+    const xml = buildUrlset(urlEntries);
     writeFile(`sitemap-events-${page}.xml`, xml);
   }
 
