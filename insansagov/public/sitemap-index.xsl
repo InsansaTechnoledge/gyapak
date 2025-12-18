@@ -8,7 +8,7 @@
   <xsl:template match="/">
     <html xmlns="http://www.w3.org/1999/xhtml">
       <head>
-        <title>XML Sitemap</title>
+        <title>XML Sitemap Index</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <style type="text/css">
           body {
@@ -120,7 +120,7 @@
           }
           
           td.url {
-            max-width: 600px;
+            max-width: 700px;
             word-break: break-all;
           }
           
@@ -132,11 +132,6 @@
           
           td.url a:hover {
             text-decoration: underline;
-          }
-          
-          td.priority, td.changefreq {
-            color: #666;
-            font-size: 13px;
           }
           
           td.lastmod {
@@ -169,52 +164,40 @@
             th, td {
               padding: 10px;
             }
-            
-            .priority-col, .changefreq-col {
-              display: none;
-            }
           }
         </style>
       </head>
       <body>
         <div id="header">
-          <h1>XML Sitemap</h1>
-          <p>This sitemap contains <span class="count"><xsl:value-of select="count(sitemap:urlset/sitemap:url)"/></span> URLs</p>
+          <h1>XML Sitemap Index</h1>
+          <p>This sitemap index contains <span class="count"><xsl:value-of select="count(sitemap:sitemapindex/sitemap:sitemap)"/></span> sitemaps</p>
         </div>
         
         <div id="content">
           <div class="intro">
-            <h2>About XML Sitemaps</h2>
-            <p>This is an XML Sitemap which is supposed to be processed by search engines that follow the XML Sitemap standard like Google, Bing, and others.</p>
-            <p>You can find more information about XML sitemaps on <a href="https://www.sitemaps.org" target="_blank">sitemaps.org</a>.</p>
+            <h2>About XML Sitemap Indexes</h2>
+            <p>This is an XML Sitemap Index which contains links to all the sitemaps for this website.</p>
+            <p>Click on any sitemap URL below to view its contents. You can find more information about XML sitemaps on <a href="https://www.sitemaps.org" target="_blank">sitemaps.org</a>.</p>
           </div>
           
           <div id="sitemap">
             <table>
               <thead>
                 <tr>
-                  <th style="width: 50%;">URL</th>
-                  <th class="priority-col" style="width: 10%;">Priority</th>
-                  <th class="changefreq-col" style="width: 15%;">Change Freq.</th>
+                  <th style="width: 75%;">Sitemap URL</th>
                   <th style="width: 25%;">Last Modified</th>
                 </tr>
               </thead>
               <tbody>
-                <xsl:for-each select="sitemap:urlset/sitemap:url">
+                <xsl:for-each select="sitemap:sitemapindex/sitemap:sitemap">
                   <tr>
                     <td class="url">
                       <xsl:variable name="itemURL">
                         <xsl:value-of select="sitemap:loc"/>
                       </xsl:variable>
-                      <a href="{$itemURL}" target="_blank">
+                      <a href="{$itemURL}">
                         <xsl:value-of select="sitemap:loc"/>
                       </a>
-                    </td>
-                    <td class="priority priority-col">
-                      <xsl:value-of select="sitemap:priority"/>
-                    </td>
-                    <td class="changefreq changefreq-col">
-                      <xsl:value-of select="sitemap:changefreq"/>
                     </td>
                     <td class="lastmod">
                       <xsl:value-of select="sitemap:lastmod"/>

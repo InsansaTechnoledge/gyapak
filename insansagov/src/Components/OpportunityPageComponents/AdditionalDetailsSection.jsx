@@ -54,7 +54,6 @@ const AdditionalDetailsSection = ({ name, data, existingSections }) => {
       const entries = Object.entries(data);
       if (entries.length === 0) return null;
 
-   
       const containerClass =
         level === 0
           ? "grid grid-cols-1 md:grid-cols-2 gap-4 flex-grow"

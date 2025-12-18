@@ -509,7 +509,7 @@ const Navbar = () => {
         {/* Menu right */}
         <div className="ml-auto flex gap-6 font-medium text-gray-700">
           <a href="" className='hover:text-pink-600'>About</a>
-          <a href="" className='hover:text-pink-600'>Contact</a>
+          <a href="/contact-us" className='hover:text-pink-600'>Contact</a>
         </div>
       </div>
 
@@ -752,9 +752,7 @@ const Navbar = () => {
 
               <button
                 onClick={() => {
-                  setIsOpen(false);
-                  const contactSection = document.getElementById('contact');
-                  if (contactSection) contactSection.scrollIntoView({ behavior: 'smooth' });
+                  navigate("/contact-us");
                 }}
                 className="block w-full text-left px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
               >

@@ -11,7 +11,7 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const BASE_URL = "http://localhost:5713";
+const BASE_URL = "https://gyapak.in";
 const EVENTS_PER_PAGE = 1000;
 const SITEMAP_DIR = path.join(__dirname, "../public/sitemaps");
 
@@ -20,25 +20,40 @@ if (!fs.existsSync(SITEMAP_DIR)) {
   fs.mkdirSync(SITEMAP_DIR, { recursive: true });
 }
 
-// Helper function to convert Event document to URL
-const getEventUrl = (event) => {
-  const id = event._id.toString();
+// Helper function to convert Event document to one or more URLs
+// If `isNewEvent` is true -> return only the `--id` URL
+// If `isNewEvent` is false -> return both `?id=` and `--id` URLs
+const getEventUrls = (event) => {
+  const isNewEvent = event.isNewEvent;
+  const id = event._id ? event._id.toString() : "";
   const slug = slugGenerator(event.name || "");
-  const path = `/top-exams-for-government-jobs-in-india/${slug}--${id}`;
-  return `${BASE_URL}${path}`;
+  const basePath = `/top-exams-for-government-jobs-in-india/${slug}`;
+  const dashedPath = `${basePath}--${id}`;
+  const queryPath = `${basePath}?id=${id}`;
+
+  if (isNewEvent) {
+    return [`${BASE_URL}${dashedPath}`];
+  }
+
+  // For older events, include both forms for sitemap
+  return [`${BASE_URL}${queryPath}`, `${BASE_URL}${dashedPath}`];
 };
 
 // Helper function to convert Organization document to URL
 const getOrganizationUrl = (org) => {
   const id = org._id.toString();
-  const slug = slugGenerator(org.name || "");
-  const path = `/organization/government-competitive-exams-after-12th/${slug}--${id}`;
+  // const slug = slugGenerator(org.name || "");
+  const path = `/organization/government-competitive-exams-after-12th/${encodeURIComponent(
+    org.abbreviation
+  )}`;
   return `${BASE_URL}${path}`;
 };
 
 // Helper function to convert State name to URL
 const getStateUrl = (stateName) => {
-  return `${BASE_URL}/state/${stateName}`;
+  return `${BASE_URL}/state/government-jobs-in-${encodeURIComponent(
+    stateName
+  )}-for-12th-pass`;
 };
 
 // Helper function to write file
@@ -105,19 +120,19 @@ const generateMainSitemapIndex = async (eventPages) => {
 
   const sitemaps = [
     {
-      loc: `${BASE_URL}/sitemaps/sitemap-general.xml`,
+      loc: `${BASE_URL}/sitemap-general.xml`,
       lastmod: now,
     },
     {
-      loc: `${BASE_URL}/sitemaps/sitemap-events.xml`,
+      loc: `${BASE_URL}/sitemap-events.xml`,
       lastmod: now,
     },
     {
-      loc: `${BASE_URL}/sitemaps/sitemap-organizations.xml`,
+      loc: `${BASE_URL}/sitemap-organizations.xml`,
       lastmod: now,
     },
     {
-      loc: `${BASE_URL}/sitemaps/sitemap-state.xml`,
+      loc: `${BASE_URL}/sitemap-state.xml`,
       lastmod: now,
     },
   ];
@@ -148,6 +163,16 @@ const generateGeneralSitemapFile = async () => {
     },
     {
       loc: `${BASE_URL}/credits`,
+      changefreq: "yearly",
+      priority: "0.7",
+    },
+    {
+      loc: `${BASE_URL}/contact-us`,
+      changefreq: "yearly",
+      priority: "0.7",
+    },
+    {
+      loc: `${BASE_URL}/thank-you`,
       changefreq: "yearly",
       priority: "0.7",
     },
@@ -186,20 +211,30 @@ const generateEventsSitemapFiles = async () => {
     const skip = (page - 1) * EVENTS_PER_PAGE;
 
     const events = await Event.find({})
-      .select("name event_type updatedAt")
+      .select("name event_type isNewEvent updatedAt ")
       .sort({ updatedAt: -1 })
       .skip(skip)
       .limit(EVENTS_PER_PAGE)
       .lean();
 
-    const eventUrls = events.map((ev) => ({
-      loc: getEventUrl(ev),
-      lastmod: ev.updatedAt ? new Date(ev.updatedAt).toISOString() : undefined,
-      changefreq: "daily",
-      priority: "0.9",
-    }));
+    // Build URL entries; some events may produce multiple URLs
+    const urlEntries = [];
+    events.forEach((ev) => {
+      const urls = getEventUrls(ev);
+      const lastmod = ev.updatedAt
+        ? new Date(ev.updatedAt).toISOString()
+        : undefined;
+      urls.forEach((u) => {
+        urlEntries.push({
+          loc: u,
+          lastmod,
+          changefreq: "daily",
+          priority: "0.9",
+        });
+      });
+    });
 
-    const xml = buildUrlset(eventUrls);
+    const xml = buildUrlset(urlEntries);
     writeFile(`sitemap-events-${page}.xml`, xml);
   }
 
@@ -208,7 +243,7 @@ const generateEventsSitemapFiles = async () => {
   const eventSitemaps = [];
   for (let i = 1; i <= eventPages; i++) {
     eventSitemaps.push({
-      loc: `${BASE_URL}/sitemaps/sitemap-events-${i}.xml`,
+      loc: `${BASE_URL}/sitemap-events-${i}.xml`,
       lastmod: now,
     });
   }
@@ -223,7 +258,9 @@ const generateEventsSitemapFiles = async () => {
 // Generate Organizations Sitemap File
 // ========================================
 const generateOrganizationsSitemapFile = async () => {
-  const organizations = await Organization.find({}).select("name").lean();
+  const organizations = await Organization.find({})
+    .select("abbreviation")
+    .lean();
 
   const orgUrls = organizations.map((org) => ({
     loc: getOrganizationUrl(org),
