@@ -11,7 +11,7 @@ import ImportantDatesSection from "../../Components/OpportunityPageComponents/Im
 import ExamCentresSection from "../../Components/OpportunityPageComponents/ExamCentresSection";
 import ContactDetailsSection from "../../Components/OpportunityPageComponents/ContactDetailsSection";
 import ImportantLinksSection from "../../Components/OpportunityPageComponents/ImportantLinksSection";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import LocationSection from "../../Components/OpportunityPageComponents/LocationSection";
 import PositionSection from "../../Components/OpportunityPageComponents/PositionSection";
@@ -25,14 +25,18 @@ import { RingLoader } from "react-spinners";
 import { Helmet } from "react-helmet-async";
 import { useQuery } from "@tanstack/react-query";
 import { useApi, CheckServer } from "../../Context/ApiContext";
+import { extractIdFromSlug } from "../../Utils/urlUtils.utils.js";
 import logo from "/logo3.png";
+import { extractExamId } from "../../Utils/extractExamId.jsx";
 
 const ModernExamDetailsPage = () => {
   const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
   const location = useLocation();
-  // Parse the query parameters
-  const queryParams = new URLSearchParams(location.search);
-  const examId = queryParams.get("id");
+  const { slug } = useParams();         // e.g. "ssc-cgl-2024--507f..."
+const { search } = useLocation();     // e.g. "?id=507f..."
+
+const examId = extractExamId({ slug, search });
+
   const [data, setData] = useState();
   const [organization, setOrganization] = useState();
   const existingSections = ["document_links", "vacancies"];
@@ -48,8 +52,9 @@ const ModernExamDetailsPage = () => {
         setOrganization(response.data.organization.name);
         return response.data;
       }
+ 
     } catch (error) {
-      if (error.response || error.request) {
+      if (error.response || error?.request) {
         if (
           (error.response &&
             error.response.status >= 500 &&
@@ -64,27 +69,23 @@ const ModernExamDetailsPage = () => {
         } else {
           console.error("Error fetching state count:", error);
           setError(error.response.status);
-          isLoading(false);
+          setLoading(false);
         }
       } else {
         console.error("Error fetching state count:", error);
         setError(error);
-        isLoading(false);
+        setLoading(false);
       }
     }
   };
-  // useEffect(() => {
-
-  //   fetchEvent();
-  // }, [])
 
   const { data: completeData, isLoading } = useQuery({
     queryKey: ["opportunity/" + examId, apiBaseUrl],
     queryFn: fetchEvent,
-    staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
-    cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
-    refetchOnMount: true, // ✅ Prevents refetch when component mounts again
-    refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+    staleTime: Infinity, 
+    cacheTime: 24 * 60 * 60 * 1000, 
+    refetchOnMount: true, 
+    refetchOnWindowFocus: false, 
   });
 
   useEffect(() => {
@@ -272,8 +273,6 @@ const ModernExamDetailsPage = () => {
           </>
         </div>
       </div>
-
-      {/* <OnPageBlog Blogs='Hello this is blog section'/> */}
     </>
   );
 };

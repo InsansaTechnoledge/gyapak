@@ -1,12 +1,21 @@
-import { X, SquareArrowOutUpRight, Calendar } from 'lucide-react';
-import slugGenerator from '../../Utils/SlugGenerator';
+import { X, SquareArrowOutUpRight, Calendar } from "lucide-react";
+// import { generateSlugUrl } from "../../Utils/urlUtils.utils";
+import { useEventRouting } from "../../Utils/useEventRouting";
 
-export default function EventModal({ selectedDate, onClose, events, currentOrganizationSlug, navigate }) {
+export default function EventModal({
+  selectedDate,
+  onClose,
+  events,
+  currentOrganizationSlug,
+  navigate,
+}) {
   // Utility to convert a date string/object to 'YYYY-MM-DD'
   const getDateKey = (date) => {
-    if (!date) return '';
-    return new Date(date).toISOString().split('T')[0];
+    if (!date) return "";
+    return new Date(date).toISOString().split("T")[0];
   };
+
+  const { navigateToEvent, prefetchEventRoute } = useEventRouting({ fallback: "old" });
 
   const selectedDateKey = getDateKey(selectedDate?.start || selectedDate);
 
@@ -20,20 +29,20 @@ export default function EventModal({ selectedDate, onClose, events, currentOrgan
   // Format date with responsive considerations
   const formatDate = (date) => {
     const dateObj = new Date(date?.start || date);
-    
+
     // Full format for larger screens
-    const fullFormat = dateObj.toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
+    const fullFormat = dateObj.toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
     });
-    
+
     // Shorter format for smaller screens
-    const shortFormat = dateObj.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
+    const shortFormat = dateObj.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
     });
-    
+
     return { fullFormat, shortFormat };
   };
 
@@ -48,12 +57,16 @@ export default function EventModal({ selectedDate, onClose, events, currentOrgan
             <div className="flex items-center">
               <Calendar size={18} className="mr-2 flex-shrink-0" />
               <h2 className="text-base sm:text-lg font-semibold truncate">
-                <span className="hidden sm:inline">{dateFormats.fullFormat}</span>
-                <span className="inline sm:hidden">{dateFormats.shortFormat}</span>
+                <span className="hidden sm:inline">
+                  {dateFormats.fullFormat}
+                </span>
+                <span className="inline sm:hidden">
+                  {dateFormats.shortFormat}
+                </span>
               </h2>
             </div>
-            <button 
-              onClick={onClose} 
+            <button
+              onClick={onClose}
               className="text-white hover:text-purple-200 bg-white bg-opacity-20 rounded-full p-1 transition-colors flex-shrink-0"
               aria-label="Close"
             >
@@ -67,23 +80,32 @@ export default function EventModal({ selectedDate, onClose, events, currentOrgan
           {hasEvents ? (
             <div className="space-y-3 max-h-60 sm:max-h-80 overflow-y-auto pr-2">
               {filteredEvents.map((ev, index) => (
-                <div key={`${ev.title}-${index}`} className="border-b border-purple-100 pb-3 last:border-0">
+                <div
+                  key={`${ev.title}-${index}`}
+                  className="border-b border-purple-100 pb-3 last:border-0"
+                >
                   <div className="font-medium text-xs sm:text-sm text-purple-700 mb-2 flex items-center">
                     <span className="w-2 h-2 rounded-full bg-purple-600 mr-2 flex-shrink-0"></span>
-                    <span className="truncate">{ev.resource.organization.orgName}</span>
+                    <span className="truncate">
+                      {ev.resource.organization.orgName}
+                    </span>
                   </div>
                   <div className="space-y-2">
                     {ev.resource.events.map((event) => (
-                      <button
-                        key={event.slug}
-                        onClick={() => navigate(`/top-exams-for-government-jobs-in-india/${slugGenerator(event.eventName)}?id=${encodeURIComponent(event.slug)}`)}
-                        className="flex justify-between w-full hover:bg-purple-50 p-2 sm:p-3 cursor-pointer rounded-lg transition-colors group"
-                      >
-                        <div className="text-left flex-grow font-medium text-sm sm:text-base text-gray-700 group-hover:text-purple-800 truncate mr-2">{event.eventName}</div>
-                        <div className="bg-purple-100 group-hover:bg-purple-200 rounded-full p-1 transition-colors flex-shrink-0">
-                          <SquareArrowOutUpRight className="w-3 h-3 sm:w-4 sm:h-4 text-purple-600" />
-                        </div>
-                      </button>
+                     <button
+                      key={event.slug}
+                      onMouseEnter={() => prefetchEventRoute({ _id: event.slug, name: event.eventName })}
+                      onClick={() => navigateToEvent({ _id: event.slug, name: event.eventName })}
+                      className="flex justify-between w-full hover:bg-purple-50 p-2 sm:p-3 cursor-pointer rounded-lg transition-colors group"
+                    >
+                      <div className="text-left flex-grow font-medium text-sm sm:text-base text-gray-700 group-hover:text-purple-800 truncate mr-2">
+                        {event.eventName}
+                      </div>
+                      <div className="bg-purple-100 group-hover:bg-purple-200 rounded-full p-1 transition-colors flex-shrink-0">
+                        <SquareArrowOutUpRight className="w-3 h-3 sm:w-4 sm:h-4 text-purple-600" />
+                      </div>
+                   </button>
+                   
                     ))}
                   </div>
                 </div>
@@ -94,8 +116,12 @@ export default function EventModal({ selectedDate, onClose, events, currentOrgan
               <div className="text-purple-600 mb-2 flex justify-center">
                 <Calendar size={32} className="sm:w-10 sm:h-10" />
               </div>
-              <h3 className="text-base sm:text-lg font-medium text-gray-700">No events found</h3>
-              <p className="text-sm sm:text-base text-gray-500 mt-1">There are no events scheduled for this date.</p>
+              <h3 className="text-base sm:text-lg font-medium text-gray-700">
+                No events found
+              </h3>
+              <p className="text-sm sm:text-base text-gray-500 mt-1">
+                There are no events scheduled for this date.
+              </p>
             </div>
           )}
         </div>
@@ -112,7 +138,9 @@ export default function EventModal({ selectedDate, onClose, events, currentOrgan
       </div>
 
       {/* Add some animation and styling */}
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         @keyframes fadeIn {
           from { opacity: 0; transform: scale(0.95); }
           to { opacity: 1; transform: scale(1); }
@@ -138,7 +166,9 @@ export default function EventModal({ selectedDate, onClose, events, currentOrgan
             width: 3px;
           }
         }
-      `}} />
+      `,
+        }}
+      />
     </div>
   );
 }

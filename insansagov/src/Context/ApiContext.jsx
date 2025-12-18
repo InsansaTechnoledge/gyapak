@@ -1,12 +1,12 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import axios from 'axios';
-import { RingLoader } from 'react-spinners';
-import ServerPage from '../Pages/Error/ServerPage';
+import React, { createContext, useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { RingLoader } from "react-spinners";
+import ServerPage from "../Pages/Error/ServerPage";
 
 const ApiContext = createContext();
 
 export const SERVER_URLS = [
-  // "https://backend.gyapak.in",
+  "https://backend.gyapak.in",
   // "http://localhost:5000",
   // "http://localhost:3000",
   "http://localhost:8383",
@@ -18,7 +18,7 @@ export const CheckServer = async () => {
     try {
       const response = await axios.get(url);
       if (response.status === 200) {
-        return url; 
+        return url;
       }
     } catch (err) {
       console.warn(`❌ Failed: ${url}`, err.message);
@@ -57,7 +57,12 @@ export const ApiProvider = ({ children }) => {
   if (loading) {
     return (
       <div className="w-full h-screen flex justify-center">
-        <RingLoader size={60} color={"#5B4BEA"} speedMultiplier={2} className="my-auto" />
+        <RingLoader
+          size={60}
+          color={"#5B4BEA"}
+          speedMultiplier={2}
+          className="my-auto"
+        />
       </div>
     );
   }

@@ -3,6 +3,8 @@ import axios from "axios";
 import { Search, Calendar, Bell } from "lucide-react";
 import { useApi, CheckServer } from "../../Context/ApiContext";
 import { debounce } from "../../Utils/debounce";
+import { useNavigate } from "react-router-dom";
+import { useEventRouting } from "../../Utils/useEventRouting";
 
 export default function GyapakLanding() {
   const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
@@ -11,6 +13,12 @@ export default function GyapakLanding() {
   const [searchInput, setSearchInput] = useState("");
   const [searched, setSearched] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+
+  const navigate = useNavigate();
+
+  const { handleEventClick, prefetchEventRoute } = useEventRouting({ fallback: "old" });
+
+
 
   const debouncedUpdateRef = useRef(null);
 
@@ -255,12 +263,21 @@ export default function GyapakLanding() {
                     </div>
                     <div className="divide-y divide-slate-200 overflow-y-auto custom-scroll-sm">
                       {searchResults.map((event) => (
+                        // <button
+                        //   key={event._id}
+                        //   type="button"
+                        //   // onClick={() =>
+                        //   //   (window.location.href = `/top-exams-for-government-jobs-in-india/${event.name}?id=${event._id}`)
+                        //   // }
+                        //   onClick={(e) => onEventNavigate(e, apiBaseUrl, navigate, event)}
+
+                        //   className="w-full text-left px-4 py-3 hover:bg-purple-50 transition-colors"
+                        // >
                         <button
                           key={event._id}
                           type="button"
-                          onClick={() =>
-                            (window.location.href = `/top-exams-for-government-jobs-in-india/${event._id}?id=${event._id}`)
-                          }
+                          onMouseEnter={() => prefetchEventRoute(event)}     // optional but recommended
+                          onClick={(e) => handleEventClick(e, event)}        // ✅ global old/new resolver
                           className="w-full text-left px-4 py-3 hover:bg-purple-50 transition-colors"
                         >
                           <p className="font-serif font-semibold text-sm sm:text-base text-slate-900 line-clamp-2">
@@ -322,7 +339,7 @@ export default function GyapakLanding() {
         </section>
   
         <section className="grid lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-3 space-y-6">
             <div className="grid md:grid-cols-2 gap-6">
               <a
                 href="/daily-updates"
@@ -430,7 +447,7 @@ export default function GyapakLanding() {
             </div>
           </div>
   
-          <aside className="space-y-6">
+          {/* <aside className="space-y-6">
             <div className="bg-white border border-purple-100 rounded-2xl shadow-[0_18px_50px_rgba(15,23,42,0.06)] overflow-hidden">
               <div className="px-4 py-3 border-b border-slate-200 flex items-center justify-between">
                 <p className="text-[11px] uppercase tracking-[0.25em] text-purple-600">
@@ -523,7 +540,7 @@ export default function GyapakLanding() {
                 Subscribe Free
               </button>
             </div>
-          </aside>
+          </aside> */}
         </section>
   
       </main>

@@ -1,26 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import axios from "axios";
-import RelatedAuthorities from "../../Components/Authority/RelatedAuthorities";
-import BackButton from "../../Components/BackButton/BackButton";
-import { RingLoader } from "react-spinners";
-import no_data_image from "../../assets/Landing/no_data.jpg";
-import { Helmet } from "react-helmet-async";
-import { useApi, CheckServer } from "../../Context/ApiContext";
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import axios from 'axios'
+import RelatedAuthorities from '../../Components/Authority/RelatedAuthorities'
+import BackButton from '../../Components/BackButton/BackButton'
+import { RingLoader } from 'react-spinners'
+import no_data_image from '../../assets/Landing/no_data.jpg'
+import { Helmet } from 'react-helmet-async'
+import { useApi, CheckServer } from '../../Context/ApiContext'
 
 import { useQuery } from "@tanstack/react-query";
 
 const Category = () => {
   const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
 
-  const [isExpanded, setIsExpanded] = useState(false);
-  const location = useLocation();
-  const [logo, setLogo] = useState();
-  const [organizations, setOrganizations] = useState();
+    const [isExpanded, setIsExpanded] = useState(false);
+    const { categorySlug } = useParams();
+    const [logo, setLogo] = useState();
+    const [organizations, setOrganizations] = useState();
 
-  // Parse the query parameters
-  const queryParams = new URLSearchParams(location.search);
-  const name = queryParams.get("name"); // Access the 'name' parameter
+    // Decode the category name from the slug
+    const name = decodeURIComponent(categorySlug);
 
   const fetchCategoryOrganization = async () => {
     try {
