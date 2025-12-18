@@ -46,7 +46,7 @@ const EventSchema = new mongoose.Schema({
     },
     isNewEvent:{
         type:Boolean,
-        default:false
+        default:true
     }
 },{
     timestamps: true

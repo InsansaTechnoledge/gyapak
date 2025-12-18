@@ -82,10 +82,10 @@ const examId = extractExamId({ slug, search });
   const { data: completeData, isLoading } = useQuery({
     queryKey: ["opportunity/" + examId, apiBaseUrl],
     queryFn: fetchEvent,
-    staleTime: Infinity, // ✅ Data never becomes stale, preventing automatic refetch
-    cacheTime: 24 * 60 * 60 * 1000, // ✅ Keeps cache alive for 24 hours in memory
-    refetchOnMount: true, // ✅ Prevents refetch when component mounts again
-    refetchOnWindowFocus: false, // ✅ Prevents refetch when switching tabs
+    staleTime: Infinity, 
+    cacheTime: 24 * 60 * 60 * 1000, 
+    refetchOnMount: true, 
+    refetchOnWindowFocus: false, 
   });
 
   useEffect(() => {
