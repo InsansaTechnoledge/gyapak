@@ -5,6 +5,7 @@ import { useApi, CheckServer } from "../../Context/ApiContext";
 import { debounce } from "../../Utils/debounce";
 import { useNavigate } from "react-router-dom";
 import { useEventRouting } from "../../Utils/useEventRouting";
+import GovCalendar from "./components/GovCalendar";
 
 export default function GyapakLanding() {
   const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
@@ -446,6 +447,7 @@ export default function GyapakLanding() {
               </div>
             </div>
           </div>
+         
   
           {/* <aside className="space-y-6">
             <div className="bg-white border border-purple-100 rounded-2xl shadow-[0_18px_50px_rgba(15,23,42,0.06)] overflow-hidden">
@@ -542,6 +544,8 @@ export default function GyapakLanding() {
             </div>
           </aside> */}
         </section>
+
+        <GovCalendar/>
   
       </main>
     </div>

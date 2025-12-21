@@ -12,6 +12,9 @@ const GovCalendar = () => {
   const { apiBaseUrl } = useApi();
   const navigate = useNavigate();
 
+  // inside GovCalendar component
+
+
   // Calculate events per page based on screen size
   const getEventsPerPage = (width) => {
     if (width < 640) return 6; // Mobile
@@ -107,7 +110,7 @@ const GovCalendar = () => {
   return (
     <div className="bg-white mt-16 mb-16">
       <div className=" mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-r from-purple-50 to-white rounded-2xl p-6 mb-10 shadow-sm">
+        {/* <div className="bg-gradient-to-r from-purple-50 to-white rounded-2xl p-6 mb-10 shadow-sm">
           <div className="lg:flex lg:items-center lg:justify-between mb-4">
             <h2 className="text-2xl font-extrabold tracking-tight text-purple-800 sm:text-4xl">
               <span className="block">upcoming government exams</span>
@@ -132,7 +135,7 @@ const GovCalendar = () => {
             and State-level government exams — all curated and updated daily for
             serious aspirants.
           </div>
-        </div>
+        </div> */}
 
         {/* Search and Filter Bar */}
         <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">

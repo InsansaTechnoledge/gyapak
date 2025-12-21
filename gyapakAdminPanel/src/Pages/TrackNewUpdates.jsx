@@ -2,10 +2,12 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { io } from "socket.io-client";
 import axios from "axios";
 import * as XLSX from "xlsx";
-// import Pagination from "../components/ui/Pagination";
+
 import ManageSources from "./ManageSources";
 import { API_BASE_URL } from "../config";
 import Pagination from "./SEO/Components/Pagination";
+
+import ResultNotificationsPanel, { isResultNotification } from "./ResultNotificationsPanel";
 
 const API_BASE = API_BASE_URL;
 
@@ -29,7 +31,9 @@ const Badge = ({ children, tone = "slate" }) => {
     indigo: "bg-indigo-50 text-indigo-700 border-indigo-200",
   };
   return (
-    <span className={`inline-flex items-center rounded-full border px-2 py-0.5 text-[11px] font-medium ${tones[tone]}`}>
+    <span
+      className={`inline-flex items-center rounded-full border px-2 py-0.5 text-[11px] font-medium ${tones[tone]}`}
+    >
       {children}
     </span>
   );
@@ -55,6 +59,9 @@ export default function TrackNewUpdates() {
   const [view, setView] = useState("grouped"); // grouped | combined
   const [expanded, setExpanded] = useState(() => new Set());
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  // ✅ only one button will open this
+  const [resultDrawerOpen, setResultDrawerOpen] = useState(false);
 
   // left sources pagination
   const [sourcesPage, setSourcesPage] = useState(1);
@@ -83,10 +90,7 @@ export default function TrackNewUpdates() {
     fetchSources();
   }, []);
 
-  const activeSources = useMemo(
-    () => sources.filter((s) => s.isActive !== false),
-    [sources]
-  );
+  const activeSources = useMemo(() => sources.filter((s) => s.isActive !== false), [sources]);
 
   // initial notifications for all active sources
   useEffect(() => {
@@ -114,7 +118,7 @@ export default function TrackNewUpdates() {
 
         setNotificationsBySource(next);
 
-        // nicer UX: expand first 2 sources initially
+        // expand first 2
         setExpanded((prev) => {
           const ns = new Set(prev);
           activeSources.slice(0, 2).forEach((s) => ns.add(s.code));
@@ -130,7 +134,7 @@ export default function TrackNewUpdates() {
     fetchAll();
   }, [activeSources]);
 
-  // socket connect once + subscribe to all active rooms
+  // socket connect once + subscribe
   useEffect(() => {
     if (!activeSources.length) return;
 
@@ -143,7 +147,6 @@ export default function TrackNewUpdates() {
 
     const socket = socketRef.current;
 
-    // subscribe
     activeSources.forEach((s) => socket.emit("subscribe-source", s.code));
 
     const handleNewNotifications = (incoming) => {
@@ -185,9 +188,6 @@ export default function TrackNewUpdates() {
 
     return () => {
       socket.off("new-notifications", handleNewNotifications);
-      // keep socket alive if page remains; if you want hard cleanup:
-      // socket.disconnect();
-      // socketRef.current = null;
     };
   }, [activeSources]);
 
@@ -197,6 +197,7 @@ export default function TrackNewUpdates() {
     return istDateKey(new Date(t)) === todayKey;
   };
 
+  // flatten
   const allNotifications = useMemo(() => {
     const flat = Object.values(notificationsBySource).flat();
     flat.sort((a, b) => {
@@ -207,13 +208,30 @@ export default function TrackNewUpdates() {
     return flat;
   }, [notificationsBySource]);
 
-  const todayNotifications = useMemo(
-    () => allNotifications.filter(isToday),
+  const todayNotifications = useMemo(() => allNotifications.filter(isToday), [allNotifications]);
+
+  // ✅ split results vs non-results
+  const resultNotificationsAll = useMemo(
+    () => allNotifications.filter(isResultNotification),
     [allNotifications]
   );
+  const resultNotificationsToday = useMemo(
+    () => todayNotifications.filter(isResultNotification),
+    [todayNotifications]
+  );
 
+  const nonResultAll = useMemo(
+    () => allNotifications.filter((n) => !isResultNotification(n)),
+    [allNotifications]
+  );
+  const nonResultToday = useMemo(
+    () => todayNotifications.filter((n) => !isResultNotification(n)),
+    [todayNotifications]
+  );
+
+  // search applies to NON-result feed only
   const filteredCombined = useMemo(() => {
-    const base = onlyToday ? todayNotifications : allNotifications;
+    const base = onlyToday ? nonResultToday : nonResultAll;
     const q = query.trim().toLowerCase();
     if (!q) return base;
 
@@ -221,12 +239,12 @@ export default function TrackNewUpdates() {
       const hay = `${n.title || ""} ${n.summary || ""} ${n.sourceCode || ""} ${n.link || ""}`.toLowerCase();
       return hay.includes(q);
     });
-  }, [allNotifications, todayNotifications, onlyToday, query]);
+  }, [nonResultAll, nonResultToday, onlyToday, query]);
 
   const statsBySource = useMemo(() => {
     const map = {};
     for (const s of activeSources) {
-      const list = notificationsBySource[s.code] || [];
+      const list = (notificationsBySource[s.code] || []).filter((n) => !isResultNotification(n));
       map[s.code] = {
         total: list.length,
         today: list.filter(isToday).length,
@@ -235,7 +253,7 @@ export default function TrackNewUpdates() {
     return map;
   }, [activeSources, notificationsBySource]);
 
-  // paginate left sources list
+  // paginate sources list
   const totalSourcePages = Math.max(1, Math.ceil(activeSources.length / sourcesPageSize));
   const pagedSources = useMemo(() => {
     const safePage = Math.min(sourcesPage, totalSourcePages);
@@ -256,8 +274,9 @@ export default function TrackNewUpdates() {
     });
   };
 
+  // export only today NON-RESULTS
   const downloadTodayExcel = () => {
-    const rows = todayNotifications.map((n) => ({
+    const rows = nonResultToday.map((n) => ({
       Source: n.sourceCode || "",
       Title: n.title || "",
       Link: n.link || "",
@@ -267,8 +286,8 @@ export default function TrackNewUpdates() {
 
     const ws = XLSX.utils.json_to_sheet(rows);
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Today");
-    XLSX.writeFile(wb, `today-notifications-${todayKey}.xlsx`);
+    XLSX.utils.book_append_sheet(wb, ws, "Today (Non-Result)");
+    XLSX.writeFile(wb, `today-notifications-non-result-${todayKey}.xlsx`);
   };
 
   return (
@@ -277,7 +296,7 @@ export default function TrackNewUpdates() {
       <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
           <h1 className="text-2xl font-semibold text-slate-800">Track New Updates</h1>
-          <p className="text-sm text-slate-500">All sources tracked together — clean dashboard + live feed.</p>
+          <p className="text-sm text-slate-500">Clean dashboard + live feed. Results handled via drafts panel.</p>
         </div>
 
         <div className="flex items-center gap-3">
@@ -290,6 +309,14 @@ export default function TrackNewUpdates() {
             <span className="text-xs font-medium text-green-700">LIVE</span>
           </div>
 
+          {/* ✅ ONLY button for results (opens your panel) */}
+          <button
+            onClick={() => setResultDrawerOpen(true)}
+            className="rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
+          >
+            Results Drafts ({(onlyToday ? resultNotificationsToday : resultNotificationsAll).length})
+          </button>
+
           <button
             onClick={() => setDrawerOpen(true)}
             className="rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
@@ -299,7 +326,7 @@ export default function TrackNewUpdates() {
 
           <button
             onClick={downloadTodayExcel}
-            disabled={!todayNotifications.length}
+            disabled={!nonResultToday.length}
             className="rounded-md bg-indigo-600 px-3 py-2 text-sm text-white hover:bg-indigo-700 disabled:opacity-60"
           >
             Download Today (Excel)
@@ -309,18 +336,18 @@ export default function TrackNewUpdates() {
 
       {/* Stats */}
       <div className="mt-5 grid grid-cols-2 gap-3 md:grid-cols-4">
-        <StatCard label="Today (IST)" value={todayNotifications.length} hint={`Date: ${todayKey}`} />
+        <StatCard label="Today (Non-Result)" value={nonResultToday.length} hint={`Date: ${todayKey}`} />
+        <StatCard label="Today (Results)" value={resultNotificationsToday.length} hint="Drafts panel" />
         <StatCard label="New since open" value={newSinceOpenCount} hint="Live additions after opening" />
-        <StatCard label="Total cached" value={allNotifications.length} hint="Across active sources" />
         <StatCard label="Active sources" value={activeSources.length} hint={loadingSources ? "Loading…" : ""} />
       </div>
 
-      {/* Controls */}
+      {/* Controls (NON-RESULT only) */}
       <div className="mt-4 flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm md:flex-row md:items-center">
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search title, summary, source…"
+          placeholder="Search NON-RESULT feed (title, summary, source…)"
           className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 md:flex-1"
         />
 
@@ -336,9 +363,7 @@ export default function TrackNewUpdates() {
         <div className="flex rounded-md border border-slate-300 overflow-hidden">
           <button
             onClick={() => setView("grouped")}
-            className={`px-3 py-2 text-sm ${
-              view === "grouped" ? "bg-indigo-50 text-indigo-700" : "bg-white text-slate-700"
-            }`}
+            className={`px-3 py-2 text-sm ${view === "grouped" ? "bg-indigo-50 text-indigo-700" : "bg-white text-slate-700"}`}
           >
             Grouped
           </button>
@@ -359,7 +384,7 @@ export default function TrackNewUpdates() {
 
       {/* Main layout */}
       <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-12">
-        {/* Left: Sources (paginated) */}
+        {/* Left: Sources */}
         <aside className="lg:col-span-3">
           <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
             <div className="flex items-center justify-between mb-3">
@@ -412,30 +437,25 @@ export default function TrackNewUpdates() {
             )}
 
             <div className="mt-3">
-              <Pagination
-                page={sourcesPage}
-                totalPages={totalSourcePages}
-                onPageChange={setSourcesPage}
-              />
+              <Pagination page={sourcesPage} totalPages={totalSourcePages} onPageChange={setSourcesPage} />
             </div>
           </div>
         </aside>
 
-        {/* Center: Feed */}
+        {/* Center: NON-RESULT Feed */}
         <main className="lg:col-span-6">
           <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
             <div className="mb-2 flex items-center justify-between">
               <h2 className="text-sm font-semibold text-slate-800">
-                {view === "grouped" ? "Feed by Source" : "Combined Feed"}
+                {view === "grouped" ? "Feed by Source (Non-Result)" : "Combined Feed (Non-Result)"}
               </h2>
               {loadingNotifications && <span className="text-xs text-slate-500">Syncing…</span>}
             </div>
 
-            {/* GROUPED */}
             {view === "grouped" ? (
               <div className="mt-3 space-y-3">
                 {activeSources.map((s) => {
-                  const list0 = notificationsBySource[s.code] || [];
+                  const list0 = (notificationsBySource[s.code] || []).filter((n) => !isResultNotification(n));
                   const list1 = onlyToday ? list0.filter(isToday) : list0;
 
                   const q = query.trim().toLowerCase();
@@ -491,17 +511,11 @@ export default function TrackNewUpdates() {
                                     </a>
                                     {today && <Badge tone="green">Today</Badge>}
                                   </div>
-                                  {n.summary ? (
-                                    <p className="mt-1 text-xs text-slate-500 line-clamp-2">
-                                      {n.summary}
-                                    </p>
-                                  ) : null}
+                                  {n.summary ? <p className="mt-1 text-xs text-slate-500 line-clamp-2">{n.summary}</p> : null}
                                 </div>
 
                                 <div className="shrink-0 text-right">
-                                  <div className="text-[11px] text-slate-500">
-                                    {t ? new Date(t).toLocaleString("en-IN") : ""}
-                                  </div>
+                                  <div className="text-[11px] text-slate-500">{t ? new Date(t).toLocaleString("en-IN") : ""}</div>
                                 </div>
                               </div>
                             </li>
@@ -511,10 +525,7 @@ export default function TrackNewUpdates() {
 
                       {filtered.length > slice.length && (
                         <div className="px-4 py-3">
-                          <button
-                            onClick={() => toggleExpanded(s.code)}
-                            className="text-sm font-medium text-indigo-700 hover:underline"
-                          >
+                          <button onClick={() => toggleExpanded(s.code)} className="text-sm font-medium text-indigo-700 hover:underline">
                             {open ? "Show less" : `Show more (${filtered.length - slice.length})`}
                           </button>
                         </div>
@@ -524,7 +535,6 @@ export default function TrackNewUpdates() {
                 })}
               </div>
             ) : (
-              // COMBINED
               <ul className="mt-3 divide-y divide-slate-200">
                 {filteredCombined.slice(0, 200).map((n) => {
                   const t = getDocTime(n);
@@ -550,15 +560,11 @@ export default function TrackNewUpdates() {
                             {n.title}
                           </a>
 
-                          {n.summary ? (
-                            <p className="mt-1 text-xs text-slate-500 line-clamp-2">{n.summary}</p>
-                          ) : null}
+                          {n.summary ? <p className="mt-1 text-xs text-slate-500 line-clamp-2">{n.summary}</p> : null}
                         </div>
 
                         <div className="shrink-0 text-right">
-                          <div className="text-[11px] text-slate-500">
-                            {t ? new Date(t).toLocaleString("en-IN") : ""}
-                          </div>
+                          <div className="text-[11px] text-slate-500">{t ? new Date(t).toLocaleString("en-IN") : ""}</div>
                         </div>
                       </div>
                     </li>
@@ -569,12 +575,12 @@ export default function TrackNewUpdates() {
           </div>
         </main>
 
-        {/* Right: Today Panel */}
+        {/* Right: Today NON-RESULT */}
         <aside className="lg:col-span-3">
           <div className="sticky top-24 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
             <div className="flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-slate-800">Today’s New</h2>
-              <Badge tone={todayNotifications.length ? "green" : "slate"}>{todayNotifications.length}</Badge>
+              <h2 className="text-sm font-semibold text-slate-800">Today’s New (Non-Result)</h2>
+              <Badge tone={nonResultToday.length ? "green" : "slate"}>{nonResultToday.length}</Badge>
             </div>
 
             <p className="mt-1 text-[11px] text-slate-500">
@@ -583,14 +589,14 @@ export default function TrackNewUpdates() {
 
             <button
               onClick={downloadTodayExcel}
-              disabled={!todayNotifications.length}
+              disabled={!nonResultToday.length}
               className="mt-3 w-full rounded-md bg-indigo-600 px-3 py-2 text-sm text-white hover:bg-indigo-700 disabled:opacity-60"
             >
               Download Today Excel
             </button>
 
             <div className="mt-4 space-y-3">
-              {todayNotifications.slice(0, 12).map((n) => (
+              {nonResultToday.slice(0, 12).map((n) => (
                 <div key={makeKey(n)} className="rounded-lg border border-slate-200 p-3">
                   <div className="flex items-center justify-between gap-2">
                     <Badge tone="indigo">{n.sourceCode}</Badge>
@@ -610,10 +616,8 @@ export default function TrackNewUpdates() {
                 </div>
               ))}
 
-              {todayNotifications.length > 12 && (
-                <p className="text-xs text-slate-500">
-                  Showing 12 of {todayNotifications.length}. Use the filters/search for full view.
-                </p>
+              {nonResultToday.length > 12 && (
+                <p className="text-xs text-slate-500">Showing 12 of {nonResultToday.length}. Use filters/search for full view.</p>
               )}
             </div>
           </div>
@@ -623,10 +627,7 @@ export default function TrackNewUpdates() {
       {/* Drawer: ManageSources */}
       {drawerOpen && (
         <div className="fixed inset-0 z-50">
-          <div
-            className="absolute inset-0 bg-black/30"
-            onClick={() => setDrawerOpen(false)}
-          />
+          <div className="absolute inset-0 bg-black/30" onClick={() => setDrawerOpen(false)} />
           <div className="absolute right-0 top-0 h-full w-full max-w-3xl bg-white shadow-xl overflow-y-auto">
             <div className="sticky top-0 bg-white border-b border-slate-200 p-4 flex items-center justify-between">
               <div>
@@ -641,6 +642,40 @@ export default function TrackNewUpdates() {
               </button>
             </div>
             <ManageSources />
+          </div>
+        </div>
+      )}
+
+      {/* ✅ Drawer: Results panel (your component) */}
+      {resultDrawerOpen && (
+        <div className="fixed inset-0 z-[70]">
+          <div className="absolute inset-0 bg-black/30" onClick={() => setResultDrawerOpen(false)} />
+          <div className="absolute right-0 top-0 h-full w-full max-w-3xl bg-white shadow-xl overflow-y-auto">
+            <div className="sticky top-0 bg-white border-b border-slate-200 p-4 flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-semibold text-slate-800">Results Drafts</h3>
+                <p className="text-xs text-slate-500">Select → View Drafts → Upload</p>
+              </div>
+              <button
+                onClick={() => setResultDrawerOpen(false)}
+                className="px-3 py-2 text-sm rounded-md border border-slate-300 hover:bg-slate-50"
+              >
+                Close
+              </button>
+            </div>
+
+            <div className="p-4">
+              <ResultNotificationsPanel
+                items={onlyToday ? resultNotificationsToday : resultNotificationsAll}
+                title={onlyToday ? "Results (Today)" : "Results (All)"}
+                apiBase={API_BASE}
+                uploadEndpoint="/api/results/import" 
+                getDocTime={getDocTime}
+                makeKey={makeKey}
+                todayKey={todayKey}
+                istDateKey={istDateKey}
+              />
+            </div>
           </div>
         </div>
       )}
