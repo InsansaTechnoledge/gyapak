@@ -6,6 +6,7 @@ import { RingLoader } from "react-spinners";
 import CounselorChatUI from "./Pages/counselor/GyapakCounselor";
 import { useApi } from "./Context/ApiContext";
 import MonthlyMagzine from "./Components/monthlyUpdate/MonthlyMagzine";
+import NewCalendarPage from "./Pages/Calendar/NewCalendarPage";
 
 const Landing = lazy(() => import("./Pages/Landing/landing"));
 const Navbar = lazy(() => import("./Components/Navbar/Navbar"));
@@ -168,8 +169,9 @@ const PageLinks = () => {
         <Route
           path="/government-calendar"
           element={
-            <div className="px-5 md:px-16 lg:px-32 xl:px-64">
-              <CalendarView />
+            <div className="px-5 ">
+              {/* <CalendarView /> */}
+              <NewCalendarPage/>
             </div>
           }
         />
