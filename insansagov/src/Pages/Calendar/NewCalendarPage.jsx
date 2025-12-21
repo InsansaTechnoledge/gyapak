@@ -292,7 +292,8 @@ const NewCalendarPage = () => {
   const getTotalPages = (month) => {
     const { events } = monthsState[month];
     return Math.max(1, Math.ceil(events.length / PAGE_SIZE));
-  };
+  }; 
+  
 
   const reversedMonthOptions = [...monthOptions].reverse();
 
