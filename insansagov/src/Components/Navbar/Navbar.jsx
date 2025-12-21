@@ -1,45 +1,68 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X, ChevronDown, Search, MapPin, AlertTriangle, Newspaper, FileText } from 'lucide-react';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import axios from 'axios';
-import { useApi, CheckServer } from '../../Context/ApiContext';
-import { useQuery } from '@tanstack/react-query';
-import logo3 from '/logo3.png';
-import logo4 from '/logo4.png';
-import { MdKeyboardArrowUp, MdOutlineTranslate, MdKeyboardArrowDown } from "react-icons/md";
-import { debounce } from '../../Utils/debounce';
+import React, { useState, useEffect, useRef } from "react";
+import {
+  Menu,
+  X,
+  ChevronDown,
+  Search,
+  MapPin,
+  AlertTriangle,
+  Newspaper,
+  FileText,
+} from "lucide-react";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import axios from "axios";
+import { useApi, CheckServer } from "../../Context/ApiContext";
+import { useQuery } from "@tanstack/react-query";
+import logo3 from "/logo3.png";
+import logo4 from "/logo4.png";
+import {
+  MdKeyboardArrowUp,
+  MdOutlineTranslate,
+  MdKeyboardArrowDown,
+} from "react-icons/md";
+import { debounce } from "../../Utils/debounce";
 
 const stateImages = {
-  "Gujarat": "/states/Gujarat.png",
-  "Haryana": "/states/Haryana.png",
-  "Bihar": "/states/Bihar.png",
-  "Karnataka": "/states/Karnataka.png",
-  "Kerala": "/states/Kerala.png",
-  "Maharashtra": "/states/Maharashtra.png",
-  "Odisha": "/states/Odisha.png",
-  "Punjab": "/states/Punjab.png",
-  "Rajasthan": "/states/Rajasthan.png",
+  Gujarat: "/states/Gujarat.png",
+  Haryana: "/states/Haryana.png",
+  Bihar: "/states/Bihar.png",
+  Karnataka: "/states/Karnataka.png",
+  Kerala: "/states/Kerala.png",
+  Maharashtra: "/states/Maharashtra.png",
+  Odisha: "/states/Odisha.png",
+  Punjab: "/states/Punjab.png",
+  Rajasthan: "/states/Rajasthan.png",
   "Uttar Pradesh": "/states/UttarPradesh2.jpg",
   "Madhya Pradesh": "/states/Madhya Pradesh.png",
   "Tamil Nadu": "/states/Tamil_Nadu.png",
-  "Uttarakhand": "/states/Uttarakhand.png",
+  Uttarakhand: "/states/Uttarakhand.png",
   "Andhra Pradesh": "/states/Andhra_Pradesh.png",
   "Himachal Pradesh": "/states/Himachal_Pradesh.png",
+  "West Bengal": "/states/westBengal.jpeg",
+  Delhi: "/states/delhi.webp",
 };
 
 const categories = [
-  { Nameid: 'Defence', name: 'Defence', icon: '🛡️' },
-  { Nameid: 'Engineering', name: 'Engineering', icon: '⚙️' },
-  { Nameid: 'Banking Finance', name: 'Banking & Finance', icon: '💰' },
-  { Nameid: 'Civil Services', name: 'Civil Services', icon: '🏛️' },
-  { Nameid: 'Medical', name: 'Medical', icon: '⚕️' },
-  { Nameid: 'Statistical Economics Services', name: 'Statistical & Economics Services', icon: '📊' },
-  { Nameid: 'Academics Research', name: 'Academics & Research', icon: '🎓' },
-  { Nameid: 'Railways', name: 'Railways', icon: '🚂' },
-  { Nameid: 'Public Services', name: 'Public Services', icon: '🏢' },
-  { Nameid: 'Technical', name: 'Technical', icon: '💻' },
-  { Nameid: 'Higher Education Specialized Exams', name: 'Higher Education & Specialized Exams', icon: '📚' },
-  { Nameid: 'Agriculture', name: 'Agriculture', icon: '🌾' },
+  { Nameid: "Defence", name: "Defence", icon: "🛡️" },
+  { Nameid: "Engineering", name: "Engineering", icon: "⚙️" },
+  { Nameid: "Banking Finance", name: "Banking & Finance", icon: "💰" },
+  { Nameid: "Civil Services", name: "Civil Services", icon: "🏛️" },
+  { Nameid: "Medical", name: "Medical", icon: "⚕️" },
+  {
+    Nameid: "Statistical Economics Services",
+    name: "Statistical & Economics Services",
+    icon: "📊",
+  },
+  { Nameid: "Academics Research", name: "Academics & Research", icon: "🎓" },
+  { Nameid: "Railways", name: "Railways", icon: "🚂" },
+  { Nameid: "Public Services", name: "Public Services", icon: "🏢" },
+  { Nameid: "Technical", name: "Technical", icon: "💻" },
+  {
+    Nameid: "Higher Education Specialized Exams",
+    name: "Higher Education & Specialized Exams",
+    icon: "📚",
+  },
+  { Nameid: "Agriculture", name: "Agriculture", icon: "🌾" },
 ];
 
 /** Compact, single-line tile with truncation for better laptop alignment */
@@ -76,7 +99,9 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(location.pathname === '/government-jobs-after-12th' ? false : true);
+  const [isScrolled, setIsScrolled] = useState(
+    location.pathname === "/government-jobs-after-12th" ? false : true
+  );
   const [searchQuery, setSearchQuery] = useState("");
   const [totalCount, setTotalCount] = useState(0);
   const [suggestions, setSuggestions] = useState({
@@ -84,18 +109,18 @@ const Navbar = () => {
     authorities: [],
     categories: [],
   });
-    const [showDropdown, setShowDropdown] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
   const [logoVisible, setLogoVisible] = useState(false);
   const [searchParams] = useSearchParams();
   const [visibleStates, setVisibleStates] = useState();
   const [stateDropdownVisible, setStateDropdownVisible] = useState(false);
   const [visibleCategories, setVisibleCategories] = useState(categories);
   const [categoryDropdownVisible, setCategoryDropdownVisible] = useState(false);
-  const [mobileStateDropdownVisible, setMobileStateDropdownVisible] = useState(false);
-  const [mobileCategoryDropdownVisible, setMobileCategoryDropdownVisible] = useState(false);
+  const [mobileStateDropdownVisible, setMobileStateDropdownVisible] =
+    useState(false);
+  const [mobileCategoryDropdownVisible, setMobileCategoryDropdownVisible] =
+    useState(false);
   const [isSearched, setIsSearched] = useState(false);
-
-
 
   // new one
   const [activeMenu, setActiveMenu] = useState(null);
@@ -111,34 +136,41 @@ const Navbar = () => {
   const navRef = useRef(null);
   const desktopSearchInputRef = useRef(null);
 
-  const isHomePage = location.pathname === '/government-jobs-after-12th';
-  const dailyaffairsPage = location.pathname === '/daily-updates'
+  const isHomePage = location.pathname === "/government-jobs-after-12th";
+  const dailyaffairsPage = location.pathname === "/daily-updates";
 
   const goDailyUpdates = () => {
     setIsOpen(false);
-    navigate('/daily-updates');
+    navigate("/daily-updates");
   };
 
   const fetchStates = async () => {
     try {
       const response = await axios.get(`${apiBaseUrl}/api/state/list`);
       if (response.status === 200) {
-        return response.data.map(state => ({
+        return response.data.map((state) => ({
           _id: state.stateId,
-          name: state.name
+          name: state.name,
         }));
       }
     } catch (error) {
       if (error.response || error.request) {
-        if ((error.response && error.response.status >= 500 && error.response.status < 600) || (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND' || error.code === "ERR_NETWORK")) {
+        if (
+          (error.response &&
+            error.response.status >= 500 &&
+            error.response.status < 600) ||
+          error.code === "ECONNREFUSED" ||
+          error.code === "ETIMEDOUT" ||
+          error.code === "ENOTFOUND" ||
+          error.code === "ERR_NETWORK"
+        ) {
           const url = await CheckServer();
-          setApiBaseUrl(url),
-          setServerError(error.response?.status);
+          setApiBaseUrl(url), setServerError(error.response?.status);
         } else {
-          console.error('Error fetching state count:', error);
+          console.error("Error fetching state count:", error);
         }
       } else {
-        console.error('Error fetching state count:', error);
+        console.error("Error fetching state count:", error);
       }
     }
   };
@@ -150,12 +182,14 @@ const Navbar = () => {
         setMobileStateDropdownVisible(false);
         setMobileCategoryDropdownVisible(false);
         setActiveMenu(null);
-        setIsSearched(false);       // close desktop search on outside click
-        setShowDropdown(false);     // hide suggestions
+        setIsSearched(false); // close desktop search on outside click
+        setShowDropdown(false); // hide suggestions
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
-    return () => { document.removeEventListener("mousedown", handleClickOutside); };
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const { data: states } = useQuery({
@@ -172,33 +206,40 @@ const Navbar = () => {
   }, [states]);
 
   useEffect(() => {
-    setIsScrolled(location.pathname === '/government-jobs-after-12th' ? false : true);
-    if (location.pathname == '/state' && states) {
+    setIsScrolled(
+      location.pathname === "/government-jobs-after-12th" ? false : true
+    );
+    if (location.pathname == "/state" && states) {
       const currState = searchParams.get("name");
-      setVisibleStates(states.filter(st => st !== currState));
+      setVisibleStates(states.filter((st) => st !== currState));
     } else {
       setVisibleStates(states);
     }
 
-    if (location.pathname == '/category') {
+    if (location.pathname == "/category") {
       const currCategory = searchParams.get("name");
-      setVisibleCategories(categories.filter(cat => cat !== currCategory));
+      setVisibleCategories(categories.filter((cat) => cat !== currCategory));
     } else {
       setVisibleCategories(categories);
     }
   }, [location.pathname]);
 
   const updateVisibleStates = (state) => {
-    if (location.pathname == `/state/government-jobs-in-${state}-for-12th-pass` && states) {
-      setVisibleStates(states.filter(st => st !== state));
+    if (
+      location.pathname == `/state/government-jobs-in-${state}-for-12th-pass` &&
+      states
+    ) {
+      setVisibleStates(states.filter((st) => st !== state));
     } else {
       setVisibleStates(states);
     }
   };
 
   const updateVisibleCategories = (category) => {
-    if (location.pathname.startsWith('/government-organisations-under-category/')) {
-      setVisibleCategories(categories.filter(cat => cat !== category));
+    if (
+      location.pathname.startsWith("/government-organisations-under-category/")
+    ) {
+      setVisibleCategories(categories.filter((cat) => cat !== category));
     } else {
       setVisibleCategories(categories);
     }
@@ -209,22 +250,28 @@ const Navbar = () => {
       if (window.scrollY > 20) setLogoVisible(true);
       else setLogoVisible(false);
 
-      if (location.pathname === '/') {
+      if (location.pathname === "/") {
         setIsScrolled(window.scrollY > 20);
       }
     };
 
-    if (location.pathname === '/') {
-      window.addEventListener('scroll', handleScroll);
+    if (location.pathname === "/") {
+      window.addEventListener("scroll", handleScroll);
     } else {
       setIsScrolled(true);
     }
 
-    return () => { window.removeEventListener('scroll', handleScroll); };
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, [location.pathname]);
 
   useEffect(() => {
-    if (suggestions.organizations || suggestions.authorities || suggestions.categories) {
+    if (
+      suggestions.organizations ||
+      suggestions.authorities ||
+      suggestions.categories
+    ) {
       const total =
         (suggestions.organizations?.length || 0) +
         (suggestions.authorities?.length || 0) +
@@ -243,15 +290,12 @@ const Navbar = () => {
     setSearchQuery(val);
     fetchSuggestionsDebounced.current?.(val);
   };
-  
 
   const selectSuggestion = (suggestion) => {
     handleSearch(suggestion);
     setSearchQuery(suggestion);
     setShowDropdown(false);
   };
-
-
 
   const fetchSuggestionsDebounced = useRef(null);
 
@@ -266,30 +310,32 @@ const Navbar = () => {
         setShowDropdown(false);
         return;
       }
-  
+
       try {
         const response = await axios.get(`${apiBaseUrl}/api/search/`, {
           params: { q: query.trim() },
         });
-  
+
         setSuggestions(response.data.suggestions);
         setShowDropdown(true);
       } catch (error) {
-        console.error('Error fetching suggestions:', error);
-        if (error.response && error.response.status >= 500 && error.response.status < 600) {
+        console.error("Error fetching suggestions:", error);
+        if (
+          error.response &&
+          error.response.status >= 500 &&
+          error.response.status < 600
+        ) {
           const url = await CheckServer();
           setApiBaseUrl(url);
           setServerError(error.response.status);
         }
       }
     }, 600);
-  
+
     return () => {
       fetchSuggestionsDebounced.current?.cancel?.();
     };
   }, [apiBaseUrl, setApiBaseUrl, setServerError]);
-  
-  
 
   const SuggestionList = ({ title, items, itemKey }) => {
     if (!items || items.length === 0) return null;
@@ -308,7 +354,7 @@ const Navbar = () => {
               onClick={() => {
                 selectSuggestion(item[itemKey]);
                 setIsOpen(false);
-                setSearchQuery('');
+                setSearchQuery("");
               }}
               className="px-4 py-2.5 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 cursor-pointer text-gray-700 text-sm transition-all duration-300 whitespace-nowrap truncate"
             >
@@ -347,17 +393,27 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav ref={navRef} className={`w-full flex flex-col fixed top-0 left-0 z-50`}>
+    <nav
+      ref={navRef}
+      className={`w-full flex flex-col fixed top-0 left-0 z-50`}
+    >
       {/* --- Top Strip --- */}
       <div
         className={`bg-gradient-to-r from-violet-950 to-purple-900  flex items-center justify-between h-20  px-6 gap-2 md:px-36 transition-transform duration-500 fixed top-0 left-0 w-full md:w-full z-50
-            ${showTop ? 'translate-0 md:translate-0' : 'translate-0 md:-translate-y-full'}
+            ${
+              showTop
+                ? "translate-0 md:translate-0"
+                : "translate-0 md:-translate-y-full"
+            }
           `}
       >
         {/* Left side with Logo + Add button */}
         <div className="flex items-center gap-4">
           <div className="text-pink-600 font-bold text-xl">
-            <a href="/"> <img src={logo4} alt="gyapak logo" height={32} width={120} /></a>
+            <a href="/">
+              {" "}
+              <img src={logo4} alt="gyapak logo" height={32} width={120} />
+            </a>
           </div>
         </div>
 
@@ -384,7 +440,11 @@ const Navbar = () => {
             className={`
               hidden md:flex items-center relative
               transition-all duration-300 ease-out
-              ${isSearched ? 'w-[420px] bg-gray-50 px-3 py-1.5 rounded-xl shadow-accertinity' : 'w-9 justify-center'}
+              ${
+                isSearched
+                  ? "w-[420px] bg-gray-50 px-3 py-1.5 rounded-xl shadow-accertinity"
+                  : "w-9 justify-center"
+              }
             `}
           >
             {isSearched && (
@@ -405,14 +465,16 @@ const Navbar = () => {
                   }, 150);
                 }}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
+                  if (e.key === "Enter") {
                     if (searchQuery.trim()) {
-                      navigate(`/search?query=${encodeURI(searchQuery.trim())}`);
-                      setSearchQuery('');
+                      navigate(
+                        `/search?query=${encodeURI(searchQuery.trim())}`
+                      );
+                      setSearchQuery("");
                       setShowDropdown(false);
                       setIsSearched(false);
                     }
-                  } else if (e.key === 'Escape') {
+                  } else if (e.key === "Escape") {
                     setIsSearched(false);
                     setShowDropdown(false);
                   }
@@ -433,14 +495,21 @@ const Navbar = () => {
                   setShowDropdown(false);
                 } else {
                   navigate(`/search?query=${encodeURI(searchQuery.trim())}`);
-                  setSearchQuery('');
+                  setSearchQuery("");
                   setShowDropdown(false);
                   setIsSearched(false);
                 }
               }}
-              className={`flex items-center justify-center ${isSearched ? 'ml-2' : ''}`}
+              className={`flex items-center justify-center ${
+                isSearched ? "ml-2" : ""
+              }`}
             >
-              <Search size={24} className={`${isSearched ? 'text-slate-500' : 'text-slate-100'}`} />
+              <Search
+                size={24}
+                className={`${
+                  isSearched ? "text-slate-500" : "text-slate-100"
+                }`}
+              />
             </button>
 
             {isSearched && showDropdown && (
@@ -452,16 +521,30 @@ const Navbar = () => {
                 )}
                 <div>
                   {suggestions.authorities?.length > 0 && (
-                    <SuggestionList title="States" items={suggestions.authorities} itemKey="name" />
+                    <SuggestionList
+                      title="States"
+                      items={suggestions.authorities}
+                      itemKey="name"
+                    />
                   )}
                   {suggestions.organizations?.length > 0 && (
-                    <SuggestionList title="Organizations" items={suggestions.organizations} itemKey="abbreviation" />
+                    <SuggestionList
+                      title="Organizations"
+                      items={suggestions.organizations}
+                      itemKey="abbreviation"
+                    />
                   )}
                   {suggestions.categories?.length > 0 && (
-                    <SuggestionList title="Categories" items={suggestions.categories} itemKey="category" />
+                    <SuggestionList
+                      title="Categories"
+                      items={suggestions.categories}
+                      itemKey="category"
+                    />
                   )}
                   {totalCount === 0 && (
-                    <div className="px-4 py-3 text-sm text-gray-500">No suggestions found</div>
+                    <div className="px-4 py-3 text-sm text-gray-500">
+                      No suggestions found
+                    </div>
                   )}
                 </div>
               </div>
@@ -475,46 +558,68 @@ const Navbar = () => {
               aria-label="Open menu"
               onClick={() => setIsOpen((v) => !v)}
             >
-              {isOpen ? <X size={20} className="text-white" /> : <Menu size={20} className="text-white" />}
+              {isOpen ? (
+                <X size={20} className="text-white" />
+              ) : (
+                <Menu size={20} className="text-white" />
+              )}
             </button>
-          
           </div>
         </div>
       </div>
 
       <div
         className={` hidden md:flex bg-white items-center h-20 px-6 md:px-36 transition-transform duration-500 top-0 left-0 z-45 w-full fixed
-            ${showTop ? 'translate-0 md:translate-y-16' : ' top-0  '}`}
+            ${showTop ? "translate-0 md:translate-y-16" : " top-0  "}`}
       >
         {/* Menu left */}
         <div className="flex gap-6 font-medium text-gray-700 items-center">
-          <a href="/blog" className={`hover:text-pink-600 transition-all duration-300`}>
+          <a
+            href="/blog"
+            className={`hover:text-pink-600 transition-all duration-300`}
+          >
             Blogs
           </a>
           <button
             className="hover:text-pink-600 flex items-center gap-1 "
             onClick={() => handleMenuClick("categories")}
           >
-            Categories {activeMenu === "categories" ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
+            Categories{" "}
+            {activeMenu === "categories" ? (
+              <MdKeyboardArrowUp />
+            ) : (
+              <MdKeyboardArrowDown />
+            )}
           </button>
 
           <button
             className="hover:text-pink-600 flex items-center gap-1"
             onClick={() => handleMenuClick("state")}
           >
-            State {activeMenu === "state" ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
+            State{" "}
+            {activeMenu === "state" ? (
+              <MdKeyboardArrowUp />
+            ) : (
+              <MdKeyboardArrowDown />
+            )}
           </button>
         </div>
 
         {/* Menu right */}
         <div className="ml-auto flex gap-6 font-medium text-gray-700">
-          <a href="" className='hover:text-pink-600'>About</a>
-          <a href="" className='hover:text-pink-600'>Contact</a>
+          <a href="" className="hover:text-pink-600">
+            About
+          </a>
+          <a href="/contact-us" className="hover:text-pink-600">
+            Contact
+          </a>
         </div>
       </div>
 
       {activeMenu === "categories" && (
-        <div className={`fixed left-1/2 top-[112px] -translate-x-1/2 w-[660px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5 z-50`}>
+        <div
+          className={`fixed left-1/2 top-[112px] -translate-x-1/2 w-[660px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5 z-50`}
+        >
           <div className="p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
               Browse Categories
@@ -526,7 +631,11 @@ const Navbar = () => {
                   onClick={() => {
                     updateVisibleCategories(category);
                     setActiveMenu(null);
-                    navigate(`/government-organisations-under-category/${encodeURIComponent(category.Nameid)}`);
+                    navigate(
+                      `/government-organisations-under-category/${encodeURIComponent(
+                        category.Nameid
+                      )}`
+                    );
                   }}
                   className="flex items-center p-2.5 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 group cursor-pointer min-w-0"
                 >
@@ -546,7 +655,9 @@ const Navbar = () => {
       )}
 
       {activeMenu === "state" && (
-        <div className={`fixed left-1/2 top-[112px] -translate-x-1/2 w-[820px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5 z-50`}>
+        <div
+          className={`fixed left-1/2 top-[112px] -translate-x-1/2 w-[820px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5 z-50`}
+        >
           <div className="p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
               Browse States
@@ -572,7 +683,11 @@ const Navbar = () => {
       )}
 
       {/* Mobile menu */}
-      <div className={`lg:hidden transition-all duration-500 mt-[60px] ease-in-out ${isOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'} overflow-hidden bg-white/95 backdrop-blur-sm`}>
+      <div
+        className={`lg:hidden transition-all duration-500 mt-[60px] ease-in-out ${
+          isOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+        } overflow-hidden bg-white/95 backdrop-blur-sm`}
+      >
         {isOpen && (
           <div className="flex justify-center py-4">
             {/* <img src={logo3} alt="Gyapak Logo" className="h-18 w-auto" /> */}
@@ -581,15 +696,18 @@ const Navbar = () => {
         <div className="px-6 pt-4 pb-6 space-y-2 custom-scrollbar max-h-[80vh] overflow-y-auto">
           {/* Search Bar - Mobile */}
           <div className="mb-4 relative">
-            <form onSubmit={(e) => {
-              e.preventDefault();
-              if (searchQuery.trim()) {
-                navigate(`/search?query=${encodeURI(searchQuery.trim())}`);
-                setSearchQuery('');
-                setShowDropdown(false);
-                setIsOpen(false);
-              }
-            }} className="relative">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (searchQuery.trim()) {
+                  navigate(`/search?query=${encodeURI(searchQuery.trim())}`);
+                  setSearchQuery("");
+                  setShowDropdown(false);
+                  setIsOpen(false);
+                }
+              }}
+              className="relative"
+            >
               <input
                 type="text"
                 className="outline-none text-gray-600 text-sm w-full px-4 py-1.5 rounded-xl shadow-accertinity focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:border-gray-300 focus:bg-gray-100 border-transparent transition-all  duration-200 "
@@ -599,9 +717,9 @@ const Navbar = () => {
                 onFocus={() => searchQuery && setShowDropdown(true)}
                 onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
+                  if (e.key === "Enter") {
                     navigate(`/search?query=${encodeURI(searchQuery.trim())}`);
-                    setSearchQuery('');
+                    setSearchQuery("");
                     setShowDropdown(false);
                   }
                 }}
@@ -623,16 +741,30 @@ const Navbar = () => {
                 )}
                 <div>
                   {suggestions.authorities?.length > 0 && (
-                    <SuggestionList title="States" items={suggestions.authorities} itemKey="name" />
+                    <SuggestionList
+                      title="States"
+                      items={suggestions.authorities}
+                      itemKey="name"
+                    />
                   )}
                   {suggestions.organizations?.length > 0 && (
-                    <SuggestionList title="Organizations" items={suggestions.organizations} itemKey="abbreviation" />
+                    <SuggestionList
+                      title="Organizations"
+                      items={suggestions.organizations}
+                      itemKey="abbreviation"
+                    />
                   )}
                   {suggestions.categories?.length > 0 && (
-                    <SuggestionList title="Categories" items={suggestions.categories} itemKey="category" />
+                    <SuggestionList
+                      title="Categories"
+                      items={suggestions.categories}
+                      itemKey="category"
+                    />
                   )}
                   {totalCount === 0 && (
-                    <div className="px-4 py-3 text-sm text-gray-500">No suggestions found</div>
+                    <div className="px-4 py-3 text-sm text-gray-500">
+                      No suggestions found
+                    </div>
                   )}
                 </div>
               </div>
@@ -657,11 +789,17 @@ const Navbar = () => {
           {/* Mobile Categories */}
           <div className="relative">
             <button
-              onClick={() => setMobileCategoryDropdownVisible(!mobileCategoryDropdownVisible)}
+              onClick={() =>
+                setMobileCategoryDropdownVisible(!mobileCategoryDropdownVisible)
+              }
               className="flex w-full items-center justify-between px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-all duration-300"
             >
               <span className="text-base font-medium">Categories</span>
-              <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${mobileCategoryDropdownVisible ? 'rotate-180' : ''}`} />
+              <ChevronDown
+                className={`w-5 h-5 transition-transform duration-300 ${
+                  mobileCategoryDropdownVisible ? "rotate-180" : ""
+                }`}
+              />
             </button>
 
             {mobileCategoryDropdownVisible && (
@@ -674,7 +812,11 @@ const Navbar = () => {
                         updateVisibleCategories(category);
                         setMobileCategoryDropdownVisible(false);
                         setIsOpen(false);
-                        navigate(`/government-organisations-under-category/${encodeURIComponent(category.Nameid)}`);
+                        navigate(
+                          `/government-organisations-under-category/${encodeURIComponent(
+                            category.Nameid
+                          )}`
+                        );
                       }}
                       className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-br from-purple-50 to-blue-50 hover:from-purple-100 hover:to-blue-100 cursor-pointer transition-all duration-300"
                     >
@@ -694,11 +836,17 @@ const Navbar = () => {
           {/* Mobile States */}
           <div className="relative">
             <button
-              onClick={() => setMobileStateDropdownVisible(!mobileStateDropdownVisible)}
+              onClick={() =>
+                setMobileStateDropdownVisible(!mobileStateDropdownVisible)
+              }
               className="flex w-full items-center justify-between px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
             >
               <span>States</span>
-              <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${mobileStateDropdownVisible ? 'rotate-180' : ''}`} />
+              <ChevronDown
+                className={`w-4 h-4 transition-transform duration-300 ${
+                  mobileStateDropdownVisible ? "rotate-180" : ""
+                }`}
+              />
             </button>
 
             {mobileStateDropdownVisible && (
@@ -711,12 +859,18 @@ const Navbar = () => {
                         updateVisibleStates(state.name);
                         setMobileStateDropdownVisible(false);
                         setIsOpen(false);
-                        navigate(`/state/government-jobs-in-${state.name}-for-12th-pass`);
+                        navigate(
+                          `/state/government-jobs-in-${state.name}-for-12th-pass`
+                        );
                       }}
                       className="flex items-center p-3 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 group cursor-pointer"
                     >
                       <div className="h-10 w-10 rounded-xl flex items-center justify-center">
-                        <img className="w-full object-cover h-full rounded-lg" src={stateImages[state.name]} alt={state.name} />
+                        <img
+                          className="w-full object-cover h-full rounded-lg"
+                          src={stateImages[state.name]}
+                          alt={state.name}
+                        />
                       </div>
                       <div className="ml-4">
                         <span className="text-sm font-medium text-gray-800 group-hover:text-purple-700">
@@ -742,8 +896,9 @@ const Navbar = () => {
               <button
                 onClick={() => {
                   setIsOpen(false);
-                  const aboutSection = document.getElementById('about');
-                  if (aboutSection) aboutSection.scrollIntoView({ behavior: 'smooth' });
+                  const aboutSection = document.getElementById("about");
+                  if (aboutSection)
+                    aboutSection.scrollIntoView({ behavior: "smooth" });
                 }}
                 className="block w-full text-left px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
               >
@@ -752,9 +907,7 @@ const Navbar = () => {
 
               <button
                 onClick={() => {
-                  setIsOpen(false);
-                  const contactSection = document.getElementById('contact');
-                  if (contactSection) contactSection.scrollIntoView({ behavior: 'smooth' });
+                  navigate("/contact-us");
                 }}
                 className="block w-full text-left px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
               >
