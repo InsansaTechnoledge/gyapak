@@ -3,7 +3,7 @@ import axios from "axios";
 import { Search, Calendar, Bell } from "lucide-react";
 import { useApi, CheckServer } from "../../Context/ApiContext";
 import { debounce } from "../../Utils/debounce";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEventRouting } from "../../Utils/useEventRouting";
 import GovCalendar from "./components/GovCalendar";
 
@@ -346,9 +346,9 @@ export default function GyapakLanding() {
                 href="/daily-updates"
                 className="group bg-white border border-purple-100 rounded-2xl overflow-hidden shadow-[0_18px_50px_rgba(15,23,42,0.08)] flex flex-col h-full"
               >
-                <div className="relative h-32 sm:h-40 overflow-hidden">
+                <div className="relative h-12 sm:h-16 overflow-hidden">
                   <div className="absolute inset-0 bg-purple-800" />
-                  <div className="absolute bottom-3 left-4 px-3 py-1 rounded-full bg-white/80 border border-purple-200 text-[10px] uppercase tracking-[0.22em] text-purple-700 font-semibold">
+                  <div className="absolute bottom-3 left-4 px-3 py-1  rounded-full bg-white/80 border border-purple-200 text-[10px] uppercase tracking-[0.22em] text-purple-700 font-semibold">
                     Cover Story • Today
                   </div>
                 </div>
@@ -379,7 +379,7 @@ export default function GyapakLanding() {
                 href="/monthly-magazine"
                 className="group bg-white border border-purple-100 rounded-2xl overflow-hidden shadow-[0_18px_50px_rgba(15,23,42,0.08)] flex flex-col h-full"
               >
-                <div className="relative h-32 sm:h-40 overflow-hidden">
+                <div className="relative h-12 sm:h-16 overflow-hidden">
                   <div className="absolute inset-0 bg-purple-800" />
                   <div className="absolute top-3 left-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/85 border border-purple-200">
                     <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
@@ -447,6 +447,10 @@ export default function GyapakLanding() {
               </div>
             </div>
           </div>
+
+          <Link to={'/Latest-Examination-Results-Admit-Card'} className="bg-purple-600 text-left px-6 py-2 rounded-lg text-xl text-white font-bold">
+            Qucik Results and Admit Cards news
+          </Link>
          
   
           {/* <aside className="space-y-6">

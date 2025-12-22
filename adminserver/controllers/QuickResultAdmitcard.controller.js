@@ -36,19 +36,30 @@ export const AddResultAdmitCard = async (req, res) => {
 }
 
 export const GetsultResultsAdmitcards = async (req, res) => {
-    try{
-
-        const data = await QuickResultAdmitCard.find().sort({createdAt : -1});
-
-        res.status(200).json({
-            message: 'Data fetched successfully',
-            data
+    try {
+      const { kind } = req.query;
+  
+      const filter = kind ? { kind } : {};
+  
+      const data = await QuickResultAdmitCard.find(filter).sort({ createdAt: -1 });
+  
+      if(data.length === 0) {
+        return res.status(404).json({
+            message: kind
+            ? "No result matching "+ kind + " found"
+            : "No results found",
         })
-
+      }
+      
+      return res.status(200).json({
+        message: "Data fetched successfully",
+        data,
+      });
+      
     } catch (e) {
-        res.status(500).json({
-            message: 'Something went wrong while fethching the results/admitcards',
-            error: e.message
-        })
+      return res.status(500).json({
+        message: "Something went wrong while fetching the results/admitcards",
+        error: e.message,
+      });
     }
-}
+};

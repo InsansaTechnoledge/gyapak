@@ -8,6 +8,7 @@ import { useApi } from "./Context/ApiContext";
 import MonthlyMagzine from "./Components/monthlyUpdate/MonthlyMagzine";
 import NewCalendarPage from "./Pages/Calendar/NewCalendarPage";
 import UpcommingEvent from "./Pages/Calendar/upcommingEvent/UpcommingEvent";
+import QuickResultsPage from "./Pages/QuickResultsPage";
 
 const Landing = lazy(() => import("./Pages/Landing/landing"));
 const Navbar = lazy(() => import("./Components/Navbar/Navbar"));
@@ -199,6 +200,14 @@ const PageLinks = () => {
           element={
             <div className='px-5 md:px-16'>
               <UpcommingEvent/>
+            </div>
+          }
+        />
+        <Route
+          path="/Latest-Examination-Results-Admit-Card"
+          element={
+            <div className='px-5 md:px-16'>
+              <QuickResultsPage/>
             </div>
           }
         />
