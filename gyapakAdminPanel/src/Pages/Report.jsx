@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { Calendar, AlertCircle, TrendingUp, FileText, Users, BookOpen, HelpCircle, Building } from 'lucide-react';
+import { Calendar, AlertCircle, TrendingUp, FileText, Users, BookOpen, HelpCircle, Building, Download } from 'lucide-react';
 import { getWeeklyReport } from '../Services/ReportService';
+import { generateReportPDF } from '../utils/generateReportPDF';
 
 const Report = () => {
   const [report, setReport] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [downloadingPDF, setDownloadingPDF] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
 
   const generateReport = async () => {
@@ -25,6 +27,25 @@ const Report = () => {
       alert('Error connecting to server. Please check your connection.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDownloadPDF = async () => {
+    if (!report) {
+      alert('Please generate a report first.');
+      return;
+    }
+
+    setDownloadingPDF(true);
+    try {
+      // Small delay to show loading state
+      await new Promise(resolve => setTimeout(resolve, 300));
+      generateReportPDF(report);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      alert('Failed to generate PDF. Please try again.');
+    } finally {
+      setDownloadingPDF(false);
     }
   };
 
@@ -75,23 +96,44 @@ const Report = () => {
               <h1 className="text-3xl font-bold text-gray-900">Weekly Report Dashboard</h1>
               <p className="text-gray-600 mt-1">Last 7 days analytics and insights</p>
             </div>
-            <button
-              onClick={generateReport}
-              disabled={loading}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 font-medium shadow-sm"
-            >
-              {loading ? (
-                <>
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Generating...
-                </>
-              ) : (
-                <>
-                  <FileText size={20} />
-                  Generate Report
-                </>
-              )}
-            </button>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={generateReport}
+                disabled={loading}
+                className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 font-medium shadow-sm transition-all"
+              >
+                {loading ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    Generating...
+                  </>
+                ) : (
+                  <>
+                    <FileText size={20} />
+                    Generate Report
+                  </>
+                )}
+              </button>
+              
+              <button
+                onClick={handleDownloadPDF}
+                disabled={!report || downloadingPDF}
+                className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 font-medium shadow-sm transition-all"
+                title={!report ? 'Generate a report first' : 'Download PDF Report'}
+              >
+                {downloadingPDF ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    Preparing PDF...
+                  </>
+                ) : (
+                  <>
+                    <Download size={20} />
+                    Download PDF
+                  </>
+                )}
+              </button>
+            </div>
           </div>
           
           {report && (

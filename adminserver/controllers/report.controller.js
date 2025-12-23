@@ -1,14 +1,14 @@
 // ============================================
 // File: controllers/reportController.js
 // ============================================
-import Authority from '../models/AuthorityModel.js';
-import { Blog } from '../models/BlogPost.model.js';
-import Category from '../models/CategoryModel.js';
-import {CurrentAffair} from '../models/currentAffairs.models.js';
-import Event from '../models/EventModel.js';
-import FAQ from '../models/FAQ.model.js';
-import Organization from '../models/OrganizationModel.js';
-import Question from '../models/QuestionsModel.js';
+import Authority from "../models/AuthorityModel.js";
+import { Blog } from "../models/BlogPost.model.js";
+import Category from "../models/CategoryModel.js";
+import { CurrentAffair } from "../models/currentAffairs.models.js";
+import Event from "../models/EventModel.js";
+import FAQ from "../models/FAQ.model.js";
+import Organization from "../models/OrganizationModel.js";
+import Question from "../models/QuestionsModel.js";
 
 export const getWeeklyReport = async (req, res) => {
   try {
@@ -27,7 +27,7 @@ export const getWeeklyReport = async (req, res) => {
       eventsCount,
       faqsCount,
       organizationsCount,
-      questionsCount
+      questionsCount,
     ] = await Promise.all([
       Authority.countDocuments({ createdAt: { $gte: oneWeekAgo } }),
       Blog.countDocuments({ createdAt: { $gte: oneWeekAgo } }),
@@ -36,7 +36,7 @@ export const getWeeklyReport = async (req, res) => {
       Event.countDocuments({ createdAt: { $gte: oneWeekAgo } }),
       FAQ.countDocuments({ createdAt: { $gte: oneWeekAgo } }),
       Organization.countDocuments({ createdAt: { $gte: oneWeekAgo } }),
-      Question.countDocuments({ createdAt: { $gte: oneWeekAgo } })
+      Question.countDocuments({ createdAt: { $gte: oneWeekAgo } }),
     ]);
 
     console.log("Weekly Report Data:", {
@@ -47,108 +47,117 @@ export const getWeeklyReport = async (req, res) => {
       eventsCount,
       faqsCount,
       organizationsCount,
-      questionsCount
+      questionsCount,
     });
 
     // Upcoming Events Analysis
-    const [urgentEvents, soonEvents, upcomingEvents, recentlyAddedEvents] = await Promise.all([
-      Event.find({ end_date: { $gte: now, $lte: twoDaysFromNow } })
-        .populate('organization_id', 'name abbreviation')
-        .select('name date_of_commencement end_date event_type organization_id apply_link briefDetails')
-        .sort({ end_date: 1 })
-        .limit(10),
+    const [urgentEvents, soonEvents, upcomingEvents, recentlyAddedEvents] =
+      await Promise.all([
+        Event.find({ end_date: { $gte: now, $lte: twoDaysFromNow } })
+          .populate("organization_id", "name abbreviation")
+          .select(
+            "name date_of_commencement end_date event_type organization_id apply_link briefDetails isNewEvent"
+          )
+          .sort({ end_date: 1 })
+          .limit(10),
 
-      Event.find({ end_date: { $gt: twoDaysFromNow, $lte: fiveDaysFromNow } })
-        .populate('organization_id', 'name abbreviation')
-        .select('name date_of_commencement end_date event_type organization_id')
-        .sort({ end_date: 1 })
-        .limit(10),
+        Event.find({ end_date: { $gt: twoDaysFromNow, $lte: fiveDaysFromNow } })
+          .populate("organization_id", "name abbreviation")
+          .select(
+            "name date_of_commencement end_date event_type organization_id apply_link briefDetails isNewEvent"
+          )
+          .sort({ end_date: 1 })
+          .limit(10),
 
-      Event.find({ end_date: { $gt: fiveDaysFromNow, $lte: sevenDaysFromNow } })
-        .populate('organization_id', 'name abbreviation')
-        .select('name date_of_commencement end_date event_type organization_id')
-        .sort({ end_date: 1 })
-        .limit(10),
+        Event.find({
+          end_date: { $gt: fiveDaysFromNow, $lte: sevenDaysFromNow },
+        })
+          .populate("organization_id", "name abbreviation")
+          .select(
+            "name date_of_commencement end_date event_type organization_id isNewEvent"
+          )
+          .sort({ end_date: 1 })
+          .limit(10),
 
-      Event.find({ createdAt: { $gte: oneWeekAgo } })
-        .populate('organization_id', 'name abbreviation')
-        .select('name event_type createdAt organization_id')
-        .sort({ createdAt: -1 })
-        .limit(10)
-    ]);
+        Event.find({ createdAt: { $gte: oneWeekAgo } })
+          .populate("organization_id", "name abbreviation")
+          .select("name event_type createdAt organization_id isNewEvent")
+          .sort({ createdAt: -1 })
+          .limit(10),
+      ]);
 
     // Blog Analytics
     const [recentBlogs, featuredBlogs, topAuthors] = await Promise.all([
       Blog.find({ createdAt: { $gte: oneWeekAgo } })
-        .select('title author.name createdAt readTime tags')
+        .select("title author.name createdAt readTime tags")
         .sort({ createdAt: -1 })
         .limit(5),
-      
-      Blog.countDocuments({ 
+
+      Blog.countDocuments({
         createdAt: { $gte: oneWeekAgo },
-        featuredPost: true 
+        featuredPost: true,
       }),
 
       Blog.aggregate([
         { $match: { createdAt: { $gte: oneWeekAgo } } },
-        { $group: { _id: '$author.name', count: { $sum: 1 } }},
+        { $group: { _id: "$author.name", count: { $sum: 1 } } },
         { $sort: { count: -1 } },
-        { $limit: 5 }
-      ])
+        { $limit: 5 },
+      ]),
     ]);
 
     // Current Affairs Analytics
     const affairsBreakdown = await CurrentAffair.aggregate([
       { $match: { createdAt: { $gte: oneWeekAgo } } },
-      { $unwind: '$affairs' },
-      { $group: { _id: '$affairs.category', count: { $sum: 1 } }},
-      { $sort: { count: -1 } }
+      { $unwind: "$affairs" },
+      { $group: { _id: "$affairs.category", count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
     ]);
 
     // Question Analytics
     const questionStats = await Question.aggregate([
       { $match: { createdAt: { $gte: oneWeekAgo } } },
-      { $group: { _id: '$difficulty', count: { $sum: 1 } }}
+      { $group: { _id: "$difficulty", count: { $sum: 1 } } },
     ]);
 
     // FAQ by State
     const faqByState = await FAQ.aggregate([
       { $match: { createdAt: { $gte: oneWeekAgo } } },
-      { $group: { _id: '$state', count: { $sum: 1 } }},
+      { $group: { _id: "$state", count: { $sum: 1 } } },
       { $sort: { count: -1 } },
-      { $limit: 10 }
+      { $limit: 10 },
     ]);
 
     // Event Type Distribution
     const eventTypeDistribution = await Event.aggregate([
       { $match: { createdAt: { $gte: oneWeekAgo } } },
-      { $group: { _id: '$event_type', count: { $sum: 1 } }}
+      { $group: { _id: "$event_type", count: { $sum: 1 } } },
     ]);
 
     // Organization Activity
     const organizationActivity = await Organization.aggregate([
       {
         $lookup: {
-          from: 'events',
-          localField: '_id',
-          foreignField: 'organization_id',
-          as: 'events'
-        }
+          from: "events",
+          localField: "_id",
+          foreignField: "organization_id",
+          as: "events",
+        },
       },
       {
         $match: {
-          'events.createdAt': { $gte: oneWeekAgo }
-        }
+          "events.createdAt": { $gte: oneWeekAgo },
+        },
       },
       {
         $project: {
           name: 1,
           abbreviation: 1,
-          eventCount: { $size: '$events' }
-        }
+          eventCount: { $size: "$events" },
+        },
       },
       { $sort: { eventCount: -1 } },
-      { $limit: 10 }
+      { $limit: 10 },
     ]);
 
     const calculateDaysRemaining = (endDate) => {
@@ -160,9 +169,15 @@ export const getWeeklyReport = async (req, res) => {
       reportGenerated: now,
       period: { from: oneWeekAgo, to: now },
       summary: {
-        totalEntries: authoritiesCount + blogsCount + categoriesCount + 
-                     currentAffairsCount + eventsCount + faqsCount + 
-                     organizationsCount + questionsCount,
+        totalEntries:
+          authoritiesCount +
+          blogsCount +
+          categoriesCount +
+          currentAffairsCount +
+          eventsCount +
+          faqsCount +
+          organizationsCount +
+          questionsCount,
         bySection: {
           authorities: authoritiesCount,
           blogs: blogsCount,
@@ -171,40 +186,40 @@ export const getWeeklyReport = async (req, res) => {
           events: eventsCount,
           faqs: faqsCount,
           organizations: organizationsCount,
-          questions: questionsCount
-        }
+          questions: questionsCount,
+        },
       },
       upcomingEvents: {
-        urgent: urgentEvents.map(e => ({
+        urgent: urgentEvents.map((e) => ({
           ...e.toObject(),
           daysRemaining: calculateDaysRemaining(e.end_date),
-          urgencyLevel: 'critical'
+          urgencyLevel: "critical",
         })),
-        soon: soonEvents.map(e => ({
+        soon: soonEvents.map((e) => ({
           ...e.toObject(),
           daysRemaining: calculateDaysRemaining(e.end_date),
-          urgencyLevel: 'high'
+          urgencyLevel: "high",
         })),
-        upcoming: upcomingEvents.map(e => ({
+        upcoming: upcomingEvents.map((e) => ({
           ...e.toObject(),
           daysRemaining: calculateDaysRemaining(e.end_date),
-          urgencyLevel: 'medium'
+          urgencyLevel: "medium",
         })),
-        recentlyAdded: recentlyAddedEvents
+        recentlyAdded: recentlyAddedEvents,
       },
       blogAnalytics: {
         recentBlogs,
         featuredCount: featuredBlogs,
-        topAuthors
+        topAuthors,
       },
       currentAffairsBreakdown: affairsBreakdown,
       questionStatistics: {
         byDifficulty: questionStats,
-        total: questionsCount
+        total: questionsCount,
       },
       faqAnalytics: {
         byState: faqByState,
-        total: faqsCount
+        total: faqsCount,
       },
       eventTypeDistribution,
       organizationActivity,
@@ -213,28 +228,28 @@ export const getWeeklyReport = async (req, res) => {
           Authorities: authoritiesCount,
           Blogs: blogsCount,
           Categories: categoriesCount,
-          'Current Affairs': currentAffairsCount,
+          "Current Affairs": currentAffairsCount,
           Events: eventsCount,
           FAQs: faqsCount,
           Organizations: organizationsCount,
-          Questions: questionsCount
-        }).reduce((a, b) => a[1] > b[1] ? a : b)[0],
+          Questions: questionsCount,
+        }).reduce((a, b) => (a[1] > b[1] ? a : b))[0],
         criticalEventsCount: urgentEvents.length,
-        growthIndicator: eventsCount + blogsCount + questionsCount > 10 ? 'High' : 'Moderate'
-      }
+        growthIndicator:
+          eventsCount + blogsCount + questionsCount > 10 ? "High" : "Moderate",
+      },
     };
 
     res.status(200).json({
       success: true,
-      data: report
+      data: report,
     });
-
   } catch (error) {
-    console.error('Error generating weekly report:', error);
+    console.error("Error generating weekly report:", error);
     res.status(500).json({
       success: false,
-      message: 'Error generating weekly report',
-      error: error.message
+      message: "Error generating weekly report",
+      error: error.message,
     });
   }
 };
@@ -298,4 +313,3 @@ export const getWeeklyReport = async (req, res) => {
 //     });
 //   }
 // };
-

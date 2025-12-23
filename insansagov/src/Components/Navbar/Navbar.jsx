@@ -576,9 +576,10 @@ const Navbar = () => {
         <div className="flex gap-6 font-medium text-gray-700 items-center">
           <a
             href="/blog"
-            className={`hover:text-pink-600 transition-all duration-300`}
+            className="relative group px-4 py-2 rounded-lg bg-gradient-to-r from-purple-50 to-blue-50 hover:from-purple-100 hover:to-blue-100 transition-all duration-300 shadow-sm hover:shadow-md"
           >
-            Blogs
+            <span className="text-purple-700 font-semibold">📚 Blogs</span>
+            <span className="absolute -top-1 -right-1 bg-green-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold animate-pulse">NEW</span>
           </a>
           <button
             className="hover:text-pink-600 flex items-center gap-1 "
@@ -606,7 +607,16 @@ const Navbar = () => {
         </div>
 
         {/* Menu right */}
-        <div className="ml-auto flex gap-6 font-medium text-gray-700">
+        <div className="ml-auto flex gap-6 font-medium text-gray-700 items-center">
+          <a 
+            href="/last-date-to-apply-for-online-offline-government-jobs-applications" 
+            className="relative group px-4 py-2 rounded-lg bg-gradient-to-r from-red-50 to-orange-50 hover:from-red-100 hover:to-orange-100 transition-all duration-300 shadow-sm hover:shadow-md border border-red-200"
+          >
+            <span className="text-red-700 font-semibold flex items-center gap-1.5">
+              ⏰ Last Date to Apply
+            </span>
+            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold animate-pulse">HOT</span>
+          </a>
           <a href="" className="hover:text-pink-600">
             About
           </a>
@@ -774,9 +784,10 @@ const Navbar = () => {
           <a
             onClick={() => setIsOpen(false)}
             href="/blog"
-            className="block px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+            className="relative block px-4 py-3 rounded-lg bg-gradient-to-r from-purple-50 to-blue-50 hover:from-purple-100 hover:to-blue-100 transition-all duration-300 shadow-sm"
           >
-            Visit Blogs
+            <span className="text-purple-700 font-semibold">📚 Blogs</span>
+            <span className="absolute top-2 right-2 bg-green-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold animate-pulse">NEW</span>
           </a>
 
           <button
@@ -785,6 +796,15 @@ const Navbar = () => {
           >
             Today's Current Affairs in Hindi
           </button>
+
+          <a
+            onClick={() => setIsOpen(false)}
+            href="/last-date-to-apply-for-online-offline-government-jobs-applications"
+            className="relative block px-4 py-3 rounded-lg bg-gradient-to-r from-red-50 to-orange-50 hover:from-red-100 hover:to-orange-100 transition-all duration-300 shadow-sm border border-red-200"
+          >
+            <span className="text-red-700 font-semibold">⏰ Last Date to Apply</span>
+            <span className="absolute top-2 right-2 bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold animate-pulse">HOT</span>
+          </a>
 
           {/* Mobile Categories */}
           <div className="relative">

@@ -13,6 +13,8 @@
     "@tailwindcss/vite": "^4.0.17",
     "axios": "^1.8.4",
     "i": "^0.3.7",
+    "jspdf": "^3.0.4",
+    "jspdf-autotable": "^5.0.2",
     "lucide-react": "^0.484.0",
     "npm": "^11.7.0",
     "react": "^19.0.0",
