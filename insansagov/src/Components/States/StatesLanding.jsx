@@ -5,6 +5,7 @@ import axios from "axios";
 import { useApi } from "../../Context/ApiContext";
 import { formatDate } from "../../Utils/dateFormatter";
 import { Calendar, MapPin, ChevronRight } from "lucide-react";
+import { StateComponentDescription, StateComponentTitle } from "../../constants/Constants";
 
 const StatesLanding = () => {
   const [region, setRegion] = useState("North");
@@ -45,8 +46,8 @@ const StatesLanding = () => {
     <button
       className={`px-6 py-2 rounded-full transition-all duration-300 ${
         active
-          ? "bg-purple-600 text-white shadow-md shadow-purple-200"
-          : "bg-white text-gray-600 hover:bg-gray-100"
+          ? "main-site-color text-white shadow-md shadow-purple-200"
+          : "bg-white utility-secondary-color-2 hover:light-site-color"
       }`}
       onClick={onClick}
     >
@@ -93,28 +94,25 @@ const StatesLanding = () => {
   }
 
   return (
-    <div className=" mx-auto px-4 py-8">
-      <div className="bg-gradient-to-r from-purple-50 to-white rounded-2xl p-6 mb-10 shadow-sm">
+    <div className=" mx-auto">
+      <div className="light-site-color-3 rounded-2xl p-6 mb-10 shadow-sm">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center">
           <div>
             <div className="flex justify-between gap-10">
-              <h1 className="text-3xl font-bold text-gray-800 mb-2">
-                State Government Opportunities
+              <h1 className="text-3xl font-bold main-site-text-color mb-2">
+                {StateComponentTitle}
               </h1>
             </div>
 
-            <p className="text-gray-500 text-sm max-w-xl mt-2 ">
-              Explore State-Level upcoming Government Exams 2025 whether you're
-              targeting teaching jobs, police recruitment, PSC exams, or
-              clerical posts in state government, Gyapak helps you track every
-              government job opportunity in your state.
+            <p className="utility-secondary-color text-sm max-w-xl mt-2 ">
+              {StateComponentDescription}
             </p>
           </div>
         </div>
-        <div className="flex  lg:justify-end items-center text-gray-500 text-xs text-left mt-4 lg:text-right w-full lg:mt-1">
-          <Calendar size={16} className="mr-1 text-purple-500" />
+        <div className="flex  lg:justify-end items-center utility-secondary-color-2  text-xs text-left mt-4 lg:text-right w-full lg:mt-1">
+          {/* <Calendar size={16} className="mr-1 text-purple-500" /> */}
           Last updated:{" "}
-          <span className="ml-1 font-medium text-purple-600">
+          <span className="ml-1 font-medium main-site-text-color">
             {lastUpdated}
           </span>
         </div>

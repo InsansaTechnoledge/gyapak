@@ -6,6 +6,7 @@ import { debounce } from "../../Utils/debounce";
 import { Link, useNavigate } from "react-router-dom";
 import { useEventRouting } from "../../Utils/useEventRouting";
 import GovCalendar from "./components/GovCalendar";
+import { LandingPageCurrentAffairsDescription, LandingPageCurrentAffairsTitle, LandingPageMonthlyMagazineDescription, LandingPageMonthlyMagazineTitle, LandingPageSearch, LandingPageSearchDescription, LandingPageSearchPlaceholder, LandingPageStatsDescription, QuickResultsTitle } from "../../constants/Constants";
 
 export default function GyapakLanding() {
   const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
@@ -151,24 +152,24 @@ export default function GyapakLanding() {
   
 
   return (
-    <div className="min-h-screen mt-32 text-slate-900">
-      <header className="border-b border-purple-100 ">
+    <div className="min-h-screen mt-32 utility-site-color">
+      <header className="border-b main-site-border-color ">
         <div className=" mx-auto px-4 sm:px-16 py-6 flex flex-col gap-4">
           <div className="flex items-center justify-between gap-4">
             <div className="space-y-1">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-purple-600">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.25em] main-site-text-color">
                 Gyapak 
               </p>
-              <p className="text-xs text-slate-500">{today}</p>
+              <p className="text-xs utility-secondary-color">{today}</p>
             </div>
   
             <div className="flex flex-col items-end gap-1">
              
-              <div className="flex flex-wrap gap-2 text-[11px] text-slate-600">
-                <span className="px-2 py-0.5 rounded-full bg-purple-50 border border-purple-100">
+              <div className="flex flex-wrap gap-2 text-[11px] utility-secondary-color">
+                <span className="px-2 py-0.5 rounded-full light-site-color-3 border main-site-border-color">
                   {statesCovered} States
                 </span>
-                <span className="px-2 py-0.5 rounded-full bg-purple-50 border border-purple-100">
+                <span className="px-2 py-0.5 rounded-full light-site-color-3 border main-site-border-color">
                   {examsTracked} Exams
                 </span>
               </div>
@@ -180,7 +181,7 @@ export default function GyapakLanding() {
               <h1 className="text-5xl sm:text-6xl lg:text-[6vw] font-black tracking-tight font-serif">
                 <span
                   className={[
-                    "bg-clip-text py-10 text-transparent bg-purple-700",
+                    "bg-clip-text py-10 text-transparent main-site-text-color",
                     "transition-opacity duration-300",
                     isFading ? "opacity-0" : "opacity-100",
                   ].join(" ")}
@@ -191,16 +192,16 @@ export default function GyapakLanding() {
             </div>
   
             <div className="flex flex-col items-center sm:items-end gap-3">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-purple-100 shadow-sm">
-                <span className="text-[11px] uppercase tracking-[0.25em] text-slate-500">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border main-site-border-color shadow-sm">
+                <span className="text-[11px] uppercase tracking-[0.25em] utility-secondary-color">
                   Edition
                 </span>
-                <span className="text-xs font-semibold text-purple-600">
+                <span className="text-xs font-semibold main-site-text-color">
                   All India • Digital
                 </span>
               </div>
-              <div className="text-[11px] text-slate-500 uppercase tracking-[0.3em] font-medium">
-                Price: <span className="text-purple-600">Free</span> • Updated Daily
+              <div className="text-[11px] utility-secondary-color uppercase tracking-[0.3em] font-medium">
+                Price: <span className="main-site-text-color">Free</span> • Updated Daily
               </div>
             </div>
           </div>
@@ -213,52 +214,51 @@ export default function GyapakLanding() {
            
             <div className="flex flex-col sm:flex-row justify-between gap-4 mb-5">
               <div className="flex items-center gap-3">
-                <div className="h-9 w-9 rounded-xl border-purple-800 border flex items-center justify-center">
-                  <Search className="w-4 h-4 text-purple-600" />
+                <div className="h-9 w-9 rounded-xl main-dark-border-color border flex items-center justify-center">
+                  <Search className="w-4 h-4 main-site-text-color" />
                 </div>
                 <div>
-                  <h2 className="text-lg sm:text-xl font-semibold font-serif tracking-tight text-slate-900">
-                    Explore the Exam Archive
+                  <h2 className="text-lg sm:text-xl font-semibold font-serif tracking-tight utility-site-color">
+                    {LandingPageSearch}
                   </h2>
-                  <p className="text-xs sm:text-[13px] text-slate-500 mt-1">
-                    Search across all government exams, notifications and
-                    opportunities in one place.
+                  <p className="text-xs sm:text-[13px] utility-secondary-color mt-1">
+                    {LandingPageSearchDescription}
                   </p>
                 </div>
               </div>
-              <span className="text-[11px] text-slate-400 uppercase tracking-[0.2em]">
+              <span className="text-[11px] utility-secondary-color-2 uppercase tracking-[0.2em]">
                 Feature Story • Search
               </span>
             </div>
   
             <div className="relative mb-4">
               <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-                <Search className="w-4 h-4 text-slate-400" />
+                <Search className="w-4 h-4 utility-secondary-color-2" />
               </div>
               <input
                 type="text"
-                placeholder="Search by exam name"
-                className="w-full pl-10 pr-4 py-3.5 rounded-xl border border-slate-200 bg-white text-sm sm:text-base text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/80 focus:border-purple-500/80 transition"
+                placeholder={LandingPageSearchPlaceholder}
+                className="w-full pl-10 pr-4 py-3.5 rounded-xl border main-dark-border-color  text-sm sm:text-base utility-site-color placeholder:utility-secondary-color-2 focus:outline-none focus:ring-2 focus:ring-purple-500/80 focus:border-purple-500/80 transition"
                 value={searchInput}
                 onChange={handleSearch}
               />
             </div>
   
             {searched.trim() && (
-              <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50/80 max-h-72 overflow-hidden flex flex-col">
+              <div className="mt-4 rounded-xl border main-dark-border-color light-site-color-3/80 max-h-72 overflow-hidden flex flex-col">
                 {searchResults.length === 0 ? (
-                  <div className="px-4 py-3 text-sm text-slate-700 font-serif">
+                  <div className="px-4 py-3 text-sm utility-site-color font-serif">
                     No results for{" "}
-                    <span className="font-semibold text-purple-600">
+                    <span className="font-semibold main-site-text-color">
                       "{searched}"
                     </span>
                     . Try another exam name.
                   </div>
                 ) : (
                   <>
-                    <div className="px-4 py-2 text-[11px] uppercase tracking-[0.22em] bg-purple-600 text-white font-semibold flex items-center justify-between">
+                    <div className="px-4 py-2 text-[11px] uppercase tracking-[0.22em] main-site-color secondary-site-text-color font-semibold flex items-center justify-between">
                       <span>{searchResults.length} Results Found</span>
-                      <span className="hidden sm:inline text-[10px] text-purple-100/90">
+                      <span className="hidden sm:inline text-[10px] utility-scondary-color-3/90">
                         Tap a card to open full notification
                       </span>
                     </div>
@@ -272,31 +272,31 @@ export default function GyapakLanding() {
                         //   // }
                         //   onClick={(e) => onEventNavigate(e, apiBaseUrl, navigate, event)}
 
-                        //   className="w-full text-left px-4 py-3 hover:bg-purple-50 transition-colors"
+                        //   className="w-full text-left px-4 py-3 hover:light-site-color-3 transition-colors"
                         // >
                         <button
                           key={event._id}
                           type="button"
                           onMouseEnter={() => prefetchEventRoute(event)}     // optional but recommended
                           onClick={(e) => handleEventClick(e, event)}        // ✅ global old/new resolver
-                          className="w-full text-left px-4 py-3 hover:bg-purple-50 transition-colors"
+                          className="w-full text-left px-4 py-3 hover:light-site-color-3 transition-colors"
                         >
-                          <p className="font-serif font-semibold text-sm sm:text-base text-slate-900 line-clamp-2">
+                          <p className="font-serif font-semibold text-sm sm:text-base utility-site-color line-clamp-2">
                             {event.name}
                           </p>
-                          <p className="mt-1 text-[11px] sm:text-xs text-slate-600">
+                          <p className="mt-1 text-[11px] sm:text-xs utility-secondary-color">
                             {event.organizationName || "Unknown Organization"}
                             {event.event_type ? (
-                              <span className="text-purple-600">
+                              <span className="main-site-text-color">
                                 {" "}
                                 • {event.event_type}
                               </span>
                             ) : null}
                           </p>
                           {event.date_of_commencement && (
-                            <p className="mt-1 text-[11px] text-slate-500">
+                            <p className="mt-1 text-[11px] utility-secondary-color">
                               Commencement:{" "}
-                              <span className="font-medium text-purple-700">
+                              <span className="font-medium main-site-text-color">
                                 {event.date_of_commencement}
                               </span>
                             </p>
@@ -311,28 +311,27 @@ export default function GyapakLanding() {
           </div>
   
           <div className="flex flex-col gap-4">
-            <div className="bg-purple-500/10 border border-purple-100 rounded-2xl p-5 shadow-[0_16px_40px_rgba(15,23,42,0.06)]">
+            <div className="light-site-color-3 border main-site-border-color rounded-2xl p-5 shadow-[0_16px_40px_rgba(15,23,42,0.06)]">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-2xl sm:text-3xl font-bold font-serif text-slate-900">
+                  <p className="text-2xl sm:text-3xl font-bold font-serif utility-site-color">
                     {statesCovered}
                   </p>
-                  <p className="tex t-[11px] uppercase tracking-[0.22em] text-slate-500 mt-1">
+                  <p className="tex t-[11px] uppercase tracking-[0.22em] utility-secondary-color mt-1">
                     States Covered
                   </p>
                 </div>
                 <div>
-                  <p className="text-2xl sm:text-3xl font-bold font-serif text-slate-900">
+                  <p className="text-2xl sm:text-3xl font-bold font-serif utility-site-color">
                     {examsTracked}
                   </p>
-                  <p className="text-[11px] uppercase tracking-[0.22em] text-slate-500 mt-1">
+                  <p className="text-[11px] uppercase tracking-[0.22em] utility-secondary-color mt-1">
                     Active Exams
                   </p>
                 </div>
               </div>
-              <p className="mt-3 text-[11px] text-slate-600">
-                Real-time tracking of government exams across India, refreshed
-                daily with verified updates.
+              <p className="mt-3 text-[11px] utility-secondary-color">
+                {LandingPageStatsDescription}
               </p>
             </div>
   
@@ -344,31 +343,29 @@ export default function GyapakLanding() {
             <div className="grid md:grid-cols-2 gap-6">
               <a
                 href="/daily-updates"
-                className="group bg-white border border-purple-100 rounded-2xl overflow-hidden shadow-[0_18px_50px_rgba(15,23,42,0.08)] flex flex-col h-full"
+                className="group border main-site-border-color rounded-2xl overflow-hidden shadow-[0_18px_50px_rgba(15,23,42,0.08)] flex flex-col h-full"
               >
                 <div className="relative h-12 sm:h-16 overflow-hidden">
-                  <div className="absolute inset-0 bg-purple-800" />
-                  <div className="absolute bottom-3 left-4 px-3 py-1  rounded-full bg-white/80 border border-purple-200 text-[10px] uppercase tracking-[0.22em] text-purple-700 font-semibold">
+                  <div className="absolute inset-0 main-site-color" />
+                  <div className="absolute bottom-3 left-4 px-3 py-1  rounded-full border main-site-border-color-2 text-[10px] uppercase tracking-[0.22em] secondary-site-text-color font-semibold">
                     Cover Story • Today
                   </div>
                 </div>
                 <div className="p-5 sm:p-6 flex-1 flex flex-col">
-                  <h3 className="text-2xl sm:text-3xl font-serif font-semibold mb-2 leading-tight text-slate-900">
-                    आज की करेंट अफेयर्स
+                  <h3 className="text-2xl sm:text-3xl font-serif font-semibold mb-2 leading-tight utility-site-color">
+                    {LandingPageCurrentAffairsTitle}
                   </h3>
-                  <p className="text-sm sm:text-[15px] text-slate-700 font-serif mb-3 flex-1">
-                    Exam-focused current affairs with MCQs for SSC, Banking,
-                    Railway &amp; State PSC — freshly curated every morning at
-                    6:00 AM IST.
+                  <p className="text-sm sm:text-[15px] utility-secondary-color font-serif mb-3 flex-1">
+                    {LandingPageCurrentAffairsDescription}
                   </p>
-                  <div className="flex flex-wrap items-center gap-2 text-[11px] text-slate-700">
-                    <span className="px-2 py-1 rounded-full bg-purple-50 border border-purple-200 text-purple-700">
+                  <div className="flex flex-wrap items-center gap-2 text-[11px] utility-secondary-color">
+                    <span className="px-2 py-1 rounded-full light-site-color-3 border main-site-border-color-2 main-site-text-color">
                       Today&apos;s Edition
                     </span>
-                    <span className="px-2 py-1 rounded-full bg-purple-50 border border-purple-200 text-purple-700">
+                    <span className="px-2 py-1 rounded-full light-site-color-3 border main-site-border-color-2 main-site-text-color">
                       Free Access
                     </span>
-                    <span className="px-2 py-1 rounded-full bg-purple-50 border border-purple-200 text-purple-700">
+                    <span className="px-2 py-1 rounded-full light-site-color-3 border main-site-border-color-2 main-site-text-color">
                       Hindi &amp; English
                     </span>
                   </div>
@@ -377,35 +374,33 @@ export default function GyapakLanding() {
   
               <a
                 href="/monthly-magazine"
-                className="group bg-white border border-purple-100 rounded-2xl overflow-hidden shadow-[0_18px_50px_rgba(15,23,42,0.08)] flex flex-col h-full"
+                className="group  border main-site-border-color rounded-2xl overflow-hidden shadow-[0_18px_50px_rgba(15,23,42,0.08)] flex flex-col h-full"
               >
                 <div className="relative h-12 sm:h-16 overflow-hidden">
-                  <div className="absolute inset-0 bg-purple-800" />
-                  <div className="absolute top-3 left-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/85 border border-purple-200">
-                    <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
-                    <span className="text-[10px] uppercase tracking-[0.22em] text-purple-700 font-semibold">
+                  <div className="absolute inset-0 main-site-color" />
+                  <div className="absolute top-3 left-4 inline-flex items-center gap-2 px-3 py-1 rounded-full  border main-site-border-color-2">
+                    <span className="h-1.5 w-1.5 rounded-full support-component-bg-color" />
+                    <span className="text-[10px] uppercase tracking-[0.22em] secondary-site-text-color font-semibold">
                       Monthly Issue
                     </span>
                   </div>
-                  <div className="absolute bottom-3 right-4 text-right text-[11px] text-slate-800">
+                  <div className="absolute bottom-3 right-4 text-right text-[11px] utility-site-color">
                    
-                    <div className="text-[10px] text-slate-100">
+                    <div className="text-[10px] utility-scondary-color-3">
                       Latest Edition
                     </div>
                   </div>
                 </div>
                 <div className="p-5 sm:p-6 flex-1 flex flex-col">
-                  <h3 className="text-xl sm:text-2xl font-serif font-semibold mb-2 text-slate-900">
-                    Gyapak Monthly Magazine
+                  <h3 className="text-xl sm:text-2xl font-serif font-semibold mb-2 utility-site-color">
+                    {LandingPageMonthlyMagazineTitle}
                   </h3>
-                  <p className="text-sm sm:text-[15px] text-slate-700 font-serif mb-3 flex-1">
-                    A complete monthly digest of government jobs, major exams and
-                    high-yield current affairs — in a beautifully designed PDF
-                    format.
+                  <p className="text-sm sm:text-[15px] utility-secondary-color font-serif mb-3 flex-1">
+                    {LandingPageMonthlyMagazineDescription}
                   </p>
-                  <div className="flex flex-wrap items-center gap-2 text-[11px] text-slate-700">
+                  <div className="flex flex-wrap items-center gap-2 text-[11px] utility-secondary-color">
                   
-                    <span className="px-2 py-1 rounded-full bg-purple-50 border border-purple-200 text-purple-700">
+                    <span className="px-2 py-1 rounded-full light-site-color-3 border main-site-border-color-2 main-site-text-color">
                       One-click Download
                     </span>
                   </div>
@@ -413,15 +408,15 @@ export default function GyapakLanding() {
               </a>
             </div>
   
-            <div className="bg-white border border-purple-100 rounded-2xl p-4 sm:p-5 flex flex-wrap gap-4 justify-between items-center shadow-sm">
+            <div className="border main-site-border-color rounded-2xl p-4 sm:p-5 flex flex-wrap gap-4 justify-between items-center shadow-sm">
               <div>
-                <p className="text-[11px] uppercase tracking-[0.25em] text-slate-500 mb-1">
+                <p className="text-[11px] uppercase tracking-[0.25em] utility-secondary-color mb-1">
                   Coverage &amp; Reach
                 </p>
-                <p className="text-sm text-slate-700 font-serif max-w-xl">
+                <p className="text-sm utility-secondary-color font-serif max-w-xl">
                   From central to state-level exams, Gyapak magazine keeps you
                   ahead with{" "}
-                  <span className="text-purple-700 font-semibold">
+                  <span className="main-site-text-color font-semibold">
                     verified, noise-free updates
                   </span>
                   .
@@ -429,18 +424,18 @@ export default function GyapakLanding() {
               </div>
               <div className="flex gap-4">
                 <div className="text-right">
-                  <p className="text-xl font-bold font-serif text-slate-900">
+                  <p className="text-xl font-bold font-serif utility-site-color">
                     {statesCovered}
                   </p>
-                  <p className="text-[11px] uppercase tracking-[0.22em] text-slate-500">
+                  <p className="text-[11px] uppercase tracking-[0.22em] utility-secondary-color">
                     States
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="text-xl font-bold font-serif text-slate-900">
+                  <p className="text-xl font-bold font-serif utility-site-color">
                     {examsTracked}
                   </p>
-                  <p className="text-[11px] uppercase tracking-[0.22em] text-slate-500">
+                  <p className="text-[11px] uppercase tracking-[0.22em] utility-secondary-color">
                     Exams
                   </p>
                 </div>
@@ -448,31 +443,31 @@ export default function GyapakLanding() {
             </div>
           </div>
 
-          <Link to={'/Latest-Examination-Results-Admit-Card'} className="bg-purple-600 text-left px-6 py-2 rounded-lg text-xl text-white font-bold">
-            Qucik Results and Admit Cards news
+          <Link to={'/Latest-Examination-Results-Admit-Card'} className="main-site-color text-left px-6 py-2 rounded-lg text-xl secondary-site-text-color font-bold">
+            {QuickResultsTitle}
           </Link>
          
   
           {/* <aside className="space-y-6">
-            <div className="bg-white border border-purple-100 rounded-2xl shadow-[0_18px_50px_rgba(15,23,42,0.06)] overflow-hidden">
-              <div className="px-4 py-3 border-b border-slate-200 flex items-center justify-between">
-                <p className="text-[11px] uppercase tracking-[0.25em] text-purple-600">
+            <div className="bg-white border main-site-border-color rounded-2xl shadow-[0_18px_50px_rgba(15,23,42,0.06)] overflow-hidden">
+              <div className="px-4 py-3 border-b main-dark-border-color flex items-center justify-between">
+                <p className="text-[11px] uppercase tracking-[0.25em] main-site-text-color">
                   Important Dates
                 </p>
-                <span className="text-[10px] text-slate-500 uppercase tracking-[0.2em]">
+                <span className="text-[10px] utility-secondary-color uppercase tracking-[0.2em]">
                   Deadline Radar
                 </span>
               </div>
               <div className="p-4 space-y-4">
-                <div className="flex gap-3 pb-4 border-b border-slate-200">
+                <div className="flex gap-3 pb-4 border-b main-dark-border-color">
                   <div className="mt-1">
-                    <Calendar className="w-5 h-5 text-purple-600" />
+                    <Calendar className="w-5 h-5 main-site-text-color" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold font-serif text-slate-900">
+                    <p className="text-sm font-semibold font-serif utility-site-color">
                       SSC CGL 2024
                     </p>
-                    <p className="text-[11px] text-slate-600 mt-1">
+                    <p className="text-[11px] utility-secondary-color mt-1">
                       Last date for application:{" "}
                       <span className="text-amber-700 font-medium">
                         15 Dec 2024
@@ -481,15 +476,15 @@ export default function GyapakLanding() {
                   </div>
                 </div>
   
-                <div className="flex gap-3 pb-4 border-b border-slate-200">
+                <div className="flex gap-3 pb-4 border-b main-dark-border-color">
                   <div className="mt-1">
                     <Calendar className="w-5 h-5 text-purple-500" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold font-serif text-slate-900">
+                    <p className="text-sm font-semibold font-serif utility-site-color">
                       UPSC CSE 2024
                     </p>
-                    <p className="text-[11px] text-slate-600 mt-1">
+                    <p className="text-[11px] utility-secondary-color mt-1">
                       Prelims exam date:{" "}
                       <span className="text-emerald-700 font-medium">
                         20 Dec 2024
@@ -503,10 +498,10 @@ export default function GyapakLanding() {
                     <Calendar className="w-5 h-5 text-purple-400" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold font-serif text-slate-900">
+                    <p className="text-sm font-semibold font-serif utility-site-color">
                       RRB NTPC 2024
                     </p>
-                    <p className="text-[11px] text-slate-600 mt-1">
+                    <p className="text-[11px] utility-secondary-color mt-1">
                       Application window closes:{" "}
                       <span className="text-sky-700 font-medium">
                         25 Dec 2024
@@ -517,32 +512,32 @@ export default function GyapakLanding() {
               </div>
               <a
                 href="/government-calendar"
-                className="block px-4 py-3 text-center text-[11px] uppercase tracking-[0.25em] font-semibold bg-purple-700 hover:bg-purple-800 text-purple-100 transition-colors border-t border-slate-200"
+                className="block px-4 py-3 text-center text-[11px] uppercase tracking-[0.25em] font-semibold bg-purple-700 hover:bg-purple-800 utility-scondary-color-3 transition-colors border-t main-dark-border-color"
               >
                 View Full Exam Calendar →
               </a>
             </div>
   
-            <div className=" border border-purple-200 rounded-2xl p-5 shadow-[0_18px_50px_rgba(15,23,42,0.08)]">
+            <div className=" border main-site-border-color-2 rounded-2xl p-5 shadow-[0_18px_50px_rgba(15,23,42,0.08)]">
               <div className="flex items-center gap-3 mb-3">
                 <div>
                   <p className="text-xs uppercase tracking-[0.25em] text-purple-500">
                     Subscribe
                   </p>
-                  <h3 className="text-sm sm:text-base font-semibold font-serif text-slate-900">
+                  <h3 className="text-sm sm:text-base font-semibold font-serif utility-site-color">
                     Daily Exam Brief in Your Inbox
                   </h3>
                 </div>
               </div>
-              <p className="text-xs sm:text-sm text-slate-700 font-serif mb-4">
+              <p className="text-xs sm:text-sm utility-secondary-color font-serif mb-4">
                 One concise email with handpicked notifications, last dates and
                 current affairs. No spam, just{" "}
-                <span className="font-semibold text-purple-700">
+                <span className="font-semibold main-site-text-color">
                   exam-relevant signal
                 </span>
                 .
               </p>
-              <button className="w-full inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-purple-600 text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase text-white hover:bg-purple-700 transition-colors shadow-sm">
+              <button className="w-full inline-flex items-center justify-center px-4 py-2.5 rounded-xl main-site-color text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase secondary-site-text-color hover:bg-purple-700 transition-colors shadow-sm">
                 Subscribe Free
               </button>
             </div>

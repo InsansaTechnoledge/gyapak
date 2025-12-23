@@ -4,6 +4,7 @@ import axios from 'axios';
 import { RingLoader } from 'react-spinners';
 import { useQuery } from '@tanstack/react-query';
 import { useApi, CheckServer } from '../../Context/ApiContext';
+import { TopCategoriesComponentTitle } from '../../constants/Constants';
 
 const TopCategories = (props) => {
     const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
@@ -43,7 +44,7 @@ const TopCategories = (props) => {
 
     if (isLoading || !categories) {
         return <div className='w-full flex flex-col justify-center mb-10'>
-            <h1 className='flex text-center text-2xl justify-center mb-5 font-bold'>Top Categories in government jobs after 12th</h1>
+            <h1 className='flex secondary-site-text-color py-4 main-site-color rounded-full text-center text-2xl justify-center mb-5 font-bold'>{TopCategoriesComponentTitle}</h1>
             <div className='flex justify-center'>
                 <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
             </div>
@@ -53,11 +54,11 @@ const TopCategories = (props) => {
     return (
         <>
             {!props.titleHidden && (
-                <h1 className="flex text-center text-2xl justify-center mb-10 font-bold">
-                    Top Categories in government jobs after 12th
+                <h1 className="flex secondary-site-text-color py-4 main-site-color rounded-full text-center text-2xl justify-center mb-5 font-bold">
+                    {TopCategoriesComponentTitle}
                 </h1>
             )}
-            <div className="grid grid-cols-2 lg:grid-cols-4 mb-20 gap-4">
+            <div className="grid mt-10 grid-cols-2 lg:grid-cols-4 mb-10 gap-4">
                 <Suspense fallback={<div><div className='w-full h-screen flex justify-center'>
                     <RingLoader size={60} color={'#5B4BEA'} speedMultiplier={2} className='my-auto' />
                 </div></div>}>

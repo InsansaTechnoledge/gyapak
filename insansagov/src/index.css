@@ -105,7 +105,43 @@
 .scrollbar-hide::-webkit-scrollbar {
   display: none; /* Chrome, Safari */
 }
+
 .scrollbar-hide {
   -ms-overflow-style: none; /* IE, Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+@layer utilities {
+  .main-nav-bar-color {@apply bg-purple-800 }
+  .main-footer-color {@apply bg-gradient-to-b from-gray-900 to-black}
+  
+  .main-site-color { @apply bg-purple-600 }
+  .main-site-color-hover { @apply bg-purple-700 }
+  .main-site-color-2 {@apply bg-purple-500}
+  
+  .light-site-color {@apply bg-purple-100}
+  .light-site-color-2 {@apply bg-purple-200}
+  .light-site-color-3 {@apply bg-purple-50}
+
+  .main-site-text-color { @apply text-purple-600 }
+  .main-site-text-color-2 { @apply text-purple-500 }
+  .secondary-site-text-color { @apply text-white }
+
+  .main-site-border-color { @apply border-purple-100}
+  .main-site-border-color-2 {@apply border-purple-200}
+  .main-site-border-color-3 {@apply border-purple-300}
+  .main-site-border-color-4 {@apply border-purple-500}
+  
+  .main-dark-border-color {@apply border-purple-800}
+  .main-dark-border-color-2 {@apply border-purple-600}
+
+  .utility-site-color { @apply text-slate-900}
+  .utility-secondary-color { @apply text-slate-600}
+  .utility-secondary-color-2 {@apply text-slate-400}
+  .utility-scondary-color-3 {@apply text-slate-100}
+
+  .support-component-bg-color {@apply bg-amber-400}
+  .support-component-bg-color-green {@apply bg-green-100}
+
+  .main-site-text-error-color {@apply text-red-600}
 }

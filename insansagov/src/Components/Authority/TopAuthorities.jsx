@@ -5,6 +5,7 @@ import axios from "axios";
 import { RingLoader } from "react-spinners";
 import { useQuery } from "@tanstack/react-query";
 import { useApi, CheckServer } from "../../Context/ApiContext";
+import { CentralAuthoriyComponentTitle } from "../../constants/Constants";
 
 const PAGE_LIMIT = 8;
 
@@ -90,8 +91,8 @@ const TopAuthorities = (props) => {
   if (isLoading) {
     return (
       <div className="w-full flex flex-col justify-center mb-10">
-        <h1 className="flex text-center text-2xl justify-center mb-5 font-bold">
-          {`Central authorities hosting upcoming government exams ${new Date().getFullYear()}`}
+        <h1 className="flex secondary-site-text-color py-4 main-site-color rounded-full text-center text-2xl justify-center mb-5 font-bold">
+          {`${CentralAuthoriyComponentTitle} ${new Date().getFullYear()}`}
         </h1>
         <div className="flex justify-center">
           <RingLoader
@@ -110,12 +111,12 @@ const TopAuthorities = (props) => {
   return (
     <>
       {props.titleHidden ? null : (
-        <h1 className="flex text-center text-2xl justify-center mb-5 font-bold">
-          {`Central authorities hosting upcoming government exams ${new Date().getFullYear()}`}
+        <h1 className="flex secondary-site-text-color py-4 main-site-color rounded-full text-center text-2xl justify-center mb-5 font-bold">
+          {`${CentralAuthoriyComponentTitle} ${new Date().getFullYear()}`}
         </h1>
       )}
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 mb-5 gap-4">
+      <div className="grid grid-cols-2  lg:grid-cols-4 mb-5 gap-4">
         <Suspense
           fallback={
             <div className="w-full h-screen flex justify-center">

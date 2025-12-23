@@ -1,14 +1,19 @@
-import React, { Suspense, useEffect, useRef } from "react";
+// src/pages/Landing/Landing.jsx
+import React, { Suspense, useEffect, useMemo, useRef } from "react";
 import { useInView } from "react-intersection-observer";
 import { Loader2 } from "lucide-react";
-import curvLine from "../../assets/Landing/curvLine.svg";
 import { Helmet } from "react-helmet-async";
-import StatesLanding from "../../Components/States/StatesLanding";
-
-import GyapakLanding from "../../Components/NewLandingPage/NewLanding";
 import { useLocation } from "react-router-dom";
-import DailyQuestions from "../../Components/DailyQuestions/DailyQuestions";
-// Error Boundary Component
+
+import curvLine from "../../assets/Landing/curvLine.svg";
+import StatesLanding from "../../Components/States/StatesLanding";
+import GyapakLanding from "../../Components/NewLandingPage/NewLanding";
+
+import { LANDING_SECTIONS } from "../../constants/Constants";
+
+/** -----------------------------
+ * Error Boundary
+ * ------------------------------*/
 class ErrorBoundary extends React.Component {
   state = { hasError: false, error: null };
 
@@ -36,7 +41,9 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-// Loading Skeleton Components
+/** -----------------------------
+ * Loaders
+ * ------------------------------*/
 const SkeletonPulse = () => (
   <div className="animate-pulse bg-gray-200 rounded-lg h-full w-full" />
 );
@@ -49,8 +56,9 @@ const ComponentLoader = ({ height = "h-64" }) => (
   </div>
 );
 
-// Lazy loaded components with specific loading states
-const Hero = React.lazy(() => import("../../Components/Hero/Hero"));
+/** -----------------------------
+ * Lazy loaded components
+ * ------------------------------*/
 const LatestUpdates = React.lazy(() =>
   import("../../Components/Updates/LatestUpdates")
 );
@@ -60,31 +68,27 @@ const TopAuthorities = React.lazy(() =>
 const TopCategories = React.lazy(() =>
   import("../../Components/Categories/TopCategories")
 );
-// const Contact = React.lazy(() => import("../../Components/ContactUs/Contact"));
 const FeaturePage = React.lazy(() =>
   import("../../Components/FeatureAdvertisement/Features")
 );
 const FeatureBand = React.lazy(() =>
   import("../../Components/FeatureAdvertisement/FeatureBand")
 );
-// const AdmitCardDashboard = React.lazy(() => import('../../Components/AdmitCards/AdmitCard'));
 const ResultsDashboard = React.lazy(() =>
   import("../../Components/ResultComponent/Results")
 );
-// const StateComponent = React.lazy(() => import('../../Components/States/State'));
-// const ImportantLinksDashboard = React.lazy(() => import('../../Components/ImportantLinks/ImportantLinks'))
-// const BlogBrandingPage = React.lazy(() => import('../../Components/BolgPage/components/BlogBranfingPage'))
 const FAQ = React.lazy(() => import("../../Components/FAQ/FAQ"));
 const WhatsAppGroupJoin = React.lazy(() =>
   import("../../Components/WhatsAppGroup/whatsGroupJoinButton")
 );
-// Enhanced LazyRender with loading states and error boundary
 
+/** -----------------------------
+ * LazyRender wrapper
+ * ------------------------------*/
 const LazyRender = ({ children, height = "h-64", priority = false, id }) => {
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold: 0.1,
-    // Preload high priority components
     rootMargin: priority ? "200px" : "50px",
   });
 
@@ -105,6 +109,30 @@ const LazyRender = ({ children, height = "h-64", priority = false, id }) => {
   );
 };
 
+/** -----------------------------
+ * Helpers
+ * ------------------------------*/
+const normalizeAndSortSections = (sections) => {
+  
+  const sorted = [...(sections || [])]
+    .filter((s) => s?.enabled !== false)
+    .sort((a, b) => (a?.order ?? 999) - (b?.order ?? 999));
+
+  // Optional: prevent duplicate keys by keeping first occurrence only
+  const seen = new Set();
+  const unique = [];
+  for (const s of sorted) {
+    if (!s?.key || seen.has(s.key)) continue;
+    seen.add(s.key);
+    unique.push(s);
+  }
+
+  return unique.map((s, idx) => ({ ...s, order: idx + 1 }));
+};
+
+/** -----------------------------
+ * Landing Page
+ * ------------------------------*/
 const Landing = () => {
   const location = useLocation();
   const contactRef = useRef(null);
@@ -114,6 +142,92 @@ const Landing = () => {
       contactRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [location]);
+
+  // ✅ Registry: key -> component (kept in code for safety)
+  const registry = useMemo(
+    () => ({
+      gyapakLanding: <GyapakLanding />,
+
+      quickResults: <ResultsDashboard />,
+
+      latestUpdates: <LatestUpdates />,
+
+      states: <StatesLanding />,
+
+      authoritiesAndCategories: (
+        <div className="grid md:grid-cols-1 gap-8">
+          <div>
+            <TopAuthorities />
+          </div>
+          <div>
+            <TopCategories />
+          </div>
+        </div>
+      ),
+
+      whatsappJoin: <WhatsAppGroupJoin />,
+
+      faq: <FAQ />,
+
+      curveDivider: (
+        <img
+          height={40}
+          width={600}
+          className="w-full mb-20 mt-20"
+          src={curvLine}
+          alt="Curve Line"
+          loading="lazy"
+        />
+      ),
+
+      featureBand: (
+        <div id="about">
+          <FeatureBand />
+        </div>
+      ),
+
+      featurePage: <FeaturePage />,
+    }),
+    []
+  );
+
+  // ✅ Sort by "order" (No. wise) + normalize
+  const sectionsToRender = useMemo(
+    () => normalizeAndSortSections(LANDING_SECTIONS),
+    []
+  );
+
+  const renderSection = (sec) => {
+    const node = registry?.[sec.key];
+    if (!node) return null;
+
+    const paddedWrap = (content) =>
+      sec.padded ? <div className="px-4 md:px-16">{content}</div> : content;
+
+    const inner =
+      sec.wrapper === "lazy" ? (
+        <LazyRender
+          height={sec.height || "h-64"}
+          priority={!!sec.priority}
+          id={sec.id}
+        >
+          {node}
+        </LazyRender>
+      ) : (
+        <div id={sec.id}>{node}</div>
+      );
+
+    return (
+      <div key={sec.key}>
+        {/* ✅ Optional: show No. in DOM (remove if not needed) */}
+        {/* <div className="px-4 md:px-16 text-xs text-gray-400 mb-2">
+          {sec.order}. {sec.key}
+        </div> */}
+
+        {paddedWrap(inner)}
+      </div>
+    );
+  };
 
   return (
     <>
@@ -133,83 +247,12 @@ const Landing = () => {
           content="Find the latest updates on government exams, admit cards, results, and application deadlines for central and state government jobs."
         />
       </Helmet>
+
       <div className="min-h-screen">
-        <GyapakLanding />
+        <div className="space-y-16">{sectionsToRender.map(renderSection)}</div>
 
-        {/* <DailyQuestions/> */}
-
-        <div className="px-4 md:px-16 space-y-16">
-          <LazyRender height="h-96" id={"landing-admit"}>
-            {/* <AdmitCardDashboard /> */}
-            <ResultsDashboard />
-          </LazyRender>
-
-          {/* Latest updates and state components load next */}
-          <LazyRender height="h-96">
-            <LatestUpdates />
-          </LazyRender>
-
-          {/* <LazyRender height="h-80" id={"landing-state"}>
-            <StateComponent />
-          </LazyRender> */}
-          <LazyRender height="h-80" id={"landing-state"}>
-            <StatesLanding />
-          </LazyRender>
-
-          <div className="grid md:grid-cols-1 gap-8">
-            <LazyRender height="h-72" id={"landing-authorities"}>
-              <TopAuthorities />
-            </LazyRender>
-
-            <LazyRender height="h-72" id={"landing-categories"}>
-              <TopCategories />
-            </LazyRender>
-          </div>
-
-          {/* <LazyRender height="h-96">
-            <BlogBrandingPage />
-          </LazyRender> */}
-
-          {/* <LazyRender height="h-96" id={"landing-result"}>
-            <ImportantLinksDashboard />
-          </LazyRender> */}
-
-          <LazyRender height="h-96" id={"landing-result"}>
-            <WhatsAppGroupJoin />
-          </LazyRender>
-
-          <LazyRender height="h-96" id={"landing-result"}>
-            <FAQ />
-          </LazyRender>
-        </div>
-
-        <img
-          height={40}
-          width={600}
-          className="w-full mb-20 mt-20"
-          src={curvLine}
-          alt="Curve Line"
-          loading="lazy"
-        />
-
-        <div id="about">
-          {/* <LazyRender height="h-48"> */}
-          <FeatureBand />
-          {/* </LazyRender> */}
-        </div>
-
-        <div className="px-4 md:px-16 space-y-16">
-          <LazyRender height="h-96">
-            <FeaturePage />
-          </LazyRender>
-
-          {/* Contact section */}
-          {/* <div id="contact" ref={contactRef}>
-            <LazyRender>
-              <Contact />
-            </LazyRender>
-          </div> */}
-        </div>
+        {/* Contact ref reserved */}
+        <div ref={contactRef} />
       </div>
     </>
   );
