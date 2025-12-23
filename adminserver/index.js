@@ -2,61 +2,63 @@ import dotenv from "dotenv";
 import http from "http";
 import { Server as SocketIOServer } from "socket.io";
 import cron from "node-cron";
+import express from "express";
+import path from "path";
+import { File, Blob } from "node:buffer";
+import { fileURLToPath } from "node:url";
+dotenv.config();
 import { monitorAllSources } from "./Jobs/monitorSources.job.js";
 import publishScheduledPdfs from "./Jobs/scheduled-magazine.job.js";
-
-import { File, Blob } from "node:buffer";
+import reportGenerationJob from "./Jobs/report-generation.js";
 
 globalThis.File = File;
 globalThis.Blob = Blob;
 
-// import { monitorAllSources } from './jobs/monitorSources.job.js';
+// ESM __dirname replacement
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-dotenv.config();
-
-// dynamic import of app (keeps your current pattern)
-const app = (await import("./app.js")).default;
+// dynamic import (factory)
+const appFactory = (await import("./app.js")).default;
 
 const initialize = async () => {
   try {
-    const appInstance = await app();
+    const app = await appFactory();
 
-    // Health check route (keep this)
-    appInstance.get("/", (req, res) => {
-      console.log("server is live ");
-      res.status(200).json({
-        message: "server is running",
-      });
+    // ✅ Static files
+    app.use(express.static(path.join(__dirname, "public")));
+
+    // Health check
+    app.get("/", (req, res) => {
+      res.status(200).json({ message: "server is running" });
     });
 
-    // 🔹 1) Create HTTP server from your Express app
-    const server = http.createServer(appInstance);
+    // HTTP server
+    const server = http.createServer(app);
 
-    // 🔹 2) Attach Socket.IO to that HTTP server
+    // Socket.IO
     const io = new SocketIOServer(server, {
       cors: {
         origin: [
           "https://d3bxc62b4f5pj5.cloudfront.net",
-          "http://localhost:5174",
           "http://localhost:5173",
+          "http://localhost:5174",
+          "http://localhost:5175",
+          "http://localhost:5176",
           "https://gyapak.in",
           "https://www.gyapak.in",
           "https://gyapak-admin-upload-data.vercel.app",
-          "http://localhost:5176",
-          "http://localhost:5175",
         ],
         credentials: true,
       },
     });
 
-    // 🔹 3) Handle Socket.IO connections
     io.on("connection", (socket) => {
       console.log("Client connected:", socket.id);
 
-      // Frontend will send: socket.emit("subscribe-source", "CENTRAL_UPSC")
       socket.on("subscribe-source", (sourceCode) => {
         socket.join(sourceCode);
-        console.log(`Socket ${socket.id} joined room ${sourceCode}`);
+        console.log(`Socket ${socket.id} joined ${sourceCode}`);
       });
 
       socket.on("disconnect", () => {
@@ -64,30 +66,27 @@ const initialize = async () => {
       });
     });
 
-    // Optionally make io globally visible if you ever need it elsewhere
     global.io = io;
 
-    // 🔹 4) Cron job: monitor ALL sources every 2 minutes
+    // Cron jobs
     cron.schedule("*/2 * * * *", async () => {
-      console.log("Cron: running monitorAllSources...");
       await monitorAllSources(io);
     });
 
-    // 🔹 5) Cron job: publish scheduled PDFs every 30 minutes
-    cron.schedule("*/1 * * * *", async () => {
-      console.log("Cron: running publishScheduledPdfs...");
-      const result = await publishScheduledPdfs();
-      console.log("Cron job result:", JSON.stringify(result, null, 2));
+    cron.schedule("*/30 * * * *", async () => {
+      await publishScheduledPdfs();
     });
 
-    // 🔹 6) Start HTTP server (NOT appInstance.listen anymore)
-    const PORT = process.env.PORT || 5000;
+    cron.schedule("0 0 * * *", async () => {
+      await reportGenerationJob();
+    });
 
+    const PORT = process.env.PORT || 5000;
     server.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
+      console.log(`Server running on port ${PORT}`);
     });
   } catch (err) {
-    console.log(err, "There was an error initializing the server");
+    console.error("Initialization error:", err);
   }
 };
 

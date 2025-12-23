@@ -6,6 +6,7 @@ import { RingLoader } from "react-spinners";
 import CounselorChatUI from "./Pages/counselor/GyapakCounselor";
 import { useApi } from "./Context/ApiContext";
 import MonthlyMagzine from "./Components/monthlyUpdate/MonthlyMagzine";
+import slugGenerator from "./Utils/SlugGenerator";
 
 const Landing = lazy(() => import("./Pages/Landing/landing"));
 const Navbar = lazy(() => import("./Components/Navbar/Navbar"));
@@ -44,6 +45,7 @@ const DailyUpdatesReels = lazy(() =>
   import("./Components/DailyUpdatePdf/DailyUpdatesReels")
 );
 const Pdfpage = lazy(() => import("../src/Components/PdfPage/PdfPage"));
+const WeeklyReport = lazy(() => import("./Pages/WeeklyReport/WeeklyReport"));
 
 const PageLinks = () => {
   const { apiBaseUrl } = useApi();
@@ -283,6 +285,14 @@ const PageLinks = () => {
           element={
             <div className="px-5 md:px-16 lg:px-32 xl:px-64">
               <Pdfpage />
+            </div>
+          }
+        />
+        <Route
+          path={`/${slugGenerator("Last Date to Apply for Online & Offline Government Jobs Applications")}`}
+          element={
+            <div className="px-5 md:px-16 ">
+              <WeeklyReport />
             </div>
           }
         />
