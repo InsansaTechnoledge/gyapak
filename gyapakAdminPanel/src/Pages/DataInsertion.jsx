@@ -1,22 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import CentralEvent from '../Components/CentralEvent';
-import StateEvent from '../Components/StateEvent';
-import AdminBlogPage from '../Components/BlogPage/AdminBlogPage';
-import FloatingOrbsBackground from '../Components/FloatingOrbsBackground';
-import EditEvent from '../Components/EditEvent/EditEvent';
-import UploadCurrentAffairsPage from './CurrentAffairUpload';
-import CurrentAffairManager from '../Components/currentAffairs/currentAffairManager';
-import FAQCreate from '../Components/FAQ/FAQCreate';
-import DeleteFAQ from '../Components/FAQ/DeleteFAQ';
-import DailyQuestions from '../Components/DailyQuestions/DailyQuestion';
-import OrganizationDeleteDialog from '../Components/Organization/OrganizationDeleteDialog';
-import DeleteSuccessDialog from '../Components/Organization/DeleteSuccessDialog';
-import { useAuth } from '../Components/Auth/AuthContext';
-import { LogOut, Search, Building, Users, Filter, Edit, Trash2 } from 'lucide-react';
-import axios from 'axios';
-import { API_BASE_URL } from '../config';
-import Report from './Report';
-import SummarizationComponent from '../Components/AI/SummarizationComponent';
+import React, { useState, useEffect } from "react";
+import CentralEvent from "../Components/CentralEvent";
+import StateEvent from "../Components/StateEvent";
+import AdminBlogPage from "../Components/BlogPage/AdminBlogPage";
+import FloatingOrbsBackground from "../Components/FloatingOrbsBackground";
+import EditEvent from "../Components/EditEvent/EditEvent";
+import UploadCurrentAffairsPage from "./CurrentAffairUpload";
+import CurrentAffairManager from "../Components/currentAffairs/currentAffairManager";
+import FAQCreate from "../Components/FAQ/FAQCreate";
+import DeleteFAQ from "../Components/FAQ/DeleteFAQ";
+import DailyQuestions from "../Components/DailyQuestions/DailyQuestion";
+import OrganizationDeleteDialog from "../Components/Organization/OrganizationDeleteDialog";
+import DeleteSuccessDialog from "../Components/Organization/DeleteSuccessDialog";
+import { useAuth } from "../Components/Auth/AuthContext";
+import {
+  LogOut,
+  Search,
+  Building,
+  Users,
+  Filter,
+  Edit,
+  Trash2,
+} from "lucide-react";
+import axios from "axios";
+import { API_BASE_URL } from "../config";
+import Report from "./Report";
+import SummarizationComponent from "../Components/AI/SummarizationComponent";
+import ScheduleCurrentffair from "../Components/currentAffairs/scheduledCurrentAffair";
 
 const DataInsertion = () => {
   const [organizationType, setOrganizationType] = useState("add-org");
@@ -27,8 +36,8 @@ const DataInsertion = () => {
   const [filteredOrganizations, setFilteredOrganizations] = useState([]);
   const [categories, setCategories] = useState([]);
   const [authorities, setAuthorities] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedOrganization, setSelectedOrganization] = useState(null);
@@ -44,12 +53,12 @@ const DataInsertion = () => {
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
   const [deletionSummary, setDeletionSummary] = useState(null);
   const [formData, setFormData] = useState({
-    name: '',
-    abbreviation: '',
-    description: '',
-    category: '',
-    parent_organization: '',
-    logo: null
+    name: "",
+    abbreviation: "",
+    description: "",
+    category: "",
+    parent_organization: "",
+    logo: null,
   });
   const { logout } = useAuth();
 
@@ -61,46 +70,50 @@ const DataInsertion = () => {
   };
 
   const options = [
-    {id: "add-org", label: "Add Organization" },
-    {id: "add-events", label: "Add Events"},
-    { id: "manage-events", label: "Manage Events"},
-    {id: "affair" , label: "Create today's current affair"},
-    {id: "manage-affair" , label: "Manage all current affair"},
-    {id: "manage-faq", label: "Manage FAQ"},
-    {id:"Today's Question", label: "Today's Question"},
+    { id: "add-org", label: "Add Organization" },
+    { id: "add-events", label: "Add Events" },
+    { id: "manage-events", label: "Manage Events" },
+    { id: "affair", label: "Create today's current affair" },
+    { id: "scheduled-affair", label: "Manage Scheduled Affair" },
+    { id: "manage-affair", label: "Manage all current affair" },
+    { id: "manage-faq", label: "Manage FAQ" },
+    { id: "Today's Question", label: "Today's Question" },
     { id: "manage-organizations", label: "Manage Organizations" },
     { id: "create-report", label: "Generate Report" },
-    { id: "post-blog", label: "Create Blog" }
-
+    { id: "post-blog", label: "Create Blog" },
   ];
 
   const orgSubOptions = [
     { id: "Central", label: "Central Organization" },
-    { id: "State", label: "State Organization" }
+    { id: "State", label: "State Organization" },
   ];
 
   const eventActionOptions = [
     { id: "edit", label: "Edit Event" },
-    { id: "delete", label: "Delete Event" }
+    { id: "delete", label: "Delete Event" },
   ];
 
   const faqActionOptions = [
     { id: "create", label: "Create FAQ" },
-    { id: "delete", label: "Delete FAQ" }
+    { id: "delete", label: "Delete FAQ" },
   ];
-
 
   // Get organization details with logo for viewing
   const getOrganizationDetails = async (organizationId) => {
     try {
-      console.log('Fetching organization details for ID:', organizationId);
-      const response = await axios.get(`${API_BASE_URL}/api/v1/organizations/${organizationId}`);
+      console.log("Fetching organization details for ID:", organizationId);
+      const response = await axios.get(
+        `${API_BASE_URL}/api/v1/organizations/${organizationId}`
+      );
       if (response.data.organization) {
-        console.log('Organization details fetched:', response.data.organization);
+        console.log(
+          "Organization details fetched:",
+          response.data.organization
+        );
         return response.data.organization;
       }
     } catch (err) {
-      console.error('Error fetching organization details:', err);
+      console.error("Error fetching organization details:", err);
       setError(err.response?.data?.error || err.message);
       return null;
     }
@@ -111,20 +124,23 @@ const DataInsertion = () => {
     setLoading(true);
     setError(null);
     try {
-      console.log('Fetching organizations...');
+      console.log("Fetching organizations...");
       const response = await axios.get(`${API_BASE_URL}/api/v1/organizations`, {
         params: {
-          limit: 500 // Limit to 500 orgs for better performance
-        }
+          limit: 500, // Limit to 500 orgs for better performance
+        },
       });
       if (response.data.organizations) {
-        console.log('Organizations fetched:', response.data.organizations.length);
+        console.log(
+          "Organizations fetched:",
+          response.data.organizations.length
+        );
         setOrganizations(response.data.organizations);
         setFilteredOrganizations(response.data.organizations);
         // Don't override categories here - let them come from getAllCategories
       }
     } catch (err) {
-      console.error('Error fetching organizations:', err);
+      console.error("Error fetching organizations:", err);
       setError(err.response?.data?.error || err.message);
     } finally {
       setLoading(false);
@@ -143,7 +159,9 @@ const DataInsertion = () => {
 
   const getOrganizationByAbbreviation = async (abbreviation) => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/organizations/abbreviation/${abbreviation}`);
+      const response = await axios.get(
+        `${API_BASE_URL}/organizations/abbreviation/${abbreviation}`
+      );
       return response.data.organization;
     } catch (err) {
       setError(err.response?.data?.error || err.message);
@@ -154,7 +172,9 @@ const DataInsertion = () => {
   const getOrganizationsByCategory = async (categoryName) => {
     setLoading(true);
     try {
-      const response = await axios.get(`${API_BASE_URL}/organizations/category/${categoryName}`);
+      const response = await axios.get(
+        `${API_BASE_URL}/organizations/category/${categoryName}`
+      );
       if (response.data.organizations) {
         setFilteredOrganizations(response.data.organizations);
       }
@@ -168,12 +188,14 @@ const DataInsertion = () => {
   // Fetch all categories for form dropdown
   const getAllCategories = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/v1/organizations/categories`);
+      const response = await axios.get(
+        `${API_BASE_URL}/api/v1/organizations/categories`
+      );
       if (response.data.categories) {
         setCategories(response.data.categories);
       }
     } catch (err) {
-      console.error('Error fetching categories:', err);
+      console.error("Error fetching categories:", err);
       setError(err.response?.data?.error || err.message);
     }
   };
@@ -181,12 +203,14 @@ const DataInsertion = () => {
   // Fetch all authorities for form dropdown
   const getAllAuthorities = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/v1/organizations/authorities`);
+      const response = await axios.get(
+        `${API_BASE_URL}/api/v1/organizations/authorities`
+      );
       if (response.data.authorities) {
         setAuthorities(response.data.authorities);
       }
     } catch (err) {
-      console.error('Error fetching authorities:', err);
+      console.error("Error fetching authorities:", err);
       setError(err.response?.data?.error || err.message);
     }
   };
@@ -194,27 +218,33 @@ const DataInsertion = () => {
   // Create new organization
   const createOrganization = async (organizationData) => {
     setLoading(true);
-    try {    
+    try {
       // Create FormData for multipart/form-data request
       const formData = new FormData();
-      formData.append('name', organizationData.name);
-      formData.append('abbreviation', organizationData.abbreviation);
-      formData.append('description', organizationData.description || '');
-      formData.append('category', organizationData.category);
-      formData.append('parent_organization', organizationData.parent_organization);
-      
-      
+      formData.append("name", organizationData.name);
+      formData.append("abbreviation", organizationData.abbreviation);
+      formData.append("description", organizationData.description || "");
+      formData.append("category", organizationData.category);
+      formData.append(
+        "parent_organization",
+        organizationData.parent_organization
+      );
+
       // Append logo file if provided
       if (organizationData.logo) {
-        formData.append('logo', organizationData.logo);
+        formData.append("logo", organizationData.logo);
       }
 
-      const response = await axios.post(`${API_BASE_URL}/api/v1/organizations/upload`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
+      const response = await axios.post(
+        `${API_BASE_URL}/api/v1/organizations/upload`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
-      });
-      
+      );
+
       if (response.data.organization) {
         setError(null);
         return response.data.organization;
@@ -232,35 +262,41 @@ const DataInsertion = () => {
     let filtered = organizations;
 
     if (searchTerm) {
-      filtered = filtered.filter(org =>
-        org.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        org.abbreviation.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        org.description?.toLowerCase().includes(searchTerm.toLowerCase())
+      filtered = filtered.filter(
+        (org) =>
+          org.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          org.abbreviation.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          org.description?.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
     if (selectedCategory) {
-      filtered = filtered.filter(org => org.category?.category === selectedCategory);
+      filtered = filtered.filter(
+        (org) => org.category?.category === selectedCategory
+      );
     }
 
     setFilteredOrganizations(filtered);
-    
+
     // Reset to first page when filtering
     setCurrentPage(1);
-    
+
     // Update pagination
     updatePagination(filtered, 1);
   };
 
   // Pagination logic
-  const updatePagination = (organizationsToPage = filteredOrganizations, page = currentPage) => {
+  const updatePagination = (
+    organizationsToPage = filteredOrganizations,
+    page = currentPage
+  ) => {
     const total = Math.ceil(organizationsToPage.length / itemsPerPage);
     setTotalPages(total);
-    
+
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const paginated = organizationsToPage.slice(startIndex, endIndex);
-    
+
     setPaginatedOrganizations(paginated);
   };
 
@@ -269,13 +305,15 @@ const DataInsertion = () => {
     setCurrentPage(page);
     updatePagination(filteredOrganizations, page);
     // Scroll to top of organization list
-    document.querySelector('.organizations-grid')?.scrollIntoView({ behavior: 'smooth' });
+    document
+      .querySelector(".organizations-grid")
+      ?.scrollIntoView({ behavior: "smooth" });
   };
 
   // Effect to filter organizations when search term or category changes
   useEffect(() => {
     filterOrganizations();
-    console.log(selectedCategory)
+    console.log(selectedCategory);
   }, [searchTerm, selectedCategory, organizations]);
 
   // Effect to update pagination when filteredOrganizations or currentPage changes
@@ -285,7 +323,10 @@ const DataInsertion = () => {
 
   // Effect to fetch categories and authorities when add-org or manage-organizations is selected
   useEffect(() => {
-    if (organizationType === 'add-org' || organizationType === 'manage-organizations') {
+    if (
+      organizationType === "add-org" ||
+      organizationType === "manage-organizations"
+    ) {
       getAllCategories();
       getAllAuthorities();
     }
@@ -293,7 +334,7 @@ const DataInsertion = () => {
 
   // Effect to fetch organizations when manage-organizations is selected
   useEffect(() => {
-    if (organizationType === 'manage-organizations') {
+    if (organizationType === "manage-organizations") {
       fetchOrganizations();
     }
   }, [organizationType]);
@@ -309,7 +350,9 @@ const DataInsertion = () => {
       <div>
         {/* Internal tabs for Create/Delete FAQ */}
         <div className="mb-6">
-          <h2 className="text-2xl font-bold text-purple-800 mb-4">Manage FAQ</h2>
+          <h2 className="text-2xl font-bold text-purple-800 mb-4">
+            Manage FAQ
+          </h2>
           <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
             {faqActionOptions.map((actionOption) => (
               <button
@@ -326,14 +369,16 @@ const DataInsertion = () => {
             ))}
           </div>
         </div>
-        
+
         {/* Render selected component */}
         <div>
           {faqActionType === "create" && <FAQCreate />}
           {faqActionType === "delete" && <DeleteFAQ />}
           {!faqActionType && (
             <div className="text-center py-10 text-gray-500">
-              <p className="text-lg">Please select Create or Delete to continue</p>
+              <p className="text-lg">
+                Please select Create or Delete to continue
+              </p>
             </div>
           )}
         </div>
@@ -347,7 +392,9 @@ const DataInsertion = () => {
       <div>
         {/* Internal tabs for Edit/Delete */}
         <div className="mb-6">
-          <h2 className="text-2xl font-bold text-purple-800 mb-4">Manage Events</h2>
+          <h2 className="text-2xl font-bold text-purple-800 mb-4">
+            Manage Events
+          </h2>
           <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
             {eventActionOptions.map((actionOption) => (
               <button
@@ -364,14 +411,16 @@ const DataInsertion = () => {
             ))}
           </div>
         </div>
-        
+
         {/* Render selected component */}
         <div>
-          {eventActionType === "edit" && <EditEvent title={"Edit Event"}/>}
-          {eventActionType === "delete" && <EditEvent title={"Delete Event"}/>}
+          {eventActionType === "edit" && <EditEvent title={"Edit Event"} />}
+          {eventActionType === "delete" && <EditEvent title={"Delete Event"} />}
           {!eventActionType && (
             <div className="text-center py-10 text-gray-500">
-              <p className="text-lg">Please select Edit or Delete to continue</p>
+              <p className="text-lg">
+                Please select Edit or Delete to continue
+              </p>
             </div>
           )}
         </div>
@@ -382,9 +431,9 @@ const DataInsertion = () => {
   // Handle form input changes
   const handleFormChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -392,8 +441,13 @@ const DataInsertion = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     // Basic validation
-    if (!formData.name || !formData.abbreviation || !formData.category || !formData.parent_organization) {
-      setError('Please fill in all required fields');
+    if (
+      !formData.name ||
+      !formData.abbreviation ||
+      !formData.category ||
+      !formData.parent_organization
+    ) {
+      setError("Please fill in all required fields");
       return;
     }
 
@@ -405,29 +459,29 @@ const DataInsertion = () => {
         description: formData.description,
         category: formData.category,
         parent_organization: formData.parent_organization,
-        logo: formData.logo // Send the file object directly
+        logo: formData.logo, // Send the file object directly
       };
 
       const result = await createOrganization(organizationData);
-      
+
       if (result) {
-        alert('Organization created successfully!');
+        alert("Organization created successfully!");
         setFormData({
-          name: '',
-          abbreviation: '',
-          description: '',
-          category: '',
-          parent_organization: '',
-          logo: null
+          name: "",
+          abbreviation: "",
+          description: "",
+          category: "",
+          parent_organization: "",
+          logo: null,
         });
-        
+
         // Refresh the organizations list if we're on manage organizations page
-        if (organizationType === 'manage-organizations') {
+        if (organizationType === "manage-organizations") {
           await getAllOrganizations();
         }
       }
     } catch (err) {
-      console.error('Error creating organization:', err);
+      console.error("Error creating organization:", err);
     }
   };
 
@@ -437,7 +491,9 @@ const DataInsertion = () => {
       <div className="space-y-6">
         {/* Header Section */}
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-purple-800 mb-3">Add Organization</h2>
+          <h2 className="text-3xl font-bold text-purple-800 mb-3">
+            Add Organization
+          </h2>
           <p className="text-gray-600 text-lg">
             Create new government organizations for the system
           </p>
@@ -447,8 +503,16 @@ const DataInsertion = () => {
           <div className="bg-red-50 border border-red-200 rounded-lg p-4">
             <div className="flex items-center">
               <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center mr-3">
-                <svg className="w-4 h-4 text-red-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                <svg
+                  className="w-4 h-4 text-red-600"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                    clipRule="evenodd"
+                  />
                 </svg>
               </div>
               <div>
@@ -460,7 +524,10 @@ const DataInsertion = () => {
         )}
 
         {/* Organization Form */}
-        <form onSubmit={handleFormSubmit} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <form
+          onSubmit={handleFormSubmit}
+          className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+        >
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Organization Name */}
@@ -516,7 +583,7 @@ const DataInsertion = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Category *
               </label>
-              <select 
+              <select
                 name="category"
                 value={formData.category}
                 onChange={handleFormChange}
@@ -525,10 +592,17 @@ const DataInsertion = () => {
               >
                 <option value="">Select a category</option>
                 {categories.map((category, index) => {
-                  const categoryValue = typeof category === 'object' ? category.category : category;
-                  const categoryKey = typeof category === 'object' ? category._id : `add-category-${index}`;
+                  const categoryValue =
+                    typeof category === "object" ? category.category : category;
+                  const categoryKey =
+                    typeof category === "object"
+                      ? category._id
+                      : `add-category-${index}`;
                   return (
-                    <option key={categoryKey || `add-category-${index}`} value={categoryValue}>
+                    <option
+                      key={categoryKey || `add-category-${index}`}
+                      value={categoryValue}
+                    >
                       {categoryValue}
                     </option>
                   );
@@ -539,7 +613,7 @@ const DataInsertion = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Parent Authority *
               </label>
-              <select 
+              <select
                 name="parent_organization"
                 value={formData.parent_organization}
                 onChange={handleFormChange}
@@ -560,8 +634,8 @@ const DataInsertion = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Organization Logo
               </label>
-              <div 
-                onClick={() => document.getElementById('logo-upload').click()}
+              <div
+                onClick={() => document.getElementById("logo-upload").click()}
                 className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-purple-400 transition cursor-pointer"
               >
                 <div className="space-y-1 text-center">
@@ -579,11 +653,11 @@ const DataInsertion = () => {
                         fill="none"
                         viewBox="0 0 48 48"
                       >
-                        <path 
-                          d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" 
-                          strokeWidth={2} 
-                          strokeLinecap="round" 
-                          strokeLinejoin="round" 
+                        <path
+                          d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                          strokeWidth={2}
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                         />
                       </svg>
                       <div className="flex text-sm text-gray-600 justify-center">
@@ -592,7 +666,9 @@ const DataInsertion = () => {
                         </span>
                         <p className="pl-1">or drag and drop</p>
                       </div>
-                      <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                      <p className="text-xs text-gray-500">
+                        PNG, JPG, GIF up to 10MB
+                      </p>
                     </>
                   )}
                 </div>
@@ -605,13 +681,14 @@ const DataInsertion = () => {
                   onChange={(e) => {
                     const file = e.target.files[0];
                     if (file) {
-                      if (file.size > 10 * 1024 * 1024) { // 10MB limit
-                        alert('File size should not exceed 10MB');
+                      if (file.size > 10 * 1024 * 1024) {
+                        // 10MB limit
+                        alert("File size should not exceed 10MB");
                         return;
                       }
-                      setFormData(prev => ({
+                      setFormData((prev) => ({
                         ...prev,
-                        logo: file
+                        logo: file,
                       }));
                     }
                   }}
@@ -625,12 +702,12 @@ const DataInsertion = () => {
                 type="button"
                 onClick={() => {
                   setFormData({
-                    name: '',
-                    abbreviation: '',
-                    description: '',
-                    category: '',
-                    parent_organization: '',
-                    logo: null
+                    name: "",
+                    abbreviation: "",
+                    description: "",
+                    category: "",
+                    parent_organization: "",
+                    logo: null,
                   });
                   setError(null);
                 }}
@@ -643,7 +720,7 @@ const DataInsertion = () => {
                 disabled={loading}
                 className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? 'Creating...' : 'Create Organization'}
+                {loading ? "Creating..." : "Create Organization"}
               </button>
             </div>
           </div>
@@ -658,18 +735,23 @@ const DataInsertion = () => {
       <div className="space-y-6">
         {/* Header Section */}
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-purple-800 mb-3">Add Events</h2>
+          <h2 className="text-3xl font-bold text-purple-800 mb-3">
+            Add Events
+          </h2>
           <p className="text-gray-600 text-lg">
-            Create and manage government events for Central and State authorities
+            Create and manage government events for Central and State
+            authorities
           </p>
         </div>
 
-        <SummarizationComponent/>
+        <SummarizationComponent />
 
         {/* Enhanced Tab Navigation */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
           <div className="mb-6">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">Select Organization Type</h3>
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">
+              Select Organization Type
+            </h3>
             <div className="grid grid-cols-2 gap-4">
               {orgSubOptions.map((subOption) => (
                 <button
@@ -682,36 +764,61 @@ const DataInsertion = () => {
                   onClick={() => setSubOrgType(subOption.id)}
                 >
                   <div className="flex items-center justify-center mb-3">
-                    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                      subOrgType === subOption.id
-                        ? "bg-purple-600 text-white"
-                        : "bg-gray-100 text-gray-600 group-hover:bg-purple-100 group-hover:text-purple-600"
-                    }`}>
+                    <div
+                      className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                        subOrgType === subOption.id
+                          ? "bg-purple-600 text-white"
+                          : "bg-gray-100 text-gray-600 group-hover:bg-purple-100 group-hover:text-purple-600"
+                      }`}
+                    >
                       {subOption.id === "Central" ? (
-                        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" clipRule="evenodd" />
+                        <svg
+                          className="w-6 h-6"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"
+                            clipRule="evenodd"
+                          />
                         </svg>
                       ) : (
-                        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
+                        <svg
+                          className="w-6 h-6"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                            clipRule="evenodd"
+                          />
                         </svg>
                       )}
                     </div>
                   </div>
-                  
+
                   <div className="text-center">
-                    <h4 className={`font-semibold text-lg mb-2 ${
-                      subOrgType === subOption.id ? "text-purple-800" : "text-gray-800"
-                    }`}>
+                    <h4
+                      className={`font-semibold text-lg mb-2 ${
+                        subOrgType === subOption.id
+                          ? "text-purple-800"
+                          : "text-gray-800"
+                      }`}
+                    >
                       {subOption.label}
                     </h4>
-                    <p className={`text-sm ${
-                      subOrgType === subOption.id ? "text-purple-600" : "text-gray-500"
-                    }`}>
-                      {subOption.id === "Central" 
+                    <p
+                      className={`text-sm ${
+                        subOrgType === subOption.id
+                          ? "text-purple-600"
+                          : "text-gray-500"
+                      }`}
+                    >
+                      {subOption.id === "Central"
                         ? "Add central government organizations, ministries, and federal agencies"
-                        : "Add state government organizations, departments, and regional authorities"
-                      }
+                        : "Add state government organizations, departments, and regional authorities"}
                     </p>
                   </div>
 
@@ -719,8 +826,16 @@ const DataInsertion = () => {
                   {subOrgType === subOption.id && (
                     <div className="absolute top-3 right-3">
                       <div className="w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center">
-                        <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        <svg
+                          className="w-4 h-4 text-white"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clipRule="evenodd"
+                          />
                         </svg>
                       </div>
                     </div>
@@ -730,47 +845,78 @@ const DataInsertion = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Form Content Section */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200">
           {subOrgType === "Central" && (
             <div className="p-6">
               <div className="flex items-center mb-4">
                 <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
-                  <svg className="w-5 h-5 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" clipRule="evenodd" />
+                  <svg
+                    className="w-5 h-5 text-purple-600"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold text-gray-800">Central Government Organization</h3>
+                <h3 className="text-xl font-semibold text-gray-800">
+                  Central Government Organization
+                </h3>
               </div>
               <CentralEvent />
             </div>
           )}
-          
+
           {subOrgType === "State" && (
             <div className="p-6">
               <div className="flex items-center mb-4">
                 <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
-                  <svg className="w-5 h-5 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
+                  <svg
+                    className="w-5 h-5 text-purple-600"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold text-gray-800">State Government Organization</h3>
+                <h3 className="text-xl font-semibold text-gray-800">
+                  State Government Organization
+                </h3>
               </div>
               <StateEvent />
             </div>
           )}
-          
+
           {!subOrgType && (
             <div className="p-12 text-center">
               <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                <svg
+                  className="w-8 h-8 text-gray-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                    clipRule="evenodd"
+                  />
                 </svg>
               </div>
-              <h3 className="text-xl font-medium text-gray-700 mb-2">Select Organization Type</h3>
+              <h3 className="text-xl font-medium text-gray-700 mb-2">
+                Select Organization Type
+              </h3>
               <p className="text-gray-500 max-w-md mx-auto">
-                Choose between Central or State government organization to begin adding organization details.
+                Choose between Central or State government organization to begin
+                adding organization details.
               </p>
             </div>
           )}
@@ -790,44 +936,54 @@ const DataInsertion = () => {
       );
     }
 
-   if (error) {
-  return (
-    <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-      <div className="flex items-center">
-        <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-3">
-          <svg className="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 20 20">
-            <path 
-              fillRule="evenodd" 
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" 
-              clipRule="evenodd" 
-            />
-          </svg>
+    if (error) {
+      return (
+        <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+          <div className="flex items-center">
+            <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-3">
+              <svg
+                className="w-5 h-5 text-red-600"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </div>
+            <div>
+              <h3 className="text-lg font-medium text-red-800">
+                Error Loading Organizations
+              </h3>
+              <p className="text-red-600">{error}</p>
+            </div>
+          </div>
+          <button
+            onClick={() => {
+              setError(null);
+              fetchOrganizations();
+            }}
+            className="mt-4 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition"
+          >
+            Try Again
+          </button>
         </div>
-        <div>
-          <h3 className="text-lg font-medium text-red-800">Error Loading Organizations</h3>
-          <p className="text-red-600">{error}</p>
-        </div>
-      </div>
-      <button
-        onClick={() => {
-          setError(null);
-          fetchOrganizations();
-        }}
-        className="mt-4 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition"
-      >
-        Try Again
-      </button>
-    </div>
-  );
-}
+      );
+    }
 
     return (
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-3xl font-bold text-purple-800 mb-2">Organization Management</h2>
-            <p className="text-gray-600">View and manage all government organizations</p>
+            <h2 className="text-3xl font-bold text-purple-800 mb-2">
+              Organization Management
+            </h2>
+            <p className="text-gray-600">
+              View and manage all government organizations
+            </p>
           </div>
           <div className="flex items-center space-x-2 text-sm text-gray-500">
             <Building className="w-4 h-4" />
@@ -863,10 +1019,19 @@ const DataInsertion = () => {
                 >
                   <option value="">All Categories</option>
                   {categories.map((category, index) => {
-                    const categoryValue = typeof category === 'object' ? category.category : category;
-                    const categoryKey = typeof category === 'object' ? category._id : `filter-category-${index}`;
+                    const categoryValue =
+                      typeof category === "object"
+                        ? category.category
+                        : category;
+                    const categoryKey =
+                      typeof category === "object"
+                        ? category._id
+                        : `filter-category-${index}`;
                     return (
-                      <option key={categoryKey || `filter-category-${index}`} value={categoryValue}>
+                      <option
+                        key={categoryKey || `filter-category-${index}`}
+                        value={categoryValue}
+                      >
                         {categoryValue}
                       </option>
                     );
@@ -880,8 +1045,18 @@ const DataInsertion = () => {
               onClick={fetchOrganizations}
               className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition flex items-center"
             >
-              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              <svg
+                className="w-4 h-4 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                />
               </svg>
               Refresh
             </button>
@@ -893,17 +1068,33 @@ const DataInsertion = () => {
           {loading ? (
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
-              <h3 className="text-xl font-medium text-gray-700 mb-2">Loading Organizations</h3>
-              <p className="text-gray-500">Please wait while we fetch the organizations...</p>
+              <h3 className="text-xl font-medium text-gray-700 mb-2">
+                Loading Organizations
+              </h3>
+              <p className="text-gray-500">
+                Please wait while we fetch the organizations...
+              </p>
             </div>
           ) : error ? (
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
               <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16c-.77.833.192 2.5 1.732 2.5z" />
+                <svg
+                  className="w-8 h-8 text-red-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16c-.77.833.192 2.5 1.732 2.5z"
+                  />
                 </svg>
               </div>
-              <h3 className="text-xl font-medium text-red-700 mb-2">Error Loading Organizations</h3>
+              <h3 className="text-xl font-medium text-red-700 mb-2">
+                Error Loading Organizations
+              </h3>
               <p className="text-red-600 mb-4">{error}</p>
               <button
                 onClick={() => {
@@ -920,10 +1111,12 @@ const DataInsertion = () => {
               <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Building className="w-8 h-8 text-gray-400" />
               </div>
-              <h3 className="text-xl font-medium text-gray-700 mb-2">No Organizations Found</h3>
+              <h3 className="text-xl font-medium text-gray-700 mb-2">
+                No Organizations Found
+              </h3>
               <p className="text-gray-500 max-w-md mx-auto">
-                {searchTerm || selectedCategory 
-                  ? "Try adjusting your search criteria or filters." 
+                {searchTerm || selectedCategory
+                  ? "Try adjusting your search criteria or filters."
                   : "No organizations are available at the moment."}
               </p>
             </div>
@@ -938,63 +1131,88 @@ const DataInsertion = () => {
                     <div className="p-6">
                       {/* Logo and Header */}
                       <div className="flex items-start justify-between mb-4">
-                        <div className="flex items-center cursor-pointer" onClick={async () => {
-                          console.log('=== Organization Click Debug ===');
-                          console.log('Clicked organization:', org);
-                          console.log('Organization ID:', org._id);
-                          console.log('Current selectedOrganization:', selectedOrganization);
-                          
-                          // SIMPLE TEST: Just set the selected organization directly first
-                          console.log('Setting selectedOrganization directly for testing...');
-                          setSelectedOrganization({
-                            ...org, 
-                            loading: false, 
-                            isEditing: false,
-                            // Ensure we have some logo data
-                            logo: org.logo || ''
-                          });
-                          
-                          // If that works, then fetch full details
-                          setTimeout(async () => {
-                            try {
-                              console.log('Now fetching full details...');
-                              const fullOrganization = await getOrganizationDetails(org._id);
-                              console.log('Fetched organization:', fullOrganization);
-                              
-                              if (fullOrganization) {
-                                // Ensure categories are loaded for viewing organization details
-                                if (categories.length === 0) {
-                                  console.log('Loading categories...');
-                                  await getAllCategories();
+                        <div
+                          className="flex items-center cursor-pointer"
+                          onClick={async () => {
+                            console.log("=== Organization Click Debug ===");
+                            console.log("Clicked organization:", org);
+                            console.log("Organization ID:", org._id);
+                            console.log(
+                              "Current selectedOrganization:",
+                              selectedOrganization
+                            );
+
+                            // SIMPLE TEST: Just set the selected organization directly first
+                            console.log(
+                              "Setting selectedOrganization directly for testing..."
+                            );
+                            setSelectedOrganization({
+                              ...org,
+                              loading: false,
+                              isEditing: false,
+                              // Ensure we have some logo data
+                              logo: org.logo || "",
+                            });
+
+                            // If that works, then fetch full details
+                            setTimeout(async () => {
+                              try {
+                                console.log("Now fetching full details...");
+                                const fullOrganization =
+                                  await getOrganizationDetails(org._id);
+                                console.log(
+                                  "Fetched organization:",
+                                  fullOrganization
+                                );
+
+                                if (fullOrganization) {
+                                  // Ensure categories are loaded for viewing organization details
+                                  if (categories.length === 0) {
+                                    console.log("Loading categories...");
+                                    await getAllCategories();
+                                  }
+                                  console.log(
+                                    "Updating with full organization data..."
+                                  );
+                                  setSelectedOrganization({
+                                    ...fullOrganization,
+                                    isEditing: false,
+                                  });
                                 }
-                                console.log('Updating with full organization data...');
-                                setSelectedOrganization({...fullOrganization, isEditing: false});
+                              } catch (err) {
+                                console.error(
+                                  "Error fetching full details:",
+                                  err
+                                );
                               }
-                            } catch (err) {
-                              console.error('Error fetching full details:', err);
-                            }
-                          }, 100);
-                        }}>
-                          {org.logo && org.logo.trim() !== '' ? (
+                            }, 100);
+                          }}
+                        >
+                          {org.logo && org.logo.trim() !== "" ? (
                             <img
-                              src={org.logo.startsWith('data:') 
-                                ? org.logo 
-                                : `data:image/png;base64,${org.logo}`}
+                              src={
+                                org.logo.startsWith("data:")
+                                  ? org.logo
+                                  : `data:image/png;base64,${org.logo}`
+                              }
                               alt={`${org.name} logo`}
                               className="w-12 h-12 rounded-lg object-cover mr-3"
                               onError={(e) => {
-                                e.target.style.display = 'none';
-                                e.target.nextSibling.style.display = 'flex';
+                                e.target.style.display = "none";
+                                e.target.nextSibling.style.display = "flex";
                               }}
                             />
                           ) : null}
-                          {(!org.logo || org.logo.trim() === '') && (
+                          {(!org.logo || org.logo.trim() === "") && (
                             <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
                               <Building className="w-6 h-6 text-purple-600" />
                             </div>
                           )}
-                          {org.logo && org.logo.trim() !== '' && (
-                            <div className="w-12 h-12 bg-purple-100 rounded-lg items-center justify-center mr-3" style={{display: 'none'}}>
+                          {org.logo && org.logo.trim() !== "" && (
+                            <div
+                              className="w-12 h-12 bg-purple-100 rounded-lg items-center justify-center mr-3"
+                              style={{ display: "none" }}
+                            >
                               <Building className="w-6 h-6 text-purple-600" />
                             </div>
                           )}
@@ -1007,7 +1225,7 @@ const DataInsertion = () => {
                             </p>
                           </div>
                         </div>
-                        
+
                         {/* Action Buttons */}
                         <div className="flex space-x-2">
                           <button
@@ -1044,33 +1262,49 @@ const DataInsertion = () => {
                           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
                             {org.category.category}
                           </span>
-                          <button 
+                          <button
                             className="text-purple-600 hover:text-purple-800 text-sm font-medium"
                             onClick={async () => {
-                              console.log('View Details clicked for:', org.name);
-                              
+                              console.log(
+                                "View Details clicked for:",
+                                org.name
+                              );
+
                               // Show loading state immediately
-                              setSelectedOrganization({...org, loading: true, isEditing: false});
-                              
+                              setSelectedOrganization({
+                                ...org,
+                                loading: true,
+                                isEditing: false,
+                              });
+
                               try {
                                 // Fetch full organization details with logo
-                                const fullOrganization = await getOrganizationDetails(org._id);
-                                
+                                const fullOrganization =
+                                  await getOrganizationDetails(org._id);
+
                                 if (fullOrganization) {
                                   // Ensure categories are loaded for viewing organization details
                                   if (categories.length === 0) {
                                     await getAllCategories();
                                   }
-                                  setSelectedOrganization({...fullOrganization, isEditing: false});
+                                  setSelectedOrganization({
+                                    ...fullOrganization,
+                                    isEditing: false,
+                                  });
                                 } else {
                                   // If failed to fetch details, close modal and show error
                                   setSelectedOrganization(null);
-                                  setError('Failed to load organization details');
+                                  setError(
+                                    "Failed to load organization details"
+                                  );
                                 }
                               } catch (err) {
-                                console.error('Error loading organization details:', err);
+                                console.error(
+                                  "Error loading organization details:",
+                                  err
+                                );
                                 setSelectedOrganization(null);
-                                setError('Error loading organization details');
+                                setError("Error loading organization details");
                               }
                             }}
                           >
@@ -1088,10 +1322,15 @@ const DataInsertion = () => {
                 <div className="mt-8 flex items-center justify-between bg-white rounded-xl shadow-sm border border-gray-200 p-4">
                   <div className="flex items-center text-sm text-gray-700">
                     <span>
-                      Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, filteredOrganizations.length)} of {filteredOrganizations.length} organizations
+                      Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
+                      {Math.min(
+                        currentPage * itemsPerPage,
+                        filteredOrganizations.length
+                      )}{" "}
+                      of {filteredOrganizations.length} organizations
                     </span>
                   </div>
-                  
+
                   <div className="flex items-center space-x-2">
                     {/* Previous Button */}
                     <button
@@ -1099,8 +1338,8 @@ const DataInsertion = () => {
                       disabled={currentPage === 1}
                       className={`px-3 py-2 rounded-lg text-sm font-medium transition ${
                         currentPage === 1
-                          ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                          : 'bg-gray-100 text-gray-700 hover:bg-purple-100 hover:text-purple-700'
+                          ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                          : "bg-gray-100 text-gray-700 hover:bg-purple-100 hover:text-purple-700"
                       }`}
                     >
                       Previous
@@ -1111,7 +1350,7 @@ const DataInsertion = () => {
                       {Array.from({ length: totalPages }, (_, index) => {
                         const page = index + 1;
                         const isCurrentPage = page === currentPage;
-                        
+
                         // Show first page, last page, current page, and pages around current page
                         if (
                           page === 1 ||
@@ -1124,15 +1363,15 @@ const DataInsertion = () => {
                               onClick={() => handlePageChange(page)}
                               className={`px-3 py-2 rounded-lg text-sm font-medium transition ${
                                 isCurrentPage
-                                  ? 'bg-purple-600 text-white'
-                                  : 'bg-gray-100 text-gray-700 hover:bg-purple-100 hover:text-purple-700'
+                                  ? "bg-purple-600 text-white"
+                                  : "bg-gray-100 text-gray-700 hover:bg-purple-100 hover:text-purple-700"
                               }`}
                             >
                               {page}
                             </button>
                           );
                         }
-                        
+
                         // Show ellipsis for gaps
                         if (page === 2 && currentPage > 4) {
                           return (
@@ -1141,15 +1380,18 @@ const DataInsertion = () => {
                             </span>
                           );
                         }
-                        
-                        if (page === totalPages - 1 && currentPage < totalPages - 3) {
+
+                        if (
+                          page === totalPages - 1 &&
+                          currentPage < totalPages - 3
+                        ) {
                           return (
                             <span key={page} className="px-2 text-gray-400">
                               ...
                             </span>
                           );
                         }
-                        
+
                         return null;
                       })}
                     </div>
@@ -1160,8 +1402,8 @@ const DataInsertion = () => {
                       disabled={currentPage === totalPages}
                       className={`px-3 py-2 rounded-lg text-sm font-medium transition ${
                         currentPage === totalPages
-                          ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                          : 'bg-gray-100 text-gray-700 hover:bg-purple-100 hover:text-purple-700'
+                          ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                          : "bg-gray-100 text-gray-700 hover:bg-purple-100 hover:text-purple-700"
                       }`}
                     >
                       Next
@@ -1174,324 +1416,434 @@ const DataInsertion = () => {
         </div>
 
         {/* Organization Detail Modal */}
-    {selectedOrganization && (
-  <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-    {/* Debug info for troubleshooting */}
-    {console.log('=== MODAL RENDER DEBUG ===', {
-      selectedOrganization,
-      isLoading: selectedOrganization.loading,
-      isEditing: selectedOrganization.isEditing
-    })}
-    <div className="bg-white rounded-2xl w-full max-w-3xl relative">
-      <div className="p-6">
-        {selectedOrganization.loading ? (
-          // Loading State
-          <div className="flex items-center justify-center py-20">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
-              <p className="text-gray-600">Loading organization details...</p>
-            </div>
-          </div>
-        ) : selectedOrganization.isEditing ? (
-          // Edit Form
-          <form onSubmit={(e) => {
-            e.preventDefault();
-            handleUpdateOrganization(selectedOrganization);
-          }} className="space-y-6">
-            {/* Form Header */}
-            <div className="flex items-center justify-between pb-6 border-b border-gray-200">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900">Edit Organization</h2>
-                <p className="mt-1 text-sm text-gray-500">
-                  Update the organization's information and details
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setSelectedOrganization(null)}
-                className="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 transition-all"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-
-            {/* Error Display */}
-            {error && (
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                <div className="flex items-center">
-                  <div className="w-5 h-5 text-red-600 mr-2">⚠️</div>
-                  <span className="text-red-800 font-medium">Error</span>
-                </div>
-                <p className="text-red-700 mt-1">{error}</p>
-              </div>
-            )}
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Left Column */}
-              <div>
-                {/* Organization Name */}
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Organization Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={selectedOrganization.name}
-                    onChange={(e) => setSelectedOrganization({
-                      ...selectedOrganization,
-                      name: e.target.value
-                    })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    required
-                  />
-                </div>
-
-                {/* Abbreviation */}
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Abbreviation <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={selectedOrganization.abbreviation}
-                    onChange={(e) => setSelectedOrganization({
-                      ...selectedOrganization,
-                      abbreviation: e.target.value
-                    })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    required
-                  />
-                </div>
-
-                {/* Category */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Category <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    value={selectedOrganization.category?.category || ''}
-                    onChange={(e) => setSelectedOrganization({
-                      ...selectedOrganization,
-                      category: { category: e.target.value }
-                    })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    required
+        {selectedOrganization && (
+          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+            {/* Debug info for troubleshooting */}
+            {console.log("=== MODAL RENDER DEBUG ===", {
+              selectedOrganization,
+              isLoading: selectedOrganization.loading,
+              isEditing: selectedOrganization.isEditing,
+            })}
+            <div className="bg-white rounded-2xl w-full max-w-3xl relative">
+              <div className="p-6">
+                {selectedOrganization.loading ? (
+                  // Loading State
+                  <div className="flex items-center justify-center py-20">
+                    <div className="text-center">
+                      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+                      <p className="text-gray-600">
+                        Loading organization details...
+                      </p>
+                    </div>
+                  </div>
+                ) : selectedOrganization.isEditing ? (
+                  // Edit Form
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handleUpdateOrganization(selectedOrganization);
+                    }}
+                    className="space-y-6"
                   >
-                    <option value="">Select a category</option>
-                    {categories.map((category, index) => {
-                      const categoryValue = typeof category === 'object' ? category.category : category;
-                      const categoryKey = typeof category === 'object' ? category._id : `edit-category-${index}`;
-                      return (
-                        <option 
-                          key={categoryKey || `edit-category-${index}`} 
-                          value={categoryValue}
+                    {/* Form Header */}
+                    <div className="flex items-center justify-between pb-6 border-b border-gray-200">
+                      <div>
+                        <h2 className="text-2xl font-bold text-gray-900">
+                          Edit Organization
+                        </h2>
+                        <p className="mt-1 text-sm text-gray-500">
+                          Update the organization's information and details
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setSelectedOrganization(null)}
+                        className="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 transition-all"
+                      >
+                        <svg
+                          className="w-6 h-6"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
                         >
-                          {categoryValue}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </div>
-              </div>
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
 
-              {/* Right Column */}
-              <div>
-                {/* Logo Upload */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Organization Logo
-                  </label>
-                  <div className="flex flex-col space-y-4">
-                    {/* Logo Preview */}
-                    {selectedOrganization.logo ? (
-                      <img
-                        src={typeof selectedOrganization.logo === 'string' 
-                          ? `data:image/png;base64,${selectedOrganization.logo}`
-                          : URL.createObjectURL(selectedOrganization.logo)
-                        }
-                        alt="Organization logo"
-                        className="w-32 h-32 object-cover rounded-lg border border-gray-200"
-                      />
-                    ) : (
-                      <div className="w-32 h-32 bg-purple-50 rounded-lg border border-purple-100 flex items-center justify-center">
-                        <Building className="w-12 h-12 text-purple-400" />
+                    {/* Error Display */}
+                    {error && (
+                      <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                        <div className="flex items-center">
+                          <div className="w-5 h-5 text-red-600 mr-2">⚠️</div>
+                          <span className="text-red-800 font-medium">
+                            Error
+                          </span>
+                        </div>
+                        <p className="text-red-700 mt-1">{error}</p>
                       </div>
                     )}
-                    
-                    {/* Upload Button */}
-                    <label className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
-                      <svg className="w-5 h-5 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                      <span className="text-sm text-gray-600">Change Logo</span>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        onChange={(e) => {
-                          const file = e.target.files[0];
-                          if (file) {
-                            if (file.size > 10 * 1024 * 1024) {
-                              alert('File size must be less than 10MB');
-                              return;
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {/* Left Column */}
+                      <div>
+                        {/* Organization Name */}
+                        <div className="mb-4">
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Organization Name{" "}
+                            <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            value={selectedOrganization.name}
+                            onChange={(e) =>
+                              setSelectedOrganization({
+                                ...selectedOrganization,
+                                name: e.target.value,
+                              })
                             }
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            required
+                          />
+                        </div>
+
+                        {/* Abbreviation */}
+                        <div className="mb-4">
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Abbreviation <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            value={selectedOrganization.abbreviation}
+                            onChange={(e) =>
+                              setSelectedOrganization({
+                                ...selectedOrganization,
+                                abbreviation: e.target.value,
+                              })
+                            }
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            required
+                          />
+                        </div>
+
+                        {/* Category */}
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Category <span className="text-red-500">*</span>
+                          </label>
+                          <select
+                            value={
+                              selectedOrganization.category?.category || ""
+                            }
+                            onChange={(e) =>
+                              setSelectedOrganization({
+                                ...selectedOrganization,
+                                category: { category: e.target.value },
+                              })
+                            }
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            required
+                          >
+                            <option value="">Select a category</option>
+                            {categories.map((category, index) => {
+                              const categoryValue =
+                                typeof category === "object"
+                                  ? category.category
+                                  : category;
+                              const categoryKey =
+                                typeof category === "object"
+                                  ? category._id
+                                  : `edit-category-${index}`;
+                              return (
+                                <option
+                                  key={categoryKey || `edit-category-${index}`}
+                                  value={categoryValue}
+                                >
+                                  {categoryValue}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </div>
+                      </div>
+
+                      {/* Right Column */}
+                      <div>
+                        {/* Logo Upload */}
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Organization Logo
+                          </label>
+                          <div className="flex flex-col space-y-4">
+                            {/* Logo Preview */}
+                            {selectedOrganization.logo ? (
+                              <img
+                                src={
+                                  typeof selectedOrganization.logo === "string"
+                                    ? `data:image/png;base64,${selectedOrganization.logo}`
+                                    : URL.createObjectURL(
+                                        selectedOrganization.logo
+                                      )
+                                }
+                                alt="Organization logo"
+                                className="w-32 h-32 object-cover rounded-lg border border-gray-200"
+                              />
+                            ) : (
+                              <div className="w-32 h-32 bg-purple-50 rounded-lg border border-purple-100 flex items-center justify-center">
+                                <Building className="w-12 h-12 text-purple-400" />
+                              </div>
+                            )}
+
+                            {/* Upload Button */}
+                            <label className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                              <svg
+                                className="w-5 h-5 text-gray-400 mr-2"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                />
+                              </svg>
+                              <span className="text-sm text-gray-600">
+                                Change Logo
+                              </span>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={(e) => {
+                                  const file = e.target.files[0];
+                                  if (file) {
+                                    if (file.size > 10 * 1024 * 1024) {
+                                      alert("File size must be less than 10MB");
+                                      return;
+                                    }
+                                    setSelectedOrganization({
+                                      ...selectedOrganization,
+                                      logo: file,
+                                    });
+                                  }
+                                }}
+                              />
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Description - Full Width */}
+                      <div className="col-span-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Description
+                        </label>
+                        <textarea
+                          value={selectedOrganization.description || ""}
+                          onChange={(e) =>
                             setSelectedOrganization({
                               ...selectedOrganization,
-                              logo: file
-                            });
+                              description: e.target.value,
+                            })
                           }
-                        }}
-                      />
-                    </label>
-                  </div>
-                </div>
-              </div>
+                          rows={3}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                          placeholder="Enter organization description..."
+                        />
+                      </div>
+                    </div>
 
-              {/* Description - Full Width */}
-              <div className="col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Description
-                </label>
-                <textarea
-                  value={selectedOrganization.description || ''}
-                  onChange={(e) => setSelectedOrganization({
-                    ...selectedOrganization,
-                    description: e.target.value
-                  })}
-                  rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  placeholder="Enter organization description..."
-                />
-              </div>
-            </div>
+                    {/* Form Actions */}
+                    <div className="flex items-center justify-end space-x-4 pt-6 mt-6 border-t border-gray-200">
+                      <button
+                        type="button"
+                        onClick={() => setSelectedOrganization(null)}
+                        className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition-all"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+                        disabled={
+                          !selectedOrganization.name ||
+                          !selectedOrganization.abbreviation
+                        }
+                      >
+                        <svg
+                          className="w-5 h-5 mr-2"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                        Save Changes
+                      </button>
+                    </div>
+                  </form>
+                ) : (
+                  // View Mode
+                  <div className="space-y-6">
+                    {/* Debug View Mode */}
+                    {console.log(
+                      "=== VIEW MODE DEBUG ===",
+                      selectedOrganization
+                    )}
 
-            {/* Form Actions */}
-            <div className="flex items-center justify-end space-x-4 pt-6 mt-6 border-t border-gray-200">
-              <button
-                type="button"
-                onClick={() => setSelectedOrganization(null)}
-                className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition-all"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
-                disabled={!selectedOrganization.name || !selectedOrganization.abbreviation}
-              >
-                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                Save Changes
-              </button>
-            </div>
-          </form>
-        ) : (
-          // View Mode
-          <div className="space-y-6">
-            {/* Debug View Mode */}
-            {console.log('=== VIEW MODE DEBUG ===', selectedOrganization)}
-            
-            {/* Header */}
-            <div className="flex items-center justify-between pb-6 border-b border-gray-200">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900">Organization Details</h2>
-                <p className="mt-1 text-sm text-gray-500">
-                  View organization information and details
-                </p>
-              </div>
-              <div className="flex items-center space-x-2">
-                <button
-                  onClick={() => {
-                    setSelectedOrganization({...selectedOrganization, isEditing: true});
-                  }}
-                  className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-all flex items-center"
-                >
-                  <Edit className="w-4 h-4 mr-2" />
-                  Edit
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setSelectedOrganization(null)}
-                  className="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 transition-all"
-                >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-            </div>
+                    {/* Header */}
+                    <div className="flex items-center justify-between pb-6 border-b border-gray-200">
+                      <div>
+                        <h2 className="text-2xl font-bold text-gray-900">
+                          Organization Details
+                        </h2>
+                        <p className="mt-1 text-sm text-gray-500">
+                          View organization information and details
+                        </p>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <button
+                          onClick={() => {
+                            setSelectedOrganization({
+                              ...selectedOrganization,
+                              isEditing: true,
+                            });
+                          }}
+                          className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-all flex items-center"
+                        >
+                          <Edit className="w-4 h-4 mr-2" />
+                          Edit
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setSelectedOrganization(null)}
+                          className="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 transition-all"
+                        >
+                          <svg
+                            className="w-6 h-6"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M6 18L18 6M6 6l12 12"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Left Column */}
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-500 mb-1">Organization Name</label>
-                  <p className="text-lg font-semibold text-gray-900">{selectedOrganization.name}</p>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-500 mb-1">Abbreviation</label>
-                  <p className="text-lg font-semibold text-gray-900">{selectedOrganization.abbreviation}</p>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-500 mb-1">Category</label>
-                  <p className="text-lg text-gray-900">
-                    {selectedOrganization.category 
-                      ? (typeof selectedOrganization.category === 'object' 
-                          ? selectedOrganization.category.category 
-                          : selectedOrganization.category)
-                      : 'Not specified'}
-                  </p>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-500 mb-1">Description</label>
-                  <p className="text-gray-900">{selectedOrganization.description || 'No description available'}</p>
-                </div>
-              </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {/* Left Column */}
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-500 mb-1">
+                            Organization Name
+                          </label>
+                          <p className="text-lg font-semibold text-gray-900">
+                            {selectedOrganization.name}
+                          </p>
+                        </div>
 
-              {/* Right Column */}
-              <div>
-                <label className="block text-sm font-medium text-gray-500 mb-2">Organization Logo</label>
-                {selectedOrganization.logo && selectedOrganization.logo.trim() !== '' ? (
-                  <img
-                    src={typeof selectedOrganization.logo === 'string' 
-                      ? (selectedOrganization.logo.startsWith('data:') 
-                          ? selectedOrganization.logo 
-                          : `data:image/png;base64,${selectedOrganization.logo}`)
-                      : URL.createObjectURL(selectedOrganization.logo)
-                    }
-                    alt="Organization logo"
-                    className="w-48 h-48 object-cover rounded-lg border border-gray-200"
-                    onError={(e) => {
-                      console.log('Logo load error for:', selectedOrganization.name);
-                      e.target.style.display = 'none';
-                      e.target.nextSibling.style.display = 'flex';
-                    }}
-                  />
-                ) : null}
-                {(!selectedOrganization.logo || selectedOrganization.logo.trim() === '') && (
-                  <div className="w-48 h-48 bg-purple-50 rounded-lg border border-purple-100 flex items-center justify-center">
-                    <Building className="w-24 h-24 text-purple-400" />
-                  </div>
-                )}
-                {selectedOrganization.logo && selectedOrganization.logo.trim() !== '' && (
-                  <div className="w-48 h-48 bg-purple-50 rounded-lg border border-purple-100 items-center justify-center" style={{display: 'none'}}>
-                    <Building className="w-24 h-24 text-purple-400" />
+                        <div>
+                          <label className="block text-sm font-medium text-gray-500 mb-1">
+                            Abbreviation
+                          </label>
+                          <p className="text-lg font-semibold text-gray-900">
+                            {selectedOrganization.abbreviation}
+                          </p>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-500 mb-1">
+                            Category
+                          </label>
+                          <p className="text-lg text-gray-900">
+                            {selectedOrganization.category
+                              ? typeof selectedOrganization.category ===
+                                "object"
+                                ? selectedOrganization.category.category
+                                : selectedOrganization.category
+                              : "Not specified"}
+                          </p>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-500 mb-1">
+                            Description
+                          </label>
+                          <p className="text-gray-900">
+                            {selectedOrganization.description ||
+                              "No description available"}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Right Column */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-500 mb-2">
+                          Organization Logo
+                        </label>
+                        {selectedOrganization.logo &&
+                        selectedOrganization.logo.trim() !== "" ? (
+                          <img
+                            src={
+                              typeof selectedOrganization.logo === "string"
+                                ? selectedOrganization.logo.startsWith("data:")
+                                  ? selectedOrganization.logo
+                                  : `data:image/png;base64,${selectedOrganization.logo}`
+                                : URL.createObjectURL(selectedOrganization.logo)
+                            }
+                            alt="Organization logo"
+                            className="w-48 h-48 object-cover rounded-lg border border-gray-200"
+                            onError={(e) => {
+                              console.log(
+                                "Logo load error for:",
+                                selectedOrganization.name
+                              );
+                              e.target.style.display = "none";
+                              e.target.nextSibling.style.display = "flex";
+                            }}
+                          />
+                        ) : null}
+                        {(!selectedOrganization.logo ||
+                          selectedOrganization.logo.trim() === "") && (
+                          <div className="w-48 h-48 bg-purple-50 rounded-lg border border-purple-100 flex items-center justify-center">
+                            <Building className="w-24 h-24 text-purple-400" />
+                          </div>
+                        )}
+                        {selectedOrganization.logo &&
+                          selectedOrganization.logo.trim() !== "" && (
+                            <div
+                              className="w-48 h-48 bg-purple-50 rounded-lg border border-purple-100 items-center justify-center"
+                              style={{ display: "none" }}
+                            >
+                              <Building className="w-24 h-24 text-purple-400" />
+                            </div>
+                          )}
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
             </div>
           </div>
         )}
-      </div>
-    </div>
-  </div>
-)}
       </div>
     );
   };
@@ -1509,6 +1861,8 @@ const DataInsertion = () => {
         return <UploadCurrentAffairsPage />;
       case "manage-affair":
         return <CurrentAffairManager />;
+      case "scheduled-affair":
+        return <ScheduleCurrentffair />;
       case "manage-faq":
         return renderManageFAQPage();
       case "Today's Question":
@@ -1516,9 +1870,9 @@ const DataInsertion = () => {
       case "manage-organizations":
         return renderOrganizationManagement();
       case "create-report":
-        return <Report/>;
+        return <Report />;
       case "post-blog":
-        return <AdminBlogPage/>
+        return <AdminBlogPage />;
       default:
         return (
           <div className="flex items-center justify-center h-64">
@@ -1542,24 +1896,24 @@ const DataInsertion = () => {
       if (authorities.length === 0) {
         await getAllAuthorities();
       }
-      
-      console.log('Opening edit for organization:', org);
-      console.log('Available categories:', categories);
-      
+
+      console.log("Opening edit for organization:", org);
+      console.log("Available categories:", categories);
+
       // Fetch full organization details with logo for editing
       const fullOrganization = await getOrganizationDetails(org._id);
       if (fullOrganization) {
-        console.log('Full organization data for edit:', fullOrganization);
-        setSelectedOrganization({...fullOrganization, isEditing: true});
+        console.log("Full organization data for edit:", fullOrganization);
+        setSelectedOrganization({ ...fullOrganization, isEditing: true });
       } else {
         // Fallback to using the existing data if fetch fails
-        setSelectedOrganization({...org, isEditing: true});
+        setSelectedOrganization({ ...org, isEditing: true });
       }
     } catch (error) {
-      console.error('Error opening edit:', error);
+      console.error("Error opening edit:", error);
       setError(error.message);
       // Fallback to using the existing data
-      setSelectedOrganization({...org, isEditing: true});
+      setSelectedOrganization({ ...org, isEditing: true });
     }
   };
 
@@ -1572,10 +1926,16 @@ const DataInsertion = () => {
     setDeletionSummary(deletionSummary);
     setDeleteDialogOpen(false);
     setSuccessDialogOpen(true);
-    
+
     // Remove the deleted organization from the state
-    setOrganizations(organizations.filter(o => o._id !== deletionSummary.organization._id));
-    setFilteredOrganizations(filteredOrganizations.filter(o => o._id !== deletionSummary.organization._id));
+    setOrganizations(
+      organizations.filter((o) => o._id !== deletionSummary.organization._id)
+    );
+    setFilteredOrganizations(
+      filteredOrganizations.filter(
+        (o) => o._id !== deletionSummary.organization._id
+      )
+    );
     setSelectedOrganization(null);
   };
 
@@ -1588,23 +1948,31 @@ const DataInsertion = () => {
   const handleUpdateOrganization = async (updatedData) => {
     try {
       // Prepare clean data for update (remove UI-specific fields)
-      const { isEditing, _id, createdAt, updatedAt, __v, events, ...cleanData } = updatedData;
-      
+      const {
+        isEditing,
+        _id,
+        createdAt,
+        updatedAt,
+        __v,
+        events,
+        ...cleanData
+      } = updatedData;
+
       // Handle category properly - if it's an object, extract the category value
-      if (cleanData.category && typeof cleanData.category === 'object') {
+      if (cleanData.category && typeof cleanData.category === "object") {
         cleanData.category = cleanData.category.category;
       }
 
-      console.log('Updating organization with data:', cleanData);
-      console.log('Logo in cleanData:', cleanData.logo);
-      console.log('Logo instanceof File:', cleanData.logo instanceof File);
+      console.log("Updating organization with data:", cleanData);
+      console.log("Logo in cleanData:", cleanData.logo);
+      console.log("Logo instanceof File:", cleanData.logo instanceof File);
 
       let updateResponse;
-      
+
       // Check if logo is a File object (new upload) or if it's been changed
       if (cleanData.logo && cleanData.logo instanceof File) {
-        console.log('Converting logo file to base64 for update...');
-        
+        console.log("Converting logo file to base64 for update...");
+
         // Convert file to base64 and include in JSON request
         const convertFileToBase64 = (file) => {
           return new Promise((resolve, reject) => {
@@ -1612,48 +1980,48 @@ const DataInsertion = () => {
             reader.readAsDataURL(file);
             reader.onload = () => {
               // Remove data:image/...;base64, prefix to get just the base64 string
-              const base64String = reader.result.split(',')[1];
+              const base64String = reader.result.split(",")[1];
               resolve(base64String);
             };
-            reader.onerror = error => reject(error);
+            reader.onerror = (error) => reject(error);
           });
         };
-        
+
         try {
           const logoBase64 = await convertFileToBase64(cleanData.logo);
-          console.log('Logo converted to base64, length:', logoBase64.length);
-          
+          console.log("Logo converted to base64, length:", logoBase64.length);
+
           // Update with base64 logo in JSON request
           const updateData = {
             ...cleanData,
-            logo: logoBase64
+            logo: logoBase64,
           };
-          
-          console.log('Updating with base64 logo via JSON request');
+
+          console.log("Updating with base64 logo via JSON request");
           updateResponse = await axios.put(
             `${API_BASE_URL}/api/v1/organizations/${selectedOrganization._id}`,
             updateData,
             {
               headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
               },
             }
           );
         } catch (conversionError) {
-          console.error('Error converting file to base64:', conversionError);
-          throw new Error('Failed to process logo file');
+          console.error("Error converting file to base64:", conversionError);
+          throw new Error("Failed to process logo file");
         }
       } else {
         // Update without logo change (remove logo from updates)
         const { logo, ...dataWithoutLogo } = cleanData;
-        
-        console.log('Updating without logo change');
+
+        console.log("Updating without logo change");
         updateResponse = await axios.put(
           `${API_BASE_URL}/api/v1/organizations/${selectedOrganization._id}`,
           dataWithoutLogo,
           {
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
           }
         );
@@ -1661,33 +2029,37 @@ const DataInsertion = () => {
 
       if (updateResponse.status === 200) {
         // Update organizations in state
-        const updatedOrgs = organizations.map(org => 
-          org._id === selectedOrganization._id ? updateResponse.data.organization : org
+        const updatedOrgs = organizations.map((org) =>
+          org._id === selectedOrganization._id
+            ? updateResponse.data.organization
+            : org
         );
         setOrganizations(updatedOrgs);
         setFilteredOrganizations(updatedOrgs);
         setSelectedOrganization(null);
         setError(null);
-        alert('Organization updated successfully');
+        alert("Organization updated successfully");
       }
     } catch (error) {
-      console.error('Update error:', error);
-      setError(error.response?.data?.error || error.response?.data?.message || 'Error updating organization');
+      console.error("Update error:", error);
+      setError(
+        error.response?.data?.error ||
+          error.response?.data?.message ||
+          "Error updating organization"
+      );
     }
   };
 
   return (
     <div className="relative min-h-screen">
       <FloatingOrbsBackground />
-      
+
       {/* Left Sidebar */}
       <div className="fixed left-0 top-20 h-[calc(100vh-5rem)] w-80 bg-white shadow-lg p-6 z-10 overflow-y-auto">
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-purple-800">
-            Dashboard
-          </h1>
+          <h1 className="text-2xl font-bold text-purple-800">Dashboard</h1>
         </div>
-        
+
         <nav className="space-y-3">
           {options.map((option) => (
             <button
@@ -1729,7 +2101,7 @@ const DataInsertion = () => {
             </button>
           ))}
         </nav>
-        
+
         {/* Logout Button at Bottom */}
         <div className="mt-8 pt-4 border-t border-gray-200">
           <button

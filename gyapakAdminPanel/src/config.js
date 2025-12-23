@@ -1,7 +1,7 @@
 // live url
 // const API_BASE_URL="https://gyapak-g9ec.onrender.com";
-
-const API_BASE_URL = "https://adminpanel.gyapak.in";
+//
+const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 // dev url
 // const API_BASE_URL="http://localhost:3000";
