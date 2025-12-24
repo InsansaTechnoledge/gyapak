@@ -10,6 +10,7 @@ package-lock.json
 node_modules
 dist
 dist-ssr
+.env
 *.local
 /con
 # Editor directories and files
