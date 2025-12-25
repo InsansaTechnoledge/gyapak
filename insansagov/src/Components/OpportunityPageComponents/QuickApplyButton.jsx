@@ -29,7 +29,7 @@ const QuickApplyButton = ({ data }) => {
         rel="noopener noreferrer"
         className="inline-block group relative overflow-hidden rounded-2xl shadow-lg"
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-purple-800 opacity-90 transition-transform transform group-hover:scale-110"></div>
+        <div className="absolute inset-0 main-site-color opacity-90 transition-transform transform group-hover:scale-110"></div>
         <div className="relative px-12 py-6 flex items-center gap-4">
           <span className="text-2xl font-bold text-white group-hover:text-gray-300 group-hover:scale-110 transition-all">
             {

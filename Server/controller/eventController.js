@@ -60,6 +60,28 @@ export const getNewEvents = async (req, res) => {
   }
 };
 
+export const getLatestEvents = async (req, res) => {
+  try {
+    const events = await Event.find()
+      .sort({ createdAt: -1 })
+      .select('name _id ')
+      .limit(10)
+      .lean();
+
+    return res.status(200).json({
+      message: "Latest events fetched successfully",
+      data: events,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      message: "Something went wrong",
+      error: e?.message,
+    });
+  }
+};
+
+
+
 
 // GET /api/event/search?q=apprentice
 export const searchEventsByName = async (req, res) => {
@@ -312,5 +334,126 @@ export const getEventsByMonth = async (req, res) => {
   }
 };
 
+
+// GET /api/event/with-salary?type=job&limit=200
+export const getEventsWithSalary = async (req, res) => {
+  try {
+    const { type = "job", limit = 2000 } = req.query;
+    const safeLimit = Math.min(Math.max(parseInt(limit, 10) || 200, 1), 5000);
+
+    // only consider these keys as salary-related
+    const SALARY_KEY_REGEX =
+      /salary|pay\s*scale|pay\s*level|remuneration|stipend|wage|ctc|consolidated|contract\s*period|emoluments/i;
+
+    const pipeline = [
+      {
+        $match: {
+          details: { $type: "object" },
+          // ...(type ? { "details.Type": type } : {}),
+        },
+      },
+
+      { $addFields: { detailsArr: { $objectToArray: "$details" } } },
+
+      // ✅ STRICT: key must contain salary-related words
+      {
+        $addFields: {
+          salaryCandidates: {
+            $filter: {
+              input: "$detailsArr",
+              as: "d",
+              cond: {
+                $regexMatch: {
+                  input: "$$d.k",
+                  regex: SALARY_KEY_REGEX,
+                },
+              },
+            },
+          },
+        },
+      },
+
+      { $match: { "salaryCandidates.0": { $exists: true } } },
+
+      // safe convert candidate values to string
+      {
+        $addFields: {
+          salaryCandidates: {
+            $map: {
+              input: "$salaryCandidates",
+              as: "c",
+              in: {
+                key: "$$c.k",
+                text: {
+                  $convert: {
+                    input: "$$c.v",
+                    to: "string",
+                    onError: "",
+                    onNull: "",
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          date_of_commencement: 1,
+          apply_link: 1,
+          salaryCandidates: 1,
+        },
+      },
+
+      { $sort: { date_of_commencement: 1 } },
+      { $limit: safeLimit },
+    ];
+
+    const rows = await Event.aggregate(pipeline);
+
+    // Parse salaryMin/Max ONLY from salaryCandidates texts
+    const extractNums = (text = "") => {
+      if (!text || typeof text !== "string") return [];
+      const matches = text.match(/\d[\d,]*/g) || [];
+      return matches
+        .map((m) => parseInt(m.replace(/,/g, ""), 10))
+        .filter((n) => Number.isFinite(n) && n > 0);
+    };
+
+    const data = rows.map((e) => {
+      const nums = e.salaryCandidates.flatMap((c) => extractNums(c.text));
+      const salaryMin = nums.length ? Math.min(...nums) : null;
+      const salaryMax = nums.length ? Math.max(...nums) : null;
+
+      return {
+        _id: e._id,
+        name: e.name,
+        date_of_commencement: e.date_of_commencement,
+        apply_link: e.apply_link,
+        salaryCandidates: e.salaryCandidates,
+        salaryMin,
+        salaryMax,
+      };
+    });
+
+    return res.status(200).json({
+      status: 200,
+      success: true,
+      count: data.length,
+      data,
+    });
+  } catch (err) {
+    console.error("getEventsWithSalaryStrict error:", err);
+    return res.status(500).json({
+      status: 500,
+      success: false,
+      message: "Failed to fetch salary events (strict)",
+      errors: [err?.message || String(err)],
+    });
+  }
+};
 
 

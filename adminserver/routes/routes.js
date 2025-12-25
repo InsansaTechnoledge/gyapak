@@ -13,6 +13,7 @@ import gscRoutes from './gscRoutes.js';
 import indexingRoutes from './indexing.routes.js';
 import airoutes from './openai.routes.js'
 import quickResult from './Quiclresult.routes.js'
+import themes from './theme.routes.js'
 
 const route = (app) => {
 app.use('/api/v1/organizations', organizationRoutes);
@@ -30,6 +31,7 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/gsc", gscRoutes)
 app.use("/api/index", indexingRoutes)
 app.use("/api/result-admitcard" , quickResult)
+app.use("/api/theme", themes)
 
 
 };

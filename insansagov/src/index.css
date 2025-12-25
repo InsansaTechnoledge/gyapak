@@ -111,37 +111,91 @@
   scrollbar-width: none; /* Firefox */
 }
 
-@layer utilities {
-  .main-nav-bar-color {@apply bg-purple-800 }
-  .main-footer-color {@apply bg-gradient-to-b from-gray-900 to-black}
-  
-  .main-site-color { @apply bg-purple-600 }
-  .main-site-color-hover { @apply bg-purple-700 }
-  .main-site-color-2 {@apply bg-purple-500}
-  
-  .light-site-color {@apply bg-purple-100}
-  .light-site-color-2 {@apply bg-purple-200}
-  .light-site-color-3 {@apply bg-purple-50}
+/* bg-gradient-to-r from-orange-600 via-white to-green-600 */
+@layer base {
+  :root {
+    /* defaults (fallback if DB not loaded) */
+    --main-nav-bar-color: 124 58 237;   /* purple-600 */
+    --main-footer-from: 17 24 39;      /* gray-900 */
+    --main-footer-to: 0 0 0;           /* black */
 
-  .main-site-text-color { @apply text-purple-600 }
-  .main-site-text-color-2 { @apply text-purple-500 }
-  .secondary-site-text-color { @apply text-white }
+    --main-site-color: 124 58 237;
+    --main-site-color-hover: 109 40 217;
+    --main-site-color-2: 168 85 247;
 
-  .main-site-border-color { @apply border-purple-100}
-  .main-site-border-color-2 {@apply border-purple-200}
-  .main-site-border-color-3 {@apply border-purple-300}
-  .main-site-border-color-4 {@apply border-purple-500}
-  
-  .main-dark-border-color {@apply border-purple-800}
-  .main-dark-border-color-2 {@apply border-purple-600}
+    --light-site-color: 243 232 255;
+    --light-site-color-2: 233 213 255;
+    --light-site-color-3: 250 245 255;
+    --light-site-color-4: 216 180 254;
+    --light-site-color-5: 192 132 252;
 
-  .utility-site-color { @apply text-slate-900}
-  .utility-secondary-color { @apply text-slate-600}
-  .utility-secondary-color-2 {@apply text-slate-400}
-  .utility-scondary-color-3 {@apply text-slate-100}
+    --main-site-text-color: 124 58 237;
+    --main-site-text-color-2: 168 85 247;
+    --secondary-site-text-color: 255 255 255;
 
-  .support-component-bg-color {@apply bg-amber-400}
-  .support-component-bg-color-green {@apply bg-green-100}
+    --main-site-border-color: 243 232 255;
+    --main-site-border-color-2: 233 213 255;
+    --main-site-border-color-3: 216 180 254;
+    --main-site-border-color-4: 168 85 247;
 
-  .main-site-text-error-color {@apply text-red-600}
+    --main-dark-border-color: 91 33 182;
+    --main-dark-border-color-2: 124 58 237;
+
+    --utility-site-color: 15 23 42;
+    --utility-secondary-color: 71 85 105;
+    --utility-secondary-color-2: 148 163 184;
+    --utility-scondary-color-3: 241 245 249;
+
+    --support-component-bg-color: 251 191 36;
+    --support-component-bg-color-green: 220 252 231;
+
+    --main-site-text-error-color: 220 38 38;
+  }
 }
+
+@layer utilities {
+  
+  .main-nav-bar-color { background-color: rgb(var(--main-nav-bar-color)); }
+
+  .main-footer-color {
+    background-image: linear-gradient(
+      to bottom,
+      rgb(var(--main-footer-from)),
+      rgb(var(--main-footer-to))
+    );
+  }
+
+  .main-site-color { background-color: rgb(var(--main-site-color)); }
+  .main-site-color-hover:hover { background-color: rgb(var(--main-site-color-hover)); }
+  .main-site-color-2 { background-color: rgb(var(--main-site-color-2)); }
+
+  .light-site-color { background-color: rgb(var(--light-site-color)); }
+  .light-site-color-2 { background-color: rgb(var(--light-site-color-2)); }
+  .light-site-color-3 { background-color: rgb(var(--light-site-color-3)); }
+  .light-site-color-4 { background-color: rgb(var(--light-site-color-4)); }
+  .light-site-color-5 { background-color: rgb(var(--light-site-color-5)); }
+
+  .main-site-text-color { color: rgb(var(--main-site-text-color)); }
+  .main-site-text-color-2 { color: rgb(var(--main-site-text-color-2)); }
+  .secondary-site-text-color { color: rgb(var(--secondary-site-text-color)); }
+
+  .main-site-border-color { border-color: rgb(var(--main-site-border-color)); }
+  .main-site-border-color-2 { border-color: rgb(var(--main-site-border-color-2)); }
+  .main-site-border-color-3 { border-color: rgb(var(--main-site-border-color-3)); }
+  .main-site-border-color-4 { border-color: rgb(var(--main-site-border-color-4)); }
+
+  .main-dark-border-color { border-color: rgb(var(--main-dark-border-color)); }
+  .main-dark-border-color-2 { border-color: rgb(var(--main-dark-border-color-2)); }
+
+  .utility-site-color { color: rgb(var(--utility-site-color)); }
+  .utility-secondary-color { color: rgb(var(--utility-secondary-color)); }
+  .utility-secondary-color-2 { color: rgb(var(--utility-secondary-color-2)); }
+  .utility-scondary-color-3 { color: rgb(var(--utility-scondary-color-3)); }
+
+  .support-component-bg-color { background-color: rgb(var(--support-component-bg-color)); }
+  .support-component-bg-color-green { background-color: rgb(var(--support-component-bg-color-green)); }
+
+  .main-site-text-error-color { color: rgb(var(--main-site-text-error-color)); }
+}
+
+

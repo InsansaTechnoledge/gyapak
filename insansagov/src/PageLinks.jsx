@@ -9,6 +9,7 @@ import MonthlyMagzine from "./Components/monthlyUpdate/MonthlyMagzine";
 import NewCalendarPage from "./Pages/Calendar/NewCalendarPage";
 import UpcommingEvent from "./Pages/Calendar/upcommingEvent/UpcommingEvent";
 import QuickResultsPage from "./Pages/QuickResultsPage";
+import TopJobsWIthSalaryPage from "./Pages/TopJobsWIthSalaryPage";
 
 const Landing = lazy(() => import("./Pages/Landing/landing"));
 const Navbar = lazy(() => import("./Components/Navbar/Navbar"));
@@ -211,6 +212,14 @@ const PageLinks = () => {
             </div>
           }
         />
+        <Route 
+          path="/top-high-paid-goverment-job-2025"
+          element={
+            <div className='px-5 md:px-16'>
+              <TopJobsWIthSalaryPage/>
+            </div>
+          }
+        />
         <Route
           path="/daily-updates"
           element={
@@ -247,7 +256,7 @@ const PageLinks = () => {
         <Route
           path="/top-exams-for-government-jobs-in-india/:slug"
           element={
-            <div className="px-5 md:px-16 lg:px-32 ">
+            <div className="px-5  ">
               <Opportunities />
             </div>
           }

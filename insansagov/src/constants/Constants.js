@@ -19,7 +19,7 @@ export const LandingPageMonthlyMagazineDescription =
   "A complete monthly digest of government jobs, major exams and high-yield current affairs — in a beautifully designed PDF format.";
 
 export const QuickResultsTitle = "Quick Results and Admit Cards news";
-
+export const JobPageTitle = 'Top High Paid Government Job 2025'
 
 // enabled: false = hide that section
 export const LANDING_SECTIONS = [
@@ -37,7 +37,7 @@ export const LANDING_SECTIONS = [
   
     { order: 7, key: "faq", enabled: true, wrapper: "lazy", height: "h-96", id: "landing-faq", padded: true },
   
-    { order: 8, key: "curveDivider", enabled: true, wrapper: "none" },
+    { order: 8, key: "curveDivider", enabled: false, wrapper: "none" },
   
     { order: 9, key: "featureBand", enabled: true, wrapper: "none", id: "about" },
   

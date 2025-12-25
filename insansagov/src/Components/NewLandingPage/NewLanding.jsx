@@ -6,7 +6,7 @@ import { debounce } from "../../Utils/debounce";
 import { Link, useNavigate } from "react-router-dom";
 import { useEventRouting } from "../../Utils/useEventRouting";
 import GovCalendar from "./components/GovCalendar";
-import { LandingPageCurrentAffairsDescription, LandingPageCurrentAffairsTitle, LandingPageMonthlyMagazineDescription, LandingPageMonthlyMagazineTitle, LandingPageSearch, LandingPageSearchDescription, LandingPageSearchPlaceholder, LandingPageStatsDescription, QuickResultsTitle } from "../../constants/Constants";
+import { JobPageTitle, LandingPageCurrentAffairsDescription, LandingPageCurrentAffairsTitle, LandingPageMonthlyMagazineDescription, LandingPageMonthlyMagazineTitle, LandingPageSearch, LandingPageSearchDescription, LandingPageSearchPlaceholder, LandingPageStatsDescription, QuickResultsTitle } from "../../constants/Constants";
 
 export default function GyapakLanding() {
   const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
@@ -443,106 +443,18 @@ export default function GyapakLanding() {
             </div>
           </div>
 
-          <Link to={'/Latest-Examination-Results-Admit-Card'} className="main-site-color text-left px-6 py-2 rounded-lg text-xl secondary-site-text-color font-bold">
-            {QuickResultsTitle}
-          </Link>
          
-  
-          {/* <aside className="space-y-6">
-            <div className="bg-white border main-site-border-color rounded-2xl shadow-[0_18px_50px_rgba(15,23,42,0.06)] overflow-hidden">
-              <div className="px-4 py-3 border-b main-dark-border-color flex items-center justify-between">
-                <p className="text-[11px] uppercase tracking-[0.25em] main-site-text-color">
-                  Important Dates
-                </p>
-                <span className="text-[10px] utility-secondary-color uppercase tracking-[0.2em]">
-                  Deadline Radar
-                </span>
-              </div>
-              <div className="p-4 space-y-4">
-                <div className="flex gap-3 pb-4 border-b main-dark-border-color">
-                  <div className="mt-1">
-                    <Calendar className="w-5 h-5 main-site-text-color" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold font-serif utility-site-color">
-                      SSC CGL 2024
-                    </p>
-                    <p className="text-[11px] utility-secondary-color mt-1">
-                      Last date for application:{" "}
-                      <span className="text-amber-700 font-medium">
-                        15 Dec 2024
-                      </span>
-                    </p>
-                  </div>
-                </div>
-  
-                <div className="flex gap-3 pb-4 border-b main-dark-border-color">
-                  <div className="mt-1">
-                    <Calendar className="w-5 h-5 text-purple-500" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold font-serif utility-site-color">
-                      UPSC CSE 2024
-                    </p>
-                    <p className="text-[11px] utility-secondary-color mt-1">
-                      Prelims exam date:{" "}
-                      <span className="text-emerald-700 font-medium">
-                        20 Dec 2024
-                      </span>
-                    </p>
-                  </div>
-                </div>
-  
-                <div className="flex gap-3">
-                  <div className="mt-1">
-                    <Calendar className="w-5 h-5 text-purple-400" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold font-serif utility-site-color">
-                      RRB NTPC 2024
-                    </p>
-                    <p className="text-[11px] utility-secondary-color mt-1">
-                      Application window closes:{" "}
-                      <span className="text-sky-700 font-medium">
-                        25 Dec 2024
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <a
-                href="/government-calendar"
-                className="block px-4 py-3 text-center text-[11px] uppercase tracking-[0.25em] font-semibold bg-purple-700 hover:bg-purple-800 utility-scondary-color-3 transition-colors border-t main-dark-border-color"
-              >
-                View Full Exam Calendar →
-              </a>
-            </div>
-  
-            <div className=" border main-site-border-color-2 rounded-2xl p-5 shadow-[0_18px_50px_rgba(15,23,42,0.08)]">
-              <div className="flex items-center gap-3 mb-3">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.25em] text-purple-500">
-                    Subscribe
-                  </p>
-                  <h3 className="text-sm sm:text-base font-semibold font-serif utility-site-color">
-                    Daily Exam Brief in Your Inbox
-                  </h3>
-                </div>
-              </div>
-              <p className="text-xs sm:text-sm utility-secondary-color font-serif mb-4">
-                One concise email with handpicked notifications, last dates and
-                current affairs. No spam, just{" "}
-                <span className="font-semibold main-site-text-color">
-                  exam-relevant signal
-                </span>
-                .
-              </p>
-              <button className="w-full inline-flex items-center justify-center px-4 py-2.5 rounded-xl main-site-color text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase secondary-site-text-color hover:bg-purple-700 transition-colors shadow-sm">
-                Subscribe Free
-              </button>
-            </div>
-          </aside> */}
         </section>
+          <div className="flex gap-5 justify-center w-full mt-10">
+
+            <Link to={'/Latest-Examination-Results-Admit-Card'} className="main-site-color text-left px-6 py-2 rounded-lg text-xl secondary-site-text-color font-bold">
+              {QuickResultsTitle}
+            </Link>
+
+            <Link to={'/top-high-paid-goverment-job-2025'} className="main-site-color text-left px-6 py-2 rounded-lg text-xl secondary-site-text-color font-bold">
+              {JobPageTitle}
+            </Link>
+          </div>
 
         <GovCalendar/>
   
