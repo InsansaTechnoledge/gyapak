@@ -202,7 +202,7 @@ const Landing = () => {
     if (!node) return null;
 
     const paddedWrap = (content) =>
-      sec.padded ? <div className="px-4 md:px-16">{content}</div> : content;
+      sec.padded ? <div className="px-6">{content}</div> : content;
 
     const inner =
       sec.wrapper === "lazy" ? (

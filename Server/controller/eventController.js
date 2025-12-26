@@ -43,6 +43,18 @@ export const getLatestUpdates = async (req, res) => {
   }
 };
 
+export const getApplyLinks = async (req , res) => {
+  try{
+
+    const data = await Event.find().select('apply_link name').sort({createdAt: -1}).lean();
+
+    return res.status(200).json({data})
+
+  } catch (e) {
+    res.status(500).json({message: 'something went wrong', error: e?.message})
+  }
+}
+
 export const getNewEvents = async (req, res) => {
   try {
     const { event_id } = req.params;

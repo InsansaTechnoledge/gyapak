@@ -3,7 +3,7 @@ export const LandingPageSearch = "Explore the Exam Archive";
 export const LandingPageSearchDescription =
   "Search across all government exams, notifications and opportunities in one place.";
 
-export const LandingPageSearchPlaceholder = "Search by exam name";
+export const LandingPageSearchPlaceholder = "Search by exam/jobs/events";
 
 export const LandingPageStatsDescription =
   "Real-time tracking of government exams across India, refreshed daily with verified updates.";

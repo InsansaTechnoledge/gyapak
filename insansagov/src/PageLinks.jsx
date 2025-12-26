@@ -173,7 +173,7 @@ const PageLinks = () => {
         <Route
           path="/contact-us"
           element={
-            <div className="px-5 md:px-16 lg:px-32 xl:px-64">
+            <div className="px-5 md:px-16 ">
               <Contact />
             </div>
           }
@@ -240,7 +240,7 @@ const PageLinks = () => {
         <Route
           path="/blog"
           element={
-            <div className="px-5 md:px-16 lg:px-32 xl:px-64">
+            <div className="px-5 md:px-16 ">
               <BlogPage />
             </div>
           }
@@ -333,7 +333,7 @@ const PageLinks = () => {
         />
       </Routes>
 
-      {!shouldHideChatBot && <ChatBot />}
+      {/* {!shouldHideChatBot && <ChatBot />} */}
       <Footer />
       {/* </Suspense> */}
     </>

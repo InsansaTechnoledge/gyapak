@@ -1,9 +1,11 @@
 import express from 'express'
-import { getEvent, getEventsByMonth, getEventsForCalendar, getEventsWithSalary, getEventTypes, getLatestEvents, getLatestUpdates, getNewEvents, getTodaysEvents, lastupdated, searchEventsByName } from '../controller/eventController.js';
+import { getApplyLinks, getEvent, getEventsByMonth, getEventsForCalendar, getEventsWithSalary, getEventTypes, getLatestEvents, getLatestUpdates, getNewEvents, getTodaysEvents, lastupdated, searchEventsByName } from '../controller/eventController.js';
 
 const router = express.Router();
 
 router.get('/getEventTypes', getEventTypes);
+router.get('/links', getApplyLinks)
+
 router.get('/latest-events', getLatestEvents)
 router.get("/with-salary", getEventsWithSalary);
 router.get('/getTodaysEvents', getTodaysEvents);

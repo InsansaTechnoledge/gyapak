@@ -181,7 +181,7 @@ const Contact = () => {
       ) : null}
 
       <div id="notpaper" className="min-h-screen py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center mb-16 space-y-6">
+        <div className=" mx-auto text-center mb-16 space-y-6">
           <div className="flex justify-center mb-6">
             <div className="w-20 h-20 main-site-color rounded-full flex items-center justify-center">
               <Users className="w-10 h-10 secondary-site-text-color" />
@@ -228,7 +228,7 @@ const Contact = () => {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto">
+        <div className=" mx-auto">
           {loading ? (
             <div className="absolute w-8/12 z-50 h-screen flex justify-center">
               <RingLoader

@@ -29,7 +29,7 @@ const GovCalendar = () => {
   
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [viewMode, setViewMode] = useState("list");
+  const [viewMode, setViewMode] = useState("grid");
   const [currentPage, setCurrentPage] = useState(1);
 
   const [windowWidth, setWindowWidth] = useState(
@@ -109,8 +109,8 @@ const GovCalendar = () => {
   };
   
   return (
-    <div className=" mt-16 mb-16">
-      <div className=" mx-auto py-8 px-4 sm:px-6 lg:px-8">
+    <div className="mt-10 ">
+      <div className=" mx-auto ">
        
         {/* Search and Filter Bar */}
         <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
