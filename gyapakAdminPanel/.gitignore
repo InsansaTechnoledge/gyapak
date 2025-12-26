@@ -6,10 +6,11 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-
+package-lock.json
 node_modules
 dist
 dist-ssr
+.env
 *.local
 /con
 # Editor directories and files
@@ -22,5 +23,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.env
+.env.development.local
 
 secret.js
