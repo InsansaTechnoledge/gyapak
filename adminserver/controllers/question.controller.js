@@ -1,53 +1,66 @@
+import userActivity from "../models/activity.model.js";
 import Question from "../models/QuestionsModel.js";
 
 // Get today's questions for the website quiz component
 export const getTodaysQuestions = async (req, res) => {
   try {
     const today = new Date();
-    const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    const endOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
-    
+    const startOfToday = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
+    );
+    const endOfToday = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate() + 1
+    );
+
     // First try to get questions that were marked as used today
     let questions = await Question.find({
       lastUsed: {
         $gte: startOfToday,
-        $lt: endOfToday
-      }
+        $lt: endOfToday,
+      },
     });
 
     // If no questions found for today, get random questions and mark them as used today
     if (questions.length === 0) {
       // Get 5 random questions
-      questions = await Question.aggregate([
-        { $sample: { size: 5 } }
-      ]);
-      
+      questions = await Question.aggregate([{ $sample: { size: 5 } }]);
+
       // Update their lastUsed date to today
-      const questionIds = questions.map(q => q._id);
+      const questionIds = questions.map((q) => q._id);
       await Question.updateMany(
         { _id: { $in: questionIds } },
         { lastUsed: new Date() }
       );
     }
 
-    res.status(200).json({ 
+    res.status(200).json({
       success: true,
       questions: questions,
-      message: `Found ${questions.length} questions for today`
+      message: `Found ${questions.length} questions for today`,
     });
   } catch (error) {
     console.error("Error fetching today's questions:", error);
-    res.status(500).json({ 
+    res.status(500).json({
       success: false,
       error: "Failed to fetch today's questions",
-      message: error.message 
+      message: error.message,
     });
   }
 };
 
 export const getQuestionList = async (req, res) => {
   try {
-    let { page = 1, limit = 10, search = '', category = '', difficulty = '' } = req.query;
+    let {
+      page = 1,
+      limit = 10,
+      search = "",
+      category = "",
+      difficulty = "",
+    } = req.query;
 
     page = parseInt(page);
     limit = parseInt(limit);
@@ -58,7 +71,7 @@ export const getQuestionList = async (req, res) => {
     if (search) {
       query.$or = [
         { question: { $regex: search, $options: "i" } },
-        { options: { $elemMatch: { $regex: search, $options: "i" } } }
+        { options: { $elemMatch: { $regex: search, $options: "i" } } },
       ];
     }
 
@@ -95,62 +108,90 @@ export const getQuestionList = async (req, res) => {
 
 export const createQuestion = async (req, res) => {
   try {
-  
+    const { time } = req.query;
     // Validate required fields
     const { question, options, correctAnswer, category } = req.body;
-    
+
     if (!question || !options || correctAnswer === undefined || !category) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         success: false,
         message: "Missing required fields",
-        required: ["question", "options", "correctAnswer", "category"]
+        required: ["question", "options", "correctAnswer", "category"],
       });
     }
 
     // Validate options array
     if (!Array.isArray(options) || options.length < 2) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         success: false,
-        message: "Options must be an array with at least 2 items"
+        message: "Options must be an array with at least 2 items",
       });
     }
 
     // Validate correctAnswer index
     if (correctAnswer < 0 || correctAnswer >= options.length) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         success: false,
-        message: "correctAnswer must be a valid index for the options array"
+        message: "correctAnswer must be a valid index for the options array",
       });
     }
 
     const newQuestion = new Question(req.body);
     const savedQuestion = await newQuestion.save();
-    
+
+    const newUserActivity = userActivity({
+      userId: req.user.id,
+      event: {
+        eventType: "Question",
+        eventId: savedQuestion._id,
+        action: "created",
+        totalTime: Number(time),
+      },
+    });
+    await newUserActivity.save();
     console.log("Question created successfully:", savedQuestion._id);
     res.status(201).json({
       success: true,
       question: savedQuestion,
-      message: "Question created successfully"
+      message: "Question created successfully",
     });
   } catch (error) {
     console.error("Error creating question:", error);
-    res.status(500).json({ 
+    res.status(500).json({
       success: false,
       message: "Error creating question",
       error: error.message,
-      details: error.name === 'ValidationError' ? error.errors : undefined
+      details: error.name === "ValidationError" ? error.errors : undefined,
     });
   }
 };
 
 export const editQuestion = async (req, res) => {
   const { id } = req.params;
+  const { time } = req.query;
   const questionData = req.body;
   try {
-    const updatedQuestion = await Question.findByIdAndUpdate(id, questionData, { new: true });
+    const updatedQuestion = await Question.findByIdAndUpdate(id, questionData, {
+      new: true,
+    });
     if (!updatedQuestion) {
       return res.status(404).json({ message: "Question not found" });
     }
+
+    const newUserActivity = userActivity({
+      userId: req.user.id,
+      event: {
+        eventType: "Question",
+        eventId: updatedQuestion._id,
+        eventStamp: {
+          title: updatedQuestion.question,
+        },
+        action: "updated",
+        totalTime: Number(time),
+      },
+    });
+
+    await newUserActivity.save();
     res.status(200).json(updatedQuestion);
   } catch (error) {
     res.status(500).json({ message: "Error updating question" });
@@ -159,11 +200,26 @@ export const editQuestion = async (req, res) => {
 
 export const deleteQuestion = async (req, res) => {
   const { id } = req.params;
+  const { time } = req.query;
   try {
     const deletedQuestion = await Question.findByIdAndDelete(id);
     if (!deletedQuestion) {
       return res.status(404).json({ message: "Question not found" });
     }
+    const newUserActivity = userActivity({
+      userId: req.user.id,
+      event: {
+        eventType: "Question",
+        eventId: deletedQuestion._id,
+        eventStamp: {
+          title: deletedQuestion.question,
+        },
+        action: "deleted",
+        totalTime: Number(time),
+      },
+    });
+
+    await newUserActivity.save();
     res.status(200).json({ message: "Question deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: "Error deleting question" });
@@ -172,6 +228,7 @@ export const deleteQuestion = async (req, res) => {
 
 export const reuseQuestion = async (req, res) => {
   const { id } = req.params;
+  const { time } = req.query;
   try {
     const reusedQuestion = await Question.findById(id);
     if (!reusedQuestion) {
@@ -180,8 +237,21 @@ export const reuseQuestion = async (req, res) => {
     // Create a copy of the question
     reusedQuestion.lastUsed = Date.now();
     await reusedQuestion.save();
+    const newUserActivity = userActivity({
+      userId: req.user.id,
+      event: {
+        eventType: "Question",
+        eventId: reusedQuestion._id,
+        eventStamp: {
+          title: `Reused the title ${reusedQuestion.question}`,
+        },
+        action: "created",
+        totalTime: Number(time),
+      },
+    });
+    await newUserActivity.save();
     res.status(201).json(reusedQuestion);
   } catch (error) {
-    res.status(500).json({ message: "Error reusing question" });
+    res.status(500).json({ message: "Error reusing question", error: error });
   }
 };

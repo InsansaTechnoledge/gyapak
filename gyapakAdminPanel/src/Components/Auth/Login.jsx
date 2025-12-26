@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, Lock, Mail, AlertCircle } from 'lucide-react';
+import axiosInstance from '../../api/axiosConfig';
 
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
@@ -8,24 +9,62 @@ const Login = ({ onLogin }) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const ADMIN_EMAIL = 'test@insansa.com';
-  const ADMIN_PASSWORD = 'Insansa@1234';
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
-    // Simulate a small delay for better UX
-    setTimeout(() => {
-      if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-        localStorage.setItem('adminAuth', 'true');
+    try {
+      // Call login API
+      const response = await axiosInstance.post('/api/auth/login', {
+        email,
+        password
+      });
+
+      // Backend returns:
+      // {
+      //   success: true,
+      //   message: "Login successful",
+      //   token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+      //   user: { id, name, email, role }
+      // }
+
+      if (response.data.success) {
+        // Store JWT token in localStorage
+        localStorage.setItem('token', response.data.token);
+        
+        // Store user data in localStorage
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+
+        // From now on, all API requests will automatically include:
+        // Authorization: Bearer <token> (added by axios interceptor)
+
+        console.log('Login successful!');
+        console.log('User:', response.data.user);
+        console.log('Role:', response.data.user.role);
+
+        // Call parent onLogin callback
         onLogin();
       } else {
-        setError('Invalid email or password');
+        setError(response.data.message || 'Login failed');
       }
+    } catch (err) {
+      console.error('Login error:', err);
+      
+      // Handle different error scenarios
+      if (err.response) {
+        // Server responded with error
+        setError(err.response.data.message || 'Invalid email or password');
+      } else if (err.request) {
+        // Request made but no response
+        setError('Unable to connect to server. Please try again.');
+      } else {
+        // Something else happened
+        setError('An error occurred. Please try again.');
+      }
+    } finally {
       setLoading(false);
-    }, 500);
+    }
   };
 
   return (

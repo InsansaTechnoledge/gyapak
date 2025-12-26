@@ -1,17 +1,18 @@
-import axios from "axios";
-import { API_BASE_URL } from "../../config";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ScheduleAffairEditModal from "./scheduleAffairEditModal";
+import axiosInstance from "../../api/axiosConfig";
 
 const ScheduleCurrentffair = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [openModal, setOpenModal] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(null);
+  const startTime = useRef(null);
+
   const fetchScheduledAffairs = async () => {
     try {
-      const response = await axios.get(
-        `${API_BASE_URL}/api/v1i2/affair/scheduled-affair`
+      const response = await axiosInstance.get(
+        `/api/v1i2/affair/scheduled-affair`
       );
       setLoading(false);
       console.log(response.data.data);
@@ -23,12 +24,14 @@ const ScheduleCurrentffair = () => {
 
   const deleteScheduledAffair = async (id) => {
     try {
-      const response = await axios.delete(
-        `${API_BASE_URL}/api/v1i2/affair/scheduled-affair/${id}`
+      const totalTime = Math.floor((Date.now() - startTime.current) / 1000);
+      const response = await axiosInstance.delete(
+        `/api/v1i2/affair/scheduled-affair/?id=${id}&time=${totalTime}`
       );
       if (response.status === 200) {
         fetchScheduledAffairs();
-        return alert("Deleted succefully");}
+        return alert("Deleted successfully");
+      }
     } catch (err) {
       console.error(err);
     }
@@ -36,8 +39,9 @@ const ScheduleCurrentffair = () => {
 
   const handleUpdate = async (updatedRecord) => {
     try {
-      const response = await axios.put(
-        `${API_BASE_URL}/api/v1i2/affair/scheduled-affair/${updatedRecord._id}`,
+      const totalTime = Math.floor((Date.now() - startTime.current) / 1000);
+      const response = await axiosInstance.put(
+        `/api/v1i2/affair/scheduled-affair?id=${updatedRecord._id}&time=${totalTime}`,
         updatedRecord
       );
 
@@ -55,6 +59,7 @@ const ScheduleCurrentffair = () => {
 
   useEffect(() => {
     fetchScheduledAffairs();
+    startTime.current = Date.now();
   }, []);
   if (loading) {
     return <h1>.....Loading</h1>;

@@ -1,7 +1,7 @@
 // src/hooks/useNotifications.js
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
-import axios from "axios";
+import axiosInstance from "../../api/axiosConfig";
 
 const socket = io(import.meta.env.VITE_API_BASE);
 
@@ -12,10 +12,9 @@ export const useNotifications = (sourceCode) => {
     if (!sourceCode) return;
 
     (async () => {
-      const res = await axios.get(
-        `http:localhost://3000/api/notifications`,
-        { params: { sourceCode, limit: 50 } }
-      );
+      const res = await axiosInstance.get("/api/notifications", {
+        params: { sourceCode, limit: 50 },
+      });
       setNotifications(res.data.data || []);
     })();
 

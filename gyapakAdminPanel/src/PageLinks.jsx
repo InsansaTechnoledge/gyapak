@@ -10,10 +10,12 @@ import DataInsertion from "./Pages/DataInsertion";
 import AdminBlogPage from "./Components/BlogPage/AdminBlogPage";
 import Login from "./Components/Auth/Login";
 import ProtectedRoute from "./Components/Auth/ProtectedRoute";
+import AdminProtectedRoute from "./Components/Auth/AdminProtectedRoute";
 import { useAuth } from "./Components/Auth/AuthContext";
 import TrackNewUpdates from "./Pages/TrackNewUpdates";
 import Navbar from "./Components/Navbar/Navbar"; // ⬅️ move import here
 import SeoTools from "./Pages/SEO/SeoTools";
+import UserLogsComponent from "./Pages/userLogs/userLogs";
 import ThemeAdmin from "./Pages/SiteSettings/ThemeAdmin";
 
 const PageLinks = () => {
@@ -44,14 +46,7 @@ const PageLinks = () => {
             </ProtectedRoute>
           }
         />
-        <Route 
-          path="/site-setting"
-          element={
-            
-              <ThemeAdmin />
-            
-          } 
-        />
+        <Route path="/site-setting" element={<ThemeAdmin />} />
 
         <Route
           path="/post-blog"
@@ -76,7 +71,16 @@ const PageLinks = () => {
           }
         />
 
-        <Route path="/seo-tools" element={<SeoTools/>}/>
+        <Route path="/seo-tools" element={<SeoTools />} />
+
+        <Route
+          path="/logs"
+          element={
+            <AdminProtectedRoute>
+              <UserLogsComponent />
+            </AdminProtectedRoute>
+          }
+        />
       </Routes>
     </Router>
   );

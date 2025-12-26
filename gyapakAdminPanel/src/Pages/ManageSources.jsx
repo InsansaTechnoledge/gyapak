@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
-import axios from "axios";
+
 // import Pagination from "../components/ui/Pagination";
 import { API_BASE_URL } from "../config";
 import Pagination from "./SEO/Components/Pagination";
+import axiosInstance from "../api/axiosConfig";
 
 const API_BASE = API_BASE_URL;
 
@@ -34,7 +35,7 @@ export default function ManageSources() {
     setError("");
     try {
       // client-side pagination for reliability (works even if backend doesn't support page/limit)
-      const res = await axios.get(`${API_BASE}/api/sources`, {
+      const res = await axiosInstance.get(`/api/sources`, {
         withCredentials: true,
       });
       setAllSources(res?.data?.data || []);
@@ -55,7 +56,9 @@ export default function ManageSources() {
     if (!query) return allSources;
 
     return allSources.filter((s) => {
-      const hay = `${s.code || ""} ${s.name || ""} ${s.type || ""} ${s.baseUrl || ""}`.toLowerCase();
+      const hay = `${s.code || ""} ${s.name || ""} ${s.type || ""} ${
+        s.baseUrl || ""
+      }`.toLowerCase();
       return hay.includes(query);
     });
   }, [allSources, q]);
@@ -90,11 +93,11 @@ export default function ManageSources() {
 
     try {
       if (editingId) {
-        await axios.put(`${API_BASE}/api/sources/${editingId}`, form, {
+        await axiosInstance.put(`/api/sources/${editingId}`, form, {
           withCredentials: true,
         });
       } else {
-        await axios.post(`${API_BASE}/api/sources`, form, {
+        await axiosInstance.post(`/api/sources`, form, {
           withCredentials: true,
         });
       }
@@ -132,7 +135,7 @@ export default function ManageSources() {
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this source?")) return;
     try {
-      await axios.delete(`${API_BASE}/api/sources/${id}`, {
+      await axiosInstance.delete(`/api/sources/${id}`, {
         withCredentials: true,
       });
       await fetchSources();
@@ -144,8 +147,8 @@ export default function ManageSources() {
 
   const handleToggleActive = async (source) => {
     try {
-      await axios.put(
-        `${API_BASE}/api/sources/${source._id}`,
+      await axiosInstance.put(
+        `/api/sources/${source._id}`,
         { isActive: !source.isActive },
         { withCredentials: true }
       );
@@ -160,8 +163,12 @@ export default function ManageSources() {
     <div className="mx-auto px-4 py-6">
       <div className="flex items-end justify-between gap-3 mb-4">
         <div>
-          <h1 className="text-2xl font-semibold text-slate-800">Manage Sources</h1>
-          <p className="text-sm text-slate-500">Create, edit, activate/deactivate sources.</p>
+          <h1 className="text-2xl font-semibold text-slate-800">
+            Manage Sources
+          </h1>
+          <p className="text-sm text-slate-500">
+            Create, edit, activate/deactivate sources.
+          </p>
         </div>
         {loading && <span className="text-xs text-slate-500">Loading…</span>}
       </div>
@@ -193,7 +200,9 @@ export default function ManageSources() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Code (unique)</label>
+          <label className="block text-sm font-medium mb-1">
+            Code (unique)
+          </label>
           <input
             name="code"
             value={form.code}
@@ -229,7 +238,9 @@ export default function ManageSources() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Notification URL</label>
+          <label className="block text-sm font-medium mb-1">
+            Notification URL
+          </label>
           <input
             name="notificationUrl"
             value={form.notificationUrl}
@@ -255,7 +266,9 @@ export default function ManageSources() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Interval (minutes)</label>
+          <label className="block text-sm font-medium mb-1">
+            Interval (minutes)
+          </label>
           <input
             name="intervalMinutes"
             type="number"
@@ -288,7 +301,13 @@ export default function ManageSources() {
             disabled={saving}
             className="px-4 py-2 text-sm rounded-md bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-60"
           >
-            {saving ? (editingId ? "Updating..." : "Saving...") : editingId ? "Update Source" : "Add Source"}
+            {saving
+              ? editingId
+                ? "Updating..."
+                : "Saving..."
+              : editingId
+              ? "Update Source"
+              : "Add Source"}
           </button>
         </div>
       </form>
@@ -381,7 +400,11 @@ export default function ManageSources() {
         )}
 
         <div className="mt-4">
-          <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+          <Pagination
+            page={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
         </div>
       </div>
     </div>

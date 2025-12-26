@@ -1,46 +1,71 @@
-import React, { useState } from 'react';
-import { uploadCurrentAffair } from '../../Services/service';
-import { Calendar, Tag, Globe, Eye, Link, Image, Video, Plus, Trash2, Upload, CheckCircle, AlertCircle } from 'lucide-react';
+import React, { useState, useRef, useEffect } from "react";
+import { uploadCurrentAffair } from "../../Services/service";
+import {
+  Calendar,
+  Tag,
+  Globe,
+  Eye,
+  Link,
+  Image,
+  Video,
+  Plus,
+  Trash2,
+  Upload,
+  CheckCircle,
+  AlertCircle,
+} from "lucide-react";
 
 const categoryOptions = [
-  'Politics', 'Economy', 'International', 'Science & Tech',
-  'Environment', 'Sports', 'Awards', 'Obituaries', 'Miscellaneous'
+  "Politics",
+  "Economy",
+  "International",
+  "Science & Tech",
+  "Environment",
+  "Sports",
+  "Awards",
+  "Obituaries",
+  "Miscellaneous",
 ];
 
 const getNewInitialAffair = () => ({
-  title: '',
-  content: '',
-  tags: '',
-  category: '',
-  language: 'en',
-  visibility: 'public',
-  source: '',
-  imageUrl: '',
-  videoUrl: '',
-  questions: [  
+  title: "",
+  content: "",
+  tags: "",
+  category: "",
+  language: "en",
+  visibility: "public",
+  source: "",
+  imageUrl: "",
+  videoUrl: "",
+  questions: [
     {
       id: Date.now() + Math.random(),
-      text: '',
-      options: ['', '', '', ''],
-      answer: ''
-    }
+      text: "",
+      options: ["", "", "", ""],
+      answer: "",
+    },
   ],
   singleLineQuestions: [
     {
-        text: ' '
-    }
+      text: " ",
+    },
   ],
-  details: '',
-
+  details: "",
 });
 
 export default function CurrentAffairUploadForm() {
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState("");
   const [affairs, setAffairs] = useState([{ ...getNewInitialAffair() }]);
   const [loading, setLoading] = useState(false);
-  const [successMsg, setSuccessMsg] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+  const startTime = useRef(null);
 
+  useEffect(() => {
+    startTime.current = Date.now();
+  }, []);
+
+  console.log("start time", startTime);
   const handleChange = (index, field, value) => {
     const updated = [...affairs];
     updated[index][field] = value;
@@ -61,70 +86,73 @@ export default function CurrentAffairUploadForm() {
     updatedAffairs[affairIndex].questions[qIndex][field] = value;
     setAffairs(updatedAffairs);
   };
-  
+
   const handleOptionChange = (affairIndex, qIndex, optIndex, value) => {
     const updated = [...affairs];
     updated[affairIndex].questions[qIndex].options[optIndex] = value;
     setAffairs(updated);
   };
-  
+
   const addQuestion = (affairIndex) => {
-  const updated = [...affairs];
-  updated[affairIndex].questions.push({
-    id: Date.now() + Math.random(),
-    text: '',
-    options: ['', '', '', ''],
-    answer: ''
-  });
-  setAffairs(updated);
-};
-  
+    const updated = [...affairs];
+    updated[affairIndex].questions.push({
+      id: Date.now() + Math.random(),
+      text: "",
+      options: ["", "", "", ""],
+      answer: "",
+    });
+    setAffairs(updated);
+  };
+
   const removeQuestion = (affairIndex, qIndex) => {
     const updated = [...affairs];
     updated[affairIndex].questions.splice(qIndex, 1);
     setAffairs(updated);
   };
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setSuccessMsg('');
-    setErrorMsg('');
-  
+    setSuccessMsg("");
+    setErrorMsg("");
+
     const formatted = affairs.map((a) => {
-        const fixedTags = Array.isArray(a.tags)
-          ? a.tags
-          : a.tags.split(',').map(tag => tag.trim()).filter(Boolean);
-      
-        const singleLineQuestions = Array.isArray(a.singleLineQuestions)
-          ? a.singleLineQuestions
-              .filter(q => q.text && q.text.trim())
-              .map(q => ({ text: q.text.trim() }))
-          : [];
-      
-          return {
-            ...a,
-            tags: fixedTags,
-            singleLineQuestion: singleLineQuestions, 
-          };
-          
-      });
-      
-  
-    const payload = { date, affairs: formatted };
-  
-    console.log('📤 Uploading payload:', payload);
-  
+      const fixedTags = Array.isArray(a.tags)
+        ? a.tags
+        : a.tags
+            .split(",")
+            .map((tag) => tag.trim())
+            .filter(Boolean);
+
+      const singleLineQuestions = Array.isArray(a.singleLineQuestions)
+        ? a.singleLineQuestions
+            .filter((q) => q.text && q.text.trim())
+            .map((q) => ({ text: q.text.trim() }))
+        : [];
+
+      return {
+        ...a,
+        tags: fixedTags,
+        singleLineQuestion: singleLineQuestions,
+      };
+    });
+     const totalTime = Math.floor((Date.now() - startTime.current) / 1000);
+      console.log("Total time:", totalTime);
+
+    const payload = { date, affairs: formatted ,totalTime};
+
+    console.log("📤 Uploading payload:", payload);
+
     try {
+     
       const res = await uploadCurrentAffair(payload);
-      console.log('✅ Response:', res);
-      setSuccessMsg('Current affairs uploaded successfully!');
-      setErrorMsg('');
+      console.log("✅ Response:", res);
+      setSuccessMsg("Current affairs uploaded successfully!");
+      setErrorMsg("");
       setAffairs([{ ...getNewInitialAffair() }]);
-      setDate('');
+      setDate("");
     } catch (err) {
-      console.error('❌ Upload failed:', err);
+      console.error("❌ Upload failed:", err);
       setErrorMsg(err?.response?.data?.message || err.message);
     } finally {
       setLoading(false);
@@ -134,8 +162,12 @@ export default function CurrentAffairUploadForm() {
   return (
     <div className="max-w-4xl mx-auto p-8 bg-white shadow-lg rounded-xl">
       <div className="mb-8 text-center">
-        <h1 className="text-3xl font-bold text-gray-800">Current Affairs Management</h1>
-        <p className="text-gray-500 mt-2">Upload and manage daily current affairs content</p>
+        <h1 className="text-3xl font-bold text-gray-800">
+          Current Affairs Management
+        </h1>
+        <p className="text-gray-500 mt-2">
+          Upload and manage daily current affairs content
+        </p>
       </div>
 
       {successMsg && (
@@ -144,7 +176,7 @@ export default function CurrentAffairUploadForm() {
           <span>{successMsg}</span>
         </div>
       )}
-      
+
       {errorMsg && (
         <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center text-red-700">
           <AlertCircle className="h-5 w-5 mr-2" />
@@ -168,7 +200,10 @@ export default function CurrentAffairUploadForm() {
         </div>
 
         {affairs.map((affair, index) => (
-          <div key={index} className="border border-gray-200 rounded-xl overflow-hidden bg-white">
+          <div
+            key={index}
+            className="border border-gray-200 rounded-xl overflow-hidden bg-white"
+          >
             <div className="bg-blue-50 p-4 border-b border-gray-200">
               <h3 className="text-lg font-medium text-gray-800 flex items-center">
                 Current Affair #{index + 1}
@@ -184,14 +219,16 @@ export default function CurrentAffairUploadForm() {
                 )}
               </h3>
             </div>
-            
+
             <div className="p-6 space-y-5">
               <div>
-                <label className="block text-gray-700 font-medium mb-2">Title</label>
+                <label className="block text-gray-700 font-medium mb-2">
+                  Title
+                </label>
                 <input
                   type="text"
                   value={affair.title}
-                  onChange={(e) => handleChange(index, 'title', e.target.value)}
+                  onChange={(e) => handleChange(index, "title", e.target.value)}
                   placeholder="Enter a descriptive title"
                   required
                   className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
@@ -199,17 +236,22 @@ export default function CurrentAffairUploadForm() {
               </div>
 
               <div>
-                <label className="block text-gray-700 font-medium mb-2">Content</label>
+                <label className="block text-gray-700 font-medium mb-2">
+                  Content
+                </label>
                 <textarea
                   value={affair.content}
-                  onChange={(e) => handleChange(index, 'content', e.target.value)}
+                  onChange={(e) =>
+                    handleChange(index, "content", e.target.value)
+                  }
                   placeholder="Enter the detailed content here. Use bullet points by starting lines with • or - for better formatting."
                   required
                   rows={6}
                   className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                 />
                 <p className="text-sm text-gray-500 mt-1">
-                  💡 <strong>Formatting tip:</strong> Start lines with • or - to create bullet points. Use line breaks to separate paragraphs.
+                  💡 <strong>Formatting tip:</strong> Start lines with • or - to
+                  create bullet points. Use line breaks to separate paragraphs.
                 </p>
               </div>
 
@@ -222,23 +264,31 @@ export default function CurrentAffairUploadForm() {
                   <input
                     type="text"
                     value={affair.tags}
-                    onChange={(e) => handleChange(index, 'tags', e.target.value)}
+                    onChange={(e) =>
+                      handleChange(index, "tags", e.target.value)
+                    }
                     placeholder="Separate tags with commas"
                     className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-gray-700 font-medium mb-2">Category</label>
+                  <label className="block text-gray-700 font-medium mb-2">
+                    Category
+                  </label>
                   <select
                     value={affair.category}
-                    onChange={(e) => handleChange(index, 'category', e.target.value)}
+                    onChange={(e) =>
+                      handleChange(index, "category", e.target.value)
+                    }
                     required
                     className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white"
                   >
                     <option value="">Select a category</option>
-                    {categoryOptions.map(cat => (
-                      <option key={cat} value={cat}>{cat}</option>
+                    {categoryOptions.map((cat) => (
+                      <option key={cat} value={cat}>
+                        {cat}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -252,7 +302,9 @@ export default function CurrentAffairUploadForm() {
                   </label>
                   <select
                     value={affair.language}
-                    onChange={(e) => handleChange(index, 'language', e.target.value)}
+                    onChange={(e) =>
+                      handleChange(index, "language", e.target.value)
+                    }
                     className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white"
                   >
                     <option value="en">English</option>
@@ -267,7 +319,9 @@ export default function CurrentAffairUploadForm() {
                   </label>
                   <select
                     value={affair.visibility}
-                    onChange={(e) => handleChange(index, 'visibility', e.target.value)}
+                    onChange={(e) =>
+                      handleChange(index, "visibility", e.target.value)
+                    }
                     className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white"
                   >
                     <option value="public">Public</option>
@@ -275,50 +329,52 @@ export default function CurrentAffairUploadForm() {
                   </select>
                 </div>
               </div>
-{/* Single Line Questions */}
-<div>
-  <label className="block text-sm font-medium text-gray-700 mb-1">Single Line Questions</label>
-  {Array.isArray(affair.singleLineQuestions) &&
-    affair.singleLineQuestions.map((q, qIndex) => (
-      <div key={qIndex} className="flex gap-2 mb-2">
-        <input
-          type="text"
-          value={q.text}
-          onChange={(e) => {
-            const updated = [...affairs];
-            updated[index].singleLineQuestions[qIndex].text = e.target.value;
-            setAffairs(updated);
-          }}
-          placeholder={`Question ${qIndex + 1}`}
-          className="w-full border border-gray-300 px-3 py-2 rounded-lg"
-        />
-        <button
-          type="button"
-          onClick={() => {
-            const updated = [...affairs];
-            updated[index].singleLineQuestions.splice(qIndex, 1);
-            setAffairs(updated);
-          }}
-          className="text-red-600 text-xs underline"
-        >
-          Remove
-        </button>
-      </div>
-    ))}
+              {/* Single Line Questions */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Single Line Questions
+                </label>
+                {Array.isArray(affair.singleLineQuestions) &&
+                  affair.singleLineQuestions.map((q, qIndex) => (
+                    <div key={qIndex} className="flex gap-2 mb-2">
+                      <input
+                        type="text"
+                        value={q.text}
+                        onChange={(e) => {
+                          const updated = [...affairs];
+                          updated[index].singleLineQuestions[qIndex].text =
+                            e.target.value;
+                          setAffairs(updated);
+                        }}
+                        placeholder={`Question ${qIndex + 1}`}
+                        className="w-full border border-gray-300 px-3 py-2 rounded-lg"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const updated = [...affairs];
+                          updated[index].singleLineQuestions.splice(qIndex, 1);
+                          setAffairs(updated);
+                        }}
+                        className="text-red-600 text-xs underline"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
 
-  <button
-    type="button"
-    onClick={() => {
-      const updated = [...affairs];
-      updated[index].singleLineQuestions.push({ text: '' });
-      setAffairs(updated);
-    }}
-    className="text-blue-600 text-sm underline mt-2"
-  >
-    + Add Single Line Question
-  </button>
-</div>
-
+                <button
+                  type="button"
+                  onClick={() => {
+                    const updated = [...affairs];
+                    updated[index].singleLineQuestions.push({ text: "" });
+                    setAffairs(updated);
+                  }}
+                  className="text-blue-600 text-sm underline mt-2"
+                >
+                  + Add Single Line Question
+                </button>
+              </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
@@ -329,26 +385,28 @@ export default function CurrentAffairUploadForm() {
                   <input
                     type="url"
                     value={affair.imageUrl}
-                    onChange={(e) => handleChange(index, 'imageUrl', e.target.value)}
+                    onChange={(e) =>
+                      handleChange(index, "imageUrl", e.target.value)
+                    }
                     placeholder="https://example.com/image.jpg"
                     className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                   />
-                    {affair.imageUrl && (
-                      <div className="mt-2 flex justify-center">
-                        <img
-                          src={affair.imageUrl}
-                          alt="Preview"
-                          style={{
-                            maxWidth: '100%',
-                            height: 'auto',
-                            maxHeight: '200px',
-                            objectFit: 'contain',
-                            borderRadius: '0.5rem',
-                            boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
-                          }}
-                        />
-                      </div>
-                    )}
+                  {affair.imageUrl && (
+                    <div className="mt-2 flex justify-center">
+                      <img
+                        src={affair.imageUrl}
+                        alt="Preview"
+                        style={{
+                          maxWidth: "100%",
+                          height: "auto",
+                          maxHeight: "200px",
+                          objectFit: "contain",
+                          borderRadius: "0.5rem",
+                          boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                        }}
+                      />
+                    </div>
+                  )}
                 </div>
 
                 <div>
@@ -359,60 +417,88 @@ export default function CurrentAffairUploadForm() {
                   <input
                     type="url"
                     value={affair.videoUrl}
-                    onChange={(e) => handleChange(index, 'videoUrl', e.target.value)}
+                    onChange={(e) =>
+                      handleChange(index, "videoUrl", e.target.value)
+                    }
                     placeholder="https://youtube.com/watch?v=xyz"
                     className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                   />
                 </div>
 
                 <div className="mt-6">
-                <h4 className="text-md font-semibold text-purple-800 mb-3">🧠 Add Questions</h4>
-                {affair.questions.map((q, qIndex) => (
-                    <div key={q.id} className="bg-purple-50 p-4 rounded border border-purple-200 mb-4 space-y-3">
-                    <input
+                  <h4 className="text-md font-semibold text-purple-800 mb-3">
+                    🧠 Add Questions
+                  </h4>
+                  {affair.questions.map((q, qIndex) => (
+                    <div
+                      key={q.id}
+                      className="bg-purple-50 p-4 rounded border border-purple-200 mb-4 space-y-3"
+                    >
+                      <input
                         type="text"
                         value={q.text}
-                        onChange={(e) => handleQuestionChange(index, qIndex, 'text', e.target.value)}
+                        onChange={(e) =>
+                          handleQuestionChange(
+                            index,
+                            qIndex,
+                            "text",
+                            e.target.value
+                          )
+                        }
                         placeholder="Enter question text"
                         className="w-full border border-gray-300 p-2 rounded"
-                    />
-                    {q.options.map((opt, optIndex) => (
+                      />
+                      {q.options.map((opt, optIndex) => (
                         <input
-                        key={optIndex}
-                        type="text"
-                        value={opt}
-                        onChange={(e) => handleOptionChange(index, qIndex, optIndex, e.target.value)}
-                        placeholder={`Option ${optIndex + 1}`}
-                        className="w-full border border-gray-300 p-2 rounded"
+                          key={optIndex}
+                          type="text"
+                          value={opt}
+                          onChange={(e) =>
+                            handleOptionChange(
+                              index,
+                              qIndex,
+                              optIndex,
+                              e.target.value
+                            )
+                          }
+                          placeholder={`Option ${optIndex + 1}`}
+                          className="w-full border border-gray-300 p-2 rounded"
                         />
-                    ))}
-                    <input
+                      ))}
+                      <input
                         type="text"
                         value={q.answer}
-                        onChange={(e) => handleQuestionChange(index, qIndex, 'answer', e.target.value)}
+                        onChange={(e) =>
+                          handleQuestionChange(
+                            index,
+                            qIndex,
+                            "answer",
+                            e.target.value
+                          )
+                        }
                         placeholder="Correct answer"
                         className="w-full border border-green-300 p-2 rounded"
-                    />
-                    <button
+                      />
+                      <button
                         type="button"
                         onClick={() => removeQuestion(index, qIndex)}
                         className="text-red-600 text-sm underline"
-                    >
+                      >
                         Remove Question
-                    </button>
+                      </button>
                     </div>
-                ))}
-                <button
+                  ))}
+                  <button
                     type="button"
                     onClick={() => addQuestion(index)}
                     className="text-blue-600 text-sm underline"
-                >
+                  >
                     + Add Question
-                </button>
+                  </button>
                 </div>
 
                 {/* Single Line Questions */}
-            
+
                 {/* <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Single Line Questions</label>
                 {Array.isArray(affair.singleLineQuestions) &&
@@ -457,17 +543,19 @@ export default function CurrentAffairUploadForm() {
                 </div> */}
 
                 <div>
-                    <label className="block text-gray-700 font-medium mb-2">Detailed Notes (optional)</label>
-                    <textarea
-                        value={affair.details}
-                        onChange={(e) => handleChange(index, 'details', e.target.value)}
-                        placeholder="Enter extended explanation or notes"
-                        rows={6}
-                        className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                    />
+                  <label className="block text-gray-700 font-medium mb-2">
+                    Detailed Notes (optional)
+                  </label>
+                  <textarea
+                    value={affair.details}
+                    onChange={(e) =>
+                      handleChange(index, "details", e.target.value)
+                    }
+                    placeholder="Enter extended explanation or notes"
+                    rows={6}
+                    className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                  />
                 </div>
-
-
               </div>
             </div>
           </div>

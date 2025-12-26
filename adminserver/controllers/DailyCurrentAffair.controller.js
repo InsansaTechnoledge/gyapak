@@ -1,5 +1,6 @@
 // import { DailyCurrentAffairPdf } from "../models/DailyCurrentAffairPdf.js";
 
+import userActivity from "../models/activity.model.js";
 import { DailyCurrentAffairPdf } from "../models/DailyCurrentAfairPdf.js";
 
 export const addNewPdf = async (req, res) => {
@@ -14,6 +15,18 @@ export const addNewPdf = async (req, res) => {
       isScheduled,
       scheduledPublishDate,
     } = req.body;
+
+    const { time } = req.query;
+
+    // Validate totalTime - must be a valid positive number
+    const totalTime = Number(time);
+    if (isNaN(totalTime) || totalTime < 0) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Invalid or missing totalTime parameter. Please ensure the time is calculated correctly on the frontend.",
+      });
+    }
 
     if (!pdfLink || !date) {
       return res
@@ -55,6 +68,19 @@ export const addNewPdf = async (req, res) => {
 
     await newPdf.save();
 
+    const newUserActivity = userActivity({
+      userId: req.user.id,
+      event: {
+        eventType: "DailyCurrentAffairPdf",
+        eventId: newPdf._id,
+        eventStamp: {
+          title: DailyCurrentAffairPdf.title,
+        },
+        action: "created",
+        totalTime: totalTime,
+      },
+    });
+    await newUserActivity.save();
     return res.status(201).json({
       message: isScheduled
         ? "PDF scheduled successfully."
@@ -256,7 +282,17 @@ export const fetchPdf = async (req, res) => {
 export const deletePdfByID = async (req, res) => {
   try {
     const { id } = req.body;
+    const { time } = req.query;
 
+    // Validate totalTime - must be a valid positive number
+    const totalTime = Number(time);
+    if (isNaN(totalTime) || totalTime < 0) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Invalid or missing totalTime parameter. Please ensure the time is calculated correctly on the frontend.",
+      });
+    }
     console.log(id);
 
     if (!id) {
@@ -273,6 +309,19 @@ export const deletePdfByID = async (req, res) => {
         .json({ message: "No PDF found with the given id." });
     }
 
+    const newUserActivity = userActivity({
+      userId: req.user.id,
+      event: {
+        eventType: "DailyCurrentAffairPdf",
+        eventId: deleted,
+        action: "deleted",
+        eventStamp: {
+          title: deleted.title,
+        },
+        totalTime: totalTime,
+      },
+    });
+    await newUserActivity.save();
     return res.status(200).json({
       message: "PDF deleted successfully",
     });

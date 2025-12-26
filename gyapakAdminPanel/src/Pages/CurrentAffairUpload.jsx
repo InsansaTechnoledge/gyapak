@@ -1,28 +1,36 @@
-import React, { useEffect, useState } from 'react';
-import CurrentAffairUploadForm from '../Components/currentAffairs/CurrentAffairUploadForm';
-import { createNewPdf, fetchpdfs } from '../Services/CurrentAffairSevice';
+import React, { useEffect, useRef, useState } from "react";
+import CurrentAffairUploadForm from "../Components/currentAffairs/CurrentAffairUploadForm";
+import { createNewPdf, fetchpdfs } from "../Services/CurrentAffairSevice";
 
 const UploadCurrentAffairsPage = () => {
-  const [date, setDate] = useState('');
-  const [pdfLink , setPdfLink] = useState('');
-  const [title, setTitle] = useState('');
-  const [category , setCategory] = useState('');
-  const [description , setDescription] = useState('');
-  const [tags , setTags] = useState([]);
+  const [date, setDate] = useState("");
+  const [pdfLink, setPdfLink] = useState("");
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
+  const [tags, setTags] = useState([]);
   const [isScheduled, setIsScheduled] = useState(false);
-  const [scheduledPublishDate, setScheduledPublishDate] = useState('');
-  
-  const CategoryDropdown = ['Current Affairs', 'Editorial', 'MCQs', 'Monthly Summary'];
-  const [tagInput, setTagInput] = useState('');
-
+  const [scheduledPublishDate, setScheduledPublishDate] = useState("");
+  const startTime = useRef(null);
+  const CategoryDropdown = [
+    "Current Affairs",
+    "Editorial",
+    "MCQs",
+    "Monthly Summary",
+  ];
+  const [tagInput, setTagInput] = useState("");
+  useEffect(() => {
+    startTime.current = Date.now();
+    console.log(startTime);
+  }, []);
   const handleTagKeyDown = (e) => {
-    if ((e.key === 'Enter' || e.key === ',') && tagInput.trim()) {
+    if ((e.key === "Enter" || e.key === ",") && tagInput.trim()) {
       e.preventDefault();
       const newTag = tagInput.trim();
       if (!tags.includes(newTag)) {
         setTags([...tags, newTag]);
       }
-      setTagInput('');
+      setTagInput("");
     }
   };
 
@@ -33,13 +41,13 @@ const UploadCurrentAffairsPage = () => {
   const handleUpload = async () => {
     // Validation for category selection
     if (!category) {
-      alert('Please select a category before uploading');
+      alert("Please select a category before uploading");
       return;
     }
 
     // Validation for scheduled uploads
     if (isScheduled && !scheduledPublishDate) {
-      alert('Please select a scheduled publish date and time');
+      alert("Please select a scheduled publish date and time");
       return;
     }
 
@@ -50,10 +58,14 @@ const UploadCurrentAffairsPage = () => {
       // We need to convert it to UTC ISO string
       const localDate = new Date(scheduledPublishDate);
       scheduledDateUTC = localDate.toISOString();
-      
-      console.log('Local scheduled time:', scheduledPublishDate);
-      console.log('UTC scheduled time:', scheduledDateUTC);
-      console.log('User timezone offset:', -localDate.getTimezoneOffset() / 60, 'hours');
+
+      console.log("Local scheduled time:", scheduledPublishDate);
+      console.log("UTC scheduled time:", scheduledDateUTC);
+      console.log(
+        "User timezone offset:",
+        -localDate.getTimezoneOffset() / 60,
+        "hours"
+      );
     }
 
     const formdata = {
@@ -65,46 +77,68 @@ const UploadCurrentAffairsPage = () => {
       tags,
       isScheduled,
       scheduledPublishDate: scheduledDateUTC,
-    }
-    
+    };
+
     try {
-      await createNewPdf(formdata);
-      console.log("Upload data:", formdata);
-      alert(isScheduled ? 'PDF scheduled successfully!' : 'PDF uploaded successfully!');
+      // Calculate total time and validate
+      const totalTime = Math.floor((Date.now() - startTime.current) / 1000);
       
+      // Validate totalTime before sending
+      if (isNaN(totalTime) || totalTime < 0) {
+        console.error("Invalid totalTime calculated:", totalTime);
+        alert("Error: Unable to calculate time. Please refresh the page and try again.");
+        return;
+      }
+      
+      console.log("total time", totalTime);
+      await createNewPdf(formdata, totalTime);
+      console.log("Upload data:", formdata);
+      alert(
+        isScheduled
+          ? "PDF scheduled successfully!"
+          : "PDF uploaded successfully!"
+      );
+
       // Reset form
-      setDate('');
-      setPdfLink('');
-      setTitle('');
-      setCategory('');
-      setDescription('');
+      setDate("");
+      setPdfLink("");
+      setTitle("");
+      setCategory("");
+      setDescription("");
       setTags([]);
       setIsScheduled(false);
-      setScheduledPublishDate('');
+      setScheduledPublishDate("");
+      
+      // Reset start time for next upload
+      startTime.current = Date.now();
     } catch (error) {
-      console.error('Upload error:', error);
-      alert('Failed to upload PDF. Please try again.');
+      console.error("Upload error:", error);
+      alert("Failed to upload PDF. Please try again.");
     }
-  }
-
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center p-6">
       <div className="bg-white w-full max-w-3xl shadow-lg rounded-2xl p-8 mb-10">
-
         {/* Header */}
         <div className="text-center border-b pb-4 mb-6">
-          <h1 className="text-3xl font-bold text-gray-800">Upload Daily Current Affair PDF</h1>
+          <h1 className="text-3xl font-bold text-gray-800">
+            Upload Daily Current Affair PDF
+          </h1>
           <p className="text-sm text-gray-500 mt-2">
             Upload the daily current affairs PDF here. <br />
-            <span className="text-red-500 font-medium">Only one upload per date is allowed.</span>
+            <span className="text-red-500 font-medium">
+              Only one upload per date is allowed.
+            </span>
           </p>
         </div>
 
         {/* Date */}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
-          <label className="text-md font-medium text-gray-700">Choose Date of Upload:</label>
-          <input 
+          <label className="text-md font-medium text-gray-700">
+            Choose Date of Upload:
+          </label>
+          <input
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
@@ -114,19 +148,23 @@ const UploadCurrentAffairsPage = () => {
 
         {/* Title */}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
-          <label className="text-md font-medium text-gray-700">Choose Title for Today</label>
-          <input 
+          <label className="text-md font-medium text-gray-700">
+            Choose Title for Today
+          </label>
+          <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder='Enter your title here'
+            placeholder="Enter your title here"
             className="border border-gray-300 rounded-xl px-4 py-2 text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none"
           />
         </div>
 
         {/* Description */}
         <div className="flex flex-col gap-3 mb-8">
-          <label className="text-md font-medium text-gray-700">Write a brief Description (max 500 words)</label>
+          <label className="text-md font-medium text-gray-700">
+            Write a brief Description (max 500 words)
+          </label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -135,33 +173,41 @@ const UploadCurrentAffairsPage = () => {
             maxLength={3000} // roughly 500 words
             className="border border-gray-300 rounded-xl px-4 py-3 text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none resize-none"
           />
-          <p className="text-sm text-gray-400 text-right">{description.length}/3000 characters</p>
+          <p className="text-sm text-gray-400 text-right">
+            {description.length}/3000 characters
+          </p>
         </div>
 
         {/* Category */}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
-          <label className="text-md font-medium text-gray-700">Choose Category</label>
-          <select 
-            value={category} 
+          <label className="text-md font-medium text-gray-700">
+            Choose Category
+          </label>
+          <select
+            value={category}
             onChange={(e) => {
               setCategory(e.target.value);
               // Reset scheduling when category changes
-              if (e.target.value !== 'Monthly Summary') {
+              if (e.target.value !== "Monthly Summary") {
                 setIsScheduled(false);
-                setScheduledPublishDate('');
+                setScheduledPublishDate("");
               }
-            }}             
+            }}
             className="border border-gray-300 rounded-xl px-4 py-2 text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none"
           >
-            <option className='text-sm text-gray-400' value="">--Choose Category--</option>
-            {CategoryDropdown.map(c => (
-              <option key={c} value={c}>{c}</option>
+            <option className="text-sm text-gray-400" value="">
+              --Choose Category--
+            </option>
+            {CategoryDropdown.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
             ))}
           </select>
         </div>
 
         {/* Scheduling Options - Only for Monthly Summary */}
-        {category === 'Monthly Summary' && (
+        {category === "Monthly Summary" && (
           <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-8">
             <div className="flex items-center gap-3 mb-4">
               <input
@@ -171,12 +217,15 @@ const UploadCurrentAffairsPage = () => {
                 onChange={(e) => {
                   setIsScheduled(e.target.checked);
                   if (!e.target.checked) {
-                    setScheduledPublishDate('');
+                    setScheduledPublishDate("");
                   }
                 }}
                 className="w-5 h-5 text-blue-600 rounded focus:ring-2 focus:ring-blue-400"
               />
-              <label htmlFor="scheduleCheckbox" className="text-md font-medium text-gray-700 cursor-pointer">
+              <label
+                htmlFor="scheduleCheckbox"
+                className="text-md font-medium text-gray-700 cursor-pointer"
+              >
                 Schedule Upload
               </label>
             </div>
@@ -194,7 +243,8 @@ const UploadCurrentAffairsPage = () => {
                   className="border border-gray-300 rounded-xl px-4 py-2 text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none"
                 />
                 <p className="text-xs text-gray-500">
-                  The PDF will become visible to users after this date and time (in your local timezone)
+                  The PDF will become visible to users after this date and time
+                  (in your local timezone)
                 </p>
               </div>
             )}
@@ -249,15 +299,17 @@ const UploadCurrentAffairsPage = () => {
           </div>
         </div>
 
-        <button className='border-1 py-3 px-4 rounded-2xl mb-4 bg-purple-700 text-gray-100 hover:bg-purple-800 transition-colors' onClick={handleUpload}>
-          {isScheduled ? 'Schedule PDF Upload' : 'Upload PDF Immediately'}
+        <button
+          className="border-1 py-3 px-4 rounded-2xl mb-4 bg-purple-700 text-gray-100 hover:bg-purple-800 transition-colors"
+          onClick={handleUpload}
+        >
+          {isScheduled ? "Schedule PDF Upload" : "Upload PDF Immediately"}
         </button>
 
         {/* Upload Form */}
         <div className="border-t pt-6">
           <CurrentAffairUploadForm selectedDate={date} />
         </div>
-
       </div>
     </div>
   );

@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from "react";
-import axios from "axios";
 import {
   ResponsiveContainer,
   BarChart,
@@ -12,6 +11,7 @@ import {
   Line,
   Legend,
 } from "recharts";
+import axiosInstance from "../../../api/axiosConfig";
 
 // const API_URL = "http://localhost:3000/api/gsc/queries";
 
@@ -24,7 +24,9 @@ const Ranges = [
 ];
 
 const formatCompact = (n) =>
-  new Intl.NumberFormat("en-IN", { notation: "compact" }).format(Number(n || 0));
+  new Intl.NumberFormat("en-IN", { notation: "compact" }).format(
+    Number(n || 0)
+  );
 
 const formatNumber = (n) =>
   new Intl.NumberFormat("en-IN").format(Number(n || 0));
@@ -47,7 +49,7 @@ function calcQualityLabel({ ctr, position, impressions }) {
   return "Average";
 }
 
-export default function GSCQueriesPage({url}) {
+export default function GSCQueriesPage() {
   const [range, setRange] = useState("7d");
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -55,8 +57,8 @@ export default function GSCQueriesPage({url}) {
 
   // table controls
   const [q, setQ] = useState("");
-  const [sortBy, setSortBy] = useState("clicks"); 
-  const [sortDir, setSortDir] = useState("desc"); 
+  const [sortBy, setSortBy] = useState("clicks");
+  const [sortDir, setSortDir] = useState("desc");
   const [page, setPage] = useState(1);
   const pageSize = 10;
 
@@ -65,7 +67,7 @@ export default function GSCQueriesPage({url}) {
       setLoading(true);
       setErr("");
       try {
-        const res = await axios.get(`${url}/gsc/queries?range=${range}`);
+        const res = await axiosInstance.get(`/api/gsc/queries?range=${range}`);
         const raw = Array.isArray(res.data?.rows) ? res.data.rows : [];
         const normalized = raw.map((r, idx) => {
           const query = safeKey(r.keys);
@@ -88,7 +90,11 @@ export default function GSCQueriesPage({url}) {
         setPage(1);
       } catch (e) {
         console.log(e);
-        setErr(e?.response?.data?.message || e?.message || "Failed to load query data");
+        setErr(
+          e?.response?.data?.message ||
+            e?.message ||
+            "Failed to load query data"
+        );
         setRows([]);
       } finally {
         setLoading(false);
@@ -111,8 +117,14 @@ export default function GSCQueriesPage({url}) {
         ? rows.reduce((s, r) => s + r.position * r.impressions, 0) / totalImpr
         : rows.reduce((s, r) => s + r.position, 0) / rows.length;
 
-    const topClick = rows.reduce((best, r) => (r.clicks > best.clicks ? r : best), rows[0]);
-    const topImpr = rows.reduce((best, r) => (r.impressions > best.impressions ? r : best), rows[0]);
+    const topClick = rows.reduce(
+      (best, r) => (r.clicks > best.clicks ? r : best),
+      rows[0]
+    );
+    const topImpr = rows.reduce(
+      (best, r) => (r.impressions > best.impressions ? r : best),
+      rows[0]
+    );
 
     const opportunities = rows
       .filter((r) => r.impressions >= 100 && r.ctr < 0.02)
@@ -192,9 +204,12 @@ export default function GSCQueriesPage({url}) {
       {/* Header */}
       <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-3xl font-semibold text-gray-900">GSC Query Performance</h1>
+          <h1 className="text-3xl font-semibold text-gray-900">
+            GSC Query Performance
+          </h1>
           <p className="text-sm text-gray-500 mt-1">
-            Shows how your site performs per search query (Clicks, Impressions, CTR, Position).
+            Shows how your site performs per search query (Clicks, Impressions,
+            CTR, Position).
           </p>
         </div>
 
@@ -225,7 +240,11 @@ export default function GSCQueriesPage({url}) {
               strokeWidth={2}
               stroke="currentColor"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19 9l-7 7-7-7"
+              />
             </svg>
           </span>
         </div>
@@ -288,38 +307,49 @@ export default function GSCQueriesPage({url}) {
             <div className="mt-2 text-sm text-gray-700 leading-relaxed space-y-2">
               <p>
                 In this range, your queries generated{" "}
-                <span className="font-semibold">{formatNumber(stats.totalClicks)}</span> clicks from{" "}
-                <span className="font-semibold">{formatNumber(stats.totalImpr)}</span> impressions,
-                giving an overall CTR of <span className="font-semibold">{pct(stats.avgCtr)}</span>.
+                <span className="font-semibold">
+                  {formatNumber(stats.totalClicks)}
+                </span>{" "}
+                clicks from{" "}
+                <span className="font-semibold">
+                  {formatNumber(stats.totalImpr)}
+                </span>{" "}
+                impressions, giving an overall CTR of{" "}
+                <span className="font-semibold">{pct(stats.avgCtr)}</span>.
               </p>
 
               <p>
                 Your strongest query by clicks is{" "}
                 <span className="font-semibold">“{stats.topClick.query}”</span>{" "}
-                ({formatNumber(stats.topClick.clicks)} clicks).
-                The query with the highest visibility is{" "}
-                <span className="font-semibold">“{stats.topImpr.query}”</span>{" "}
-                ({formatNumber(stats.topImpr.impressions)} impressions).
+                ({formatNumber(stats.topClick.clicks)} clicks). The query with
+                the highest visibility is{" "}
+                <span className="font-semibold">“{stats.topImpr.query}”</span> (
+                {formatNumber(stats.topImpr.impressions)} impressions).
               </p>
 
               {stats.opportunities.length > 0 ? (
                 <div className="rounded-xl bg-purple-50 border border-purple-100 p-3 text-xs text-purple-900">
-                  <div className="font-semibold mb-1">Quick wins (high impressions, low CTR)</div>
+                  <div className="font-semibold mb-1">
+                    Quick wins (high impressions, low CTR)
+                  </div>
                   <ul className="list-disc pl-5 space-y-1">
                     {stats.opportunities.map((o) => (
                       <li key={o.id}>
-                        <span className="font-semibold">{o.query}</span> — {formatNumber(o.impressions)} impressions,{" "}
-                        {pct(o.ctr)} CTR
+                        <span className="font-semibold">{o.query}</span> —{" "}
+                        {formatNumber(o.impressions)} impressions, {pct(o.ctr)}{" "}
+                        CTR
                       </li>
                     ))}
                   </ul>
                   <div className="mt-2">
-                    Fix: rewrite title/meta to match intent + add FAQ schema + improve snippet clarity.
+                    Fix: rewrite title/meta to match intent + add FAQ schema +
+                    improve snippet clarity.
                   </div>
                 </div>
               ) : (
                 <div className="rounded-xl bg-purple-50 border border-purple-100 p-3 text-xs text-purple-900">
-                  No major “high impressions + low CTR” opportunities detected in this dataset.
+                  No major “high impressions + low CTR” opportunities detected
+                  in this dataset.
                 </div>
               )}
             </div>
@@ -328,13 +358,26 @@ export default function GSCQueriesPage({url}) {
           {/* Charts */}
           <div className="mt-6 grid grid-cols-1 xl:grid-cols-2 gap-4">
             <div className="rounded-2xl border border-purple-200 bg-white p-5 shadow-sm">
-              <h3 className="text-lg font-semibold text-gray-900">Top Queries by Clicks</h3>
-              <p className="text-xs text-gray-500 mt-1">Top 12 queries sorted by clicks.</p>
+              <h3 className="text-lg font-semibold text-gray-900">
+                Top Queries by Clicks
+              </h3>
+              <p className="text-xs text-gray-500 mt-1">
+                Top 12 queries sorted by clicks.
+              </p>
               <div className="mt-4 h-[320px]">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={topClicksChart} margin={{ top: 10, right: 10, left: 0, bottom: 10 }}>
+                  <BarChart
+                    data={topClicksChart}
+                    margin={{ top: 10, right: 10, left: 0, bottom: 10 }}
+                  >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="query" interval={0} angle={-18} textAnchor="end" height={70} />
+                    <XAxis
+                      dataKey="query"
+                      interval={0}
+                      angle={-18}
+                      textAnchor="end"
+                      height={70}
+                    />
                     <YAxis />
                     <Tooltip />
                     <Bar dataKey="clicks" />
@@ -344,20 +387,41 @@ export default function GSCQueriesPage({url}) {
             </div>
 
             <div className="rounded-2xl border border-purple-200 bg-white p-5 shadow-sm">
-              <h3 className="text-lg font-semibold text-gray-900">Best CTR Queries</h3>
+              <h3 className="text-lg font-semibold text-gray-900">
+                Best CTR Queries
+              </h3>
               <p className="text-xs text-gray-500 mt-1">
                 Only queries with 20+ impressions (to avoid misleading 1/1 CTR).
               </p>
               <div className="mt-4 h-[320px]">
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={topCtrChart} margin={{ top: 10, right: 10, left: 0, bottom: 10 }}>
+                  <LineChart
+                    data={topCtrChart}
+                    margin={{ top: 10, right: 10, left: 0, bottom: 10 }}
+                  >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="query" interval={0} angle={-18} textAnchor="end" height={70} />
+                    <XAxis
+                      dataKey="query"
+                      interval={0}
+                      angle={-18}
+                      textAnchor="end"
+                      height={70}
+                    />
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="ctr" dot={false} strokeWidth={2} />
-                    <Line type="monotone" dataKey="position" dot={false} strokeWidth={2} />
+                    <Line
+                      type="monotone"
+                      dataKey="ctr"
+                      dot={false}
+                      strokeWidth={2}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="position"
+                      dot={false}
+                      strokeWidth={2}
+                    />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -367,7 +431,9 @@ export default function GSCQueriesPage({url}) {
           {/* Table */}
           <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              <h3 className="text-base font-semibold text-gray-900">All Queries</h3>
+              <h3 className="text-base font-semibold text-gray-900">
+                All Queries
+              </h3>
 
               <div className="flex flex-col sm:flex-row gap-2 sm:items-center">
                 <input
@@ -410,16 +476,28 @@ export default function GSCQueriesPage({url}) {
                 <thead>
                   <tr className="text-left text-xs text-gray-500 border-b">
                     <th className="py-2">Query</th>
-                    <th className="py-2 cursor-pointer" onClick={() => toggleSort("clicks")}>
+                    <th
+                      className="py-2 cursor-pointer"
+                      onClick={() => toggleSort("clicks")}
+                    >
                       Clicks
                     </th>
-                    <th className="py-2 cursor-pointer" onClick={() => toggleSort("impressions")}>
+                    <th
+                      className="py-2 cursor-pointer"
+                      onClick={() => toggleSort("impressions")}
+                    >
                       Impressions
                     </th>
-                    <th className="py-2 cursor-pointer" onClick={() => toggleSort("ctr")}>
+                    <th
+                      className="py-2 cursor-pointer"
+                      onClick={() => toggleSort("ctr")}
+                    >
                       CTR
                     </th>
-                    <th className="py-2 cursor-pointer" onClick={() => toggleSort("position")}>
+                    <th
+                      className="py-2 cursor-pointer"
+                      onClick={() => toggleSort("position")}
+                    >
                       Position
                     </th>
                     <th className="py-2">Insight</th>
@@ -430,7 +508,9 @@ export default function GSCQueriesPage({url}) {
                   {paged.map((r) => (
                     <tr key={r.id} className="border-b last:border-b-0">
                       <td className="py-3 pr-4">
-                        <div className="font-medium text-gray-900 break-words">{r.query}</div>
+                        <div className="font-medium text-gray-900 break-words">
+                          {r.query}
+                        </div>
                       </td>
                       <td className="py-3">{formatNumber(r.clicks)}</td>
                       <td className="py-3">{formatNumber(r.impressions)}</td>
@@ -461,7 +541,8 @@ export default function GSCQueriesPage({url}) {
             {/* Pagination */}
             <div className="mt-4 flex items-center justify-between text-sm">
               <div className="text-gray-500">
-                Showing {(page - 1) * pageSize + 1}–{Math.min(page * pageSize, filteredSorted.length)} of{" "}
+                Showing {(page - 1) * pageSize + 1}–
+                {Math.min(page * pageSize, filteredSorted.length)} of{" "}
                 {filteredSorted.length}
               </div>
 
@@ -475,7 +556,8 @@ export default function GSCQueriesPage({url}) {
                 </button>
 
                 <div className="text-gray-700">
-                  Page <span className="font-semibold">{page}</span> / {totalPages}
+                  Page <span className="font-semibold">{page}</span> /{" "}
+                  {totalPages}
                 </div>
 
                 <button
