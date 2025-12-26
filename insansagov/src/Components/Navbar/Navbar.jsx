@@ -21,6 +21,7 @@ import {
   MdKeyboardArrowDown,
 } from "react-icons/md";
 import { debounce } from "../../Utils/debounce";
+import {Link} from 'react-router-dom'
 
 const stateImages = {
   Gujarat: "/states/Gujarat.png",
@@ -608,12 +609,15 @@ const Navbar = () => {
 
         {/* Menu right */}
         <div className="ml-auto flex gap-6 font-medium utility-secondary-color">
-          <a href="" className="hover:main-site-text-color">
+          <Link to="/about-us" className="hover:main-site-text-color">
             About
-          </a>
-          <a href="/contact-us" className="hover:main-site-text-color">
+          </Link>
+          <Link to="/contact-us" className="hover:main-site-text-color">
             Contact
-          </a>
+          </Link>
+          <Link to="/government-related-faq" className="hover:main-site-text-color">
+            FAQ'S
+          </Link>
         </div>
       </div>
 

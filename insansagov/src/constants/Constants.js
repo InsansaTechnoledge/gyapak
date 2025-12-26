@@ -25,15 +25,15 @@ export const JobPageTitle = 'Top High Paid Government Job 2025'
 export const LANDING_SECTIONS = [
     { order: 1, key: "gyapakLanding", enabled: true, wrapper: "none" },
   
-    { order: 3, key: "quickResults", enabled: true, wrapper: "lazy", height: "h-96", id: "landing-quick-results", padded: true, priority: true },
+    { order: 4, key: "quickResults", enabled: true, wrapper: "lazy", height: "h-96", id: "landing-quick-results", padded: true, priority: true },
   
-    { order: 2, key: "latestUpdates", enabled: true, wrapper: "lazy", height: "h-96", id: "landing-latest-updates", padded: true },
+    { order: 3, key: "latestUpdates", enabled: true, wrapper: "lazy", height: "h-96", id: "landing-latest-updates", padded: true },
   
-    { order: 4, key: "states", enabled: true, wrapper: "lazy", height: "h-80", id: "landing-states", padded: true },
+    { order: 5, key: "states", enabled: true, wrapper: "lazy", height: "h-80", id: "landing-states", padded: true },
   
-    { order: 5, key: "authoritiesAndCategories", enabled: true, wrapper: "lazy", height: "h-72", id: "landing-authorities-categories", padded: true },
+    { order: 6, key: "authoritiesAndCategories", enabled: true, wrapper: "lazy", height: "h-72", id: "landing-authorities-categories", padded: true },
   
-    { order: 6, key: "whatsappJoin", enabled: true, wrapper: "lazy", height: "h-96", id: "landing-whatsapp", padded: true },
+    { order: 2, key: "whatsappJoin", enabled: true, wrapper: "lazy", height: "h-96", id: "landing-whatsapp", padded: true },
   
     { order: 7, key: "faq", enabled: true, wrapper: "lazy", height: "h-96", id: "landing-faq", padded: true },
   
