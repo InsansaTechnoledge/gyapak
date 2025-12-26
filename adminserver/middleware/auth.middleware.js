@@ -4,25 +4,30 @@ import user from "../models/user.models.js";
 const verifyToken = async (req, res, next) => {
   try {
     // Check if request is coming from allowed origin (gyapak.in)
-    const origin = req.headers.origin || req.headers.referer;
-    const allowedOrigins = ["https://gyapak.in", "http://localhost:5174"];
+    const origin = req.headers.origin;
+    const referer = req.headers.referer;
+    const allowedDomains = ["gyapak.in", "localhost"];
 
     // Debug logging
     console.log('=== Auth Middleware Debug ===');
     console.log('Origin:', origin);
-    console.log('Referer:', req.headers.referer);
+    console.log('Referer:', referer);
     console.log('Authorization:', req.headers.authorization);
 
-    // Check if the origin matches any allowed origin
-    const isAllowedOrigin = allowedOrigins.some(
-      (allowedOrigin) => origin && origin.startsWith(allowedOrigin)
-    );
+    // Helper function to check if a URL contains an allowed domain
+    const isFromAllowedDomain = (url) => {
+      if (!url) return false;
+      return allowedDomains.some(domain => url.includes(domain));
+    };
+
+    // Check both origin and referer headers (mobile browsers may not send origin)
+    const isAllowedOrigin = isFromAllowedDomain(origin) || isFromAllowedDomain(referer);
 
     console.log('Is Allowed Origin:', isAllowedOrigin);
 
     // If request is from gyapak.in, skip token verification
     if (isAllowedOrigin) {
-      console.log('✓ Allowing public access from:', origin);
+      console.log('✓ Allowing public access from:', origin || referer);
       // Set a default user object for public access
       req.user = {
         id: null,
