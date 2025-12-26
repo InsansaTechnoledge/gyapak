@@ -11,6 +11,8 @@ import NewCalendarPage from "./Pages/Calendar/NewCalendarPage";
 import UpcommingEvent from "./Pages/Calendar/upcommingEvent/UpcommingEvent";
 import QuickResultsPage from "./Pages/QuickResultsPage";
 import TopJobsWIthSalaryPage from "./Pages/TopJobsWIthSalaryPage";
+import AboutPage from "./Pages/AboutPage";
+import FAQ from "./Components/FAQ";
 
 const Landing = lazy(() => import("./Pages/Landing/landing"));
 const Navbar = lazy(() => import("./Components/Navbar/Navbar"));
@@ -325,6 +327,24 @@ const PageLinks = () => {
             </div>
           }
         />
+
+        <Route
+          path="/about-us"
+          element={
+            <div>
+              <AboutPage/>
+            </div>
+          }
+        />
+
+        <Route
+          path="/government-related-faq"
+          element={
+            <div>
+              <FAQ/>
+            </div>
+          }
+        />  
 
         {/* Catch-all route for 404s */}
         <Route

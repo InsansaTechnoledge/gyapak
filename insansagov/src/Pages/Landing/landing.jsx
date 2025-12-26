@@ -147,7 +147,9 @@ const Landing = () => {
   const registry = useMemo(
     () => ({
       gyapakLanding: <GyapakLanding />,
-
+      
+      whatsappJoin: <WhatsAppGroupJoin />,
+      
       quickResults: <ResultsDashboard />,
 
       latestUpdates: <LatestUpdates />,
@@ -165,28 +167,28 @@ const Landing = () => {
         </div>
       ),
 
-      whatsappJoin: <WhatsAppGroupJoin />,
+      
 
-      faq: <FAQ />,
+      // faq: <FAQ />,
 
-      curveDivider: (
-        <img
-          height={40}
-          width={600}
-          className="w-full mb-20 mt-20"
-          src={curvLine}
-          alt="Curve Line"
-          loading="lazy"
-        />
-      ),
+      // curveDivider: (
+      //   <img
+      //     height={40}
+      //     width={600}
+      //     className="w-full mb-20 mt-20"
+      //     src={curvLine}
+      //     alt="Curve Line"
+      //     loading="lazy"
+      //   />
+      // ),
 
-      featureBand: (
-        <div id="about">
-          <FeatureBand />
-        </div>
-      ),
+      // featureBand: (
+      //   <div id="about">
+      //     <FeatureBand />
+      //   </div>
+      // ),
 
-      featurePage: <FeaturePage />,
+      // featurePage: <FeaturePage />,
     }),
     []
   );
