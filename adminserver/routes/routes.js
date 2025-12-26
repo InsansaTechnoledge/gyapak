@@ -15,7 +15,7 @@ import airoutes from "./openai.routes.js";
 import authRoutes from "./auth.routes.js";
 import userLogsRoutes from "./userLogs.routes.js";
 import { authorizeRoles } from "../middleware/auth.middleware.js";
-
+import quickResultRoute from "./Quiclresult.routes.js";
 const route = (app) => {
   app.use(
     "/api/v1/organizations",
@@ -62,6 +62,7 @@ const route = (app) => {
 
   app.use("/api/auth", authRoutes);
   app.use("/api/logs", userLogsRoutes);
+  app.use("/api/result-admitcard", quickResultRoute);
 };
 
 export default route;
