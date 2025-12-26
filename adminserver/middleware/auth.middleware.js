@@ -3,6 +3,26 @@ import user from "../models/user.models.js";
 
 const verifyToken = async (req, res, next) => {
   try {
+    // Check if request is coming from allowed origin (gyapak.in)
+    const origin = req.headers.origin || req.headers.referer;
+    const allowedOrigins = ['https://gyapak.in'];
+    
+    // Check if the origin matches any allowed origin
+    const isAllowedOrigin = allowedOrigins.some(allowedOrigin => 
+      origin && origin.startsWith(allowedOrigin)
+    );
+
+    // If request is from gyapak.in, skip token verification
+    if (isAllowedOrigin) {
+      // Set a default user object for public access
+      req.user = {
+        id: null,
+        email: null,
+        role: 'public',
+      };
+      return next();
+    }
+
     let token;
 
     // Check Authorization header for Bearer token

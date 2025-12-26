@@ -129,7 +129,7 @@ const GyapakBlogBanner = () => {
               </div>
             </div>
 
-            <Link
+            {/* <Link
               to="/current-affair"
               className="relative inline-flex items-center px-6 py-3 rounded-full bg-gradient-to-r from-teal-500 to-emerald-600 text-white font-bold text-lg shadow-lg hover:from-teal-600 hover:to-emerald-700 transition duration-300 group overflow-hidden"
             >
@@ -139,7 +139,7 @@ const GyapakBlogBanner = () => {
                 Explore Current Affairs
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
               </span>
-            </Link>
+            </Link> */}
           </div>
         </div>
 
