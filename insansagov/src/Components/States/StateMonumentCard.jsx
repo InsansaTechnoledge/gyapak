@@ -32,7 +32,7 @@ const StateMonumentCard = ({ state, region, img }) => {
         <div className="flex justify-between items-center">
           <span className="text-xs text-gray-50">Explore opportunities</span>
           <button
-            className="flex items-center justify-center h-8 w-8 rounded-full bg-purple-500 text-white hover:bg-purple-600 transition-colors duration-300"
+            className="flex items-center justify-center h-8 w-8 rounded-full main-site-color text-white hover:main-site-color-hover transition-colors duration-300"
           >
             <ChevronRight size={16} />
           </button>

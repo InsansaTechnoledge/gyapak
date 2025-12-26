@@ -341,9 +341,9 @@ const Navbar = () => {
     if (!items || items.length === 0) return null;
     return (
       <div className="mb-2 ">
-        <div className="flex items-center justify-between text-sm font-semibold text-gray-600 px-4 py-2 bg-gradient-to-r from-purple-50 to-blue-50">
+        <div className="flex items-center justify-between text-sm font-semibold utility-secondary-color-2 px-4 py-2 bg-gradient-to-r from-purple-50 to-blue-50">
           <span>{title}</span>
-          <span className="bg-white text-purple-600 px-2 py-0.5 rounded-full text-xs font-bold">
+          <span className="bg-white main-site-text-color px-2 py-0.5 rounded-full text-xs font-bold">
             {items.length}
           </span>
         </div>
@@ -356,7 +356,7 @@ const Navbar = () => {
                 setIsOpen(false);
                 setSearchQuery("");
               }}
-              className="px-4 py-2.5 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 cursor-pointer text-gray-700 text-sm transition-all duration-300 whitespace-nowrap truncate"
+              className="px-4 py-2.5 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 cursor-pointer utility-secondary-color text-sm transition-all duration-300 whitespace-nowrap truncate"
             >
               {item[itemKey]}
             </div>
@@ -399,7 +399,7 @@ const Navbar = () => {
     >
       {/* --- Top Strip --- */}
       <div
-        className={`bg-gradient-to-r from-violet-950 to-purple-900  flex items-center justify-between h-20  px-6 gap-2 md:px-36 transition-transform duration-500 fixed top-0 left-0 w-full md:w-full z-50
+        className={`main-nav-bar-color  flex items-center justify-between h-20  px-6 gap-2 md:px-36 transition-transform duration-500 fixed top-0 left-0 w-full md:w-full z-50
             ${
               showTop
                 ? "translate-0 md:translate-0"
@@ -409,10 +409,10 @@ const Navbar = () => {
       >
         {/* Left side with Logo + Add button */}
         <div className="flex items-center gap-4">
-          <div className="text-pink-600 font-bold text-xl">
+          <div className="font-bold text-xl">
             <a href="/">
               {" "}
-              <img src={logo4} alt="gyapak logo" height={32} width={120} />
+              <img src={logo4} alt="gyapak_logo" height={32} width={120} />
             </a>
           </div>
         </div>
@@ -424,7 +424,7 @@ const Navbar = () => {
               className="hidden md:inline-flex font-medium text-gray-800 hover:text-purple-700 transition-colors"
             >
               <div className="flex items-center gap-1 border-black border-2 text-gray-500 px-2 md:px-3 py-2 h-8 md:h-10  bg-gray-100 rounded-full transition-all w-fit">
-                <span className="hidden md:block text-xs font-semibold bg-green-600 animate-pulse text-white px-2 py-[2px] rounded-full uppercase tracking-wide">
+                <span className="hidden md:block text-xs font-semibold bg-green-600 animate-pulse secondary-site-text-color px-2 py-[2px] rounded-full uppercase tracking-wide">
                   New
                 </span>
                 Today's Current Affairs in Hindi
@@ -454,7 +454,7 @@ const Navbar = () => {
                 onChange={(e) => inputChangeHandler(e.target.value)}
                 type="text"
                 placeholder="search states/categories . . ."
-                className="flex-1 bg-transparent outline-none text-gray-600 text-sm pr-8"
+                className="flex-1 bg-transparent outline-none utility-secondary-color text-sm pr-8"
                 onFocus={() => searchQuery && setShowDropdown(true)}
                 onBlur={() => {
                   setTimeout(() => {
@@ -507,15 +507,15 @@ const Navbar = () => {
               <Search
                 size={24}
                 className={`${
-                  isSearched ? "text-slate-500" : "text-slate-100"
+                  isSearched ? "utility-secondary-color" : "utility-scondary-color-3"
                 }`}
               />
             </button>
 
             {isSearched && showDropdown && (
-              <div className="absolute left-0 top-full z-[9999] mt-2 w-full bg-white/95 backdrop-blur-sm border border-gray-200 rounded-xl shadow-xl max-h-72 overflow-auto custom-scrollbar">
+              <div className="absolute left-0 top-full z-[9999] mt-2 w-full bg-white/95 backdrop-blur-sm border main-site-border-color-2 rounded-xl shadow-xl max-h-72 overflow-auto custom-scrollbar">
                 {totalCount > 0 && (
-                  <div className="px-4 py-2 bg-gradient-to-r from-purple-50 to-blue-50 border-b border-gray-200 text-xs font-medium text-purple-600">
+                  <div className="px-4 py-2 light-site-color-3 border-b main-site-border-color-2 text-xs font-medium main-site-text-color">
                     Found {totalCount} total matches
                   </div>
                 )}
@@ -542,7 +542,7 @@ const Navbar = () => {
                     />
                   )}
                   {totalCount === 0 && (
-                    <div className="px-4 py-3 text-sm text-gray-500">
+                    <div className="px-4 py-3 text-sm utility-secondary-color-2">
                       No suggestions found
                     </div>
                   )}
@@ -554,14 +554,14 @@ const Navbar = () => {
           {/* Mobile hamburger */}
           <div className="flex flex-col items-center gap-3">
             <button
-              className="md:hidden p-3 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 hover:bg-white/20 hover:border-white/40 active:scale-95 transition-all duration-300 shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:shadow-[0_0_30px_rgba(168,85,247,0.6)]"
+              className="md:hidden p-3 rounded-2xl backdrop-blur-xl active:scale-95 transition-all duration-300 shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:shadow-[0_0_30px_rgba(168,85,247,0.6)]"
               aria-label="Open menu"
               onClick={() => setIsOpen((v) => !v)}
             >
               {isOpen ? (
-                <X size={20} className="text-white" />
+                <X size={20} className="secondary-site-text-color" />
               ) : (
-                <Menu size={20} className="text-white" />
+                <Menu size={20} className="secondary-site-text-color" />
               )}
             </button>
           </div>
@@ -569,20 +569,20 @@ const Navbar = () => {
       </div>
 
       <div
-        className={` hidden md:flex bg-white items-center h-20 px-6 md:px-36 transition-transform duration-500 top-0 left-0 z-45 w-full fixed
+        className={` hidden md:flex items-center h-20 px-6 md:px-36 transition-transform duration-500 top-0 left-0 z-45 w-full fixed
             ${showTop ? "translate-0 md:translate-y-16" : " top-0  "}`}
       >
         {/* Menu left */}
-        <div className="flex gap-6 font-medium text-gray-700 items-center">
-          <a
+        <div className="flex gap-6 font-medium utility-secondary-color items-center">
+          {/* <a
             href="/blog"
-            className="relative group px-4 py-2 rounded-lg bg-gradient-to-r from-purple-50 to-blue-50 hover:from-purple-100 hover:to-blue-100 transition-all duration-300 shadow-sm hover:shadow-md"
+            className={`hover:main-site-text-color transition-all duration-300`}
           >
             <span className="text-purple-700 font-semibold">📚 Blogs</span>
             <span className="absolute -top-1 -right-1 bg-green-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold animate-pulse">NEW</span>
-          </a>
+          </a> */}
           <button
-            className="hover:text-pink-600 flex items-center gap-1 "
+            className="hover:main-site-text-color flex items-center gap-1 "
             onClick={() => handleMenuClick("categories")}
           >
             Categories{" "}
@@ -594,7 +594,7 @@ const Navbar = () => {
           </button>
 
           <button
-            className="hover:text-pink-600 flex items-center gap-1"
+            className="hover:main-site-text-color flex items-center gap-1"
             onClick={() => handleMenuClick("state")}
           >
             State{" "}
@@ -607,20 +607,11 @@ const Navbar = () => {
         </div>
 
         {/* Menu right */}
-        <div className="ml-auto flex gap-6 font-medium text-gray-700 items-center">
-          <a 
-            href="/last-date-to-apply-for-online-offline-government-jobs-applications" 
-            className="relative group px-4 py-2 rounded-lg bg-gradient-to-r from-red-50 to-orange-50 hover:from-red-100 hover:to-orange-100 transition-all duration-300 shadow-sm hover:shadow-md border border-red-200"
-          >
-            <span className="text-red-700 font-semibold flex items-center gap-1.5">
-              ⏰ Last Date to Apply
-            </span>
-            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold animate-pulse">HOT</span>
-          </a>
-          <a href="" className="hover:text-pink-600">
+        <div className="ml-auto flex gap-6 font-medium utility-secondary-color">
+          <a href="" className="hover:main-site-text-color">
             About
           </a>
-          <a href="/contact-us" className="hover:text-pink-600">
+          <a href="/contact-us" className="hover:main-site-text-color">
             Contact
           </a>
         </div>
@@ -647,13 +638,13 @@ const Navbar = () => {
                       )}`
                     );
                   }}
-                  className="flex items-center p-2.5 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 group cursor-pointer min-w-0"
+                  className="flex items-center p-2.5 rounded-xl hover:light-site-color-3 transition-all duration-300 group cursor-pointer min-w-0"
                 >
-                  <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-gradient-to-br from-purple-100 to-blue-100 text-lg flex-shrink-0 group-hover:from-purple-200 group-hover:to-blue-200">
+                  <div className="h-10 w-10 flex items-center justify-center rounded-xl light-site-color-3 text-lg flex-shrink-0 group-hover:from-purple-200 group-hover:to-blue-200">
                     <span>{category.icon}</span>
                   </div>
                   <div className="ml-3 min-w-0">
-                    <span className="block text-sm font-medium text-gray-800 group-hover:text-purple-700 whitespace-nowrap truncate max-w-[180px]">
+                    <span className="block text-sm font-medium utility-secondary-color group-hover:main-site-text-color whitespace-nowrap truncate max-w-[180px]">
                       {category.name}
                     </span>
                   </div>
@@ -669,7 +660,7 @@ const Navbar = () => {
           className={`fixed left-1/2 top-[112px] -translate-x-1/2 w-[820px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5 z-50`}
         >
           <div className="p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
+            <h3 className="text-lg font-semibold utility-secondary-color mb-4 text-center">
               Browse States
             </h3>
             <div className="grid grid-cols-4 gap-3">
@@ -682,9 +673,9 @@ const Navbar = () => {
                 />
               ))}
             </div>
-            <div className="mt-4 flex items-center justify-center gap-3 p-4 bg-purple-700 border border-amber-500/50 rounded-lg hover:border-amber-500 transition-colors duration-300 backdrop-blur-sm">
-              <AlertTriangle className="h-5 w-5 text-purple-50 animate-pulse" />
-              <p className="text-gray-200 text-sm leading-relaxed">
+            <div className="mt-4 flex items-center justify-center gap-3 p-4 main-site-color border main-site-border-color rounded-lg hover:main-site-border-color-2 transition-colors duration-300 backdrop-blur-sm">
+              <AlertTriangle className="h-5 w-5 secondary-site-text-color animate-pulse" />
+              <p className="utility-scondary-color-3 text-sm leading-relaxed">
                 Remaining states would be available soon!
               </p>
             </div>
@@ -720,7 +711,7 @@ const Navbar = () => {
             >
               <input
                 type="text"
-                className="outline-none text-gray-600 text-sm w-full px-4 py-1.5 rounded-xl shadow-accertinity focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:border-gray-300 focus:bg-gray-100 border-transparent transition-all  duration-200 "
+                className="outline-none utility-secondary-color-2 text-sm w-full px-4 py-1.5 rounded-xl shadow-accertinity focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:border-gray-300 focus:bg-gray-100 border-transparent transition-all  duration-200 "
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => inputChangeHandler(e.target.value)}
@@ -736,16 +727,16 @@ const Navbar = () => {
               />
               <button
                 type="submit"
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-purple-600 transition-colors duration-300"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 utility-secondary-color-2 hover:main-site-text-color transition-colors duration-300"
               >
                 <Search className="w-5 h-5" />
               </button>
             </form>
 
             {showDropdown && (
-              <div className="custom-scrollbar max-h-72 overflow-auto absolute top-full mt-2 w-full bg-white/95 backdrop-blur-sm border border-gray-200 rounded-xl shadow-xl z-50">
+              <div className="custom-scrollbar max-h-72 overflow-auto absolute top-full mt-2 w-full bg-white/95 backdrop-blur-sm border main-site-border-color-2 rounded-xl shadow-xl z-50">
                 {totalCount > 0 && (
-                  <div className="px-4 py-2 bg-gradient-to-r from-purple-50 to-blue-50 border-b border-gray-200 text-xs font-medium text-purple-600">
+                  <div className="px-4 py-2 bg-gradient-to-r from-purple-50 to-blue-50 border-b main-site-border-color-2 text-xs font-medium main-site-text-color">
                     Found {totalCount} total matches
                   </div>
                 )}
@@ -784,7 +775,7 @@ const Navbar = () => {
           <a
             onClick={() => setIsOpen(false)}
             href="/blog"
-            className="relative block px-4 py-3 rounded-lg bg-gradient-to-r from-purple-50 to-blue-50 hover:from-purple-100 hover:to-blue-100 transition-all duration-300 shadow-sm"
+            className="block px-4 py-3 rounded-lg utility-secondary-color hover:main-site-text-color  transition-all duration-300"
           >
             <span className="text-purple-700 font-semibold">📚 Blogs</span>
             <span className="absolute top-2 right-2 bg-green-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold animate-pulse">NEW</span>
@@ -792,7 +783,7 @@ const Navbar = () => {
 
           <button
             onClick={goDailyUpdates}
-            className="block w-full text-left px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+            className="block w-full text-left px-4 py-3 rounded-lg utility-secondary-color hover:main-site-text-color  transition-all duration-300"
           >
             Today's Current Affairs in Hindi
           </button>
@@ -812,7 +803,7 @@ const Navbar = () => {
               onClick={() =>
                 setMobileCategoryDropdownVisible(!mobileCategoryDropdownVisible)
               }
-              className="flex w-full items-center justify-between px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-all duration-300"
+              className="flex w-full items-center justify-between px-4 py-3 rounded-lg utility-secondary-color hover:main-site-text-color transition-all duration-300"
             >
               <span className="text-base font-medium">Categories</span>
               <ChevronDown
@@ -838,12 +829,12 @@ const Navbar = () => {
                           )}`
                         );
                       }}
-                      className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-br from-purple-50 to-blue-50 hover:from-purple-100 hover:to-blue-100 cursor-pointer transition-all duration-300"
+                      className="flex items-center gap-3 p-3 rounded-xl light-site-color-3  cursor-pointer transition-all duration-300"
                     >
-                      <div className="flex items-center justify-center h-10 w-10 rounded-full bg-gradient-to-br from-purple-200 to-blue-200 text-xl font-semibold text-purple-800 shadow-sm">
+                      <div className="flex items-center justify-center h-10 w-10 rounded-full light-site-color-3 text-xl font-semibold main-site-text-color shadow-sm">
                         {category.icon}
                       </div>
-                      <span className="text-sm font-medium text-gray-800 group-hover:text-purple-700">
+                      <span className="text-sm font-medium utility-secondary-color group-hover:main-site-text-color">
                         {category.name}
                       </span>
                     </div>
@@ -859,7 +850,7 @@ const Navbar = () => {
               onClick={() =>
                 setMobileStateDropdownVisible(!mobileStateDropdownVisible)
               }
-              className="flex w-full items-center justify-between px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+              className="flex w-full items-center justify-between px-4 py-3 rounded-lg utility-secondary-color  transition-all duration-300"
             >
               <span>States</span>
               <ChevronDown
@@ -883,7 +874,7 @@ const Navbar = () => {
                           `/state/government-jobs-in-${state.name}-for-12th-pass`
                         );
                       }}
-                      className="flex items-center p-3 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300 group cursor-pointer"
+                      className="flex items-center p-3 rounded-xl light-site-color-3 transition-all duration-300 group cursor-pointer"
                     >
                       <div className="h-10 w-10 rounded-xl flex items-center justify-center">
                         <img
@@ -893,16 +884,16 @@ const Navbar = () => {
                         />
                       </div>
                       <div className="ml-4">
-                        <span className="text-sm font-medium text-gray-800 group-hover:text-purple-700">
+                        <span className="text-sm font-medium utility-secondary-color group-hover:main-site-text-color">
                           {state.name}
                         </span>
                       </div>
                     </div>
                   ))}
                 </div>
-                <div className="mt-4 flex items-center justify-center gap-3 p-4 bg-purple-700 border border-amber-500/50 rounded-lg hover:border-amber-500 transition-colors duration-300 backdrop-blur-sm">
-                  <AlertTriangle className="h-5 w-5 text-purple-50 animate-pulse" />
-                  <p className="text-gray-200 text-sm leading-relaxed">
+                <div className="mt-4 flex items-center justify-center gap-3 p-4 main-site-color border main-site-border-color-2 transition-colors duration-300 backdrop-blur-sm">
+                  <AlertTriangle className="h-5 w-5 secondary-site-text-color animate-pulse" />
+                  <p className="utility-scondary-color-3 text-sm leading-relaxed">
                     Remaining states would be available soon!
                   </p>
                 </div>
@@ -920,7 +911,7 @@ const Navbar = () => {
                   if (aboutSection)
                     aboutSection.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="block w-full text-left px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+                className="block w-full text-left px-4 py-3 rounded-lg utility-secondary-color hover:main-site-text-color  transition-all duration-300"
               >
                 About
               </button>
@@ -929,7 +920,7 @@ const Navbar = () => {
                 onClick={() => {
                   navigate("/contact-us");
                 }}
-                className="block w-full text-left px-4 py-3 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-300"
+                className="block w-full text-left px-4 py-3 rounded-lg utility-secondary-color hover:main-site-text-color  transition-all duration-300"
               >
                 Contact Us
               </button>

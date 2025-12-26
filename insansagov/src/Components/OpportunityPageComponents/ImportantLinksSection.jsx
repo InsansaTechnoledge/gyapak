@@ -12,8 +12,8 @@ const ImportantLinksSection = ({ data }) => {
         href={link}
         rel="noopener noreferrer"
         className="w-full break-words text-center font-medium px-6 py-3 
-                  bg-purple-50/60 rounded-xl
-                  hover:bg-purple-100 hover:-translate-y-0.5 transition-all duration-200
+                  light-site-color-3 rounded-xl
+                  hover:light-site-color hover:-translate-y-0.5 transition-all duration-200
                   shadow-sm hover:shadow-md"
       >
         {visibleLink}
@@ -23,14 +23,14 @@ const ImportantLinksSection = ({ data }) => {
   };
 
   return (
-    <footer className="flex-grow lg:col-span-2 bg-white shadow-lg p-4 mb-5 rounded-2xl">
+    <footer className="flex-grow lg:col-span-2 shadow-lg p-4 mb-5 rounded-2xl">
       <div
         onClick={() => setIsOpen(!isOpen)}
         className="relative group flex items-center gap-3 cursor-pointer select-none
                    p-3 rounded-xl transition-all duration-300"
       >
         <span
-          className="absolute inset-0 rounded-xl bg-purple-50 scale-x-0 origin-left 
+          className="absolute inset-0 rounded-xl light-site-color-3 scale-x-0 origin-left 
                      group-hover:scale-x-100 transition-transform duration-300 ease-out"
         ></span>
 
@@ -40,13 +40,13 @@ const ImportantLinksSection = ({ data }) => {
           transition={{ duration: 0.3 }}
         >
           {isOpen ? (
-            <Minus className="w-5 h-5 text-purple-600" />
+            <Minus className="w-5 h-5 main-site-text-color" />
           ) : (
-            <Plus className="w-5 h-5 text-purple-600" />
+            <Plus className="w-5 h-5 main-site-text-color" />
           )}
         </motion.span>
 
-        <span className="relative z-10 text-2xl font-semibold text-gray-800 group-hover:text-purple-700 transition-colors duration-300">
+        <span className="relative z-10 text-2xl font-semibold utility-site-color group-hover:main-site-text-color transition-colors duration-300">
           Important Links
         </span>
       </div>
@@ -62,7 +62,7 @@ const ImportantLinksSection = ({ data }) => {
             <div className="flex flex-wrap justify-center gap-4 mt-3">
               {data?.document_links ? (
                 typeof data.document_links === "string" ? (
-                  <div className="p-4 bg-purple-50 rounded-lg">
+                  <div className="p-4 light-site-color-3 rounded-lg">
                     <p>{data.document_links}</p>
                   </div>
                 ) : Array.isArray(data.document_links) ? (
@@ -73,10 +73,10 @@ const ImportantLinksSection = ({ data }) => {
                       )
                   )
                 ) : (
-                  <p className="text-gray-500">No links available</p>
+                  <p className="utility-secondary-color">No links available</p>
                 )
               ) : (
-                <p className="text-gray-500">No links available</p>
+                <p className="utility-secondary-color">No links available</p>
               )}
             </div>
           </motion.div>

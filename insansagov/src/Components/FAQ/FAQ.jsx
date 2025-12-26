@@ -3,9 +3,10 @@ import { Search } from 'lucide-react';
 import FAQList from './Components/FAQLists';
 import { useFAQ } from './hooks/useFAQs';
 import { Helmet } from 'react-helmet'; // Use React Helmet for managing head tags
+import { FAQComponentTitle } from '../../constants/Constants';
 
 const FAQ = ({ 
-  title = 'frequently asked questions',
+  title = `${FAQComponentTitle}`,
   customFAQs,
   orgId = null,
   showSearch = true,
@@ -67,8 +68,8 @@ const FAQ = ({
         </Helmet>
       )}
       
-      <div className={`max-w-3xl mx-auto px-4 py-8 ${className}`}>
-        <h1 className="text-3xl font-bold text-center text-gray-900 mb-8">
+      <div className={` mx-auto px-4 py-8 ${className}`}>
+        <h1 className="text-3xl font-bold text-center utility-site-color mb-8">
           {displayTitle}
         </h1>
 
