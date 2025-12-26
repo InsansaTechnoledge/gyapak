@@ -28,6 +28,7 @@ import { useApi, CheckServer } from "../../Context/ApiContext";
 import { extractIdFromSlug } from "../../Utils/urlUtils.utils.js";
 import logo from "/logo3.png";
 import { extractExamId } from "../../Utils/extractExamId.jsx";
+import ErrorPage from "../Error/ErrorPage";
 
 const ModernExamDetailsPage = () => {
   const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
@@ -94,6 +95,17 @@ const examId = extractExamId({ slug, search });
       setOrganization(completeData.organization.name);
     }
   }, [completeData]);
+
+  // Show 404 error page if the API returns 404
+  if (error === 404) {
+    return (
+      <ErrorPage
+        code={404}
+        message="Exam Not Found"
+        subMessage="The exam you're looking for doesn't exist or has been removed."
+      />
+    );
+  }
 
   if (isLoading || (!data && !organization)) {
     return (

@@ -16,16 +16,18 @@ import {
   LogOut,
   Search,
   Building,
-  Users,
+  User,
   Filter,
   Edit,
   Trash2,
 } from "lucide-react";
-import axios from "axios";
-import { API_BASE_URL } from "../config";
+
+import axiosInstance from "../api/axiosConfig";
 import Report from "./Report";
 import SummarizationComponent from "../Components/AI/SummarizationComponent";
 import ScheduleCurrentffair from "../Components/currentAffairs/scheduledCurrentAffair";
+import UserLogsComponent from "./userLogs/userLogs";
+import { useRef } from "react";
 
 const DataInsertion = () => {
   const [organizationType, setOrganizationType] = useState("add-org");
@@ -52,6 +54,7 @@ const DataInsertion = () => {
   const [organizationToDelete, setOrganizationToDelete] = useState(null);
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
   const [deletionSummary, setDeletionSummary] = useState(null);
+  const startTime = useRef(null);
   const [formData, setFormData] = useState({
     name: "",
     abbreviation: "",
@@ -60,6 +63,7 @@ const DataInsertion = () => {
     parent_organization: "",
     logo: null,
   });
+  const [userData, setUserData] = useState();
   const { logout } = useAuth();
 
   const handleLogout = () => {
@@ -68,6 +72,18 @@ const DataInsertion = () => {
       logout();
     }
   };
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const userLocal = localStorage.getItem("user");
+
+    if (userLocal) {
+      setUserData(JSON.parse(userLocal));
+    }
+
+    startTime.current = Date.now();
+  }, []);
 
   const options = [
     { id: "add-org", label: "Add Organization" },
@@ -81,6 +97,7 @@ const DataInsertion = () => {
     { id: "manage-organizations", label: "Manage Organizations" },
     { id: "create-report", label: "Generate Report" },
     { id: "post-blog", label: "Create Blog" },
+    { id: "logs", label: "Logs" },
   ];
 
   const orgSubOptions = [
@@ -102,8 +119,8 @@ const DataInsertion = () => {
   const getOrganizationDetails = async (organizationId) => {
     try {
       console.log("Fetching organization details for ID:", organizationId);
-      const response = await axios.get(
-        `${API_BASE_URL}/api/v1/organizations/${organizationId}`
+      const response = await axiosInstance.get(
+        `/api/v1/organizations/${organizationId}`
       );
       if (response.data.organization) {
         console.log(
@@ -125,7 +142,7 @@ const DataInsertion = () => {
     setError(null);
     try {
       console.log("Fetching organizations...");
-      const response = await axios.get(`${API_BASE_URL}/api/v1/organizations`, {
+      const response = await axiosInstance.get(`/api/v1/organizations`, {
         params: {
           limit: 500, // Limit to 500 orgs for better performance
         },
@@ -147,49 +164,49 @@ const DataInsertion = () => {
     }
   };
 
-  const getOrganizationById = async (id) => {
-    try {
-      const response = await axios.get(`${API_BASE_URL}/organizations/${id}`);
-      return response.data.organization;
-    } catch (err) {
-      setError(err.response?.data?.error || err.message);
-      return null;
-    }
-  };
+  // const getOrganizationById = async (id) => {
+  //   try {
+  //     const response = await axiosInstance.get(`/organizations/${id}`);
+  //     return response.data.organization;
+  //   } catch (err) {
+  //     setError(err.response?.data?.error || err.message);
+  //     return null;
+  //   }
+  // };
 
-  const getOrganizationByAbbreviation = async (abbreviation) => {
-    try {
-      const response = await axios.get(
-        `${API_BASE_URL}/organizations/abbreviation/${abbreviation}`
-      );
-      return response.data.organization;
-    } catch (err) {
-      setError(err.response?.data?.error || err.message);
-      return null;
-    }
-  };
+  // const getOrganizationByAbbreviation = async (abbreviation) => {
+  //   try {
+  //     const response = await axiosInstance.get(
+  //       `/organizations/abbreviation/${abbreviation}`
+  //     );
+  //     return response.data.organization;
+  //   } catch (err) {
+  //     setError(err.response?.data?.error || err.message);
+  //     return null;
+  //   }
+  // };
 
-  const getOrganizationsByCategory = async (categoryName) => {
-    setLoading(true);
-    try {
-      const response = await axios.get(
-        `${API_BASE_URL}/organizations/category/${categoryName}`
-      );
-      if (response.data.organizations) {
-        setFilteredOrganizations(response.data.organizations);
-      }
-    } catch (err) {
-      setError(err.response?.data?.error || err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const getOrganizationsByCategory = async (categoryName) => {
+  //   setLoading(true);
+  //   try {
+  //     const response = await axiosInstance.get(
+  //       `/organizations/category/${categoryName}`
+  //     );
+  //     if (response.data.organizations) {
+  //       setFilteredOrganizations(response.data.organizations);
+  //     }
+  //   } catch (err) {
+  //     setError(err.response?.data?.error || err.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   // Fetch all categories for form dropdown
   const getAllCategories = async () => {
     try {
-      const response = await axios.get(
-        `${API_BASE_URL}/api/v1/organizations/categories`
+      const response = await axiosInstance.get(
+        `/api/v1/organizations/categories`
       );
       if (response.data.categories) {
         setCategories(response.data.categories);
@@ -203,8 +220,8 @@ const DataInsertion = () => {
   // Fetch all authorities for form dropdown
   const getAllAuthorities = async () => {
     try {
-      const response = await axios.get(
-        `${API_BASE_URL}/api/v1/organizations/authorities`
+      const response = await axiosInstance.get(
+        `/api/v1/organizations/authorities`
       );
       if (response.data.authorities) {
         setAuthorities(response.data.authorities);
@@ -217,6 +234,7 @@ const DataInsertion = () => {
 
   // Create new organization
   const createOrganization = async (organizationData) => {
+    const totalTime = Math.floor((Date.now() - startTime.current) / 1000);
     setLoading(true);
     try {
       // Create FormData for multipart/form-data request
@@ -229,14 +247,15 @@ const DataInsertion = () => {
         "parent_organization",
         organizationData.parent_organization
       );
+      formData.append("totalTime", totalTime);
 
       // Append logo file if provided
       if (organizationData.logo) {
         formData.append("logo", organizationData.logo);
       }
 
-      const response = await axios.post(
-        `${API_BASE_URL}/api/v1/organizations/upload`,
+      const response = await axiosInstance.post(
+        `/api/v1/organizations/upload`,
         formData,
         {
           headers: {
@@ -1854,6 +1873,7 @@ const DataInsertion = () => {
       case "add-org":
         return renderAddOrgPage();
       case "add-events":
+        startTime.current = Date.now();
         return renderAddEventsPage();
       case "manage-events":
         return renderManageEventsPage();
@@ -1873,6 +1893,8 @@ const DataInsertion = () => {
         return <Report />;
       case "post-blog":
         return <AdminBlogPage />;
+      case "logs":
+        return <UserLogsComponent />;
       default:
         return (
           <div className="flex items-center justify-center h-64">
@@ -1988,6 +2010,7 @@ const DataInsertion = () => {
         };
 
         try {
+          const totalTime = Math.floor((Date.now() - startTime.current) / 1000);
           const logoBase64 = await convertFileToBase64(cleanData.logo);
           console.log("Logo converted to base64, length:", logoBase64.length);
 
@@ -1998,8 +2021,8 @@ const DataInsertion = () => {
           };
 
           console.log("Updating with base64 logo via JSON request");
-          updateResponse = await axios.put(
-            `${API_BASE_URL}/api/v1/organizations/${selectedOrganization._id}`,
+          updateResponse = await axiosInstance.put(
+            `/api/v1/organizations/${selectedOrganization._id}?time=${totalTime}`,
             updateData,
             {
               headers: {
@@ -2012,12 +2035,13 @@ const DataInsertion = () => {
           throw new Error("Failed to process logo file");
         }
       } else {
+        const totalTime = Math.floor((Date.now() - startTime.current) / 1000);
         // Update without logo change (remove logo from updates)
         const { logo, ...dataWithoutLogo } = cleanData;
 
         console.log("Updating without logo change");
-        updateResponse = await axios.put(
-          `${API_BASE_URL}/api/v1/organizations/${selectedOrganization._id}`,
+        updateResponse = await axiosInstance.put(
+          `/api/v1/organizations/${selectedOrganization._id}?time=${totalTime}`,
           dataWithoutLogo,
           {
             headers: {
@@ -2103,7 +2127,26 @@ const DataInsertion = () => {
         </nav>
 
         {/* Logout Button at Bottom */}
-        <div className="mt-8 pt-4 border-t border-gray-200">
+        <div className="mt-8 pt-4 border-t border-gray-200 flex flex-col gap-2">
+          <div className="relative inline-block group w-full">
+            <div className="w-full border-2 border-gray-200 rounded-md px-3 py-2 capitalize flex flex-row gap-3 items-center cursor-pointer">
+              <User />
+              <span className="font-medium text-gray-500">
+                {userData?.name}
+              </span>
+            </div>
+
+            {/* Tooltip */}
+            <span
+              className="pointer-events-none absolute left-1/2 -translate-x-1/2 -top-9
+               whitespace-nowrap rounded bg-gray-900 px-3 py-1 text-xs text-white
+               opacity-0 transition-opacity duration-200
+               group-hover:opacity-100"
+            >
+              Logged in {userData?.email}
+            </span>
+          </div>
+
           <button
             onClick={handleLogout}
             className="w-full flex items-center justify-center bg-red-600 hover:bg-red-700 text-white px-4 py-3 rounded-lg font-medium transition text-sm"

@@ -5,74 +5,29 @@ import GSCQueriesPage from "./Components/GSCQueriesPage";
 import GSCPagesPage from "./Components/GSCPagesPage";
 import GSCToolsPage from "./Components/GSCToolsPage";
 import IndexingApiPage from "./Components/IndexingApiPage";
-
-// const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api"; 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://adminpanel.gyapak.in/api"; 
-const LS_ACCESS_KEY = "gyapak_seo_access_v1";
-
-const readAccessLevel = () => {
-    try{        
-        const v = localStorage.getItem(LS_ACCESS_KEY);
-        return v === 'full' || v === 'restricted' ? v: 'none'
-    } catch {
-        return "none";
-    }
-}
-
-const writeAccessLevel = (level) => {
-    localStorage.setItem(LS_ACCESS_KEY, level);
-}
-
-const clearAccessLevel = () => {
-    localStorage.removeItem(LS_ACCESS_KEY);
-}
+import { useAuth } from "../../Components/Auth/AuthContext";
 
 const SeoTools = () => {
-  const [accessLevel, setAccessLevel] = useState(() => readAccessLevel());
+  const { user, isAuthenticated } = useAuth();
 
-  const [accessCredentials, setAccessCredentials] = useState({ id: "", password: "" });
-
-  const fullAccessId = import.meta.env.VITE_FULL_ACCESS_ID;
-  const fullAccessPassword = import.meta.env.VITE_FULL_ACCESS_PASSWORD;
-
-  const restrictedAccessId = import.meta.env.VITE_RESTRICTED_ACCESS_ID;
-  const restrictedAccessPassword = import.meta.env.VITE_RESTRICTED_ACCESS_PASSWORD;
-
-  const canSubmit = useMemo(() => {
-    return accessCredentials.id.trim() && accessCredentials.password.trim();
-  }, [accessCredentials]);
-
-  useEffect(() => {
-    writeAccessLevel(accessLevel);
-  },[accessLevel]);
-
-  const handleAccessSubmit = (e) => {
-    e?.preventDefault?.();
-
-    const id = accessCredentials.id.trim();
-    const pw = accessCredentials.password.trim();
-
-    if (id === fullAccessId && pw === fullAccessPassword) {
-      setAccessLevel("full");
-      writeAccessLevel("full");
-      return;
+  // Determine access level based on user role
+  // admin = full access
+  // data entry = restricted access (indexing only)
+  const accessLevel = useMemo(() => {
+    if (!isAuthenticated || !user) {
+      return "none";
     }
-
-    if (id === restrictedAccessId && pw === restrictedAccessPassword) {
-      setAccessLevel("restricted");
-      writeAccessLevel("restricted");
-      return;
+    
+    if (user.role === "admin") {
+      return "full";
     }
-
-    alert("Invalid credentials");
-    setAccessLevel("none");
-  };
-
-  const handleLogout = () => {
-    setAccessLevel("none");
-    setAccessCredentials({ id: "", password: "" });
-    clearAccessLevel();
-  };
+    
+    if (user.role === "data entry") {
+      return "restricted";
+    }
+    
+    return "none";
+  }, [isAuthenticated, user]);
 
   return (
     <div className="mt-20 p-4 min-h-screen">
@@ -82,7 +37,6 @@ const SeoTools = () => {
 
       <SeoIntro />
 
-     
       <div className="max-w-xl mx-auto mt-8 rounded-2xl border border-purple-200 bg-white p-5 shadow-sm">
         <div className="flex items-start justify-between gap-3">
           <div>
@@ -90,73 +44,45 @@ const SeoTools = () => {
             <p className="text-xs text-gray-500 mt-1">
               Current access:{" "}
               <span className="font-semibold text-purple-700">
-                {accessLevel === "none" ? "No access" : accessLevel === "restricted" ? "Restricted" : "Full"}
+                {accessLevel === "none"
+                  ? "No access"
+                  : accessLevel === "restricted"
+                  ? "Restricted (Indexing Only)"
+                  : "Full Access"}
               </span>
             </p>
+            {user && (
+              <p className="text-xs text-gray-500 mt-1">
+                Logged in as:{" "}
+                <span className="font-semibold text-purple-700">
+                  {user.name} ({user.role})
+                </span>
+              </p>
+            )}
           </div>
-
-          {accessLevel !== "none" && (
-            <button
-              onClick={handleLogout}
-              className="px-3 py-2 rounded-lg border border-gray-200 text-sm font-medium hover:bg-gray-50"
-            >
-              Logout
-            </button>
-          )}
         </div>
 
         {accessLevel === "none" && (
-          <form onSubmit={handleAccessSubmit} className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1 uppercase tracking-wide">
-                ID
-              </label>
-              <input
-                value={accessCredentials.id}
-                onChange={(e) => setAccessCredentials((p) => ({ ...p, id: e.target.value }))}
-                className="w-full px-3 py-2 rounded-lg border border-purple-200 bg-white text-sm text-gray-800
-                           focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 shadow-sm"
-                placeholder="Enter ID"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1 uppercase tracking-wide">
-                Password
-              </label>
-              <input
-                type="password"
-                value={accessCredentials.password}
-                onChange={(e) => setAccessCredentials((p) => ({ ...p, password: e.target.value }))}
-                className="w-full px-3 py-2 rounded-lg border border-purple-200 bg-white text-sm text-gray-800
-                           focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 shadow-sm"
-                placeholder="Enter password"
-              />
-            </div>
-
-            <div className="sm:col-span-2">
-              <button
-                type="submit"
-                disabled={!canSubmit}
-                className="w-full px-4 py-2 rounded-lg bg-purple-600 text-white text-sm font-medium
-                           hover:bg-purple-700 disabled:opacity-60"
-              >
-                Unlock Tools
-              </button>
-              
-            </div>
-          </form>
+          <div className="mt-4 p-4 rounded-lg bg-yellow-50 border border-yellow-200">
+            <p className="text-sm text-yellow-800">
+              You need to be logged in with appropriate permissions to access SEO tools.
+            </p>
+            <p className="text-xs text-yellow-600 mt-2">
+              • <strong>Admin</strong>: Full access to all SEO tools
+              <br />
+              • <strong>Data Entry</strong>: Access to Indexing API only
+            </p>
+          </div>
         )}
       </div>
 
-      
       {accessLevel === "full" && (
         <>
-          <GSCToolsPage url={API_BASE_URL}/>
+          <GSCToolsPage />
           <IndexingApiPage />
-          <SeoPerformance url={API_BASE_URL} />
-          <GSCQueriesPage url={API_BASE_URL} />
-          <GSCPagesPage url={API_BASE_URL} />
+          <SeoPerformance />
+          <GSCQueriesPage />
+          <GSCPagesPage />
         </>
       )}
 
@@ -164,7 +90,11 @@ const SeoTools = () => {
         <>
           <div className="max-w-5xl mx-auto mt-8 rounded-2xl border border-purple-200 bg-white p-5 shadow-sm">
             <div className="text-sm text-gray-700">
-              Restricted mode: only Indexing API is available.
+              <strong>Restricted Access:</strong> As a Data Entry user, you have access to the Indexing API only.
+              <br />
+              <span className="text-xs text-gray-500 mt-1">
+                Contact an administrator for full access to all SEO tools.
+              </span>
             </div>
           </div>
           <IndexingApiPage />

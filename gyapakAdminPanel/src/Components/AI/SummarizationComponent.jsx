@@ -1,7 +1,8 @@
 // src/components/SummarizationComponent.jsx
 import React, { useMemo, useState } from "react";
-import axios from "axios";
+
 import { API_BASE_URL } from "../../config";
+import axiosInstance from "../../api/axiosConfig";
 
 function Chip({ children }) {
   return (
@@ -22,7 +23,9 @@ function Section({ title, children }) {
   return (
     <div className="mt-4">
       <div className="font-semibold text-gray-800 mb-1">{title}</div>
-      <div className="text-sm text-gray-700 whitespace-pre-wrap">{children}</div>
+      <div className="text-sm text-gray-700 whitespace-pre-wrap">
+        {children}
+      </div>
     </div>
   );
 }
@@ -55,7 +58,12 @@ function LinksList({ links }) {
       <ul className="list-disc pl-5 mt-1 text-blue-700 text-sm">
         {links.map((u, i) => (
           <li key={`${u}-${i}`}>
-            <a className="underline break-all" href={u} target="_blank" rel="noreferrer">
+            <a
+              className="underline break-all"
+              href={u}
+              target="_blank"
+              rel="noreferrer"
+            >
               {u}
             </a>
           </li>
@@ -74,7 +82,9 @@ function VacancyBreakup({ breakup }) {
         <table className="min-w-[520px] w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
           <thead className="bg-gray-100 text-gray-700">
             <tr>
-              <th className="text-left px-3 py-2 border-b">Unit / Zone / Circle</th>
+              <th className="text-left px-3 py-2 border-b">
+                Unit / Zone / Circle
+              </th>
               <th className="text-left px-3 py-2 border-b">Post</th>
               <th className="text-left px-3 py-2 border-b">Vacancies</th>
             </tr>
@@ -157,7 +167,7 @@ const SummarizationComponent = () => {
     setLoading(true);
     setOut(null);
     try {
-      const res = await axios.post(`${API_BASE_URL}/api/v1/convert`, {
+      const res = await axiosInstance.post(`/api/v1/convert`, {
         text: data,
         minLengthVariable,
         keywords,
@@ -177,7 +187,8 @@ const SummarizationComponent = () => {
         Govt Notice → Structured Output
       </p>
       <p className="text-center text-md text-gray-500 m-4">
-        Paste full official text. The extractor returns multiple items (job/exam/result/admit card).
+        Paste full official text. The extractor returns multiple items
+        (job/exam/result/admit card).
       </p>
 
       {/* Input */}
@@ -199,7 +210,8 @@ const SummarizationComponent = () => {
         {data.length < minLengthVariable && (
           <p className="text-gray-400 text-xs mt-2">
             {minLengthVariable - data.length} character
-            {minLengthVariable - data.length !== 1 && "s"} remaining to enable extraction
+            {minLengthVariable - data.length !== 1 && "s"} remaining to enable
+            extraction
           </p>
         )}
 
@@ -296,7 +308,9 @@ const SummarizationComponent = () => {
                   className="border-2 p-6 rounded-2xl bg-white shadow-sm"
                 >
                   <div className="flex items-center justify-between flex-wrap gap-3">
-                    <h3 className="text-xl font-bold text-purple-800">{item.title}</h3>
+                    <h3 className="text-xl font-bold text-purple-800">
+                      {item.title}
+                    </h3>
                     <div className="flex items-center gap-2">
                       <Chip>{type || "other"}</Chip>
                       {item.organization && (
@@ -329,10 +343,14 @@ const SummarizationComponent = () => {
                     <>
                       <div className="grid md:grid-cols-2 gap-4 mt-4 text-sm text-gray-700">
                         {item.job.engagement_type && (
-                          <p><b>Engagement:</b> {item.job.engagement_type}</p>
+                          <p>
+                            <b>Engagement:</b> {item.job.engagement_type}
+                          </p>
                         )}
                         {Number.isFinite(item.job.total_vacancies) && (
-                          <p><b>Total Vacancies:</b> {item.job.total_vacancies}</p>
+                          <p>
+                            <b>Total Vacancies:</b> {item.job.total_vacancies}
+                          </p>
                         )}
                         {item.job.posting_locations && (
                           <p className="md:col-span-2">
@@ -344,8 +362,8 @@ const SummarizationComponent = () => {
                       {/* Age */}
                       {item.job.age_criteria && (
                         <div className="mt-3 text-sm">
-                          <b>Age:</b>{" "}
-                          {item.job.age_criteria.min ?? ""}{item.job.age_criteria.min != null ? " - " : ""}
+                          <b>Age:</b> {item.job.age_criteria.min ?? ""}
+                          {item.job.age_criteria.min != null ? " - " : ""}
                           {item.job.age_criteria.max ?? ""}{" "}
                           {item.job.age_criteria.as_on
                             ? `(as on ${item.job.age_criteria.as_on})`
@@ -361,15 +379,29 @@ const SummarizationComponent = () => {
                       <VacancyBreakup breakup={item.job.vacancy_breakup} />
 
                       <Section title="Education">{item.job.education}</Section>
-                      <Section title="Experience">{item.job.experience}</Section>
+                      <Section title="Experience">
+                        {item.job.experience}
+                      </Section>
                       <Section title="Skills">{item.job.skills}</Section>
-                      <Section title="Selection Process">{item.job.selection_process}</Section>
-                      <Section title="Application Fee">{item.job.application_fee}</Section>
-                      <Section title="Reservations">{item.job.reservations}</Section>
+                      <Section title="Selection Process">
+                        {item.job.selection_process}
+                      </Section>
+                      <Section title="Application Fee">
+                        {item.job.application_fee}
+                      </Section>
+                      <Section title="Reservations">
+                        {item.job.reservations}
+                      </Section>
                       <Section title="PwBD Info">{item.job.pwd_info}</Section>
-                      <Section title="Documents Required">{item.job.documents_required}</Section>
-                      <Section title="How to Apply">{item.job.how_to_apply}</Section>
-                      <Section title="Job Profile">{item.job.job_profile}</Section>
+                      <Section title="Documents Required">
+                        {item.job.documents_required}
+                      </Section>
+                      <Section title="How to Apply">
+                        {item.job.how_to_apply}
+                      </Section>
+                      <Section title="Job Profile">
+                        {item.job.job_profile}
+                      </Section>
                       <Section title="KRAs">{item.job.kras}</Section>
 
                       {/* Pay/CTC */}
@@ -400,38 +432,59 @@ const SummarizationComponent = () => {
                       <Section title="Conducting Body">
                         {item.exam.conducting_body}
                       </Section>
-                      <Section title="Eligibility">{item.exam.eligibility}</Section>
+                      <Section title="Eligibility">
+                        {item.exam.eligibility}
+                      </Section>
                       <Section title="Syllabus">{item.exam.syllabus}</Section>
                       <Section title="Pattern">{item.exam.pattern}</Section>
                       <Section title="Application Process">
                         {item.exam.application_process}
                       </Section>
                       <Section title="Fee">{item.exam.fee}</Section>
-                      <Section title="Exam Centers">{item.exam.centers}</Section>
+                      <Section title="Exam Centers">
+                        {item.exam.centers}
+                      </Section>
                     </>
                   )}
 
                   {type === "result" && item.result && (
                     <>
-                      <Section title="Exam Name">{item.result.exam_name}</Section>
-                      <Section title="Result Link">{item.result.result_link}</Section>
-                      <Section title="Cutoff Information">{item.result.cutoff_info}</Section>
-                      <Section title="Next Steps">{item.result.next_steps}</Section>
+                      <Section title="Exam Name">
+                        {item.result.exam_name}
+                      </Section>
+                      <Section title="Result Link">
+                        {item.result.result_link}
+                      </Section>
+                      <Section title="Cutoff Information">
+                        {item.result.cutoff_info}
+                      </Section>
+                      <Section title="Next Steps">
+                        {item.result.next_steps}
+                      </Section>
                     </>
                   )}
 
                   {type === "admit_card" && item.admit_card && (
                     <>
-                      <Section title="Exam Name">{item.admit_card.exam_name}</Section>
+                      <Section title="Exam Name">
+                        {item.admit_card.exam_name}
+                      </Section>
                       <div className="grid md:grid-cols-2 gap-4 mt-3 text-sm">
                         {item.admit_card.download_start && (
-                          <p><b>Download Start:</b> {item.admit_card.download_start}</p>
+                          <p>
+                            <b>Download Start:</b>{" "}
+                            {item.admit_card.download_start}
+                          </p>
                         )}
                         {item.admit_card.download_end && (
-                          <p><b>Download End:</b> {item.admit_card.download_end}</p>
+                          <p>
+                            <b>Download End:</b> {item.admit_card.download_end}
+                          </p>
                         )}
                       </div>
-                      <Section title="Instructions">{item.admit_card.instructions}</Section>
+                      <Section title="Instructions">
+                        {item.admit_card.instructions}
+                      </Section>
                     </>
                   )}
 

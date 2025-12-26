@@ -1,26 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import { AlertTriangle, FileText, Calendar, HelpCircle, Building, Users, Tag, X, Loader, Trash2, Eye } from 'lucide-react';
-import axios from 'axios';
-import { API_BASE_URL } from '../../config';
+import React, { useState, useEffect, useRef } from "react";
+import {
+  AlertTriangle,
+  FileText,
+  Calendar,
+  HelpCircle,
+  Building,
+  Users,
+  Tag,
+  X,
+  Loader,
+  Trash2,
+  Eye,
+} from "lucide-react";
+import { API_BASE_URL } from "../../config";
+import axiosInstance from "../../api/axiosConfig";
 
-const OrganizationDeleteDialog = ({ 
-  organization, 
-  isOpen, 
-  onClose, 
-  onDeleteSuccess 
+const OrganizationDeleteDialog = ({
+  organization,
+  isOpen,
+  onClose,
+  onDeleteSuccess,
 }) => {
   const [dependencies, setDependencies] = useState(null);
   const [loading, setLoading] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState(null);
-  const [confirmText, setConfirmText] = useState('');
+  const [confirmText, setConfirmText] = useState("");
   const [showDetails, setShowDetails] = useState({
     events: false,
     faqs: false,
     authorities: false,
-    categories: false
+    categories: false,
   });
+  const startTime = useRef(null);
 
+  useEffect(() => {
+    startTime.current = Date.now();
+  }, []);
   // Fetch dependencies when dialog opens
   useEffect(() => {
     if (isOpen && organization) {
@@ -33,12 +49,12 @@ const OrganizationDeleteDialog = ({
     if (!isOpen) {
       setDependencies(null);
       setError(null);
-      setConfirmText('');
+      setConfirmText("");
       setShowDetails({
         events: false,
         faqs: false,
         authorities: false,
-        categories: false
+        categories: false,
       });
     }
   }, [isOpen]);
@@ -47,43 +63,44 @@ const OrganizationDeleteDialog = ({
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get(
-        `${API_BASE_URL}/api/v1/organizations/${organization._id}/dependencies`
+      const response = await axiosInstance.get(
+        `/api/v1/organizations/${organization._id}/dependencies`
       );
       setDependencies(response.data.data);
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to fetch dependencies');
+      setError(err.response?.data?.error || "Failed to fetch dependencies");
     } finally {
       setLoading(false);
     }
   };
 
   const handleDelete = async () => {
+    const totalTime = Math.floor((Date.now() - startTime.current) / 1000);
     if (confirmText !== organization.name) {
-      setError('Please type the organization name exactly to confirm deletion');
+      setError("Please type the organization name exactly to confirm deletion");
       return;
     }
 
     setDeleting(true);
     setError(null);
     try {
-      const response = await axios.delete(
-        `${API_BASE_URL}/api/v1/organizations/${organization._id}/cascade`
+      const response = await axiosInstance.delete(
+        `/api/v1/organizations/cascade?organizationId=${organization._id}&time=${totalTime}`
       );
-      
+
       onDeleteSuccess(response.data.data);
       onClose();
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to delete organization');
+      setError(err.response?.data?.error || "Failed to delete organization");
     } finally {
       setDeleting(false);
     }
   };
 
   const toggleDetails = (section) => {
-    setShowDetails(prev => ({
+    setShowDetails((prev) => ({
       ...prev,
-      [section]: !prev[section]
+      [section]: !prev[section],
     }));
   };
 
@@ -100,9 +117,12 @@ const OrganizationDeleteDialog = ({
                 <AlertTriangle className="w-6 h-6 text-red-600" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-red-900">Delete Organization</h2>
+                <h2 className="text-2xl font-bold text-red-900">
+                  Delete Organization
+                </h2>
                 <p className="text-red-700 mt-1">
-                  This action cannot be undone. All related data will be permanently deleted.
+                  This action cannot be undone. All related data will be
+                  permanently deleted.
                 </p>
               </div>
             </div>
@@ -142,21 +162,35 @@ const OrganizationDeleteDialog = ({
               <div className="bg-gray-50 rounded-lg p-4 mb-6">
                 <div className="flex items-center mb-3">
                   <Building className="w-5 h-5 text-gray-600 mr-2" />
-                  <h3 className="text-lg font-semibold text-gray-900">Organization to Delete</h3>
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    Organization to Delete
+                  </h3>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <span className="text-sm font-medium text-gray-500">Name:</span>
-                    <p className="text-gray-900 font-medium">{dependencies.organization.name}</p>
+                    <span className="text-sm font-medium text-gray-500">
+                      Name:
+                    </span>
+                    <p className="text-gray-900 font-medium">
+                      {dependencies.organization.name}
+                    </p>
                   </div>
                   <div>
-                    <span className="text-sm font-medium text-gray-500">Abbreviation:</span>
-                    <p className="text-gray-900 font-medium">{dependencies.organization.abbreviation}</p>
+                    <span className="text-sm font-medium text-gray-500">
+                      Abbreviation:
+                    </span>
+                    <p className="text-gray-900 font-medium">
+                      {dependencies.organization.abbreviation}
+                    </p>
                   </div>
                   {dependencies.organization.description && (
                     <div className="md:col-span-2">
-                      <span className="text-sm font-medium text-gray-500">Description:</span>
-                      <p className="text-gray-700">{dependencies.organization.description}</p>
+                      <span className="text-sm font-medium text-gray-500">
+                        Description:
+                      </span>
+                      <p className="text-gray-700">
+                        {dependencies.organization.description}
+                      </p>
                     </div>
                   )}
                 </div>
@@ -164,11 +198,15 @@ const OrganizationDeleteDialog = ({
 
               {/* Dependencies Summary */}
               <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
-                <h3 className="text-lg font-semibold text-yellow-900 mb-2">Impact Analysis</h3>
+                <h3 className="text-lg font-semibold text-yellow-900 mb-2">
+                  Impact Analysis
+                </h3>
                 <p className="text-yellow-800 mb-3">
-                  Deleting this organization will affect <strong>{dependencies.totalDependencies}</strong> related items:
+                  Deleting this organization will affect{" "}
+                  <strong>{dependencies.totalDependencies}</strong> related
+                  items:
                 </p>
-                
+
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
                   {/* Events */}
                   <div className="bg-white rounded-lg p-3 border border-yellow-200">
@@ -181,11 +219,11 @@ const OrganizationDeleteDialog = ({
                     <p className="text-sm font-medium text-gray-700">Events</p>
                     {dependencies.dependencies.events.count > 0 && (
                       <button
-                        onClick={() => toggleDetails('events')}
+                        onClick={() => toggleDetails("events")}
                         className="text-xs text-blue-600 hover:text-blue-800 mt-1 flex items-center"
                       >
                         <Eye className="w-3 h-3 mr-1" />
-                        {showDetails.events ? 'Hide' : 'View'} Details
+                        {showDetails.events ? "Hide" : "View"} Details
                       </button>
                     )}
                   </div>
@@ -201,11 +239,11 @@ const OrganizationDeleteDialog = ({
                     <p className="text-sm font-medium text-gray-700">FAQs</p>
                     {dependencies.dependencies.faqs.count > 0 && (
                       <button
-                        onClick={() => toggleDetails('faqs')}
+                        onClick={() => toggleDetails("faqs")}
                         className="text-xs text-green-600 hover:text-green-800 mt-1 flex items-center"
                       >
                         <Eye className="w-3 h-3 mr-1" />
-                        {showDetails.faqs ? 'Hide' : 'View'} Details
+                        {showDetails.faqs ? "Hide" : "View"} Details
                       </button>
                     )}
                   </div>
@@ -218,14 +256,16 @@ const OrganizationDeleteDialog = ({
                         {dependencies.dependencies.authorities.count}
                       </span>
                     </div>
-                    <p className="text-sm font-medium text-gray-700">Authorities</p>
+                    <p className="text-sm font-medium text-gray-700">
+                      Authorities
+                    </p>
                     {dependencies.dependencies.authorities.count > 0 && (
                       <button
-                        onClick={() => toggleDetails('authorities')}
+                        onClick={() => toggleDetails("authorities")}
                         className="text-xs text-purple-600 hover:text-purple-800 mt-1 flex items-center"
                       >
                         <Eye className="w-3 h-3 mr-1" />
-                        {showDetails.authorities ? 'Hide' : 'View'} Details
+                        {showDetails.authorities ? "Hide" : "View"} Details
                       </button>
                     )}
                   </div>
@@ -238,14 +278,16 @@ const OrganizationDeleteDialog = ({
                         {dependencies.dependencies.categories.count}
                       </span>
                     </div>
-                    <p className="text-sm font-medium text-gray-700">Categories</p>
+                    <p className="text-sm font-medium text-gray-700">
+                      Categories
+                    </p>
                     {dependencies.dependencies.categories.count > 0 && (
                       <button
-                        onClick={() => toggleDetails('categories')}
+                        onClick={() => toggleDetails("categories")}
                         className="text-xs text-orange-600 hover:text-orange-800 mt-1 flex items-center"
                       >
                         <Eye className="w-3 h-3 mr-1" />
-                        {showDetails.categories ? 'Hide' : 'View'} Details
+                        {showDetails.categories ? "Hide" : "View"} Details
                       </button>
                     )}
                   </div>
@@ -254,7 +296,9 @@ const OrganizationDeleteDialog = ({
                 {/* Warnings */}
                 {dependencies.warnings.length > 0 && (
                   <div className="bg-red-50 border border-red-200 rounded-lg p-3">
-                    <h4 className="font-medium text-red-900 mb-2">⚠️ Deletion Warnings:</h4>
+                    <h4 className="font-medium text-red-900 mb-2">
+                      ⚠️ Deletion Warnings:
+                    </h4>
                     <ul className="list-disc list-inside text-red-800 text-sm space-y-1">
                       {dependencies.warnings.map((warning, index) => (
                         <li key={index}>{warning}</li>
@@ -265,27 +309,40 @@ const OrganizationDeleteDialog = ({
               </div>
 
               {/* Detailed Views */}
-              {showDetails.events && dependencies.dependencies.events.count > 0 && (
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-                  <h4 className="font-semibold text-blue-900 mb-3 flex items-center">
-                    <Calendar className="w-4 h-4 mr-2" />
-                    Events to be deleted ({dependencies.dependencies.events.count})
-                  </h4>
-                  <div className="max-h-32 overflow-y-auto">
-                    {dependencies.dependencies.events.items.map((event, index) => (
-                      <div key={event._id} className="bg-white rounded p-2 mb-2 border border-blue-200">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <p className="font-medium text-gray-900">{event.name}</p>
-                            <p className="text-sm text-gray-600">Type: {event.event_type}</p>
+              {showDetails.events &&
+                dependencies.dependencies.events.count > 0 && (
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                    <h4 className="font-semibold text-blue-900 mb-3 flex items-center">
+                      <Calendar className="w-4 h-4 mr-2" />
+                      Events to be deleted (
+                      {dependencies.dependencies.events.count})
+                    </h4>
+                    <div className="max-h-32 overflow-y-auto">
+                      {dependencies.dependencies.events.items.map(
+                        (event, index) => (
+                          <div
+                            key={event._id}
+                            className="bg-white rounded p-2 mb-2 border border-blue-200"
+                          >
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <p className="font-medium text-gray-900">
+                                  {event.name}
+                                </p>
+                                <p className="text-sm text-gray-600">
+                                  Type: {event.event_type}
+                                </p>
+                              </div>
+                              <span className="text-xs text-gray-500">
+                                {event.date_of_notification}
+                              </span>
+                            </div>
                           </div>
-                          <span className="text-xs text-gray-500">{event.date_of_notification}</span>
-                        </div>
-                      </div>
-                    ))}
+                        )
+                      )}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
               {showDetails.faqs && dependencies.dependencies.faqs.count > 0 && (
                 <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
@@ -295,54 +352,86 @@ const OrganizationDeleteDialog = ({
                   </h4>
                   <div className="max-h-32 overflow-y-auto">
                     {dependencies.dependencies.faqs.items.map((faq, index) => (
-                      <div key={faq._id} className="bg-white rounded p-2 mb-2 border border-green-200">
-                        <p className="font-medium text-gray-900 truncate">{faq.question}</p>
-                        <p className="text-sm text-gray-600">State: {faq.state}</p>
+                      <div
+                        key={faq._id}
+                        className="bg-white rounded p-2 mb-2 border border-green-200"
+                      >
+                        <p className="font-medium text-gray-900 truncate">
+                          {faq.question}
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          State: {faq.state}
+                        </p>
                       </div>
                     ))}
                   </div>
                 </div>
               )}
 
-              {showDetails.authorities && dependencies.dependencies.authorities.count > 0 && (
-                <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-4">
-                  <h4 className="font-semibold text-purple-900 mb-3 flex items-center">
-                    <Users className="w-4 h-4 mr-2" />
-                    Authorities to be updated ({dependencies.dependencies.authorities.count})
-                  </h4>
-                  <div className="max-h-32 overflow-y-auto">
-                    {dependencies.dependencies.authorities.items.map((authority, index) => (
-                      <div key={authority._id} className="bg-white rounded p-2 mb-2 border border-purple-200">
-                        <p className="font-medium text-gray-900">{authority.name}</p>
-                        <p className="text-sm text-gray-600">Type: {authority.type}</p>
-                      </div>
-                    ))}
+              {showDetails.authorities &&
+                dependencies.dependencies.authorities.count > 0 && (
+                  <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-4">
+                    <h4 className="font-semibold text-purple-900 mb-3 flex items-center">
+                      <Users className="w-4 h-4 mr-2" />
+                      Authorities to be updated (
+                      {dependencies.dependencies.authorities.count})
+                    </h4>
+                    <div className="max-h-32 overflow-y-auto">
+                      {dependencies.dependencies.authorities.items.map(
+                        (authority, index) => (
+                          <div
+                            key={authority._id}
+                            className="bg-white rounded p-2 mb-2 border border-purple-200"
+                          >
+                            <p className="font-medium text-gray-900">
+                              {authority.name}
+                            </p>
+                            <p className="text-sm text-gray-600">
+                              Type: {authority.type}
+                            </p>
+                          </div>
+                        )
+                      )}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {showDetails.categories && dependencies.dependencies.categories.count > 0 && (
-                <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-4">
-                  <h4 className="font-semibold text-orange-900 mb-3 flex items-center">
-                    <Tag className="w-4 h-4 mr-2" />
-                    Categories to be updated ({dependencies.dependencies.categories.count})
-                  </h4>
-                  <div className="max-h-32 overflow-y-auto">
-                    {dependencies.dependencies.categories.items.map((category, index) => (
-                      <div key={category._id} className="bg-white rounded p-2 mb-2 border border-orange-200">
-                        <p className="font-medium text-gray-900">{category.category}</p>
-                        <p className="text-sm text-gray-600">{category.description}</p>
-                      </div>
-                    ))}
+              {showDetails.categories &&
+                dependencies.dependencies.categories.count > 0 && (
+                  <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-4">
+                    <h4 className="font-semibold text-orange-900 mb-3 flex items-center">
+                      <Tag className="w-4 h-4 mr-2" />
+                      Categories to be updated (
+                      {dependencies.dependencies.categories.count})
+                    </h4>
+                    <div className="max-h-32 overflow-y-auto">
+                      {dependencies.dependencies.categories.items.map(
+                        (category, index) => (
+                          <div
+                            key={category._id}
+                            className="bg-white rounded p-2 mb-2 border border-orange-200"
+                          >
+                            <p className="font-medium text-gray-900">
+                              {category.category}
+                            </p>
+                            <p className="text-sm text-gray-600">
+                              {category.description}
+                            </p>
+                          </div>
+                        )
+                      )}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
               {/* Confirmation */}
               <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-                <h3 className="text-lg font-semibold text-red-900 mb-3">Confirm Deletion</h3>
+                <h3 className="text-lg font-semibold text-red-900 mb-3">
+                  Confirm Deletion
+                </h3>
                 <p className="text-red-800 mb-4">
-                  To confirm deletion, please type the organization name exactly as shown: 
+                  To confirm deletion, please type the organization name exactly
+                  as shown:
                   <span className="font-mono font-bold bg-white px-2 py-1 rounded ml-1">
                     {organization.name}
                   </span>
@@ -381,7 +470,9 @@ const OrganizationDeleteDialog = ({
             </button>
             <button
               onClick={handleDelete}
-              disabled={deleting || !dependencies || confirmText !== organization?.name}
+              disabled={
+                deleting || !dependencies || confirmText !== organization?.name
+              }
               className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
             >
               {deleting ? (

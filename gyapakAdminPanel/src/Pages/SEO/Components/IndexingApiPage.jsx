@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../../api/axiosConfig";
 
-// const API_BASE = "http://localhost:3000/api/index"; 
+// const API_BASE = "http://localhost:3000/api/index";
 
-const API_BASE = 'https://adminpanel.gyapak.in/api/index';
+const API_BASE = "https://adminpanel.gyapak.in/api/index";
 const LS_KEY = "gyapak_indexing_history_v1";
 
 const isValidUrl = (value) => {
@@ -41,7 +41,9 @@ function Badge({ tone = "gray", children }) {
       : "border-gray-200 bg-gray-50 text-gray-700";
 
   return (
-    <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs border ${cls}`}>
+    <span
+      className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs border ${cls}`}
+    >
       {children}
     </span>
   );
@@ -97,18 +99,16 @@ export default function IndexingApiPage() {
   }, [action]);
 
   const actionLabel = useMemo(() => {
-    return action === "publish" ? "Publish (URL_UPDATED)" : "Remove (URL_REMOVED)";
+    return action === "publish"
+      ? "Publish (URL_UPDATED)"
+      : "Remove (URL_REMOVED)";
   }, [action]);
 
   const humanSummary = useMemo(() => {
     if (action === "publish") {
-      return (
-        "This sends a Google Indexing API notification: URL_UPDATED. Use it when you publish or update a job/post page and want Google to re-crawl faster."
-      );
+      return "This sends a Google Indexing API notification: URL_UPDATED. Use it when you publish or update a job/post page and want Google to re-crawl faster.";
     }
-    return (
-      "This sends a Google Indexing API notification: URL_REMOVED. Use it when a page is deleted or should be removed from Google results."
-    );
+    return "This sends a Google Indexing API notification: URL_REMOVED. Use it when a page is deleted or should be removed from Google results.";
   }, [action]);
 
   const urlsToProcess = useMemo(() => {
@@ -116,8 +116,14 @@ export default function IndexingApiPage() {
     return normalizeInputToUrls(bulkText);
   }, [mode, singleUrl, bulkText]);
 
-  const validUrls = useMemo(() => urlsToProcess.filter(isValidUrl), [urlsToProcess]);
-  const invalidUrls = useMemo(() => urlsToProcess.filter((u) => !isValidUrl(u)), [urlsToProcess]);
+  const validUrls = useMemo(
+    () => urlsToProcess.filter(isValidUrl),
+    [urlsToProcess]
+  );
+  const invalidUrls = useMemo(
+    () => urlsToProcess.filter((u) => !isValidUrl(u)),
+    [urlsToProcess]
+  );
 
   const stats = useMemo(() => {
     const ok = results.filter((r) => r.ok).length;
@@ -154,7 +160,9 @@ export default function IndexingApiPage() {
     }
 
     if (invalidUrls.length > 0) {
-      setError(`Some URLs are invalid. Fix them first. Invalid count: ${invalidUrls.length}`);
+      setError(
+        `Some URLs are invalid. Fix them first. Invalid count: ${invalidUrls.length}`
+      );
       return;
     }
 
@@ -163,7 +171,7 @@ export default function IndexingApiPage() {
     const out = [];
     for (const url of validUrls) {
       try {
-        const res = await axios.post(`${API_BASE}${endpoint}`, { url });
+        const res = await axiosInstance.post(`/api/index${endpoint}`, { url });
         out.push({
           url,
           ok: true,
@@ -305,7 +313,9 @@ export default function IndexingApiPage() {
                       ))}
                     </ul>
                     {invalidUrls.length > 10 && (
-                      <div className="mt-1">…and {invalidUrls.length - 10} more</div>
+                      <div className="mt-1">
+                        …and {invalidUrls.length - 10} more
+                      </div>
                     )}
                   </div>
                 )}
@@ -332,20 +342,28 @@ export default function IndexingApiPage() {
           <div className="mt-4 grid grid-cols-3 gap-2 text-center">
             <div className="rounded-xl border border-gray-200 p-3">
               <div className="text-xs text-gray-500">Total</div>
-              <div className="text-lg font-semibold text-gray-900">{stats.total}</div>
+              <div className="text-lg font-semibold text-gray-900">
+                {stats.total}
+              </div>
             </div>
             <div className="rounded-xl border border-green-200 bg-green-50 p-3">
               <div className="text-xs text-green-800">Success</div>
-              <div className="text-lg font-semibold text-green-900">{stats.ok}</div>
+              <div className="text-lg font-semibold text-green-900">
+                {stats.ok}
+              </div>
             </div>
             <div className="rounded-xl border border-red-200 bg-red-50 p-3">
               <div className="text-xs text-red-800">Failed</div>
-              <div className="text-lg font-semibold text-red-900">{stats.fail}</div>
+              <div className="text-lg font-semibold text-red-900">
+                {stats.fail}
+              </div>
             </div>
           </div>
 
           <div className="mt-6 flex items-center justify-between">
-            <h4 className="text-sm font-semibold text-gray-900">History (last 20)</h4>
+            <h4 className="text-sm font-semibold text-gray-900">
+              History (last 20)
+            </h4>
             <button
               onClick={clearHistory}
               className="text-xs font-medium text-gray-600 hover:text-gray-900"
@@ -359,10 +377,15 @@ export default function IndexingApiPage() {
               <div className="text-xs text-gray-500">No history yet.</div>
             ) : (
               history.map((h, idx) => (
-                <div key={idx} className="rounded-xl border border-gray-200 p-3">
+                <div
+                  key={idx}
+                  className="rounded-xl border border-gray-200 p-3"
+                >
                   <div className="flex items-center justify-between gap-2">
                     <Badge tone="purple">{h.action}</Badge>
-                    <div className="text-xs text-gray-500">{fmtDateTime(h.at)}</div>
+                    <div className="text-xs text-gray-500">
+                      {fmtDateTime(h.at)}
+                    </div>
                   </div>
                   <div className="mt-2 text-xs text-gray-700">
                     {h.ok} ok / {h.fail} fail • {h.count} urls
@@ -403,7 +426,8 @@ export default function IndexingApiPage() {
               <tbody>
                 {results.map((r) => {
                   const notifiedAt =
-                    r?.apiResponse?.notifyTime || r?.apiResponse?.latestUpdate?.notifyTime;
+                    r?.apiResponse?.notifyTime ||
+                    r?.apiResponse?.latestUpdate?.notifyTime;
 
                   return (
                     <tr key={r.url} className="border-b last:border-b-0">
@@ -418,7 +442,11 @@ export default function IndexingApiPage() {
                         </a>
                       </td>
                       <td className="py-3">
-                        {r.ok ? <Badge tone="green">OK</Badge> : <Badge tone="red">FAIL</Badge>}
+                        {r.ok ? (
+                          <Badge tone="green">OK</Badge>
+                        ) : (
+                          <Badge tone="red">FAIL</Badge>
+                        )}
                       </td>
                       <td className="py-3">{r.message}</td>
                       <td className="py-3">{fmtDateTime(notifiedAt)}</td>

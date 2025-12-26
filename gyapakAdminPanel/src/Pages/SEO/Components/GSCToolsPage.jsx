@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../../api/axiosConfig";
 
 // const API_BASE = "http://localhost:3000/api/gsc";
 
@@ -41,13 +41,15 @@ function Badge({ tone = "gray", children }) {
       : "border-gray-200 bg-gray-50 text-gray-700";
 
   return (
-    <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs border ${toneCls}`}>
+    <span
+      className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs border ${toneCls}`}
+    >
       {children}
     </span>
   );
 }
 
-export default function GSCToolsPage({url}) {
+export default function GSCToolsPage() {
   // Sitemap submit
   const [sitemapUrl, setSitemapUrl] = useState("");
   const [sitemapLoading, setSitemapLoading] = useState(false);
@@ -80,19 +82,23 @@ export default function GSCToolsPage({url}) {
 
     // optional validation
     if (sitemapUrl && !isValidUrl(sitemapUrl)) {
-      setSitemapErr("Please enter a valid sitemap URL (http/https), or leave empty to use default.");
+      setSitemapErr(
+        "Please enter a valid sitemap URL (http/https), or leave empty to use default."
+      );
       return;
     }
 
     setSitemapLoading(true);
     try {
-      const res = await axios.post(`${url}/gsc/sitemap/submit`, {
+      const res = await axiosInstance.post(`/api/gsc/sitemap/submit`, {
         sitemapUrl: sitemapUrl?.trim() || undefined,
       });
       setSitemapResp(res.data);
     } catch (e) {
       console.log(e);
-      setSitemapErr(e?.response?.data?.message || e?.message || "Failed to submit sitemap");
+      setSitemapErr(
+        e?.response?.data?.message || e?.message || "Failed to submit sitemap"
+      );
     } finally {
       setSitemapLoading(false);
     }
@@ -113,11 +119,15 @@ export default function GSCToolsPage({url}) {
 
     setInspectLoading(true);
     try {
-      const res = await axios.post(`${url}/gsc/inspect`, { url: inspectUrl.trim() });
+      const res = await axiosInstance.post(`/api/gsc/inspect`, {
+        url: inspectUrl.trim(),
+      });
       setInspectResp(res.data);
     } catch (e) {
       console.log(e);
-      setInspectErr(e?.response?.data?.message || e?.message || "Failed to inspect URL");
+      setInspectErr(
+        e?.response?.data?.message || e?.message || "Failed to inspect URL"
+      );
     } finally {
       setInspectLoading(false);
     }
@@ -128,7 +138,8 @@ export default function GSCToolsPage({url}) {
       <div>
         <h1 className="text-3xl font-semibold text-gray-900">GSC Tools</h1>
         <p className="text-sm text-gray-500 mt-1">
-          Submit sitemap to Search Console and inspect indexing status for any URL.
+          Submit sitemap to Search Console and inspect indexing status for any
+          URL.
         </p>
       </div>
 
@@ -138,9 +149,12 @@ export default function GSCToolsPage({url}) {
         <div className="rounded-2xl border border-purple-200 bg-white p-5 shadow-sm">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <h2 className="text-lg font-semibold text-gray-900">Submit Sitemap</h2>
+              <h2 className="text-lg font-semibold text-gray-900">
+                Submit Sitemap
+              </h2>
               <p className="text-xs text-gray-500 mt-1">
-                If empty, backend uses default: <span className="font-medium">/sitemap.xml</span>
+                If empty, backend uses default:{" "}
+                <span className="font-medium">/sitemap.xml</span>
               </p>
             </div>
             <Badge tone="purple">POST /sitemap/submit</Badge>
@@ -207,9 +221,12 @@ export default function GSCToolsPage({url}) {
         <div className="rounded-2xl border border-purple-200 bg-white p-5 shadow-sm">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <h2 className="text-lg font-semibold text-gray-900">Inspect URL</h2>
+              <h2 className="text-lg font-semibold text-gray-900">
+                Inspect URL
+              </h2>
               <p className="text-xs text-gray-500 mt-1">
-                Checks if Google can index it, last crawl, canonical, robots status, etc.
+                Checks if Google can index it, last crawl, canonical, robots
+                status, etc.
               </p>
             </div>
             <Badge tone="purple">POST /inspect</Badge>
@@ -259,43 +276,78 @@ export default function GSCToolsPage({url}) {
               <div className="mt-4 space-y-3">
                 <div className="flex flex-wrap gap-2">
                   <Badge tone={onGoogleTone}>
-                    {inspectResp.isOnGoogle ? "Indexed on Google" : "Not confirmed indexed"}
+                    {inspectResp.isOnGoogle
+                      ? "Indexed on Google"
+                      : "Not confirmed indexed"}
                   </Badge>
-                  <Badge tone={verdictTone}>Verdict: {fmt(inspectResp.verdict)}</Badge>
-                  <Badge tone={inspectResp.indexingState === "INDEXING_ALLOWED" ? "green" : "yellow"}>
+                  <Badge tone={verdictTone}>
+                    Verdict: {fmt(inspectResp.verdict)}
+                  </Badge>
+                  <Badge
+                    tone={
+                      inspectResp.indexingState === "INDEXING_ALLOWED"
+                        ? "green"
+                        : "yellow"
+                    }
+                  >
                     {fmt(inspectResp.indexingState)}
                   </Badge>
                 </div>
 
                 <div className="rounded-xl border border-gray-200 bg-white p-4">
-                  <div className="text-xs text-gray-500 uppercase tracking-wide">Human explanation</div>
+                  <div className="text-xs text-gray-500 uppercase tracking-wide">
+                    Human explanation
+                  </div>
 
                   <div className="mt-2 text-sm text-gray-700 leading-relaxed space-y-2">
                     <p>
-                      Google’s verdict is <span className="font-semibold">{fmt(inspectResp.verdict)}</span>.{" "}
+                      Google’s verdict is{" "}
+                      <span className="font-semibold">
+                        {fmt(inspectResp.verdict)}
+                      </span>
+                      .{" "}
                       {inspectResp.isOnGoogle
                         ? "This strongly indicates the page is indexed."
                         : "This does not guarantee indexing yet (or indexing could be blocked/limited)."}
                     </p>
 
                     <p>
-                      Coverage: <span className="font-semibold">{fmt(inspectResp.coverageState)}</span>. Last crawl:{" "}
-                      <span className="font-semibold">{fmtDateTime(inspectResp.lastCrawlTime)}</span>.
+                      Coverage:{" "}
+                      <span className="font-semibold">
+                        {fmt(inspectResp.coverageState)}
+                      </span>
+                      . Last crawl:{" "}
+                      <span className="font-semibold">
+                        {fmtDateTime(inspectResp.lastCrawlTime)}
+                      </span>
+                      .
                     </p>
 
                     <p>
-                      Robots status: <span className="font-semibold">{fmt(inspectResp.robotsTxtState)}</span>. Fetch state:{" "}
-                      <span className="font-semibold">{fmt(inspectResp.pageFetchState)}</span>.
+                      Robots status:{" "}
+                      <span className="font-semibold">
+                        {fmt(inspectResp.robotsTxtState)}
+                      </span>
+                      . Fetch state:{" "}
+                      <span className="font-semibold">
+                        {fmt(inspectResp.pageFetchState)}
+                      </span>
+                      .
                     </p>
 
                     <p>
                       Canonical: Google chose{" "}
-                      <span className="font-semibold break-all">{fmt(inspectResp.googleCanonical)}</span>
+                      <span className="font-semibold break-all">
+                        {fmt(inspectResp.googleCanonical)}
+                      </span>
                       {inspectResp.userCanonical ? (
                         <>
                           {" "}
                           (you specified{" "}
-                          <span className="font-semibold break-all">{fmt(inspectResp.userCanonical)}</span>)
+                          <span className="font-semibold break-all">
+                            {fmt(inspectResp.userCanonical)}
+                          </span>
+                          )
                         </>
                       ) : null}
                       .
@@ -304,40 +356,59 @@ export default function GSCToolsPage({url}) {
                 </div>
 
                 <div className="rounded-xl border border-gray-200 bg-white p-4">
-                  <div className="text-xs text-gray-500 uppercase tracking-wide">Key fields</div>
+                  <div className="text-xs text-gray-500 uppercase tracking-wide">
+                    Key fields
+                  </div>
 
                   <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                     <div>
                       <div className="text-xs text-gray-500">URL</div>
-                      <div className="font-medium break-all">{inspectResp.url}</div>
+                      <div className="font-medium break-all">
+                        {inspectResp.url}
+                      </div>
                     </div>
 
                     <div>
-                      <div className="text-xs text-gray-500">Coverage State</div>
-                      <div className="font-medium">{fmt(inspectResp.coverageState)}</div>
+                      <div className="text-xs text-gray-500">
+                        Coverage State
+                      </div>
+                      <div className="font-medium">
+                        {fmt(inspectResp.coverageState)}
+                      </div>
                     </div>
 
                     <div>
-                      <div className="text-xs text-gray-500">Indexing State</div>
-                      <div className="font-medium">{fmt(inspectResp.indexingState)}</div>
+                      <div className="text-xs text-gray-500">
+                        Indexing State
+                      </div>
+                      <div className="font-medium">
+                        {fmt(inspectResp.indexingState)}
+                      </div>
                     </div>
 
                     <div>
-                      <div className="text-xs text-gray-500">Last Crawl Time</div>
-                      <div className="font-medium">{fmtDateTime(inspectResp.lastCrawlTime)}</div>
+                      <div className="text-xs text-gray-500">
+                        Last Crawl Time
+                      </div>
+                      <div className="font-medium">
+                        {fmtDateTime(inspectResp.lastCrawlTime)}
+                      </div>
                     </div>
 
                     <div>
                       <div className="text-xs text-gray-500">Sitemaps</div>
                       <div className="font-medium break-all">
-                        {Array.isArray(inspectResp.sitemaps) && inspectResp.sitemaps.length
+                        {Array.isArray(inspectResp.sitemaps) &&
+                        inspectResp.sitemaps.length
                           ? inspectResp.sitemaps.join(", ")
                           : "—"}
                       </div>
                     </div>
 
                     <div>
-                      <div className="text-xs text-gray-500">Inspection Result Link</div>
+                      <div className="text-xs text-gray-500">
+                        Inspection Result Link
+                      </div>
                       {inspectResp.inspectionResultLink ? (
                         <a
                           href={inspectResp.inspectionResultLink}

@@ -21,19 +21,19 @@ import {
 
 const router = express.Router();
 
-router.post("/upload", uploadCurrentAffair);
-router.post("/upload-pdf", addNewPdf);
-router.get("/get-pdf", fetchPdf);
 router.get("/scheduled-affair", fetchScheduledAffair);
-router.put("/scheduled-affair/:id", updateScheduledCurrentAffair);
-router.delete("/scheduled-affair/:id", deleteScheduledCurrentAffair);
-router.delete("/delete-pdf", deletePdfByID);
-router.put("/update/:id", updateCurrentAffair);
+router.get("/get-pdf", fetchPdf);
 router.get("/all", fetchAllCurrentAffairs);
-router.delete("/delete/:id", deleteCurrentAffair);
 router.get("/today", fetchTodaysCurrentAffairs);
 router.get("/month", fetchMonthlyCurrentAffairs);
 router.get("/year", fetchYearlyCurrentAffairs);
 router.get("/single/:date/:slug", getAffairWithQuestions);
+router.post("/upload", uploadCurrentAffair);
+router.post("/upload-pdf", addNewPdf);
+router.put("/update/:id", updateCurrentAffair);
+router.put("/scheduled-affair", updateScheduledCurrentAffair);
+router.delete("/scheduled-affair", deleteScheduledCurrentAffair);
+router.delete("/delete-pdf", deletePdfByID);
+router.delete("/delete/:id", deleteCurrentAffair);
 
 export default router;
