@@ -5,20 +5,29 @@ const verifyToken = async (req, res, next) => {
   try {
     // Check if request is coming from allowed origin (gyapak.in)
     const origin = req.headers.origin || req.headers.referer;
-    const allowedOrigins = ['https://gyapak.in'];
-    
+    const allowedOrigins = ["https://gyapak.in", "http://localhost:5174"];
+
+    // Debug logging
+    console.log('=== Auth Middleware Debug ===');
+    console.log('Origin:', origin);
+    console.log('Referer:', req.headers.referer);
+    console.log('Authorization:', req.headers.authorization);
+
     // Check if the origin matches any allowed origin
-    const isAllowedOrigin = allowedOrigins.some(allowedOrigin => 
-      origin && origin.startsWith(allowedOrigin)
+    const isAllowedOrigin = allowedOrigins.some(
+      (allowedOrigin) => origin && origin.startsWith(allowedOrigin)
     );
+
+    console.log('Is Allowed Origin:', isAllowedOrigin);
 
     // If request is from gyapak.in, skip token verification
     if (isAllowedOrigin) {
+      console.log('✓ Allowing public access from:', origin);
       // Set a default user object for public access
       req.user = {
         id: null,
         email: null,
-        role: 'public',
+        role: "public",
       };
       return next();
     }
@@ -85,6 +94,11 @@ const authorizeRoles = (...allowedRoles) => {
         success: false,
         message: "User not authenticated.",
       });
+    }
+
+    // Allow public role users (from allowed origins) to bypass role checks
+    if (req.user.role === "public") {
+      return next();
     }
 
     if (!allowedRoles.includes(req.user.role)) {
