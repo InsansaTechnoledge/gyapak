@@ -9,6 +9,8 @@ import MonthlyMagzine from "./Components/monthlyUpdate/MonthlyMagzine";
 import slugGenerator from "./Utils/SlugGenerator";
 import NewCalendarPage from "./Pages/Calendar/NewCalendarPage";
 import UpcommingEvent from "./Pages/Calendar/upcommingEvent/UpcommingEvent";
+import QuickResultsPage from "./Pages/QuickResultsPage";
+import TopJobsWIthSalaryPage from "./Pages/TopJobsWIthSalaryPage";
 
 const Landing = lazy(() => import("./Pages/Landing/landing"));
 const Navbar = lazy(() => import("./Components/Navbar/Navbar"));
@@ -173,7 +175,7 @@ const PageLinks = () => {
         <Route
           path="/contact-us"
           element={
-            <div className="px-5 md:px-16 lg:px-32 xl:px-64">
+            <div className="px-5 md:px-16 ">
               <Contact />
             </div>
           }
@@ -205,6 +207,22 @@ const PageLinks = () => {
           }
         />
         <Route
+          path="/Latest-Examination-Results-Admit-Card"
+          element={
+            <div className='px-5 md:px-16'>
+              <QuickResultsPage/>
+            </div>
+          }
+        />
+        <Route 
+          path="/top-high-paid-goverment-job-2025"
+          element={
+            <div className='px-5 md:px-16'>
+              <TopJobsWIthSalaryPage/>
+            </div>
+          }
+        />
+        <Route
           path="/daily-updates"
           element={
             <div className="px-5 md:px-16 lg:px-32 xl:px-64">
@@ -224,7 +242,7 @@ const PageLinks = () => {
         <Route
           path="/blog"
           element={
-            <div className="px-5 md:px-16 lg:px-32 xl:px-64">
+            <div className="px-5 md:px-16 ">
               <BlogPage />
             </div>
           }
@@ -240,7 +258,7 @@ const PageLinks = () => {
         <Route
           path="/top-exams-for-government-jobs-in-india/:slug"
           element={
-            <div className="px-5 md:px-16 lg:px-32 ">
+            <div className="px-5  ">
               <Opportunities />
             </div>
           }
@@ -325,7 +343,7 @@ const PageLinks = () => {
         />
       </Routes>
 
-      {!shouldHideChatBot && <ChatBot />}
+      {/* {!shouldHideChatBot && <ChatBot />} */}
       <Footer />
       {/* </Suspense> */}
     </>

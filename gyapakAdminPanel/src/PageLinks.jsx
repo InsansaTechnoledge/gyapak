@@ -16,6 +16,7 @@ import TrackNewUpdates from "./Pages/TrackNewUpdates";
 import Navbar from "./Components/Navbar/Navbar"; // ⬅️ move import here
 import SeoTools from "./Pages/SEO/SeoTools";
 import UserLogsComponent from "./Pages/userLogs/userLogs";
+import ThemeAdmin from "./Pages/SiteSettings/ThemeAdmin";
 
 const PageLinks = () => {
   const { isAuthenticated, login } = useAuth();
@@ -45,6 +46,7 @@ const PageLinks = () => {
             </ProtectedRoute>
           }
         />
+        <Route path="/site-setting" element={<ThemeAdmin />} />
 
         <Route
           path="/post-blog"

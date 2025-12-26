@@ -176,29 +176,34 @@ const examId = extractExamId({ slug, search });
         <meta name="twitter:image" content="https://gyapak.in/logo3.png" />
       </Helmet>
 
-      <div className="min-h-screen bg-white text-gray-900 py-20 px-0 md:px-4 ">
+      <div className="min-h-screen utility-site-color mt-40 px-0 md:px-4 ">
         {/* Floating Orbs Background */}
         {/* <FloatingOrbsBackground /> */}
 
-        <div className="hidden md:flex flex-col justify-center items-center">
+        {/* <div className="hidden md:flex flex-col justify-center items-center">
           <img src={logo} className="w-26 h-10" alt="gyapak logo" />
-          <p className="mt-2 text-gray-500 text-sm shadow-xl">
+          <p className="mt-2 utility-secondary-color-2 text-sm shadow-xl">
             Stay updated. Stay ahead. Your trusted partner for government exams
           </p>
-        </div>
-        <div className="hidden md:block w-3xl mt-4 shadow-lg rounded-full border-2 bg-gray-700"></div>
+        </div> */}
+        {/* <div className="hidden md:block w-3xl mt-4 shadow-lg rounded-full border-2 bg-gray-700"></div> */}
 
         {/* Main Content */}
-        <div className="relative max-w-screen  mx-auto mt-10 sm:mt-16 md:mt-24 ">
+        <div className="relative mx-auto  sm:mt-16 md:mt-24 ">
           {/* Hero Section */}
           <HeroSection data={data} organization={organization} />
 
           <BriefSection data={data} />
-          {/* Quick Apply Button */}
 
+          
+          {/* Quick Apply Button */}
           <QuickApplyButton data={data} />
 
-          {data.details ? (
+          {data.document_links[0] && data.document_links.length > 0 ? (
+              <ImportantLinksSection data={data} />
+            ) : null}
+            
+          {/* {data.details ? (
             <>
               {
                 <VacanciesSection
@@ -265,7 +270,7 @@ const examId = extractExamId({ slug, search });
                 }
               </div>
             </>
-          ) : null}
+          ) : null} */}
           <>
             <div className="flex flex-grow mt-10 flex-col">
               {/* Important Links */}
@@ -278,9 +283,7 @@ const examId = extractExamId({ slug, search });
               {/* this component for internal backlinking */}
             </div>
 
-            {data.document_links[0] && data.document_links.length > 0 ? (
-              <ImportantLinksSection data={data} />
-            ) : null}
+            
             <RecentVacencies />
           </>
         </div>

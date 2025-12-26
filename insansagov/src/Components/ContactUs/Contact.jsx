@@ -167,7 +167,7 @@ const Contact = () => {
     <>
       <div
         id="paper"
-        className="hidden fixed inset-0 items-center justify-center z-40 bg-black/20 backdrop-blur-sm"
+        className="hidden fixed inset-0 items-center justify-center z-40 backdrop-blur-sm"
       >
         <PaperPlane />
       </div>
@@ -181,16 +181,16 @@ const Contact = () => {
       ) : null}
 
       <div id="notpaper" className="min-h-screen py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center mb-16 space-y-6">
+        <div className=" mx-auto text-center mb-16 space-y-6">
           <div className="flex justify-center mb-6">
-            <div className="w-20 h-20 bg-purple-800 rounded-full flex items-center justify-center">
-              <Users className="w-10 h-10 text-white" />
+            <div className="w-20 h-20 main-site-color rounded-full flex items-center justify-center">
+              <Users className="w-10 h-10 secondary-site-text-color" />
             </div>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900">
+          <h1 className="text-4xl md:text-5xl font-bold utility-site-color">
             Student Support Center
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg utility-secondary-color max-w-2xl mx-auto">
             We're here to support your educational journey. Choose a category
             below and let us know how we can help you succeed.
           </p>
@@ -202,13 +202,13 @@ const Contact = () => {
                 onClick={() => setActiveTab(category.id)}
                 className={`flex flex-col items-center p-6 rounded-xl transition-all duration-300 ${
                   activeTab === category.id
-                    ? "bg-purple-800 text-white shadow-lg shadow-purple-200"
-                    : "bg-white text-gray-600 hover:bg-purple-100 hover:shadow-md"
+                    ? "main-site-color secondary-site-text-color shadow-lg"
+                    : "utility-secondary-color hover:light-site-color-3 hover:shadow-md"
                 }`}
               >
                 <div
                   className={`p-3 rounded-full mb-3 ${
-                    activeTab === category.id ? "bg-white/20" : "bg-purple-100"
+                    activeTab === category.id ? "bg-white/20" : "light-site-color-3"
                   }`}
                 >
                   {category.icon}
@@ -228,7 +228,7 @@ const Contact = () => {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto">
+        <div className=" mx-auto">
           {loading ? (
             <div className="absolute w-8/12 z-50 h-screen flex justify-center">
               <RingLoader
@@ -240,7 +240,7 @@ const Contact = () => {
             </div>
           ) : null}
           <div className="grid lg:grid-cols-2 gap-8 items-start">
-            <div className="h-full relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-800 to-indigo-700 p-8 lg:p-12 shadow-xl order-2 lg:order-1">
+            <div className="h-full relative overflow-hidden rounded-3xl main-site-color p-8 lg:p-12 shadow-xl order-2 lg:order-1">
               <div className="absolute inset-0 bg-[url('/api/placeholder/400/400')] opacity-10 mix-blend-overlay"></div>
 
               <h2 className="text-3xl font-bold text-white mb-8">
@@ -313,13 +313,13 @@ const Contact = () => {
               <div className="flex items-center gap-4 mb-8">
                 <div className="p-3 bg-purple-100 rounded-lg">
                   {activeTab === "general" && (
-                    <BookOpen className="w-6 h-6 text-purple-800" />
+                    <BookOpen className="w-6 h-6 main-site-text-color" />
                   )}
                   {activeTab === "academic" && (
-                    <GraduationCap className="w-6 h-6 text-purple-800" />
+                    <GraduationCap className="w-6 h-6 main-site-text-color" />
                   )}
                   {activeTab === "career" && (
-                    <Award className="w-6 h-6 text-purple-800" />
+                    <Award className="w-6 h-6 main-site-text-color" />
                   )}
                 </div>
                 <h2 className="text-2xl font-bold text-gray-900">
@@ -332,7 +332,7 @@ const Contact = () => {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-medium utility-site-color">
                       First Name
                     </label>
                     <input
@@ -348,7 +348,7 @@ const Contact = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-medium utility-site-color">
                       Last Name
                     </label>
                     <input
@@ -366,7 +366,7 @@ const Contact = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium utility-site-color">
                     Student Email
                   </label>
                   <input
@@ -383,7 +383,7 @@ const Contact = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium utility-site-color">
                     Subject
                   </label>
                   <input
@@ -406,7 +406,7 @@ const Contact = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium utility-site-color">
                     Your Message
                   </label>
                   <textarea
@@ -430,13 +430,13 @@ const Contact = () => {
 
                 <button
                   type="submit"
-                  className="w-full bg-purple-800 text-white py-4 px-6 rounded-lg hover:bg-purple-700 transform hover:-translate-y-1 transition-all duration-200 flex items-center justify-center gap-2 group shadow-lg shadow-purple-200"
+                  className="w-full main-site-color secondary-site-text-color py-4 px-6 rounded-lg hover:main-site-color-hover transform hover:-translate-y-1 transition-all duration-200 flex items-center justify-center gap-2 group shadow-lg shadow-purple-200"
                 >
                   <span className="text-lg">Submit Request</span>
                   <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
 
-                <p className="text-sm text-gray-500 text-center mt-4">
+                <p className="text-sm utility-secondary-color-2 text-center mt-4">
                   Our support team typically responds within 24 hours during
                   business days
                 </p>

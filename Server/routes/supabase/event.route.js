@@ -12,6 +12,7 @@ import {
   incrementEventAttemptsByUser,
   deleteEventAttemptsByUser
 } from '../../controller/supabseController/event.controller.js';
+import { getApplyLinks } from '../../controller/eventController.js';
 
 const router = express.Router();
 

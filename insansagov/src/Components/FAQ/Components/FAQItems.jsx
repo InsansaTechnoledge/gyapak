@@ -4,19 +4,11 @@ import { ChevronDown, ChevronUp, Tag, Bookmark, Archive, CheckCircle } from 'luc
 const FAQItem = ({ question, answer, categories = [], state = 'published', seoTags = [] }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  // State styling and icons
+  
   const stateConfig = {
     published: {
-      className: 'bg-purple-200 text-gray-800 border border-gray-200',
+      className: 'light-site-color-2  text-gray-800 border border-gray-200',
       icon: <CheckCircle className="mr-1 h-3 w-3" />
-    },
-    draft: {
-      className: 'bg-white text-gray-600 border border-gray-200',
-      icon: <Bookmark className="mr-1 h-3 w-3" />
-    },
-    archived: {
-      className: 'bg-gray-50 text-gray-500 border border-gray-200',
-      icon: <Archive className="mr-1 h-3 w-3" />
     }
   };
 
@@ -29,7 +21,7 @@ const FAQItem = ({ question, answer, categories = [], state = 'published', seoTa
           {/* Category tags */}
           {categories.map((category, index) => (
             <span key={`cat-${index}`} className="inline-flex items-center rounded-md bg-white border border-gray-200 px-2 py-0.5 text-xs font-medium text-gray-700">
-              <Tag className="mr-1 h-3 w-3 text-purple-500" strokeWidth={2} />
+              <Tag className="mr-1 h-3 w-3 main-site-text-color" strokeWidth={2} />
               {category}
             </span>
           ))}
@@ -51,9 +43,9 @@ const FAQItem = ({ question, answer, categories = [], state = 'published', seoTa
           </span>
           <div className="ml-4 flex-shrink-0 h-6 w-6 rounded-full bg-gray-100 flex items-center justify-center">
             {isOpen ? (
-              <ChevronUp className="h-4 w-4 text-purple-600" />
+              <ChevronUp className="h-4 w-4 main-site-text-color" />
             ) : (
-              <ChevronDown className="h-4 w-4 text-purple-600" /> 
+              <ChevronDown className="h-4 w-4 main-site-text-color" /> 
             )}
           </div>
         </button>
@@ -76,7 +68,7 @@ const FAQItem = ({ question, answer, categories = [], state = 'published', seoTa
                       key={`seo-${index}`} 
                       className="inline-flex items-center rounded-md bg-white px-2 py-1 text-xs font-medium text-gray-700 ring-1 ring-inset ring-gray-200"
                     >
-                      <Tag className="mr-1 h-3 w-3 text-purple-500" strokeWidth={2} />
+                      <Tag className="mr-1 h-3 w-3 main-site-text-color" strokeWidth={2} />
                       {tag}
                     </span>
                   ))}

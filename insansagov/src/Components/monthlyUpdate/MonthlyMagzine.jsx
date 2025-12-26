@@ -112,22 +112,22 @@ const MonthlyMagzine = () => {
     item.date || item.publishedAt || item.createdAt || null;
 
   return (
-    <div className="min-h-screen mt-40 w-full bg-gradient-to-b from-purple-50 via-white to-purple-50 text-gray-900">
+    <div className="min-h-screen mt-40 w-full utility-site-color">
       {/* Hero / Header */}
-      <div className="border-b border-purple-100 bg-gradient-to-r from-purple-50 via-white to-indigo-50">
+      <div className="border-b main-site-border-color light-site-color-3">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 flex flex-col lg:flex-row gap-8 lg:gap-12 items-start lg:items-center">
           {/* Left side */}
           <div className="flex-1 space-y-4">
-            <p className="text-xs sm:text-sm uppercase tracking-[0.25em] text-purple-500">
+            <p className="text-xs sm:text-sm uppercase tracking-[0.25em] main-site-text-color">
               Gyapak Magazine Store
             </p>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-purple-900">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight main-site-text-color">
               Monthly Current Affairs{" "}
-              <span className="text-purple-600">Magazine (Hindi)</span>
+              <span className="main-site-text-color">Magazine (Hindi)</span>
             </h1>
-            <p className="text-sm sm:text-base text-gray-600 max-w-xl">
+            <p className="text-sm sm:text-base utility-secondary-color max-w-xl">
               Browse{" "}
-              <span className="text-purple-700 font-medium">
+              <span className="main-site-text-color font-medium">
                 month-wise & year-wise
               </span>{" "}
               magazines. Download detailed PDF summaries to revise important
@@ -135,11 +135,11 @@ const MonthlyMagzine = () => {
             </p>
 
             <div className="flex flex-wrap items-center gap-3 mt-4">
-              <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-700">
-                <CalendarDays className="w-4 h-4 text-purple-500" />
+              <div className="flex items-center gap-2 text-xs sm:text-sm utility-secondary-color">
+                <CalendarDays className="w-4 h-4 main-site-text-color-2" />
                 <span>
                   Showing:{" "}
-                  <span className="font-semibold text-purple-700">
+                  <span className="font-semibold main-site-text-color">
                     {
                       MONTHS.find((m) => m.value === activeMonth)?.label ??
                       "Select Month"
@@ -148,40 +148,40 @@ const MonthlyMagzine = () => {
                   </span>
                 </span>
               </div>
-              <span className="inline-flex items-center rounded-full border border-purple-200 bg-purple-50 px-3 py-1 text-xs text-purple-700">
+              <span className="inline-flex items-center rounded-full border main-site-border-color-2 light-site-color-3 px-3 py-1 text-xs main-site-text-color">
                 Category: Monthly Summary
               </span>
             </div>
           </div>
 
           {/* Year selector card */}
-          <div className="w-full max-w-xs rounded-2xl border border-purple-200 bg-white px-5 py-5 shadow-lg">
-            <h2 className="text-sm font-medium text-purple-800 mb-2">
+          <div className="w-full max-w-xs rounded-2xl border main-site-border-color-2 px-5 py-5 shadow-lg">
+            <h2 className="text-sm font-medium main-site-text-color mb-2">
               Choose Year
             </h2>
             <div className="flex items-center justify-between gap-3">
               <button
                 onClick={handlePrevYear}
-                className="p-2 rounded-xl border border-purple-100 hover:bg-purple-50 transition-colors"
+                className="p-2 rounded-xl border main-site-border-color-2 hover:light-site-color-3 transition-colors"
               >
-                <ChevronLeft className="w-4 h-4 text-purple-700" />
+                <ChevronLeft className="w-4 h-4 main-site-text-color" />
               </button>
               <div className="flex flex-col items-center">
-                <span className="text-xs uppercase tracking-[0.2em] text-gray-500">
+                <span className="text-xs uppercase tracking-[0.2em] utility-secondary-color">
                   Year
                 </span>
-                <span className="text-2xl font-semibold text-purple-800">
+                <span className="text-2xl font-semibold main-site-text-color">
                   {year}
                 </span>
               </div>
               <button
                 onClick={handleNextYear}
-                className="p-2 rounded-xl border border-purple-100 hover:bg-purple-50 transition-colors"
+                className="p-2 rounded-xl border main-site-border-color hover:light-site-color-3 transition-colors"
               >
-                <ChevronRight className="w-4 h-4 text-purple-700" />
+                <ChevronRight className="w-4 h-4 main-site-text-color" />
               </button>
             </div>
-            <p className="mt-3 text-xs text-gray-500">
+            <p className="mt-3 text-xs utility-secondary-color">
               Use the year selector above and then pick any month below to view
               magazines.
             </p>
@@ -190,13 +190,13 @@ const MonthlyMagzine = () => {
       </div>
 
       {/* Month Shelf */}
-      <section className="border-b border-purple-100 bg-white/80 backdrop-blur-sm">
+      <section className="border-b main-site-border-color backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-7">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-sm font-semibold text-purple-900 tracking-wide">
+            <h2 className="text-sm font-semibold main-site-text-color tracking-wide">
               Month Shelf
             </h2>
-            <span className="text-[11px] sm:text-xs text-gray-500">
+            <span className="text-[11px] sm:text-xs utility-secondary-color">
               Select a month to load its magazines
             </span>
           </div>
@@ -211,19 +211,19 @@ const MonthlyMagzine = () => {
                   className={[
                     "relative group overflow-hidden rounded-xl border px-3 py-3 text-left transition-all",
                     isActive
-                      ? "border-purple-500 bg-gradient-to-br from-purple-50 via-white to-indigo-50 shadow-md"
-                      : "border-purple-100 bg-white hover:border-purple-300 hover:bg-purple-50/60",
+                      ? "main-site-border-color-4 light-site-color-3 shadow-md"
+                      : "main-site-border-color  hover:main-site-border-color-3  hover:light-site-color-3",
                   ].join(" ")}
                 >
-                  <div className="text-[11px] uppercase tracking-[0.18em] text-gray-500 group-hover:text-purple-600">
+                  <div className="text-[11px] uppercase tracking-[0.18em] utility-secondary-color group-hover:main-site-text-color">
                     {String(m.value).padStart(2, "0")}
                   </div>
-                  <div className="text-xs sm:text-sm font-medium text-gray-800 group-hover:text-purple-800">
+                  <div className="text-xs sm:text-sm font-medium utility-site-color group-hover:main-site-text-color">
                     {m.label}
                   </div>
-                  {isActive && (
-                    <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-purple-100/60 via-transparent to-indigo-100/60" />
-                  )}
+                  {/* {isActive && (
+                    <div className="absolute inset-0 pointer-events-none " />
+                  )} */}
                 </button>
               );
             })}
@@ -232,10 +232,10 @@ const MonthlyMagzine = () => {
       </section>
 
       {/* Content: Magazine Grid */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+      <main className=" mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         {loading ? (
           <div className="min-h-[40vh] grid place-items-center">
-            <div className="flex items-center gap-3 text-purple-700">
+            <div className="flex items-center gap-3 main-site-text-color">
               <Loader2 className="w-5 h-5 animate-spin" />
               <span className="text-sm sm:text-base">
                 Loading magazines for{" "}
@@ -249,7 +249,7 @@ const MonthlyMagzine = () => {
           </div>
         ) : err ? (
           <div className="min-h-[40vh] grid place-items-center">
-            <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800 max-w-md text-center">
+            <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm main-site-text-error-color max-w-md text-center">
               {err}
             </div>
           </div>
@@ -259,13 +259,13 @@ const MonthlyMagzine = () => {
               <p className="text-base font-semibold text-purple-900">
                 No magazines found
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm utility-secondary-color">
                 We could not find any{" "}
-                <span className="font-medium text-purple-700">
+                <span className="font-medium main-site-text-color">
                   Monthly Summary
                 </span>{" "}
                 magazines for{" "}
-                <span className="font-semibold text-purple-700">
+                <span className="font-semibold main-site-text-color">
                   {
                     MONTHS.find((m) => m.value === activeMonth)?.label ??
                     "this month"
@@ -279,7 +279,7 @@ const MonthlyMagzine = () => {
         ) : (
           <>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-sm sm:text-base font-semibold text-purple-900">
+              <h2 className="text-sm sm:text-base font-semibold main-site-text-color">
                 Magazines for{" "}
                 {
                   MONTHS.find((m) => m.value === activeMonth)?.label ??
@@ -287,7 +287,7 @@ const MonthlyMagzine = () => {
                 }{" "}
                 {year}
               </h2>
-              <p className="text-[11px] sm:text-xs text-gray-500">
+              <p className="text-[11px] sm:text-xs utility-secondary-color">
                 {items.length} magazine{items.length > 1 ? "s" : ""} found
               </p>
             </div>
@@ -301,28 +301,28 @@ const MonthlyMagzine = () => {
                 return (
                   <article
                     key={item._id || item.id || idx}
-                    className="group relative flex flex-col rounded-2xl border border-purple-100 bg-white overflow-hidden shadow-sm hover:shadow-xl transition-shadow"
+                    className="group relative flex flex-col rounded-2xl border main-site-border-color overflow-hidden shadow-sm hover:shadow-xl transition-shadow"
                   >
                     {/* Fake cover */}
-                    <div className="relative h-40 sm:h-44 bg-gradient-to-br from-purple-500 via-indigo-400 to-sky-400 p-[1px]">
-                      <div className="relative h-full w-full rounded-2xl bg-white flex flex-col justify-between p-3">
+                    <div className="relative h-40 sm:h-44 light-site-color p-[1px]">
+                      <div className="relative h-full w-full rounded-2xl flex flex-col justify-between p-3">
                         <div className="flex items-center justify-between gap-2">
-                          <span className="text-[10px] uppercase tracking-[0.18em] text-purple-500">
+                          <span className="text-[10px] uppercase tracking-[0.18em] main-site-text-color">
                             Monthly Summary
                           </span>
-                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-50 text-purple-700 border border-purple-200">
+                          <span className="text-[10px] px-2 py-0.5 rounded-full light-site-color-3 main-site-text-color border light-site-color-2">
                             Hindi
                           </span>
                         </div>
                         <div className="space-y-1">
-                          <p className="text-xs text-gray-600">
+                          <p className="text-xs utility-secondary-color">
                             {
                               MONTHS.find((m) => m.value === activeMonth)
                                 ?.label
                             }{" "}
                             {year}
                           </p>
-                          <h3 className="text-sm font-semibold text-purple-900 line-clamp-2">
+                          <h3 className="text-sm font-semibold main-site-text-color line-clamp-2">
                             {title}
                           </h3>
                         </div>
@@ -332,14 +332,14 @@ const MonthlyMagzine = () => {
                     {/* Info + actions */}
                     <div className="flex-1 flex flex-col px-4 py-3 gap-2">
                       {item.description && (
-                        <p className="text-xs text-gray-700 line-clamp-3">
+                        <p className="text-xs utility-secondary-color line-clamp-3">
                           {item.description}
                         </p>
                       )}
 
                       {dateStr && (
-                        <p className="mt-1 text-[11px] text-gray-500 flex items-center gap-1">
-                          <CalendarDays className="w-3 h-3 text-purple-500" />
+                        <p className="mt-1 text-[11px] utility-secondary-color flex items-center gap-1">
+                          <CalendarDays className="w-3 h-3 main-site-text-color" />
                           {new Date(dateStr).toLocaleDateString("en-IN", {
                             year: "numeric",
                             month: "short",
@@ -353,7 +353,7 @@ const MonthlyMagzine = () => {
                           href={pdfUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-xs sm:text-sm text-white font-medium px-3 py-2 transition-colors"
+                          className="inline-flex items-center justify-center gap-1.5 rounded-xl main-site-color hover:main-site-color-hover text-xs sm:text-sm secondary-site-text-color font-medium px-3 py-2 transition-colors"
                         >
                           <BookOpen className="w-4 h-4" />
                           Read / Download
@@ -362,7 +362,7 @@ const MonthlyMagzine = () => {
                           href={pdfUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center rounded-xl border border-purple-200 bg-purple-50 hover:bg-purple-100 text-[11px] text-purple-700 px-2.5 py-1.5 transition-colors"
+                          className="inline-flex items-center justify-center rounded-xl border main-site-border-color-2 light-site-color-3 hover:light-site-color text-[11px] main-site-text-color px-2.5 py-1.5 transition-colors"
                         >
                           <Download className="w-3 h-3 mr-1" />
                           PDF
@@ -375,11 +375,11 @@ const MonthlyMagzine = () => {
             </section>
 
             {/* Simple pagination */}
-            <div className="mt-8 flex items-center justify_between gap-4 text-xs sm:text-sm text-gray-700">
+            <div className="mt-8 flex items-center justify_between gap-4 text-xs sm:text-sm utility-secondary-color">
               <button
                 disabled={page <= 1 || loading}
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
-                className="px-3 py-2 rounded-xl border border-purple-100 bg-white disabled:opacity-40 hover:bg-purple-50 transition-colors"
+                className="px-3 py-2 rounded-xl border main-site-border-color  disabled:opacity-40 hover:light-site-color-3 transition-colors"
               >
                 Previous Page
               </button>
@@ -387,7 +387,7 @@ const MonthlyMagzine = () => {
               <button
                 disabled={loading || items.length < limit}
                 onClick={() => setPage((p) => p + 1)}
-                className="px-3 py-2 rounded-xl border border-purple-100 bg-white disabled:opacity-40 hover:bg-purple-50 transition-colors"
+                className="px-3 py-2 rounded-xl border main-site-border-color  disabled:opacity-40 hover:light-site-color-3 transition-colors"
               >
                 Next Page
               </button>

@@ -15,9 +15,9 @@ const VacanciesSection = ({ data, existingSections }) => {
   const { total, breakdown } = data.details.vacancies;
 
   return (
-    <div className="flex-grow mb-20 bg-gradient-to-br from-purple-50 to-blue-50 p-8 rounded-3xl shadow-md">
+    <div className="flex-grow mb-20 light-site-color-3 p-8 rounded-3xl shadow-md">
       <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
-        <Users className="w-8 h-8 text-purple-500" />
+        <Users className="w-8 h-8 main-site-text-color" />
         Vacancies
       </h2>
 

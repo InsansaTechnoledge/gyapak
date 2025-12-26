@@ -3,6 +3,7 @@ import axios from "axios";
 import { RingLoader } from "react-spinners";
 import { useApi } from "../../Context/ApiContext";
 import { useQuery } from "@tanstack/react-query";
+import { LatestUpdatesDescription, LatestUpdatesTitle } from "../../constants/Constants";
 
 // Lazy load the components
 const LatestUpdateCard = lazy(() => import("./LatestUpdateCard"));
@@ -89,28 +90,23 @@ const LatestUpdates = ({ titleHidden }) => {
 
   return (
     <>
-      <div className="bg-gradient-to-r from-purple-50 to-white rounded-2xl p-6 mb-10 shadow-sm">
+      <div className="light-site-color-3 rounded-2xl p-6 mb-10 shadow-sm">
         <div className="flex justify-between items-center mb-2">
-          <div className="font-bold text-2xl flex items-center">
-            Latest Updates for government jobs after 12th
+          <div className="font-bold main-site-text-color text-2xl flex items-center">
+            {LatestUpdatesTitle}
           </div>
 
           {/* Pagination mini info in header */}
           {latestUpdates.length > 0 && (
-            <div className="text-sm text-gray-600">
+            <div className="text-sm utility-secondary-color">
               Page <span className="font-semibold">{currentPage}</span> /{" "}
               <span className="font-semibold">{totalPages}</span>
             </div>
           )}
         </div>
 
-        <div className="mb-5 text-gray-500 text-sm max-w-xl mt-2">
-          Just passed 12th? Government Jobs are waiting! Explore wide range of
-          Government jobs after 12th, track notifications, and apply on time
-          with Gyapak’s smart tools and resources. From SSC CHSL to Indian Army,
-          Navy, Air Force, Police Constable, and other state-level recruitments,
-          there are countless government jobs after Class 12. Gyapak brings you
-          the latest updates, eligibility, and exam dates — all in one place
+        <div className="mb-5 utility-secondary-color text-sm max-w-xl mt-2">
+          {LatestUpdatesDescription}
         </div>
       </div>
 
@@ -133,14 +129,14 @@ const LatestUpdates = ({ titleHidden }) => {
 
       {/* Pagination Controls */}
       {!titleHidden && latestUpdates.length > ITEMS_PER_PAGE && (
-        <div className="flex items-center justify-between gap-3 bg-white border border-purple-100 rounded-xl px-4 py-3">
+        <div className="flex items-center justify-between gap-3 border main-site-border-color rounded-xl px-4 py-3">
           <button
             onClick={() => goToPage(currentPage - 1)}
             disabled={currentPage === 1}
             className={`px-3 py-2 rounded-md border text-sm ${
               currentPage === 1
-                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                : "bg-white text-purple-700 hover:bg-purple-50"
+                ? "light-site-color utility-scondary-color-3 cursor-not-allowed"
+                : " bg-white main-site-text-color hover:light-site-color-3"
             }`}
           >
             Prev
@@ -157,8 +153,8 @@ const LatestUpdates = ({ titleHidden }) => {
                   onClick={() => goToPage(page)}
                   className={`h-9 w-9 rounded-md text-sm border ${
                     active
-                      ? "bg-purple-600 text-white border-purple-600"
-                      : "bg-white text-gray-700 hover:bg-purple-50 border-gray-200"
+                      ? "main-site-color text-white main-site-border-color-4"
+                      : "bg-white utility-secondary-color hover:ght-site-color-3  main-site-border-color-2"
                   }`}
                 >
                   {page}
@@ -173,8 +169,8 @@ const LatestUpdates = ({ titleHidden }) => {
                   onClick={() => goToPage(totalPages)}
                   className={`h-9 w-9 rounded-md text-sm border ${
                     currentPage === totalPages
-                      ? "bg-purple-600 text-white border-purple-600"
-                      : "bg-white text-gray-700 hover:bg-purple-50 border-gray-200"
+                      ? "main-site-color text-white main-site-border-color-4"
+                      : "bg-white utility-secondary-color hover:ght-site-color-3  main-site-border-color-2"
                   }`}
                 >
                   {totalPages}
@@ -188,8 +184,8 @@ const LatestUpdates = ({ titleHidden }) => {
             disabled={currentPage === totalPages}
             className={`px-3 py-2 rounded-md border text-sm ${
               currentPage === totalPages
-                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                : "bg-white text-purple-700 hover:bg-purple-50"
+                ? "light-site-color utility-scondary-color-3 cursor-not-allowed"
+                : "bg-white main-site-text-color hover:light-site-color-3"
             }`}
           >
             Next

@@ -1,13 +1,118 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
-import { Search, Calendar, Bell } from "lucide-react";
+import { Search, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useApi, CheckServer } from "../../Context/ApiContext";
 import { debounce } from "../../Utils/debounce";
-import { useNavigate } from "react-router-dom";
 import { useEventRouting } from "../../Utils/useEventRouting";
 import GovCalendar from "./components/GovCalendar";
 
+import {
+  JobPageTitle,
+  LandingPageSearch,
+  LandingPageSearchDescription,
+  LandingPageSearchPlaceholder,
+  LandingPageStatsDescription,
+} from "../../constants/Constants";
+import { ComingSoonModal } from "../ComingSoonModal";
+
+
+const Surface = ({ className = "", children }) => (
+  <div
+    className={[
+      "bg-white/90 backdrop-blur",
+      "border-2 main-site-border-color",
+      "rounded-xl",
+      "shadow-[var(--shadow-accertinity)]",
+      "animate-slide-up",
+      className,
+    ].join(" ")}
+  >
+    {children}
+  </div>
+);
+
+const SideBtn = ({ label, to , onComingSoon}) => {
+  const base =
+    "group w-full flex items-center justify-between gap-3 " +
+    "border-2 main-site-border-color bg-white " +
+    "px-4 py-4 rounded-xl " +
+    "hover:light-site-color-3 transition " +
+    "active:scale-[0.99]";
+
+  const left = (
+    <div className="flex items-center gap-3">
+      <div className="text-left">
+        <p className="font-semibold main-site-text-color leading-5">{label}</p>
+        <p className="text-[11px] utility-secondary-color mt-0.5">Tap to explore</p>
+      </div>
+    </div>
+  );
+
+  const right = (
+    <ArrowRight className="w-4 h-4 utility-secondary-color group-hover:main-site-text-color transition" />
+  );
+
+  if (to) {
+    return (
+      <Link to={to} className={base}>
+        {left}
+        {right}
+      </Link>
+    );
+  }
+
+  return (
+    <button type="button" onClick={() => onComingSoon?.(label)} className={base}>
+    {left}
+    {right}
+  </button>
+  );
+};
+
+const RightBigBtn = ({ label, to, subtitle = "Open latest updates", onComingSoon }) => {
+  const base =
+    "group block w-full no-underline text-left " +
+    "border-2 main-site-border-color bg-white " +
+    "rounded-xl px-5 py-5 shadow-[var(--shadow-accertinity)] " +
+    "hover:light-site-color-3 transition active:scale-[0.99]";
+
+  const inner = (
+    <div className="flex items-center justify-between gap-4">
+      <div className="min-w-0">
+        <p className="font-extrabold main-site-text-color truncate">{label}</p>
+        <p className="text-[11px] utility-secondary-color mt-1 truncate">{subtitle}</p>
+      </div>
+
+      <ArrowRight className="w-4 h-4 utility-secondary-color group-hover:main-site-text-color transition" />
+    </div>
+  );
+
+  if (to) {
+    return (
+      <Link to={to} className={base} aria-label={label} title={label}>
+        {inner}
+      </Link>
+    );
+  }
+
+  return (
+    <button type="button" onClick={() => onComingSoon?.(label)} className={base}>
+      {inner}
+    </button>
+  );
+};
+
 export default function GyapakLanding() {
+  const [comingSoonOpen, setComingSoonOpen] = useState(false);
+const [comingSoonLabel, setComingSoonLabel] = useState("");
+
+const comingSoon = (label) => {
+  setComingSoonLabel(label);
+  setComingSoonOpen(true);
+};
+
+
   const { apiBaseUrl, setApiBaseUrl, setServerError } = useApi();
 
   const [stateCount, setStateCount] = useState(null);
@@ -15,57 +120,82 @@ export default function GyapakLanding() {
   const [searched, setSearched] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
-  const navigate = useNavigate();
+  const [rows, setRows] = useState([]);
 
-  const { handleEventClick, prefetchEventRoute } = useEventRouting({ fallback: "old" });
+  const { handleEventClick, prefetchEventRoute , getEventHref} = useEventRouting({
+    fallback: "old",
+  });
 
-
+  
 
   const debouncedUpdateRef = useRef(null);
 
-  // Setup debounce for search input
   useEffect(() => {
-    debouncedUpdateRef.current = debounce((value) => {
-      setSearched(value);
-    }, 600);
-
-    return () => {
-      debouncedUpdateRef.current?.cancel?.();
-    };
+    debouncedUpdateRef.current = debounce((value) => setSearched(value), 600);
+    return () => debouncedUpdateRef.current?.cancel?.();
   }, []);
 
-  // Fetch state/exam counts
+  const fetchJobs = async () => {
+    if (!apiBaseUrl) return;
+
+    try {
+      const res = await axios.get(`${apiBaseUrl}/api/event/latest-events`);
+
+      const data = res?.data?.data || res?.data || [];
+      setRows(Array.isArray(data) ? data : []);
+    } catch (e) {
+      console.log("fetchJobs error:", e?.response?.data?.message || e?.message);
+      setRows([]);
+    }
+  };
+
+  useEffect(() => {
+    fetchJobs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [apiBaseUrl]);
+
+  const fmtINR = (n) => {
+    if (!Number.isFinite(Number(n))) return "—";
+    return `₹${Number(n).toLocaleString("en-IN")}`;
+  };
+
+
+  const top5Jobs = useMemo(() => {
+    return (Array.isArray(rows) ? rows : []).slice(0, 5);
+  }, [rows]);
+
+  const isNewEvent = (job) => {
+    const d = job?.updatedAt || job?.createdAt || job?.date_of_commencement;
+    if (!d) return false;
+    const ms = Date.now() - new Date(d).getTime();
+    return ms >= 0 && ms <= 1000 * 60 * 60 * 24 * 7; // 7 days
+  };
+  
+  const fmtDateShort = (d) => {
+    if (!d) return "";
+    const dt = new Date(d);
+    if (Number.isNaN(dt.getTime())) return "";
+    return dt.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+  };
+
   useEffect(() => {
     const fetchStateCount = async () => {
       try {
         const response = await axios.get(`${apiBaseUrl}/api/state/count`);
         setStateCount(response.data);
       } catch (error) {
-        if (error.response) {
-          if (error.response.status >= 500 && error.response.status < 600) {
-            console.error(
-              "🚨 Server Error:",
-              error.response.status,
-              error.response.statusText
-            );
-            const url = await CheckServer();
-            if (url) setApiBaseUrl?.(url);
-            setServerError?.(error.response.status);
-          } else {
-            console.error("Error fetching state count:", error);
-          }
+        if (error?.response?.status >= 500) {
+          const url = await CheckServer();
+          if (url) setApiBaseUrl?.(url);
+          setServerError?.(error.response.status);
         } else {
           console.error("Error fetching state count:", error);
         }
       }
     };
-
-    if (apiBaseUrl) {
-      fetchStateCount();
-    }
+    if (apiBaseUrl) fetchStateCount();
   }, [apiBaseUrl, setApiBaseUrl, setServerError]);
 
-  // Fetch search results whenever debounced `searched` changes
   useEffect(() => {
     if (!searched.trim()) {
       setSearchResults([]);
@@ -77,30 +207,18 @@ export default function GyapakLanding() {
         const res = await axios.get(`${apiBaseUrl}/api/event/search`, {
           params: { q: searched.trim() },
         });
-
-        // Adjust depending on your backend response shape
-        setSearchResults(res.data.data || res.data || []);
+        setSearchResults(res.data?.data || res.data || []);
       } catch (error) {
         console.error("Error fetching search results:", error);
-
-        if (error.response) {
-          if (error.response.status >= 500 && error.response.status < 600) {
-            console.error(
-              "🚨 Server Error (search):",
-              error.response.status,
-              error.response.statusText
-            );
-            const url = await CheckServer();
-            if (url) setApiBaseUrl?.(url);
-            setServerError?.(error.response.status);
-          }
+        if (error?.response?.status >= 500) {
+          const url = await CheckServer();
+          if (url) setApiBaseUrl?.(url);
+          setServerError?.(error.response.status);
         }
       }
     };
 
-    if (apiBaseUrl) {
-      fetchSearchResults();
-    }
+    if (apiBaseUrl) fetchSearchResults();
   }, [searched, apiBaseUrl, setApiBaseUrl, setServerError]);
 
   const handleSearch = (e) => {
@@ -108,13 +226,6 @@ export default function GyapakLanding() {
     setSearchInput(value);
     debouncedUpdateRef.current?.(value);
   };
-
-  const today = new Date().toLocaleDateString("en-IN", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
 
   const statesCovered = stateCount?.states ?? 0;
   const examsTracked = stateCount?.exams ?? 0;
@@ -131,10 +242,17 @@ export default function GyapakLanding() {
     "ଜ୍ଞାପକ",         // Odia
     "ਗਿਆਪਕ",         // Punjabi 
   ];
-  
-  
+
   const [titleIndex, setTitleIndex] = useState(0);
   const [isFading, setIsFading] = useState(false);
+
+  const today = new Date().toLocaleDateString("en-IN", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   
   useEffect(() => {
     const interval = setInterval(() => {
@@ -148,408 +266,315 @@ export default function GyapakLanding() {
   
     return () => clearInterval(interval);
   }, []);
+
   
 
   return (
-    <div className="min-h-screen mt-32 text-slate-900">
-      <header className="border-b border-purple-100 ">
-        <div className=" mx-auto px-4 sm:px-16 py-6 flex flex-col gap-4">
-          <div className="flex items-center justify-between gap-4">
-            <div className="space-y-1">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-purple-600">
-                Gyapak 
-              </p>
-              <p className="text-xs text-slate-500">{today}</p>
-            </div>
-  
-            <div className="flex flex-col items-end gap-1">
-             
-              <div className="flex flex-wrap gap-2 text-[11px] text-slate-600">
-                <span className="px-2 py-0.5 rounded-full bg-purple-50 border border-purple-100">
-                  {statesCovered} States
-                </span>
-                <span className="px-2 py-0.5 rounded-full bg-purple-50 border border-purple-100">
-                  {examsTracked} Exams
-                </span>
-              </div>
-            </div>
-          </div>
-  
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div className="text-center sm:text-left">
-              <h1 className="text-5xl sm:text-6xl lg:text-[6vw] font-black tracking-tight font-serif">
-                <span
-                  className={[
-                    "bg-clip-text py-10 text-transparent bg-purple-700",
-                    "transition-opacity duration-300",
-                    isFading ? "opacity-0" : "opacity-100",
-                  ].join(" ")}
-                >
-                  {TITLE_VARIANTS[titleIndex]}
-                </span>
-              </h1>
-            </div>
-  
-            <div className="flex flex-col items-center sm:items-end gap-3">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-purple-100 shadow-sm">
-                <span className="text-[11px] uppercase tracking-[0.25em] text-slate-500">
-                  Edition
-                </span>
-                <span className="text-xs font-semibold text-purple-600">
-                  All India • Digital
-                </span>
-              </div>
-              <div className="text-[11px] text-slate-500 uppercase tracking-[0.3em] font-medium">
-                Price: <span className="text-purple-600">Free</span> • Updated Daily
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-  
-      <main className=" mx-auto px-4 sm:px-6 py-10 pb-16">
-        <section className="mb-10 grid lg:grid-cols-[minmax(0,2fr)_minmax(260px,1fr)] gap-6">
-          <div className="rounded-2xl p-6 sm:p-7 relative overflow-hidden">
+    <>
+    <div className="min-h-screen mt-32 animate-fade-in">
+        <header className="border-b border-purple-100 ">
+          <div className=" mx-auto px-4 sm:px-16 py-6 flex flex-col gap-4">
            
-            <div className="flex flex-col sm:flex-row justify-between gap-4 mb-5">
-              <div className="flex items-center gap-3">
-                <div className="h-9 w-9 rounded-xl border-purple-800 border flex items-center justify-center">
-                  <Search className="w-4 h-4 text-purple-600" />
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+              <div className="text-center sm:text-left">
+                <h1 className="text-5xl sm:text-6xl lg:text-[6vw] font-black tracking-tight font-serif">
+                  <span
+                    className={[
+                      "bg-clip-text py-10 text-transparent main-site-text-color",
+                      "transition-opacity duration-300",
+                      isFading ? "opacity-0" : "opacity-100",
+                    ].join(" ")}
+                  >
+                    {TITLE_VARIANTS[titleIndex]}
+                  </span>
+                </h1>
+              </div>
+            </div>
+
+          </div>
+        </header>
+      <div className="relative">
+        <div className="absolute inset-0 -z-10 " />
+
+        <div className="mx-auto px-4 py-6">
+          <div className="grid grid-cols-1 lg:grid-cols-[260px_minmax(0,1fr)_320px] gap-6">
+            {/* RIGHT */}
+            <div className="space-y-6">
+              {/* <SoftCard className="overflow-hidden">
+                <div className="p-4">
+                  <div className="rounded-xl p-3 text-center border-2 main-site-border-color light-site-color-3">
+                    <div className="text-[10px] uppercase tracking-widest utility-secondary-color-2 font-extrabold">
+                      Edition{" "}
+                      <span className="main-site-text-color font-black">All India • Digital</span>
+                    </div>
+                    <div className="mt-2 text-[10px] uppercase tracking-widest utility-secondary-color-2 font-extrabold">
+                      Price: <span className="main-site-text-color font-black">Free</span> • Updated Daily
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <h2 className="text-lg sm:text-xl font-semibold font-serif tracking-tight text-slate-900">
-                    Explore the Exam Archive
-                  </h2>
-                  <p className="text-xs sm:text-[13px] text-slate-500 mt-1">
-                    Search across all government exams, notifications and
-                    opportunities in one place.
+              </SoftCard>
+
+              <SoftCard>
+                <div className="p-4">
+                  <div className="border-2 main-site-border-color rounded-xl p-3 grid grid-cols-2 gap-3 items-center light-site-color-3">
+                    <div className="text-center">
+                      <div className="text-2xl font-black main-site-text-color">{statesCovered}</div>
+                      <div className="text-[10px] uppercase tracking-widest utility-secondary-color-2 font-extrabold">
+                        States Covered
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-black main-site-text-color">{examsTracked}</div>
+                      <div className="text-[10px] uppercase tracking-widest utility-secondary-color-2 font-extrabold">
+                        Exams Tracked
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="mt-2 text-[11px] utility-secondary-color">
+                    {LandingPageStatsDescription || "Daily verified updates across India."}
                   </p>
                 </div>
-              </div>
-              <span className="text-[11px] text-slate-400 uppercase tracking-[0.2em]">
-                Feature Story • Search
-              </span>
-            </div>
-  
-            <div className="relative mb-4">
-              <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-                <Search className="w-4 h-4 text-slate-400" />
-              </div>
-              <input
-                type="text"
-                placeholder="Search by exam name"
-                className="w-full pl-10 pr-4 py-3.5 rounded-xl border border-slate-200 bg-white text-sm sm:text-base text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/80 focus:border-purple-500/80 transition"
-                value={searchInput}
-                onChange={handleSearch}
-              />
-            </div>
-  
-            {searched.trim() && (
-              <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50/80 max-h-72 overflow-hidden flex flex-col">
-                {searchResults.length === 0 ? (
-                  <div className="px-4 py-3 text-sm text-slate-700 font-serif">
-                    No results for{" "}
-                    <span className="font-semibold text-purple-600">
-                      "{searched}"
-                    </span>
-                    . Try another exam name.
-                  </div>
-                ) : (
-                  <>
-                    <div className="px-4 py-2 text-[11px] uppercase tracking-[0.22em] bg-purple-600 text-white font-semibold flex items-center justify-between">
-                      <span>{searchResults.length} Results Found</span>
-                      <span className="hidden sm:inline text-[10px] text-purple-100/90">
-                        Tap a card to open full notification
-                      </span>
-                    </div>
-                    <div className="divide-y divide-slate-200 overflow-y-auto custom-scroll-sm">
-                      {searchResults.map((event) => (
-                        // <button
-                        //   key={event._id}
-                        //   type="button"
-                        //   // onClick={() =>
-                        //   //   (window.location.href = `/top-exams-for-government-jobs-in-india/${event.name}?id=${event._id}`)
-                        //   // }
-                        //   onClick={(e) => onEventNavigate(e, apiBaseUrl, navigate, event)}
+              </SoftCard> */}
 
-                        //   className="w-full text-left px-4 py-3 hover:bg-purple-50 transition-colors"
-                        // >
-                        <button
-                          key={event._id}
-                          type="button"
-                          onMouseEnter={() => prefetchEventRoute(event)}     // optional but recommended
-                          onClick={(e) => handleEventClick(e, event)}        // ✅ global old/new resolver
-                          className="w-full text-left px-4 py-3 hover:bg-purple-50 transition-colors"
-                        >
-                          <p className="font-serif font-semibold text-sm sm:text-base text-slate-900 line-clamp-2">
-                            {event.name}
-                          </p>
-                          <p className="mt-1 text-[11px] sm:text-xs text-slate-600">
-                            {event.organizationName || "Unknown Organization"}
-                            {event.event_type ? (
-                              <span className="text-purple-600">
-                                {" "}
-                                • {event.event_type}
+              <RightBigBtn label="Latest Results" to="/Latest-Examination-Results-Admit-Card" />
+              <RightBigBtn label="Big Announcements" onComingSoon={comingSoon} />
+              <RightBigBtn label="Latest Admit cards" to="/Latest-Examination-Results-Admit-Card"/>
+              <RightBigBtn label="Top Government Jobs" to="/top-high-paid-goverment-job-2025"/>
+
+            </div>
+            
+
+            {/* CENTER */}
+            <div className="space-y-6">
+              {/* SEARCH */}
+              <Surface className="p-5">
+                <div className="flex items-start justify-between gap-4 mb-3">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <div className="h-8 w-8 rounded-xl light-site-color border main-site-border-color flex items-center justify-center">
+                        <Search className="w-4 h-4 main-site-text-color" />
+                      </div>
+                      <h2 className="text-lg font-extrabold utility-site-color">
+                        {LandingPageSearch || "Explore the Exam Archive"}
+                      </h2>
+                    </div>
+                    <p className="text-xs utility-secondary-color mt-1">
+                      {LandingPageSearchDescription ||
+                        "Search across all government exams, notifications and opportunities in one place."}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="relative">
+                  <Search className="w-4 h-4 utility-secondary-color-2 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    placeholder={LandingPageSearchPlaceholder || "Search by exam/jobs/events"}
+                    className={[
+                      "w-full pl-10 pr-3 py-3.5 rounded-xl text-sm outline-none",
+                      "border-2 main-site-border-color bg-white",
+                      "focus:main-site-border-color-4",
+                      "transition",
+                    ].join(" ")}
+                    value={searchInput}
+                    onChange={handleSearch}
+                  />
+
+                  <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-xl">
+                    <div className="absolute -left-full top-0 h-full w-1/2 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-shine" />
+                  </div>
+                </div>
+
+                {searched.trim() && (
+                  <div className="mt-4 border-2 main-site-border-color rounded-xl overflow-hidden bg-white">
+                    {searchResults.length === 0 ? (
+                      <div className="px-4 py-3 text-sm utility-site-color">
+                        No results for{" "}
+                        <span className="font-extrabold main-site-text-color">"{searched}"</span>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="px-4 py-2 light-site-color-3 text-[11px] uppercase tracking-widest utility-secondary-color font-extrabold flex items-center justify-between">
+                          <span>
+                            <span className="main-site-text-color font-black">
+                              {searchResults.length}
+                            </span>{" "}
+                            Results Found
+                          </span>
+                          <span className="hidden sm:inline text-[10px] utility-secondary-color-2">
+                            Hover to prefetch • Click to open
+                          </span>
+                        </div>
+
+                        <div className="max-h-64 overflow-y-auto divide-y main-site-border-color scrollbar-hide">
+                          {searchResults.map((event) => (
+                            <button
+                              key={event._id}
+                              type="button"
+                              onMouseEnter={() => prefetchEventRoute(event)}
+                              onClick={(e) => handleEventClick(e, event)}
+                              className="w-full text-left px-4 py-3 hover:light-site-color-3 transition"
+                            >
+                              <p className="font-extrabold utility-site-color line-clamp-2">
+                                {event.name}
+                              </p>
+
+                              <div className="mt-1 flex items-center gap-2 flex-wrap">
+                                <span className="text-[11px] utility-secondary-color">
+                                  {event.organizationName || "Unknown Organization"}
+                                </span>
+
+                                {event.event_type ? (
+                                  <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full light-site-color border main-site-border-color main-site-text-color">
+                                    {event.event_type}
+                                  </span>
+                                ) : null}
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                )}
+              </Surface>
+
+              
+
+              {/* TOP  JOBS */}
+              <Surface className="p-6">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className=" font-extrabold main-site-text-color text-lg">Newly added Government Events on gyapak</p>
+                  </div>
+
+                  {/* <Link
+                    to="/top-high-paid-goverment-job-2025"
+                    className="text-xs font-extrabold px-3 py-2 rounded-xl border-2 main-site-border-color light-site-color-3 hover:opacity-90 transition"
+                  >
+                    View all
+                  </Link> */}
+                </div>
+
+                <div className="mt-5 space-y-3">
+                {top5Jobs.map((job) => {
+                  const isNew = true;
+                  const org = job?.organizationName || job?.organization || "Government";
+                  const type = job?.event_type || job?.type || "";
+                  const dateLabel = fmtDateShort(job?.updatedAt || job?.createdAt || job?.date_of_commencement);
+
+                  return (
+                    <Link
+                      key={job?._id}
+                      to={getEventHref(job)}
+                      onMouseEnter={() => prefetchEventRoute(job)}
+                      onClick={(e) => handleEventClick(e, job)}
+                      className={[
+                        "group block rounded-2xl border-2 main-site-border-color bg-white overflow-hidden",
+                        "transition cursor-pointer",
+                        "hover:light-site-color-3 hover:-translate-y-[1px] hover:shadow-[var(--shadow-accertinity)]",
+                        "active:scale-[0.99]",
+                      ].join(" ")}
+                      title={job?.name || "Open"}
+                      aria-label={`Open ${job?.name || "event"}`}
+                    >
+                      {/* Top accent strip */}
+                      <div className="h-1 w-full main-site-color" />
+
+                      <div className="p-4">
+                        {/* Header row: chips */}
+                        <div className="flex items-center justify-between gap-3">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            {isNew ? (
+                              <span className="text-[10px] font-black px-2 py-0.5 rounded-full main-site-color secondary-site-text-color">
+                                NEW
                               </span>
                             ) : null}
-                          </p>
-                          {event.date_of_commencement && (
-                            <p className="mt-1 text-[11px] text-slate-500">
-                              Commencement:{" "}
-                              <span className="font-medium text-purple-700">
-                                {event.date_of_commencement}
-                              </span>
-                            </p>
-                          )}
-                        </button>
-                      ))}
-                    </div>
-                  </>
-                )}
-              </div>
-            )}
-          </div>
-  
-          <div className="flex flex-col gap-4">
-            <div className="bg-purple-500/10 border border-purple-100 rounded-2xl p-5 shadow-[0_16px_40px_rgba(15,23,42,0.06)]">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-2xl sm:text-3xl font-bold font-serif text-slate-900">
-                    {statesCovered}
-                  </p>
-                  <p className="tex t-[11px] uppercase tracking-[0.22em] text-slate-500 mt-1">
-                    States Covered
-                  </p>
-                </div>
-                <div>
-                  <p className="text-2xl sm:text-3xl font-bold font-serif text-slate-900">
-                    {examsTracked}
-                  </p>
-                  <p className="text-[11px] uppercase tracking-[0.22em] text-slate-500 mt-1">
-                    Active Exams
-                  </p>
-                </div>
-              </div>
-              <p className="mt-3 text-[11px] text-slate-600">
-                Real-time tracking of government exams across India, refreshed
-                daily with verified updates.
-              </p>
-            </div>
-  
-          </div>
-        </section>
-  
-        <section className="grid lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-3 space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              <a
-                href="/daily-updates"
-                className="group bg-white border border-purple-100 rounded-2xl overflow-hidden shadow-[0_18px_50px_rgba(15,23,42,0.08)] flex flex-col h-full"
-              >
-                <div className="relative h-32 sm:h-40 overflow-hidden">
-                  <div className="absolute inset-0 bg-purple-800" />
-                  <div className="absolute bottom-3 left-4 px-3 py-1 rounded-full bg-white/80 border border-purple-200 text-[10px] uppercase tracking-[0.22em] text-purple-700 font-semibold">
-                    Cover Story • Today
-                  </div>
-                </div>
-                <div className="p-5 sm:p-6 flex-1 flex flex-col">
-                  <h3 className="text-2xl sm:text-3xl font-serif font-semibold mb-2 leading-tight text-slate-900">
-                    आज की करेंट अफेयर्स
-                  </h3>
-                  <p className="text-sm sm:text-[15px] text-slate-700 font-serif mb-3 flex-1">
-                    Exam-focused current affairs with MCQs for SSC, Banking,
-                    Railway &amp; State PSC — freshly curated every morning at
-                    6:00 AM IST.
-                  </p>
-                  <div className="flex flex-wrap items-center gap-2 text-[11px] text-slate-700">
-                    <span className="px-2 py-1 rounded-full bg-purple-50 border border-purple-200 text-purple-700">
-                      Today&apos;s Edition
-                    </span>
-                    <span className="px-2 py-1 rounded-full bg-purple-50 border border-purple-200 text-purple-700">
-                      Free Access
-                    </span>
-                    <span className="px-2 py-1 rounded-full bg-purple-50 border border-purple-200 text-purple-700">
-                      Hindi &amp; English
-                    </span>
-                  </div>
-                </div>
-              </a>
-  
-              <a
-                href="/monthly-magazine"
-                className="group bg-white border border-purple-100 rounded-2xl overflow-hidden shadow-[0_18px_50px_rgba(15,23,42,0.08)] flex flex-col h-full"
-              >
-                <div className="relative h-32 sm:h-40 overflow-hidden">
-                  <div className="absolute inset-0 bg-purple-800" />
-                  <div className="absolute top-3 left-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/85 border border-purple-200">
-                    <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
-                    <span className="text-[10px] uppercase tracking-[0.22em] text-purple-700 font-semibold">
-                      Monthly Issue
-                    </span>
-                  </div>
-                  <div className="absolute bottom-3 right-4 text-right text-[11px] text-slate-800">
-                   
-                    <div className="text-[10px] text-slate-100">
-                      Latest Edition
-                    </div>
-                  </div>
-                </div>
-                <div className="p-5 sm:p-6 flex-1 flex flex-col">
-                  <h3 className="text-xl sm:text-2xl font-serif font-semibold mb-2 text-slate-900">
-                    Gyapak Monthly Magazine
-                  </h3>
-                  <p className="text-sm sm:text-[15px] text-slate-700 font-serif mb-3 flex-1">
-                    A complete monthly digest of government jobs, major exams and
-                    high-yield current affairs — in a beautifully designed PDF
-                    format.
-                  </p>
-                  <div className="flex flex-wrap items-center gap-2 text-[11px] text-slate-700">
-                  
-                    <span className="px-2 py-1 rounded-full bg-purple-50 border border-purple-200 text-purple-700">
-                      One-click Download
-                    </span>
-                  </div>
-                </div>
-              </a>
-            </div>
-  
-            <div className="bg-white border border-purple-100 rounded-2xl p-4 sm:p-5 flex flex-wrap gap-4 justify-between items-center shadow-sm">
-              <div>
-                <p className="text-[11px] uppercase tracking-[0.25em] text-slate-500 mb-1">
-                  Coverage &amp; Reach
-                </p>
-                <p className="text-sm text-slate-700 font-serif max-w-xl">
-                  From central to state-level exams, Gyapak magazine keeps you
-                  ahead with{" "}
-                  <span className="text-purple-700 font-semibold">
-                    verified, noise-free updates
-                  </span>
-                  .
-                </p>
-              </div>
-              <div className="flex gap-4">
-                <div className="text-right">
-                  <p className="text-xl font-bold font-serif text-slate-900">
-                    {statesCovered}
-                  </p>
-                  <p className="text-[11px] uppercase tracking-[0.22em] text-slate-500">
-                    States
-                  </p>
-                </div>
-                <div className="text-right">
-                  <p className="text-xl font-bold font-serif text-slate-900">
-                    {examsTracked}
-                  </p>
-                  <p className="text-[11px] uppercase tracking-[0.22em] text-slate-500">
-                    Exams
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-         
-  
-          {/* <aside className="space-y-6">
-            <div className="bg-white border border-purple-100 rounded-2xl shadow-[0_18px_50px_rgba(15,23,42,0.06)] overflow-hidden">
-              <div className="px-4 py-3 border-b border-slate-200 flex items-center justify-between">
-                <p className="text-[11px] uppercase tracking-[0.25em] text-purple-600">
-                  Important Dates
-                </p>
-                <span className="text-[10px] text-slate-500 uppercase tracking-[0.2em]">
-                  Deadline Radar
-                </span>
-              </div>
-              <div className="p-4 space-y-4">
-                <div className="flex gap-3 pb-4 border-b border-slate-200">
-                  <div className="mt-1">
-                    <Calendar className="w-5 h-5 text-purple-600" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold font-serif text-slate-900">
-                      SSC CGL 2024
-                    </p>
-                    <p className="text-[11px] text-slate-600 mt-1">
-                      Last date for application:{" "}
-                      <span className="text-amber-700 font-medium">
-                        15 Dec 2024
-                      </span>
-                    </p>
-                  </div>
-                </div>
-  
-                <div className="flex gap-3 pb-4 border-b border-slate-200">
-                  <div className="mt-1">
-                    <Calendar className="w-5 h-5 text-purple-500" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold font-serif text-slate-900">
-                      UPSC CSE 2024
-                    </p>
-                    <p className="text-[11px] text-slate-600 mt-1">
-                      Prelims exam date:{" "}
-                      <span className="text-emerald-700 font-medium">
-                        20 Dec 2024
-                      </span>
-                    </p>
-                  </div>
-                </div>
-  
-                <div className="flex gap-3">
-                  <div className="mt-1">
-                    <Calendar className="w-5 h-5 text-purple-400" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold font-serif text-slate-900">
-                      RRB NTPC 2024
-                    </p>
-                    <p className="text-[11px] text-slate-600 mt-1">
-                      Application window closes:{" "}
-                      <span className="text-sky-700 font-medium">
-                        25 Dec 2024
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <a
-                href="/government-calendar"
-                className="block px-4 py-3 text-center text-[11px] uppercase tracking-[0.25em] font-semibold bg-purple-700 hover:bg-purple-800 text-purple-100 transition-colors border-t border-slate-200"
-              >
-                View Full Exam Calendar →
-              </a>
-            </div>
-  
-            <div className=" border border-purple-200 rounded-2xl p-5 shadow-[0_18px_50px_rgba(15,23,42,0.08)]">
-              <div className="flex items-center gap-3 mb-3">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.25em] text-purple-500">
-                    Subscribe
-                  </p>
-                  <h3 className="text-sm sm:text-base font-semibold font-serif text-slate-900">
-                    Daily Exam Brief in Your Inbox
-                  </h3>
-                </div>
-              </div>
-              <p className="text-xs sm:text-sm text-slate-700 font-serif mb-4">
-                One concise email with handpicked notifications, last dates and
-                current affairs. No spam, just{" "}
-                <span className="font-semibold text-purple-700">
-                  exam-relevant signal
-                </span>
-                .
-              </p>
-              <button className="w-full inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-purple-600 text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase text-white hover:bg-purple-700 transition-colors shadow-sm">
-                Subscribe Free
-              </button>
-            </div>
-          </aside> */}
-        </section>
 
-        <GovCalendar/>
-  
-      </main>
+                            {type ? (
+                              <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full border main-site-border-color light-site-color-3 main-site-text-color">
+                                {type}
+                              </span>
+                            ) : null}
+
+                            {dateLabel ? (
+                              <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full border main-site-border-color light-site-color-3 utility-secondary-color">
+                                {dateLabel}
+                              </span>
+                            ) : null}
+                          </div>
+
+                          <div className="h-9 w-9 rounded-xl border main-site-border-color light-site-color flex items-center justify-center">
+                            <ArrowRight className="w-4 h-4 utility-secondary-color group-hover:main-site-text-color transition" />
+                          </div>
+                        </div>
+
+                        {/* Title */}
+                        <p className="mt-3 font-extrabold utility-site-color line-clamp-2 leading-snug">
+                          {job?.name || "Untitled Event"}
+                        </p>
+
+                        {/* Sub line */}
+                        <div className="mt-2 flex items-center justify-between gap-3">
+                          <p className="text-[11px] utility-secondary-color line-clamp-1">
+                            {org}
+                          </p>
+
+                          <span className="text-[11px] font-extrabold main-site-text-color">
+                            Open
+                          </span>
+                        </div>
+
+                        {/* Soft bottom hint */}
+                        <div className="mt-3 rounded-xl border main-site-border-color light-site-color-3 px-3 py-2">
+                          <p className="text-[11px] utility-secondary-color">
+                            Tap to open details • Hover loads faster
+                          </p>
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })}
+
+                </div>
+
+              </Surface>
+            </div>
+
+            {/* LEFT */}
+            <Surface className="p-5">
+              {/* <div className="flex items-center justify-between mb-5">
+                <p className="text-sm font-extrabold utility-site-color">Quick Links</p>
+              </div> */}
+
+              <div className="space-y-4">
+              <SideBtn label="Last Date To Apply" to="/Last-Date-to-Apply-for-Online-Offline-Government-Jobs-Applications"/>
+              <SideBtn label="Current affairs" to="/daily-updates" />
+              <SideBtn label="Monthly Magazines" to="/monthly-magazine" />
+              <SideBtn label="Blogs" to="/blog" />
+              <SideBtn label="Daily mcq's" onComingSoon={comingSoon} />
+             
+              </div>
+            </Surface>
+
+            
+          </div>
+
+          <div className="">
+            <GovCalendar />
+          </div>
+        </div>
+      </div>
     </div>
+
+    <ComingSoonModal
+  open={comingSoonOpen}
+  label={comingSoonLabel}
+  onClose={() => setComingSoonOpen(false)}
+/>
+
+    </>
   );
-  
-  
 }
+

@@ -145,23 +145,23 @@ export default function DailyUpdatesReels() {
   };
 
   return (
-    <div className="min-h-screen w-full mt-10 bg-white">
+    <div className="min-h-screen w-full mt-10">
       {/* Header */}
       <header
         ref={headerRef}
-        className="bg-white sticky top-0 z-40 pt-8 sm:pt-10 border-b border-gray-100"
+        className=" sticky top-0 z-40 pt-8 sm:pt-10 border-b main-site-border-color"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-4">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             {/* Title */}
             <div className="flex-1 mt-16 md:mt-20 text-center md:text-left">
-              <h1 className="text-4xl sm:text-5xl font-bold text-purple-800 mb-3 relative inline-block">
+              <h1 className="text-4xl sm:text-5xl font-bold main-site-text-color mb-3 relative inline-block">
                 <span className="relative z-10">Gyapak&apos;s Daily Updates in Hindi</span>
-                <span className="absolute -bottom-2 left-0 w-full h-2 bg-purple-200 transform -rotate-1 rounded z-0"></span>
+                <span className="absolute -bottom-2 left-0 w-full h-2 light-site-color-2 transform -rotate-1 rounded z-0"></span>
               </h1>
               <p className="text-base sm:text-lg text-gray-600 mt-1 max-w-xl mx-auto md:mx-0">
                 Curated insights from{" "}
-                <span className="text-purple-700 font-semibold">
+                <span className="main-site-text-color font-semibold">
                   gyapak ({loading ? "…" : items.length})
                 </span>
                 {typing ? <span className="ml-2 text-xs text-gray-400">typing…</span> : null}
@@ -172,7 +172,7 @@ export default function DailyUpdatesReels() {
             <button
               type="button"
               onClick={() => setShowFilters((s) => !s)}
-              className="inline-flex items-center gap-2 self-center md:self-auto px-3 py-2 rounded-lg border border-purple-200 text-purple-700 hover:bg-purple-50"
+              className="inline-flex items-center gap-2 self-center md:self-auto px-3 py-2 rounded-lg border main-site-border-color-2 main-site-text-color hover:light-site-color-3 "
             >
               <Filter className="h-4 w-4" />
               {showFilters ? "Hide filters" : "Show filters"}
@@ -184,7 +184,7 @@ export default function DailyUpdatesReels() {
             <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-3">
               {/* Single Day */}
               <div className="flex flex-col">
-                <label className="text-xs text-gray-500 mb-1">Date (single)</label>
+                <label className="text-xs utility-secondary-color mb-1">Date (single)</label>
                 <input
                   type="date"
                   value={date}
@@ -200,7 +200,7 @@ export default function DailyUpdatesReels() {
 
               {/* Range */}
               <div className="flex flex-col">
-                <label className="text-xs text-gray-500 mb-1">From</label>
+                <label className="text-xs utility-secondary-color mb-1">From</label>
                 <input
                   type="date"
                   value={from}
@@ -214,7 +214,7 @@ export default function DailyUpdatesReels() {
                 />
               </div>
               <div className="flex flex-col">
-                <label className="text-xs text-gray-500 mb-1">To</label>
+                <label className="text-xs utility-secondary-color mb-1">To</label>
                 <input
                   type="date"
                   value={to}
@@ -230,7 +230,7 @@ export default function DailyUpdatesReels() {
 
               {/* Month / Year */}
               <div className="flex flex-col">
-                <label className="text-xs text-gray-500 mb-1">Month</label>
+                <label className="text-xs utility-secondary-color mb-1">Month</label>
                 <select
                   value={month}
                   onChange={(e) => {
@@ -250,7 +250,7 @@ export default function DailyUpdatesReels() {
                 </select>
               </div>
               <div className="flex flex-col">
-                <label className="text-xs text-gray-500 mb-1">Year</label>
+                <label className="text-xs utility-secondary-color mb-1">Year</label>
                 <input
                   type="number"
                   placeholder="2025"
@@ -267,7 +267,7 @@ export default function DailyUpdatesReels() {
 
               {/* Category */}
               <div className="flex flex-col">
-                <label className="text-xs text-gray-500 mb-1">Category</label>
+                <label className="text-xs utility-secondary-color mb-1">Category</label>
                 <select
                   value={category}
                   onChange={(e) => { setCategory(e.target.value); setPage(1); }}
@@ -282,7 +282,7 @@ export default function DailyUpdatesReels() {
 
               {/* Published */}
               {/* <div className="flex flex-col">
-                <label className="text-xs text-gray-500 mb-1">Published</label>
+                <label className="text-xs utility-secondary-color mb-1">Published</label>
                 <select
                   value={published}
                   onChange={(e) => { setPublished(e.target.value); setPage(1); }}
@@ -296,7 +296,7 @@ export default function DailyUpdatesReels() {
 
               {/* Search */}
               <div className="flex flex-col sm:col-span-2 xl:col-span-2">
-                <label className="text-xs text-gray-500 mb-1">Search</label>
+                <label className="text-xs utility-secondary-color mb-1">Search</label>
                 <input
                   type="text"
                   placeholder="title or description…"
@@ -308,7 +308,7 @@ export default function DailyUpdatesReels() {
 
               {/* Sort */}
               <div className="flex flex-col">
-                <label className="text-xs text-gray-500 mb-1">Sort</label>
+                <label className="text-xs utility-secondary-color mb-1">Sort</label>
                 <select
                   value={sort}
                   onChange={(e) => { setSort(e.target.value); setPage(1); }}
@@ -323,7 +323,7 @@ export default function DailyUpdatesReels() {
 
               {/* Pagination */}
               <div className="flex flex-col">
-                <label className="text-xs text-gray-500 mb-1">Per page</label>
+                <label className="text-xs utility-secondary-color mb-1">Per page</label>
                 <select
                   value={limit}
                   onChange={(e) => { setLimit(Number(e.target.value)); setPage(1); }}
@@ -340,7 +340,7 @@ export default function DailyUpdatesReels() {
                 <button
                   type="button"
                   onClick={clearAll}
-                  className="px-3 py-2 rounded-lg border text-gray-700 border-gray-200 hover:bg-gray-50 inline-flex items-center gap-1"
+                  className="px-3 py-2 rounded-lg border utility-secondary-color main-site-border-color-2 hover:light-site-color-3 inline-flex items-center gap-1"
                 >
                   <X className="h-4 w-4" /> Clear all
                 </button>
@@ -352,7 +352,7 @@ export default function DailyUpdatesReels() {
 
       {/* Error banner */}
       {err && (
-        <div className="sticky top-[var(--headerH,0px)] z-30 p-3 sm:p-4 bg-amber-50 text-amber-800 text-sm border-y border-amber-200">
+        <div className="sticky top-[var(--headerH,0px)] z-30 p-3 sm:p-4 bg-amber-50 main-site-text-error-color text-sm border-y border-amber-200">
           ⚠️ {err}
         </div>
       )}
@@ -365,13 +365,13 @@ export default function DailyUpdatesReels() {
       >
         {loading ? (
           <div className="min-h-[50vh] grid place-items-center">
-            <div className="flex items-center gap-3 text-purple-700">
+            <div className="flex items-center gap-3 main-site-text-color">
               <Loader2 className="h-6 w-6 animate-spin" />
               <span className="font-medium">Loading updates…</span>
             </div>
           </div>
         ) : items.length === 0 ? (
-          <div className="min-h-[40vh] grid place-items-center text-gray-500">
+          <div className="min-h-[40vh] grid place-items-center utility-secondary-color">
             No updates found for the selected filters.
           </div>
         ) : (
