@@ -16,27 +16,31 @@ const registrationController = async (req, res) => {
         .status(203)
         .json({ message: "user already exists", data: findUser });
 
-    const salt = await bcrypt.genSalt(Number(process.env.BCRYPT_SALT_ROUND) || 10);
+    const salt = await bcrypt.genSalt(
+      Number(process.env.BCRYPT_SALT_ROUND) || 10
+    );
     const hashedPassword = await bcrypt.hash(password, salt);
-    const newUser = new user({ 
-      name, 
-      email, 
+    const newUser = new user({
+      name,
+      email,
       password: hashedPassword,
-      role: role || "data entry" // Default role if not provided
+      role: role || "data entry", // Default role if not provided
     });
     await newUser.save();
-    res.status(201).json({ 
+    res.status(201).json({
       success: true,
       message: "new user created",
       user: {
         id: newUser._id,
         name: newUser.name,
         email: newUser.email,
-        role: newUser.role
-      }
+        role: newUser.role,
+      },
     });
   } catch (err) {
-    res.status(500).json({ message: "Internal Server Error", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Internal Server Error", error: err.message });
   }
 };
 
@@ -59,6 +63,7 @@ const loginController = async (req, res) => {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
+    console.log("user found with cred", findUser);
     // Generate JWT token with user data
     const token = jwt.sign(
       {
@@ -85,6 +90,7 @@ const loginController = async (req, res) => {
       },
     });
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: "INTERNAL SERVER ERROR", error: err });
   }
 };
