@@ -16,14 +16,12 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import { useApi } from "../Context/ApiContext";
 
 const PAGE_SIZE_DEFAULT = 10;
 
 const TopJobsWIthSalaryPage = () => {
-    const {apiBaseUrl} = useApi();
-  const API_BASE_URL = apiBaseUrl
-    
+  const API_BASE_URL = "http://localhost:8383";
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
