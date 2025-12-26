@@ -4,9 +4,12 @@ import { CurrentAffair } from "../models/currentAffairs.models.js";
 import { mongoose } from "mongoose";
 import { DailyCurrentAffairPdf } from "../models/DailyCurrentAfairPdf.js";
 import { dialogflow } from "googleapis/build/src/apis/dialogflow/index.js";
+import userActivity from "../models/activity.model.js";
+
 export const uploadCurrentAffair = async (req, res) => {
   try {
     const { date, affairs } = req.body;
+    const { time } = req.query;
 
     const affairDate = new Date(date);
     const month = affairDate.getMonth() + 1;
@@ -28,6 +31,21 @@ export const uploadCurrentAffair = async (req, res) => {
       year,
       affairs,
     });
+
+    const newUserActivity = userActivity({
+      userId: req.user.id,
+      event: {
+        eventType: "CurrentAffair",
+        eventId: newRecord._id,
+        eventStamp: {
+          title: newRecord.affairs.title,
+        },
+        action: "created",
+        totalTime: Number(time),
+      },
+    });
+
+    await newUserActivity.save();
 
     return new APIResponse(
       200,
@@ -67,9 +85,9 @@ export const updateScheduledCurrentAffair = async (req, res) => {
   try {
     let { date, title, pdfLink, description, tags, scheduledPublishDate } =
       req.body;
-    let id = req.params.id;
+    let { id, time } = req.query;
 
-    const updateAffair = await DailyCurrentAffairPdf.updateOne(
+    const updateAffair = await DailyCurrentAffairPdf.findOneAndUpdate(
       { _id: id },
       {
         date,
@@ -78,11 +96,22 @@ export const updateScheduledCurrentAffair = async (req, res) => {
         description,
         tags,
         scheduledPublishDate,
-      }
+      },
+      { new: true }
     );
 
     if (!updateAffair) return new APIError(400, "RECORD not found").send(res);
-
+    const newUserActivity = userActivity({
+      userId: req.user.id,
+      event: {
+        eventType: "DailyCurrentAffairPdf",
+        eventId: updateAffair._id,
+        eventStamp: { title: updateAffair.title },
+        action: "updated",
+        totalTime: Number(time),
+      },
+    });
+    await newUserActivity.save();
     return new APIResponse(200, updateAffair, "updated successfully").send(res);
   } catch (err) {
     console.error("❌ Error fetching affairs:", err);
@@ -94,7 +123,7 @@ export const updateScheduledCurrentAffair = async (req, res) => {
 
 export const deleteScheduledCurrentAffair = async (req, res) => {
   try {
-    const { id } = req.params; // Cleaner destructuring
+    let { id, time } = req.query;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return new APIError(400, "Id not valid").send(res);
@@ -105,6 +134,21 @@ export const deleteScheduledCurrentAffair = async (req, res) => {
     if (!deletedAffair) {
       return new APIError(404, "RECORD NOT FOUND").send(res);
     }
+
+    const newUserActivity = userActivity({
+      userId: req.user.id,
+      event: {
+        eventType: "DailyCurrentAffairPdf",
+        eventId: deletedAffair._id,
+        action: "deleted",
+        eventStamp: {
+          title: deletedAffair.title,
+        },
+        totalTime: Number(time),
+      },
+    });
+
+    await newUserActivity.save();
 
     return new APIResponse(200, deletedAffair, "Deleted Successfully").send(
       res
@@ -119,6 +163,7 @@ export const deleteScheduledCurrentAffair = async (req, res) => {
 export const updateCurrentAffair = async (req, res) => {
   try {
     const id = req.params.id;
+    const { time } = req.query;
 
     if (!mongoose.Types.ObjectId.isValid(id))
       return APIError(400, "Id not valide").send(res);
@@ -133,6 +178,19 @@ export const updateCurrentAffair = async (req, res) => {
 
     if (!updated) return new APIError(400, "RECORD not found").send(res);
 
+    const newUserActivity = userActivity({
+      userId: req.user.id,
+      event: {
+        eventType: "CurrentAffair",
+        eventId: updated._id,
+        eventStamp: {
+          title: updated.title,
+        },
+        action: "updated",
+        totalTime: Number(time),
+      },
+    });
+    await newUserActivity.save();
     return new APIResponse(200, updated, "updated successfully").send(res);
   } catch (e) {
     console.error("❌ Update Current Affair Error:", e);
@@ -160,6 +218,8 @@ export const deleteCurrentAffair = async (req, res) => {
   try {
     const id = req.params.id;
 
+    const { time } = req.query;
+
     if (!mongoose.Types.ObjectId.isValid(id))
       return new APIError(400, ["Invalid ID"]).send(res);
 
@@ -169,6 +229,20 @@ export const deleteCurrentAffair = async (req, res) => {
       return new APIError(404, ["Record not found"]).send(res);
     }
 
+    const newUserActivity = userActivity({
+      userId: req.user.id,
+      event: {
+        eventType: "CurrentAffair",
+        eventId: deleted._id,
+        action: "deleted",
+        eventStamp: {
+          title: deleted.title || "Item deleted ",
+        },
+        totalTime: Number(time),
+      },
+    });
+
+    await newUserActivity.save();
     return new APIResponse(200, deleted, "Deleted successfully").send(res);
   } catch (e) {
     console.error("❌ Error deleting affair:", e);

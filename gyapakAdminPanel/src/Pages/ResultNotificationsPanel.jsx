@@ -10,9 +10,12 @@ import {
   Pencil,
   ArrowLeft,
 } from "lucide-react";
+import axiosInstance from "../api/axiosConfig";
 
 export const isResultNotification = (n) => {
-  const hay = `${n?.type || ""} ${n?.category || ""} ${n?.title || ""} ${n?.summary || ""}`.toLowerCase();
+  const hay = `${n?.type || ""} ${n?.category || ""} ${n?.title || ""} ${
+    n?.summary || ""
+  }`.toLowerCase();
   return hay.includes("result");
 };
 
@@ -22,13 +25,15 @@ const buildDraftPayload = (n, getDocTime) => {
     title: n?.title || "",
     link: n?.link || "",
     description: "",
-    resultDate: null,     // can be "YYYY-MM-DD"
+    resultDate: null, // can be "YYYY-MM-DD"
     isTentative: false,
   };
 };
 
 const downloadJson = (filename, data) => {
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const blob = new Blob([JSON.stringify(data, null, 2)], {
+    type: "application/json",
+  });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
@@ -51,7 +56,6 @@ const deepClone = (v) => JSON.parse(JSON.stringify(v ?? null));
 export default function ResultNotificationsPanel({
   items = [],
   title = "Results",
-  apiBase,
   uploadEndpoint = "/api/results/import",
   getDocTime,
   makeKey,
@@ -94,12 +98,11 @@ export default function ResultNotificationsPanel({
   const clearAll = () => setSelected(new Set());
 
   const uploadRows = async (rows) => {
-    if (!apiBase) return alert("API base missing");
     if (!rows?.length) return;
 
     setUploading(true);
     try {
-      await axios.post(`${apiBase}${uploadEndpoint}`, { rows }, { withCredentials: true });
+      await axiosInstance.post(`${uploadEndpoint}`, { rows });
       alert("Uploaded ✅");
     } catch (e) {
       console.error("Result upload failed:", e);
@@ -121,7 +124,10 @@ export default function ResultNotificationsPanel({
   );
 
   const modalDrafts = draftMode === "all" ? draftsAll : draftsSelected;
-  const modalJson = useMemo(() => JSON.stringify(modalDrafts, null, 2), [modalDrafts]);
+  const modalJson = useMemo(
+    () => JSON.stringify(modalDrafts, null, 2),
+    [modalDrafts]
+  );
 
   const openDraftModal = () => {
     setDraftMode(selected.size ? "selected" : "all");
@@ -245,14 +251,19 @@ export default function ResultNotificationsPanel({
 
         <div className="mt-3 space-y-2">
           {enriched.length === 0 ? (
-            <p className="text-sm text-slate-500">No result notifications found.</p>
+            <p className="text-sm text-slate-500">
+              No result notifications found.
+            </p>
           ) : (
             enriched.slice(0, 30).map(({ n, key, draft }) => {
               const t = getDocTime(n);
               const isToday = t ? istDateKey(new Date(t)) === todayKey : false;
 
               return (
-                <div key={key} className="rounded-lg border border-slate-200 p-3">
+                <div
+                  key={key}
+                  className="rounded-lg border border-slate-200 p-3"
+                >
                   <div className="flex items-start gap-3">
                     <div className="mt-0.5">
                       <Book className="h-5 w-5 text-slate-400" />
@@ -284,13 +295,21 @@ export default function ResultNotificationsPanel({
                       </div>
 
                       {n.summary ? (
-                        <p className="mt-1 text-xs text-slate-500 line-clamp-2">{n.summary}</p>
+                        <p className="mt-1 text-xs text-slate-500 line-clamp-2">
+                          {n.summary}
+                        </p>
                       ) : null}
 
                       <div className="mt-2 flex items-center justify-between">
                         <div className="text-[11px] text-slate-500">
-                          {n.sourceCode ? <span className="font-mono">{n.sourceCode}</span> : null}
-                          {t ? <span className="ml-2">{new Date(t).toLocaleString("en-IN")}</span> : null}
+                          {n.sourceCode ? (
+                            <span className="font-mono">{n.sourceCode}</span>
+                          ) : null}
+                          {t ? (
+                            <span className="ml-2">
+                              {new Date(t).toLocaleString("en-IN")}
+                            </span>
+                          ) : null}
                         </div>
 
                         {/* <button
@@ -307,7 +326,7 @@ export default function ResultNotificationsPanel({
                           View draft payload
                         </summary>
                         <pre className="mt-2 overflow-auto rounded-md bg-slate-50 p-2 text-[11px] text-slate-700">
-{JSON.stringify(draft, null, 2)}
+                          {JSON.stringify(draft, null, 2)}
                         </pre>
                       </details>
                     </div>
@@ -328,12 +347,17 @@ export default function ResultNotificationsPanel({
       {/* ===================== DRAFTS MODAL ===================== */}
       {draftModalOpen && (
         <div className="fixed inset-0 z-[60]">
-          <div className="absolute inset-0 bg-black/40" onClick={closeDraftModal} />
+          <div
+            className="absolute inset-0 bg-black/40"
+            onClick={closeDraftModal}
+          />
 
           <div className="absolute left-1/2 top-1/2 w-[95%] max-w-4xl -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-slate-200 bg-white shadow-2xl overflow-hidden">
             <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3">
               <div>
-                <div className="text-sm font-semibold text-slate-800">Draft Payloads</div>
+                <div className="text-sm font-semibold text-slate-800">
+                  Draft Payloads
+                </div>
                 <div className="text-[11px] text-slate-500">
                   Mode: <span className="font-mono">{draftMode}</span> • Count:{" "}
                   <span className="font-semibold">{modalDrafts.length}</span>
@@ -354,7 +378,9 @@ export default function ResultNotificationsPanel({
                 <button
                   onClick={() => setDraftMode("selected")}
                   className={`px-3 py-2 text-xs ${
-                    draftMode === "selected" ? "bg-indigo-50 text-indigo-700" : "bg-white text-slate-700"
+                    draftMode === "selected"
+                      ? "bg-indigo-50 text-indigo-700"
+                      : "bg-white text-slate-700"
                   }`}
                 >
                   Selected ({draftsSelected.length})
@@ -362,7 +388,9 @@ export default function ResultNotificationsPanel({
                 <button
                   onClick={() => setDraftMode("all")}
                   className={`px-3 py-2 text-xs border-l border-slate-300 ${
-                    draftMode === "all" ? "bg-indigo-50 text-indigo-700" : "bg-white text-slate-700"
+                    draftMode === "all"
+                      ? "bg-indigo-50 text-indigo-700"
+                      : "bg-white text-slate-700"
                   }`}
                 >
                   All ({draftsAll.length})
@@ -403,11 +431,12 @@ export default function ResultNotificationsPanel({
             <div className="max-h-[65vh] overflow-auto px-4 pb-4">
               {modalDrafts.length === 0 ? (
                 <div className="rounded-xl border border-slate-200 bg-slate-50 p-6 text-sm text-slate-600">
-                  No drafts to show in <span className="font-mono">{draftMode}</span> mode.
+                  No drafts to show in{" "}
+                  <span className="font-mono">{draftMode}</span> mode.
                 </div>
               ) : (
                 <pre className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-[12px] text-slate-800 overflow-auto">
-{modalJson}
+                  {modalJson}
                 </pre>
               )}
             </div>
@@ -427,7 +456,10 @@ export default function ResultNotificationsPanel({
       {/* ===================== EDIT & UPLOAD MODAL ===================== */}
       {editModalOpen && (
         <div className="fixed inset-0 z-[70]">
-          <div className="absolute inset-0 bg-black/50" onClick={closeEditModal} />
+          <div
+            className="absolute inset-0 bg-black/50"
+            onClick={closeEditModal}
+          />
 
           <div className="absolute left-1/2 top-1/2 w-[95%] max-w-5xl -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-slate-200 bg-white shadow-2xl overflow-hidden">
             {/* header */}
@@ -442,7 +474,9 @@ export default function ResultNotificationsPanel({
                 </button>
 
                 <div>
-                  <div className="text-sm font-semibold text-slate-800">Edit & Upload</div>
+                  <div className="text-sm font-semibold text-slate-800">
+                    Edit & Upload
+                  </div>
                   <div className="text-[11px] text-slate-500">
                     Edit fields → Final Upload • Count:{" "}
                     <span className="font-semibold">{editDrafts.length}</span>
@@ -475,36 +509,55 @@ export default function ResultNotificationsPanel({
               ) : (
                 <div className="space-y-3">
                   {editDrafts.map((d, idx) => (
-                    <div key={idx} className="rounded-xl border border-slate-200 p-3">
+                    <div
+                      key={idx}
+                      className="rounded-xl border border-slate-200 p-3"
+                    >
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0 flex-1">
                           <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
                             <div>
-                              <label className="text-[11px] text-slate-600">Title</label>
+                              <label className="text-[11px] text-slate-600">
+                                Title
+                              </label>
                               <input
                                 value={d.title ?? ""}
-                                onChange={(e) => updateDraftField(idx, "title", e.target.value)}
+                                onChange={(e) =>
+                                  updateDraftField(idx, "title", e.target.value)
+                                }
                                 className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
                                 placeholder="Result title"
                               />
                             </div>
 
                             <div>
-                              <label className="text-[11px] text-slate-600">Link</label>
+                              <label className="text-[11px] text-slate-600">
+                                Link
+                              </label>
                               <input
                                 value={d.link ?? ""}
-                                onChange={(e) => updateDraftField(idx, "link", e.target.value)}
+                                onChange={(e) =>
+                                  updateDraftField(idx, "link", e.target.value)
+                                }
                                 className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
                                 placeholder="https://..."
                               />
                             </div>
 
                             <div>
-                              <label className="text-[11px] text-slate-600">Result Date (optional)</label>
+                              <label className="text-[11px] text-slate-600">
+                                Result Date (optional)
+                              </label>
                               <input
                                 type="date"
                                 value={d.resultDate ?? ""}
-                                onChange={(e) => updateDraftField(idx, "resultDate", e.target.value || null)}
+                                onChange={(e) =>
+                                  updateDraftField(
+                                    idx,
+                                    "resultDate",
+                                    e.target.value || null
+                                  )
+                                }
                                 className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
                               />
                               <div className="mt-1 text-[11px] text-slate-500">
@@ -517,17 +570,33 @@ export default function ResultNotificationsPanel({
                                 <input
                                   type="checkbox"
                                   checked={!!d.isTentative}
-                                  onChange={(e) => updateDraftField(idx, "isTentative", e.target.checked)}
+                                  onChange={(e) =>
+                                    updateDraftField(
+                                      idx,
+                                      "isTentative",
+                                      e.target.checked
+                                    )
+                                  }
                                 />
-                                <span className="text-[13px] text-slate-700">Tentative</span>
+                                <span className="text-[13px] text-slate-700">
+                                  Tentative
+                                </span>
                               </label>
                             </div>
 
                             <div className="md:col-span-2">
-                              <label className="text-[11px] text-slate-600">Description (optional)</label>
+                              <label className="text-[11px] text-slate-600">
+                                Description (optional)
+                              </label>
                               <textarea
                                 value={d.description ?? ""}
-                                onChange={(e) => updateDraftField(idx, "description", e.target.value)}
+                                onChange={(e) =>
+                                  updateDraftField(
+                                    idx,
+                                    "description",
+                                    e.target.value
+                                  )
+                                }
                                 className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
                                 rows={2}
                                 placeholder="Any notes you want to store..."
@@ -540,7 +609,7 @@ export default function ResultNotificationsPanel({
                               View row JSON
                             </summary>
                             <pre className="mt-2 overflow-auto rounded-md bg-slate-50 p-2 text-[11px] text-slate-700">
-{JSON.stringify(d, null, 2)}
+                              {JSON.stringify(d, null, 2)}
                             </pre>
                           </details>
                         </div>
@@ -562,7 +631,9 @@ export default function ResultNotificationsPanel({
             {/* footer */}
             <div className="flex items-center justify-between gap-2 border-t border-slate-200 px-4 py-3">
               <button
-                onClick={() => downloadJson("edited-result-drafts.json", editDrafts)}
+                onClick={() =>
+                  downloadJson("edited-result-drafts.json", editDrafts)
+                }
                 disabled={editDrafts.length === 0}
                 className="rounded-md border border-slate-300 px-3 py-2 text-xs hover:bg-slate-50 disabled:opacity-60"
               >

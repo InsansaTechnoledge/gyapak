@@ -1,30 +1,26 @@
-import axios from "axios";
+import axiosInstance from "../api/axiosConfig";
 
-import { API_BASE_URL } from "../config";
-
-export const createNewPdf = async (dailyData) => {
-    try{
-        const response = await axios.post(`${API_BASE_URL}/api/v1i2/affair/upload-pdf`, dailyData)
-        return response
-    }catch(error){
-        console.error('Error uploading pdf:', error);
-        throw error;
-    }
-}   
+export const createNewPdf = async (dailyData, totalTime) => {
+  try {
+    const response = await axiosInstance.post(
+      `/api/v1i2/affair/upload-pdf?time=${totalTime}`,
+      dailyData
+    );
+    return response;
+  } catch (error) {
+    console.error("Error uploading pdf:", error);
+    throw error;
+  }
+};
 
 export const fetchpdfs = async () => {
-    try{
-        const response = await axios.get(`${API_BASE_URL}/api/v1i2/affair/get-pdf`)
-        return response.data
-    } catch(error) {
-        throw error
-    }
-}
+  const response = await axiosInstance.get("/api/v1i2/affair/get-pdf");
+  return response.data;
+};
 
-export const deletePdf = async (id) => {
-    return axios.delete(`${API_BASE_URL}/api/v1i2/affair/delete-pdf`, {
-      data: { id },                       
-      headers: { 'Content-Type': 'application/json' },
-    });
-  };
-  
+export const deletePdf = async (id, totalTime) => {
+  return axiosInstance.delete(`/api/v1i2/affair/delete-pdf?time=${totalTime}`, {
+    data: { id },
+    headers: { "Content-Type": "application/json" },
+  });
+};

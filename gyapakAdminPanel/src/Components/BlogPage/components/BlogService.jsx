@@ -1,11 +1,10 @@
 // src/services/blog.service.js
-import axios from "axios";
 import { API_BASE_URL } from "../../../config";
+import axiosInstance from "../../../api/axiosConfig";
 
-
-const API_BASE_URI = API_BASE_URL ;
+const API_BASE_URI = API_BASE_URL;
 // const API_BASE_URI = "http://localhost:3000"
-const API_BASE = `${API_BASE_URI}/api/v1i2/blog`;
+// const API_BASE = `${API_BASE_URI}/api/v1i2/blog`;
 
 // Helper: unwrap your APIResponse { statusCode, data, message }
 const unwrap = (res) => res?.data?.data ?? res.data;
@@ -14,7 +13,7 @@ export const fetchBlogPosts = async ({ tag } = {}) => {
   const params = {};
   if (tag) params.tag = tag;
 
-  const res = await axios.get(API_BASE, { params });
+  const res = await axiosInstance.get("/api/v1i2/blog", { params });
   return unwrap(res); // -> array of Blog docs
 };
 
@@ -23,7 +22,7 @@ export const fetchBlogPosts = async ({ tag } = {}) => {
  * Uses getBlogBySlug
  */
 export const fetchBlogPostBySlug = async (slug) => {
-  const res = await axios.get(`${API_BASE}/slug/${slug}`);
+  const res = await axiosInstance.get(`/api/v1i2/blog/slug/${slug}`);
   return unwrap(res); // -> single Blog doc
 };
 
@@ -31,8 +30,11 @@ export const fetchBlogPostBySlug = async (slug) => {
  * POST /api/v1/blogs/
  * Uses createBlog
  */
-export const createBlogPost = async (postData) => {
-  const res = await axios.post(API_BASE, postData);
+export const createBlogPost = async (postData, totalTime) => {
+  const res = await axiosInstance.post(
+    `/api/v1i2/blog?time=${totalTime}`,
+    postData
+  );
   return unwrap(res);
 };
 
@@ -40,8 +42,11 @@ export const createBlogPost = async (postData) => {
  * PUT /api/v1/blogs/:id
  * Uses updateBlog
  */
-export const updateBlogPost = async (id, postData) => {
-  const res = await axios.put(`${API_BASE}/${id}`, postData);
+export const updateBlogPost = async (id, postData, totalTime) => {
+  const res = await axiosInstance.put(
+    `/api/v1i2/blog/${id}?time=${totalTime}`,
+    postData
+  );
   return unwrap(res);
 };
 
@@ -49,8 +54,10 @@ export const updateBlogPost = async (id, postData) => {
  * DELETE /api/v1/blogs/:id
  * Uses deleteBlog
  */
-export const deleteBlogPost = async (id) => {
-  const res = await axios.delete(`${API_BASE}/${id}`);
+export const deleteBlogPost = async (id, totalTime) => {
+  const res = await axiosInstance.delete(
+    `/api/v1i2/blog/${id}?time=${totalTime}`
+  );
   return unwrap(res);
 };
 
@@ -59,7 +66,7 @@ export const deleteBlogPost = async (id) => {
  * Uses getFeaturedBlogs
  */
 export const fetchFeaturedBlogPosts = async () => {
-  const res = await axios.get(`${API_BASE}/featured`);
+  const res = await axiosInstance.get(`/api/v1i2/blog/featured`);
   return unwrap(res);
 };
 
@@ -68,7 +75,7 @@ export const fetchFeaturedBlogPosts = async () => {
  * Uses searchBlogs
  */
 export const searchBlogPosts = async (keyword) => {
-  const res = await axios.get(`${API_BASE}/search`, {
+  const res = await axiosInstance.get(`/api/v1i2/blog/search`, {
     params: { keyword },
   });
   return unwrap(res);
@@ -80,7 +87,7 @@ export const searchBlogPosts = async (keyword) => {
  * (Note: this route returns { success, data }, not APIResponse)
  */
 export const fetchRelatedBlogPosts = async (slug) => {
-  const res = await axios.get(`${API_BASE}/related/${slug}`);
+  const res = await axiosInstance.get(`/api/v1i2/blog/related/${slug}`);
   return res?.data?.data ?? res.data;
 };
 

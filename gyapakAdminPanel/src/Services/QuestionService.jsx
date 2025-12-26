@@ -1,53 +1,64 @@
-import axios from 'axios';
+import axiosInstance from "../api/axiosConfig";
 
-
-import { API_BASE_URL } from '../config';
-
-export const createQuestionService = async (questionData) => {
+export const createQuestionService = async (questionData, totalTime) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/api/v1i2/question`, questionData);
+    const response = await axiosInstance.post(
+      `/api/v1i2/question?time=${totalTime}`,
+      questionData
+    );
     return response;
   } catch (error) {
-    console.error('Error creating question:', error);
+    console.error("Error creating question:", error);
     throw error;
   }
 };
 
-export const updateQuestionService = async (questionId, questionData) => {
+export const updateQuestionService = async (
+  questionId,
+  questionData,
+  totalTime
+) => {
   try {
-    const response = await axios.patch(`${API_BASE_URL}/api/v1i2/question/${questionId}`, questionData);
+    const response = await axiosInstance.patch(
+      `/api/v1i2/question/${questionId}?time=${totalTime}`,
+      questionData
+    );
     return response.data;
   } catch (error) {
-    console.error('Error updating question:', error);
+    console.error("Error updating question:", error);
     throw error;
   }
 };
 
-export const deleteQuestionService = async (questionId) => {
+export const deleteQuestionService = async (questionId, totalTime) => {
   try {
-    const response = await axios.delete(`${API_BASE_URL}/api/v1i2/question/${questionId}`);
+    const response = await axiosInstance.delete(
+      `/api/v1i2/question/${questionId}?time=${totalTime}`
+    );
     return response.data;
   } catch (error) {
-    console.error('Error deleting question:', error);
+    console.error("Error deleting question:", error);
     throw error;
   }
 };
 
-export const reuseQuestionService = async (questionId) => {
+export const reuseQuestionService = async (questionId, totalTime) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/api/v1i2/question/${questionId}/reuse`);
+    const response = await axiosInstance.post(
+      `/api/v1i2/question/${questionId}/reuse?time=${totalTime}`
+    );
     return response.data;
   } catch (error) {
-    console.error('Error reusing question:', error);
+    console.error("Error reusing question:", error);
     throw error;
   }
 };
 export const fetchQuestionsService = async (params) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/api/v1i2/question`, { params });
+    const response = await axiosInstance.get("/api/v1i2/question", { params });
     return response.data;
   } catch (error) {
-    console.error('Error fetching questions:', error);
+    console.error("Error fetching questions:", error);
     throw error;
   }
 };

@@ -1,9 +1,6 @@
-import { API_BASE_URL } from "../config";
-import axios from "axios";
+import axiosInstance from '../api/axiosConfig';
 
 export const getWeeklyReport = async () => {
-  const response = await axios.get(`${API_BASE_URL}/api/v1i2/reports/weekly`, {
-    withCredentials: true,
-  });
+  const response = await axiosInstance.get('/api/v1i2/reports/weekly');
   return response.data;
 }

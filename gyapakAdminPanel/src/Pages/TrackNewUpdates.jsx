@@ -1,13 +1,15 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { io } from "socket.io-client";
-import axios from "axios";
+import axiosInstance from "../api/axiosConfig";
 import * as XLSX from "xlsx";
 
 import ManageSources from "./ManageSources";
 import { API_BASE_URL } from "../config";
 import Pagination from "./SEO/Components/Pagination";
 
-import ResultNotificationsPanel, { isResultNotification } from "./ResultNotificationsPanel";
+import ResultNotificationsPanel, {
+  isResultNotification,
+} from "./ResultNotificationsPanel";
 
 const API_BASE = API_BASE_URL;
 
@@ -43,7 +45,9 @@ const StatCard = ({ label, value, hint }) => (
   <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
     <div className="text-xs text-slate-500">{label}</div>
     <div className="mt-1 text-2xl font-semibold text-slate-800">{value}</div>
-    {hint ? <div className="mt-1 text-[11px] text-slate-500">{hint}</div> : null}
+    {hint ? (
+      <div className="mt-1 text-[11px] text-slate-500">{hint}</div>
+    ) : null}
   </div>
 );
 
@@ -79,7 +83,9 @@ export default function TrackNewUpdates() {
   useEffect(() => {
     const fetchSources = async () => {
       try {
-        const res = await axios.get(`${API_BASE}/api/sources`, { withCredentials: true });
+        const res = await axiosInstance.get(`/api/sources`, {
+          withCredentials: true,
+        });
         setSources(res?.data?.data || []);
       } catch (err) {
         console.error("Error fetching sources:", err);
@@ -90,7 +96,10 @@ export default function TrackNewUpdates() {
     fetchSources();
   }, []);
 
-  const activeSources = useMemo(() => sources.filter((s) => s.isActive !== false), [sources]);
+  const activeSources = useMemo(
+    () => sources.filter((s) => s.isActive !== false),
+    [sources]
+  );
 
   // initial notifications for all active sources
   useEffect(() => {
@@ -101,7 +110,7 @@ export default function TrackNewUpdates() {
       try {
         const results = await Promise.all(
           activeSources.map(async (s) => {
-            const res = await axios.get(`${API_BASE}/api/notifications`, {
+            const res = await axiosInstance.get(`/api/notifications`, {
               params: { sourceCode: s.code, limit: 60 },
               withCredentials: true,
             });
@@ -208,7 +217,10 @@ export default function TrackNewUpdates() {
     return flat;
   }, [notificationsBySource]);
 
-  const todayNotifications = useMemo(() => allNotifications.filter(isToday), [allNotifications]);
+  const todayNotifications = useMemo(
+    () => allNotifications.filter(isToday),
+    [allNotifications]
+  );
 
   // ✅ split results vs non-results
   const resultNotificationsAll = useMemo(
@@ -236,7 +248,9 @@ export default function TrackNewUpdates() {
     if (!q) return base;
 
     return base.filter((n) => {
-      const hay = `${n.title || ""} ${n.summary || ""} ${n.sourceCode || ""} ${n.link || ""}`.toLowerCase();
+      const hay = `${n.title || ""} ${n.summary || ""} ${n.sourceCode || ""} ${
+        n.link || ""
+      }`.toLowerCase();
       return hay.includes(q);
     });
   }, [nonResultAll, nonResultToday, onlyToday, query]);
@@ -244,7 +258,9 @@ export default function TrackNewUpdates() {
   const statsBySource = useMemo(() => {
     const map = {};
     for (const s of activeSources) {
-      const list = (notificationsBySource[s.code] || []).filter((n) => !isResultNotification(n));
+      const list = (notificationsBySource[s.code] || []).filter(
+        (n) => !isResultNotification(n)
+      );
       map[s.code] = {
         total: list.length,
         today: list.filter(isToday).length,
@@ -254,7 +270,10 @@ export default function TrackNewUpdates() {
   }, [activeSources, notificationsBySource]);
 
   // paginate sources list
-  const totalSourcePages = Math.max(1, Math.ceil(activeSources.length / sourcesPageSize));
+  const totalSourcePages = Math.max(
+    1,
+    Math.ceil(activeSources.length / sourcesPageSize)
+  );
   const pagedSources = useMemo(() => {
     const safePage = Math.min(sourcesPage, totalSourcePages);
     const start = (safePage - 1) * sourcesPageSize;
@@ -281,7 +300,9 @@ export default function TrackNewUpdates() {
       Title: n.title || "",
       Link: n.link || "",
       Summary: n.summary || "",
-      SeenAt: getDocTime(n) ? new Date(getDocTime(n)).toLocaleString("en-IN") : "",
+      SeenAt: getDocTime(n)
+        ? new Date(getDocTime(n)).toLocaleString("en-IN")
+        : "",
     }));
 
     const ws = XLSX.utils.json_to_sheet(rows);
@@ -295,8 +316,12 @@ export default function TrackNewUpdates() {
       {/* Header */}
       <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-slate-800">Track New Updates</h1>
-          <p className="text-sm text-slate-500">Clean dashboard + live feed. Results handled via drafts panel.</p>
+          <h1 className="text-2xl font-semibold text-slate-800">
+            Track New Updates
+          </h1>
+          <p className="text-sm text-slate-500">
+            Clean dashboard + live feed. Results handled via drafts panel.
+          </p>
         </div>
 
         <div className="flex items-center gap-3">
@@ -314,7 +339,12 @@ export default function TrackNewUpdates() {
             onClick={() => setResultDrawerOpen(true)}
             className="rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
           >
-            Results Drafts ({(onlyToday ? resultNotificationsToday : resultNotificationsAll).length})
+            Results Drafts (
+            {
+              (onlyToday ? resultNotificationsToday : resultNotificationsAll)
+                .length
+            }
+            )
           </button>
 
           <button
@@ -336,10 +366,26 @@ export default function TrackNewUpdates() {
 
       {/* Stats */}
       <div className="mt-5 grid grid-cols-2 gap-3 md:grid-cols-4">
-        <StatCard label="Today (Non-Result)" value={nonResultToday.length} hint={`Date: ${todayKey}`} />
-        <StatCard label="Today (Results)" value={resultNotificationsToday.length} hint="Drafts panel" />
-        <StatCard label="New since open" value={newSinceOpenCount} hint="Live additions after opening" />
-        <StatCard label="Active sources" value={activeSources.length} hint={loadingSources ? "Loading…" : ""} />
+        <StatCard
+          label="Today (Non-Result)"
+          value={nonResultToday.length}
+          hint={`Date: ${todayKey}`}
+        />
+        <StatCard
+          label="Today (Results)"
+          value={resultNotificationsToday.length}
+          hint="Drafts panel"
+        />
+        <StatCard
+          label="New since open"
+          value={newSinceOpenCount}
+          hint="Live additions after opening"
+        />
+        <StatCard
+          label="Active sources"
+          value={activeSources.length}
+          hint={loadingSources ? "Loading…" : ""}
+        />
       </div>
 
       {/* Controls (NON-RESULT only) */}
@@ -354,7 +400,9 @@ export default function TrackNewUpdates() {
         <button
           onClick={() => setOnlyToday((v) => !v)}
           className={`rounded-md border px-3 py-2 text-sm ${
-            onlyToday ? "border-indigo-200 bg-indigo-50 text-indigo-700" : "border-slate-300 bg-white text-slate-700"
+            onlyToday
+              ? "border-indigo-200 bg-indigo-50 text-indigo-700"
+              : "border-slate-300 bg-white text-slate-700"
           }`}
         >
           {onlyToday ? "Showing: Today" : "Filter: Today"}
@@ -363,14 +411,20 @@ export default function TrackNewUpdates() {
         <div className="flex rounded-md border border-slate-300 overflow-hidden">
           <button
             onClick={() => setView("grouped")}
-            className={`px-3 py-2 text-sm ${view === "grouped" ? "bg-indigo-50 text-indigo-700" : "bg-white text-slate-700"}`}
+            className={`px-3 py-2 text-sm ${
+              view === "grouped"
+                ? "bg-indigo-50 text-indigo-700"
+                : "bg-white text-slate-700"
+            }`}
           >
             Grouped
           </button>
           <button
             onClick={() => setView("combined")}
             className={`px-3 py-2 text-sm border-l border-slate-300 ${
-              view === "combined" ? "bg-indigo-50 text-indigo-700" : "bg-white text-slate-700"
+              view === "combined"
+                ? "bg-indigo-50 text-indigo-700"
+                : "bg-white text-slate-700"
             }`}
           >
             Combined
@@ -378,7 +432,8 @@ export default function TrackNewUpdates() {
         </div>
 
         <div className="text-sm text-slate-600">
-          <span className="font-semibold">{filteredCombined.length}</span> results
+          <span className="font-semibold">{filteredCombined.length}</span>{" "}
+          results
         </div>
       </div>
 
@@ -417,16 +472,24 @@ export default function TrackNewUpdates() {
                       key={s._id}
                       onClick={() => toggleExpanded(s.code)}
                       className={`w-full rounded-lg border p-3 text-left hover:bg-slate-50 ${
-                        open ? "border-indigo-200 bg-indigo-50/30" : "border-slate-200"
+                        open
+                          ? "border-indigo-200 bg-indigo-50/30"
+                          : "border-slate-200"
                       }`}
                     >
                       <div className="flex items-start justify-between gap-2">
                         <div>
-                          <div className="text-sm font-semibold text-slate-800">{s.name}</div>
-                          <div className="mt-0.5 font-mono text-[11px] text-slate-500">{s.code}</div>
+                          <div className="text-sm font-semibold text-slate-800">
+                            {s.name}
+                          </div>
+                          <div className="mt-0.5 font-mono text-[11px] text-slate-500">
+                            {s.code}
+                          </div>
                         </div>
                         <div className="flex flex-col items-end gap-1">
-                          <Badge tone={st.today ? "green" : "slate"}>Today: {st.today}</Badge>
+                          <Badge tone={st.today ? "green" : "slate"}>
+                            Today: {st.today}
+                          </Badge>
                           <Badge tone="slate">Total: {st.total}</Badge>
                         </div>
                       </div>
@@ -437,7 +500,11 @@ export default function TrackNewUpdates() {
             )}
 
             <div className="mt-3">
-              <Pagination page={sourcesPage} totalPages={totalSourcePages} onPageChange={setSourcesPage} />
+              <Pagination
+                page={sourcesPage}
+                totalPages={totalSourcePages}
+                onPageChange={setSourcesPage}
+              />
             </div>
           </div>
         </aside>
@@ -447,52 +514,74 @@ export default function TrackNewUpdates() {
           <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
             <div className="mb-2 flex items-center justify-between">
               <h2 className="text-sm font-semibold text-slate-800">
-                {view === "grouped" ? "Feed by Source (Non-Result)" : "Combined Feed (Non-Result)"}
+                {view === "grouped"
+                  ? "Feed by Source (Non-Result)"
+                  : "Combined Feed (Non-Result)"}
               </h2>
-              {loadingNotifications && <span className="text-xs text-slate-500">Syncing…</span>}
+              {loadingNotifications && (
+                <span className="text-xs text-slate-500">Syncing…</span>
+              )}
             </div>
 
             {view === "grouped" ? (
               <div className="mt-3 space-y-3">
                 {activeSources.map((s) => {
-                  const list0 = (notificationsBySource[s.code] || []).filter((n) => !isResultNotification(n));
+                  const list0 = (notificationsBySource[s.code] || []).filter(
+                    (n) => !isResultNotification(n)
+                  );
                   const list1 = onlyToday ? list0.filter(isToday) : list0;
 
                   const q = query.trim().toLowerCase();
                   const filtered = !q
                     ? list1
                     : list1.filter((n) =>
-                        `${n.title || ""} ${n.summary || ""} ${n.link || ""}`.toLowerCase().includes(q)
+                        `${n.title || ""} ${n.summary || ""} ${n.link || ""}`
+                          .toLowerCase()
+                          .includes(q)
                       );
 
                   if (filtered.length === 0) return null;
 
                   const open = expanded.has(s.code);
-                  const slice = open ? filtered.slice(0, 30) : filtered.slice(0, 6);
+                  const slice = open
+                    ? filtered.slice(0, 30)
+                    : filtered.slice(0, 6);
 
                   const st = statsBySource[s.code] || { total: 0, today: 0 };
 
                   return (
-                    <div key={s.code} className="rounded-xl border border-slate-200 overflow-hidden">
+                    <div
+                      key={s.code}
+                      className="rounded-xl border border-slate-200 overflow-hidden"
+                    >
                       <button
                         onClick={() => toggleExpanded(s.code)}
                         className="flex w-full items-center justify-between gap-3 bg-slate-50 px-4 py-3 text-left"
                       >
                         <div>
-                          <div className="text-sm font-semibold text-slate-800">{s.name}</div>
-                          <div className="text-[11px] font-mono text-slate-500">{s.code}</div>
+                          <div className="text-sm font-semibold text-slate-800">
+                            {s.name}
+                          </div>
+                          <div className="text-[11px] font-mono text-slate-500">
+                            {s.code}
+                          </div>
                         </div>
                         <div className="flex items-center gap-2">
-                          <Badge tone={st.today ? "green" : "slate"}>Today: {st.today}</Badge>
+                          <Badge tone={st.today ? "green" : "slate"}>
+                            Today: {st.today}
+                          </Badge>
                           <Badge tone="slate">Items: {filtered.length}</Badge>
-                          <span className="text-xs text-slate-500">{open ? "Collapse" : "Expand"}</span>
+                          <span className="text-xs text-slate-500">
+                            {open ? "Collapse" : "Expand"}
+                          </span>
                         </div>
                       </button>
 
                       <ul className="divide-y divide-slate-200">
                         {slice.map((n) => {
                           const t = getDocTime(n);
-                          const today = t && istDateKey(new Date(t)) === todayKey;
+                          const today =
+                            t && istDateKey(new Date(t)) === todayKey;
                           const isNew = newSinceOpenRef.current.has(makeKey(n));
 
                           return (
@@ -500,7 +589,12 @@ export default function TrackNewUpdates() {
                               <div className="flex items-start justify-between gap-3">
                                 <div className="min-w-0">
                                   <div className="flex items-center gap-2 flex-wrap">
-                                    {isNew && <span className="h-2 w-2 rounded-full bg-indigo-500" title="New since open" />}
+                                    {isNew && (
+                                      <span
+                                        className="h-2 w-2 rounded-full bg-indigo-500"
+                                        title="New since open"
+                                      />
+                                    )}
                                     <a
                                       href={n.link}
                                       target="_blank"
@@ -511,11 +605,19 @@ export default function TrackNewUpdates() {
                                     </a>
                                     {today && <Badge tone="green">Today</Badge>}
                                   </div>
-                                  {n.summary ? <p className="mt-1 text-xs text-slate-500 line-clamp-2">{n.summary}</p> : null}
+                                  {n.summary ? (
+                                    <p className="mt-1 text-xs text-slate-500 line-clamp-2">
+                                      {n.summary}
+                                    </p>
+                                  ) : null}
                                 </div>
 
                                 <div className="shrink-0 text-right">
-                                  <div className="text-[11px] text-slate-500">{t ? new Date(t).toLocaleString("en-IN") : ""}</div>
+                                  <div className="text-[11px] text-slate-500">
+                                    {t
+                                      ? new Date(t).toLocaleString("en-IN")
+                                      : ""}
+                                  </div>
                                 </div>
                               </div>
                             </li>
@@ -525,8 +627,13 @@ export default function TrackNewUpdates() {
 
                       {filtered.length > slice.length && (
                         <div className="px-4 py-3">
-                          <button onClick={() => toggleExpanded(s.code)} className="text-sm font-medium text-indigo-700 hover:underline">
-                            {open ? "Show less" : `Show more (${filtered.length - slice.length})`}
+                          <button
+                            onClick={() => toggleExpanded(s.code)}
+                            className="text-sm font-medium text-indigo-700 hover:underline"
+                          >
+                            {open
+                              ? "Show less"
+                              : `Show more (${filtered.length - slice.length})`}
                           </button>
                         </div>
                       )}
@@ -546,7 +653,9 @@ export default function TrackNewUpdates() {
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
                           <div className="flex items-center gap-2 flex-wrap">
-                            {isNew && <span className="h-2 w-2 rounded-full bg-indigo-500" />}
+                            {isNew && (
+                              <span className="h-2 w-2 rounded-full bg-indigo-500" />
+                            )}
                             <Badge tone="indigo">{n.sourceCode}</Badge>
                             {today && <Badge tone="green">Today</Badge>}
                           </div>
@@ -560,11 +669,17 @@ export default function TrackNewUpdates() {
                             {n.title}
                           </a>
 
-                          {n.summary ? <p className="mt-1 text-xs text-slate-500 line-clamp-2">{n.summary}</p> : null}
+                          {n.summary ? (
+                            <p className="mt-1 text-xs text-slate-500 line-clamp-2">
+                              {n.summary}
+                            </p>
+                          ) : null}
                         </div>
 
                         <div className="shrink-0 text-right">
-                          <div className="text-[11px] text-slate-500">{t ? new Date(t).toLocaleString("en-IN") : ""}</div>
+                          <div className="text-[11px] text-slate-500">
+                            {t ? new Date(t).toLocaleString("en-IN") : ""}
+                          </div>
                         </div>
                       </div>
                     </li>
@@ -579,8 +694,12 @@ export default function TrackNewUpdates() {
         <aside className="lg:col-span-3">
           <div className="sticky top-24 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
             <div className="flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-slate-800">Today’s New (Non-Result)</h2>
-              <Badge tone={nonResultToday.length ? "green" : "slate"}>{nonResultToday.length}</Badge>
+              <h2 className="text-sm font-semibold text-slate-800">
+                Today’s New (Non-Result)
+              </h2>
+              <Badge tone={nonResultToday.length ? "green" : "slate"}>
+                {nonResultToday.length}
+              </Badge>
             </div>
 
             <p className="mt-1 text-[11px] text-slate-500">
@@ -597,11 +716,16 @@ export default function TrackNewUpdates() {
 
             <div className="mt-4 space-y-3">
               {nonResultToday.slice(0, 12).map((n) => (
-                <div key={makeKey(n)} className="rounded-lg border border-slate-200 p-3">
+                <div
+                  key={makeKey(n)}
+                  className="rounded-lg border border-slate-200 p-3"
+                >
                   <div className="flex items-center justify-between gap-2">
                     <Badge tone="indigo">{n.sourceCode}</Badge>
                     <span className="text-[11px] text-slate-500">
-                      {getDocTime(n) ? new Date(getDocTime(n)).toLocaleTimeString("en-IN") : ""}
+                      {getDocTime(n)
+                        ? new Date(getDocTime(n)).toLocaleTimeString("en-IN")
+                        : ""}
                     </span>
                   </div>
 
@@ -617,7 +741,10 @@ export default function TrackNewUpdates() {
               ))}
 
               {nonResultToday.length > 12 && (
-                <p className="text-xs text-slate-500">Showing 12 of {nonResultToday.length}. Use filters/search for full view.</p>
+                <p className="text-xs text-slate-500">
+                  Showing 12 of {nonResultToday.length}. Use filters/search for
+                  full view.
+                </p>
               )}
             </div>
           </div>
@@ -627,12 +754,19 @@ export default function TrackNewUpdates() {
       {/* Drawer: ManageSources */}
       {drawerOpen && (
         <div className="fixed inset-0 z-50">
-          <div className="absolute inset-0 bg-black/30" onClick={() => setDrawerOpen(false)} />
+          <div
+            className="absolute inset-0 bg-black/30"
+            onClick={() => setDrawerOpen(false)}
+          />
           <div className="absolute right-0 top-0 h-full w-full max-w-3xl bg-white shadow-xl overflow-y-auto">
             <div className="sticky top-0 bg-white border-b border-slate-200 p-4 flex items-center justify-between">
               <div>
-                <h3 className="text-lg font-semibold text-slate-800">Manage Sources</h3>
-                <p className="text-xs text-slate-500">CRUD + pagination + search</p>
+                <h3 className="text-lg font-semibold text-slate-800">
+                  Manage Sources
+                </h3>
+                <p className="text-xs text-slate-500">
+                  CRUD + pagination + search
+                </p>
               </div>
               <button
                 onClick={() => setDrawerOpen(false)}
@@ -649,12 +783,19 @@ export default function TrackNewUpdates() {
       {/* ✅ Drawer: Results panel (your component) */}
       {resultDrawerOpen && (
         <div className="fixed inset-0 z-[70]">
-          <div className="absolute inset-0 bg-black/30" onClick={() => setResultDrawerOpen(false)} />
+          <div
+            className="absolute inset-0 bg-black/30"
+            onClick={() => setResultDrawerOpen(false)}
+          />
           <div className="absolute right-0 top-0 h-full w-full max-w-3xl bg-white shadow-xl overflow-y-auto">
             <div className="sticky top-0 bg-white border-b border-slate-200 p-4 flex items-center justify-between">
               <div>
-                <h3 className="text-lg font-semibold text-slate-800">Results Drafts</h3>
-                <p className="text-xs text-slate-500">Select → View Drafts → Upload</p>
+                <h3 className="text-lg font-semibold text-slate-800">
+                  Results Drafts
+                </h3>
+                <p className="text-xs text-slate-500">
+                  Select → View Drafts → Upload
+                </p>
               </div>
               <button
                 onClick={() => setResultDrawerOpen(false)}
@@ -666,10 +807,11 @@ export default function TrackNewUpdates() {
 
             <div className="p-4">
               <ResultNotificationsPanel
-                items={onlyToday ? resultNotificationsToday : resultNotificationsAll}
+                items={
+                  onlyToday ? resultNotificationsToday : resultNotificationsAll
+                }
                 title={onlyToday ? "Results (Today)" : "Results (All)"}
-                apiBase={API_BASE}
-                uploadEndpoint="/api/results/import" 
+                uploadEndpoint="/api/results/import"
                 getDocTime={getDocTime}
                 makeKey={makeKey}
                 todayKey={todayKey}

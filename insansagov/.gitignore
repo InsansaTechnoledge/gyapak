@@ -12,7 +12,7 @@ dist.zip
 dist*
 dist-ssr
 *.local
-
+.DS_Store
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
