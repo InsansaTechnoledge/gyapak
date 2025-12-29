@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import route from "../routes/routes.js";
-import { verifyToken, authorizeRoles } from "../middleware/auth.middleware.js";
 
 const ExpressApp = express();
 
@@ -29,19 +28,6 @@ ExpressApp.use(
 );
 
 ExpressApp.use(cookieParser());
-
-// Global authentication middleware - protects all routes except auth endpoints
-ExpressApp.use((req, res, next) => {
-  // Skip authentication for login and registration endpoints
-  const publicPaths = ["/api/auth/login", "/api/auth/registration", "/"];
-
-  if (publicPaths.includes(req.path)) {
-    return next();
-  }
-
-  verifyToken(req, res, next);
-  authorizeRoles("admin");
-});
 
 route(ExpressApp);
 

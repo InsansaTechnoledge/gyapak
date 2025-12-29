@@ -3,6 +3,40 @@ import user from "../models/user.models.js";
 
 const verifyToken = async (req, res, next) => {
   try {
+    // Check if request is coming from allowed origin (gyapak.in)
+    const origin = req.headers.origin;
+    const referer = req.headers.referer;
+    const allowedDomains = ["gyapak.in", "localhost"];
+
+    // Debug logging
+    console.log('=== Auth Middleware Debug ===');
+    console.log('Origin:', origin);
+    console.log('Referer:', referer);
+    console.log('Authorization:', req.headers.authorization);
+
+    // Helper function to check if a URL contains an allowed domain
+    const isFromAllowedDomain = (url) => {
+      if (!url) return false;
+      return allowedDomains.some(domain => url.includes(domain));
+    };
+
+    // Check both origin and referer headers (mobile browsers may not send origin)
+    const isAllowedOrigin = isFromAllowedDomain(origin) || isFromAllowedDomain(referer);
+
+    console.log('Is Allowed Origin:', isAllowedOrigin);
+
+    // If request is from gyapak.in, skip token verification
+    if (isAllowedOrigin) {
+      console.log('✓ Allowing public access from:', origin || referer);
+      // Set a default user object for public access
+      req.user = {
+        id: null,
+        email: null,
+        role: "public",
+      };
+      return next();
+    }
+
     let token;
 
     // Check Authorization header for Bearer token
@@ -65,6 +99,11 @@ const authorizeRoles = (...allowedRoles) => {
         success: false,
         message: "User not authenticated.",
       });
+    }
+
+    // Allow public role users (from allowed origins) to bypass role checks
+    if (req.user.role === "public") {
+      return next();
     }
 
     if (!allowedRoles.includes(req.user.role)) {
