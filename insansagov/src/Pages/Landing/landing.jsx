@@ -149,10 +149,10 @@ const Landing = () => {
       gyapakLanding: <GyapakLanding />,
       
       whatsappJoin: <WhatsAppGroupJoin />,
-      
-      quickResults: <ResultsDashboard />,
 
-      latestUpdates: <LatestUpdates />,
+      // quickResults: <ResultsDashboard />,
+
+      // latestUpdates: <LatestUpdates />,
 
       states: <StatesLanding />,
 

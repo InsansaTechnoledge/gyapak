@@ -326,13 +326,13 @@ const GovCalendar = () => {
             </div>
           )}
 
-          {filteredEvents.length > 0 && (
+          {/* {filteredEvents.length > 0 && (
             <div className="bg-gray-50 px-4 py-3 flex items-center justify-center">
               <Link to="/government-calendar" className="text-sm main-site-text-color hover:main-site-text-color font-medium">
                 {GovCalendarBottomLinkText}
               </Link>
             </div>
-          )}
+          )} */} 
         </div>
       </div>
     </div>

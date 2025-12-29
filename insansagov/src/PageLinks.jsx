@@ -13,6 +13,7 @@ import QuickResultsPage from "./Pages/QuickResultsPage";
 import TopJobsWIthSalaryPage from "./Pages/TopJobsWIthSalaryPage";
 import AboutPage from "./Pages/AboutPage";
 import FAQ from "./Components/FAQ";
+import LatestUpdates from "./Components/Updates/LatestUpdates";
 
 const Landing = lazy(() => import("./Pages/Landing/landing"));
 const Navbar = lazy(() => import("./Components/Navbar/Navbar"));
@@ -333,6 +334,15 @@ const PageLinks = () => {
           element={
             <div>
               <AboutPage/>
+            </div>
+          }
+        />
+        
+        <Route  
+          path="/latest-government-updates"
+          element={
+            <div className="px-5 md:px-16 py-8">
+              <LatestUpdates/>
             </div>
           }
         />

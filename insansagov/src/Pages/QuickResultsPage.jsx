@@ -8,11 +8,18 @@ import {
   BadgeCheck,
   AlertCircle,
 } from "lucide-react";
+import ResultsDashboard from "../Components/ResultComponent/Results";
 
 const API_BASE = "https://adminpanel.gyapak.in";
 
 const QuickResultsPage = () => {
-  const [type, setType] = useState("result"); 
+
+  const getTypeFromUrl = () => {
+    const params = new URLSearchParams(window.location.search);
+    return params.has("result") ? "result" : "admitcard";
+  };
+
+  const [type, setType] = useState(getTypeFromUrl);
   const [resultData, setResultData] = useState([]);
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
@@ -228,6 +235,14 @@ const QuickResultsPage = () => {
             ))}
           </div>
         )}
+
+        {
+          type === 'result' && (
+            <div className="mt-10">
+              <ResultsDashboard/>
+            </div>
+          )
+        }
       </div>
     </div>
   );

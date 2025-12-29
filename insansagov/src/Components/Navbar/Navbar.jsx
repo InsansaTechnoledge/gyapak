@@ -9,7 +9,7 @@ import {
   Newspaper,
   FileText,
 } from "lucide-react";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams, Link } from "react-router-dom";
 import axios from "axios";
 import { useApi, CheckServer } from "../../Context/ApiContext";
 import { useQuery } from "@tanstack/react-query";
@@ -21,7 +21,11 @@ import {
   MdKeyboardArrowDown,
 } from "react-icons/md";
 import { debounce } from "../../Utils/debounce";
-import {Link} from 'react-router-dom'
+
+const COMMUNITY_LINKS = {
+  whatsapp: "https://whatsapp.com/channel/0029Vb5pMSm6buMNuc5uLH1C",
+  telegram: "https://t.me/gyapakdaily",
+};
 
 const stateImages = {
   Gujarat: "/states/Gujarat.png",
@@ -66,7 +70,20 @@ const categories = [
   { Nameid: "Agriculture", name: "Agriculture", icon: "🌾" },
 ];
 
-/** Compact, single-line tile with truncation for better laptop alignment */
+// Small inline icons (same style used in SocialGroupsJoin)
+const WhatsAppIcon = () => (
+  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.67-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+  </svg>
+);
+
+const TelegramIcon = () => (
+  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18.768-.546 3.462-.768 4.59-.101.504-.497 1.245-.825 1.275-.751.061-1.348-.486-2.001-.953-.985-.67-1.547-1.08-2.507-1.731-.995-.673-.322-1.064.218-1.683.143-.164 2.646-2.483 2.692-2.691.007-.027.015-.126-.46-.18-.06-.054-.148-.033-.211-.021-.09.022-1.514.968-4.271 2.839-.405.278-.771.41-1.099.4-.36-.012-1.051-.207-1.566-.378-.631-.204-1.125-.312-1.084-.661.024-.181.361-.367 1.002-.558 3.908-1.749 6.504-2.902 7.78-3.459.74-.323 1.685-.755 2.671-.62.308.042.637.304.703.618.066.322.015 1.029-.089 1.512z" />
+  </svg>
+);
+
+/** Compact tile for states */
 const StateIcon = ({ state, updateVisibleStates, setStateDropdownVisible }) => {
   const navigate = useNavigate();
   return (
@@ -123,19 +140,13 @@ const Navbar = () => {
     useState(false);
   const [isSearched, setIsSearched] = useState(false);
 
-  // new one
   const [activeMenu, setActiveMenu] = useState(null);
-
   const [showTop, setShowTop] = useState(true);
-  const [mobileSub, setMobileSub] = useState(null); // 'govJob' | 'exam' | null
-
-  // toggle dropdown
-  const handleMenuClick = (menu) => {
-    setActiveMenu(activeMenu === menu ? null : menu);
-  };
+  const [mobileSub, setMobileSub] = useState(null); // not used but kept
 
   const navRef = useRef(null);
   const desktopSearchInputRef = useRef(null);
+  const fetchSuggestionsDebounced = useRef(null);
 
   const isHomePage = location.pathname === "/government-jobs-after-12th";
   const dailyaffairsPage = location.pathname === "/daily-updates";
@@ -183,8 +194,8 @@ const Navbar = () => {
         setMobileStateDropdownVisible(false);
         setMobileCategoryDropdownVisible(false);
         setActiveMenu(null);
-        setIsSearched(false); // close desktop search on outside click
-        setShowDropdown(false); // hide suggestions
+        setIsSearched(false);
+        setShowDropdown(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -298,8 +309,6 @@ const Navbar = () => {
     setShowDropdown(false);
   };
 
-  const fetchSuggestionsDebounced = useRef(null);
-
   useEffect(() => {
     fetchSuggestionsDebounced.current = debounce(async (query) => {
       if (!query) {
@@ -371,16 +380,13 @@ const Navbar = () => {
     let lastY = window.scrollY;
 
     const controlNavbar = () => {
-      //this function will call on each scroll
       const currentY = window.scrollY;
       const diff = currentY - lastY;
 
       if (diff > 40 && currentY > 80) {
-        //going down then hide only show the second strip
         setShowTop(false);
         lastY = currentY;
       } else if (diff < -40) {
-        //goes up then show the both
         setShowTop(true);
         lastY = currentY;
       }
@@ -393,6 +399,10 @@ const Navbar = () => {
     };
   }, []);
 
+  const handleMenuClick = (menu) => {
+    setActiveMenu(activeMenu === menu ? null : menu);
+  };
+
   return (
     <nav
       ref={navRef}
@@ -400,42 +410,95 @@ const Navbar = () => {
     >
       {/* --- Top Strip --- */}
       <div
-        className={`main-nav-bar-color  flex items-center justify-between h-20  px-6 gap-2 md:px-36 transition-transform duration-500 fixed top-0 left-0 w-full md:w-full z-50
-            ${
-              showTop
-                ? "translate-0 md:translate-0"
-                : "translate-0 md:-translate-y-full"
-            }
-          `}
+        className={`main-nav-bar-color flex items-center justify-between h-20 px-6 gap-2 md:px-36 transition-transform duration-500 fixed top-0 left-0 w-full z-50
+          ${
+            showTop
+              ? "translate-0 md:translate-0"
+              : "translate-0 md:-translate-y-full"
+          }
+        `}
       >
-        {/* Left side with Logo + Add button */}
+        {/* Left side with Logo */}
         <div className="flex items-center gap-4">
           <div className="font-bold text-xl">
             <a href="/">
-              {" "}
               <img src={logo4} alt="gyapak_logo" height={32} width={120} />
             </a>
           </div>
         </div>
 
-        {/* {
-          !dailyaffairsPage && (
-            <a
-              href="/daily-updates"
-              className="hidden md:inline-flex font-medium text-gray-800 hover:text-purple-700 transition-colors"
-            >
-              <div className="flex items-center gap-1 border-black border-2 text-gray-500 px-2 md:px-3 py-2 h-8 md:h-10  bg-gray-100 rounded-full transition-all w-fit">
-                <span className="hidden md:block text-xs font-semibold bg-green-600 animate-pulse secondary-site-text-color px-2 py-[2px] rounded-full uppercase tracking-wide">
-                  New
-                </span>
-                Today's Current Affairs in Hindi
-              </div>
-            </a>
-          )
-        } */}
-
         {/* Right side */}
-        <div className="flex items-center gap-2  md:gap-6 text-sm ">
+        <div className="flex items-center gap-2 md:gap-6 text-sm">
+          {/* Desktop: Join community buttons */}
+          <div className="hidden md:flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() =>
+                window.open(
+                  COMMUNITY_LINKS.whatsapp,
+                  "_blank",
+                  "noopener,noreferrer"
+                )
+              }
+              className="inline-flex items-center gap-2 rounded-full bg-white/10 hover:bg-white/20 px-3 py-1.5 text-xs font-semibold secondary-site-text-color border border-white/20 transition"
+            >
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500 text-white">
+                <WhatsAppIcon />
+              </span>
+              <span className="hidden lg:inline">WhatsApp Channel</span>
+              <span className="lg:hidden">WA</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() =>
+                window.open(
+                  COMMUNITY_LINKS.telegram,
+                  "_blank",
+                  "noopener,noreferrer"
+                )
+              }
+              className="inline-flex items-center gap-2 rounded-full bg-white/10 hover:bg-white/20 px-3 py-1.5 text-xs font-semibold secondary-site-text-color border border-white/20 transition"
+            >
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-sky-500 text-white">
+                <TelegramIcon />
+              </span>
+              <span className="hidden lg:inline">Telegram Channel</span>
+              <span className="lg:hidden">TG</span>
+            </button>
+          </div>
+
+          {/* Mobile: always-visible WA / TG buttons */}
+          <div className="flex md:hidden items-center gap-2 mr-1">
+            <button
+              type="button"
+              onClick={() =>
+                window.open(
+                  COMMUNITY_LINKS.whatsapp,
+                  "_blank",
+                  "noopener,noreferrer"
+                )
+              }
+              className="flex items-center justify-center h-8 w-8 rounded-full bg-emerald-500 text-white shadow-md active:scale-95 transition"
+            >
+              <WhatsAppIcon />
+            </button>
+
+            <button
+              type="button"
+              onClick={() =>
+                window.open(
+                  COMMUNITY_LINKS.telegram,
+                  "_blank",
+                  "noopener,noreferrer"
+                )
+              }
+              className="flex items-center justify-center h-8 w-8 rounded-full bg-sky-500 text-white shadow-md active:scale-95 transition"
+            >
+              <TelegramIcon />
+            </button>
+          </div>
+
           {/* Desktop search with smooth transition */}
           <div
             className={`
@@ -569,19 +632,14 @@ const Navbar = () => {
         </div>
       </div>
 
+      {/* Bottom strip (desktop nav) */}
       <div
         className={` hidden md:flex items-center h-20 px-6 md:px-36 transition-transform duration-500 top-0 left-0 z-45 w-full fixed
-            ${showTop ? "translate-0 md:translate-y-16" : " top-0  "}`}
+          ${showTop ? "translate-0 md:translate-y-16" : " top-0  "}
+        `}
       >
         {/* Menu left */}
         <div className="flex gap-6 font-medium utility-secondary-color items-center">
-          {/* <a
-            href="/blog"
-            className={`hover:main-site-text-color transition-all duration-300`}
-          >
-            <span className="text-purple-700 font-semibold">📚 Blogs</span>
-            <span className="absolute -top-1 -right-1 bg-green-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold animate-pulse">NEW</span>
-          </a> */}
           <button
             className="hover:main-site-text-color flex items-center gap-1 "
             onClick={() => handleMenuClick("categories")}
@@ -622,9 +680,7 @@ const Navbar = () => {
       </div>
 
       {activeMenu === "categories" && (
-        <div
-          className={`fixed left-1/2 top-[112px] -translate-x-1/2 w-[660px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5 z-50`}
-        >
+        <div className="fixed left-1/2 top-[112px] -translate-x-1/2 w-[660px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5 z-50">
           <div className="p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
               Browse Categories
@@ -644,7 +700,7 @@ const Navbar = () => {
                   }}
                   className="flex items-center p-2.5 rounded-xl hover:light-site-color-3 transition-all duration-300 group cursor-pointer min-w-0"
                 >
-                  <div className="h-10 w-10 flex items-center justify-center rounded-xl light-site-color-3 text-lg flex-shrink-0 group-hover:from-purple-200 group-hover:to-blue-200">
+                  <div className="h-10 w-10 flex items-center justify-center rounded-xl light-site-color-3 text-lg flex-shrink-0">
                     <span>{category.icon}</span>
                   </div>
                   <div className="ml-3 min-w-0">
@@ -660,9 +716,7 @@ const Navbar = () => {
       )}
 
       {activeMenu === "state" && (
-        <div
-          className={`fixed left-1/2 top-[112px] -translate-x-1/2 w-[820px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5 z-50`}
-        >
+        <div className="fixed left-1/2 top-[112px] -translate-x-1/2 w-[820px] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl ring-1 ring-black/5 z-50">
           <div className="p-6">
             <h3 className="text-lg font-semibold utility-secondary-color mb-4 text-center">
               Browse States
@@ -776,14 +830,17 @@ const Navbar = () => {
             )}
           </div>
 
-          <a
+          {/* Mobile links */}
+          <Link
             onClick={() => setIsOpen(false)}
-            href="/blog"
-            className="block px-4 py-3 rounded-lg utility-secondary-color hover:main-site-text-color  transition-all duration-300"
+            to="/blog"
+            className="relative block px-4 py-3 rounded-lg utility-secondary-color hover:main-site-text-color  transition-all duration-300"
           >
             <span className="text-purple-700 font-semibold">📚 Blogs</span>
-            <span className="absolute top-2 right-2 bg-green-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold animate-pulse">NEW</span>
-          </a>
+            <span className="absolute top-2 right-2 bg-green-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold animate-pulse">
+              NEW
+            </span>
+          </Link>
 
           <button
             onClick={goDailyUpdates}
@@ -797,8 +854,12 @@ const Navbar = () => {
             href="/last-date-to-apply-for-online-offline-government-jobs-applications"
             className="relative block px-4 py-3 rounded-lg bg-gradient-to-r from-red-50 to-orange-50 hover:from-red-100 hover:to-orange-100 transition-all duration-300 shadow-sm border border-red-200"
           >
-            <span className="text-red-700 font-semibold">⏰ Last Date to Apply</span>
-            <span className="absolute top-2 right-2 bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold animate-pulse">HOT</span>
+            <span className="text-red-700 font-semibold">
+              ⏰ Last Date to Apply
+            </span>
+            <span className="absolute top-2 right-2 bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold animate-pulse">
+              HOT
+            </span>
           </a>
 
           {/* Mobile Categories */}

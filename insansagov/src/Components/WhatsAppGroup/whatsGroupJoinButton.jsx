@@ -91,28 +91,28 @@ const SocialGroupsJoin = () => {
   };
 
   return (
-    <section className="py-14 px-4">
-      <div className="mx-auto max-w-6xl">
+    <section className="mt-10 px-4">
+      <div className="mx-auto ">
         {/* Header */}
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 rounded-full light-site-color-3 main-site-text-color ring-1  px-3 py-1 text-xs font-semibold">
+        <div className=" mb-10">
+          {/* <div className="inline-flex items-center gap-2 rounded-full light-site-color-3 main-site-text-color ring-1  px-3 py-1 text-xs font-semibold">
             {WhatsAppComponentHeaderCapsule}
-          </div>
+          </div> */}
 
           <h2 className="mt-4 text-2xl md:text-3xl font-extrabold tracking-tight utility-site-color">
             {WhatsAppComponentTitle}
           </h2>
 
-          <p className="mt-2 text-sm md:text-base utility-secondary-color max-w-2xl mx-auto">
+          <p className="mt-2 text-sm md:text-base utility-secondary-color max-w-2xl ">
             {WhatsAppComponentDescription}
           </p>
 
-          <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-xs utility-secondary-color">
-            <span className="inline-flex items-center gap-2 rounded-full  ring-1 ring-gray-200 px-3 py-1">
+          <div className="mt-5 flex flex-wrap  gap-2 text-xs utility-secondary-color">
+            <span className="inline-flex  gap-2 rounded-full  ring-1 ring-gray-200 px-3 py-1">
               <ShieldCheck className="h-4 w-4 main-site-text-color" />
               No spam • Exam-only updates
             </span>
-            <span className="inline-flex items-center gap-2 rounded-full ring-1 ring-gray-200 px-3 py-1">
+            <span className="inline-flex  gap-2 rounded-full ring-1 ring-gray-200 px-3 py-1">
               <span className="h-2 w-2 rounded-full main-site-text-color" />
               Verified links & daily alerts
             </span>

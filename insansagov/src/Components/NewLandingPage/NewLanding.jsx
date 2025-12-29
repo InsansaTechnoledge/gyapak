@@ -253,6 +253,27 @@ const comingSoon = (label) => {
     day: "numeric",
   });
 
+  const StatPill = ({ label, value }) => (
+    <div className="px-3 py-2 rounded-xl border main-site-border-color light-site-color-3">
+      <p className="text-[10px] uppercase tracking-widest utility-secondary-color font-extrabold">
+        {label}
+      </p>
+      <p className="text-lg font-black main-site-text-color leading-6">{value}</p>
+    </div>
+  );
+  
+  const SectionTitle = ({ title, subtitle }) => (
+    <div className="flex items-start justify-between gap-3">
+      <div>
+        <p className="text-lg font-black utility-site-color">{title}</p>
+        {subtitle ? (
+          <p className="text-xs utility-secondary-color mt-1">{subtitle}</p>
+        ) : null}
+      </div>
+    </div>
+  );
+  
+
   
   useEffect(() => {
     const interval = setInterval(() => {
@@ -271,80 +292,76 @@ const comingSoon = (label) => {
 
   return (
     <>
-    <div className="min-h-screen mt-32 animate-fade-in">
-        <header className="border-b border-purple-100 ">
-          <div className=" mx-auto px-4 sm:px-16 py-6 flex flex-col gap-4">
-           
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-              <div className="text-center sm:text-left">
-                <h1 className="text-5xl sm:text-6xl lg:text-[6vw] font-black tracking-tight font-serif">
-                  <span
-                    className={[
-                      "bg-clip-text py-10 text-transparent main-site-text-color",
-                      "transition-opacity duration-300",
-                      isFading ? "opacity-0" : "opacity-100",
-                    ].join(" ")}
-                  >
-                    {TITLE_VARIANTS[titleIndex]}
-                  </span>
-                </h1>
+      <div className="min-h-screen mt-28 animate-fade-in">
+        {/* HERO */}
+        <header className="relative">
+          <div className="absolute inset-0 -z-10 " />
+  
+          <div className="mx-auto px-4 sm:px-6 lg:px-10 py-10">
+            <Surface className="p-6 sm:p-8">
+              <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+                <div className="min-w-0">
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border main-site-border-color light-site-color-3">
+                    <span className="text-[10px] uppercase tracking-widest font-extrabold utility-secondary-color">
+                      Daily verified updates
+                    </span>
+                    <span className="text-[10px] font-black main-site-text-color">
+                      {today}
+                    </span>
+                  </div>
+  
+                  <h1 className="mt-4 text-5xl sm:text-6xl lg:text-[4.5vw] font-black tracking-tight font-serif">
+                    <span
+                      className={[
+                        "bg-clip-text text-transparent main-site-text-color",
+                        "transition-opacity duration-300",
+                        isFading ? "opacity-0" : "opacity-100",
+                      ].join(" ")}
+                    >
+                      {TITLE_VARIANTS[titleIndex]}
+                    </span>
+                  </h1>
+  
+                  {/* <p className="mt-3 text-sm sm:text-base utility-secondary-color max-w-2xl">
+                    Search government exams, jobs, results, admit cards, and daily current affairs — in one place.
+                  </p> */}
+                </div>
+  
+                {/* Quick stats (optional) */}
+                <div className="flex flex-wrap gap-3 justify-start lg:justify-end">
+                  <StatPill label="States" value={statesCovered} />
+                  <StatPill label="Exams" value={examsTracked} />
+                </div>
               </div>
-            </div>
-
+            </Surface>
           </div>
         </header>
-      <div className="relative">
-        <div className="absolute inset-0 -z-10 " />
-
-        <div className="mx-auto px-4 py-6">
-          <div className="grid grid-cols-1 lg:grid-cols-[260px_minmax(0,1fr)_320px] gap-6">
-            {/* RIGHT */}
-            <div className="space-y-6">
-              {/* <SoftCard className="overflow-hidden">
-                <div className="p-4">
-                  <div className="rounded-xl p-3 text-center border-2 main-site-border-color light-site-color-3">
-                    <div className="text-[10px] uppercase tracking-widest utility-secondary-color-2 font-extrabold">
-                      Edition{" "}
-                      <span className="main-site-text-color font-black">All India • Digital</span>
-                    </div>
-                    <div className="mt-2 text-[10px] uppercase tracking-widest utility-secondary-color-2 font-extrabold">
-                      Price: <span className="main-site-text-color font-black">Free</span> • Updated Daily
-                    </div>
-                  </div>
+  
+        {/* MAIN */}
+        <div className="mx-auto px-4 sm:px-6 lg:px-10 pb-10">
+          {/* ✅ Correct column order: LEFT | CENTER | RIGHT */}
+          <div className="grid grid-cols-1 lg:grid-cols-[280px_minmax(0,1fr)_340px] gap-6">
+            {/* LEFT SIDEBAR */}
+            <div className="lg:sticky lg:top-24 h-fit">
+              <Surface className="p-5">
+                <SectionTitle
+                  title="Quick Links"
+                  subtitle="Explore key sections quickly"
+                />
+  
+                <div className="mt-4 space-y-3">
+                  <SideBtn
+                    label="Last Date To Apply"
+                    to="/Last-Date-to-Apply-for-Online-Offline-Government-Jobs-Applications"
+                  />
+                  <SideBtn label="Daily Current affairs for upsc" to="/daily-updates" />
+                  <SideBtn label="Current affair Magazines" to="/monthly-magazine" />
+                  <SideBtn label="Blogs" to="/blog" />
+                  <SideBtn label="Daily mcq's" onComingSoon={comingSoon} />
                 </div>
-              </SoftCard>
-
-              <SoftCard>
-                <div className="p-4">
-                  <div className="border-2 main-site-border-color rounded-xl p-3 grid grid-cols-2 gap-3 items-center light-site-color-3">
-                    <div className="text-center">
-                      <div className="text-2xl font-black main-site-text-color">{statesCovered}</div>
-                      <div className="text-[10px] uppercase tracking-widest utility-secondary-color-2 font-extrabold">
-                        States Covered
-                      </div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-black main-site-text-color">{examsTracked}</div>
-                      <div className="text-[10px] uppercase tracking-widest utility-secondary-color-2 font-extrabold">
-                        Exams Tracked
-                      </div>
-                    </div>
-                  </div>
-
-                  <p className="mt-2 text-[11px] utility-secondary-color">
-                    {LandingPageStatsDescription || "Daily verified updates across India."}
-                  </p>
-                </div>
-              </SoftCard> */}
-
-              <RightBigBtn label="Latest Results" to="/Latest-Examination-Results-Admit-Card" />
-              <RightBigBtn label="Big Announcements" onComingSoon={comingSoon} />
-              <RightBigBtn label="Latest Admit cards" to="/Latest-Examination-Results-Admit-Card"/>
-              <RightBigBtn label="Top Government Jobs" to="/top-high-paid-goverment-job-2025"/>
-
+              </Surface>
             </div>
-            
-
+  
             {/* CENTER */}
             <div className="space-y-6">
               {/* SEARCH */}
@@ -365,7 +382,7 @@ const comingSoon = (label) => {
                     </p>
                   </div>
                 </div>
-
+  
                 <div className="relative">
                   <Search className="w-4 h-4 utility-secondary-color-2 absolute left-3 top-1/2 -translate-y-1/2" />
                   <input
@@ -374,24 +391,25 @@ const comingSoon = (label) => {
                     className={[
                       "w-full pl-10 pr-3 py-3.5 rounded-xl text-sm outline-none",
                       "border-2 main-site-border-color bg-white",
-                      "focus:main-site-border-color-4",
-                      "transition",
+                      "focus:main-site-border-color-4 transition",
                     ].join(" ")}
                     value={searchInput}
                     onChange={handleSearch}
                   />
-
                   <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-xl">
                     <div className="absolute -left-full top-0 h-full w-1/2 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-shine" />
                   </div>
                 </div>
-
+  
+                {/* Search results dropdown */}
                 {searched.trim() && (
-                  <div className="mt-4 border-2 main-site-border-color rounded-xl overflow-hidden bg-white">
+                  <div className="mt-4 border-2 main-site-border-color rounded-2xl overflow-hidden bg-white">
                     {searchResults.length === 0 ? (
-                      <div className="px-4 py-3 text-sm utility-site-color">
+                      <div className="px-4 py-4 text-sm utility-site-color">
                         No results for{" "}
-                        <span className="font-extrabold main-site-text-color">"{searched}"</span>
+                        <span className="font-extrabold main-site-text-color">
+                          "{searched}"
+                        </span>
                       </div>
                     ) : (
                       <>
@@ -403,11 +421,11 @@ const comingSoon = (label) => {
                             Results Found
                           </span>
                           <span className="hidden sm:inline text-[10px] utility-secondary-color-2">
-                            Hover to prefetch • Click to open
+                            Hover loads faster • Click to open
                           </span>
                         </div>
-
-                        <div className="max-h-64 overflow-y-auto divide-y main-site-border-color scrollbar-hide">
+  
+                        <div className="max-h-72 overflow-y-auto divide-y main-site-border-color scrollbar-hide">
                           {searchResults.map((event) => (
                             <button
                               key={event._id}
@@ -419,12 +437,12 @@ const comingSoon = (label) => {
                               <p className="font-extrabold utility-site-color line-clamp-2">
                                 {event.name}
                               </p>
-
+  
                               <div className="mt-1 flex items-center gap-2 flex-wrap">
                                 <span className="text-[11px] utility-secondary-color">
                                   {event.organizationName || "Unknown Organization"}
                                 </span>
-
+  
                                 {event.event_type ? (
                                   <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full light-site-color border main-site-border-color main-site-text-color">
                                     {event.event_type}
@@ -439,142 +457,132 @@ const comingSoon = (label) => {
                   </div>
                 )}
               </Surface>
-
-              
-
-              {/* TOP  JOBS */}
+  
+              {/* NEWLY ADDED EVENTS */}
               <Surface className="p-6">
-                <div className="flex items-center justify-between gap-3">
-                  <div>
-                    <p className=" font-extrabold main-site-text-color text-lg">Newly added Government Events on gyapak</p>
-                  </div>
-
-                  {/* <Link
-                    to="/top-high-paid-goverment-job-2025"
-                    className="text-xs font-extrabold px-3 py-2 rounded-xl border-2 main-site-border-color light-site-color-3 hover:opacity-90 transition"
-                  >
-                    View all
-                  </Link> */}
-                </div>
-
+                <SectionTitle
+                  title="Upcoming Govt Exams"
+                  subtitle="Fresh events added recently on Gyapak"
+                />
+  
                 <div className="mt-5 space-y-3">
-                {top5Jobs.map((job) => {
-                  const isNew = true;
-                  const org = job?.organizationName || job?.organization || "Government";
-                  const type = job?.event_type || job?.type || "";
-                  const dateLabel = fmtDateShort(job?.updatedAt || job?.createdAt || job?.date_of_commencement);
-
-                  return (
-                    <Link
-                      key={job?._id}
-                      to={getEventHref(job)}
-                      onMouseEnter={() => prefetchEventRoute(job)}
-                      onClick={(e) => handleEventClick(e, job)}
-                      className={[
-                        "group block rounded-2xl border-2 main-site-border-color bg-white overflow-hidden",
-                        "transition cursor-pointer",
-                        "hover:light-site-color-3 hover:-translate-y-[1px] hover:shadow-[var(--shadow-accertinity)]",
-                        "active:scale-[0.99]",
-                      ].join(" ")}
-                      title={job?.name || "Open"}
-                      aria-label={`Open ${job?.name || "event"}`}
-                    >
-                      {/* Top accent strip */}
-                      <div className="h-1 w-full main-site-color" />
-
-                      <div className="p-4">
-                        {/* Header row: chips */}
-                        <div className="flex items-center justify-between gap-3">
-                          <div className="flex items-center gap-2 flex-wrap">
-                            {isNew ? (
-                              <span className="text-[10px] font-black px-2 py-0.5 rounded-full main-site-color secondary-site-text-color">
-                                NEW
-                              </span>
-                            ) : null}
-
-                            {type ? (
-                              <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full border main-site-border-color light-site-color-3 main-site-text-color">
-                                {type}
-                              </span>
-                            ) : null}
-
-                            {dateLabel ? (
-                              <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full border main-site-border-color light-site-color-3 utility-secondary-color">
-                                {dateLabel}
-                              </span>
-                            ) : null}
+                  {top5Jobs.map((job) => {
+                    const isNew = true;
+                    const org = job?.organizationName || job?.organization || "Government";
+                    const type = job?.event_type || job?.type || "";
+                    const dateLabel = fmtDateShort(
+                      job?.updatedAt || job?.createdAt || job?.date_of_commencement
+                    );
+  
+                    return (
+                      <Link
+                        key={job?._id}
+                        to={getEventHref(job)}
+                        onMouseEnter={() => prefetchEventRoute(job)}
+                        onClick={(e) => handleEventClick(e, job)}
+                        className={[
+                          "group block rounded-2xl border-2 main-site-border-color bg-white overflow-hidden",
+                          "transition cursor-pointer",
+                          "hover:light-site-color-3 hover:-translate-y-[1px] hover:shadow-[var(--shadow-accertinity)]",
+                          "active:scale-[0.99]",
+                        ].join(" ")}
+                        title={job?.name || "Open"}
+                        aria-label={`Open ${job?.name || "event"}`}
+                      >
+                        <div className="h-1 w-full main-site-color" />
+  
+                        <div className="p-4">
+                          <div className="flex items-center justify-between gap-3">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              {isNew ? (
+                                <span className="text-[10px] font-black px-2 py-0.5 rounded-full main-site-color secondary-site-text-color">
+                                  NEW
+                                </span>
+                              ) : null}
+  
+                              {type ? (
+                                <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full border main-site-border-color light-site-color-3 main-site-text-color">
+                                  {type}
+                                </span>
+                              ) : null}
+  
+                              {dateLabel ? (
+                                <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full border main-site-border-color light-site-color-3 utility-secondary-color">
+                                  {dateLabel}
+                                </span>
+                              ) : null}
+                            </div>
+  
+                            <div className="h-9 w-9 rounded-xl border main-site-border-color light-site-color flex items-center justify-center">
+                              <ArrowRight className="w-4 h-4 utility-secondary-color group-hover:main-site-text-color transition" />
+                            </div>
                           </div>
-
-                          <div className="h-9 w-9 rounded-xl border main-site-border-color light-site-color flex items-center justify-center">
-                            <ArrowRight className="w-4 h-4 utility-secondary-color group-hover:main-site-text-color transition" />
+  
+                          <p className="mt-3 font-extrabold utility-site-color line-clamp-2 leading-snug">
+                            {job?.name || "Untitled Event"}
+                          </p>
+  
+                          <div className="mt-2 flex items-center justify-between gap-3">
+                            <p className="text-[11px] utility-secondary-color line-clamp-1">
+                              {org}
+                            </p>
+  
+                            <span className="text-[11px] font-extrabold main-site-text-color">
+                              Open
+                            </span>
                           </div>
                         </div>
-
-                        {/* Title */}
-                        <p className="mt-3 font-extrabold utility-site-color line-clamp-2 leading-snug">
-                          {job?.name || "Untitled Event"}
-                        </p>
-
-                        {/* Sub line */}
-                        <div className="mt-2 flex items-center justify-between gap-3">
-                          <p className="text-[11px] utility-secondary-color line-clamp-1">
-                            {org}
-                          </p>
-
-                          <span className="text-[11px] font-extrabold main-site-text-color">
-                            Open
-                          </span>
-                        </div>
-
-                        {/* Soft bottom hint */}
-                        <div className="mt-3 rounded-xl border main-site-border-color light-site-color-3 px-3 py-2">
-                          <p className="text-[11px] utility-secondary-color">
-                            Tap to open details • Hover loads faster
-                          </p>
-                        </div>
-                      </div>
-                    </Link>
-                  );
-                })}
-
+                      </Link>
+                    );
+                  })}
                 </div>
-
+  
+                <Link
+                  to="/latest-government-updates"
+                  className="mt-5 group flex items-center justify-center gap-2 w-full main-site-color secondary-site-text-color font-extrabold rounded-xl py-3 hover:main-site-color-hover transition"
+                >
+                  View all upcoming govt exams
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition" />
+                </Link>
+              </Surface>
+  
+              {/* CALENDAR */}
+              <Surface className="p-4">
+                <GovCalendar />
               </Surface>
             </div>
-
-            {/* LEFT */}
-            <Surface className="p-5">
-              {/* <div className="flex items-center justify-between mb-5">
-                <p className="text-sm font-extrabold utility-site-color">Quick Links</p>
-              </div> */}
-
-              <div className="space-y-4">
-              <SideBtn label="Last Date To Apply" to="/Last-Date-to-Apply-for-Online-Offline-Government-Jobs-Applications"/>
-              <SideBtn label="Current affairs" to="/daily-updates" />
-              <SideBtn label="Monthly Magazines" to="/monthly-magazine" />
-              <SideBtn label="Blogs" to="/blog" />
-              <SideBtn label="Daily mcq's" onComingSoon={comingSoon} />
-             
-              </div>
-            </Surface>
-
-            
-          </div>
-
-          <div className="">
-            <GovCalendar />
+  
+            {/* RIGHT SIDEBAR */}
+            <div className="lg:sticky lg:top-24 h-fit space-y-4">
+              <Surface className="p-5">
+                <SectionTitle title="Highlights" subtitle="Quick access to popular sections" />
+  
+                <div className="mt-4 space-y-3">
+                  <RightBigBtn label="Latest Results" to="/Latest-Examination-Results-Admit-Card?result" />
+                  <RightBigBtn label="Big Announcements" onComingSoon={comingSoon} />
+                  <RightBigBtn label="Latest Admit cards" to="/Latest-Examination-Results-Admit-Card?admitcard" />
+                  <RightBigBtn label="Top Government Jobs" to="/top-high-paid-goverment-job-2025" />
+                </div>
+              </Surface>
+  
+              <Surface className="p-5">
+                <p className="text-sm font-extrabold utility-site-color">Tip</p>
+                <p className="text-xs utility-secondary-color mt-1">
+                  Use the search box to find any exam/event instantly. Hover on a result for faster opening.
+                </p>
+              </Surface>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <ComingSoonModal
-  open={comingSoonOpen}
-  label={comingSoonLabel}
-  onClose={() => setComingSoonOpen(false)}
-/>
-
+  
+      <ComingSoonModal
+        open={comingSoonOpen}
+        label={comingSoonLabel}
+        onClose={() => setComingSoonOpen(false)}
+      />
     </>
   );
+  
 }
 
