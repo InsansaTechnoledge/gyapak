@@ -9,7 +9,12 @@ import {
   Newspaper,
   FileText,
 } from "lucide-react";
-import { useLocation, useNavigate, useSearchParams, Link } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useSearchParams,
+  Link,
+} from "react-router-dom";
 import axios from "axios";
 import { useApi, CheckServer } from "../../Context/ApiContext";
 import { useQuery } from "@tanstack/react-query";
@@ -443,7 +448,7 @@ const Navbar = () => {
               className="inline-flex items-center gap-2 rounded-full bg-white/10 hover:bg-white/20 px-3 py-1.5 text-xs font-semibold secondary-site-text-color border border-white/20 transition"
             >
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500 text-white">
-                <WhatsAppIcon />
+                <img src="./public/WhatsApp.svg" />
               </span>
               <span className="hidden lg:inline">WhatsApp Channel</span>
               <span className="lg:hidden">WA</span>
@@ -571,7 +576,9 @@ const Navbar = () => {
               <Search
                 size={24}
                 className={`${
-                  isSearched ? "utility-secondary-color" : "utility-scondary-color-3"
+                  isSearched
+                    ? "utility-secondary-color"
+                    : "utility-scondary-color-3"
                 }`}
               />
             </button>
@@ -673,7 +680,10 @@ const Navbar = () => {
           <Link to="/contact-us" className="hover:main-site-text-color">
             Contact
           </Link>
-          <Link to="/government-related-faq" className="hover:main-site-text-color">
+          <Link
+            to="/government-related-faq"
+            className="hover:main-site-text-color"
+          >
             FAQ'S
           </Link>
         </div>
