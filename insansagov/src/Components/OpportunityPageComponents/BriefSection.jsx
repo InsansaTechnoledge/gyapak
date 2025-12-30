@@ -2,32 +2,26 @@ import React, { useMemo } from "react";
 
 const toParagraphHtml = (htmlString = "") => {
   const normalized = String(htmlString).replace(/\r\n/g, "\n").trim();
+
   if (!normalized) return "";
 
-  if (/<[a-z][\s\S]*>/i.test(normalized)) {
-    let html = normalized;
-
-    // Unwrap <ol>/<ul>/<table> from <p> wrappers
-    html = html.replace(
-      /<p>\s*(<(?:ol|ul|table)[\s\S]*?>)/gi,
-      "$1"
-    );
-    html = html.replace(
-      /(<\/(?:ol|ul|table)>)\s*<\/p>/gi,
-      "$1"
+  // If block-level tags already exist, return as-is
+  const hasBlockTags =
+    /<(p|ul|ol|li|table|thead|tbody|tr|td|th|blockquote)[\s>]/i.test(
+      normalized
     );
 
-    return html;
+  if (hasBlockTags) {
+    return normalized;
   }
 
+  // Split by blank lines and wrap in <p>
   const parts = normalized
     .split(/\n\s*\n+/g)
     .map((p) => p.trim())
     .filter(Boolean);
 
-  return parts
-    .map((p) => `<p>${p.replace(/\n/g, "<br/>")}</p>`)
-    .join("");
+  return parts.map((p) => `<p>${p.replace(/\n/g, "<br />")}</p>`).join("");
 };
 
 const BriefSection = ({ data }) => {
