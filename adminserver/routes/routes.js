@@ -89,7 +89,12 @@ const route = (app) => {
     authorizeRoles("admin", "data entry"),
     gscRoutes
   );
-  app.use("/api/index", verifyToken, authorizeRoles("admin"), indexingRoutes);
+  app.use(
+    "/api/index",
+    verifyToken,
+    authorizeRoles("admin", "data entry"),
+    indexingRoutes
+  );
 
   app.use("/api/auth", authRoutes);
   app.use("/api/logs", userLogsRoutes);
