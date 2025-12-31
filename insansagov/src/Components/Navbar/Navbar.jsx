@@ -75,19 +75,6 @@ const categories = [
   { Nameid: "Agriculture", name: "Agriculture", icon: "🌾" },
 ];
 
-// Small inline icons (same style used in SocialGroupsJoin)
-const WhatsAppIcon = () => (
-  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.67-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
-  </svg>
-);
-
-const TelegramIcon = () => (
-  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18.768-.546 3.462-.768 4.59-.101.504-.497 1.245-.825 1.275-.751.061-1.348-.486-2.001-.953-.985-.67-1.547-1.08-2.507-1.731-.995-.673-.322-1.064.218-1.683.143-.164 2.646-2.483 2.692-2.691.007-.027.015-.126-.46-.18-.06-.054-.148-.033-.211-.021-.09.022-1.514.968-4.271 2.839-.405.278-.771.41-1.099.4-.36-.012-1.051-.207-1.566-.378-.631-.204-1.125-.312-1.084-.661.024-.181.361-.367 1.002-.558 3.908-1.749 6.504-2.902 7.78-3.459.74-.323 1.685-.755 2.671-.62.308.042.637.304.703.618.066.322.015 1.029-.089 1.512z" />
-  </svg>
-);
-
 /** Compact tile for states */
 const StateIcon = ({ state, updateVisibleStates, setStateDropdownVisible }) => {
   const navigate = useNavigate();
@@ -448,7 +435,11 @@ const Navbar = () => {
               className="inline-flex items-center gap-2 rounded-full bg-white/10 hover:bg-white/20 px-3 py-1.5 text-xs font-semibold secondary-site-text-color border border-white/20 transition"
             >
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500 text-white">
-                <img src="./public/WhatsApp.svg" />
+                <img
+                  src="/WhatsApp.svg.webp"
+                  alt="WhatsApp"
+                  className="w-4 h-4"
+                />
               </span>
               <span className="hidden lg:inline">WhatsApp Channel</span>
               <span className="lg:hidden">WA</span>
@@ -466,7 +457,11 @@ const Navbar = () => {
               className="inline-flex items-center gap-2 rounded-full bg-white/10 hover:bg-white/20 px-3 py-1.5 text-xs font-semibold secondary-site-text-color border border-white/20 transition"
             >
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-sky-500 text-white">
-                <TelegramIcon />
+                <img
+                  src="/Telegram_logo.svg.webp"
+                  alt="Telegram"
+                  className="w-4 h-4"
+                />
               </span>
               <span className="hidden lg:inline">Telegram Channel</span>
               <span className="lg:hidden">TG</span>
@@ -486,7 +481,7 @@ const Navbar = () => {
               }
               className="flex items-center justify-center h-8 w-8 rounded-full bg-emerald-500 text-white shadow-md active:scale-95 transition"
             >
-              <WhatsAppIcon />
+              <img src="/WhatsApp.svg" alt="WhatsApp" className="w-4 h-4" />
             </button>
 
             <button
@@ -500,7 +495,11 @@ const Navbar = () => {
               }
               className="flex items-center justify-center h-8 w-8 rounded-full bg-sky-500 text-white shadow-md active:scale-95 transition"
             >
-              <TelegramIcon />
+              <img
+                src="/Telegram_logo.svg"
+                alt="Telegram"
+                className="w-4 h-4"
+              />
             </button>
           </div>
 
