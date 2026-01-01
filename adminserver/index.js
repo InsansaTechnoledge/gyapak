@@ -10,6 +10,7 @@ dotenv.config();
 import { monitorAllSources } from "./Jobs/monitorSources.job.js";
 import publishScheduledPdfs from "./Jobs/scheduled-magazine.job.js";
 import reportGenerationJob from "./Jobs/report-generation.js";
+import vectorEmbeddingjobs from "./Jobs/vectorEmbedding.job.js";
 
 globalThis.File = File;
 globalThis.Blob = Blob;
@@ -71,6 +72,9 @@ const initialize = async () => {
     // Cron jobs
     cron.schedule("*/2 * * * *", async () => {
       await monitorAllSources(io);
+    });
+    cron.schedule("0 0 * * *", async () => {
+      await vectorEmbeddingjobs();
     });
 
     cron.schedule("*/30 * * * *", async () => {

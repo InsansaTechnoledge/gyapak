@@ -10,6 +10,7 @@ local-backup/
 node_modules
 dist-ssr
 *.local
+.DS_Store
 
 # Editor directories and files
 .vscode/*

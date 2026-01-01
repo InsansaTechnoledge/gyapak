@@ -273,13 +273,21 @@ const UserLogsComponent = () => {
                           </p>
                         </div>
 
-                        <div>
+                        <div className="relative group max-w-full">
                           <p className="text-xs text-gray-500 mb-1">
                             Event Title
                           </p>
-                          <p className="text-sm font-semibold text-gray-800 truncate">
-                            {log.event?.eventStamp?.title}
+
+                          <p className="text-sm font-semibold text-gray-800 truncate cursor-pointer">
+                            {log.event?.eventStamp?.title ||
+                              log.event?.eventId?.name}
                           </p>
+
+                          {/* Tooltip */}
+                          <div className="absolute left-0 top-full mt-1 z-50 hidden max-w-xs rounded-md bg-gray-900 px-2 py-1 text-xs text-white shadow-lg group-hover:block">
+                            {log.event?.eventStamp?.title ||
+                              log.event?.eventId?.name}
+                          </div>
                         </div>
 
                         <div className="flex items-center space-x-2">

@@ -10,7 +10,7 @@ const App = () => {
   // const didLog = useRef(false);
   // const { apiBaseUrl } = useApi();
 
-  const apiBaseUrl = 'https://adminpanel.gyapak.in'
+  const apiBaseUrl = "https://adminpanel.gyapak.in";
   // const apiBaseUrl = 'http://localhost:3000';
 
   // useEffect(() => {
