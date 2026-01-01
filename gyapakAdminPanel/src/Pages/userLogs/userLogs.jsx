@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../api/axiosConfig";
+import * as XLSX from "xlsx";
 import {
   ChevronLeft,
   ChevronRight,
@@ -7,6 +8,7 @@ import {
   Clock,
   Calendar,
   Activity,
+  Download,
 } from "lucide-react";
 
 const UserLogsComponent = () => {
@@ -17,6 +19,7 @@ const UserLogsComponent = () => {
   const [customDate, setCustomDate] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [downloading, setDownloading] = useState(false);
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 10,
@@ -134,6 +137,73 @@ const UserLogsComponent = () => {
     }
   };
 
+  const handleDownloadExcel = async () => {
+    setDownloading(true);
+    try {
+      const params = {};
+      if (selectedUser) {
+        params.userId = selectedUser;
+      }
+      if (dateFilter) {
+        params.dateFilter = dateFilter;
+        if (dateFilter === "custom" && customDate) {
+          params.customDate = customDate;
+        }
+      }
+
+      const response = await axiosInstance.get("/api/logs/export", { params });
+
+      if (response.data.success) {
+        const logsData = response.data.data;
+
+        // Format data for Excel
+        const excelData = logsData.map((log) => ({
+          "Done By": log.userId?.name || "Unknown User",
+          Action: log.event?.action?.toUpperCase() || "N/A",
+          Title: log.event?.eventStamp?.title || log.event?.eventId?.name || "N/A",
+          "Total Time": formatTime(log.event?.totalTime || 0),
+          "Date/Time": formatDate(log.createdAt),
+        }));
+
+        // Create workbook and worksheet
+        const worksheet = XLSX.utils.json_to_sheet(excelData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "User Logs");
+
+        // Set column widths
+        const columnWidths = [
+          { wch: 50 }, // Title
+          { wch: 15 }, // Action
+          { wch: 25 }, // Done By
+          { wch: 15 }, // Total Time
+          { wch: 25 }, // Date/Time
+        ];
+        worksheet["!cols"] = columnWidths;
+
+        // Generate filename with current date and filters
+        let filename = "user_logs";
+        if (selectedUser) {
+          const user = users.find((u) => u._id === selectedUser);
+          if (user) {
+            filename += `_${user.name.replace(/\s+/g, "_")}`;
+          }
+        }
+        if (dateFilter) {
+          filename += `_${dateFilter}`;
+        }
+        filename += `_${new Date().toISOString().split("T")[0]}.xlsx`;
+
+        // Download file
+        XLSX.writeFile(workbook, filename);
+      }
+    } catch (err) {
+      console.error("Error downloading Excel:", err);
+      alert("Failed to download Excel file. Please try again.");
+    } finally {
+      setDownloading(false);
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto">
       {/* Header Section */}
@@ -147,6 +217,23 @@ const UserLogsComponent = () => {
               Track and monitor all user activities across the platform
             </p>
           </div>
+          <button
+            onClick={handleDownloadExcel}
+            disabled={downloading || loading}
+            className="flex items-center space-x-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 shadow-md hover:shadow-lg"
+          >
+            {downloading ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                <span>Downloading...</span>
+              </>
+            ) : (
+              <>
+                <Download className="w-4 h-4" />
+                <span>Download Excel</span>
+              </>
+            )}
+          </button>
         </div>
 
         {/* Filters Row */}

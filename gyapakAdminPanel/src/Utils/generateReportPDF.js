@@ -182,7 +182,6 @@ export const generateReportPDF = async (reportData) => {
     reportData.upcomingEvents.soon.length > 0
   ) {
     // Section header
-   
 
     yPosition += 12;
 
@@ -225,7 +224,9 @@ export const generateReportPDF = async (reportData) => {
     // Generate single table with reduced padding
     autoTable(doc, {
       startY: yPosition,
-      head: [["#", "Event Name", "Org", "End Date", "Expiring In", "Apply Link"]],
+      head: [
+        ["#", "Event Name", "Org", "End Date", "Expiring In", "Apply Link"],
+      ],
       body: combinedTableData,
       theme: "grid",
       rowPageBreak: "avoid", // Prevent rows from splitting across pages
@@ -320,7 +321,7 @@ export const generateReportPDF = async (reportData) => {
   // SAVE PDF
   // ============================================
 
-  const fileName = `Weekly_Events_Report_${
+  const fileName = `Last_Date_To_Apply${
     new Date().toISOString().split("T")[0]
   }.pdf`;
   doc.save(fileName);
@@ -408,15 +409,8 @@ const addFooter = (
     const imgWidth = 33;
     const imgHeight = 5;
     // Vertically center the image with the text
-    const imgY = footerY - (imgHeight / 2) - 1;
-    doc.addImage(
-      footerImageBase64,
-      "PNG",
-      margin,
-      imgY,
-      imgWidth,
-      imgHeight
-    );
+    const imgY = footerY - imgHeight / 2 - 1;
+    doc.addImage(footerImageBase64, "PNG", margin, imgY, imgWidth, imgHeight);
   } else {
     // Fallback to text without emoji
     const footerText = "Made with ♥ by Gyapak";
@@ -430,10 +424,13 @@ const addFooter = (
   // Define social media links
   const socialLinks = [
     { label: "Website", url: "https://gyapak.in" },
-    { label: "Twitter", url: "https://gyapak.in" },
+    { label: "Twitter", url: "https://x.com/gyapak07" },
     { label: "Instagram", url: "https://www.instagram.com/gyapak.in/" },
     { label: "Telegram", url: "https://t.me/gyapak" },
-    { label: "WhatsApp", url: "https://whatsapp.com/channel/0029VaeePgu4dTnNdUwHXO2m" }
+    {
+      label: "WhatsApp",
+      url: "https://whatsapp.com/channel/0029VaeePgu4dTnNdUwHXO2m",
+    },
   ];
 
   // Calculate total width for centering
@@ -452,17 +449,17 @@ const addFooter = (
   // Draw each social media link
   socialLinks.forEach((link, index) => {
     const linkWidth = doc.getTextWidth(link.label);
-    
+
     // Add clickable link
     doc.textWithLink(link.label, currentX, footerY, { url: link.url });
-    
+
     // Add underline
     doc.setDrawColor(59, 130, 246);
     doc.setLineWidth(0.1);
     doc.line(currentX, footerY + 0.5, currentX + linkWidth, footerY + 0.5);
-    
+
     currentX += linkWidth;
-    
+
     // Add separator if not the last item
     if (index < socialLinks.length - 1) {
       doc.setTextColor(107, 114, 128); // Gray for separator
