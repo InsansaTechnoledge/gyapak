@@ -481,7 +481,11 @@ const Navbar = () => {
               }
               className="flex items-center justify-center h-8 w-8 rounded-full bg-emerald-500 text-white shadow-md active:scale-95 transition"
             >
-              <img src="/WhatsApp.svg" alt="WhatsApp" className="w-4 h-4" />
+              <img
+                src="/WhatsApp.svg.webp"
+                alt="WhatsApp"
+                className="w-4 h-4"
+              />
             </button>
 
             <button
@@ -496,7 +500,7 @@ const Navbar = () => {
               className="flex items-center justify-center h-8 w-8 rounded-full bg-sky-500 text-white shadow-md active:scale-95 transition"
             >
               <img
-                src="/Telegram_logo.svg"
+                src="/Telegram_logo.svg.webp"
                 alt="Telegram"
                 className="w-4 h-4"
               />
