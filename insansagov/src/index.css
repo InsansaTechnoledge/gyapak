@@ -116,7 +116,7 @@
   :root {
     /* defaults (fallback if DB not loaded) */
     --main-nav-bar-color: 124 58 237;   /* purple-600 */
-    --main-footer-from: 17 24 39;      /* gray-900 */
+    --main-footer-from: 17 26 39;      /* gray-800 */
     --main-footer-to: 0 0 0;           /* black */
 
     --main-site-color: 124 58 237;

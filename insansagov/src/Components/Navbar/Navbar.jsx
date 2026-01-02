@@ -644,7 +644,7 @@ const Navbar = () => {
 
       {/* Bottom strip (desktop nav) */}
       <div
-        className={` hidden md:flex items-center h-20 px-6 md:px-36 transition-transform duration-500 top-0 left-0 z-45 w-full fixed
+        className={` hidden bg-white shadow-md z-50 md:flex items-center justify-center h-[40px] px-6 md:px-36 transition-transform duration-500 top-0 left-0 z-45 w-full fixed
           ${showTop ? "translate-0 md:translate-y-16" : " top-0  "}
         `}
       >
